@@ -70,37 +70,40 @@ if(DOXYGEN_FOUND)
  
   # Command for generating dox from config file
   message("Adding command to generate: ${CMAKE_CURRENT_BINARY_DIR}/html/index.html")
-  add_custom_target(ug_html
-      DEPENDS ${DOXY_UG_FILES} ${DOXY_UG_OUT}
-  )
+  
   add_custom_command(
-    TARGET ug_html
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
+    DEPENDS ${DOXY_UG_FILES} ${DOXY_UG_OUT}
     COMMAND ${DOXYGEN_EXECUTABLE} ${DOXY_UG_OUT}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMENT "Generating userguide"
     VERBATIM
   )
+  add_custom_target(ug_html ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
+  )
   
   # Command for generating PDF from userguide latex files
-  add_custom_target(
-      ug_pdf 
-      DEPENDS ug_html
-  )
-  if(MSVC)
+   if(MSVC)
       add_custom_command(
-        TARGET ug_pdf
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.tex
+        DEPENDS ug_html
         COMMAND miktex-texworks.exe -pdf ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.tex
         COMMENT "Generating PDF Userguide"
         VERBATIM
       )
   else()
      add_custom_command(
-        TARGET ug_pdf
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.tex
+        DEPENDS ug_html
         COMMAND make -C ${CMAKE_CURRENT_BINARY_DIR}/latex >> /dev/null
         COMMENT "Generating PDF Userguide"
         VERBATIM
      )
   endif()
+  add_custom_target(ug_pdf ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.tex
+  )
   # Copy from latex/refman.pdf to ZZALOG.pdf
   add_custom_target(
     pdf ALL
