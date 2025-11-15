@@ -88,7 +88,7 @@ if(DOXYGEN_FOUND)
       add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.tex
         DEPENDS ug_html
-        COMMAND miktex-texworks.exe -pdf ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.tex
+        COMMAND miktex-texworks.exe  ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.tex
         COMMENT "Generating PDF Userguide"
         VERBATIM
       )
@@ -105,15 +105,16 @@ if(DOXYGEN_FOUND)
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.tex
   )
   # Copy from latex/refman.pdf to ZZALOG.pdf
-  add_custom_target(
-    pdf ALL
-    DEPENDS ug_pdf
-  )
   add_custom_command(
-      TARGET pdf POST_BUILD
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROGRAMID}.pdf
+      DEPENDS ug_pdf
       COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.pdf
         ${CMAKE_CURRENT_BINARY_DIR}/${PROGRAMID}.pdf
       COMMENT "Copying PDF"
   )
- endif()
+   add_custom_target(
+    pdf ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${PROGRAMID}.pdf
+  )
+endif()
