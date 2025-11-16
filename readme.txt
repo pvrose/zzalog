@@ -40,25 +40,24 @@ Nlohmann/json is available in most distros.
 
 Doxygen is available in most distros.
 
-To compile:
+The build and install processes use CMake.
 
-<code>
-cd [install directory]/zzatools/zzalog\n
-make
-</code>
+The following CMake flags are available:
+- <B>ZZALOG_USERGUIDE</B> Default: ON. Generates the HTML version of the userguide.
+- <B>ZZALOG_USERGUIDE_PDF</B> Default: ON (OFF on Windows). Generates the PDF version of the userguide.
+- <B>ZZALOG_API_GUIDE</B> Default: ON. Generates HTML specification of the API.
 
-To generate HTML user guide;
+To build ZZALOG with documentation:
 
-<code>
-make documents
-</code>
+cd [zzalog]\n
+cmake -B build\n
+cmake --build build\n
 
-To install
+This creates the executable <i>build/zzalog_fe/zzalog_fe</i>.
 
-<code>
-make install
-</code>
+To install ZZALOG:
 
+cd [zzalog]\n
+cmake --install build
 
-Data for the application will be installed in /etc/GM3ZZA/ZZALOG and copied to
-${HOME}/.config/GM3ZZA/ZZALOG. 
+This copies the executable <i>zzalog_fe</i> to /usr/local/bin and the reference data to /etc/GM3ZZA/ZZALOG.
