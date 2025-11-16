@@ -159,6 +159,9 @@ if (NOT HAMLIB_FOUND AND MSVC)
      add_custom_command(TARGET hamlib_dll POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libwinpthread-1.dll" ${CMAKE_CURRENT_BINARY_DIR}/.
      )
+     add_custom_command(TARGET hamlib_dll POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libgcc_s_seh-1.dll" ${CMAKE_CURRENT_BINARY_DIR}/.
+     )
      add_dependencies(${TARGET} hamlib_dll)
 endif()
 
