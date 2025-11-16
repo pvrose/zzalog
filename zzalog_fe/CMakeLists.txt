@@ -137,6 +137,7 @@ if (NOT HAMLIB_FOUND AND MSVC)
   message("Hamlib not found")
   set(HAMLIB_INCLUDE_DIR "C:\\Program Files\\hamlib-w64-4.6.5\\include")
   set(HAMLIB_LIBRARY "C:\\Program Files\\hamlib-w64-4.6.5\\lib\\msvc\\libhamlib-4.lib")
+  add_custom_target(hamlib_dll ALL)
 
 
 endif()  
@@ -149,15 +150,16 @@ add_executable(${TARGET} WIN32 MACOSX_BUNDLE)
 # Work-round for adding hamlib DLLs
 if (NOT HAMLIB_FOUND AND MSVC) 
      message("Using custom Hamlib settings")
-     add_custom_command(TARGET ${TARGET} POST_BUILD
+     add_custom_command(TARGET hamlib_dll POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libhamlib-4.dll" ${CMAKE_CURRENT_BINARY_DIR}/.
      )
-     add_custom_command(TARGET ${TARGET} POST_BUILD
+     add_custom_command(TARGET hamlib_dll POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libusb-1.0.dll" ${CMAKE_CURRENT_BINARY_DIR}/.
      )
-     add_custom_command(TARGET ${TARGET} POST_BUILD
+     add_custom_command(TARGET hamlib_dll POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libwinpthread-1.dll" ${CMAKE_CURRENT_BINARY_DIR}/.
      )
+     add_dependencies(${TARGET} hamlib_dll)
 endif()
 
 

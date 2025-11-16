@@ -82,30 +82,34 @@ if(ZZALOG_API_GUIDE)
   add_dependencies(${TARGET} api_html)
 endif()
 
-# install zzalog_fe
-install(TARGETS zzalog_fe)
-# install reference data
-install(FILES ${DATAFILES}
-    DESTINATION ${CMAKE_INSTALL_RPATH})
-# install userguide files
-if(ZZALOG_USERGUIDE) 
-  install(
-    DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/userguide/html
-    DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
-  )
-  if (ZZALOG_USERGUIDE_PDF)
-    install(
-      FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${PROGRAMID}.pdf
-      DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
-    )
-  endif()
-endif()
-# install API documentation files
-if(ZZALOG_API_GUIDE) 
-  install(
-    DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/api/html
-    DESTINATION ${CMAKE_INSTALL_RPATH}/api
-  )
-endif()
+## Temporary work-round until MSVC issues sorted out - do not allow install with MSVC
+if (MSVC)
+else()
+    # install zzalog_fe
+    install(TARGETS zzalog_fe)
+    # install reference data
+    install(FILES ${DATAFILES}
+        DESTINATION ${CMAKE_INSTALL_RPATH})
+    # install userguide files
+    if(ZZALOG_USERGUIDE) 
+      install(
+        DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/userguide/html
+        DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
+      )
+      if (ZZALOG_USERGUIDE_PDF)
+        install(
+          FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${PROGRAMID}.pdf
+          DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
+        )
+      endif()
+    endif()
+    # install API documentation files
+    if(ZZALOG_API_GUIDE) 
+      install(
+        DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/api/html
+        DESTINATION ${CMAKE_INSTALL_RPATH}/api
+      )
+    endif()
+endif(MSVC)
 
 

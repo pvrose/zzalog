@@ -62,7 +62,6 @@
     <ROW Component="libwinpthread1.dll" ComponentId="{EBC6991B-E88C-45DF-9688-590529525758}" Directory_="APPDIR" Attributes="256" KeyPath="libwinpthread1.dll"/>
     <ROW Component="zlib1.dll" ComponentId="{2C8A836F-1A09-4723-8498-14D4DED0B454}" Directory_="APPDIR" Attributes="256" KeyPath="zlib1.dll"/>
     <ROW Component="zzalog_fe.exe" ComponentId="{014F5A3F-A05C-4167-9A7B-857151026E0D}" Directory_="APPDIR" Attributes="256" KeyPath="zzalog_fe.exe"/>
-    <ROW Component="zzalog_fe.ilk" ComponentId="{900C5677-58EF-4C14-B00D-E01FFF1F49BC}" Directory_="APPDIR" Attributes="0" KeyPath="zzalog_fe.ilk" Type="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0"/>
@@ -75,8 +74,6 @@
     <ROW File="libwinpthread1.dll" Component_="libwinpthread1.dll" FileName="LIBWIN~1.DLL|libwinpthread-1.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\build\x64-Release\zzalog_fe\libwinpthread-1.dll" SelfReg="false"/>
     <ROW File="zlib1.dll" Component_="zlib1.dll" FileName="zlib1.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\build\x64-Release\zzalog_fe\zlib1.dll" SelfReg="false"/>
     <ROW File="zzalog_fe.exe" Component_="zzalog_fe.exe" FileName="ZZALOG~1.EXE|zzalog_fe.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\build\x64-Release\zzalog_fe\zzalog_fe.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="zzalog_fe.ilk" Component_="zzalog_fe.ilk" FileName="ZZALOG~1.ILK|zzalog_fe.ilk" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\build\x64-Release\zzalog_fe\zzalog_fe.ilk" SelfReg="false"/>
-    <ROW File="zzalog_fe.pdb" Component_="zzalog_fe.exe" FileName="ZZALOG~1.PDB|zzalog_fe.pdb" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\build\x64-Release\zzalog_fe\zzalog_fe.pdb" SelfReg="false"/>
     <ROW File="all.json" Component_="all.json" FileName="ALL~1.JSO|all.json" Attributes="0" SourcePath="out\build\x64-Release\all.json" SelfReg="false"/>
     <ROW File="band_plan.json" Component_="all.json" FileName="BAND_P~1.JSO|band_plan.json" Attributes="0" SourcePath="out\build\x64-Release\band_plan.json" SelfReg="false"/>
     <ROW File="cty.csv" Component_="all.json" FileName="cty.csv" Attributes="0" SourcePath="out\build\x64-Release\cty.csv" SelfReg="false"/>
@@ -1967,7 +1964,6 @@
     <ROW Feature_="MainFeature" Component_="libwinpthread1.dll"/>
     <ROW Feature_="MainFeature" Component_="zlib1.dll"/>
     <ROW Feature_="MainFeature" Component_="zzalog_fe.exe"/>
-    <ROW Feature_="MainFeature" Component_="zzalog_fe.ilk"/>
     <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
     <ROW Feature_="MainFeature" Component_="all.json"/>
     <ROW Feature_="MainFeature" Component_="ack.html"/>
