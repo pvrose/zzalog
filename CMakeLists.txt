@@ -41,6 +41,7 @@ add_subdirectory(common)
 add_subdirectory(pugixml)
 add_subdirectory(widgets)
 add_subdirectory(zzalog_fe)
+add_subdirectory(zlip)
 
 set(DATAFILES
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/all.json

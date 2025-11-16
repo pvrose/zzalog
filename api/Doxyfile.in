@@ -993,7 +993,8 @@ WARN_LOGFILE           =
 
 INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/../zzalog_fe/include \
                          @CMAKE_CURRENT_SOURCE_DIR@/../widgets/include \
-                         @CMAKE_CURRENT_SOURCE_DIR@/../common/include
+                         @CMAKE_CURRENT_SOURCE_DIR@/../common/include \
+                         @CMAKE_CURRENT_SOURCE_DIR@/../zlip/include
 
 # This tag can be used to specify the character encoding of the source files
 # that Doxygen parses. Internally Doxygen uses the UTF-8 encoding. Doxygen uses

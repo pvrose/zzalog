@@ -13,6 +13,7 @@ if(DOXYGEN_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/../zzalog_fe/include/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/../common/include/*.h
     ${CMAKE_CURRENT_SOURCE_DIR}/../widgets/include/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/../zlip/include/*.h
   )
 
   # Copy Doxyfile
