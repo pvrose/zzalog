@@ -99,7 +99,7 @@ std::string PROGRAM_ID = "ZZALOG";
 //! Short-form program identifier.
 std::string PROG_ID = "ZLG";
 //! Program version. 
-std::string PROGRAM_VERSION = "3.6.10";
+std::string PROGRAM_VERSION = "3.6.10-rc1";
 //! Program vendor.
 std::string VENDOR = "GM3ZZA";
 
@@ -882,7 +882,7 @@ void add_dashboard() {
 		if (!qso_manager_) {
 			char l[128];
 			std::string version = PROGRAM_VERSION;
-			if (DEVELOPMENT_MODE) version += " DEVELOPMENT";
+			if (DEVELOPMENT_MODE) version += " DEVT";
 			snprintf(l, sizeof(l), "%s %s: Operating Dashboard", PROGRAM_ID.c_str(), version.c_str());
 			qso_manager_ = new qso_manager(10, 10);
 			qso_manager_->copy_label(l);
@@ -896,7 +896,7 @@ void add_dashboard() {
 void main_window_label(std::string text) {
 	// e.g. ZZALOG 3.0.0: <filename> - PROGRAM_VERSION includes (Debug) if compiled under _DEBUG
 	std::string label = PROGRAM_ID + " " + PROGRAM_VERSION;
-	if (DEVELOPMENT_MODE) label += " DEVELOPMENT";
+	if (DEVELOPMENT_MODE) label += " DEVT";
 	label += ": " + text;
 	main_window_->copy_label(label.c_str());
 }
@@ -1198,7 +1198,7 @@ int main(int argc, char** argv)
 	if (DISPLAY_VERSION) {
 #ifndef WIN32
 		std::string version = PROGRAM_VERSION;
-		if (DEVELOPMENT_MODE) version += " DEVELOPMENT";
+		if (DEVELOPMENT_MODE) version += " DEVT";
 		// Display version
 		printf("%s Version %s Compiled %s\n", 
 			PROGRAM_ID.c_str(), 
@@ -1227,7 +1227,7 @@ int main(int argc, char** argv)
 	// Create banner
 	banner_ = new banner(400, 200);
 	std::string title = PROGRAM_ID + " " + PROGRAM_VERSION;
-	if (DEVELOPMENT_MODE) title += " DEVELOPMENT";
+	if (DEVELOPMENT_MODE) title += " DEVT";
 	banner_->copy_label(title.c_str());
 
 	// Now display sticky switch message

@@ -72,7 +72,7 @@ void qso_bands::create_form() {
 	Fl_Group::current(nullptr);
 	char l[128];
 	std::string version = PROGRAM_VERSION;
-	if (DEVELOPMENT_MODE) version += " DEVELOPMENT";
+	if (DEVELOPMENT_MODE) version += " DEVT";
 	snprintf(l,sizeof(l), "%s %s: Bandplan", PROGRAM_ID.c_str(), version.c_str());
 	full_window_ = new band_window(left_, top_, width_, height_);
 	full_window_->copy_label(l);
