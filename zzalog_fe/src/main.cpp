@@ -146,6 +146,9 @@ bool READ_ONLY = false;
 bool RESUME_SESSION = false;
 //! Development flag: used to enable/disable features only in development mode ("-g")
 bool DEVELOPMENT_MODE = false;
+//! Generate ADIF header files
+bool GENERATE_HEADERS = false;
+
 
 //! Access to FLTK global attribute to  default text size throughout ZZALOG.
 extern int FL_NORMAL_SIZE;
@@ -497,6 +500,11 @@ int cb_args(int argc, char** argv, int& i) {
 		NEW_BOOK = true;
 		i += 1;
 	}
+	// Generate header files
+	else if (strcmp("-g", argv[i]) == 0 || strcmp("--generate", argv[i]) == 0) {
+		GENERATE_HEADERS = true;
+		i += 1;
+	}
 	// Help
 	else if (strcmp("-h", argv[i]) == 0 || strcmp("--help", argv[i]) == 0) {
 		HELP = true;
@@ -651,6 +659,7 @@ void show_help() {
 	"\t\tt|threads\tProvide debug tracing on std::thread use\n"
 	"\t\t\tnot|nothreads\n"
 	"\t-e|--new\tCreate new file\n"
+	"\t-g|--generate\tGenerate header file from ADIF data\n"
 	"\t-h|--help\tPrint this\n"
 	"\t-k|--dark\tDark mode (sticky)\n"
 	"\t-l|--light\tLight mode (sticky)\n"
@@ -1249,6 +1258,8 @@ int main(int argc, char** argv)
 	resize_window();
 	// Read in reference data - uses progress
 	add_data();
+	// If generate files - go to close
+	if (GENERATE_HEADERS) closing_ = true;
 	Fl::check();
 	// Read in log book data - uses progress - use supplied argument for filename
 	add_book(filename_);
