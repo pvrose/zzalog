@@ -161,18 +161,18 @@ bool spec_data::load_json() {
 			process_subdivision("Secondary_Administrative_Subdivision_Alt");
 			snprintf(msg, sizeof(msg), "ADIF SPEC: File %s loaded OK", filename.c_str());
 			status_->misc_status(ST_OK, msg);
-			// if (adif_version_ != ADIF::VERSION) {
-			// 	snprintf(msg, sizeof(msg), "ADIF SPEC: Built-in ADIF values are based on version %s, version %s loaded",
-			// 		ADIF::VERSION.c_str(), adif_version_.c_str());
-			// 	status_->misc_status(ST_WARNING, msg);
-			// 	if (generate_adif_hfile()) {
-			// 		status_->misc_status(ST_WARNING, "ADIF SPEC: Recompile with new ADIF header file");
-			// 	}
-			// 	else {
-			// 		status_->misc_status(ST_ERROR, "ADIF SPEC: Contact the development team");
-			// 	}
-			// 	return false;
-			// }
+			if (GENERATE_HEADERS) {
+				snprintf(msg, sizeof(msg), "ADIF SPEC: Generating ADIF header file");
+				status_->misc_status(ST_NOTE, msg);
+				if (generate_adif_hfile()) {
+					status_->misc_status(ST_OK, "ADIF SPEC: Done");
+					return true;
+				}
+				else {
+					status_->misc_status(ST_ERROR, "ADIF SPEC: Failed");
+					return false;
+				}
+			}
 			return true;
 		}
 		catch (const json::exception& e) {
@@ -2446,7 +2446,7 @@ bool spec_data::generate_adif_hfile() {
 		status_->misc_status(ST_ERROR, "Cannot regenerate adif.h - not in development mode");
 		return false;
 	}
-	std::string filename = file_holder_->get_directory(DATA_CODEGEN) + "include/adif.h";
+	std::string filename = file_holder_->get_directory(DATA_CODEGEN) + "adif.h";
 	// Add my application defined fields
 	add_my_appdefs();
 	std::ofstream os(filename);
@@ -2482,7 +2482,7 @@ bool spec_data::generate_adif_hfile() {
 	os << "  static const std::map< std::string, field_t> STRING_2_FIELD = " << std::endl;
 	os << "  {" << std::endl;
 	for (auto f : fields->data) {
-		os << "    { \" " << f.first << "\", " << f.first << " }, " << std::endl;
+		os << "    { \"" << f.first << "\", " << f.first << " }, " << std::endl;
 	}
 	os << "  };" << std::endl;
 	os << std::endl;

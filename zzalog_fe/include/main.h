@@ -117,6 +117,8 @@ extern bool READ_ONLY;
 extern bool RESUME_SESSION;
 //! Development flag: used to enable/disable features only in development mode ("-g")
 extern bool DEVELOPMENT_MODE;
+//! Generate ADIF header files
+extern bool GENERATE_HEADERS;
 
 //! Access to FLTK global attribute to  default text size throughout ZZALOG.
 extern int FL_NORMAL_SIZE;
