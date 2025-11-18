@@ -2446,50 +2446,51 @@ bool spec_data::generate_adif_hfile() {
 		status_->misc_status(ST_ERROR, "Cannot regenerate adif.h - not in development mode");
 		return false;
 	}
-	std::string filename = file_holder_->get_directory(DATA_CODEGEN) + "adif.h";
+	std::string filename = file_holder_->get_directory(DATA_CODEGEN) + "adif.cmake";
 	// Add my application defined fields
 	add_my_appdefs();
 	std::ofstream os(filename);
-	os << "#pragma once" << std::endl;
+	if (!os.is_open()) {
+		status_->misc_status(ST_ERROR, ("Cannot open " + filename + " for writing").c_str());
+		return false;
+	}
+	os << "# Generated from ADIF specification data file" << std::endl;
+	os << "# Do not edit - changes will be lost" << std::endl;
 	os << std::endl;
-	os << "#include <cstdint>" << std::endl;
-	os << "#include <map>" << std::endl;
-	os << "#include <string>" << std::endl;
 
-	os << std::endl;
-	os << "//! This namespace holds the ADIF version dependent maps" << std::endl;
-	os << "namespace ADIF {" << std::endl;
-	os << std::endl;
-	os << "  //! Populated with all the valid ADIF field names plus ZLG Applixation specific ones" << std::endl;
-	os << "  enum field_t : uint16_t {" << std::endl;
+	// generate the enum for fields
+	os << "set(ZZALOG_ADIF_FIELD_ENUM \"" << std::endl;
 	spec_dataset* fields = dataset("Fields");
+	spec_dataset* data_types = dataset("Data Types");
 	for (auto f : fields->data) {
-		os << "    " << f.first << ",     //!<" << f.second->at("Description") << std::endl;
+		os << "    " << f.first << ",     //!<" << escape_string(f.second->at("Description"), "\"@ ") << std::endl;
 	}
-	os << "    MAX_FIELD               //!< Used to get maximum value" << std::endl;
-	os << "  };";
-	os << std::endl;
-	os << "	 //! Maps the enumerated value to string: used when exporting data" << std::endl;
-	os << "  static const std::map< field_t, std::string> FIELD_2_STRING = " << std::endl;
-	os << "  {" << std::endl;
+	os << "\")" << std::endl;
+
+	// generate the mapping from enum to metadata
+	os << "set(ZZALOG_ADIF_FIELD_INFO_MAP  \"" << std::endl;
+	for (auto f : fields->data) 
+	{
+		std::string dt = f.second->at("Data Type");
+		std::string enum_name = "";
+		if (dt == "Enumeration") {
+			if (f.second->find("Enumeration") != f.second->end()) {
+				enum_name = f.second->at("Enumeration");
+			}
+		}
+		os << "{ " << f.first << ", { \\\"" << f.first << "\\\", \\\"" << dt << "\\\" , \\\"" << enum_name << "\\\"} }," << std::endl;
+	}
+	os << "\")" << std::endl;
+
+	// Generate the mapping from string to enum
+	os << "set(ZZALOG_ADIF_FIELD_NAME_MAP \"" << std::endl;
 	for (auto f : fields->data) {
-		os << "    { " << f.first << ", \"" << f.first << "\" }," << std::endl;
+		os << "    { \\\"" << f.first << "\\\", " << f.first << " }, " << std::endl;
 	}
-	os << "    { MAX_FIELD, \"\" }" << std::endl;
-	os << "  };" << std::endl;
-	os << std::endl;
-	os << "  //! Maps the string to enumerated value: used when importing data" << std::endl;
-	os << "  static const std::map< std::string, field_t> STRING_2_FIELD = " << std::endl;
-	os << "  {" << std::endl;
-	for (auto f : fields->data) {
-		os << "    { \"" << f.first << "\", " << f.first << " }, " << std::endl;
-	}
-	os << "  };" << std::endl;
-	os << std::endl;
-	os << "  //! Current version knwon to compiler" << std::endl;
-	os << "  static const std::string VERSION = \"" << adif_version_ << "\";";
-    os << std::endl;
-	os << "};";
+	os << "\")" << std::endl;
+
+	// Generate the ADIF version
+	os << "set(ZZALOG_ADIF_VERSION \"" << adif_version_ << "\")" << std::endl;
 
 	os.close();
 

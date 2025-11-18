@@ -16,6 +16,7 @@ endif()
 
 # ser compiler options
 if (MSVC)
+  add_compile_options(/MD)
 else()
   add_compile_options(-g)
 endif()

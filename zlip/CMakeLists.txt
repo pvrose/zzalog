@@ -14,9 +14,16 @@ set(CPPFILES
   src/zlip.cpp
 )
 
+include(adif.cmake)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/adif.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/adif.h @ONLY)
+
 set(HPPFILES
   include/zlip.h
+  include/adif.h
 )
+
+
 
 # set document directory
 if(MSVC)
