@@ -37,6 +37,25 @@ else()
     endif()
 endif()
 
+# libcurl
+find_package(CURL REQUIRED)
+if (MSVC)
+  set(CURL_INCLUDE_DIR "C:\\Users\\pvros\\source\\repos\\curl\\include")
+  set(CURL_LIBRARIES CURL::libcurl)
+endif()
+
+# libhamlib
+find_package(Hamlib)
+if (NOT HAMLIB_FOUND AND MSVC)
+  message("Hamlib not found")
+  set(HAMLIB_INCLUDE_DIR "C:\\Program Files\\hamlib-w64-4.6.5\\include")
+  set(HAMLIB_LIBRARY "C:\\Program Files\\hamlib-w64-4.6.5\\lib\\msvc\\libhamlib-4.lib")
+  add_custom_target(hamlib_dll ALL)
+
+
+endif()  
+
+
 add_subdirectory(common)
 add_subdirectory(pugixml)
 add_subdirectory(widgets)
