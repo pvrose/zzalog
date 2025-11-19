@@ -10,13 +10,15 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(VENDOR "GM3ZZA")
 set(PROGRAMID "ZZALOG")
 
-set(CPPFILES 
-  src/zlip.cpp
-)
-
 include(adif.cmake)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/adif.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/adif.h @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/adif.cpp.in ${CMAKE_CURRENT_SOURCE_DIR}/src/adif.cpp @ONLY)
+
+set(CPPFILES 
+  src/zlip.cpp
+  src/adif.cpp
+)
 
 set(HPPFILES
   include/zlip.h
@@ -38,6 +40,7 @@ set(CMAKE_BUILD_RPATH ${CMAKE_CURRENT_BINARY_DIR})
 add_library(${TARGET})
 target_include_directories(${TARGET} PRIVATE 
   ./include
+  ../common/include
   ${FLTK_INCLUDE_DIR}
 )
 # Add NLohmann/json

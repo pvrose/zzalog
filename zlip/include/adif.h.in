@@ -26,18 +26,12 @@
   };
 
   //! Map linking field enumeration values to their metadata
-  static const std::map<field_t, field_info_t> FIELD_INFO_MAP = {
-    @ZZALOG_ADIF_FIELD_INFO_MAP@
-    { FIELD_MAX, {"", "", ""} }
-  };
+  extern std::map<field_t, field_info_t> FIELD_INFO_MAP;
 
   //! Map linking field names to their enumeration values
-  static const std::map<std::string, field_t> FIELD_NAME_MAP = {
-    @ZZALOG_ADIF_FIELD_NAME_MAP@
-    {"", FIELD_MAX}
-  };
+  extern std::map<std::string, field_t> FIELD_NAME_MAP;
 
   //! ADIF version string
-  static const char* VERSION = "@ZZALOG_ADIF_VERSION@";
+  extern char* VERSION;
 
 } // namespace adif
