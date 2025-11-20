@@ -2,7 +2,6 @@
 
 #include "cty_data.h"
 #include "file_holder.h"
-#include "main.h"
 
 #include "drawing.h"
 #include "utils.h"
@@ -13,6 +12,9 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Output.H>
+
+void open_html(const char* filename);
+extern bool DEVELOPMENT_MODE;
 
 // Check age button clicked
 std::map< cty_data::cty_type_t, std::chrono::hours > OLD_AGE = {

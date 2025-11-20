@@ -1,6 +1,5 @@
 #include "rpc_handler.h"
 
-#include "main.h"
 #include "regices.h"
 #include "socket_server.h"
 #include "status.h"
@@ -16,6 +15,9 @@
 #include <string>
 
 #include <FL/fl_ask.H>
+
+extern std::string PROGRAM_ID;
+extern std::string PROGRAM_VERSION;
 
 // Constructor
 rpc_handler::rpc_handler(std::string address, int port_number, std::string resource_name)

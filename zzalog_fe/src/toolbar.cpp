@@ -9,7 +9,6 @@
 #include "import_data.h"
 #include "intl_dialog.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include "main_window.h"
 #include "menu.h"
 #include "qso_manager.h"
@@ -28,6 +27,12 @@
 #include <FL/Fl_Single_Window.H>
 #include <FL/Fl_Tooltip.H>
 #include <FL/fl_ask.H>
+
+void open_html(const char* filename);
+extern bool DARK;
+extern Fl_PNG_Image main_icon_;
+
+toolbar* toolbar_ = nullptr;
 
 // Constructor - most buttons invoke a menu item
 toolbar::toolbar(int X, int Y, int W, int H, const char* label) :

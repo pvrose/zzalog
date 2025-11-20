@@ -1,7 +1,6 @@
 #include "rig_data.h"
 
 #include "file_holder.h"
-#include "main.h"
 #include "rig_if.h"
 #include "status.h"
 
@@ -12,6 +11,8 @@
 #include <set>
 
 using json = nlohmann::json;
+
+rig_data* rig_data_ = nullptr;
 
 // power_mode_t serialisation
 NLOHMANN_JSON_SERIALIZE_ENUM(power_mode_t, {

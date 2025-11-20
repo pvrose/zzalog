@@ -132,3 +132,5 @@ protected:
     std::string error_message_;
 
 };
+
+extern wx_handler* wx_handler_;

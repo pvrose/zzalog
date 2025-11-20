@@ -173,5 +173,7 @@ enum hint_t : uchar;
 
 	};
 
+	extern qso_manager* qso_manager_;
+
 #endif
 

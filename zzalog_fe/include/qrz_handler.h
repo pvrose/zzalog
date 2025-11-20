@@ -146,6 +146,8 @@ protected:
 
 };
 
+extern qrz_handler* qrz_handler_;
+
 #endif
 
 

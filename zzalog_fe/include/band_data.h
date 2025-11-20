@@ -132,3 +132,5 @@ void from_json(const json& j, range_t& r);
 void to_json(json & j, const band_data::band_entry_t & e);
 //! Convert JSON object to band_data::band_entry_t
 void from_json(const json & j, band_data::band_entry_t & e);
+
+extern band_data* band_data_;

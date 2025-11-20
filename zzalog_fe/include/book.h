@@ -574,4 +574,7 @@
 
 	};
 
+	extern book* book_;
+	extern book* navigation_book_;
+
 #endif

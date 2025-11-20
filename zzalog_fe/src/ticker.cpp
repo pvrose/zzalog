@@ -1,12 +1,14 @@
 #include "ticker.h"
 
-#include "main.h"
-
 #include <algorithm> 
 
 #include <FL/Fl.H>
 
+extern bool DEBUG_QUICK;
+
 const double TICK = 0.1;
+
+ticker* ticker_ = nullptr;
 
 // Constructor
 ticker::ticker() {

@@ -96,4 +96,4 @@ protected:
 	static std::string server_name_;
 };
 
-
+extern qsl_dataset* qsl_dataset_;

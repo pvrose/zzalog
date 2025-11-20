@@ -2,7 +2,6 @@
 
 #include "book.h"
 #include "cty_data.h"
-#include "main.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "status.h"

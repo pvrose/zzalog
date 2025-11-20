@@ -2,7 +2,6 @@
 
 #include "band.h"
 #include "band_data.h"
-#include "main.h"
 #include "spec_data.h"
 #include "status.h"
 #include "drawing.h"
@@ -13,6 +12,8 @@
 #include <cfloat>
 
 #include <FL/fl_draw.H>
+
+extern bool DARK;
 
 // Mode-bar colours
 const std::map<std::string, Fl_Color> MODE_COLOURS = {

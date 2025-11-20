@@ -1,6 +1,5 @@
 #include "png_writer.h"
 #include "book.h"
-#include "main.h"
 #include "qsl_image.h"
 #include "qsl_data.h"
 #include "record.h"

@@ -5,7 +5,6 @@
 #include "filename_input.h"
 #include "font_dialog.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include "qsl_dataset.h"
 #include "qsl_display.h"
 #include "qsl_widget.h"
@@ -28,6 +27,7 @@
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Check_Button.H>
 
+void open_html(const char* filename);
 
 // Constructor
 qsl_editor::qsl_editor(int X, int Y, int W, int H, const char* L) :

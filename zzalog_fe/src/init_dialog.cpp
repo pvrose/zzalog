@@ -1,6 +1,5 @@
 #include "init_dialog.h"
 
-#include "main.h"
 #include "stn_data.h"
 #include "stn_dialog.h"
 

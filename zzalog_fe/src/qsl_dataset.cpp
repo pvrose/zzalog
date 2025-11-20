@@ -1,7 +1,6 @@
 #include "qsl_dataset.h"
 
 #include "extract_data.h"
-#include "main.h"
 #include "qrz_handler.h"
 #include "settings.h"
 #include "status.h"
@@ -16,6 +15,10 @@
 #include <FL/Fl_Native_File_Chooser.H>
 
 using json = nlohmann::json;
+
+extern uint32_t seed_;
+
+qsl_dataset* qsl_dataset_ = nullptr;
 
 std::string qsl_dataset::server_name_ = "";
 

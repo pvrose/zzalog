@@ -9,6 +9,8 @@
 #include "drawing.h"
 #include "utils.h"
 
+void open_html(const char* file);
+
 // Constrctor
 qso_query::qso_query(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L),

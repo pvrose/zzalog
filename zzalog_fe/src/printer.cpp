@@ -2,7 +2,6 @@
 
 #include "book.h"
 #include "log_table.h"
-#include "main.h"
 #include "qsl_dataset.h"
 #include "qsl_display.h"
 #include "qso_manager.h"

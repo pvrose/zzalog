@@ -63,5 +63,8 @@ typedef size_t qso_num_t;
 		//! Minimum resizable
 		int min_w_;
 	};
+
+	extern toolbar* toolbar_;
+
 #endif
 

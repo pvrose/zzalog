@@ -2,7 +2,6 @@
 
 #include "book.h"
 #include "log_table.h"
-#include "main.h"
 #include "qso_manager.h"
 #include "report_tree.h"
 #include "settings.h"
@@ -16,6 +15,8 @@
 #include <FL/Fl_Hold_Browser.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Counter.H>
+
+void open_html(const char* filename);
 
 // constructor
 user_dialog::user_dialog(int X, int Y, int W, int H, const char* label) :

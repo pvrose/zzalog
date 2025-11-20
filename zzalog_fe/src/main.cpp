@@ -154,40 +154,6 @@ bool GENERATE_HEADERS = false;
 extern int FL_NORMAL_SIZE;
 
 //! \cond
-// Top level data items - these are declared as externals in each .cpp that uses them
-band_data* band_data_ = nullptr;
-band_window* band_window_ = nullptr;
-banner* banner_ = nullptr;
-book* book_ = nullptr;
-book* navigation_book_ = nullptr;
-club_handler* club_handler_ = nullptr;
-config* config_ = nullptr;
-contest_data* contest_data_ = nullptr;
-cty_data* cty_data_ = nullptr;
-eqsl_handler* eqsl_handler_ = nullptr;
-extract_data* extract_records_ = nullptr;
-fields* fields_ = nullptr;
-fllog_emul* fllog_emul_ = nullptr;
-import_data* import_data_ = nullptr;
-intl_dialog* intl_dialog_ = nullptr;
-lotw_handler* lotw_handler_ = nullptr;
-main_window* main_window_ = nullptr;
-menu* menu_ = nullptr;
-qrz_handler* qrz_handler_ = nullptr;
-qsl_dataset* qsl_dataset_ = nullptr;
-qso_manager* qso_manager_ = nullptr;
-rig_data* rig_data_ = nullptr;
-spec_data* spec_data_ = nullptr;
-status* status_ = nullptr;
-stn_data* stn_data_ = nullptr;
-stn_window* stn_window_ = nullptr;
-tabbed_forms* tabbed_forms_ = nullptr;
-ticker* ticker_ = nullptr;
-toolbar* toolbar_ = nullptr;
-url_handler* url_handler_ = nullptr;
-wsjtx_handler* wsjtx_handler_ = nullptr;
-wx_handler* wx_handler_ = nullptr;
-
 //! List of files most recently opened. Maximum: 4 files. 
 std::list<std::string> recent_files_;
 //! \endcond

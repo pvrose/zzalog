@@ -8,7 +8,6 @@
 #include "fields.h"
 #include "intl_dialog.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include "main_window.h"
 #include "menu.h"
 #include "qso_manager.h"
@@ -26,6 +25,10 @@
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/fl_ask.H>
 
+void open_html(const char* filename);
+bool in_current_session(record* qso);
+
+extern bool DARK;
 Fl_Font log_table::font_;
 Fl_Fontsize log_table::fontsize_;
 

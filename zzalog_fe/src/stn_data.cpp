@@ -3,7 +3,6 @@
 #include "config.h"
 #include "file_holder.h"
 #include "init_dialog.h"
-#include "main.h"
 #include "record.h"
 #include "status.h"
 #include "stn_dialog.h"
@@ -13,6 +12,8 @@
 #include <vector>
 
 using json = nlohmann::json;
+
+stn_data* stn_data_ = nullptr;
 
 //! Convert qth_info_t to JSON object
 static void to_json(json& j, const qth_info_t& s) {

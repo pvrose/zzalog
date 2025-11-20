@@ -1,7 +1,6 @@
 #include "cty1_reader.h"
 
 #include "cty_data.h"
-#include "main.h"
 #include "status.h"
 
 #include "pugixml.hpp"

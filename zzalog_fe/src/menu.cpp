@@ -14,7 +14,6 @@
 #include "extract_data.h"
 #include "import_data.h"
 #include "intl_dialog.h"
-#include "main.h"
 #include "main_window.h"
 #include "page_dialog.h"
 #include "printer.h"
@@ -51,6 +50,19 @@
 #include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Single_Window.H>
 #include <FL/Fl_Tooltip.H>
+
+void backup_file();
+void main_window_label(std::string text);
+void open_html(const char* filename);
+void open_pdf();
+std::string recent_file(int n);
+void restore_backup();
+void set_recent_file(std::string filename);
+extern bool READ_ONLY;
+extern std::list<std::string> recent_files_;
+extern time_t session_start_;
+
+menu* menu_ = nullptr;
 
 	// The default menu - std::set of menu items
 	Fl_Menu_Item menu_items[] = {

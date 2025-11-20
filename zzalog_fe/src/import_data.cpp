@@ -5,7 +5,6 @@
 #include "cty_data.h"
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
-#include "main.h"
 #include "menu.h"
 #include "qrz_handler.h"
 #include "qso_manager.h"
@@ -31,6 +30,8 @@
 
 #include <FL/Fl.H>
 #include <FL/fl_ask.H>
+
+import_data* import_data_ = nullptr;
 
 // Constructor - this book is used to contain data being imported. It adds functionality to support this
 import_data::import_data() :

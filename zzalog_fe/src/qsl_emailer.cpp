@@ -1,6 +1,5 @@
 #include "qsl_emailer.h"
 
-#include "main.h"
 #include "png_writer.h"
 #include "qsl_dataset.h"
 #include "record.h"

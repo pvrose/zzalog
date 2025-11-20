@@ -6,7 +6,6 @@
 #include "cty_data.h"
 #include "extract_data.h"
 #include "import_data.h"
-#include "main.h"
 #include "menu.h"
 #include "qrz_handler.h"
 #include "qsl_dataset.h"

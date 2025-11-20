@@ -111,3 +111,6 @@ protected:
 
 };
 
+extern contest_data* contest_data_;
+
+

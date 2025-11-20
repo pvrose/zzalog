@@ -2,7 +2,6 @@
 
 #include "adi_reader.h"
 #include "book.h"
-#include "main.h"
 #include "menu.h"
 #include "qso_apps.h"
 #include "qso_data.h"
@@ -31,6 +30,11 @@
 
 #include <FL/Fl.H>
 #include <FL/fl_ask.H>
+
+extern std::string PROGRAM_ID;
+extern std::string PROGRAM_VERSION;
+
+wsjtx_handler* wsjtx_handler_ = nullptr;
 
 // Constructor: 
 wsjtx_handler::wsjtx_handler()

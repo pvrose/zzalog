@@ -1,7 +1,6 @@
 #include "adx_handler.h"
 
 #include "book.h"
-#include "main.h"
 #include "record.h"
 #include "status.h"
 

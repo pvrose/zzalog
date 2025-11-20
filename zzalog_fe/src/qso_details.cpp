@@ -1,7 +1,6 @@
 #include "qso_details.h"
 
 #include "book.h"
-#include "main.h"
 #include "qso_data.h"
 #include "qso_entry.h"
 #include "record.h"
@@ -15,6 +14,8 @@
 #include <string>
 
 #include <FL/Fl_Output.H>
+
+void open_html(const char* filename);
 
 // Constructor
 qso_details::qso_details(int X, int Y, int W, int H, const char* L) :

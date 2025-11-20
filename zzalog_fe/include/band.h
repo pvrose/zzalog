@@ -1,6 +1,5 @@
 #pragma once
 
-#include "main.h"
 #include "spec_data.h"
 
 #include <string>

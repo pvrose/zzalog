@@ -2,7 +2,6 @@
 
 #include "band_widget.h"
 #include "band_window.h"
-#include "main.h"
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -12,6 +11,11 @@
 
 #include "drawing.h"
 #include "utils.h"
+
+void open_html(const char* filename);
+extern bool DEVELOPMENT_MODE;
+extern std::string PROGRAM_ID;
+extern std::string PROGRAM_VERSION;
 
 qso_bands::qso_bands(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L)

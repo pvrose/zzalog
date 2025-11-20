@@ -4,7 +4,6 @@
 #include "book.h"
 #include "extract_data.h"
 #include "fields.h"
-#include "main.h"
 #include "qsl_dataset.h"
 #include "record.h"
 #include "status.h"
@@ -20,6 +19,10 @@
 #include <FL/Fl_Window.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Help_Dialog.H>
+
+lotw_handler* lotw_handler_ = nullptr;
+
+extern bool DEBUG_THREADS;
 
 // Constructor
 lotw_handler::lotw_handler()

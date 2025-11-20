@@ -55,3 +55,5 @@ protected:
     //! Load failed.
     bool load_failed_;
 };
+
+extern rig_data* rig_data_;

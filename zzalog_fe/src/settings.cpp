@@ -4,7 +4,6 @@
 #include "dxcc_table.h"
 #include "file_holder.h"
 #include "log_table.h"
-#include "main.h"
 #include "qso_wx.h"
 #include "report_tree.h"
 #include "search.h"
@@ -17,6 +16,8 @@
 #include <string>
 
 using json = nlohmann::json;
+
+extern std::string PROGRAM_ID;
 
 //! Basic constructor
 settings::settings() {

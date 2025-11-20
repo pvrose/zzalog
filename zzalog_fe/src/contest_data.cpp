@@ -1,11 +1,12 @@
 #include "contest_data.h"
 
 #include "file_holder.h"
-#include "main.h"
 #include "status.h"
 
 #include <fstream>
 #include <ctime>
+
+contest_data* contest_data_ = nullptr;
 
 //! Conversion of ct_data_ to JSON
 void to_json(json& j, const ct_data_t& s) {

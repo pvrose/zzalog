@@ -1,6 +1,5 @@
 #include "qsl_display.h"
 
-#include "main.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"

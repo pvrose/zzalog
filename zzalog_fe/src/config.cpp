@@ -2,7 +2,6 @@
 
 #include "contest_dialog.h"
 #include "fields_dialog.h"
-#include "main.h"
 #include "page_dialog.h"
 #include "qsl_editor.h"
 #include "settings.h"
@@ -15,6 +14,11 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Return_Button.H>
 #include <FL/Fl_Tabs.H>
+
+config* config_ = nullptr;
+
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
 
 // Constructor
 config::config(int W, int H, const char* label) :

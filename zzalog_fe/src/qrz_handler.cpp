@@ -4,7 +4,6 @@
 #include "adi_writer.h"
 #include "book.h"
 #include "import_data.h"
-#include "main.h"
 #include "menu.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
@@ -21,6 +20,12 @@
 #include <FL/Fl.H>
 #include <FL/fl_ask.H>
 #include <FL/filename.H>
+
+qrz_handler* qrz_handler_ = nullptr;
+
+extern bool DEBUG_THREADS;
+extern std::string PROG_ID;
+extern std::string PROGRAM_VERSION;
 
 // Constructor
 qrz_handler::qrz_handler() :

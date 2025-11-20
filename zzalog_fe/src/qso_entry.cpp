@@ -5,7 +5,6 @@
 #include "field_choice.h"
 #include "fields.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "qso_net_entry.h"
@@ -16,6 +15,9 @@
 #include "status.h"
 #include "tabbed_forms.h"
 #include "ticker.h"
+
+void open_html(const char* page);
+extern double prev_freq_;
 
 int qso_entry::focus_ix_ = 0;
 

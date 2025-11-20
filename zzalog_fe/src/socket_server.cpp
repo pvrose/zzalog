@@ -1,6 +1,5 @@
 #include "socket_server.h"
 
-#include "main.h"
 #include "status.h"
 
 #include <stdio.h>
@@ -31,6 +30,8 @@
 #else
 #define LEN_SOCKET_ADDR unsigned int
 #endif
+
+extern bool DEBUG_THREADS;
 
 // Constructor
 socket_server::socket_server(protocol_t protocol, std::string address, int port_num) : 

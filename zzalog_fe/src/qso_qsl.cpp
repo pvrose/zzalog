@@ -6,7 +6,6 @@
 #include "extract_data.h"
 #include "import_data.h"
 #include "lotw_handler.h"
-#include "main.h"
 #include "menu.h"
 #include "png_writer.h"
 #include "printer.h"
@@ -29,6 +28,8 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Fill_Dial.H>
+
+void open_html(const char* filename);
 
 // Constructor
 qso_qsl::qso_qsl(int X, int Y, int W, int H, const char* L) :

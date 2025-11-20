@@ -1,7 +1,6 @@
 #include "condx_view.h"
 
 #include "file_holder.h"
-#include "main.h"
 #include "qso_manager.h"
 #include "qso_wx.h"
 #include "settings.h"
@@ -23,6 +22,9 @@
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Tabs.H>
+
+void open_html(const char* filename);
+extern bool DARK;                   //!< True if dark mode
 
 Fl_Color COLOUR_BAD = FL_RED;         //!< Use for bad stuff
 Fl_Color COLOUR_FAIR = FL_FOREGROUND_COLOR;

@@ -55,3 +55,4 @@ protected:
 
 };
 
+extern band_window* band_window_;

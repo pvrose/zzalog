@@ -1,6 +1,5 @@
 #include "qso_clock.h"
 
-#include "main.h"
 #include "qso_manager.h"
 #include "ticker.h"
 

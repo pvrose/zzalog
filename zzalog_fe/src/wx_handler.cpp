@@ -2,7 +2,6 @@
 
 #include "qso_manager.h"
 #include "record.h"
-#include "main.h"   
 #include "status.h"
 #include "stn_data.h"
 #include "ticker.h"
@@ -18,6 +17,11 @@
 #include <FL/Fl_PNG_Image.H>
 
 using json = nlohmann::json;
+
+extern bool DEBUG_QUICK;
+extern bool DEBUG_THREADS;
+
+wx_handler* wx_handler_ = nullptr;
 
 const double MPH2MPS = 1.0 / 3600.0 * (1760.0 * 36.0) * 25.4 / 1000.0;
 

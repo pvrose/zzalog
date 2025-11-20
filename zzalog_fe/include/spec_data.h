@@ -245,3 +245,5 @@ typedef size_t qso_num_t;
 		bool data_loaded_;
 
 	};
+
+	extern spec_data* spec_data_;

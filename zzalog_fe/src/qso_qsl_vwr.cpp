@@ -1,7 +1,6 @@
 #include "qso_qsl_vwr.h"
 
 #include "book.h"
-#include "main.h"
 #include "qsl_dataset.h"
 #include "qsl_display.h"
 #include "qsl_widget.h"
@@ -25,6 +24,8 @@
 #include <FL/Fl_Radio_Light_Button.H>
 #include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Box.H>
+
+void open_html(const char* filename);
 
 // Constructor
 qso_qsl_vwr::qso_qsl_vwr(int X, int Y, int W, int H, const char* L) :

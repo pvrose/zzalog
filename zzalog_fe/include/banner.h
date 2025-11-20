@@ -119,3 +119,4 @@ protected:
 
 };
 
+extern banner* banner_;

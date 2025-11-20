@@ -4,7 +4,6 @@
 #include "field_choice.h"
 #include "file_viewer.h"
 #include "filename_input.h"
-#include "main.h"
 #include "qso_manager.h"
 #include "rig_data.h"
 #include "rig_if.h"
@@ -27,6 +26,8 @@
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Value_Slider.H>
+
+void open_html(const char* filename);
 
 // Constructor
 qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :

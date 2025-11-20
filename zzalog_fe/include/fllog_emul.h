@@ -91,4 +91,6 @@ class record;
 
 	};
 
+	extern fllog_emul* fllog_emul_;
+
 #endif

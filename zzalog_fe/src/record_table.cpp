@@ -2,7 +2,6 @@
 #include "record_table.h"
 
 #include "fields.h"
-#include "main.h"
 #include "record.h"
 #include "spec_data.h"
 

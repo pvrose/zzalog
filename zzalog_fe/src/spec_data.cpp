@@ -6,7 +6,6 @@
 #include "corr_dialog.h"
 #include "cty_data.h"
 #include "file_holder.h"
-#include "main.h"
 #include "record.h"
 #include "regices.h"
 #include "status.h"
@@ -29,6 +28,11 @@
 #include <FL/Fl_Native_File_Chooser.H>
 
 using json = nlohmann::json;
+
+spec_data* spec_data_ = nullptr;
+
+extern bool DEVELOPMENT_MODE;
+extern bool GENERATE_HEADERS;
 
 // JSON Deserialisation from JSON object to spec_dataset
 static void from_json(const json& j, spec_dataset& s) {

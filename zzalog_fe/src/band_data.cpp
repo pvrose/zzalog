@@ -1,6 +1,5 @@
 #include "band_data.h"
 #include "file_holder.h"
-#include "main.h"
 #include "status.h"
 #include "spec_data.h"
 
@@ -13,6 +12,8 @@
 #include <FL/Fl_Native_File_Chooser.H>
 
 using json = nlohmann::json;
+
+band_data* band_data_ = nullptr;
 
 // MAp band_data::entry_t
 NLOHMANN_JSON_SERIALIZE_ENUM(band_data::entry_t, {

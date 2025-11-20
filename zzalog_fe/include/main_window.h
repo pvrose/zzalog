@@ -30,4 +30,6 @@
 		virtual int handle(int event);
 	};
 
+	extern main_window* main_window_;
+
 #endif

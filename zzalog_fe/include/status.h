@@ -109,5 +109,8 @@ class banner;
 		//! Report file unusable
 		bool file_unusable_;
 	};
+
+	extern status* status_;
+
 #endif
 

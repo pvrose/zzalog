@@ -124,40 +124,6 @@ extern bool GENERATE_HEADERS;
 extern int FL_NORMAL_SIZE;
 
 //! \cond
-// Top level data items - these are declared as externals in each .cpp that uses them
-extern band_data* band_data_;
-extern band_window* band_window_;
-extern banner* banner_;
-extern book* book_;
-extern book* navigation_book_;
-extern club_handler* club_handler_;
-extern config* config_;
-extern contest_data* contest_data_;
-extern cty_data* cty_data_;
-extern eqsl_handler* eqsl_handler_;
-extern extract_data* extract_records_;
-extern fields* fields_;
-extern fllog_emul* fllog_emul_;
-extern import_data* import_data_;
-extern intl_dialog* intl_dialog_;
-extern lotw_handler* lotw_handler_;
-extern main_window* main_window_;
-extern menu* menu_;
-extern qrz_handler* qrz_handler_;
-extern qsl_dataset* qsl_dataset_;
-extern qso_manager* qso_manager_;
-extern rig_data* rig_data_;
-extern spec_data* spec_data_;
-extern status* status_;
-extern stn_data* stn_data_;
-extern stn_window* stn_window_;
-extern tabbed_forms* tabbed_forms_;
-extern ticker* ticker_;
-extern toolbar* toolbar_;
-extern url_handler* url_handler_;
-extern wsjtx_handler* wsjtx_handler_;
-extern wx_handler* wx_handler_;
-
 //! List of files most recently opened. Maximum: 4 files. 
 extern std::list<std::string> recent_files_;
 //! \endcond

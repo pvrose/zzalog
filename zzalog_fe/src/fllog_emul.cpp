@@ -4,7 +4,6 @@
 #include "adi_writer.h"
 #include "book.h"
 #include "extract_data.h"
-#include "main.h"
 #include "qso_apps.h"
 #include "qso_data.h"
 #include "qso_manager.h"
@@ -15,6 +14,7 @@
 
 #include <sstream>
 
+fllog_emul* fllog_emul_ = nullptr;
 
 // Constructor
 fllog_emul::fllog_emul() {

@@ -6,7 +6,6 @@
 #include "cty2_reader.h"
 #include "cty3_reader.h"
 #include "file_holder.h"
-#include "main.h"
 #include "record.h"
 #include "spec_data.h"
 #include "status.h"
@@ -29,6 +28,10 @@
 #include <fcntl.h>
 
 using json = nlohmann::json;
+
+cty_data* cty_data_ = nullptr;
+
+extern bool DEBUG_PARSE;
 
 std::map < cty_data::cty_type_t, std::string> TYPE_MAP = {
 	{ cty_data::ADIF, "ADIF" },

@@ -9,8 +9,6 @@
 #include "settings.h"
 #include "spec_data.h"
 
-#include "main.h"
-
 #include "utils.h"
 
 #include <set>
@@ -20,6 +18,11 @@
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_RGB_Image.H>
+
+void open_html(const char* filename);
+
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
 
 // Constructor
 search_dialog::search_dialog() :

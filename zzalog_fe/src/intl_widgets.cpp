@@ -1,7 +1,6 @@
 #include "intl_widgets.h"
 
 #include "intl_dialog.h"
-#include "main.h"
 
 // Constructor
 intl_editor::intl_editor(int X, int Y, int W, int H, const char* label) :

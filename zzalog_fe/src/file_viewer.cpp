@@ -1,5 +1,4 @@
 #include "file_viewer.h"
-#include "main.h"
 #include "status.h"
 
 #include "utils.h"

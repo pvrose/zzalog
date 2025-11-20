@@ -5,7 +5,6 @@
 #include "club_handler.h"
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
-#include "main.h"
 #include "qrz_handler.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -18,6 +17,8 @@
 #include <sstream>
 
 #include <FL/fl_ask.H>
+
+extract_data* extract_records_ = nullptr;
 
 // Constructor
 extract_data::extract_data() :

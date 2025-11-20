@@ -266,4 +266,6 @@ class socket_server;
 		
 	};
 
+	extern wsjtx_handler* wsjtx_handler_;
+
 #endif

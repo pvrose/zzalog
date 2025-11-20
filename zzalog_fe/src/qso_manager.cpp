@@ -6,7 +6,6 @@
 #include "field_choice.h"
 #include "import_data.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include "main_window.h"
 #include "menu.h"
 #include "qrz_handler.h"
@@ -43,6 +42,11 @@
 #include <FL/Fl_Output.H>
 #include <FL/fl_ask.H>
 #include <FL/Fl_Tooltip.H>
+
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
+
+qso_manager* qso_manager_ = nullptr;
 
 // The main dialog constructor
 qso_manager::qso_manager(int W, int H, const char* label) :

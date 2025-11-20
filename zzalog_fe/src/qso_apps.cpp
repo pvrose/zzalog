@@ -4,7 +4,6 @@
 #include "file_viewer.h"
 #include "filename_input.h"
 #include "fllog_emul.h"
-#include "main.h"
 #include "password_input.h"
 #include "qso_manager.h"
 #include "qso_rig.h"
@@ -24,6 +23,8 @@
 #include <FL/Fl_Radio_Light_Button.H>
 
 using json = nlohmann::json;
+
+void open_html(const char* filename);
 
 // JSON mapping for app_rig_class_t
 NLOHMANN_JSON_SERIALIZE_ENUM(app_rig_class_t, {

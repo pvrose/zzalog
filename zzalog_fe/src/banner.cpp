@@ -1,6 +1,5 @@
 #include "banner.h"
 
-#include "main.h"
 #include "status.h"
 #include "ticker.h"
 
@@ -22,6 +21,14 @@
 #include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Text_Buffer.H>
 #include <FL/Fl_Text_Display.H>
+
+banner* banner_ = nullptr;
+
+void open_html(const char* filename);
+extern bool closing_;
+extern Fl_PNG_Image main_icon_;
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
 
 const int NUMBER_STYLES = 10;
 const Fl_Text_Display::Style_Table_Entry style_table_[NUMBER_STYLES] = {

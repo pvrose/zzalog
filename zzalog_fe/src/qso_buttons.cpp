@@ -3,7 +3,6 @@
 #include "book.h"
 #include "cty_data.h"
 #include "extract_data.h"
-#include "main.h"
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "spec_data.h"
@@ -14,6 +13,8 @@
 
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/Fl_Tooltip.H>
+
+void open_html(const char* file);
 
 // Map showing the buttons available in each qso_data logging_state
 std::map<qso_data::logging_state_t, std::list<qso_buttons::button_type> > button_map_ =

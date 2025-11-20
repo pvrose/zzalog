@@ -4,7 +4,6 @@
 #include "field_choice.h"
 #include "fields.h"
 #include "intl_widgets.h"
-#include "main.h"
 
 #include "callback.h"
 #include "drawing.h"
@@ -14,6 +13,8 @@
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Choice.H>
+
+void open_html(const char* file);
 
 // Constructor
 fields_table::fields_table(int X, int Y, int W, int H, const char* L) :

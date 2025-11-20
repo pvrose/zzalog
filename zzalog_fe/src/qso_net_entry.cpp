@@ -1,7 +1,6 @@
 #include "qso_net_entry.h"
 
 #include "book.h"
-#include "main.h"
 #include "qso_entry.h"
 #include "record.h"
 #include "status.h"

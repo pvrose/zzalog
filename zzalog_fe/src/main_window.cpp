@@ -1,10 +1,11 @@
 #include "main_window.h"
 
 #include "import_data.h"
-#include "main.h"
 #include "menu.h"
 
 #include <sstream>
+
+main_window* main_window_ = nullptr;
 
 // Create the window
 main_window::main_window(int W, int H, const char* label) :

@@ -130,4 +130,6 @@ protected:
 
 };
 
+extern fields* fields_;
+
 #endif

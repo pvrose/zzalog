@@ -2,7 +2,6 @@
 
 #include "book.h"
 #include "import_data.h"
-#include "main.h"
 #include "record.h"
 #include "ticker.h"
 
@@ -13,6 +12,9 @@
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Light_Button.H>
+
+void open_html(const char* file);
+extern bool AUTO_SAVE;
 
 // Constructor
 qso_log_info::qso_log_info(int X, int Y, int W, int H, const char* l) :

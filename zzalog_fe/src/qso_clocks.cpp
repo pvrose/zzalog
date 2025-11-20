@@ -1,7 +1,6 @@
 #include "qso_clocks.h"
 
 #include "condx_view.h"
-#include "main.h"
 #include "qso_clock.h"
 #include "qso_manager.h"
 #include "qso_wx.h"
@@ -15,6 +14,8 @@
 
 #include <FL/Fl_Radio_Round_Button.H>
 #include <FL/Fl_Tabs.H>
+
+void open_html(const char* filename);
 
 // Constructor
 qso_clocks::qso_clocks(int X, int Y, int W, int H, const char* L) :

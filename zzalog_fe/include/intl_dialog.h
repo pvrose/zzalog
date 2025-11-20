@@ -68,4 +68,7 @@ class Fl_Group;
 		Fl_Widget* editor_;
 
 	};
+
+	extern intl_dialog* intl_dialog_;
+
 #endif

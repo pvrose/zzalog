@@ -4,13 +4,16 @@
 #include "log_table.h"
 #include "extract_data.h"
 #include "import_data.h"
-#include "main.h"
 #include "spec_tree.h"
 #include "report_tree.h"
 #include "toolbar.h"
 #include "config.h"
 #include "qso_manager.h"
 #include "dxcc_view.h"
+
+extern bool closing_;
+
+tabbed_forms* tabbed_forms_ = nullptr;
 
 // Constructor
 tabbed_forms::tabbed_forms(int X, int Y, int W, int H, const char* label) :

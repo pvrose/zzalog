@@ -1,7 +1,6 @@
 ﻿#include "intl_dialog.h"
 
 #include "file_holder.h"
-#include "main.h"
 #include "menu.h"
 #include "status.h"
 
@@ -13,8 +12,14 @@
 #include <FL/Fl_Text_Buffer.H>
 #include <FL/Fl_Text_Editor.H>
 
+void open_html(const char* page);
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
 // Majo
 std::string DEFAULT_INTL = "";
+
+intl_dialog* intl_dialog_ = nullptr;
+
 
 // Constructs a window 
 intl_dialog::intl_dialog() :

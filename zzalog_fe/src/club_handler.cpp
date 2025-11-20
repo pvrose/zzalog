@@ -5,7 +5,6 @@
 #include "cty_data.h"
 #include "fields.h"
 #include "file_holder.h"
-#include "main.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -18,6 +17,10 @@
 
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/Fl_Native_File_Chooser.H>
+
+club_handler* club_handler_ = nullptr;
+
+extern bool DEBUG_THREADS;
 
 // Constructor 
 club_handler::club_handler() {

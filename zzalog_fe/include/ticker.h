@@ -58,3 +58,5 @@ class ticker {
     unsigned int tick_count_;
     
 };
+
+extern ticker* ticker_;

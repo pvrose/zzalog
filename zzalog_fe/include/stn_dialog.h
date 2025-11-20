@@ -123,3 +123,5 @@ public:
 
 
 };
+
+extern stn_window* stn_window_;

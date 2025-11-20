@@ -1,6 +1,5 @@
 #include "file_holder.h"
 
-#include "main.h"
 #include "status.h"
 
 #include <cstdlib>
@@ -11,6 +10,8 @@
 
 file_holder* file_holder_ = nullptr;
 uint16_t DEBUG_RESET_CONFIG = 0;
+extern std::string PROGRAM_ID;
+extern std::string VENDOR;
 
 file_holder::file_holder(const char* arg0, bool& development) {
 	char * pwd = fl_getcwd(nullptr, 256);

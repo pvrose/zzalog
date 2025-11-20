@@ -4,7 +4,6 @@
 #include "fllog_emul.h"
 #include "icons.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include "password_input.h"
 #include "qrz_handler.h"
 #include "qsl_dataset.h"
@@ -23,6 +22,8 @@
 #include <FL/Fl_RGB_Image.H>
 #include <FL/Fl_Select_Browser.H>
 #include <FL/Fl_Tabs.H>
+
+void open_html(const char* page);
 
 // Constructor
 web_dialog::web_dialog(int X, int Y, int W, int H, const char* label) :
