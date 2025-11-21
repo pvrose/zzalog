@@ -9,7 +9,7 @@
 struct qsl_data {
 
     //! Specifies the drawing element. 
-    enum item_type : uchar {
+    enum item_type : uint8_t {
         NONE,   //!< Used to mark element for deletion
         FIELD,  //!< A field from the QSO record: name and value get printed.
         TEXT,   //!< A text comment.
@@ -65,21 +65,21 @@ struct qsl_data {
     };
 
     //! Units of measurement
-    enum dim_unit : uchar {
+    enum dim_unit : uint8_t {
         INCH,          //!< inch: 1 inch = 25.4 mm
         MILLIMETER,    //!< millimetre.
         POINT          //!< point: 1 point = 1/72 in. 
     };
 
     //! Type of display
-    enum qsl_type : uchar {
+    enum qsl_type : uint8_t {
         LABEL,              //!< Display/print on a label
         FILE,               //!< Display/print to PDF
         MAX_TYPE
     };
 
     //! Date format used in QSL card.
-    enum date_format : uchar {
+    enum date_format : uint8_t {
         FMT_Y4MD_ADIF,     //!< 20240618
         FMT_Y4MD,          //!< 2024/06/18
         FMT_Y2MD,          //!< 24/06/18
@@ -89,7 +89,7 @@ struct qsl_data {
     };
 
     //! Time format used in QSL card.
-    enum time_format : uchar {
+    enum time_format : uint8_t {
         FMT_HMS_ADIF,      //!< 171033
         FMT_HMS,           //!< 17:10:33
         FMT_HM_ADIF,       //!< 1710

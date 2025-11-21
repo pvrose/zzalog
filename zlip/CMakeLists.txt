@@ -10,19 +10,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(VENDOR "GM3ZZA")
 set(PROGRAMID "ZZALOG")
 
-include(adif.cmake)
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/include/adif.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/adif.h @ONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/adif.cpp.in ${CMAKE_CURRENT_SOURCE_DIR}/src/adif.cpp @ONLY)
-
 set(CPPFILES 
   src/zlip.cpp
-  src/adif.cpp
 )
 
 set(HPPFILES
   include/zlip.h
-  include/adif.h
 )
 
 

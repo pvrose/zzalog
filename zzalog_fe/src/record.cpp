@@ -1197,3 +1197,18 @@ void record::invalidate_qsl_status() {
 		item("CLUBLOG_QSO_UPLOAD_STATUS", std::string("M"));
 	}
 }
+
+// JSON serialization of record
+void to_json(json& j, const record& r) {
+	// For each field in the record
+	for (auto it = r.begin(); it != r.end(); it++) {
+		j[it->first] = it->second;
+	}
+}
+// JSON deserialization of record
+void from_json(const json& j, record& r) {
+	// For each field in the JSON object
+	for (json::const_iterator it = j.begin(); it != j.end(); ++it) {
+		r.item(it.key(), it.value().get<std::string>());
+	}
+}

@@ -151,7 +151,7 @@ bool png_writer::write_row(const char* data) {
 		return true;
 	}
 
-	png_write_row(png_, (const uchar*)data);
+	png_write_row(png_, (const uint8_t*)data);
 
 	return false;
 }

@@ -22,7 +22,7 @@ class book;
 	{
 	public:
 		//! Purpose of imported data.
-		enum update_mode_t : uchar {
+		enum update_mode_t : uint8_t {
 			NONE,            //!< Book has no data.
 			EXISTING,        //!< Use existing update mode.
 			FILE_IMPORT,     //!< Data manually loaded from a file (assume new records are correct).

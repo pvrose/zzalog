@@ -39,7 +39,7 @@ font_dialog::font_dialog(Fl_Font f, Fl_Fontsize sz, Fl_Color c, const char* L) :
     w03->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
     w03->callback(cb_colour);
     w03->tooltip("Please select the colour to be used for the QSL card field entry");
-    uchar r, g, b;
+    uint8_t r, g, b;
 	// Fl_Color_Chooser uses RGB values 0->1.0
     Fl::get_color(colour_, r, g, b);
     w03->rgb((double)r / 255.0, (double)g / 255.0, (double)b / 255.0);

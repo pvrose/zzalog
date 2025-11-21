@@ -9,7 +9,7 @@
 
 #include <FL/Fl.H>
 
-enum extract_mode_t : uchar;
+enum extract_mode_t : uint8_t;
 
 // Class to manage QSL designs
 

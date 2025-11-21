@@ -414,7 +414,7 @@ field_input::exit_reason_t field_input::reason() {
 }
 
 // Type - allows the input_choice to be used as an Fl_Output
-void field_input::type(uchar t) {
+void field_input::type(uint8_t t) {
 	input()->type(t);
 }
 

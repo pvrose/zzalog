@@ -986,7 +986,7 @@ void tidy() {
 }
 
 // Map argument letter to colour name
-std::map<uchar, std::string> colours = {
+std::map<uint8_t, std::string> colours = {
 	{ 'n', "None" },
 	{ 'r', "Red" },
 	{ 'g', "Green" },

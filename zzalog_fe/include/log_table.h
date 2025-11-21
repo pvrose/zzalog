@@ -63,7 +63,7 @@ class Fl_Window;
 		collection_t& fields();
 
 		//! Display order.
-		enum sort_order : uchar {
+		enum sort_order : uint8_t {
 			FIRST_TO_LAST,               //!< Chronological order.
 			LAST_TO_FIRST,               //!< Reverse chronological.
 			SORTED_UP,                   //!< Sorted alphabetically on a field.

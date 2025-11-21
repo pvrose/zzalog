@@ -56,7 +56,7 @@ public:
 	//! Inherited from Fl_Group - to be overridden by inheritee
 	
 	//! The default sets the when condition onto the Fl_Input component.
-	virtual void when(uchar i) { ip_->when(i); }
+	virtual void when(uint8_t i) { ip_->when(i); }
 	//! \see when
 	virtual Fl_When when() { return ip_->when(); }
 

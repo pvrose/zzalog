@@ -165,7 +165,7 @@ static void to_json(json& j, const qsl_data& s) {
 
 // Convert qsl_call_data to JSON object
 static void to_json(json& j, const qsl_call_data& s) {
-	uchar offset = hash8(qsl_dataset::server_name().c_str());
+	uint8_t offset = hash8(qsl_dataset::server_name().c_str());
 	if (s.used) {
 		j["In use"] = true;
 		j["Last downloaded"] = s.last_download;
@@ -178,7 +178,7 @@ static void to_json(json& j, const qsl_call_data& s) {
 
 // Convert server_data_t to JSON object
 static void to_json(json& j, const server_data_t& s) {
-	uchar offset = hash8(qsl_dataset::server_name().c_str());
+	uint8_t offset = hash8(qsl_dataset::server_name().c_str());
 	// Common items
 	j["User"] = s.user;
 	j["Password"] = string_to_hex(xor_crypt(s.password, seed_, offset));
@@ -280,7 +280,7 @@ static void from_json(const json& j, qsl_data& s) {
 }
 
 static void from_json(const json& j, qsl_call_data& s) {
-	uchar offset = hash8(qsl_dataset::server_name().c_str());
+	uint8_t offset = hash8(qsl_dataset::server_name().c_str());
 	j.at("In use").get_to(s.used);
 	if (s.used) {
 		std::string key;
@@ -292,7 +292,7 @@ static void from_json(const json& j, qsl_call_data& s) {
 
 static void from_json(const json& j, server_data_t& s) {
 	std::string server = qsl_dataset::server_name();
-	uchar offset = hash8(server.c_str());
+	uint8_t offset = hash8(server.c_str());
 	std::string password;
 	j.at("User").get_to(s.user);
 	j.at("Password").get_to(password);

@@ -1059,28 +1059,28 @@ std::string terminal(std::string filename) {
 }
 
 // 8-bit hash - XOR all the characters in src std::string
-uchar hash8(const char* src) {
-	uchar result = '\x00';
+uint8_t hash8(const char* src) {
+	uint8_t result = '\x00';
 	// Hash in the next character and increment the pointer
 	while (*src != '\x00') result ^= *(src++);
 	return result;
 }
 
 // Basic XOR encryption using a pseudo-random key
-void xor_crypt(char* src, int len, uint32_t seed, uchar offset) {
+void xor_crypt(char* src, int len, uint32_t seed, uint8_t offset) {
 	// Seed a pseudo-random number sequence
 	std::minstd_rand key(seed);
 	// Now offset into the sequence
 	key.discard(offset);
 	// Now use the sequence to en/decrypt the std::string
 	for (int ix = 0; ix < len; ix++, src++) {
-		uchar key_byte = key() & 255;
+		uint8_t key_byte = key() & 255;
 		*src ^= key_byte;
 	}
 }
 
 // String version
-std::string xor_crypt(std::string src, uint32_t seed, uchar offset) {
+std::string xor_crypt(std::string src, uint32_t seed, uint8_t offset) {
 	std::string result;
 	result.resize(src.length());
 	// Seed a pseudo-random number sequence
@@ -1089,7 +1089,7 @@ std::string xor_crypt(std::string src, uint32_t seed, uchar offset) {
 	key.discard(offset);
 	// Now use the sequence to en/decrypt the std::string
 	for (int ix = 0; ix < src.length(); ix++) {
-		uchar key_byte = key() & 255;
+		uint8_t key_byte = key() & 255;
 		result[ix]  = src[ix] ^ key_byte;
 	}
 	return result;

@@ -22,8 +22,8 @@ class Fl_Button;
 class Fl_Light_Button;
 class Fl_Output;
 
-enum location_t : uchar;
-enum worked_t : uchar;
+enum location_t : uint8_t;
+enum worked_t : uint8_t;
 
 //! This class displays the "worked before" status for the DX - band and mode
 class qso_dxcc :

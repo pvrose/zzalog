@@ -10,7 +10,7 @@
 #include <FL/Fl_Tabs.H>
 
 class book;
-enum hint_t : uchar;
+enum hint_t : uint8_t;
 typedef size_t qso_num_t;
 
 

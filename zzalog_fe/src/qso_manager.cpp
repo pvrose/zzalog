@@ -428,7 +428,7 @@ void qso_manager::update_modem_qso(bool log_it) {
 }
 
 // Start a modem QSO
-record* qso_manager::start_modem_qso(std::string call, uchar source) {
+record* qso_manager::start_modem_qso(std::string call, uint8_t source) {
 	return data_group_->start_modem_qso(call, (qso_data::qso_init_t)source);
 }
 
@@ -444,12 +444,12 @@ void qso_manager::cancel_modem_qso() {
 }
 
 // Download QSLs;
-void qso_manager::qsl_download(uchar server) {
+void qso_manager::qsl_download(uint8_t server) {
 	qsl_control()->qsl_download((import_data::update_mode_t)server);
 }
 
 // Extract QSLs;
-void qso_manager::qsl_extract(uchar server) {
+void qso_manager::qsl_extract(uint8_t server) {
 	qsl_control()->qsl_extract((extract_data::extract_mode_t)server);
 }
 

@@ -43,10 +43,10 @@ public:
     //! - <B>Mouse Wheel</B> Adjust zoom (horizontal or shift single wheel) and scroll.
     virtual int handle(int event);
 
-    //! Overload of Fl_Widget::type(uchar t).
+    //! Overload of Fl_Widget::type(uint8_t t).
     
     //! Also calls default_mode.
-    virtual void type(uchar t) {
+    virtual void type(uint8_t t) {
         Fl_Widget::type(t);
         default_mode();
     }
@@ -54,7 +54,7 @@ public:
     //! Overload of Fl_Widget::type().
     
     //! \return Fl_Widget::type()
-    virtual uchar type() {
+    virtual uint8_t type() {
         return Fl_Widget::type();
     }
 
@@ -72,10 +72,10 @@ public:
     double frequency(int x, int y);
 
     // Type decodes
-    static const uchar BAND_FULL = 0;     //!< Full display 
-    static const uchar BAND_SUMMARY = 1;  //!< Summary display
-    static const uchar ZOOMABLE = 2;      //!< Allow zooming 
-    static const uchar BAND_MASK = 1;     //!< Mask for testing BAND_FULL or BAND_SUMMARY
+    static const uint8_t BAND_FULL = 0;     //!< Full display 
+    static const uint8_t BAND_SUMMARY = 1;  //!< Summary display
+    static const uint8_t ZOOMABLE = 2;      //!< Allow zooming 
+    static const uint8_t BAND_MASK = 1;     //!< Mask for testing BAND_FULL or BAND_SUMMARY
 
 protected:
     //! Type of marker - controls how the marker is handled and displayed

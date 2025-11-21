@@ -20,7 +20,7 @@ class qso_operation;
 class qso_query;
 class record;
 typedef size_t qso_num_t;
-enum navigate_t : uchar;
+enum navigate_t : uint8_t;
 
 
 //! Default field std::set for qso_entry.
@@ -84,7 +84,7 @@ public:
 	};
 
 	//! Source of editing
-	enum qso_init_t : uchar {
+	enum qso_init_t : uint8_t {
 		QSO_ON_AIR,         //!< Start a QSO using current time and CAT if connected
 		QSO_NONE,           //!< Start a QSO with no initial values
 		QSO_COPY_CALL,      //!< Start a QSO copying callsign, station details and CAT conditions

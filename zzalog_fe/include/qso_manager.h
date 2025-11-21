@@ -27,7 +27,7 @@ class import_data;
 class record;
 
 typedef size_t qso_num_t;
-enum hint_t : uchar;
+enum hint_t : uint8_t;
 
 
 	//! This class provides the main dashboard functionality of the app.
@@ -96,7 +96,7 @@ enum hint_t : uchar;
 		//! \param query_num Index of QSO record being query.
 		void update_qso(hint_t hint, qso_num_t match_num, qso_num_t query_num);
 		//! Returns a new QSO record for a modem \p source QSO with \p call.
-		record* start_modem_qso(std::string call, uchar source);
+		record* start_modem_qso(std::string call, uint8_t source);
 		//! Update the modem QSO record: Save it to the log if \p log_it is true.
 		void update_modem_qso(bool log_it);
 		//! Enter the QSO record \p qso into the log.
@@ -137,9 +137,9 @@ enum hint_t : uchar;
 
 		// Shared QSL methods
 		//! Download std::list of QSLs from \p server.
-		void qsl_download(uchar server);
+		void qsl_download(uint8_t server);
 		//! Extract data for uploading to \p server.
-		void qsl_extract(uchar server);
+		void qsl_extract(uint8_t server);
 		//! Upload extracted data to remembered server.
 		void qsl_upload();
 		//! Print labels for extracted data.

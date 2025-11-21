@@ -21,7 +21,7 @@
 	{
 	public:
 		//! Reason for the extract
-		enum extract_mode_t : uchar {
+		enum extract_mode_t : uint8_t {
 			NONE,        //!< empty extract
 			SEARCH,      //!< search results
 			EQSL,        //!< upload to eQSL.cc

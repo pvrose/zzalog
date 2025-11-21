@@ -146,8 +146,8 @@ void import_data::update_book() {
 		update_is_new_ = false;
 		char message[256];
 		match_flags_t match_flags = MR_NONE;
-		if (update_mode_ == LOTW_UPDATE) (uchar&)match_flags |= MR_ALLOW_LOC;
-		if (update_mode_ == OQRS) (uchar&)match_flags |= MR_ALLOW_QSLS;
+		if (update_mode_ == LOTW_UPDATE) (uint8_t&)match_flags |= MR_ALLOW_LOC;
+		if (update_mode_ == OQRS) (uint8_t&)match_flags |= MR_ALLOW_QSLS;
 
 		// Process the records - always process the zeroth one as it gets deleted
 		// update_in_progress_ indicates we want to drop out to present user with a 

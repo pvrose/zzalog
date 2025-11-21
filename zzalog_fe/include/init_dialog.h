@@ -8,7 +8,7 @@ class Fl_Button;
 class Fl_Input;
 class Fl_Radio_Round_Button;
 
-enum stn_type : uchar;
+enum stn_type : uint8_t;
 struct stn_default;
 
 //! This class provides a dialog to enter data for a new installation

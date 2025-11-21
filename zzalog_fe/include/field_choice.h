@@ -102,7 +102,7 @@ struct spec_dataset;
 		//! Reloasds the choice values and possibly select that in the given \p QSO.
 		void reload_choice(record* qso = nullptr);
 		//! Allow the Fl_Input component to be either INPUT or OUTPUT
-		virtual void type(uchar t);
+		virtual void type(uint8_t t);
 		//! Overload draw - deactivates menubutton if type is OUTPUT.
 		virtual void draw();
 

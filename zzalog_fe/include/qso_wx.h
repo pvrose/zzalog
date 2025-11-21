@@ -43,32 +43,32 @@ public:
 	bool is_night(time_t when);
 
 	//! Temperature units
-	enum temp_t : uchar {
+	enum temp_t : uint8_t {
 		CELSIUS,           //!< degrees Celsius 
 		FAHRENHEIT,        //!< degrees Fahrenheit
 	};
 	//! Wind speed
-	enum speed_t : uchar {
+	enum speed_t : uint8_t {
 		METRE_PER_SECOND,  //!< metres per second
 		MILE_PER_HOUR,     //!< miles per hour
 		KM_PER_HOUR,       //!< kilometres per hour
 		KNOTS              //!< knots
 	};
 	//! Wind direction.
-	enum dirn_t : uchar {
+	enum dirn_t : uint8_t {
 		CARDINAL,          //!< one of the 16 cardinal points (eg WNW)
 		DEGREES,           //!< degrees
 		ARROW              //!< iconic representation as an arrow pointing from wind direction.
 	};
 	//! Atmospheric pressure
-	enum press_t : uchar {
+	enum press_t : uint8_t {
 		HECTOPASCAL,       //!< hectopascals
 		MM_MERCURY,        //!< millimetres of mercury.
 		IN_MERCURY,        //!< inches of mercury
 		MILLIBARS          //!< mullibars
 	};
 	//! Cloud coverage
-	enum cloud_t : uchar {
+	enum cloud_t : uint8_t {
 		PERCENT,           //!< percentage 
 		OKTA,              //!< okta
 		PIE                //!< iconic representation

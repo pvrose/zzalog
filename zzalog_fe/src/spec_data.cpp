@@ -2471,18 +2471,29 @@ bool spec_data::generate_adif_hfile() {
 	}
 	os << "\")" << std::endl;
 
+	// Generate the enum for data types
+	os << "set(ZZALOG_ADIF_DATA_TYPE_ENUM \"" << std::endl;
+	for (auto dt : data_types->data) {
+		os << "    DT_" << to_upper(dt.first) << ",     //!<" << escape_string(dt.second->at("Description"), "\"@ ") << std::endl;
+	}
+	os << "\")" << std::endl;
+
 	// generate the mapping from enum to metadata
 	os << "set(ZZALOG_ADIF_FIELD_INFO_MAP  \"" << std::endl;
 	for (auto f : fields->data) 
 	{
-		std::string dt = f.second->at("Data Type");
+		std::string dt = "DT_" + to_upper(f.second->at("Data Type"));
+		size_t pos = dt.find(',');
+		if (pos != std::string::npos) {
+			dt = dt.substr(0, pos);
+		}
 		std::string enum_name = "";
 		if (dt == "Enumeration") {
 			if (f.second->find("Enumeration") != f.second->end()) {
 				enum_name = f.second->at("Enumeration");
 			}
 		}
-		os << "{ " << f.first << ", { \\\"" << f.first << "\\\", \\\"" << dt << "\\\" , \\\"" << enum_name << "\\\"} }," << std::endl;
+		os << "{ " << f.first << ", { \\\"" << f.first << "\\\", " << dt << " , \\\"" << enum_name << "\\\"} }," << std::endl;
 	}
 	os << "\")" << std::endl;
 

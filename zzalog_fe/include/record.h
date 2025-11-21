@@ -5,16 +5,19 @@ All Rights Reserved
 
 record.h - Individual record data item: header file
 */
-#ifndef __RECORD__
-#define __RECORD__
+#pragma once
 
 #include "utils.h"
 
+#include <chrono>
 #include <map>
 #include <string>
-#include<istream>
-#include<ostream>
-#include <chrono>
+#include <istream>
+#include <ostream>
+
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
 
 
 
@@ -33,7 +36,7 @@ record.h - Individual record data item: header file
 	};
 
 	//! Flags used in match_records
-	enum match_flags_t : uchar {
+	enum match_flags_t : uint8_t {
 		MR_NONE,             //!< No special match instructions - default
 		MR_ALLOW_LOC = 1,    //!< ALlow limited location mismatch (used for LOTW)
 		MR_ALLOW_QSLS = 2,   //!< Allow processing of QSL_SENT* (used for OQRS)
@@ -41,7 +44,7 @@ record.h - Individual record data item: header file
 
 
 	//! Location source
-	enum location_t : uchar {
+	enum location_t : uint8_t {
 		LOC_NONE,        //!< not derived
 		LOC_PREFIX,      //!< Obtained from prefix data
 		LOC_LATLONG,     //!< LAT/LON pair
@@ -52,12 +55,12 @@ record.h - Individual record data item: header file
 	};
 
 	// forward declaration
-	enum hint_t : uchar;
+	enum hint_t : uint8_t;
 
 	typedef size_t qso_num_t;    // QSO number
 
 	//! This class represents a single QSO record as a container of field items NAME=>VALUE
-	class record : public std::map<std::string, std::string> {
+	class record : public std::map < std::string, std::string > {
 	public:
 
 		// Constructors and Destructors
@@ -112,7 +115,7 @@ record.h - Individual record data item: header file
 		//! Returns true if the record is a header record.
 		bool is_header();
 		//! Comparison operator. One record is greater than another if the start date and time is later.
-		bool operator > (record& rhs);
+		bool operator> (record& rhs);
 		//! delete all the derived fields
 		void unparse();
 		//! Returns the latitude and longitude.
@@ -182,4 +185,7 @@ record.h - Individual record data item: header file
 
 	};
 
-#endif
+	//! JSON serialization for record class
+	void to_json(json& j, const record& r);
+	void from_json(const json& j, record& r);
+

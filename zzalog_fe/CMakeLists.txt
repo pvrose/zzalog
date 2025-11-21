@@ -165,9 +165,28 @@ if (NOT HAMLIB_FOUND AND MSVC)
      add_dependencies(${TARGET} hamlib_dll)
 endif()
 
+#FLTK - work-round for MSVC 
+if (0)
+  set(FLTK_INCLUDE_DIR "C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\include")
+  set(FLTK_LIBRARIES "C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\lib\\fltk.lib;C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\lib\\fltk_images.lib;C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\lib\\fltk_jpeg.lib;C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\lib\\fltk_png.lib;C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\lib\\fltk_z.lib;gdiplus.lib;Ws2_32.lib;User32.lib;gdi32.lib;comctl32.lib")
+else()
+ set(FLTK_DIR "C:\\Users\\pvros\\source\\repos\\fltk\\build")
+   set(CMAKE_MODULE_PATH ../ ./)
+    find_package(FLTK CONFIG REQUIRED)
+    if (FLTK_FOUND)
+      message(STATUS "FLTK found: ${FLTK_VERSION}")
+      message(STATUS "FLTK include dir: ${FLTK_INCLUDE_DIR}")
+#      set(FLTK_LIBRARIES fltk::fltk fltk::fltk_images)
+    else()
+      message(FATAL_ERROR "FLTK not found")
+    endif()
+endif()
+
 
 target_include_directories(${TARGET} PRIVATE 
-  ./include ../common/include ../widgets/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/include 
+  ${CMAKE_CURRENT_SOURCE_DIR}/../common/include 
+  ${CMAKE_CURRENT_SOURCE_DIR}/../widgets/include
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}

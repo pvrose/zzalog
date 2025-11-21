@@ -8,7 +8,7 @@ class filename_input :
 public:
 
     //! Defines browser type to open
-    enum type_t : uchar {
+    enum type_t : uint8_t {
         FILE,            //!< Opens a file browser
         DIRECTORY        //!< Opens a directory browser
     };
