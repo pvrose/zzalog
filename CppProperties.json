@@ -6,6 +6,8 @@
       ],
       "name": "x86-Debug",
       "includePath": [
+        "${workspaceRoot}\\..\\json\\include",
+        "${workspaceRoot}\\..\\fltk",
         "${env.INCLUDE}",
         "${workspaceRoot}\\**"
       ],

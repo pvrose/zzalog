@@ -10,6 +10,8 @@ record.h - Individual record data item: header file
 #include "utils.h"
 
 #include <chrono>
+#include <cstdint>
+#include <ctime>
 #include <map>
 #include <string>
 #include <istream>
@@ -181,7 +183,7 @@ record.h - Individual record data item: header file
 
 	};
 
-#include "nlohmann/json.hpp"
+#include "nlohmann/json_fwd.hpp"
 	using json = nlohmann::json;
 	//! JSON serialization for record class
 	void to_json(json& j, const record& r);

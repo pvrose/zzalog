@@ -19,6 +19,10 @@ record.cpp - Individual record data item: implementation file
 #include <chrono>
 #include <ratio>
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <string>
+#include <exception>
 
 #include <FL/fl_ask.H>
 #include <FL/fl_utf8.h>
@@ -257,6 +261,7 @@ void record::item(std::string field, std::string value, bool formatted/* = false
 				char as_s[12];
 				snprintf(as_s, 12, "%c%03d %2.3f", c, as_i, as_d);
 				formatted_value = as_s;
+				break;
 			default:
 				formatted_value = upper_value;
 				break;
