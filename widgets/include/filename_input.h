@@ -1,5 +1,7 @@
 #include "button_input.h"
 
+#include <cstdint>
+
 //! This class implements a combination of input widget and a button which opens a file browser.
 class filename_input :
     public button_input

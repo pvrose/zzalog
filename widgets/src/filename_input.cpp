@@ -1,6 +1,8 @@
 #include "filename_input.h"
 #include "utils.h"
 
+#include <cstdint>
+
 #include <FL/Fl_Native_File_Chooser.H>
 
 filename_input::filename_input(int X, int Y, int W, int H, const char* L) :

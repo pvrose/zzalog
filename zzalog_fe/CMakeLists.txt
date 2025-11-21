@@ -134,13 +134,14 @@ find_package(CURL REQUIRED)
 # libhamlib
 find_package(Hamlib)
 if (NOT HAMLIB_FOUND AND MSVC)
-  message("Hamlib not found")
+  message("Hamlib not found in ${CMAKE_MODULE_PATH}")
   set(HAMLIB_INCLUDE_DIR "C:\\Program Files\\hamlib-w64-4.6.5\\include")
   set(HAMLIB_LIBRARY "C:\\Program Files\\hamlib-w64-4.6.5\\lib\\msvc\\libhamlib-4.lib")
   add_custom_target(hamlib_dll ALL)
-
-
 endif()  
+if (NOT HAMLIB_FOUND) 
+  message("Hamlib not found in ${CMAKE_MODULE_PATH}")
+endif()
 
 set(CMAKE_BUILD_RPATH ${CMAKE_CURRENT_BINARY_DIR})
 
