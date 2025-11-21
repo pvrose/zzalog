@@ -15,10 +15,6 @@ record.h - Individual record data item: header file
 #include <istream>
 #include <ostream>
 
-#include "nlohmann/json.hpp"
-
-using json = nlohmann::json;
-
 
 
 	//! When updating log - result of comparision between log and update
@@ -185,6 +181,8 @@ using json = nlohmann::json;
 
 	};
 
+#include "nlohmann/json.hpp"
+	using json = nlohmann::json;
 	//! JSON serialization for record class
 	void to_json(json& j, const record& r);
 	void from_json(const json& j, record& r);

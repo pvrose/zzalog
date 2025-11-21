@@ -1205,10 +1205,19 @@ void to_json(json& j, const record& r) {
 		j[it->first] = it->second;
 	}
 }
+
 // JSON deserialization of record
 void from_json(const json& j, record& r) {
 	// For each field in the JSON object
-	for (json::const_iterator it = j.begin(); it != j.end(); ++it) {
-		r.item(it.key(), it.value().get<std::string>());
+	if (j.is_array()) {
+		// Array of objects
+		for (auto& element : j) {
+			for (auto& it : element.items()) {
+				std::string field_name = it.key();
+				std::string field_value = it.value();
+				r.item(field_name, field_value);
+			}
+		}
+		return;
 	}
 }

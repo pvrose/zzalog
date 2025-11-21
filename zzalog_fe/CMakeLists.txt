@@ -126,10 +126,10 @@ set(CPPFILES
 
 # libcurl
 find_package(CURL REQUIRED)
-if (MSVC)
-  set(CURL_INCLUDE_DIR "C:\\Users\\pvros\\source\\repos\\curl\\include")
-  set(CURL_LIBRARIES CURL::libcurl)
-endif()
+#if (MSVC)
+#  set(CURL_INCLUDE_DIR "C:\\Users\\pvros\\source\\repos\\curl\\include")
+#  set(CURL_LIBRARIES CURL::libcurl)
+#endif()
 
 # libhamlib
 find_package(Hamlib)
@@ -165,31 +165,13 @@ if (NOT HAMLIB_FOUND AND MSVC)
      add_dependencies(${TARGET} hamlib_dll)
 endif()
 
-#FLTK - work-round for MSVC 
-if (0)
-  set(FLTK_INCLUDE_DIR "C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\include")
-  set(FLTK_LIBRARIES "C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\lib\\fltk.lib;C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\lib\\fltk_images.lib;C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\lib\\fltk_jpeg.lib;C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\lib\\fltk_png.lib;C:\\Users\\pvros\\source\\repos\\fltk\\out\\install\\x64-Release\\lib\\fltk_z.lib;gdiplus.lib;Ws2_32.lib;User32.lib;gdi32.lib;comctl32.lib")
-else()
- set(FLTK_DIR "C:\\Users\\pvros\\source\\repos\\fltk\\build")
-   set(CMAKE_MODULE_PATH ../ ./)
-    find_package(FLTK CONFIG REQUIRED)
-    if (FLTK_FOUND)
-      message(STATUS "FLTK found: ${FLTK_VERSION}")
-      message(STATUS "FLTK include dir: ${FLTK_INCLUDE_DIR}")
-#      set(FLTK_LIBRARIES fltk::fltk fltk::fltk_images)
-    else()
-      message(FATAL_ERROR "FLTK not found")
-    endif()
-endif()
-
-
 target_include_directories(${TARGET} PRIVATE 
   ${CMAKE_CURRENT_SOURCE_DIR}/include 
-  ${CMAKE_CURRENT_SOURCE_DIR}/../common/include 
-  ${CMAKE_CURRENT_SOURCE_DIR}/../widgets/include
+  ${CMAKE_SOURCE_DIR}/common/include 
+  ${CMAKE_SOURCE_DIR}/widgets/include
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
-  ${CURL_INCLUDE_DIR}
+#  ${CURL_INCLUDE_DIR}
 )
 # pthread
 if (MSVC)
@@ -213,7 +195,7 @@ target_link_libraries(${TARGET} PRIVATE
   zzalog_widgets
   pugixml
   ${FLTK_LIBRARIES}
-  ${CURL_LIBRARIES}
+  CURL::libcurl
   ${HAMLIB_LIBRARY}
   
 )
