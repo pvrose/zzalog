@@ -1,12 +1,12 @@
 #include "zl_server.h"
 
-#include "settings.h"
 #include "zlip.h"
 
+#include <chrono>
+#include <cstdint>
 #include <fstream>
-#include <istream>
-#include <ostream>
 #include <string>
+#include <thread>
 
 //! Constructor
 zl_server::zl_server(std::string filename) {
@@ -243,8 +243,8 @@ void zl_server::send_delete_ack(zlip& packet) {
 void zl_server::process_attach(zlip& packet) {
 	// Add client to attached clients list
 	for (uint8_t id = 0; id < 255 ; id++) {
-		if (std::find(attached_clients_.begin(), attached_clients_.end(), id) == attached_clients_.end()) {
-			attached_clients_.push_back(id);
+		if (attached_clients_.find(id) == attached_clients_.end()) {
+			attached_clients_.insert(id);
 			packet.client_id = id;
 			// Send attach accept response
 			packet.command = ZLIP_ATTACH_ACCEPT;
@@ -258,7 +258,7 @@ void zl_server::process_attach(zlip& packet) {
 void zl_server::process_detach(zlip& packet) {
 	// Remove client from attached clients list
 	uint8_t client_id = packet.client_id;
-	attached_clients_.remove(client_id);
+	attached_clients_.erase(client_id);
 }
 
 //! Send heartbeat packet

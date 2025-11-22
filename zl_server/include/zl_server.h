@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <list>
+#include <set>
 #include <string>
 #include <thread>
 #include <vector>
@@ -123,9 +124,9 @@ protected:
 	//! The list of callbacks
 	struct callback_entry {
 		//! The callback function
-		void (*callback_)(void*, zlip&);
+		void (*callback_)(void*, zlip&) = nullptr;
 		//! The callback object
-		void* callback_object_;
+		void* callback_object_ = nullptr;
 	};
 	std::list<callback_entry> responses_;
 
@@ -136,7 +137,7 @@ protected:
 	std::string filename_;
 
 	//! Attached clients
-	std::list<uint8_t> attached_clients_;
+	std::set<uint8_t> attached_clients_;
 
 	
 };
