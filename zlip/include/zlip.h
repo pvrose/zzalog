@@ -238,6 +238,7 @@ enum zlip_command : uint8_t {
 	
 	//! Sent by server on startup to indicate it has started.
 	//! 
+	//! /TODO: Confirm behaviour - is heartbeat sufficient?
 	//! All clients must re-attach to the server after receiving
 	//! the wakeup notification. All clients must discard any
 	//! local log data as it is now invalid.
