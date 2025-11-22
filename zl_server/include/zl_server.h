@@ -42,7 +42,7 @@ public:
 	//! Request the packet.
 	
 	//! \param packet The packet to request.
-	void request(zlip& packet);
+	static void request(zl_server* that, zlip& packet);
 
 	//! Set callback to responsd to incoming packets
 	void set_callback(void (*response)(void*, zlip&));

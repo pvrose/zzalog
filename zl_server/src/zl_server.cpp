@@ -33,31 +33,31 @@ void zl_server::start_server() {
 //! Request the packet.
 
 //! \param packet The packet being requested.
-void zl_server::request(zlip& packet) {
+void zl_server::request(zl_server* that, zlip& packet) {
 	switch (packet.command) {
 	case ZLIP_FETCH:
-		process_fetch(packet);
+		that->process_fetch(packet);
 		break;
 	case ZLIP_FETCH_MATCH:
-		process_fetch_match(packet);
+		that->process_fetch_match(packet);
 		break;
 	case ZLIP_FETCH_NEXT:
-		process_fetch_next(packet);
+		that->process_fetch_next(packet);
 		break;
 	case ZLIP_UPDATE:
-		process_update(packet);
+		that->process_update(packet);
 		break;
 	case ZLIP_CREATE:
-		process_create(packet);
+		that->process_create(packet);
 		break;
 	case ZLIP_DELETE:
-		process_delete(packet);
+		that->process_delete(packet);
 		break;
 	case ZLIP_ATTACH:
-		process_attach(packet);
+		that->process_attach(packet);
 		break;
 	case ZLIP_DETACH:
-		process_detach(packet);
+		that->process_detach(packet);
 		break;
 	default:
 		// Unknown command - ignore
@@ -73,7 +73,7 @@ void zl_server::set_callback(void (*response)(void*, zlip&)) {
 	responses_.push_back(entry);
 }
 
-//! Load log-book data from file
+//! Load log-book data from file - ignore null records.
 bool zl_server::load_logbook_data(std::string filename) {
 	std::ifstream in(filename.c_str());
 	if (!in.is_open()) {
@@ -84,7 +84,9 @@ bool zl_server::load_logbook_data(std::string filename) {
 	in >> j;
 	for (const auto& item : j) {
 		// /todo: validate and process each item
-		logbook_data_.push_back(item);
+		if (!item.is_null()) {
+			logbook_data_.push_back(item);
+		}
 	}
 	return true;
 }
@@ -97,7 +99,9 @@ bool zl_server::save_logbook_data(std::string filename) {
 	}
 	json j = json::array();
 	for (const auto& item : logbook_data_) {
-		j.push_back(item);
+		if (!item.is_null()) {
+			j.push_back(item);
+		}
 	}
 	out << j.dump(4);
 	return true;
