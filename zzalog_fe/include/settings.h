@@ -35,12 +35,35 @@ protected:
 public:
 
 	//! Get object
+	
+	//! /param name Name of setting
+	//! /param value Reference to value to set
+	//! /param def Default value if not present
 	template <class T>
-	bool get(std::string name, T& value, const T def);
+	bool get(std::string name, T& value, const T def) {
+		bool exists = true;
+		if (data_->find(name.c_str()) == data_->end()) {
+			(*data_)[name.c_str()] = def;
+			exists = false;
+		}
+		try {
+			value = data_->at(name.c_str()).get<T>();
+		}
+		catch (const json::exception& e) {
+			(*data_)[name.c_str()] = def;
+			exists = false;
+		}
+		return exists;
+	}
 
 	//! Set object
+	
+	//! /param name Name of setting
+	//! /param value Value to set
 	template <class T>
-	void set(std::string name, const T value);
+	void set(std::string name, const T value) {
+		(*data_)[name.c_str()] = value;
+	}
 
 
 };

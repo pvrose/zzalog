@@ -22,6 +22,8 @@
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Output.H>
 
+#include <string>
+
 void open_html(const char* filename);
 
 contest_scorer::contest_scorer(int X, int Y, int W, int H, const char* L) :
