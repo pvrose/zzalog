@@ -227,6 +227,10 @@ enum zlip_command : uint8_t {
 	//! Server heartbeat
 	
 	//! Sent by server periodically to indicate it is alive.
+	//! - client_id = 0 - ignored
+	//! - request_id = 0 - ignored
+	//! - record_id = N: number of records in the log-book. 
+	//! - payload = NULL - ignored
 	//! 
 	//! All clients must monitor heartbeats to ensure server is alive. 
 	//! If the heartbeat is not seen for a configured period the client
@@ -252,7 +256,8 @@ enum zlip_command : uint8_t {
 	//!	receiving the shutdown notification. All clients must
 	//! report the server as offline and report any local log data
 	//! as not having been saved.
-	ZLIP_SHUTDOWN = 0x0E
+	ZLIP_SHUTDOWN = 0x0E,
+
 };
 
 //! ZLIP (ZZALOG Interface Protocol) packet structure.

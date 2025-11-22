@@ -83,6 +83,7 @@ bool zl_server::load_logbook_data(std::string filename) {
 	json j;
 	in >> j;
 	for (const auto& item : j) {
+		// /todo: validate and process each item
 		logbook_data_.push_back(item);
 	}
 	return true;
@@ -267,7 +268,7 @@ void zl_server::send_heartbeat() {
 	packet.client_id = 0;
 	packet.request_id = 0;
 	packet.command = ZLIP_HEARTBEAT;
-	packet.record_id = 0;
+	packet.record_id = logbook_data_.size();
 	packet.payload = json();
 	invoke_callbacks(packet);
 }
@@ -308,8 +309,8 @@ void zl_server::invoke_callbacks(zlip& packet) {
 //! \note Runs in its own std::thread.
 void zl_server::run_heartbeat(zl_server* that) {
 	while (true) {
-		std::this_thread::sleep_for(std::chrono::seconds(that->HEARTBEAT_INTERVAL));
 		that->send_heartbeat();
+		std::this_thread::sleep_for(std::chrono::seconds(that->HEARTBEAT_INTERVAL));
 	}
 }
 
