@@ -1,8 +1,6 @@
 #include "banner.h"
 
 #include "status.h"
-#include "ticker.h"
-
 #include "drawing.h"
 #include "utils.h"
 

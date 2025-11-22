@@ -199,6 +199,11 @@ bool keep_banner_ = false;
 //! This run is a new installation
 bool new_installation_ = false;
 
+//! Close down
+void close_down() {
+	main_window_->do_callback();
+}
+
 // Get the backup filename
 std::string backup_filename(std::string source) {
 	settings top_settings;

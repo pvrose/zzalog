@@ -11,12 +11,20 @@ set(VENDOR "GM3ZZA")
 set(PROGRAMID "ZZALOG")
 
 set(CPPFILES 
+  src/banner.cpp
+  src/file_holder.cpp
+  src/settings.cpp
+  src/status.cpp
   src/utils.cpp
 )
 
 set(HPPFILES
+  include/banner.h
   include/callback.h
   include/drawing.h
+  include/file_holder.h
+  include/settings.h
+  include/status.h
   include/utils.h
 )
 
@@ -35,6 +43,13 @@ target_include_directories(${TARGET} PRIVATE
   ./include
   ${FLTK_INCLUDE_DIR}
 )
+# External includes for MSVC
+if (MSVC)
+  target_include_directories(${TARGET} PRIVATE 
+    "C:\\Users\\pvros\\source\\repos\\json\\include"
+  )
+endif()
+
 # Add QBS_logo.h to ensure it gets generated
 target_sources(${TARGET} 
   PRIVATE 

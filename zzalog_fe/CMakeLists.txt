@@ -17,7 +17,6 @@ set(CPPFILES
   src/band_editor.cpp
   src/band_widget.cpp
   src/band_window.cpp
-  src/banner.cpp
   src/book.cpp
   src/calendar.cpp
   src/calendar_input.cpp
@@ -44,7 +43,6 @@ set(CPPFILES
   src/field_choice.cpp
   src/fields.cpp
   src/fields_dialog.cpp
-  src/file_holder.cpp
   src/file_viewer.cpp
   src/fllog_emul.cpp
   src/font_dialog.cpp
@@ -98,11 +96,9 @@ set(CPPFILES
   src/rpc_handler.cpp
   src/search_dialog.cpp
   src/serial.cpp
-  src/settings.cpp
   src/socket_server.cpp
   src/spec_data.cpp
   src/spec_tree.cpp
-  src/status.cpp
   src/stn_call_dlg.cpp
   src/stn_data.cpp
   src/stn_dialog.cpp
@@ -174,7 +170,7 @@ target_include_directories(${TARGET} PRIVATE
   ${HAMLIB_INCLUDE_DIR}
 #  ${CURL_INCLUDE_DIR}
 )
-# pthread
+# External includes for MSVC
 if (MSVC)
   target_include_directories(${TARGET} PRIVATE 
     "C:\\Users\\pvros\\source\\repos\\pthread-win32"
