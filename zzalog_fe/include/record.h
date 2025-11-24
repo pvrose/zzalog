@@ -20,7 +20,7 @@ record.h - Individual record data item: header file
 
 
 	//! When updating log - result of comparision between log and update
-	enum match_result_t : char {
+	enum match_result_t : uint8_t {
 		MT_NOMATCH = 0,      //!< No matching record found in log
 		MT_EXACT,            //!< An exact match found in log
 		MT_PROBABLE,         //!< A close match - same band/date/call but time out by upto 30 minutes

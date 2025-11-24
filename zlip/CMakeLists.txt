@@ -12,10 +12,12 @@ set(PROGRAMID "ZZALOG")
 
 set(CPPFILES 
   src/zlip.cpp
+  src/zl_record.cpp
 )
 
 set(HPPFILES
   include/zlip.h
+  include/zl_record.h
 )
 
 

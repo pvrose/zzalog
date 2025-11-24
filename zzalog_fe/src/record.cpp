@@ -1217,10 +1217,8 @@ void from_json(const json& j, record& r) {
 	if (j.is_array()) {
 		// Array of objects
 		for (auto& element : j) {
-			for (auto& it : element.items()) {
-				std::string field_name = it.key();
-				std::string field_value = it.value();
-				r.item(field_name, field_value);
+			for (auto& [key, value] : element.items()) {
+				r.item(key, value.get<std::string>());
 			}
 		}
 		return;
