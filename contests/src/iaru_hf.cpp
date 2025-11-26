@@ -1,7 +1,5 @@
-#include "contests/iaru_hf.h"
+#include "iaru_hf.h"
 
-#include "contest_scorer.h"
-#include "qso_manager.h"
 #include "record.h"
 #include "stn_data.h"
 

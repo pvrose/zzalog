@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(zzalog_fe)
+project(zzalog)
 
-set(TARGET zzalog_fe)
+set(TARGET zzalog)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -119,8 +119,6 @@ set(CPPFILES
   src/win_dialog.cpp
   src/wsjtx_handler.cpp
   src/wx_handler.cpp
-  src/contests/basic.cpp
-  src/contests/iaru_hf.cpp
 
 )
 
@@ -167,7 +165,10 @@ endif()
 
 
 target_include_directories(${TARGET} PRIVATE 
-  ./include ../common/include ../widgets/include
+  ./include 
+  ../common/include 
+  ../contests/include
+  ../widgets/include
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}
@@ -191,6 +192,7 @@ endif()
 
 target_link_libraries(${TARGET} PRIVATE 
   zzalog_common
+  zzalog_contests
   zzalog_widgets
   pugixml
   ${FLTK_LIBRARIES}

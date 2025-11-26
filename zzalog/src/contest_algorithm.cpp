@@ -7,11 +7,6 @@
 #include "spec_data.h"
 #include "stn_data.h"
 
-#include "contests/basic.h"
-#include "contests/iaru_hf.h"
-
-#include <FL/Fl_Output.H>
-
 typedef std::vector<std::string> field_list;
 
 std::map< std::string, contest_algorithm* >* algorithms_ = nullptr;

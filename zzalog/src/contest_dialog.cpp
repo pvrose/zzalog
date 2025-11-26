@@ -179,7 +179,7 @@ void contest_dialog::update_algorithm() {
 	if (contest_) {
 		w_algorithm_->value(contest_->algorithm.c_str());
 	}
-	else {
+	else if (algorithms_) {
 		w_algorithm_->value(0);
 	}
 }

@@ -5,7 +5,7 @@ project(zzalog)
 set(VENDOR "GM3ZZA")
 set(PROGRAMID "ZZALOG")
 
-set(TARGET zzalog)
+set(TARGET zzalog_all)
 
 # set document directory
 if(MSVC)
@@ -39,9 +39,10 @@ else()
 endif()
 
 add_subdirectory(common)
+add_subdirectory(contests)
 add_subdirectory(pugixml)
 add_subdirectory(widgets)
-add_subdirectory(zzalog_fe)
+add_subdirectory(zzalog)
 
 set(DATAFILES
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/all.json
@@ -58,7 +59,7 @@ set(DATAFILES
 
 # Add dummy target
 add_custom_target(${TARGET})
-add_dependencies(${TARGET} zzalog_fe)
+add_dependencies(${TARGET} zzalog)
 
 # copy reference data
 file(COPY ${DATAFILES}
@@ -87,7 +88,7 @@ endif()
 if (MSVC)
 else()
     # install zzalog_fe
-    install(TARGETS zzalog_fe)
+    install(TARGETS zzalog)
     # install reference data
     install(FILES ${DATAFILES}
         DESTINATION ${CMAKE_INSTALL_RPATH})
