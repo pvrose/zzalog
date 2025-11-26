@@ -1,7 +1,6 @@
-#include "contests/basic.h"
+#include "basic.h"
 
 #include "contest_algorithm.h"
-#include "contest_scorer.h"
 #include "record.h"
 #include "stn_data.h"
 
