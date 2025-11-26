@@ -7,7 +7,6 @@
 
 extern stn_data* stn_data_;
 
-contest_algorithm* iaru_hf_ = new contests::iaru_hf;
 
 // Constructor - add algorithmic specific data here
 contests::iaru_hf::iaru_hf() : contest_algorithm() {
@@ -15,9 +14,6 @@ contests::iaru_hf::iaru_hf() : contest_algorithm() {
 	rx_items_ = { "RST_RCVD", "ITUZ", "CONT"};
 	// Add the QSO fields used in scoring and exchanges (TX)
 	tx_items_ = { "RST_SENT", "MY_ITU_ZONE", "APP_ZZA_MY_CONT" };
-	// Add this algorithm to the std::list of algorithms
-	if (algorithms_ == nullptr) algorithms_ = new std::map<std::string, contest_algorithm*>;
-	(*algorithms_)["IARU-HF"] = this;
 }
 
 // Algorithm specific method to split text into a number of fields

@@ -7,6 +7,9 @@ set(PROGRAMID "ZZALOG")
 
 set(TARGET zzalog_all)
 
+string(TIMESTAMP BUILD_TIMESTAMP UTC)
+set(VERSION_STRING "3.6.11+")
+
 # set document directory
 if(MSVC)
   set(CMAKE_INSTALL_RPATH C:/ProgramData/${VENDOR}/${PROGRAMID})

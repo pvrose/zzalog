@@ -413,7 +413,7 @@ void contest_scorer::change_contest() {
 
 // Use the appropriate algorithm and attach it to this.
 void contest_scorer::create_algo() {
-	algorithm_ = algorithms_->at(contest_id_);
+	algorithm_ = algorithms_.at(contest_id_);
 	algorithm_->attach(this);
 }
 

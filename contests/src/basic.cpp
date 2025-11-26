@@ -6,18 +6,12 @@
 
 #include "utils.h"
 
-contest_algorithm* basic_ = new contests::basic;
-
 // Constructor - add algorithmic specific data here
 contests::basic::basic() : contest_algorithm() {
 	// Add the QSO fields used in scoring and exchanges (RX)
 	rx_items_ = { "RST_RCVD", "SRX" };
 	// Add the QSO fields used in scoring and exchanges (TX)
 	tx_items_ = { "RST_SENT", "STX" };
-	// Add this algorithm to the std::list of algorithms - 
-	if (algorithms_ == nullptr) algorithms_ = new std::map<std::string, contest_algorithm*>;
-	(*algorithms_)["Basic"] = this;
-
 }
 
 // Algorithm specific method to split text into a number of fields

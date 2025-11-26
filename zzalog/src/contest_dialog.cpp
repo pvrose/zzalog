@@ -179,7 +179,7 @@ void contest_dialog::update_algorithm() {
 	if (contest_) {
 		w_algorithm_->value(contest_->algorithm.c_str());
 	}
-	else if (algorithms_) {
+	else if (algorithms_.size()) {
 		w_algorithm_->value(0);
 	}
 }
@@ -247,8 +247,8 @@ void contest_dialog::populate_ct_index() {
 // Populate logged fields choice
 void contest_dialog::populate_algorithm() {
 	w_algorithm_->clear();
-	if (algorithms_) {
-		for (auto it : *algorithms_) {
+	if (algorithms_.size()) {
+		for (auto it : algorithms_) {
 			w_algorithm_->add(it.first.c_str());
 		}
 	}

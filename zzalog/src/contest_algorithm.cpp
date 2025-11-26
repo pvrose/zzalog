@@ -9,7 +9,15 @@
 
 typedef std::vector<std::string> field_list;
 
-std::map< std::string, contest_algorithm* >* algorithms_ = nullptr;
+//! Map of available algorithms
+#include "basic.h"
+#include "iaru_hf.h"
+class contests::basic;
+class contests::iaru_hf;
+std::map< std::string, contest_algorithm* > algorithms_ = {
+	{ "Basic", new contests::basic },
+	{ "IARU-HF", new contests::iaru_hf }
+};
 
 // Constructor - should be overriden by the algoritmic specific
 contest_algorithm::contest_algorithm() {
