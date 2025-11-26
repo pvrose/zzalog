@@ -51,7 +51,21 @@ if (NOT HAMLIB_FOUND AND MSVC)
   message("Hamlib not found")
   set(HAMLIB_INCLUDE_DIR "C:\\Program Files\\hamlib-w64-4.6.5\\include")
   set(HAMLIB_LIBRARY "C:\\Program Files\\hamlib-w64-4.6.5\\lib\\msvc\\libhamlib-4.lib")
+# Work-round for adding hamlib DLLs
   add_custom_target(hamlib_dll ALL)
+  message("Using custom Hamlib settings")
+  add_custom_command(TARGET hamlib_dll POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libhamlib-4.dll" ${CMAKE_CURRENT_BINARY_DIR}/zzalog/.
+  )
+  add_custom_command(TARGET hamlib_dll POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libusb-1.0.dll" ${CMAKE_CURRENT_BINARY_DIR}/zzalog/.
+  )
+  add_custom_command(TARGET hamlib_dll POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libwinpthread-1.dll" ${CMAKE_CURRENT_BINARY_DIR}/zzalog/.
+  )
+  add_custom_command(TARGET hamlib_dll POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libgcc_s_seh-1.dll" ${CMAKE_CURRENT_BINARY_DIR}/zzalog/.
+  )
 
 
 endif()  

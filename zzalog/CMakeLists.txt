@@ -128,25 +128,6 @@ set(CMAKE_BUILD_RPATH ${CMAKE_CURRENT_BINARY_DIR})
 # Define the zzalog_fe executable
 add_executable(${TARGET} WIN32 MACOSX_BUNDLE)
 
-# Work-round for adding hamlib DLLs
-if (NOT HAMLIB_FOUND AND MSVC) 
-     message("Using custom Hamlib settings")
-     add_custom_command(TARGET hamlib_dll POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libhamlib-4.dll" ${CMAKE_CURRENT_BINARY_DIR}/.
-     )
-     add_custom_command(TARGET hamlib_dll POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libusb-1.0.dll" ${CMAKE_CURRENT_BINARY_DIR}/.
-     )
-     add_custom_command(TARGET hamlib_dll POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libwinpthread-1.dll" ${CMAKE_CURRENT_BINARY_DIR}/.
-     )
-     add_custom_command(TARGET hamlib_dll POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libgcc_s_seh-1.dll" ${CMAKE_CURRENT_BINARY_DIR}/.
-     )
-     add_dependencies(${TARGET} hamlib_dll)
-endif()
-
-
 target_include_directories(${TARGET} PRIVATE 
   ./include 
   ../common/include 
