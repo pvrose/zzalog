@@ -53,11 +53,11 @@ cd [zzalog]\n
 cmake -B build\n
 cmake --build build\n
 
-This creates the executable <i>build/zzalog_fe/zzalog_fe</i>.
+This creates the executable <i>build/zzalog/zzalog</i>.
 
 To install ZZALOG:
 
 cd [zzalog]\n
 cmake --install build
 
-This copies the executable <i>zzalog_fe</i> to /usr/local/bin and the reference data to /etc/GM3ZZA/ZZALOG.
+This copies the executable <i>zzalog</i> to /usr/local/bin and the reference data to /etc/GM3ZZA/ZZALOG.

@@ -122,10 +122,9 @@ set(CPPFILES
 
 )
 
-
 set(CMAKE_BUILD_RPATH ${CMAKE_CURRENT_BINARY_DIR})
 
-# Define the zzalog_fe executable
+# Define the zzalog executable
 add_executable(${TARGET} WIN32 MACOSX_BUNDLE)
 
 target_include_directories(${TARGET} PRIVATE 
