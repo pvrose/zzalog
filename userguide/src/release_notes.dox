@@ -1,5 +1,11 @@
 /** \page release_notes Revision History
 
+\section rev_3-6-11 Revision 3.6.11
+
+- Revision 3.6.10 unnecessarily renamed executable:
+reverting to zzalog.
+- Move contest specific sources to separate library.
+
 \section rev_3-6-10 Revision 3.6.10
 
 - Added multicast support for UDP in Windows. (Already present for Linux).
