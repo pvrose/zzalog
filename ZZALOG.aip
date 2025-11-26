@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <DOCUMENT Type="Advanced Installer" CreateVersion="22.8" version="23.2" Modules="simple" RootPath="." Language="en_GB" Id="{023CFA17-61FC-4142-B8CC-CD8CA63951A9}">
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
-    <ROW Property="AI_APP_FILE" Value="[#zzalog_fe.exe]"/>
+    <ROW Property="AI_APP_FILE" Value="[#zzalog.exe]"/>
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
     <ROW Property="AI_PATH_VALIDATION_OPT" Value="2"/>
+    <ROW Property="AI_RUN_AS_ADMIN" Value="1"/>
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
     <ROW Property="ARPCONTACT" Value="gm3zza@btinternet.com"/>
@@ -1955,7 +1956,7 @@
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
     <ROW Action="AI_ValidateInstallPath" Type="1" Source="aicustact.dll" Target="ValidateInstallFolder" WithoutSeq="true"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="x64_Release:[ProgramFiles64Folder][Manufacturer]\[ProductName]"/>
-    <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
+    <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]" MultiBuildTarget="x64_Release:[DesktopFolder]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatCompsComponent">
@@ -2006,7 +2007,8 @@
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
-    <ROW Shortcut="zzalog" Directory_="SHORTCUTDIR" Name="zzalog" Component_="zzalog.exe" Target="[#zzalog.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="ZZALOG.pdf" Directory_="SHORTCUTDIR" Name="ZZALOG.pdf" Component_="cmake_install.cmake" Target="[#ZZALOG.pdf]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="userguide_Dir"/>
+    <ROW Shortcut="zzalog" Directory_="SHORTCUTDIR" Name="zzalog.exe" Component_="zzalog.exe" Target="[#zzalog.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
