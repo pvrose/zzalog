@@ -6,7 +6,7 @@
 reverting to zzalog.
 - Move contest specific sources to separate library.
 
-\section rev_3-6-10 Revision 3.6.10
+\section rev_3-6-10 Revision 3.6.10 [Deprecated]
 
 - Added multicast support for UDP in Windows. (Already present for Linux).
 - Changed build system to CMake on Windows and Linux.

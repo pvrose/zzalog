@@ -1,5 +1,5 @@
 #pragma once
-//! \mainpage ZZALOG Code Documentation
+//! \mainpage ZZALOG API Documentation
 //! 
 //! This document describes the code interfaces between the constituent parts
 //! of ZZALOG. For the user interface see <A class="el" HREF=file:../../userguide/html/index.html>Userguide.</A>
