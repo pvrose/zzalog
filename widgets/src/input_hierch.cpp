@@ -1,7 +1,5 @@
 #include "input_hierch.h"
 
-#include <climits>
-
 input_hierch::input_hierch(int X, int Y, int W, int H, const char* L) :
 	Fl_Input_Choice(X, Y, W, H, L)
 	, start_(1)
