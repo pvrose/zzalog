@@ -1,7 +1,13 @@
 #include "filename_input.h"
+#include "button_input.h"
+
 #include "utils.h"
 
+#include <cstdio>
+#include <string>
+
 #include <FL/Fl_Native_File_Chooser.H>
+#include <FL/Fl_Widget.H>
 
 filename_input::filename_input(int X, int Y, int W, int H, const char* L) :
     button_input(X, Y, W, H, L) ,

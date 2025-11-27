@@ -36,11 +36,11 @@ public:
 	//! Get the hierarchy description
 	
 	//! \see hierarchy
-	void hierarchy(int* start, int* end);
+	void hierarchy(int* start, int* end) const;
 
 protected:
 	//! Returns the \p val prefixed with its hierarchic path
-	const char* hierise(const char* val);
+	const char* hierise(const char* val) const;
 
 	//! Position in value string to start adding hierarchy.
 	int start_;

@@ -1,5 +1,10 @@
 #include "button_input.h"
 
+#include <cstdint>
+
+#include <FL/Fl_Widget.H>
+
+
 //! This class implements a combination of input widget and a button which opens a file browser.
 class filename_input :
     public button_input
@@ -8,7 +13,7 @@ class filename_input :
 public:
 
     //! Defines browser type to open
-    enum type_t : uchar {
+    enum type_t : uint8_t {
         FILE,            //!< Opens a file browser
         DIRECTORY        //!< Opens a directory browser
     };

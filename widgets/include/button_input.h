@@ -1,8 +1,11 @@
 #pragma once
 
+#include <FL/Enumerations.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Button.H>
+#include <FL/fl_types.h>
+#include <FL/Fl_Widget.H>
 
 class Fl_Button;
 

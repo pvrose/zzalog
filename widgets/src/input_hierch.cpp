@@ -1,5 +1,9 @@
 #include "input_hierch.h"
 
+#include <cstring>
+
+#include <FL/Fl_Input_Choice.H>
+
 input_hierch::input_hierch(int X, int Y, int W, int H, const char* L) :
 	Fl_Input_Choice(X, Y, W, H, L)
 	, start_(1)
@@ -56,12 +60,12 @@ void input_hierch::hierarchy(int start, int end) {
 }
 
 // Get the hierarchy description
-void input_hierch::hierarchy(int* start, int* end) {
+void input_hierch::hierarchy(int* start, int* end) const {
 	*end = end_;
 	*start = start_;
 }
 
-const char* input_hierch::hierise(const char* val) {
+const char* input_hierch::hierise(const char* val) const {
 	int len = end_ * end_;
 	char* s = new char[len];
 	memset(s, 0, len);
