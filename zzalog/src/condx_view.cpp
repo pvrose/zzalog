@@ -14,7 +14,9 @@
 #include "utils.h"
 
 #include <algorithm>
+#ifdef _WIN32
 #include <corecrt.h>
+#endif
 #include <cstdio>
 #include <ctime>
 #include <sstream>

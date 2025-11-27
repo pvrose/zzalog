@@ -22,8 +22,6 @@
 #include <string>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <corecrt.h>
-#include <share.h>
 #include <cmath>
 #include <cstdio>
 #include <ctime>
@@ -33,7 +31,9 @@
 #include <vector>
 
 #ifdef _WIN32
+#include <corecrt.h>
 #include <io.h>
+#include <share.h>
 #else
 #include <unistd.h>
 #endif

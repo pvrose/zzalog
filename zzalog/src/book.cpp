@@ -25,7 +25,9 @@
 #include "utils.h"
 
 // C/C++ header files
+#ifdef _WIN32
 #include <corecrt.h>
+#endif
 #include <cstdint>
 #include <cstdio>
 #include <ctime>
