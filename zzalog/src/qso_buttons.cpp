@@ -9,6 +9,8 @@
 #include "callback.h"
 #include "drawing.h"
 
+#include <FL/Fl_Button.H>
+
 // Map showing the buttons available in each qso_data logging_state
 std::map<qso_data::logging_state_t, std::list<qso_buttons::button_type> > button_map_ =
 {

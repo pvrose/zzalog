@@ -8,6 +8,7 @@
 #include <set>
 #include <string>
 
+#include <FL/fl_draw.H>
 #include <FL/Fl_JPEG_Image.H>
 #include <FL/Fl_BMP_Image.H>
 #include <FL/Fl_PNG_Image.H>

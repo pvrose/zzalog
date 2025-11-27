@@ -13,6 +13,7 @@
 #include "drawing.h"
 #include "utils.h"
 
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Tabs.H>

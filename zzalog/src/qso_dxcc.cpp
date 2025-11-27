@@ -15,6 +15,7 @@
 #include <cmath>
 #include <map>
 
+#include <FL/Fl_Button.H>
 #include <FL/Fl_Output.H>
 
 std::map <std::string, std::string> CONTINENTS = {

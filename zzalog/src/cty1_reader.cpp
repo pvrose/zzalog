@@ -6,6 +6,8 @@
 
 #include "pugixml.hpp"
 
+#include <FL/fl_draw.H>
+
 // Constructor
 cty1_reader::cty1_reader() {
 	//ignore_processing_ = false;

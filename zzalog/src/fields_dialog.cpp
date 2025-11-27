@@ -10,10 +10,11 @@
 #include "drawing.h"
 #include "utils.h"
 
-#include <FL/Fl_Int_Input.H>
-#include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Choice.H>
+#include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Int_Input.H>
+#include <FL/Fl_Light_Button.H>
 
 // Constructor
 fields_table::fields_table(int X, int Y, int W, int H, const char* L) :

@@ -456,7 +456,7 @@ void app_grp::cb_ip_nwport(Fl_Widget* w, void* v) {
 // Call back for needing admin
 void app_grp::cb_bn_admin(Fl_Widget* w, void* v) {
     app_grp* that = ancestor_view<app_grp>(w);
-    cb_value<Fl_Check_Button, bool>(w, &that->app_data_->admin);
+    cb_value<Fl_Light_Button, bool>(w, &that->app_data_->admin);
     that->enable_widgets();
 }
 
@@ -470,7 +470,7 @@ void app_grp::cb_bn_delete(Fl_Widget* w, void* v) {
 // Callback to std::set can_disable
 void app_grp::cb_bn_disable(Fl_Widget* w, void* v) {
     app_grp* that = ancestor_view<app_grp>(w);
-    cb_value<Fl_Check_Button, bool>(w, &that->app_data_->can_disable);
+    cb_value<Fl_Light_Button, bool>(w, &that->app_data_->can_disable);
     that->enable_widgets();
 }
 

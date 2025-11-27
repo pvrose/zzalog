@@ -20,6 +20,7 @@
 #include "callback.h"
 
 #include <FL/fl_ask.H>
+#include <FL/Fl_Box.H>
 
 // The main dialog constructor
 qso_manager::qso_manager(int W, int H, const char* label) :

@@ -3,6 +3,8 @@
 #include "file_holder.h"
 #include "main.h"
 #include "spec_data.h"
+#include "win_dialog.h"
+
 #include "utils.h"
 
 #include "hamlib/rig.h"

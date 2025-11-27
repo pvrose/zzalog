@@ -1,6 +1,9 @@
 #include "qsl_widget.h"
 #include "qsl_display.h"
 
+#include <FL/fl_draw.H>
+
+
 qsl_widget::qsl_widget(int X, int Y, int W, int H, const char* L) :
 	Fl_Widget(X, Y, W, H, L)
 {

@@ -16,6 +16,7 @@
 #include <set>
 #include <string>
 
+#include <FL/fl_ask.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Button.H>

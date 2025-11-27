@@ -27,6 +27,9 @@
 
 #include "utils.h"
 
+#include <FL/Fl.H>
+#include <FL/fl_ask.H>
+
 // qso_group_
 qso_data::qso_data(int X, int Y, int W, int H, const char* l) :
 	Fl_Group(X, Y, W, H, l)

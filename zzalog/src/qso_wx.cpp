@@ -11,6 +11,7 @@
 
 #include <ctime>
 
+#include <FL/fl_draw.H>
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Image_Surface.H>
 #include <FL/Fl_Button.H>
