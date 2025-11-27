@@ -126,8 +126,6 @@ public:
 	static void cb_bn_dupe(Fl_Widget* w, void* v);
 	//! Callback to save or reject merge.
 	static void cb_bn_save_merge(Fl_Widget* w, void* v);
-	//! Callback to fetch data from QRZ.com
-	static void cb_bn_fetch_qrz(Fl_Widget* w, void* v);
 	//! Callback to search WSJT-X ALL.TXT for QSO.
 	static void cb_bn_all_txt(Fl_Widget* w, void* v);
 	//! Callback to save all qsos

@@ -16,7 +16,7 @@
 
 template <class T> class band_map;
 
-
+typedef size_t item_num_t;
 
 	//! Report view filter
 	enum report_filter_t {
@@ -110,7 +110,7 @@ template <class T> class band_map;
 		
 		//! \param iRecord index of QSO record.
 		//! \param entry Entry to add record to.
-		void add_record(qso_num_t iRecord, report_map_entry_t* entry);
+		void add_record(item_num_t iRecord, report_map_entry_t* entry);
 		//! Copy the std::map to the tree control: \p type indicates level, \p item indicates item to hang, remainder of parameters receive record counts.
 		void copy_map_to_tree(int type, void* pMap, Fl_Tree_Item* item, int& num_records, int& num_eqsl, int& num_lotw, int& num_card, int& num_qrz, int& num_dxcc, int &num_any);
 		//! Copy the std::list of records at a std::map entry to the tree control

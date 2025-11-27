@@ -2,6 +2,7 @@
 
 #include "qsl_data.h"
 
+#include <cstdint>
 #include <map>
 #include <set>
 #include <string>
@@ -9,7 +10,7 @@
 
 #include <FL/Fl.H>
 
-enum extract_mode_t : uchar;
+enum extract_mode_t : uint8_t;
 
 // Class to manage QSL designs
 
@@ -60,8 +61,6 @@ public:
 	//! Returns set of callsign not wanting electronic QSLs
 	std::set<std::string>* get_no_qsl_list();
 
-	//! Mark data dirty
-	void dirty(qsl_data* card);
 	//! Store carddesigns
 	void save_data();
 	//! Save JSON file

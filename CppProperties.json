@@ -11,7 +11,8 @@
         "C:\\Users\\pvros\\source\\repos\\fltk",
         "C:\\Users\\pvros\\source\\repos\\fltk\\build",
         "C:\\Users\\pvros\\source\\repos\\curl\\include",
-        "C:\\Program Files\\hamlib-w64-4.6.5\\include"
+        "C:\\Program Files\\hamlib-w64-4.6.5\\include",
+        "C:\\Users\\pvros\\source\\repos\\json\\include"
       ],
       "defines": [
         "WIN32",

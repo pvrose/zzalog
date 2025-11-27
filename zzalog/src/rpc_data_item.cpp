@@ -17,7 +17,7 @@ rpc_data_item::rpc_data_item()
 }
 
 // Set the data to integer value (for either integer or Boolean RPC item
-void rpc_data_item::set(int i, rpc_data_t type) {
+void rpc_data_item::set(int32_t i, rpc_data_t type) {
 	if (type == XRT_INT || type == XRT_BOOLEAN) {
 		type_ = type;
 		i_ = i;
@@ -104,7 +104,7 @@ rpc_data_t rpc_data_item::type() {
 }
 
 // Get the integer
-bool rpc_data_item::get(int& i) {
+bool rpc_data_item::get(int32_t& i) {
 	if (type_ == XRT_INT || type_ == XRT_BOOLEAN || type_ == XRT_DEFAULT) {
 		i = i_;
 		return true;

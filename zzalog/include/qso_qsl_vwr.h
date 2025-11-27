@@ -58,9 +58,7 @@ public:
 	void create_form();
 	//! Configure component widgets after data change
 	void enable_widgets();
-	//! Save current usage to settings.
-	void save_values();
-
+	
 	//! Callback from QSO image: opens or closes a window with a full-size image.
 	static void cb_bn_image(Fl_Widget* w, void* v);
 	//! Callback from image select radio buttons: /p v indicates image_t type

@@ -2,6 +2,7 @@
 
 #include "fields.h"
 
+#include <cstdint>
 #include <string>
 #include <set>
 #include <list>
@@ -20,7 +21,7 @@ class qso_operation;
 class qso_query;
 class record;
 typedef size_t qso_num_t;
-enum navigate_t : uchar;
+enum navigate_t : uint8_t;
 
 
 //! Default field std::set for qso_entry.
