@@ -7,6 +7,8 @@
 
 #include "drawing.h"
 
+#include <FL/fl_draw.H>
+
 dxcc_table::dxcc_table(int X, int Y, int W, int H, const char* L) :
     Fl_Table(X, Y, W, H, L)
 {
