@@ -12,6 +12,7 @@
 #include "wsjtx_handler.h"
 
 #include "utils.h"
+#include "drawing.h"
 
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Check_Button.H>

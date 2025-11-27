@@ -1,5 +1,6 @@
 #include "banner.h"
 
+#include "file_holder.h"
 #include "main.h"
 #include "status.h"
 #include "ticker.h"
@@ -100,7 +101,9 @@ void banner::create_form() {
 	g_topleft->box(FL_FLAT_BOX);
 	// Create a box to hild the icon and resize it thereinto
 	bx_icon_ = new Fl_Box(curr_x, curr_y, HICON, HICON);
-	Fl_Image* image = main_icon_.copy();
+	std::string fn_icon = file_holder_->get_filename(FILE_ICON_ZZA);
+	Fl_PNG_Image* main_icon = new Fl_PNG_Image(fn_icon.c_str());
+	Fl_Image* image = main_icon->copy();
 	image->scale(HICON, HICON);
 	bx_icon_->image(image);
 

@@ -10,6 +10,7 @@
 #include "web_dialog.h"
 
 #include "utils.h"
+#include "drawing.h"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Button.H>

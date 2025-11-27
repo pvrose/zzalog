@@ -1,5 +1,6 @@
 #include "about_dialog.h"
 
+#include "file_holder.h"
 #include "main.h"
 #include "spec_data.h"
 #include "utils.h"
@@ -22,8 +23,10 @@ about_dialog::about_dialog() :
 	win_dialog(10, 10)
 {
 	// Position constants 
-	const int WICON = main_icon_.w();
-	const int HICON = main_icon_.h();
+	std::string fn_icon = file_holder_->get_filename(FILE_ICON_ZZA);
+	Fl_PNG_Image* main_icon = new Fl_PNG_Image(fn_icon.c_str());
+	const int WICON = main_icon->w();
+	const int HICON = main_icon->h();
 	const int XG = EDGE;
 	// Column 1 has just the program icon
 	const int C1 = XG;
@@ -87,7 +90,7 @@ about_dialog::about_dialog() :
 
 	Fl_Button* bn_icon = new Fl_Button(C1, YICON, WICON, HICON);
 	// Expand it to 48*48
-	bn_icon->image(main_icon_);
+	bn_icon->image(main_icon);
 	// No edge to the button
 	bn_icon->box(FL_FLAT_BOX);
 

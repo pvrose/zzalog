@@ -272,7 +272,9 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"&Help/&User Guide");
 	bn->when(FL_WHEN_RELEASE);
-	Fl_Image* icon = main_icon_.copy(H, H);
+	std::string fn_html = file_holder_->get_filename(FILE_ICON_ZZA);
+	pi = new Fl_PNG_Image(fn_html.c_str());
+	Fl_Image* icon = pi->copy(H, H);
 	bn->image(icon);
 	bn->tooltip("Open HTML Userguide");
 	add(bn);

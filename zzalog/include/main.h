@@ -316,9 +316,6 @@ extern char* filename_;
 //! File is new (neither in argument or settings.
 extern bool new_file_;
 
-//! Main logo.
-extern Fl_PNG_Image main_icon_;
-
 //! Using backp.
 extern bool using_backup_;
 

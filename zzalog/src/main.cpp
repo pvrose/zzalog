@@ -31,7 +31,6 @@ main.cpp - application entry point
 #include "import_data.h"
 #include "init_dialog.h"
 #include "intl_dialog.h"
-#include "logo.h"
 #include "lotw_handler.h"
 #include "main_window.h"
 #include "menu.h"
@@ -208,9 +207,6 @@ char* filename_ = nullptr;
 
 //! File is new (neither in argument or settings.
 bool new_file_ = false;
-
-//! Main logo.
-Fl_PNG_Image main_icon_("ZZALOG_ICON", ___rose_png, ___rose_png_len);
 
 //! Using backp.
 bool using_backup_ = false;

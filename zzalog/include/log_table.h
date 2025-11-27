@@ -4,7 +4,6 @@
 
 #include "view.h"
 #include "fields.h"
-//#include "edit_input.h"
 #include "field_choice.h"
 
 #include <string>
