@@ -13,16 +13,24 @@
 #include "pugixml.hpp"
 #include "utils.h"
 
+#include <algorithm>
+#include <corecrt.h>
+#include <cstdio>
 #include <ctime>
 #include <sstream>
 #include <string>
+#include <string.h>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_GIF_Image.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
 
 Fl_Color COLOUR_BAD = FL_RED;         //!< Use for bad stuff
 Fl_Color COLOUR_FAIR = FL_FOREGROUND_COLOR;
@@ -338,7 +346,7 @@ void condx_view::enable_widgets() {
 	else {
 		g_day_->labelfont(FL_ITALIC);
 	}
-	for (auto b : data_->hf_forecasts) {
+	for (auto& b : data_->hf_forecasts) {
 		if (b.second.find("day") != b.second.end()) {
 			w_day_condx_.at(b.first)->value(b.second.at("day").c_str());
 			w_day_condx_.at(b.first)->textfont(g_day_->labelfont() & FL_ITALIC);
@@ -357,7 +365,7 @@ void condx_view::enable_widgets() {
 		g_night_->labelfont(FL_ITALIC);
 	}
 	g_night_->activate();
-	for (auto b : data_->hf_forecasts) {
+	for (auto& b : data_->hf_forecasts) {
 		if (b.second.find("night") != b.second.end()) {
 			w_night_condx_.at(b.first)->value(b.second.at("night").c_str());
 			w_night_condx_.at(b.first)->textfont(g_night_->labelfont() & FL_ITALIC);
@@ -371,7 +379,7 @@ void condx_view::enable_widgets() {
 
 	// "VHF" tab
 	// vHF phenomena
-	for (auto b : data_->vhf_forecasts) {
+	for (auto& b : data_->vhf_forecasts) {
 		w_vhf_phenomena_.at(b.first)->value(b.second.c_str());
 		if (b.second == "Band Closed") w_vhf_phenomena_.at(b.first)->textcolor(COLOUR_BAD);
 		else if (b.second.substr(0,4) == "High")
@@ -555,7 +563,7 @@ void condx_view::create_hf(int x, int y, int w, int h) {
 	g_day_->tooltip("Daytime conditions\n: Summary for each HF band");
 
 	w_day_condx_.clear();
-	for (auto b : data_->hf_forecasts) {
+	for (auto& b : data_->hf_forecasts) {
 		Fl_Output* o = new Fl_Output(cx, cy, WBUTTON, ROW_HEIGHT);
 		o->box(FL_FLAT_BOX);
 		w_day_condx_[b.first] = o;
@@ -568,7 +576,7 @@ void condx_view::create_hf(int x, int y, int w, int h) {
 	g_night_->align(FL_ALIGN_CENTER | FL_ALIGN_TOP);
 	g_night_->tooltip("Nighttime conditions\n: Summary for each HF band");
 	w_night_condx_.clear();
-	for (auto b : data_->hf_forecasts) {
+	for (auto& b : data_->hf_forecasts) {
 		Fl_Output* o = new Fl_Output(cx, cy, WBUTTON, ROW_HEIGHT);
 		o->box(FL_FLAT_BOX);
 		w_night_condx_[b.first] = o;
@@ -587,7 +595,7 @@ void condx_view::create_vhf(int x, int y, int w, int h) {
 	int cy = g_vhf_->y() + GAP;
 	cx += WLLABEL;
 	w_vhf_phenomena_.clear();
-	for (auto b : data_->vhf_forecasts) {
+	for (auto& b : data_->vhf_forecasts) {
 		Fl_Output* o = new Fl_Output(cx, cy, WBUTTON, ROW_HEIGHT);
 		o->box(FL_FLAT_BOX);
 		o->align(FL_ALIGN_LEFT);

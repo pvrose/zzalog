@@ -4,12 +4,20 @@
 #include "intl_widgets.h"
 #include "main.h"
 #include "spec_data.h"
+#include <drawing.h>
+#include <utils.h>
+#include <win_dialog.h>
 
+#include <algorithm>
 #include <string>
 
-#include <FL/Fl_Radio_Round_Button.H>
-#include <FL/Fl_Button.H>
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Radio_Round_Button.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor - calls the dialog constructor with placeholders for size
 change_dialog::change_dialog(const char* label) :
@@ -204,7 +212,7 @@ int change_dialog::handle(int event) {
 
 
 // Get the data entered by the user.
-void change_dialog::get_data(change_action_t& action, std::string& old_field_name, std::string& new_field_name, std::string& new_text) {
+void change_dialog::get_data(change_action_t& action, std::string& old_field_name, std::string& new_field_name, std::string& new_text) const {
 	action = action_;
 	old_field_name = old_field_name_;
 	new_field_name = new_field_name_;

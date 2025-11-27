@@ -1,4 +1,6 @@
 #include "band_data.h"
+
+#include "band.h"
 #include "file_holder.h"
 #include "main.h"
 #include "status.h"
@@ -6,11 +8,14 @@
 
 #include "nlohmann/json.hpp"
 
+#include <algorithm>
 #include <cfloat>
+#include <cstdio>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
-
-#include <FL/Fl_Native_File_Chooser.H>
+#include <set>
+#include <string>
 
 using json = nlohmann::json;
 
@@ -106,7 +111,7 @@ bool band_data::load_json() {
 		try {
 			i >> j;
 			i.close();
-			for (auto jt : j.at("Band plan")) {
+			for (const auto& jt : j.at("Band plan")) {
 				band_entry_t* e = new band_entry_t(jt.template get<band_entry_t>());
 				entries_.insert(e);
 			}
@@ -208,13 +213,13 @@ void band_data::create_bands() {
 			}
 		}
 		// Collate the modes
-		for (auto m : (*it)->modes) {
+		for (auto& m : (*it)->modes) {
 			modes_.insert(m);
 		}
 	}
 	if (!has_bands) {
 		// Add entried for the bands
-		for (auto b : bands_) {
+		for (auto& b : bands_) {
 			std::string band_name = b.first;
 			band_entry_t* entry = new band_entry_t;
 			entry->type = band_data::BAND;

@@ -165,9 +165,9 @@ protected:
 	void split_call(std::string call, std::string& alt, std::string& body);
 
 	//! Returns Exception record for current parse result, nullptr if not an exception
-	cty_exception* exception();
+	cty_exception* exception() const;
 	//! Returns Prefix record for current parse result, nullptr of no prefix.
-	cty_prefix* prefix();
+	cty_prefix* prefix() const;
 	
 	//! Get the system timestamp for the named \p filename.
 	

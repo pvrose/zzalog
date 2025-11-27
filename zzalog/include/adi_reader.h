@@ -51,7 +51,7 @@ class record;
 
 		//! Used to report progress while reading
 		//! \return fraction of the input stream loaded into the book.
-		double progress();
+		double progress() const;
 
 
 

@@ -56,7 +56,7 @@ public:
     //! Instantiate component widgets.
     void create_form();
     //! Save current contest identifiers and status to settings.
-    void save_data();
+    void save_data() const;
     //! Configure component widgets after data changes.
     void enable_widgets();
 
@@ -84,7 +84,7 @@ public:
     //! Is the contest active?
     
     //! \return true if the contest is active, false if it is not.
-    bool contest_active();
+    bool contest_active() const;
 
     //! What is the contest?
     
@@ -99,7 +99,7 @@ public:
     //! Serial number
     
     //! \return serial number as std::string
-    std::string serial();
+    std::string serial() const;
 
     //! Add score from this QSO, unless \p check_only is true when it checks what it would be.
     void score_qso(record* qso, bool check_only);

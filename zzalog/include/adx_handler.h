@@ -35,13 +35,13 @@ public:
 	//! Used in showing progress.
 
 	//! \return fraction of bytes processed. 
-	double progress();
+	double progress() const;
 
 	//! Returns loading
-	bool loading();
+	bool loading() const;
 
 	//! Returns storing
-	bool storing();
+	bool storing() const;
 
 protected:
 

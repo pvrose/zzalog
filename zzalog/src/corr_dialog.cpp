@@ -1,21 +1,24 @@
 #include "corr_dialog.h"
 
 #include "callback.h"
+#include <drawing.h>
 #include "utils.h"
 #include "field_choice.h"
 #include "intl_widgets.h"
 #include "record.h"
+#include <win_dialog.h>
 
-#include <FL/Fl_Widget.H>
-#include <FL/Fl_Window.H>
+#include <string>
+
+#include <FL/Enumerations.H>
 #include <FL/Fl_Box.H>
-#include <FL/Fl_Choice.H>
-#include <FL/Fl_Output.H>
-#include <FL/Fl_Multiline_Output.H>
+#include <FL/Fl_Button.H>
 #include <FL/Fl_Check_Button.H>
-
-
-
+#include <FL/Fl_Choice.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Multiline_Output.H>
+#include <FL/Fl_Output.H>
+#include <FL/Fl_Widget.H>
 
 // Constuctor - dialog constructor called with place holder size
 corr_dialog::corr_dialog(record* record, const std::string& field, const std::string& message) :

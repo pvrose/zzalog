@@ -36,7 +36,7 @@ class Fl_Widget;
 		//! Instantiate all the component widgets.
 		void create_form();
 		//! Get the changes specified by the dialog.
-		void get_data(change_action_t& action, std::string& old_field_name, std::string& new_field_name, std::string& new_text);
+		void get_data(change_action_t& action, std::string& old_field_name, std::string& new_field_name, std::string& new_text) const;
 
 		//! Callback for OK button: sets the OK response for the dialog.
 		static void cb_bn_ok(Fl_Widget* w, void* v);

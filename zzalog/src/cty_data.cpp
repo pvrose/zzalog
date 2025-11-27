@@ -11,6 +11,7 @@
 #include "spec_data.h"
 #include "status.h"
 
+#include <drawing.h>
 #include "utils.h"
 
 #include <nlohmann/json.hpp>
@@ -19,13 +20,25 @@
 #include <chrono>
 #include <fstream>
 #include <string>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <corecrt.h>
+#include <share.h>
+#include <cmath>
+#include <cstdio>
+#include <ctime>
+#include <iomanip>
+#include <list>
+#include <map>
+#include <vector>
+
 #ifdef _WIN32
 #include <io.h>
 #else
 #include <unistd.h>
 #endif
-#include <sys/stat.h>
-#include <fcntl.h>
+
+
 
 using json = nlohmann::json;
 
@@ -91,26 +104,22 @@ void cty_data::delete_data(all_data* data) {
 			delete it.second;
 		}
 		data->entities.clear();
-		for (auto it : data->prefixes) {
+		for (auto& it : data->prefixes) {
 			for (auto ita : it.second) {
 				delete ita;
 			}
 		}
 		data->prefixes.clear();
-		for (auto it : data->exceptions) {
+		for (auto& it : data->exceptions) {
 			for (auto ita : it.second) {
 				delete ita;
 			}
 		}
 		data->exceptions.clear();
-		//for (auto it : data->filters) {
-		//	delete it;
-		//}
-		//data->filters.clear();
 	}
 }
 
-cty_exception* cty_data::exception() {
+cty_exception* cty_data::exception() const {
 	if (parse_result_.decode_element == nullptr) return nullptr;
 	if (parse_result_.decode_element->type_ == cty_element::CTY_EXCEPTION) {
 		return (cty_exception*)parse_result_.decode_element;
@@ -120,7 +129,7 @@ cty_exception* cty_data::exception() {
 	}
 }
 
-cty_prefix* cty_data::prefix() {
+cty_prefix* cty_data::prefix() const {
 	if (parse_result_.decode_element == nullptr) return nullptr;
 	if (parse_result_.decode_element->type_ == cty_element::CTY_PREFIX) {
 		return (cty_prefix*)parse_result_.decode_element;
@@ -503,7 +512,7 @@ cty_filter* cty_data::match_filter(cty_element* element, cty_filter::filter_t ty
 			bool braced = false;
 			bool brace_match = false;
 			char last_c = '\0';
-			for (int ix = 0; ix < it->pattern_.length() && !found; ix++) {
+			for (size_t ix = 0; ix < it->pattern_.length() && !found; ix++) {
 				if (match || it->pattern_[ix] == ',') {
 					switch (it->pattern_[ix]) {
 					case '[':
@@ -727,7 +736,7 @@ void cty_data::add_filter(cty_element* element, cty_filter* entry) {
 // TODO: move this to spec_data?
 void cty_data::load_adif_data() {
 	spec_dataset* dxccs = spec_data_->dataset("DXCC_Entity_Code");
-	for (auto it : dxccs->data) {
+	for (auto& it : dxccs->data) {
 		int dxcc = std::stod(it.first);
 		std::string name = it.second->at("Entity Name");
 		cty_entity* entry = new cty_entity;
@@ -752,7 +761,7 @@ void cty_data::merge_data() {
 		}
 	}
 	// Merge prefixes
-	for (auto it : import_->prefixes) {
+	for (auto& it : import_->prefixes) {
 		if (data_->prefixes.find(it.first) == data_->prefixes.end()) {
 			for (auto ita : it.second) {
 				// Copy the data not the pointer
@@ -782,7 +791,7 @@ void cty_data::merge_data() {
 		}
 	}
 	// Merge exceptions
-	for (auto it : import_->exceptions) {
+	for (auto& it : import_->exceptions) {
 		if (data_->exceptions.find(it.first) == data_->exceptions.end()) {
 			for (auto ita : it.second) {
 				// Copy the data not the pointer
@@ -910,7 +919,7 @@ void cty_data::store_json() {
 			break;
 		}
 	}
-	for (auto vs : versions_) {
+	for (auto& vs : versions_) {
 		switch (vs.first) {
 		case ADIF:
 			jsources["ADIF"]["Version"] = vs.second;
@@ -1028,7 +1037,7 @@ void to_json(json& j, const cty_data::all_data& d) {
 	}
 	j["Entities"] = jent;
 	json jpx;
-	for (auto p : d.prefixes) {
+	for (auto& p : d.prefixes) {
 		json jp;
 		for (auto px : p.second) {
 			jp.push_back(*px);
@@ -1037,7 +1046,7 @@ void to_json(json& j, const cty_data::all_data& d) {
 	}
 	j["Prefixes"] = jpx;
 	json jex;
-	for (auto e : d.exceptions) {
+	for (auto& e : d.exceptions) {
 		json je;
 		for (auto ex : e.second) {
 			je.push_back(*ex);
@@ -1050,7 +1059,7 @@ void to_json(json& j, const cty_data::all_data& d) {
 // JSON Serialisation to cty_data::all_data
 void from_json(const json& j, cty_data::all_data& d) {
 	if (j.find("Entities") != j.end()) {
-		for (auto e : j.at("Entities")) {
+		for (auto& e : j.at("Entities")) {
 			cty_entity* ent = new cty_entity;
 			e.get_to(*ent);
 			d.entities[ent->dxcc_id_] = ent;
@@ -1058,8 +1067,8 @@ void from_json(const json& j, cty_data::all_data& d) {
 	}
 	if (j.find("Prefixes") != j.end()) {
 		auto jpfxs = j.at("Prefixes").get<std::map<std::string, json>>();
-		for (auto p : jpfxs) {
-			for (auto jpx : p.second) {
+		for (auto& p : jpfxs) {
+			for (auto& jpx : p.second) {
 				cty_prefix* pfx = new cty_prefix;
 				jpx.get_to(*pfx);
 				d.prefixes[p.first].push_back(pfx);
@@ -1068,8 +1077,8 @@ void from_json(const json& j, cty_data::all_data& d) {
 	}
 	if (j.find("Exceptions") != j.end()) {
 		auto jpfxs = j.at("Exceptions").get<std::map<std::string, json>>();
-		for (auto p : jpfxs) {
-			for (auto jpx : p.second) {
+		for (auto& p : jpfxs) {
+			for (auto& jpx : p.second) {
 				cty_exception* pfx = new cty_exception;
 				jpx.get_to(*pfx);
 				d.exceptions[p.first].push_back(pfx);

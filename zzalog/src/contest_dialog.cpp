@@ -6,14 +6,23 @@
 #include "contest_data.h"
 #include "field_choice.h"
 #include "main.h"
+#include <page_dialog.h>
 #include "settings.h"
 
 #include "drawing.h"
 #include "utils.h"
 
+#include <corecrt.h>
+#include <chrono>
+#include <ctime>
+#include <set>
+#include <string>
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Int_Input.H>
-#include <FL/Fl_Input.H>
+#include <FL/Fl_Input_.H>
 #include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Widget.H>
 
 contest_dialog::contest_dialog(int X, int Y, int W, int H, const char* L) :
 	page_dialog(X, Y, W, H, L)
@@ -232,7 +241,7 @@ void contest_dialog::populate_ct_index() {
 	w_contest_ix_->clear();
 	w_contest_ix_->add("");
 	if (indices) {
-		for (auto it : *indices) {
+		for (auto& it : *indices) {
 			w_contest_ix_->add(it.c_str());
 		}
 	}
@@ -243,7 +252,7 @@ void contest_dialog::populate_ct_index() {
 void contest_dialog::populate_algorithm() {
 	w_algorithm_->clear();
 	if (algorithms_.size()) {
-		for (auto it : algorithms_) {
+		for (auto& it : algorithms_) {
 			w_algorithm_->add(it.first.c_str());
 		}
 	}

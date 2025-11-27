@@ -8,6 +8,11 @@
 // pugixml
 #include "pugixml.hpp"
 
+#include <cstdio>
+#include <istream>
+#include <ostream>
+#include <string>
+
 using xml_document = pugi::xml_document;
 using xml_node = pugi::xml_node;
 using xml_attribute = pugi::xml_attribute;
@@ -16,6 +21,8 @@ using xml_attribute = pugi::xml_attribute;
 adx_handler::adx_handler() {
 	loading_ = false;
 	storing_ = false;
+	total_records_ = 0;
+	num_records_ = 0;
 }
 
 //! Destructor
@@ -178,7 +185,7 @@ bool adx_handler::load_record(record* rec, xml_node& node) {
 }
 
 bool adx_handler::store_record(record* qso, xml_node& node) {
-	for (auto field : *qso) {
+	for (const auto& field : *qso) {
 		// Check if it is ann APP... field
 		if (field.first.substr(0, 3) == "APP") {
 			size_t pos = 4;
@@ -186,10 +193,10 @@ bool adx_handler::store_record(record* qso, xml_node& node) {
 			std::string pid = field.first.substr(4, pos - 4);
 			std::string name = field.first.substr(pos + 1);
 			xml_node n_field = node.append_child("APP");
-			n_field.append_attribute("PROGRAMID") = pid;
-			n_field.append_attribute("FIELDNAME") = name;
+			n_field.append_attribute("PROGRAMID") = pid.c_str();
+			n_field.append_attribute("FIELDNAME") = name.c_str();
 			n_field.append_attribute("TYPE") = "S";
-			if (!n_field.text().set(field.second)) return false;
+			if (!n_field.text().set(field.second.c_str())) return false;
 		}
 		else {
 			if(!node.append_child(field.first).text().set(field.second))
@@ -199,9 +206,9 @@ bool adx_handler::store_record(record* qso, xml_node& node) {
 	return true;
 }
 
-bool adx_handler::loading() { return loading_; }
-bool adx_handler::storing() { return storing_; }
+bool adx_handler::loading() const { return loading_; }
+bool adx_handler::storing() const { return storing_; }
 
-double adx_handler::progress() {
+double adx_handler::progress() const {
 	return (double)num_records_ / (double(total_records_));
 }

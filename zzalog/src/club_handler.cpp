@@ -11,12 +11,24 @@
 #include "record.h"
 #include "status.h"
 #include "url_handler.h"
+#include <utils.h>
 
-#include "callback.h"
-
+#include <chrono>
+#include <cstdio>
+#include <cstdlib>
+#include <fstream>
+#include <ios>
+#include <ostream>
+#include <set>
 #include <sstream>
+#include <string>
+#include <thread>
+#include <vector>
 
-#include <FL/Fl_Native_File_Chooser.H>
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/fl_ask.H>
+#include <FL/fl_draw.H>
 
 // Constructor 
 club_handler::club_handler() {

@@ -1,6 +1,17 @@
 #include "calendar_input.h"
+
+#include "button_input.h"
 #include "calendar.h"
 #include "utils.h"
+
+#include <string.h>
+#include <string>
+
+#include <FL/Fl.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Widget.H>
+
+
 
 calendar_input::calendar_input(int X, int Y, int W, int H, const char* L) :
 	button_input(X, Y, W, H, L)

@@ -12,13 +12,23 @@
 
 #include "utils.h"
 
+#include <corecrt.h>
+#include <cstdio>
+#include <ctime>
+#include <string>
+
+#include <FL/Enumerations.H>
 #include <FL/Fl.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Counter.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
+#include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Output.H>
+#include <FL/Fl_Widget.H>
+#include <drawing.h>
 
 contest_scorer::contest_scorer(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L)
@@ -225,7 +235,7 @@ void contest_scorer::create_form() {
 	show();
 }
 
-void contest_scorer::save_data() {
+void contest_scorer::save_data() const {
 	settings top_settings;
 	settings behav_settings(&top_settings, "Behaviour");
 	settings contest_settings(&behav_settings, "Contest");
@@ -534,7 +544,7 @@ void contest_scorer::score_qso(record* qso, bool check_only) {
 }
 
 // In contest mode
-bool contest_scorer::contest_active() {
+bool contest_scorer::contest_active() const {
 	return contest_status_ == ACTIVE;
 }
 
@@ -552,7 +562,7 @@ field_list contest_scorer::fields() {
 }
 
 // Returns the serial number
-std::string contest_scorer::serial() {
+std::string contest_scorer::serial() const {
 	char text[10];
 	snprintf(text, sizeof(text), "%03d", next_serial_);
 	return std::string(text);

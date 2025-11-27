@@ -83,7 +83,7 @@
 		
 		//! \param utf8 unicode character.
 		//! \return one of \ref ASCII, \ref LATIN_1, \ref NON_LATIN or \ref CONTROL.
-		unsigned char adif_char(unsigned int utf8);
+		unsigned char adif_char(unsigned int utf8) const;
 
 
 	protected:

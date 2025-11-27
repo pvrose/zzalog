@@ -7,15 +7,26 @@
 #include "drawing.h"
 #include "utils.h"
 
+#include <FL/Enumerations.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Float_Input.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
+#include <FL/Fl_Input_.H>
+#include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Menu_Button.H>
+#include <FL/Fl_Menu_Item.H>
+#include <FL/Fl_Scroll.H>
+#include <FL/Fl_Widget.H>
 
 #include <map>
 #include <string>
+#include <cstdio>
+#include <cstdlib>
+#include <set>
 
 using band_entry_t = band_data::band_entry_t;
 
@@ -346,7 +357,7 @@ const std::map<band_data::entry_t, std::string> TYPE_MAP = {
 //! Populate the type choices
 void band_row::populate_type(Fl_Choice* ch) {
     ch->clear();
-    for (auto it : TYPE_MAP) {
+    for (auto& it : TYPE_MAP) {
         ch->add(it.second.c_str());
     }
 }
@@ -354,7 +365,7 @@ void band_row::populate_type(Fl_Choice* ch) {
 //! Populate the mode choices
 void band_row::populate_mode(band_modechoice* ch) {
     ch->clear();
-    for (auto it : band_data_->get_modes()) {
+    for (auto& it : band_data_->get_modes()) {
         ch->menubutton()->add(it.c_str(), 0, nullptr, nullptr, FL_MENU_TOGGLE);
     }
 }

@@ -4,8 +4,19 @@
 #include "main.h"
 #include "status.h"
 
-#include <fstream>
+#include "utils.h"
+
+#include <chrono>
+#include <corecrt.h>
+#include <cstdio>
 #include <ctime>
+#include <fstream>
+#include <iomanip>
+#include <map>
+#include <set>
+#include <string>
+
+#include <nlohmann/json.hpp>
 
 //! Conversion of ct_data_ to JSON
 void to_json(json& j, const ct_data_t& s) {
@@ -86,7 +97,7 @@ std::set<std::string>* contest_data::get_contest_indices(std::string id) {
 		return nullptr;
 	}
 	std::set<std::string>* result = new std::set<std::string>;
-	for (auto it : contests_.at(id)) {
+	for (auto& it : contests_.at(id)) {
 		result->insert(it.first);
 	}
 	return result;
@@ -137,9 +148,9 @@ bool contest_data::load_json(std::ifstream& is) {
 	json jall;
 	try {
 		is >> jall;
-		for (auto itc : jall.at("Contests")) {
+		for (auto& itc : jall.at("Contests")) {
 			std::map<std::string, ct_data_t*> contest;
-			for (auto iti : itc.at("Instances")) {
+			for (auto& iti : itc.at("Instances")) {
 				ct_data_t* cd = new ct_data_t(iti.at("Definition").template get<ct_data_t>());
 				std::string index;
 				iti.at("Index").get_to(index);
@@ -165,10 +176,10 @@ bool contest_data::load_json(std::ifstream& is) {
 bool contest_data::save_json(std::ofstream& os) {
 	json jall;
 	jall["Contests"].clear();
-	for (auto itc : contests_) {
+	for (auto& itc : contests_) {
 		json jc;
 		jc["Name"] = itc.first;
-		for (auto iti : itc.second) {
+		for (auto& iti : itc.second) {
 			json ji;
 			ji["Index"] = iti.first;
 			ji["Definition"] = *iti.second;

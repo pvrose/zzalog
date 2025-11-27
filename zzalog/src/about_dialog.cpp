@@ -5,16 +5,21 @@
 #include "spec_data.h"
 #include "win_dialog.h"
 
+#include "drawing.h"
 #include "utils.h"
+
+#include <string>
 
 #include "hamlib/rig.h"
 #include <curl/curl.h>
 
 #include <FL/Enumerations.H>
+#include <FL/fl_config.h>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_Widget.H>
 
 extern std::string TIMESTAMP;
 

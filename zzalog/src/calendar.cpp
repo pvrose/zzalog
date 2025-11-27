@@ -3,7 +3,15 @@
 #include "drawing.h"
 #include "utils.h"
 
+#include <corecrt.h>
+#include <ctime>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Table.H>
+#include <FL/Fl_Widget.H>
+#include <FL/Fl_Window.H>
 
 
 // Constructor

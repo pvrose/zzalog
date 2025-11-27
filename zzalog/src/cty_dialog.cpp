@@ -8,11 +8,18 @@
 #include "utils.h"
 
 #include <chrono>
+#include <corecrt.h>
+#include <ctime>
+#include <map>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Output.H>
+#include <FL/Fl_Widget.H>
 
 // Check age button clicked
 std::map< cty_data::cty_type_t, std::chrono::hours > OLD_AGE = {
@@ -185,6 +192,7 @@ void cty_dialog::cb_update(Fl_Widget* w, void* v) {
 	switch (t) {
 	case cty_data::CLUBLOG:
 		cty_data_->fetch_data(t);
+		[[fallthrough]];
 		// Fall through
 	default:
 		that->update_widgets();

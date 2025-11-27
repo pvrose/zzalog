@@ -2,8 +2,12 @@
 #include "drawing.h"
 #include "utils.h"
 
+#include <corecrt.h>
+#include <ctime>
 
+#include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Table.H>
 
 // Constructor for the calendar table
 calendar_table::calendar_table(int X, int Y, int W, int H, tm date) :

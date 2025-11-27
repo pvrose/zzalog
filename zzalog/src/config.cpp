@@ -12,11 +12,15 @@
 #include "utils.h"
 #include "drawing.h"
 
-#include <FL/Fl.H>
+#include <string>
+
+#include <FL/Enumerations.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Return_Button.H>
 #include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
+#include <FL/Fl_Window.H>
 
 // Constructor
 config::config(int W, int H, const char* label) :

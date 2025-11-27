@@ -8,11 +8,12 @@
 
 #include "utils.h"
 
-#include<istream>
+#include <istream>
 #include <string>
+#include <cctype>
 #include <cstdio>
 
-#include <FL/Fl.H>
+#include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
 
 // Helper class that reads and decodes an ADIF .adi format file and stores it a book container
@@ -151,7 +152,7 @@ std::istream& adi_reader::load_record(record* in_record, std::istream& in, load_
 						// <USERDEFn:sz:ty>name[,{std::list or range}]
 						if (in_record->is_header() && field.length() > 7 && field.substr(0, 7) == "USERDEF") {
 							std::string list_range = "";
-							int pos_comma = value.find(',');
+							size_t pos_comma = value.find(',');
 							if (pos_comma != -1) {
 								list_range = value.substr(pos_comma + 2, value.length() - pos_comma - 3);
 								value = value.substr(0, pos_comma);
@@ -318,6 +319,6 @@ bool adi_reader::load_book(book* book, std::istream& in) {
 }
 
 // Calculate the percentage file read
-double adi_reader::progress() {
+double adi_reader::progress() const {
 	return (double)record_count_ / (double)number_records_;
 }

@@ -8,9 +8,18 @@
 #include "status.h"
 
 #include "drawing.h"
+#include "utils.h"
 
+#include <cmath>
+#include <cstdio>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
 
 band_window::band_window(int X, int Y, int W, int H, const char* L) :
 	Fl_Double_Window(X, Y, W, H, L)

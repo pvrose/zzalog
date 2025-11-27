@@ -7,14 +7,17 @@
 #include "spec_data.h"
 #include "status.h"
 
+#include "drawing.h"
 #include "utils.h"
 
-#include <fstream>
-#include<ostream>
 #include <cmath>
+#include <cstdio>
+#include <ostream>
+#include <string>
 
-#include <FL/Fl.H>
+#include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
+#include <FL/fl_utf8.h>
 
 
 // Default constructor
@@ -200,7 +203,7 @@ double adi_writer::progress() {
 }
 
 // Categorise UTF-8 character (ASCII, ISO-8859-1 or neither)
-unsigned char adi_writer::adif_char(unsigned int utf8) {
+unsigned char adi_writer::adif_char(unsigned int utf8) const {
 	if (utf8 < 0x20) {
 		return CONTROL;
 	}
@@ -221,7 +224,7 @@ unsigned char adi_writer::adif_compliance(book* b, field_list* fields) {
 	unsigned char result = 0;
 	for (auto qso : *b) {
 		if (fields) {
-			for (auto field : *fields) {
+			for (const auto& field : *fields) {
 				std::string item = qso->item(field);
 				const char* pos = item.c_str();
 				const char* pend = pos + item.length();
@@ -234,7 +237,7 @@ unsigned char adi_writer::adif_compliance(book* b, field_list* fields) {
 			}
 		}
 		else {
-			for (auto field : *qso) {
+			for (const auto& field : *qso) {
 				const char* pos = field.second.c_str();
 				const char* pend = pos + field.second.length();
 				int len;

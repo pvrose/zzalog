@@ -6,20 +6,28 @@
 
 #include "drawing.h"
 
+#include <algorithm>
+#include <cstdint>
+#include <cstdio>
 #include <string>
+#include <string.h>
 #include <thread>
 
 // FLTK classes
 #include <FL/Fl.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Fill_Dial.H>
-#include <FL/Fl_Help_Dialog.H>
 #include <FL/Fl_Image.H>
+#include <FL/Fl_Input_.H>
 #include <FL/Fl_Multiline_Output.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Text_Buffer.H>
 #include <FL/Fl_Text_Display.H>
+#include <FL/Enumerations.H>
+#include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Widget.H>
 
 const int NUMBER_STYLES = 10;
 const Fl_Text_Display::Style_Table_Entry style_table_[NUMBER_STYLES] = {

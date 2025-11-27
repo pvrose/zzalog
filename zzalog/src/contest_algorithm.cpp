@@ -7,6 +7,10 @@
 #include "spec_data.h"
 #include "stn_data.h"
 
+#include <map>
+#include <string>
+#include <vector>
+
 typedef std::vector<std::string> field_list;
 
 //! Map of available algorithms
@@ -53,10 +57,10 @@ void contest_algorithm::set_default_rst(record* qso) {
 // Return all fields used in algorithm
 field_list contest_algorithm::fields() {
 	std::vector<std::string> result;
-	for (auto it : rx_items_) {
+	for (auto& it : rx_items_) {
 		result.push_back(it);
 	}
-	for (auto it : tx_items_) {
+	for (auto& it : tx_items_) {
 		result.push_back(it);
 	}
 	return result;

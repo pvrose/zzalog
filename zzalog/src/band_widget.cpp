@@ -7,12 +7,19 @@
 #include "status.h"
 #include "drawing.h"
 
-#include <cmath>
-#include <string>
 #include <algorithm>
 #include <cfloat>
+#include <cmath>
+#include <cstdio>
+#include <map>
+#include <set>
+#include <string>
+#include <string.h>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Widget.H>
 
 // Mode-bar colours
 const std::map<std::string, Fl_Color> MODE_COLOURS = {
@@ -39,7 +46,6 @@ band_widget::band_widget(int X, int Y, int W, int H, const char* L) :
 	Fl_Widget(X, Y, W, H, L) {
 	type(BAND_FULL);
 	value_tx_ = value_rx_ = 0.0;
-//	Fl_Widget::color(FL_RED, FL_DARK_GREEN);
 	band_ = "";
 	bandwidth_ = 0.5;
 	process_data();
@@ -189,7 +195,7 @@ void band_widget::draw_scale() {
 		f -= minor_tick_;
 	}
 	// Find the space between the middle two (or below the middle 1)
-	f = last_major + (num_major / 2) * major_tick_;
+	f = last_major + (double)(num_major / 2) * major_tick_;
 	f -= (major_tick_ / 2.);
 	curr_y = y_for_f(f);
 	fl_draw("MHz", x_freq_, curr_y - h_offset_, w_freq_, 2 * h_offset_, FL_ALIGN_RIGHT);
@@ -290,7 +296,7 @@ void band_widget::draw_markers() {
 }
 
 // Draw single offset line
-void band_widget::draw_line(int yl, int yr, int style) {
+void band_widget::draw_line(int yl, int yr, int style) const {
 	fl_line_style(style);
 	if (yl == yr) {
 		// Draw single line
@@ -721,7 +727,7 @@ void band_widget::adjust_markers() {
 }
 
 // Is a text marker
-bool band_widget::is_text_marker(marker m) {
+bool band_widget::is_text_marker(marker m) const {
 	switch(m.type) {
 	case SUBBAND_UPPER:
 	case SPOTGROUP_UPPER:
@@ -747,7 +753,7 @@ bool band_widget::is_text_marker(marker m) {
 
 
 // Get Y-position for frequency
-int band_widget::y_for_f(double f) {
+int band_widget::y_for_f(double f) const {
 	return y_upper_ + (int)((scale_range_.upper - f) * px_per_MHz_);
 }
 

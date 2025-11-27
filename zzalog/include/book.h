@@ -3,6 +3,7 @@
 
 #include "band.h"
 #include "drawing.h"
+#include "search.h"
 
 #include <string>
 #include <vector>
@@ -136,7 +137,7 @@
 		//! Get the index of the current selected record.
 		
 		//! \return index within this std::set of records of the current selection.
-		item_num_t selection();
+		item_num_t selection() const;
 		//! Insert a record in its chronological position.
 		
 		//! \param record the record to be inserted.
@@ -231,7 +232,7 @@
 		//! Get book type.
 		
 		//! \return the object_t type of the book.
-		object_t book_type();
+		object_t book_type() const;
 		//! Set book type.
 		
 		//! \param type sets the object_t type of the book.
@@ -293,7 +294,7 @@
 		//! New record.
 		
 		//! \return a new record is being added to the book.
-		bool new_record();
+		bool new_record() const;
 		//! Set new record.
 		
 		//! \param value std::set whether the current record is a new record or not.
@@ -323,7 +324,7 @@
 		//! Is the book modified?
 		
 		//! \return true if any record has been meodified and not written back to filestore - is "dirty".
-		bool been_modified();
+		bool been_modified() const;
 		//! Callback for closing header comment edit window: saves the edit.
 		static void cb_close_edith(Fl_Widget* w, void* v);
 		//! Callback from closing header comment edit window using "Cancel" button.
@@ -394,12 +395,12 @@
 		//! Is auto-save enable?
 		
 		//! \return true if auto-save is enabled, false if it is not.
-		bool enable_save();
+		bool enable_save() const;
 		//! Is delete record enabled?
 		
 		//! \return true if a record can be deleted, false if it cannot. A record cannot
 		//! be deleted if another record is already being deleted.
-		bool delete_enabled();
+		bool delete_enabled() const;
 		//! Upload the current QSO.
 		
 		//! \param record upload the QSO record to the supported QSL sites. This feature

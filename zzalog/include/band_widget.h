@@ -122,7 +122,7 @@ protected:
     //! \param yl y position of left end of line.
     //! \param yr y position of right end of line.
     //! \param style of the line per FLTK drawing.
-    void draw_line(int yl, int yr, int style);
+    void draw_line(int yl, int yr, int style) const;
     //! Draw bands.
     void draw_bands();
     //! Generate data for band associated with frequency
@@ -141,12 +141,12 @@ protected:
     
     //! \param f Frequency in MHz.
     //! \return y position on scale.
-    int y_for_f(double f);
+    int y_for_f(double f) const;
     //! Does the marker include text.
     
     //! \param m description of marker.
     //! \return true if the marker has text, false if not.
-    bool is_text_marker(marker m);
+    bool is_text_marker(marker m) const;
     //! Generate markers and mode_bars
     void generate_items();
     //! Format for drawing scale label
