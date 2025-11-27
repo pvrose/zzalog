@@ -1,7 +1,6 @@
 #include "qso_query.h"
 
 #include "book.h"
-#include "fields.h"
 #include "qso_data.h"
 #include "record.h"
 #include "record_table.h"

@@ -7,9 +7,8 @@
 #include "utils.h"
 #include "drawing.h"
 
-#include<ctime>
+#include <ctime>
 
-#include <FL/Fl_Image.H>
 #include <FL/Fl_Button.H>
 
 // Clock group - constructor

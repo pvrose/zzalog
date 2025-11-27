@@ -10,10 +10,8 @@
 
 #include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
-#include <FL/Fl.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Multiline_Output.H>
 #include <FL/Fl_PNG_Image.H>
 
 extern std::string TIMESTAMP;

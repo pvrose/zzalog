@@ -3,10 +3,8 @@
 #include "file_holder.h"
 #include "main.h"
 #include "status.h"
-#include "ticker.h"
 
 #include "drawing.h"
-#include "utils.h"
 
 #include <string>
 #include <thread>
@@ -14,7 +12,6 @@
 // FLTK classes
 #include <FL/Fl.H>
 #include <FL/Fl_Box.H>
-#include <FL/Fl_Button.H>
 #include <FL/Fl_Fill_Dial.H>
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/Fl_Image.H>

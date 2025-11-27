@@ -29,7 +29,6 @@ main.cpp - application entry point
 #include "file_holder.h"
 #include "fllog_emul.h"
 #include "import_data.h"
-#include "init_dialog.h"
 #include "intl_dialog.h"
 #include "lotw_handler.h"
 #include "main_window.h"
@@ -38,7 +37,6 @@ main.cpp - application entry point
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "report_tree.h"
 #include "rig_data.h"
 #include "settings.h"
 #include "spec_data.h"
@@ -68,17 +66,11 @@ main.cpp - application entry point
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
 #include <FL/Fl_Box.H>
-#include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Native_File_Chooser.H>
-#include <FL/Fl_PNG_Image.H>
-#include <FL/Fl_Single_Window.H>
-#include <FL/Fl_Tabs.H>
 #include <FL/Fl_Tooltip.H>
 #include <FL/Fl_Widget.H>
 #include <FL/fl_ask.H>
 #include <FL/fl_draw.H>
-// included to allow windows specifics to be called
-#include <FL/platform.H>
 
 
 

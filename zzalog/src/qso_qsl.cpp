@@ -28,7 +28,6 @@
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Check_Button.H>
-#include <FL/Fl_Fill_Dial.H>
 
 // Constructor
 qso_qsl::qso_qsl(int X, int Y, int W, int H, const char* L) :

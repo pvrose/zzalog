@@ -2,7 +2,6 @@
 
 #include "config.h"
 #include "file_holder.h"
-#include "init_dialog.h"
 #include "main.h"
 #include "record.h"
 #include "status.h"

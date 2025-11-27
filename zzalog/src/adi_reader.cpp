@@ -9,12 +9,10 @@
 #include "utils.h"
 
 #include<istream>
-#include <fstream>
 #include <string>
 #include <cstdio>
 
 #include <FL/Fl.H>
-#include <FL/fl_ask.H>
 #include <FL/fl_draw.H>
 
 // Helper class that reads and decodes an ADIF .adi format file and stores it a book container

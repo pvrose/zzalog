@@ -3,46 +3,23 @@
 #include "adi_writer.h"
 #include "book.h"
 #include "extract_data.h"
-#include "field_choice.h"
 #include "import_data.h"
-#include "intl_widgets.h"
 #include "main.h"
 #include "main_window.h"
 #include "menu.h"
-#include "qrz_handler.h"
 #include "qso_clocks.h"
 #include "qso_data.h"
 #include "qso_log.h"
-#include "qso_misc.h"
 #include "qso_tabbed_rigs.h"
 #include "qso_buttons.h"
 #include "qso_qsl.h"
 #include "record.h"
 #include "settings.h"
-#include "spec_data.h"
-#include "status.h"
 #include "stn_data.h"
-#include "tabbed_forms.h"
 
 #include "callback.h"
-#include "utils.h"
 
-#include <set>
-#include <iostream>
-
-#include <FL/Fl_Input_Choice.H>
-#include <FL/Fl_Light_Button.H>
-#include <FL/Fl_Button.H>
-#include <FL/Fl_Radio_Round_Button.H>
-#include <FL/Fl_Check_Button.H>
-#include <FL/Fl_Int_Input.H>
-#include <FL/Fl_Float_Input.H>
-#include <FL/Fl_Multi_Browser.H>
-#include <FL/Fl_Help_View.H>
-#include <FL/Fl_Spinner.H>
-#include <FL/Fl_Output.H>
 #include <FL/fl_ask.H>
-#include <FL/Fl_Tooltip.H>
 
 // The main dialog constructor
 qso_manager::qso_manager(int W, int H, const char* label) :

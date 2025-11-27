@@ -5,14 +5,10 @@
 
 #include "utils.h"
 
-#include <climits>
 #include <chrono>
 #include <cmath>
 
 #include <FL/Fl.H>
-#include <FL/fl_ask.H>
-#include <FL/Fl_Window.H>
-#include <FL/Fl_Tooltip.H>
 
 // Returns if the rig opened OK
 bool rig_if::is_open() {

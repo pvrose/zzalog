@@ -6,7 +6,6 @@
 #include "qsl_display.h"
 #include "record.h"
 
-#include <FL/Fl_RGB_Image.H>
 #include <FL/Fl_Image_Surface.H>
 
 Fl_RGB_Image* qsl_image::image(record* qso, qsl_data::qsl_type type) {

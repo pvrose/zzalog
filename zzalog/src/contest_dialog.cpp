@@ -11,14 +11,9 @@
 #include "drawing.h"
 #include "utils.h"
 
-#include <FL/Fl_Button.H>
-#include <FL/Fl_Choice.H>
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Input_Choice.H>
-#include <FL/Fl_Multiline_Output.H>
-#include <FL/Fl_Text_Buffer.H>
-#include <FL/Fl_Text_Display.H>
 
 contest_dialog::contest_dialog(int X, int Y, int W, int H, const char* L) :
 	page_dialog(X, Y, W, H, L)

@@ -14,7 +14,6 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Input_Choice.H>
-#include <FL/Fl_Output.H>
 
 const std::string LABELS[] = {"Strret", "City", "Postcode", "Locator", "Country", "DXCC",
 	"Prim'y Sub", "Sec'y Sub", "CQ Zone", "ITU Zone", "Continent", "IOTA", "WAB" };

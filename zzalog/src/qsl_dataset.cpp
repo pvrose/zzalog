@@ -2,7 +2,6 @@
 
 #include "extract_data.h"
 #include "main.h"
-#include "qrz_handler.h"
 #include "settings.h"
 #include "status.h"
 #include "utils.h"

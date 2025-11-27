@@ -1,15 +1,11 @@
 #include "web_dialog.h"
 
 #include "calendar_input.h"
-#include "fllog_emul.h"
-#include "icons.h"
 #include "intl_widgets.h"
 #include "main.h"
 #include "password_input.h"
-#include "qrz_handler.h"
 #include "qsl_dataset.h"
 #include "spec_data.h"
-#include "wsjtx_handler.h"
 
 #include "utils.h"
 #include "drawing.h"
@@ -19,9 +15,7 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Input_Choice.H>
-#include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Output.H>
-#include <FL/Fl_RGB_Image.H>
 #include <FL/Fl_Select_Browser.H>
 #include <FL/Fl_Tabs.H>
 

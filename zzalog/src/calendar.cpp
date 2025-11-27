@@ -3,9 +3,7 @@
 #include "drawing.h"
 #include "utils.h"
 
-#include <FL/fl_draw.H>
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Input.H>
 
 
 // Constructor

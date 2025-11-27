@@ -1,6 +1,5 @@
 #include "qsl_editor.h"
 
-#include "config.h"
 #include "field_choice.h"
 #include "filename_input.h"
 #include "font_dialog.h"

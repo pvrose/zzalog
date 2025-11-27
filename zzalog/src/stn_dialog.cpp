@@ -1,12 +1,9 @@
 #include "stn_dialog.h"
 
-#include "cty_data.h"
 #include "init_dialog.h"
 #include "main.h"
 #include "qso_data.h"
 #include "qso_manager.h"
-#include "record.h"
-#include "spec_data.h"
 #include "stn_call_dlg.h"
 #include "stn_data.h"
 #include "stn_oper_dlg.h"
@@ -17,12 +14,7 @@
 #include "utils.h"
 
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Double_Window.H>
-#include <FL/Fl_Input_Choice.H>
-#include <FL/Fl_Input.H>
-#include <FL/Fl_Multiline_Input.H>
-#include <FL/Fl_Preferences.H>
 #include <FL/Fl_Tabs.H>
 
 stn_dialog::stn_dialog(int X, int Y, int W, int H, const char* L) :

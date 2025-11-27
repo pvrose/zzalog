@@ -10,8 +10,6 @@
 
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Native_File_Chooser.H>
-#include <FL/Fl_Text_Buffer.H>
-#include <FL/Fl_Text_Editor.H>
 
 // Majo
 std::string DEFAULT_INTL = "";

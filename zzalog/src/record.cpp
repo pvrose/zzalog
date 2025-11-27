@@ -12,17 +12,14 @@ record.cpp - Individual record data item: implementation file
 #include "main.h"
 #include "spec_data.h"
 #include "status.h"
-#include "view.h"
 
 #include "utils.h"
 
 #include <ctime>
 #include <chrono>
-#include <ratio>
 #include <cmath>
 
 #include <FL/fl_ask.H>
-#include <FL/fl_utf8.h>
 
 // initialise the static variables
 bool record::expecting_header_ = true;

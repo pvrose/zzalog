@@ -6,8 +6,6 @@
 
 #include "pugixml.hpp"
 
-#include <list>
-
 // Constructor
 cty1_reader::cty1_reader() {
 	//ignore_processing_ = false;

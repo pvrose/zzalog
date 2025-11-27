@@ -7,10 +7,8 @@
 #include "extract_data.h"
 #include "main.h"
 #include "qso_data.h"
-#include "qso_manager.h"
 #include "record.h"
 #include "settings.h"
-#include "stn_data.h"
 
 #include "utils.h"
 
@@ -20,7 +18,6 @@
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Counter.H>
 #include <FL/Fl_Input.H>
-#include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Output.H>
 
 contest_scorer::contest_scorer(int X, int Y, int W, int H, const char* L) :

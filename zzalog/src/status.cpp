@@ -2,20 +2,14 @@
 
 #include "banner.h"
 #include "file_holder.h"
-#include "intl_widgets.h"
 #include "main.h"
 #include "main_window.h"
-#include "menu.h"
-#include "qso_manager.h"
-#include "ticker.h"
 
-#include "callback.h"
 #include "utils.h"
 
 #include <iostream>
 
 #include <FL/Fl.H>
-#include <FL/Fl_Native_File_Chooser.H>
 #include <FL/fl_ask.H>
 
 // Constructor

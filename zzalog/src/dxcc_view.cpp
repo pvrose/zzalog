@@ -6,7 +6,6 @@
 #include "utils.h"
 
 #include <FL/Fl_Check_Button.H>
-#include <FL/Fl_Help_Dialog.H>
 
 dxcc_view::dxcc_view(int X, int Y, int W, int H, const char* L, field_app_t fo) :
 	view(),

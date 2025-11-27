@@ -12,7 +12,6 @@
 #include <nlohmann/json.hpp>
 
 #include <fstream>
-#include <istream>
 #include <ostream>
 #include <string>
 

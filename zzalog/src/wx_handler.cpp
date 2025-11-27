@@ -14,7 +14,6 @@
 
 #include <sstream>
 
-#include <FL/Fl_Help_Dialog.H>
 #include <FL/Fl_PNG_Image.H>
 
 using json = nlohmann::json;

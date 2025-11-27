@@ -14,7 +14,6 @@
 #include "spec_data.h"
 #include "status.h"
 #include "ticker.h"
-#include "toolbar.h"
 
 #include "utils.h"
 
@@ -23,11 +22,6 @@
 #include <iostream>
 #include <regex>
 #include <vector>
-#ifdef _WIN32
-#include <WS2tcpip.h>
-#else
-//#include <fnctl.h>
-#endif
 
 #include <FL/Fl.H>
 #include <FL/fl_ask.H>

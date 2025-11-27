@@ -5,10 +5,8 @@
 #include "main.h"
 #include "spec_data.h"
 
-#include <set>
 #include <string>
 
-#include <FL/Fl_Choice.H>
 #include <FL/Fl_Radio_Round_Button.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Box.H>

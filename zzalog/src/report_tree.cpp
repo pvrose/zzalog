@@ -3,7 +3,6 @@
 #include "book.h"
 #include "cty_data.h"
 #include "extract_data.h"
-#include "field_choice.h"
 #include "main.h"
 #include "menu.h"
 #include "qso_data.h"

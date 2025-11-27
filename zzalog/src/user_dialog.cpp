@@ -3,7 +3,6 @@
 #include "book.h"
 #include "log_table.h"
 #include "main.h"
-#include "qso_manager.h"
 #include "report_tree.h"
 #include "settings.h"
 #include "spec_tree.h"

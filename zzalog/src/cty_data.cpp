@@ -17,7 +17,6 @@
 
 #include <cctype>
 #include <chrono>
-#include<ostream>
 #include <fstream>
 #include <string>
 #ifdef _WIN32

@@ -7,9 +7,8 @@
 #include "field_choice.h"
 #include "fields.h"
 #include "intl_dialog.h"
-#include "intl_widgets.h"
-#include "main.h"
 #include "main_window.h"
+#include "main.h"
 #include "menu.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -19,12 +18,10 @@
 #include "toolbar.h"
 #include "utils.h"
 
-#include "callback.h"
 
 #include <FL/fl_draw.H>
 #include <FL/Enumerations.H>
-#include <FL/Fl_Help_Dialog.H>
-#include <FL/fl_ask.H>
+#include <FL/Fl.H>
 
 Fl_Font log_table::font_;
 Fl_Fontsize log_table::fontsize_;

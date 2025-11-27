@@ -1,5 +1,4 @@
 #include "field_choice.h"
-#include "fields.h"
 #include "main.h"
 #include "spec_data.h"
 #include "intl_dialog.h"

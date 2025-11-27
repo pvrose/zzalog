@@ -1,16 +1,12 @@
 #include "qrz_handler.h"
 
-#include "adi_reader.h"
 #include "adi_writer.h"
 #include "book.h"
-#include "import_data.h"
 #include "main.h"
-#include "menu.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "status.h"
-#include "tabbed_forms.h"
 #include "url_handler.h"
 
 #include "pugixml.hpp"

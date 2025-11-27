@@ -1,10 +1,7 @@
 #include "stn_oper_dlg.h"
 
 #include "book.h"
-#include "cty_data.h"
 #include "main.h"
-#include "qso_manager.h"
-#include "record.h"
 #include "status.h"
 #include "stn_data.h"
 
@@ -14,7 +11,6 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Input_Choice.H>
-#include <FL/Fl_Output.H>
 
 const std::string LABELS[] = { "Name", "Callsign" };
 

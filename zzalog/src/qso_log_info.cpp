@@ -1,9 +1,7 @@
 #include "qso_log_info.h"
 
 #include "book.h"
-#include "import_data.h"
 #include "main.h"
-#include "record.h"
 #include "ticker.h"
 
 #include "drawing.h"
@@ -12,7 +10,6 @@
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Light_Button.H>
 
 // Constructor
 qso_log_info::qso_log_info(int X, int Y, int W, int H, const char* l) :

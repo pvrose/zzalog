@@ -2,13 +2,11 @@
 
 #include "file_holder.h"
 #include "main.h"
-#include "utils.h"
 #include "status.h"
 
 #include <fstream>
 #include <iostream>
-
-#include <FL/fl_utf8.h>
+#include <string>
 
 //! Convert field_info_t to JSON object
 static void to_json(json& j, const field_info_t& s) {

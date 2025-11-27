@@ -3,7 +3,6 @@
 #include "book.h"
 #include "main.h"
 #include "qso_data.h"
-#include "qso_entry.h"
 #include "record.h"
 #include "regices.h"
 #include "spec_data.h"

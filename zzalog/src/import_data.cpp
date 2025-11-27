@@ -6,7 +6,6 @@
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
 #include "main.h"
-#include "menu.h"
 #include "qrz_handler.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -17,20 +16,13 @@
 #include "utils.h"
 
 #include <sstream>
-#include <ctime>
 #include <chrono>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #ifdef _WIN32
-#include <io.h>
-#include <share.h>
 #else
 #include <stdio.h>
 #endif
 
 #include <FL/Fl.H>
-#include <FL/fl_ask.H>
 
 // Constructor - this book is used to contain data being imported. It adds functionality to support this
 import_data::import_data() :

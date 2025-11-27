@@ -16,7 +16,6 @@
 #include <vector>
 
 #include <FL/fl_draw.H>
-#include <FL/Fl_Help_Dialog.H>
 
 // Constructor
 spec_tree::spec_tree(int X, int Y, int W, int H, const char* label, field_app_t app) :

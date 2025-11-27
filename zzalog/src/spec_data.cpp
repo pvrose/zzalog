@@ -10,23 +10,17 @@
 #include "record.h"
 #include "regices.h"
 #include "status.h"
-#include "url_handler.h"
 
-#include "callback.h"
 #include "utils.h"
 
 #include "nlohmann/json.hpp"
 
 #include <fstream>
 #include <ostream>
-#include <sstream>
 #include <regex>
 #include <chrono>
 #include <climits>
 #include <cfloat>
-
-#include <FL/fl_ask.H>
-#include <FL/Fl_Native_File_Chooser.H>
 
 using json = nlohmann::json;
 

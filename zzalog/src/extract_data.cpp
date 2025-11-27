@@ -1,7 +1,6 @@
 #include "extract_data.h"
 
 #include "tabbed_forms.h"
-#include "adi_writer.h"
 #include "club_handler.h"
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
@@ -12,12 +11,6 @@
 #include "search_dialog.h"
 #include "spec_data.h"
 #include "status.h"
-
-#include "utils.h"
-
-#include <sstream>
-
-#include <FL/fl_ask.H>
 
 // Constructor
 extract_data::extract_data() :

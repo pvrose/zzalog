@@ -6,7 +6,6 @@
 #include "extract_data.h"
 #include "file_holder.h"
 #include "icons.h"
-#include "import_data.h"
 #include "intl_dialog.h"
 #include "intl_widgets.h"
 #include "main.h"
@@ -15,17 +14,13 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "status.h"
-#include "tabbed_forms.h"
 
 #include "drawing.h"
 #include "utils.h"
 
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Help_Dialog.H>
 #include <FL/Fl_JPEG_Image.H>
 #include <FL/Fl_PNG_Image.H>
-#include <FL/Fl_RGB_Image.H>
-#include <FL/Fl_Single_Window.H>
 #include <FL/Fl_Tooltip.H>
 #include <FL/fl_ask.H>
 

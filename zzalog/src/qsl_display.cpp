@@ -2,20 +2,15 @@
 
 #include "main.h"
 #include "qsl_dataset.h"
-#include "qso_manager.h"
 #include "record.h"
 #include "status.h"
-
-#include "utils.h"
 
 #include <set>
 #include <string>
 
-#include <FL/Fl_Multiline_Output.H>
 #include <FL/Fl_JPEG_Image.H>
 #include <FL/Fl_BMP_Image.H>
 #include <FL/Fl_PNG_Image.H>
-#include <FL/Fl_Image_Surface.H>
 
 // Dynamically drawn QSL card label
 

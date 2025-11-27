@@ -16,7 +16,6 @@
 #include "intl_dialog.h"
 #include "main.h"
 #include "main_window.h"
-#include "page_dialog.h"
 #include "printer.h"
 #include "qrz_handler.h"
 #include "qso_data.h"
@@ -24,19 +23,14 @@
 #include "record.h"
 #include "report_tree.h"
 #include "search_dialog.h"
-#include "settings.h"
 #include "spec_data.h"
-#include "spec_tree.h"
 #include "status.h"
 #include "tabbed_forms.h"
 #include "ticker.h"
 #include "toolbar.h"
-#include "url_handler.h"
 #include "wsjtx_handler.h"
 
-#include <iostream>
 #include <list>
-#include <sstream>
 #include <string>
 // For launching PDF reader
 #ifdef _WIN32
@@ -46,10 +40,8 @@
 #endif
 
 #include <FL/fl_ask.H>
-#include <FL/Fl_Help_Dialog.H>
 #include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Native_File_Chooser.H>
-#include <FL/Fl_Single_Window.H>
 #include <FL/Fl_Tooltip.H>
 
 	// The default menu - std::set of menu items

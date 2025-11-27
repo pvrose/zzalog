@@ -3,17 +3,12 @@
 #include "condx_view.h"
 #include "main.h"
 #include "qso_clock.h"
-#include "qso_manager.h"
 #include "qso_wx.h"
 #include "settings.h"
 #include "status.h"
-#include "wsjtx_handler.h"
-
-#include "utils.h"
 
 #include <algorithm>
 
-#include <FL/Fl_Radio_Round_Button.H>
 #include <FL/Fl_Tabs.H>
 
 // Constructor
