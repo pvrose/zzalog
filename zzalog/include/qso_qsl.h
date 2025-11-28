@@ -33,7 +33,7 @@ public:
     //! Instantiates component widgets.
     void create_form();
     //! Updates data in qsl_data.
-    void save_values();
+    void save_values() const;
     //! Configures the component widgets after a data change.
     void enable_widgets();
 

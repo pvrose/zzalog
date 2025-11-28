@@ -7,6 +7,16 @@
 #include "settings.h"
 #include "spec_data.h"
 #include "status.h"
+#include <utils.h>
+
+#include <algorithm>
+#include <cstdio>
+#include <string>
+#include <vector>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor for the rigs std::set of tabs
 qso_tabbed_rigs::qso_tabbed_rigs(int X, int Y, int W, int H, const char* L) :
@@ -36,7 +46,7 @@ void qso_tabbed_rigs::load_values() {
 	spec_dataset* rig_dataset = spec_data_->dataset("Dynamic MY_RIG");
 	// Ger the std::list of rigs as seen in rig.xml
 	std::vector<std::string> rigs = rig_data_->rigs();
-	for (auto it : rigs) {
+	for (auto& it : rigs) {
 		// If the rig is in both lists
 		rig_data_t* rig_info = rig_data_->get_rig(it);
 		if (rig_info->default_app >= 0 && rig_dataset && rig_dataset->data.find(it) != rig_dataset->data.end()) {

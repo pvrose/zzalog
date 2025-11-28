@@ -56,7 +56,7 @@ public:
 	//! Returns the queried QSO record.
 	record* query_qso();
 	//! Returns the index of the logged qSO record.
-	qso_num_t qso_number();
+	qso_num_t qso_number() const;
 	//! Clear the query.
 	void clear_query();
 	//! Returns the messae to the user.

@@ -1,6 +1,7 @@
 #include "qso_clocks.h"
 
 #include "condx_view.h"
+#include <drawing.h>
 #include "main.h"
 #include "qso_clock.h"
 #include "qso_wx.h"
@@ -9,7 +10,11 @@
 
 #include <algorithm>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 qso_clocks::qso_clocks(int X, int Y, int W, int H, const char* L) :
@@ -120,7 +125,7 @@ void qso_clocks::create_form() {
 	end();
 }
 
-void qso_clocks::save_values() {
+void qso_clocks::save_values() const {
 	settings top_settings;
 	settings view_settings(&top_settings, "Views");
 	settings dash_settings(&view_settings, "Dashboard");
@@ -150,7 +155,7 @@ void qso_clocks::enable_widgets() {
 	redraw();
 }
 
-bool qso_clocks::is_local() { return local_; }
+bool qso_clocks::is_local() const { return local_; }
 
 qso_wx* qso_clocks::wx() {
 	return qso_weather_;

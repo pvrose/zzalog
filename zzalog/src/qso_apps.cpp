@@ -16,12 +16,26 @@
 #include "drawing.h"
 #include "utils.h"
 
+#include <algorithm>
+#include <cstdio>
+#include <cstdlib>
+#include <fstream>
+#include <iomanip>
+#include <map>
+#include <string>
+
 #include "nlohmann/json.hpp"
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Int_Input.H>
-#include <FL/Fl_Tabs.H>
+#include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Radio_Light_Button.H>
+#include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
 
 using json = nlohmann::json;
 
@@ -588,7 +602,7 @@ int qso_apps::handle(int event) {
             i >> j;
             if (!j.at("Apps").is_null()) {
                 auto apps = j.at("Apps").get<std::map<std::string, json>>();
-                for (auto a : apps) {
+                for (auto& a : apps) {
                     app_data_t* data = new app_data_t(a.second);
                     data->name = a.first;
                     apps_data_[a.first] = data;
@@ -709,7 +723,7 @@ void qso_apps::adjust_size() {
 void qso_apps::save_values() {
     json j;
     
-    for (auto it : apps_data_) {
+    for (auto& it : apps_data_) {
         j[it.first] = *it.second;
     }
 

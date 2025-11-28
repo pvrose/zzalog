@@ -1,12 +1,19 @@
 #include "qso_net_entry.h"
 
 #include "book.h"
+#include <drawing.h>
 #include "main.h"
 #include "qso_entry.h"
 #include "record.h"
 #include "status.h"
+#include <utils.h>
 
+#include <cstdio>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 qso_net_entry::qso_net_entry(int X, int Y, int W, int H, const char* L) :

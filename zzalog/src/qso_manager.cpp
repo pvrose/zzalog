@@ -2,6 +2,7 @@
 
 #include "adi_writer.h"
 #include "book.h"
+#include <drawing.h>
 #include "extract_data.h"
 #include "import_data.h"
 #include "main.h"
@@ -17,10 +18,17 @@
 #include "settings.h"
 #include "stn_data.h"
 
-#include "callback.h"
+#include <algorithm>
+#include <string>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/fl_ask.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Group.H>
+#include <FL/fl_types.h>
+#include <FL/Fl_Widget.H>
 
 // The main dialog constructor
 qso_manager::qso_manager(int W, int H, const char* label) :

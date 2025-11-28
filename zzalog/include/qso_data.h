@@ -278,40 +278,40 @@ public:
 
 protected:
 	//! Logging state
-	logging_state_t logging_state_;
+	logging_state_t logging_state_ = QSO_INACTIVE;
 	//! Selected record
-	record* selected_qso_;
+	record* selected_qso_ = nullptr;
 	//! Flag to inhibit drawing update
-	bool inhibit_drawing_;
+	bool inhibit_drawing_ = false;
 	//! Current starting mode
-	qso_init_t previous_mode_;
+	qso_init_t previous_mode_ = QSO_ON_AIR;
 	//! Index number of potential match
-	qso_num_t potential_match_;
+	qso_num_t potential_match_ = 0;
 	//! INdex number of QSO being queried.
-	qso_num_t query_number_;
+	qso_num_t query_number_ = 0;
 
 	//! Peek/QRZ merge/QRZ copy - save logging state
-	logging_state_t interrupted_state_;
+	logging_state_t interrupted_state_ = QSO_INACTIVE;
 	//! QSO being peeked
-	record* peeked_qso_;
+	record* peeked_qso_ = nullptr;
 
 	// Widgets
 	//! Station operations group
-	qso_operation* g_station_;
+	qso_operation* g_station_ = nullptr;
 	//! Entry group
-	qso_entry* g_entry_;
+	qso_entry* g_entry_ = nullptr;
 	//! Query group
-	qso_query* g_query_;
+	qso_query* g_query_ = nullptr;
 	//! Net Entry group
-	qso_net_entry* g_net_entry_;
+	qso_net_entry* g_net_entry_ = nullptr;
 	//! Query entry group
-	qso_entry* g_qy_entry_;
+	qso_entry* g_qy_entry_ = nullptr;
 	//! Misc info group
-	qso_misc* g_misc_;
+	qso_misc* g_misc_ = nullptr;
 	//! Button group
-	qso_buttons* g_buttons_;
+	qso_buttons* g_buttons_ = nullptr;
 	//! Group for freq/power/mode
-	Fl_Group* grp_fpm_;
+	Fl_Group* grp_fpm_ = nullptr;
 
 
 };

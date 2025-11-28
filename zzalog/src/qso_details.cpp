@@ -1,20 +1,28 @@
 #include "qso_details.h"
 
 #include "book.h"
+#include "drawing.h"
 #include "main.h"
 #include "qso_data.h"
 #include "record.h"
 #include "regices.h"
 #include "spec_data.h"
 #include "status.h"
+#include <utils.h>
 
-#include "drawing.h"
-
+#include <cstdio>
 #include <regex>
+#include <set>
 #include <string>
+#include <vector>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Output.H>
+#include <FL/Fl_Table.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 qso_details::qso_details(int X, int Y, int W, int H, const char* L) :
@@ -122,7 +130,7 @@ void qso_details::get_qsos() {
 		call_body = parts[0];
 	}
 	else {
-		for (auto it : parts) {
+		for (auto& it : parts) {
 			if (regex_search(it, m, REGEX_CALL_BODY)) {
 				call_body = it;
 				break;
@@ -186,7 +194,7 @@ void qso_details::get_qsos() {
 			}
 		} else if (match_possible) {
 			// Match against possibles
-			for (auto iu : body_matches) {
+			for (auto& iu : body_matches) {
 				if (regex_search(it->item("CALL"), iu)) {
 					possibles.insert(ix);
 				}
@@ -497,6 +505,7 @@ void qso_details::table_q::cb_table(Fl_Widget* w, void* v) {
 		{
 			qso_num_t qso_num = that->items_[row];
 			book_->selection(qso_num, HT_SELECTED);
+			break;
 		}
 		default:
 			break;

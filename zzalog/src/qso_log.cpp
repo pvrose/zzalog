@@ -8,6 +8,10 @@
 
 #include <algorithm>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
+
 // Constructor
 qso_log::qso_log(int X, int Y, int W, int H, const char* l) :
 	Fl_Tabs(X, Y, W, H, l)

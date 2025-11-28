@@ -7,9 +7,15 @@
 #include "drawing.h"
 #include "utils.h"
 
-#include <FL/Fl_Check_Button.H>
-#include <FL/Fl_Output.H>
+#include <algorithm>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Check_Button.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Output.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 qso_log_info::qso_log_info(int X, int Y, int W, int H, const char* l) :

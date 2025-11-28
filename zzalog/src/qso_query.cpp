@@ -1,12 +1,20 @@
 #include "qso_query.h"
 
 #include "book.h"
+#include "drawing.h"
+#include <main.h>
 #include "qso_data.h"
 #include "record.h"
 #include "record_table.h"
-
-#include "drawing.h"
 #include "utils.h"
+
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Table.H>
+#include <FL/Fl_Widget.H>
 
 // Constrctor
 qso_query::qso_query(int X, int Y, int W, int H, const char* L) :
@@ -167,7 +175,7 @@ record* qso_query::qso() {
 }
 
 // Get QSO number
-qso_num_t qso_query::qso_number() {
+qso_num_t qso_query::qso_number() const {
 	return log_number_;
 }
 
@@ -207,6 +215,7 @@ void qso_query::action_handle_dclick(int col, std::string field) {
 			log_qso_->item(field, original_qso_->item(field));
 			break;
 		}
+		break;
 	default:
 		break;
 	}

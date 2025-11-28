@@ -1,15 +1,21 @@
 #include "qso_buttons.h"
 
 #include "book.h"
-#include "cty_data.h"
+#include "drawing.h"
 #include "main.h"
 #include "qso_data.h"
 #include "spec_data.h"
+#include <utils.h>
 
-#include "callback.h"
-#include "drawing.h"
+#include <algorithm>
+#include <list>
+#include <map>
 
 #include <FL/Fl_Button.H>
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Widget.H>
 
 // Map showing the buttons available in each qso_data logging_state
 std::map<qso_data::logging_state_t, std::list<qso_buttons::button_type> > button_map_ =
@@ -256,6 +262,7 @@ void qso_buttons::cb_activate(Fl_Widget* w, void* v) {
 	switch (that->qso_data_->logging_state()) {
 	case qso_data::QSO_VIEW:
 		that->qso_data_->action_cancel_edit();
+		[[fallthrough]];
 		// Drop through
 	case qso_data::QSO_INACTIVE:
 		that->qso_data_->action_activate(qso_data::QSO_ON_AIR);
@@ -275,6 +282,7 @@ void qso_buttons::cb_start(Fl_Widget* w, void* v) {
 	switch (that->qso_data_->logging_state()) {
 	case qso_data::QSO_INACTIVE:
 		that->qso_data_->action_activate(mode);
+		[[fallthrough]];
 		// Fall into next state
 	case qso_data::TEST_PENDING:
 	case qso_data::QSO_PENDING:
@@ -304,6 +312,7 @@ void qso_buttons::cb_save(Fl_Widget* w, void* v) {
 		// If in pending then we can assume it's started
 		data->action_start(qso_data::QSO_AS_WAS);
 		// Two routes - QSO entry
+		[[fallthrough]];
 	case qso_data::QSO_STARTED:
 	case qso_data::TEST_ACTIVE:
 		// Realtime entry - do not start another
@@ -497,6 +506,7 @@ void qso_buttons::cb_bn_browse(Fl_Widget* w, void* v) {
 	case qso_data::QSO_VIEW:
 		that->qso_data_->action_deactivate();
 		// Drop through
+		[[fallthrough]];
 	case qso_data::QSO_INACTIVE:
 		that->qso_data_->action_browse();
 		break;
@@ -663,8 +673,10 @@ void qso_buttons::cb_bn_add_net(Fl_Widget* w, void* v) {
 	switch (that->qso_data_->logging_state()) {
 	case qso_data::QSO_VIEW:
 		that->qso_data_->action_cancel_edit();
+		[[fallthrough]];
 	case qso_data::QSO_INACTIVE:
 		that->qso_data_->action_edit();
+		[[fallthrough]];
 		// NB state may now be QSO_EDIT _or_ QSO_STARTED
 	case qso_data::QSO_EDIT:
 		that->qso_data_->action_create_net();
@@ -687,10 +699,13 @@ void qso_buttons::cb_bn_start_net(Fl_Widget* w, void* v) {
 	switch (that->qso_data_->logging_state()) {
 	case qso_data::QSO_VIEW:
 		that->qso_data_->action_cancel_edit();
+		[[fallthrough]];
 	case qso_data::QSO_INACTIVE:
 		that->qso_data_->action_activate(qso_data::QSO_ON_AIR);
+		[[fallthrough]];
 	case qso_data::QSO_PENDING:
 		that->qso_data_->action_start(qso_data::QSO_ON_AIR);
+		[[fallthrough]];
 	case qso_data::QSO_STARTED:
 		that->qso_data_->action_create_net();
 		break;

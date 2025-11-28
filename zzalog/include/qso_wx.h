@@ -32,7 +32,7 @@ public:
 	//! Implement component widgets.
     void create_form(int X, int Y);
 	//! Save display formats to settings.
-    void save_values();
+    void save_values() const;
 	//! Configure components widgets after data changes.
     void enable_widgets();
 

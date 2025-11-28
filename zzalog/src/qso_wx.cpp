@@ -9,12 +9,22 @@
 #include "drawing.h"
 #include "utils.h"
 
+#include <algorithm>
+#include <cmath>
 #include <ctime>
+#include <cstdio>
+#include <cstring>
+#include <string>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Device.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Image_Surface.H>
-#include <FL/Fl_Button.H>
+#include <FL/Fl_Widget.H>
 
 // Weather group - constructor
 qso_wx::qso_wx
@@ -374,7 +384,7 @@ void qso_wx::enable_widgets() {
 }
 
 // save value
-void qso_wx::save_values() {
+void qso_wx::save_values() const {
 	settings top_settings;
 	settings view_settings(&top_settings, "Views");
 	settings dash_settings(&view_settings, "Dashboard");
@@ -530,11 +540,11 @@ void qso_wx::draw_wind_dirn(Fl_Widget* w, unsigned int dirn) {
 		fl_begin_complex_polygon();
 		// Draw an arrow down from North
 		fl_vertex(1, -radius);
-		fl_vertex(1, radius/2);
-		fl_vertex(5, radius/2);
+		fl_vertex(1, (double)radius/2);
+		fl_vertex(5, (double)radius/2);
 		fl_vertex(0, radius);
-		fl_vertex(-5, radius/2);
-		fl_vertex(-1, radius/2);
+		fl_vertex(-5, (double)radius/2);
+		fl_vertex(-1, (double)radius/2);
 		fl_vertex(-1, -radius);
 		//
 		fl_end_complex_polygon();

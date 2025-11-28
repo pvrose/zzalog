@@ -4,7 +4,9 @@
 #include "config.h"
 #include "contest_scorer.h"
 #include "cty_data.h"
+#include <drawing.h>
 #include "extract_data.h"
+#include <fields.h>
 #include "import_data.h"
 #include "main.h"
 #include "menu.h"
@@ -23,12 +25,21 @@
 #include "status.h"
 #include "spec_data.h"
 #include "tabbed_forms.h"
+#include "utils.h"
 #include "wsjtx_handler.h"
 
-#include "utils.h"
 
+#include <algorithm>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <string>
+
+#include <FL/Enumerations.H>
 #include <FL/Fl.H>
 #include <FL/fl_ask.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Widget.H>
 
 // qso_group_
 qso_data::qso_data(int X, int Y, int W, int H, const char* l) :
@@ -899,6 +910,7 @@ bool qso_data::action_save(bool continuing) {
 		break;
 	case QSO_NONE:
 		qso->item("QSO_COMPLETE", std::string(""));
+		[[fallthrough]];
 		// Deliberately drop through
 	case QSO_COPY_WSJTX:
 	case QSO_COPY_FLDIGI:
@@ -1813,6 +1825,7 @@ void qso_data::start_qso(qso_init_t mode) {
 	switch (logging_state_) {
 	case qso_data::QSO_INACTIVE:
 		action_activate(mode);
+		[[fallthrough]];
 		// drop through
 	case qso_data::QSO_PENDING:
 		action_start(mode);
@@ -1841,6 +1854,7 @@ void qso_data::end_qso() {
 		break;
 	case qso_data::QSO_PENDING:
 		action_start(previous_mode_);
+		[[fallthrough]];
 		// drop through
 	case qso_data::QSO_STARTED:
 	case qso_data::QSO_ENTER:

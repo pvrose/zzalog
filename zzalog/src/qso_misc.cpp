@@ -1,13 +1,17 @@
 #include "qso_misc.h"
 
 #include "contest_scorer.h"
+#include "drawing.h"
 #include "qso_details.h"
 #include "qso_dxcc.h"
 #include "qso_qsl_vwr.h"
 #include "record.h"
 #include "settings.h"
+#include <utils.h>
 
-#include "drawing.h"
+#include <FL/Enumerations.H>
+#include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 qso_misc::qso_misc(int X, int Y, int W, int H, const char* L) :

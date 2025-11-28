@@ -9,7 +9,10 @@
 
 #include <ctime>
 
+#include <FL/Enumerations.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Widget.H>
 
 // Clock group - constructor
 qso_clock::qso_clock
@@ -135,6 +138,6 @@ void qso_clock::local(bool value) {
 }
 
 // Get local
-bool qso_clock::local() {
+bool qso_clock::local() const {
 	return display_local_;
 }

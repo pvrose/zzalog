@@ -1,5 +1,6 @@
 #include "qso_dxcc.h"
 
+#include <band.h>
 #include "book.h"
 #include "cty_data.h"
 #include "cty_dialog.h"
@@ -8,15 +9,23 @@
 #include "record.h"
 #include "spec_data.h"
 
-#include "callback.h"
 #include "drawing.h"
 #include "utils.h"
 
 #include <cmath>
+#include <cstdio>
 #include <map>
+#include <set>
+#include <string>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Button.H>
+#include <FL/fl_draw.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Output.H>
+#include <FL/Fl_Table.H>
+#include <FL/Fl_Widget.H>
 
 std::map <std::string, std::string> CONTINENTS = {
 	{ "AF", "Africa" },
@@ -392,7 +401,7 @@ void qso_dxcc::wb4_table::draw_cell(TableContext context, int R, int C, int X, i
 		fl_color(FL_FOREGROUND_COLOR);
 		fl_yxline(X, Y, Y + H - 1, X + W);
 		if (wkd_matrix_.find(cat) != wkd_matrix_.end()) {
-			bool new_entity;
+			bool new_entity = false;
 			wkd_line& w = wkd_matrix_.at(cat);
 			switch (C) {
 			case 0:

@@ -1,7 +1,10 @@
 #include "qsl_widget.h"
 #include "qsl_display.h"
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Widget.H>
 
 
 qsl_widget::qsl_widget(int X, int Y, int W, int H, const char* L) :

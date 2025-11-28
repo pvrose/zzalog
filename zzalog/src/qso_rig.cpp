@@ -1,6 +1,8 @@
 #include "qso_rig.h"
 
 #include "band_data.h"
+#include <callback.h>
+#include <drawing.h>
 #include "field_choice.h"
 #include "file_viewer.h"
 #include "filename_input.h"
@@ -12,22 +14,38 @@
 #include "spec_data.h"
 #include "status.h"
 #include "ticker.h"
+#include <utils.h>
 
+#include <algorithm>
+#include <cstdio>
+#include <cstdlib>
+#include <map>
 #include <set>
 #include <string>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/fl_ask.H>
-#include <FL/Fl_Light_Button.H>
-#include <FL/Fl_Check_Button.H>
-#include <FL/Fl_Button.H>
-#include <FL/Fl_Choice.H>
-#include <FL/Fl_Input.H>
-#include <FL/Fl_Output.H>
-#include <FL/Fl_Float_Input.H>
-#include <FL/Fl_Int_Input.H>
+#include <FL/fl_draw.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Check_Button.H>
+#include <FL/Fl_Choice.H>
+#include <FL/Fl_Float_Input.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Int_Input.H>
+#include <FL/Fl_Light_Button.H>
+#include <FL/Fl_Menu_Button.H>
+#include <FL/Fl_Menu_Item.H>
+#include <FL/Fl_Output.H>
+#include <FL/Fl_Slider.H>
 #include <FL/Fl_Tabs.H>
+#include <FL/fl_types.h>
 #include <FL/Fl_Value_Slider.H>
+#include <FL/Fl_Widget.H>
+
+#include <hamlib/rig.h>
 
 // Constructor
 qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :

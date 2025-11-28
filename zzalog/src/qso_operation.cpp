@@ -1,8 +1,6 @@
 #include "qso_operation.h"
 
-#include "config.h"
 #include "main.h"
-#include "qso_data.h"
 #include "record.h"
 #include "status.h"
 #include "stn_data.h"
@@ -11,9 +9,16 @@
 #include "drawing.h"
 #include "utils.h"
 
+#include <cstdio>
+#include <map>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Help_Dialog.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Widget.H>
 
 qso_operation::qso_operation(int X, int Y, int W, int H, const char *L) : Fl_Group(X, Y, W, H, L),
 																		  current_qth_(""),
@@ -220,7 +225,7 @@ void qso_operation::populate_choices()
 	// Populate QTH choice
 	ch_qth_->clear();
 	ch_qth_->add("");
-	for (auto it : *stn_data_->get_qths())
+	for (auto& it : *stn_data_->get_qths())
 	{
 		if (it.second) {
 			std::map<qth_value_t, std::string>& data = it.second->data;
@@ -236,7 +241,7 @@ void qso_operation::populate_choices()
 	// Populate Operator choice
 	ch_oper_->clear();
 	ch_oper_->add("");
-	for (auto it : *stn_data_->get_opers())
+	for (auto& it : *stn_data_->get_opers())
 	{
 		if (it.second) {
 			std::map<oper_value_t, std::string>& data = it.second->data;
@@ -251,7 +256,7 @@ void qso_operation::populate_choices()
 	// Populate callsign choice
 	ch_call_->clear();
 	ch_call_->add("");
-	for (auto it : *stn_data_->get_calls())
+	for (auto& it : *stn_data_->get_calls())
 	{
 		ch_call_->add(escape_menu(it.first).c_str());
 	}
@@ -296,7 +301,7 @@ void qso_operation::update_qso(record *qso)
 	const qth_info_t *qth = stn_data_->get_qth(current_qth_);
 	if (qth)
 	{
-		for (auto it : QTH_ADIF_MAP)
+		for (auto& it : QTH_ADIF_MAP)
 		{
 			if (qth->data.find(it.first) != qth->data.end())
 			{
@@ -312,7 +317,7 @@ void qso_operation::update_qso(record *qso)
 	const oper_info_t *oper = stn_data_->get_oper(current_oper_);
 	if (oper)
 	{
-		for (auto it : OPER_ADIF_MAP)
+		for (auto& it : OPER_ADIF_MAP)
 		{
 			if (oper->data.find(it.first) != oper->data.end())
 			{

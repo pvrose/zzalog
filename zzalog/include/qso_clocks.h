@@ -32,11 +32,11 @@ public:
     //! Instatntiate component widgets.
     void create_form();
     //! Save current timezone to settings.
-    void save_values();
+    void save_values() const;
     //! Configure widgets after data changes.
     void enable_widgets();
     //! Returns whether clock is displaying system locale's timezone.
-    bool is_local();
+    bool is_local() const;
     //! Returns Weather control
     qso_wx* wx();
 

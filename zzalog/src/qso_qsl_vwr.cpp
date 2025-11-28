@@ -2,6 +2,7 @@
 
 #include "book.h"
 #include "main.h"
+#include <qsl_data.h>
 #include "qsl_dataset.h"
 #include "qsl_display.h"
 #include "qsl_widget.h"
@@ -14,17 +15,31 @@
 #include "stn_data.h"
 #include "tabbed_forms.h"
 
-#include "callback.h"
 #include "drawing.h"
 #include "utils.h"
 
-#include <FL/Fl_JPEG_Image.H>
+#include <algorithm>
+#include <cstdio>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/fl_ask.H>
 #include <FL/Fl_BMP_Image.H>
-#include <FL/Fl_PNG_Image.H>
-#include <FL/Fl_Check_Button.H>
-#include <FL/Fl_Radio_Light_Button.H>
-#include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Check_Button.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Image.H>
+#include <FL/Fl_JPEG_Image.H>
+#include <FL/Fl_Light_Button.H>
+#include <FL/Fl_Native_File_Chooser.H>
+#include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_Radio_Light_Button.H>
+#include <FL/Fl_Tabs.H>
+#include <FL/fl_utf8.h>
+#include <FL/Fl_Widget.H>
+#include <FL/Fl_Window.H>
 
 // Constructor
 qso_qsl_vwr::qso_qsl_vwr(int X, int Y, int W, int H, const char* L) :
@@ -816,7 +831,7 @@ void qso_qsl_vwr::set_image() {
 						"QSL: Renaming station %s as %s", full_name_.c_str(), target_name.c_str());
 					status_->misc_status(ST_WARNING, message);
 					fl_make_path_for_file(target_name.c_str());
-					rename(full_name_.c_str(), target_name.c_str());
+					(void)rename(full_name_.c_str(), target_name.c_str());
 					full_name_ = target_name;
 					break;
 				}
@@ -839,7 +854,7 @@ void qso_qsl_vwr::set_image() {
 						"QSL: Renaming type %s as %s", full_name_.c_str(), jpeg_name.c_str());
 					status_->misc_status(ST_WARNING, message);
 					fl_make_path_for_file(jpeg_name.c_str());
-					rename(full_name_.c_str(), jpeg_name.c_str());
+					(void)rename(full_name_.c_str(), jpeg_name.c_str());
 					full_name_ = jpeg_name;
 					break;
 				}

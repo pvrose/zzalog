@@ -1,32 +1,46 @@
 #include "qsl_editor.h"
 
+#include <callback.h>
+#include <drawing.h>
 #include "field_choice.h"
 #include "filename_input.h"
 #include "font_dialog.h"
 #include "intl_widgets.h"
 #include "main.h"
+#include <page_dialog.h>
+#include <qsl_data.h>
 #include "qsl_dataset.h"
 #include "qsl_display.h"
 #include "qsl_widget.h"
 #include "qso_data.h"
 #include "qso_manager.h"
+#include "record.h"
 #include "settings.h"
 #include "status.h"
-#include "record.h"
+#include <win_dialog.h>
 
 #include "utils.h"
 
-#include <string>
+#include <algorithm>
+#include <cstdio>
 #include <ctime>
+#include <string>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Box.H>
-#include <FL/Fl_Group.H>
-#include <FL/Fl_Radio_Round_Button.H>
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Value_Input.H>
-#include <FL/Fl_Scroll.H>
-#include <FL/Fl_Output.H>
 #include <FL/Fl_Check_Button.H>
+#include <FL/Fl_Choice.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Light_Button.H>
+#include <FL/Fl_Output.H>
+#include <FL/Fl_Radio_Round_Button.H>
+#include <FL/Fl_Scroll.H>
+#include <FL/Fl_Value_Input.H>
+#include <FL/Fl_Widget.H>
+#include <FL/Fl_Window.H>
 
 
 // Constructor

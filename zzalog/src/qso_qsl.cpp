@@ -1,7 +1,9 @@
 #include "qso_qsl.h"
 
 #include "book.h"
+#include "callback.h"
 #include "club_handler.h"
+#include "drawing.h"
 #include "eqsl_handler.h"
 #include "extract_data.h"
 #include "import_data.h"
@@ -18,16 +20,24 @@
 #include "qsl_image.h"
 #include "qso_data.h"
 #include "qso_manager.h"
+#include <spec_data.h>
 #include "status.h"
 #include "tabbed_forms.h"
 #include "ticker.h"
+#include <utils.h>
 
-#include "callback.h"
-#include "drawing.h"
+
+#include <cstdio>
+#include <string>
 
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Check_Button.H>
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Image.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 qso_qsl::qso_qsl(int X, int Y, int W, int H, const char* L) :
@@ -282,7 +292,7 @@ void qso_qsl::create_form() {
 }
 
 // Save settings
-void qso_qsl::save_values() {
+void qso_qsl::save_values() const {
 	server_data_t* eqsl_data = qsl_dataset_->get_server_data("eQSL");
 	eqsl_data->upload_per_qso = auto_eqsl_;
 	server_data_t* lotw_data = qsl_dataset_->get_server_data("LotW");
@@ -424,6 +434,7 @@ void qso_qsl::cb_auto(Fl_Widget* w, void* v) {
 		break;
 	case extract_data::extract_mode_t::QRZCOM:
 		enable = &that->auto_qrz_;
+		break;
 	default:
 		break;
 	}

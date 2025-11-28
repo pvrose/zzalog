@@ -1,14 +1,20 @@
 #include "qsl_display.h"
 
 #include "main.h"
+#include <qsl_data.h>
 #include "qsl_dataset.h"
 #include "record.h"
 #include "status.h"
 
+#include <algorithm>
+#include <cerrno>
+#include <cstdio>
 #include <set>
 #include <string>
 
+#include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Image.H>
 #include <FL/Fl_JPEG_Image.H>
 #include <FL/Fl_BMP_Image.H>
 #include <FL/Fl_PNG_Image.H>
@@ -292,7 +298,7 @@ void qsl_display::draw_image(int x, int y, Fl_Image* image) {
 }
 
 // Scale and draw the text
-void qsl_display::draw_text(const char* text, Fl_Color colour) {
+void qsl_display::draw_text(const char* text, Fl_Color colour) const {
 	// Colour the whole display
 	fl_rectf(x_, y_, w_, h_, FL_BACKGROUND_COLOR);
 	Fl_Fontsize sz = fl_size();
@@ -489,7 +495,7 @@ void qsl_display::set_text(const char* text, Fl_Color colour) {
 }
 
 // Scale 
-int qsl_display::scale(int value) {
+int qsl_display::scale(int value) const {
 	if (do_scale_) {
 		return (int)((float)value * scaling_);
 	}

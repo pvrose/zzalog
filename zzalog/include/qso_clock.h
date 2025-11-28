@@ -37,7 +37,7 @@ public:
 	//! false sets the timezone to UTC.
 	void local(bool value);
 	//! Returns true if sstem locale, false if UTC.
-	bool local();
+	bool local() const;
 
 protected:
 

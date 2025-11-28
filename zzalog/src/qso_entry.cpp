@@ -1,7 +1,9 @@
 #include "qso_entry.h"
 
 #include "book.h"
+#include <callback.h>
 #include "contest_scorer.h"
+#include <drawing.h>
 #include "field_choice.h"
 #include "fields.h"
 #include "intl_widgets.h"
@@ -16,6 +18,19 @@
 #include "status.h"
 #include "tabbed_forms.h"
 #include "ticker.h"
+#include <utils.h>
+
+#include <algorithm>
+#include <cmath>
+#include <cstdio>
+#include <ctime>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Input_.H>
+#include <FL/Fl_Widget.H>
 
 int qso_entry::focus_ix_ = 0;
 
@@ -554,9 +569,9 @@ void qso_entry::initialise_fields() {
 	case qso_data::TEST_ACTIVE:
 	case qso_data::TEST_PENDING:
 		(*field_map_) = QSO_FIELDS;
-		for (auto it : qso_data_->contest()->fields()) {
+		for (auto& it : qso_data_->contest()->fields()) {
 			bool new_field = true;
-			for (auto iu : *field_map_) {
+			for (auto& iu : *field_map_) {
 				if (iu == it) {
 					new_field = false;
 					break;
@@ -792,6 +807,7 @@ void qso_entry::cb_ip_field(Fl_Widget* w, void* v) {
 				that->copy_label(that->qso_->item("CALL").c_str());
 				that->parent()->redraw();
 			}
+			[[fallthrough]];
 			// drop through
 		case qso_data::QSO_PENDING:
 		case qso_data::QSO_STARTED:
@@ -889,7 +905,7 @@ record* qso_entry::original_qso() {
 }
 
 // Get current number
-qso_num_t qso_entry::qso_number() {
+qso_num_t qso_entry::qso_number() const {
 	return qso_number_;
 }
 

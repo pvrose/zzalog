@@ -64,7 +64,7 @@ protected:
     //! Draw the \p image at position (\p x, \p y), scaling if necessary.
     void draw_image(int x, int y, Fl_Image* image);
     //! Draw \p text in \p colour in place of a generated image.
-    void draw_text(const char* text, Fl_Color colour);
+    void draw_text(const char* text, Fl_Color colour) const;
 
     //! Returns the ADIF format date in the remembered format.
     std::string convert_date(std::string text);
@@ -78,7 +78,7 @@ protected:
     Fl_Image* get_image(std::string filename);
 
     //! Returns the input \p value scaled by the necessary amount. 
-    int scale(int value);
+    int scale(int value) const;
     //! Calculate scale values.
     void calculate_scale(int tgt_w, int tgt_h);
 

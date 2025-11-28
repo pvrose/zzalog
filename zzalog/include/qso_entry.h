@@ -103,7 +103,7 @@ public:
 	//! Returns the original QSO data (pre-edit)
 	record* original_qso();
 	//! Returns the current QSO number
-	qso_num_t qso_number();
+	qso_num_t qso_number() const;
 
 	//! Add current QSO record to book.
 	void append_qso();

@@ -8,11 +8,17 @@
 #include "record.h"
 #include "status.h"
 #include "url_handler.h"
+#include <utils.h>
 
 #include "pugixml.hpp"
 
-#include <sstream>
+#include <chrono>
+#include <cstdio>
 #include <iostream>
+#include <istream>
+#include <sstream>
+#include <string>
+#include <thread>
 
 #include <FL/Fl.H>
 #include <FL/fl_ask.H>
@@ -428,7 +434,7 @@ bool qrz_handler::fetch_response(qsl_call_data* api, std::istream& resp, int& co
 	bool got_result = false;
 	bool got_adif = false;
 	bool failed = false;
-	enum { RESULT, COUNT, ADIF } state;
+	enum { RESULT, COUNT, ADIF } state = RESULT;
 	bool is_logid = false;
 	int count_logid = 0;
 	bool eod = false; // end of data

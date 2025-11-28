@@ -1,18 +1,28 @@
 #include "qsl_dataset.h"
 
-#include "extract_data.h"
 #include "main.h"
+#include <qsl_data.h>
 #include "settings.h"
 #include "status.h"
 #include "utils.h"
 
 #include "nlohmann/json.hpp"
 
+#include <cstdio>
+#include <fstream>
+#include <iomanip>
+#include <ios>
+#include <map>
+#include <set>
 #include <string>
 #include <vector>
-#include <fstream>
 
 #include <FL/Fl_Native_File_Chooser.H>
+#include <FL/fl_types.h>
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 using json = nlohmann::json;
 
@@ -304,7 +314,7 @@ static void from_json(const json& j, server_data_t& s) {
 	}
 	if (server == "eQSL" || server == "QRZ") {
 		auto jlog = j.at("Logbooks").get<std::map<std::string, json>>();
-		for (auto it : jlog) {
+		for (auto& it : jlog) {
 			qsl_call_data* cd = new qsl_call_data(it.second);
 			s.call_data[it.first] = cd;
 		}
@@ -415,13 +425,13 @@ bool qsl_dataset::load_json() {
 			json jall;
 			is >> jall;
 			auto qsls = jall.at("QSL Designs").get<std::vector<json>>();
-			for (auto it_type : qsls) {
+			for (auto& it_type : qsls) {
 				qsl_data::qsl_type type;
 				auto designs = new std::map<std::string, qsl_data*>;
 				it_type.at("Design type").get_to(type);
 				auto jdesigns = it_type.at("Designs").
 					get<std::map<std::string, json>>();
-				for (auto it_x : jdesigns) {
+				for (auto& it_x : jdesigns) {
 					qsl_data* qd = new qsl_data(it_x.second);
 					(*designs)[it_x.first] = qd;
 				}
@@ -429,7 +439,7 @@ bool qsl_dataset::load_json() {
 			}
 			auto svrs = jall.at("Servers").get < std::map<std::string, json>>();
 			svrs.at("Seed").get_to(seed_);
-			for (auto it : svrs) {
+			for (auto& it : svrs) {
 				if (it.first != "Seed") {
 					// Server_name is used by JSON conversion routines
 					server_name_ = it.first;
@@ -439,7 +449,7 @@ bool qsl_dataset::load_json() {
 			}
 			if (jall.find("No QSLs") != jall.end()) {
 				auto noqs = jall.at("No QSLs").get < std::set<json> >();
-				for (auto it : noqs) {
+				for (auto& it : noqs) {
 					std::string call;
 					it.get_to(call);
 					no_qsl_list_.insert(call);
