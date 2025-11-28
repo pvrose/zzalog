@@ -8,9 +8,6 @@
 #include "utils.h"
 
 #include <chrono>
-#ifdef _WIN32
-#include <corecrt.h>
-#endif
 #include <ctime>
 #include <map>
 

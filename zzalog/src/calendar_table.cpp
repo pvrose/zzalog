@@ -2,9 +2,6 @@
 #include "drawing.h"
 #include "utils.h"
 
-#ifdef _WIN32
-#include <corecrt.h>
-#endif
 #include <ctime>
 
 #include <FL/Enumerations.H>
