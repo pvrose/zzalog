@@ -3,6 +3,7 @@
 #include <cstring>
 
 #include <FL/Fl_Input_Choice.H>
+#include <string>
 
 input_hierch::input_hierch(int X, int Y, int W, int H, const char* L) :
 	Fl_Input_Choice(X, Y, W, H, L)
