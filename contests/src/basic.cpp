@@ -3,8 +3,11 @@
 #include "contest_algorithm.h"
 #include "record.h"
 #include "stn_data.h"
-
 #include "utils.h"
+
+#include <set>
+#include <string>
+#include <vector>
 
 // Constructor - add algorithmic specific data here
 contests::basic::basic() : contest_algorithm() {
@@ -19,7 +22,7 @@ void contests::basic::parse_exchange(record* qso, std::string text) {
 	std::vector<std::string> words;
 	split_line(text, words, ' ');
 	int ix = 0;
-	for (auto it : rx_items_) {
+	for (auto& it : rx_items_) {
 		qso->item(it, words[ix]);
 		ix++;
 	}
@@ -31,7 +34,7 @@ std::string contests::basic::generate_exchange(record* qso) {
 	int ix = 0;
 	set_default_rst(qso);
 	qso->item("MY_DXCC", my_info_->data.at(DXCC_ID));
-	for (auto it : tx_items_) {
+	for (auto& it : tx_items_) {
 		result += qso->item(it);
 		ix++;
 		if (ix < tx_items_.size()) result += ' ';
@@ -43,7 +46,7 @@ std::string contests::basic::generate_exchange(record* qso) {
 score_result contests::basic::score_qso(record* qso, std::set<std::string>& multipliers) {
 	// Multiplier is number of DXCCs worked on each band
 	std::string multiplier = qso->item("DXCC") + " " + qso->item("BAND");
-	score_result result;
+	score_result result{};
 	if (multipliers.find(multiplier) == multipliers.end()) {
 		result.multiplier = 1;
 		multipliers.insert(multiplier);

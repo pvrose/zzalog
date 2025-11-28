@@ -1,9 +1,13 @@
 #include "iaru_hf.h"
 
+#include <contest_algorithm.h>
 #include "record.h"
 #include "stn_data.h"
-
 #include "utils.h"
+
+#include <set>
+#include <string>
+#include <vector>
 
 extern stn_data* stn_data_;
 

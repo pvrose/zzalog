@@ -1,6 +1,10 @@
 #pragma once
 
 #include "contest_algorithm.h"
+#include <record.h>
+
+#include <set>
+#include <string>
 
 namespace contests {
 

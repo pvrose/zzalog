@@ -18,9 +18,9 @@ extern std::map<std::string, contest_algorithm*> algorithms_;
 //! Basic contest scoring element
 struct score_result {
     //! Points scored from the QSO
-    int qso_points;
+    int qso_points = 0;
     //! Additional multiplier caused by QSO
-    int multiplier;
+    int multiplier = 0;
 };
 
 //! This class is the base class for contest algorithms. 
