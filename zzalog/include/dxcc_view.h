@@ -38,7 +38,7 @@ public:
     //! Load configuration data from settinsg.
     void load_data();
     //! Store configuration settings.
-    void store_data();
+    void store_data() const;
 
     //! something has changed in the book - reevaluates all the data.
     virtual void update(hint_t hint, qso_num_t record_num_1, qso_num_t record_num_2 = 0);

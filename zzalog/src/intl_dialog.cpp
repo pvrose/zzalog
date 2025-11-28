@@ -1,15 +1,26 @@
 ﻿#include "intl_dialog.h"
 
+#include <drawing.h>
 #include "file_holder.h"
 #include "main.h"
 #include "menu.h"
 #include "status.h"
+#include <win_dialog.h>
 
 #include "callback.h"
 #include "utils.h"
 
+#include <fstream>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Native_File_Chooser.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Input.H>
+#include <FL/fl_utf8.h>
+#include <FL/Fl_Widget.H>
 
 // Majo
 std::string DEFAULT_INTL = "";

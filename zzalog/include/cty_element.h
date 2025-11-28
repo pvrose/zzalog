@@ -83,11 +83,11 @@ public:
 	error_t merge(cty_element* elem);
 
 	//! Returns true if \p elem valiidty overlaps this validity, false if not.
-	bool time_overlap(cty_element* elem);
+	bool time_overlap(cty_element* elem) const;
 	//! Returns true if this validity wholly contains \p elem validity.
-	bool time_contains(cty_element* elem);
+	bool time_contains(cty_element* elem) const;
 	//! Return true if supplied time (\p when) is within this validity.
-	bool time_contains(std::string when);
+	bool time_contains(std::string when) const;
 
 };
 

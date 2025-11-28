@@ -6,15 +6,27 @@
 #include "intl_widgets.h"
 #include "main.h"
 
+#include <page_dialog.h>
+
 #include "callback.h"
 #include "drawing.h"
 #include "utils.h"
 
+#include <cstdio>
+#include <set>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Choice.H>
+#include <FL/fl_draw.H>
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Light_Button.H>
+#include <FL/Fl_Table.H>
+#include <FL/Fl_Table_Row.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 fields_table::fields_table(int X, int Y, int W, int H, const char* L) :
@@ -207,6 +219,7 @@ void fields_table::cb_table(Fl_Widget* w, void* v) {
                 that->redraw();
             }
             }
+			break;
         }
         default:
             break;
@@ -277,7 +290,7 @@ void fields_table::cb_width(Fl_Widget* w, void* v) {
 }
 
 // Return selected row
-int fields_table::selected_row() {
+int fields_table::selected_row() const {
     return selected_row_;
 }
 

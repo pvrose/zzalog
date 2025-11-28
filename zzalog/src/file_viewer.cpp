@@ -5,10 +5,18 @@
 #include "utils.h"
 #include "drawing.h"
 
+#include <cstdio>
+#include <cstdlib>
+#include <string>
+
+#include <FL/Enumerations.H>
 #include <FL/fl_ask.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Text_Buffer.H>
+#include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Text_Editor.H>
+#include <FL/Fl_Widget.H>
+#include <FL/Fl_Window.H>
 
 // Constructor
 file_viewer::file_viewer(int W, int H, const char* L) :
@@ -154,7 +162,7 @@ void file_viewer::save_file() {
 }
 
 // Is dirty
-bool file_viewer::is_dirty() {
+bool file_viewer::is_dirty() const {
 	return dirty_;
 }
 

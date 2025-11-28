@@ -27,11 +27,11 @@ class Fl_Output;
 		virtual ~font_dialog();
 
         //! Returns the selected font.
-        Fl_Font font();
+        Fl_Font font() const;
         //! Retunrs the selected size.
-        Fl_Fontsize font_size();
+        Fl_Fontsize font_size() const;
         //! Returns the selected colour.
-        Fl_Color colour();
+        Fl_Color colour() const;
 
 
 		//! callback - OK button.

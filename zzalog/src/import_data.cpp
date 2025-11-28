@@ -1,8 +1,10 @@
 #include "import_data.h"
 
 #include "adi_reader.h"
+#include <book.h>
 #include "club_handler.h"
 #include "cty_data.h"
+#include <drawing.h>
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
 #include "main.h"
@@ -15,14 +17,19 @@
 
 #include "utils.h"
 
-#include <sstream>
 #include <chrono>
+#include <cstdio>
+#include <map>
+#include <set>
+#include <sstream>
+#include <string>
 #ifdef _WIN32
 #else
 #include <stdio.h>
 #endif
 
 #include <FL/Fl.H>
+#include <FL/fl_types.h>
 
 // Constructor - this book is used to contain data being imported. It adds functionality to support this
 import_data::import_data() :
@@ -44,6 +51,7 @@ import_data::import_data() :
 	match_question_ = "";
 	close_pending_ = false;
 	last_added_number_ = 0;
+	last_record_loaded_ = nullptr;
 }
 
 // Destructor
@@ -462,11 +470,11 @@ void import_data::finish_update(bool merged /*= true*/) {
 
 // Where an update has come from a QSL server, some ADIF fields are renamed to the viewpoiint of this 
 // log not the server
-void import_data::convert_update(record* qso) {
+void import_data::convert_update(record* qso) const {
 	// For each field in the record
 	// Get the std::list of fields because we may end up erasing some
 	std::set<std::string> field_names;
-	for (auto it : *qso) {
+	for (auto& it : *qso) {
 		field_names.insert(it.first);
 	}
 	for (std::string field_name : field_names) {
@@ -651,6 +659,7 @@ bool import_data::download_data(import_data::update_mode_t server) {
 		update_mode_ = server;
 		status_->misc_status(ST_NOTE, "IMPORT: Downloading OQRS from Cliublog.org");
 		result = club_handler_->download_oqrs(&adif);
+		break;
 	default:
 		break;
 	}

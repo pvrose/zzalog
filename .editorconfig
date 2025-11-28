@@ -85,5 +85,6 @@ cpp_sort_includes_priority_style = quoted
 cpp_includes_style = default
 cpp_includes_use_forward_slash = true
 # Ignore speciifc files from include cleanup
-cpp_include_cleanup_excluded_files = */nlohmann/json.hpp, corecrt.h, pch.h
+cpp_include_cleanup_excluded_files = nlohmann/json_fwd.hpp, nlohmann/detail/macro_scope.hpp, corecrt.h, pch.h, pngconf.h, pnglibconf.h
 cpp_include_cleanup_replacement_files = string.h:string
+

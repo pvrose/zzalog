@@ -80,7 +80,7 @@
 		//! Returns true if upload in progress, false if not.
 		bool upload_in_progress();
 		//! Returns extract mode.
-		extract_mode_t use_mode();
+		extract_mode_t use_mode() const;
 		//! Set ectract \p mode.
 		void use_mode(extract_mode_t mode);
 		//! Check and add record: \p record_num is index in full log. 

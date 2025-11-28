@@ -8,10 +8,16 @@
 #include "status.h"
 
 #include <ctime>
+#include <csetjmp>
+#include <cstdio>
+#include <string>
 
 #include "png.h"
 #include "zlib.h"
+
 #include <FL/fl_utf8.h>
+#include <FL/Fl_Image.H>
+#include <FL/fl_types.h>
 
 png_writer::png_writer() {
 	// TODO: Any initialisation of the libpng

@@ -1,6 +1,7 @@
 #include "extract_data.h"
 
-#include "tabbed_forms.h"
+#include <book.h>
+#include <drawing.h>
 #include "club_handler.h"
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
@@ -8,9 +9,18 @@
 #include "qrz_handler.h"
 #include "qso_manager.h"
 #include "record.h"
+#include <search.h>
 #include "search_dialog.h"
 #include "spec_data.h"
 #include "status.h"
+#include "tabbed_forms.h"
+#include <view.h>
+
+#include <cstdio>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/fl_draw.H>
 
 // Constructor
 extract_data::extract_data() :
@@ -1083,7 +1093,7 @@ bool extract_data::upload_in_progress() {
 	}
 }
 
-extract_data::extract_mode_t extract_data::use_mode() {
+extract_data::extract_mode_t extract_data::use_mode() const {
 	return use_mode_;
 }
 

@@ -1,13 +1,16 @@
 #include "cty2_reader.h"
 
 #include "cty_data.h"
+#include <cty_element.h>
 #include "main.h"
 #include "status.h"
 
 #include "drawing.h"
+#include <utils.h>
 
 #include <string>
 #include <vector>
+#include <istream>
 
 cty2_reader::cty2_reader() {
 	data_ = nullptr;
@@ -66,7 +69,7 @@ bool cty2_reader::load_entity(cty_entity* entry, std::istream& in, int& dxcc) {
 		// Now parse patterns
 		std::vector<std::string> patts;
 		split_line(items[9], patts, ' ');
-		for (auto it : patts) {
+		for (auto& it : patts) {
 			std::string match;
 			bool exception;
 			cty_element* entry = load_pattern(it, match, exception);
@@ -91,7 +94,7 @@ bool cty2_reader::load_entity(cty_entity* entry, std::istream& in, int& dxcc) {
 
 cty_element* cty2_reader::load_pattern(std::string patt, std::string& match, bool& exception) {
 	size_t pos = 0;
-	size_t spos;
+	size_t spos = 0;
 	match = "";
 	cty_element* result;
 	if (patt[pos] == '=') {

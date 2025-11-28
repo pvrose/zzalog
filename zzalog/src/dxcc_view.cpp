@@ -1,11 +1,20 @@
 #include "dxcc_view.h"
 
 #include "dxcc_table.h"
+#include <fields.h>
 #include "main.h"
 #include "settings.h"
+#include <view.h>
+
+#include <drawing.h>
 #include "utils.h"
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Button.H>
 #include <FL/Fl_Check_Button.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Widget.H>
 
 dxcc_view::dxcc_view(int X, int Y, int W, int H, const char* L, field_app_t fo) :
 	view(),
@@ -151,7 +160,7 @@ void dxcc_view::load_data() {
 }
 
 // Remember values for display and confirmation types
-void dxcc_view::store_data() {
+void dxcc_view::store_data() const {
     settings top_settings;
     settings view_settings(&top_settings, "Views");
     settings dxcc_settings(&view_settings, "DXCC Table");

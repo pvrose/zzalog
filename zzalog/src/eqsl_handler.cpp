@@ -14,20 +14,32 @@
 #include "ticker.h"
 #include "url_handler.h"
 
+#include <drawing.h>
 #include "utils.h"
 
+#include <chrono>
+#include <cstdint>
 #include <cstdio>
 #include <fstream>
+#include <ios>
 #include<istream>
+#include <map>
+#include <ostream>
+#include <set>
 #include <sstream>
-#include <chrono>
+#include <string>
+#include <thread>
+#include <vector>
 
+#include <FL/Enumerations.H>
 #include <FL/Fl.H>
 #include <FL/fl_ask.H>
+#include <FL/fl_draw.H>
+#include <FL/Fl_Help_View.H>
+#include <FL/Fl_Group.H>
 #include <FL/fl_utf8.h>
 #include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Window.H>
-#include <FL/Fl_Help_View.H>
 
 // Constructor
 eqsl_handler::eqsl_handler()
@@ -380,7 +392,7 @@ eqsl_handler::response_t eqsl_handler::card_filename_r(
 		std::string throttle_signature = "Warning: Processor Overload - Throttling invoked";
 		std::string text_line;
 		bool got_card_filename = false;
-		int char_pos = 0;
+		size_t char_pos = 0;
 		std::string file = "";
 		// Interpret returned page - read a line at a time looking for one of the signatures
 		while (getline(eqsl_ss, text_line) && eqsl_ss.good() && !got_card_filename) {
@@ -412,7 +424,7 @@ eqsl_handler::response_t eqsl_handler::card_filename_r(
 						// Position to after the first quote
 						char_pos += image_signature.length();
 						// now look for second quote ending the filename
-						int end_pos = text_line.find("\"", char_pos);
+						size_t end_pos = text_line.find("\"", char_pos);
 						// incorrectly formatted response
 						if (end_pos == std::string::npos) {
 							response = ER_FAILED;
@@ -620,13 +632,13 @@ eqsl_handler::response_t eqsl_handler::adif_filename(std::string& filename) {
 			}
 			else {
 				// Only get here if ACKed - look for HREF=
-				int pos_start = text_line.find(tag_signature);
+				size_t pos_start = text_line.find(tag_signature);
 				if (pos_start != std::string::npos) {
 					tag_seen = true;
 					// Get the file name - skip the HREF="
 					pos_start += 6;
 					// Look for second quote character
-					int pos_end = text_line.find("\"", pos_start);
+					size_t pos_end = text_line.find("\"", pos_start);
 					// url of ADIF file
 					filename = text_line.substr(pos_start, pos_end - pos_start);
 				}
@@ -693,7 +705,7 @@ void eqsl_handler::enable_fetch(queue_control_t control) {
 	switch (control) {
 	case EQ_START:
 		// start timer immediately
-		status_->progress(download_count_ * 10, OT_EQSL_IMAGE, "eQSL Image download", "counts");
+		status_->progress((uint64_t)download_count_ * 10, OT_EQSL_IMAGE, "eQSL Image download", "counts");
 		tick_count_ = EQSL_THROTTLE;
 		break;
 	case EQ_PAUSE:

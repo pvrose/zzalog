@@ -116,7 +116,7 @@ public:
 	//! \param os Returned input stream
 	//! \param filename Returns name of opened file
 	//! \returns true if successful
-	bool get_file(file_contents_t type, std::ofstream& os, std::string& filename);
+	bool get_file(file_contents_t type, std::ofstream& os, std::string& filename) const;
 
 	//! Get filename for data \p type
 	std::string get_filename(file_contents_t type) {
@@ -137,12 +137,12 @@ public:
 	}
 
 	//! Release working copy to source
-	bool copy_working_to_source(file_contents_t type);
+	bool copy_working_to_source(file_contents_t type) const;
 
 protected:
 
 	//! Copy source to working
-	bool copy_source_to_working(file_control_t ctrl);
+	bool copy_source_to_working(file_control_t ctrl) const;
 	
 
 	//! Default location for configuration files, and HTML files

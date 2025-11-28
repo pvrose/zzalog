@@ -1,8 +1,11 @@
 #include "cty_element.h"
+#include <utils.h>
 
 #include <nlohmann/json.hpp>
 
 #include <cmath>
+#include <ostream>
+#include <string>
 
 using json = nlohmann::json;
 
@@ -61,7 +64,7 @@ cty_element::error_t cty_element::merge(cty_element* elem) {
 }
 
 // Returns true if elem's valiidty overlaps this validity
-bool cty_element::time_overlap(cty_element* elem) {
+bool cty_element::time_overlap(cty_element* elem) const {
 	time_scope lhs = time_validity_;
 	time_scope rhs = elem->time_validity_;
 	if (lhs.start == "*") lhs.start = "00000000";
@@ -76,7 +79,7 @@ bool cty_element::time_overlap(cty_element* elem) {
 }
 
 // Return true if this validity wholly contains elem's validity
-bool cty_element::time_contains(cty_element* elem) {
+bool cty_element::time_contains(cty_element* elem) const {
 	time_scope lhs = time_validity_;
 	time_scope rhs = elem->time_validity_;
 	if (lhs.start == "*") lhs.start = "00000000";
@@ -88,7 +91,7 @@ bool cty_element::time_contains(cty_element* elem) {
 }
 
 // Return true if supplied time is within this validity
-bool cty_element::time_contains(std::string when) {
+bool cty_element::time_contains(std::string when) const {
 	time_scope lhs = time_validity_;
 	if (lhs.start == "*") lhs.start = "00000000";
 	if (lhs.finish == "*") lhs.finish = "99999999";
@@ -242,7 +245,7 @@ void from_json(const json& j, cty_element& e) {
 	if (j.find("Deleted") != j.end()) j.at("Deleted").get_to(e.deleted_);
 	else e.deleted_ = false;
 	if (j.find("Filters") != j.end()) {
-		for (auto f : j.at("Filters")) {
+		for (auto& f : j.at("Filters")) {
 			cty_filter::filter_t t = cty_filter::FT_NOT_USED;
 			if (f.find("Filter Type") != f.end()) {
 				f.at("Filter Type").get_to(t);

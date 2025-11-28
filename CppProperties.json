@@ -19,9 +19,7 @@
       ],
       "defines": [
         "WIN32",
-        "_DEBUG",
-        "UNICODE",
-        "_UNICODE"
+        "_DEBUG"
       ],
       "intelliSenseMode": "windows-msvc-x86"
     }

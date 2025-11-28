@@ -1,8 +1,17 @@
 #include "cty3_reader.h"
 
 #include "cty_data.h"
+#include <cty_element.h>
 #include "main.h"
 #include "status.h"
+
+#include <drawing.h>
+#include <utils.h>
+
+#include <istream>
+#include <list>
+#include <string>
+#include <vector>
 
 cty3_reader::cty3_reader() {}
 cty3_reader::~cty3_reader() {}
@@ -33,7 +42,7 @@ std::list<std::string> cty3_reader::expand_mask(std::string patterns) {
 	// Separate int patterns
 	std::vector<std::string> indiv_patts;
 	split_line(patterns, indiv_patts, ',');
-	for (auto ptn : indiv_patts) {
+	for (auto& ptn : indiv_patts) {
 		int num_multis = 0;
 		for (auto c : ptn) {
 			switch (c) {
@@ -125,7 +134,7 @@ std::list<std::string> cty3_reader::expand_mask(std::string patterns) {
 			default:
 				if (braced) {
 					if (temp_start.size()) {
-						for (auto it : temp_start) {
+						for (auto& it : temp_start) {
 							interim.push_back(it + c);
 						}
 					}
@@ -137,7 +146,7 @@ std::list<std::string> cty3_reader::expand_mask(std::string patterns) {
 					if (interim.size()) {
 						temp_start = interim;
 						interim.clear();
-						for (auto it : temp_start) {
+						for (auto& it : temp_start) {
 							interim.push_back(it + c);
 						}
 					}
@@ -219,7 +228,7 @@ bool cty3_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 	while (ok) {
 		// What sort of record is it?
 		size_t pos = line.find('|');
-		int depth = 0;
+		size_t depth = 0;
 		rec_type_t type;
 		std::string stype = line.substr(0, pos);
 		switch (pos) {

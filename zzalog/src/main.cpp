@@ -10,7 +10,6 @@ main.cpp - application entry point
 #include "main.h"
 
 
-#include "callback.h"
 #include "drawing.h"
 #include "utils.h"
 
@@ -56,22 +55,33 @@ main.cpp - application entry point
 #include "hamlib/rig.h"
 
 // C/C++ header files
-#include <ctime>
-#include <string>
-#include <list>
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
+#include <cstdint>
+#include <cstring>
+#include <ctime>
+#include <fstream>
+#include <list>
+#include <map>
+#include <string>
 
 // FLTK header files
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
+#include <FL/fl_ask.H>
 #include <FL/Fl_Box.H>
+#include <FL/fl_draw.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Tooltip.H>
+#include <FL/fl_types.h>
 #include <FL/Fl_Widget.H>
-#include <FL/fl_ask.H>
-#include <FL/fl_draw.H>
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+#include <FL/Fl_Window.H>
 
 
 //! Program copyright - displayed in all windows.
@@ -609,7 +619,7 @@ int cb_args(int argc, char** argv, int& i) {
 	}
 	if (i == i_orig ) {
 		// Not processed any argumant
-		if (*argv[i] == '-') {
+		if (argv[i] && *argv[i] == '-') {
 			int i_fltk = Fl::arg(argc, argv, i);
 			if (i_fltk == 0) {
 				printf("ZZALOG: Unrecognised switch %s", argv[i]);
@@ -1183,7 +1193,7 @@ int main(int argc, char** argv)
 	int i = 1;
 	Fl::args(argc, argv, i, cb_args);
 	// Set the default data directories
-	bool development;
+	bool development = false;
 	file_holder_ = new file_holder(argv[0], DEVELOPMENT_MODE);
 	// Read any switches that stick between calls
 	read_saved_switches();

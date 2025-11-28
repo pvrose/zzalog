@@ -7,9 +7,12 @@
 #include "drawing.h"
 #include "utils.h"
 
+#include <FL/Enumerations.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Radio_Round_Button.H>
+#include <FL/Fl_Widget.H>
 
 //! Constructor - sizes and labels itself
 init_dialog::init_dialog(int X, int Y, int W, int H, const char* L) :

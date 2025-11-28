@@ -12,11 +12,19 @@
 
 #include "drawing.h"
 
+#include <algorithm>
 #include <climits>
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
+#include <string>
 
 #include <FL/fl_ask.H>
 #include <FL/fl_draw.H>
-#include <FL/Fl_Button.H>
+#include <FL/Enumerations.H>
+#include <FL/Fl_Printer.H>
+#include <qsl_data.h>
 
 const int LINE_MARGIN = 1;
 const int LINE_WIDTH = 1;
@@ -89,7 +97,7 @@ int printer::print_book() {
 	int error = 0;
 	print_page_header(page_number);
 	// For each record that would be in the page range
-	size_t i = (from_page - 1) * items_per_page_;
+	size_t i = ((size_t)from_page - 1) * items_per_page_;
 	while (i < navigation_book_->size() && page_number <= to_page && !error) {
 		// Print the record
 		print_record(navigation_book_->get_record(i, false));
@@ -103,7 +111,7 @@ int printer::print_book() {
 				// End the page
 				error = end_page();
 				// Update progress
-				status_->progress(page_number - from_page, type_);
+				status_->progress((uint64_t)(page_number - from_page), type_);
 				// Start the next page
 				if (!error) error = begin_page();
 				if (!error) print_page_header(page_number);
@@ -282,7 +290,7 @@ int printer::print_cards() {
 	int error = 0;
 
 	// For each record that would be in the page range
-	size_t i = (from_page - 1) * items_per_page_;
+	size_t i = (size_t)(from_page - 1) * items_per_page_;
 
 	while ((i < navigation_book_->size()) && page_number <= to_page && !error) {
 		// Print the record and those following
@@ -331,7 +339,7 @@ int printer::print_page_cards(size_t &item_num) {
 				records[i] = navigation_book_->get_record(item_num + i, false);
 			}
 			int imagex = cwin_x_ + (int)((card % card_data_->columns) * card_data_->width);
-			int imagey = cwin_y_ + (int)(((card / card_data_->columns) % card_data_->rows) * card_data_->height);
+			int imagey = cwin_y_ + (int)((double)((int)(card / card_data_->columns) % card_data_->rows) * card_data_->height);
 			qsl_display* qsl = new qsl_display(imagex, imagey);
 			qsl->set_card(card_data_);
 			qsl->set_qsos(records, print_records);

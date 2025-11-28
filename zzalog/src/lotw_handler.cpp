@@ -9,15 +9,23 @@
 #include "status.h"
 #include "url_handler.h"
 
-#include "callback.h"
 #include "utils.h"
 
+#include <chrono>
+#include <cstdio>
 #include <cstdlib>
+#include <sstream>
+#include <string>
+#include <thread>
 
-#include <FL/Fl_Native_File_Chooser.H>
-#include <FL/Fl_Text_Display.H>
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/fl_ask.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Help_Dialog.H>
+#include <FL/Fl_Native_File_Chooser.H>
+#include <FL/Fl_Text_Buffer.H>
+#include <FL/Fl_Text_Display.H>
 
 // Constructor
 lotw_handler::lotw_handler()

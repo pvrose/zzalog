@@ -89,7 +89,7 @@ class book;
 		//! Where an update has come from a QSL server, 
 		//! some ADIF fields are renamed to the viewpoiint of this
 		//! log not the server.
-		void convert_update(record* record);
+		void convert_update(record* record) const;
 
 	protected:
 		//! a record update query is in progress

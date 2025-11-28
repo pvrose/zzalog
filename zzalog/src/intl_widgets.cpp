@@ -3,6 +3,11 @@
 #include "intl_dialog.h"
 #include "main.h"
 
+#include <FL/Enumerations.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Text_Display.H>
+#include <FL/Fl_Text_Editor.H>
+
 // Constructor
 intl_editor::intl_editor(int X, int Y, int W, int H, const char* label) :
 	Fl_Text_Editor(X, Y, W, H, label),

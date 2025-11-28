@@ -1,11 +1,21 @@
 #include "font_dialog.h"
+
 #include "drawing.h"
 #include "utils.h"
+#include <win_dialog.h>
 
+#include <algorithm>
+#include <cstdio>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Hold_Browser.H>
 #include <FL/Fl_Color_Chooser.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Output.H>
+#include <FL/fl_types.h>
+#include <FL/Fl_Widget.H>
 
 // Constructor - includes widget instantiation
 // Size will be fixed - only supply current font, size and colour
@@ -185,17 +195,17 @@ void font_dialog::populate_size(Fl_Widget* w, const Fl_Font* font, const Fl_Font
 }
 
 // Return selected font
-Fl_Font font_dialog::font() {
+Fl_Font font_dialog::font() const {
 	return font_;
 }
 
 // Return selected size
-Fl_Fontsize font_dialog::font_size() {
+Fl_Fontsize font_dialog::font_size() const {
 	return fontsize_;
 }
 
 // Return selected colour
-Fl_Color font_dialog::colour() {
+Fl_Color font_dialog::colour() const {
 	return colour_;
 }
 

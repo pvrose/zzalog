@@ -3,12 +3,12 @@
 
 #include "book.h"
 #include "cty_data.h"
+#include <drawing.h>
 #include "extract_data.h"
 #include "field_choice.h"
 #include "fields.h"
-#include "intl_dialog.h"
-#include "main_window.h"
 #include "main.h"
+#include "main_window.h"
 #include "menu.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -17,11 +17,21 @@
 #include "status.h"
 #include "toolbar.h"
 #include "utils.h"
+#include <view.h>
 
+#include <algorithm>
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <string>
 
-#include <FL/fl_draw.H>
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
+#include <FL/fl_draw.H>
+#include <FL/Fl_Table.H>
+#include <FL/Fl_Table_Row.H>
+#include <FL/Fl_Widget.H>
+#include <FL/Fl_Window.H>
 
 Fl_Font log_table::font_;
 Fl_Fontsize log_table::fontsize_;
@@ -357,14 +367,14 @@ int log_table::handle(int event) {
 			}
 			else {
 				// The greater of record 0 or one page above where we are (record numbers are unsigned (size_t))
-				my_book_->selection(std::max<size_t>(0, (signed)my_book_->selection() - rows_per_page_));
+				my_book_->selection(std::max<int64_t>(0, (int64_t)my_book_->selection() - rows_per_page_));
 			}
 			return true;
 		case FL_Page_Down:
 			// PGDN - Go down one page
 			if (order_ == LAST_TO_FIRST) {
 				// The greater of record 0 or one page above where we are (record numbers are unsigned (size_t))
-				my_book_->selection(std::max<size_t>(0, (signed)my_book_->selection() - rows_per_page_));
+				my_book_->selection(std::max<int64_t>(0, (int64_t)my_book_->selection() - rows_per_page_));
 			}
 			else {
 				// The lower of the one page above where we are or last record
@@ -379,9 +389,10 @@ int log_table::handle(int event) {
 			// CTRL-V
 			if (Fl::event_key(FL_Control_L) || Fl::event_key(FL_Control_R)) {
 				// Treat as paste clipboard
-				Fl::paste(*main_window_, 1);
+				Fl::paste(*(Fl_Widget*)main_window_, 1);
 				return true;
 			}
+			break;
 		case FL_F + 1:
 			// F1
 			open_html("log_table.html");

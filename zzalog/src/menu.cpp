@@ -10,6 +10,7 @@
 #include "change_dialog.h"
 #include "config.h"
 #include "cty_data.h"
+#include <drawing.h>
 #include "eqsl_handler.h"
 #include "extract_data.h"
 #include "import_data.h"
@@ -22,15 +23,23 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "report_tree.h"
+#include <search.h>
 #include "search_dialog.h"
 #include "spec_data.h"
 #include "status.h"
 #include "tabbed_forms.h"
 #include "ticker.h"
 #include "toolbar.h"
+#include <view.h>
+#include <win_dialog.h>
 #include "wsjtx_handler.h"
 
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
 #include <list>
+#include <vector>
 #include <string>
 // For launching PDF reader
 #ifdef _WIN32
@@ -39,11 +48,19 @@
 #include <cstdlib>
 #endif
 
+
+#include <FL/Enumerations.H>
+#include <FL/filename.H>
+#include <FL/Fl.H>
 #include <FL/fl_ask.H>
+#include <FL/fl_draw.H>
+#include <FL/Fl_Menu_.H>
+#include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Tooltip.H>
-
+#include <FL/Fl_Widget.H>
+#include <FL/Fl_Window.H>
 	// The default menu - std::set of menu items
 	Fl_Menu_Item menu_items[] = {
 		// File operations
@@ -554,7 +571,7 @@ void menu::cb_mi_nav_date(Fl_Widget* w, void* v) {
 // Navigate->Record Number
 // v is ignored
 void menu::cb_mi_nav_recnum(Fl_Widget* w, void* v) {
-	int record_num;
+	qso_num_t record_num;
 	// get record number
 	const char* reply = fl_input("Enter record number");
 	if (reply) {
@@ -1326,7 +1343,7 @@ void menu::add_recent_files() {
 	for (auto it = recent_files_.begin(); i <= '4' && it != recent_files_.end(); i++, it++) {
 		std::string& filename = *it;
 		// We have a filename - Find the last slash in the filename
-		int start = filename.find_last_of("/\\");
+		size_t start = filename.find_last_of("/\\");
 		char label[100];
 		if (start == filename.npos) {
 			// No slash in filename so use it

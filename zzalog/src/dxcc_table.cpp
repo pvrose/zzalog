@@ -1,5 +1,6 @@
 #include "dxcc_table.h"
 
+#include <band.h>
 #include "book.h"
 #include "main.h"
 #include "record.h"
@@ -7,7 +8,13 @@
 
 #include "drawing.h"
 
+#include <cstdio>
+#include <set>
+#include <string>
+
+#include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Table.H>
 
 dxcc_table::dxcc_table(int X, int Y, int W, int H, const char* L) :
     Fl_Table(X, Y, W, H, L)
@@ -272,10 +279,10 @@ void dxcc_table::configure_table() {
 }
 
 // Get the display type
-dxcc_table::display_t dxcc_table::display_type() { return display_type_; }
+dxcc_table::display_t dxcc_table::display_type() const { return display_type_; }
 
 // Get the confirmation type
-dxcc_table::confirm_t dxcc_table::confirm_type() { return confirm_type_; }
+dxcc_table::confirm_t dxcc_table::confirm_type() const { return confirm_type_; }
 
 // Get the minimum height
 int dxcc_table::min_h() {

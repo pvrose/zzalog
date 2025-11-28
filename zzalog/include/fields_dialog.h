@@ -42,7 +42,7 @@ public:
     //! Set the contents - by reference
     void data(collection_t* d);
     //! Returns the selected row.
-    int selected_row();
+    int selected_row() const;
     //! Set the selected row.
     void select_row(int row);
 

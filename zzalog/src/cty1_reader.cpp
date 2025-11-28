@@ -1,25 +1,23 @@
 #include "cty1_reader.h"
 
 #include "cty_data.h"
+#include <cty_element.h>
 #include "main.h"
 #include "status.h"
 
+#include <drawing.h>
+
 #include "pugixml.hpp"
 
+#include <istream>
+#include <string>
+#include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
 
 // Constructor
 cty1_reader::cty1_reader() {
-	//ignore_processing_ = false;
-	//current_entity_ = nullptr;
-	//current_prefix_ = nullptr;
-	//current_exception_ = nullptr;
-	//current_invalid_ = nullptr;
-	//current_zone_exc_ = nullptr;
-	//current_entity_ = nullptr;
-	//current_prefix_ = nullptr;
+	number_read_ = 0;
 	data_ = nullptr;
-	//file_ = nullptr;
 }
 
 // Destructor

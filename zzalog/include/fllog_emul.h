@@ -27,7 +27,7 @@ class record;
 		//! Returns the server state.
 		bool has_server();
 		//! Returns true if a request has been received.
-		bool has_data();
+		bool has_data() const;
 
 	protected:
 		//! Fetch the first record that matches callsign request.

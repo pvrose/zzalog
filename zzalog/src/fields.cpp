@@ -4,9 +4,16 @@
 #include "main.h"
 #include "status.h"
 
+#include <cstdio>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
+#include <map>
+#include <set>
 #include <string>
+#include <vector>
+
+#include <nlohmann/json.hpp>
 
 //! Convert field_info_t to JSON object
 static void to_json(json& j, const field_info_t& s) {
@@ -167,7 +174,7 @@ void fields::store_data() {
     file_holder_->get_file(FILE_FIELDS, op, filename_);
     if (op.good()) {
         json j;
-        for (auto it : coll_map_) {
+        for (auto& it : coll_map_) {
             json jc;
             jc[it.first] = *it.second;
             j["Fields"].push_back(jc);

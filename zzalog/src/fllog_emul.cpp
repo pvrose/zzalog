@@ -10,10 +10,16 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "rpc_data_item.h"
+#include <rpc_handler.h>
 #include "spec_data.h"
 #include "status.h"
+#include <utils.h>
 
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 #include <sstream>
+#include <string>
 
 
 // Constructor
@@ -302,7 +308,7 @@ void fllog_emul::check_connected() {
 }
 
 // Returns connected state
-bool fllog_emul::has_data() {
+bool fllog_emul::has_data() const {
 	return connected_;
 }
 

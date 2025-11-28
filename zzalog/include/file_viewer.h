@@ -35,7 +35,7 @@ public:
     std::string file();
 
     //! File has been changed and not saved.
-    bool is_dirty();
+    bool is_dirty() const;
 
     //! Callback from window close button.
     static void cb_close(Fl_Widget* w, void* v);

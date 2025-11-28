@@ -116,7 +116,7 @@ struct spec_dataset;
 		//! Populate a case choice - UPPER, lower and Mixed versions of the text value.
 		void populate_case_choice();
 		//! Is it a field that can have its value's case changed
-		bool is_string(std::string field);
+		bool is_string(std::string field) const;
 		//! Name of field
 		std::string field_name_;
 		//! QSO

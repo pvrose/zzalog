@@ -1,5 +1,12 @@
 #include "password_input.h"
 
+#include <button_input.h>
+
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Input_.H>
+#include <FL/Fl_Widget.H>
+
 password_input::password_input(int X, int Y, int W, int H, const char* L) :
 	button_input(X, Y, W, H, L)
 {

@@ -46,9 +46,9 @@ public:
     //! Set the confirmation mode
     void confirm_type(confirm_t t);
     //! Get the display type
-    display_t display_type();
+    display_t display_type() const;
     //! Get the confirmation mode
-    confirm_t confirm_type();
+    confirm_t confirm_type() const;
     //! Inherited from Fl_Table, used to draw the table.
     virtual void draw_cell(TableContext context, int R = 0, int C = 0, int X = 0, int Y = 0,
         int W = 0, int H = 0);

@@ -5,6 +5,11 @@
 #include "menu.h"
 
 #include <sstream>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Double_Window.H>
 
 // Create the window
 main_window::main_window(int W, int H, const char* label) :

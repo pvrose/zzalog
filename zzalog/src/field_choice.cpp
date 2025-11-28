@@ -7,6 +7,19 @@
 #include "qso_entry.h"
 
 #include <cstring>
+#include <cstdio>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Choice.H>
+#include <FL/Fl_Input_.H>
+#include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Menu_Button.H>
+#include <FL/fl_types.h>
+#include <FL/fl_utf8.h>
+#include <FL/Fl_Widget.H>
+#include <FL/Fl_Window.H>
 
 // Lists greater than this will be hierarchic - e.g. "A/ADDRESS" else not so "ADDRESS"
 const int HIERARCHIC_LIMIT = 12;
@@ -187,6 +200,7 @@ int field_input::handle(int event) {
 				do_callback();
 				return 1;
 			}
+			break;
 		case FL_Right:
 			// ALT/Right
 			if (Fl::event_state(FL_ALT)) {
@@ -194,6 +208,7 @@ int field_input::handle(int event) {
 				do_callback();
 				return 1;
 			}
+			break;
 		case FL_Up:
 			// ALT/Up
 			if (Fl::event_state(FL_ALT)) {
@@ -201,6 +216,7 @@ int field_input::handle(int event) {
 				do_callback();
 				return 1;
 			}
+			break;
 		case FL_Down:
 			// ALT/Down
 			if (Fl::event_state(FL_ALT)) {
@@ -208,6 +224,7 @@ int field_input::handle(int event) {
 				do_callback();
 				return 1;
 			}
+			break;
 		}
 		return Fl_Input_Choice::handle(event);
 	case FL_PASTE: {
@@ -316,7 +333,7 @@ void field_input::populate_case_choice() {
 	clear();
 	const char* src = Fl_Input_Choice::value();
 	// Generate upper-, lower- and mixed-case versions of the input value
-	int len = strlen(src);
+	size_t len = strlen(src);
 	if (len > 0) {
 		char* dst = new char[len * 3];
 		// upper-case
@@ -391,7 +408,7 @@ void field_input::reload_choice(record* qso /* = nullptr */) {
 }
 
 // Field is a std::string type - allow case choice
-bool field_input::is_string(std::string field) {
+bool field_input::is_string(std::string field) const {
 	// Special case where a std::string is a suggested enumeation
 	if (spec_data_->enumeration_name(field_name_, nullptr).length()) return false;
 	char c = spec_data_->datatype_indicator(field);
