@@ -4,7 +4,7 @@
 #include "calendar.h"
 #include "utils.h"
 
-#include <string.h>
+#include <cstring>
 #include <string>
 
 #include <FL/Fl.H>
