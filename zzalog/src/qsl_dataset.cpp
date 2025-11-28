@@ -103,7 +103,7 @@ const std::map<qsl_data::qsl_type, qsl_data> DEFAULT_QSL_DATA = {
 	{ qsl_data::FILE, FILE_QSL_DATA }
 };
 
-static void to_json(json& j, const qsl_data::style_def& s) {
+void to_json(json& j, const qsl_data::style_def& s) {
 	j = json{
 		{ "Font", s.font },
 		{ "Size", s.size },
@@ -112,7 +112,7 @@ static void to_json(json& j, const qsl_data::style_def& s) {
 }
 
 // Convert qsl_data::item_def to JSON object
-static void to_json(json& j, const qsl_data::item_def& s) {
+void to_json(json& j, const qsl_data::item_def& s) {
 	j["Type"] = s.type;
 	switch (s.type) {
 	case qsl_data::FIELD: {
@@ -147,7 +147,7 @@ static void to_json(json& j, const qsl_data::item_def& s) {
 }
 
 // Convert qsl_data to JSON object
-static void to_json(json& j, const qsl_data& s) {
+void to_json(json& j, const qsl_data& s) {
 	j = json{
 		{ "Unit", s.unit },
 		{ "Width", s.width },
@@ -170,7 +170,7 @@ static void to_json(json& j, const qsl_data& s) {
 }
 
 // Convert qsl_call_data to JSON object
-static void to_json(json& j, const qsl_call_data& s) {
+void to_json(json& j, const qsl_call_data& s) {
 	uchar offset = hash8(qsl_dataset::server_name().c_str());
 	if (s.used) {
 		j["In use"] = true;
@@ -183,7 +183,7 @@ static void to_json(json& j, const qsl_call_data& s) {
 }
 
 // Convert server_data_t to JSON object
-static void to_json(json& j, const server_data_t& s) {
+void to_json(json& j, const server_data_t& s) {
 	uchar offset = hash8(qsl_dataset::server_name().c_str());
 	// Common items
 	j["User"] = s.user;
@@ -222,14 +222,14 @@ static void to_json(json& j, const server_data_t& s) {
 }
 
 // Convert JSON object to qsl_data::style_def
-static void from_json(const json& j, qsl_data::style_def& s) {
+void from_json(const json& j, qsl_data::style_def& s) {
 	j.at("Font").get_to(s.font);
 	j.at("Size").get_to(s.size);
 	j.at("Colour").get_to(s.colour);
 }
 
 // Convert JSON object to qsl_data::item_def
-static void from_json(const json& j, qsl_data::item_def& s) {
+void from_json(const json& j, qsl_data::item_def& s) {
 	j.at("Type").get_to(s.type);
 	switch (s.type) {
 	case qsl_data::FIELD: {
@@ -263,7 +263,7 @@ static void from_json(const json& j, qsl_data::item_def& s) {
 	}
 }
 
-static void from_json(const json& j, qsl_data& s) {
+void from_json(const json& j, qsl_data& s) {
 	j.at("Unit").get_to(s.unit);
 	j.at("Width").get_to(s.width);
 	j.at("Height").get_to(s.height);
@@ -285,7 +285,7 @@ static void from_json(const json& j, qsl_data& s) {
 	}
 }
 
-static void from_json(const json& j, qsl_call_data& s) {
+void from_json(const json& j, qsl_call_data& s) {
 	uchar offset = hash8(qsl_dataset::server_name().c_str());
 	j.at("In use").get_to(s.used);
 	if (s.used) {
@@ -296,7 +296,7 @@ static void from_json(const json& j, qsl_call_data& s) {
 	}
 }
 
-static void from_json(const json& j, server_data_t& s) {
+void from_json(const json& j, server_data_t& s) {
 	std::string server = qsl_dataset::server_name();
 	uchar offset = hash8(server.c_str());
 	std::string password;

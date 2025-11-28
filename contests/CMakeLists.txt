@@ -37,6 +37,11 @@ target_include_directories(${TARGET} PRIVATE
   ../common/include
   ${FLTK_INCLUDE_DIR}
 )
+if (MSVC)
+  target_include_directories(${TARGET} PRIVATE 
+    "C:\\Users\\pvros\\source\\repos\\json\\include"
+  )
+endif()
 # Component sources
 target_sources(${TARGET} 
   PRIVATE 

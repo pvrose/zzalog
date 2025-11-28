@@ -3,6 +3,10 @@
 #include <string>
 #include <vector>
 
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
+
 #include <FL/Fl.H>
 
 //! QSL Card definition data
@@ -116,3 +120,9 @@ struct qsl_data {
 //! Initialise the text used to describe the card types. 
 const std::string QSL_TYPES[qsl_data::MAX_TYPE] = {"Label", "File"};
 
+void to_json(json& j, const qsl_data& s);
+void from_json(const json& j, qsl_data& s);
+void to_json(json& j, const qsl_data::style_def& s);
+void from_json(const json& j, qsl_data::style_def& s);
+void to_json(json& j, const qsl_data::item_def& s);
+void from_json(const json& j, qsl_data::item_def& s);

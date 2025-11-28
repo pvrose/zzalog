@@ -10,6 +10,9 @@
 
 #include <FL/Fl.H>
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 enum extract_mode_t : uint8_t;
 
 // Class to manage QSL designs
@@ -21,6 +24,9 @@ struct qsl_call_data {
 	unsigned long long last_logid;       //!< Universal QSO record identifier.
 	std::string last_download;           //!< Date last downloaded (YYYYMMDD)
 };
+
+void to_json(json& j, const qsl_call_data& s);
+void from_json(const json& j, qsl_call_data& s);
 
 //! Contains data needed to access QSL server sites.
 struct server_data_t {

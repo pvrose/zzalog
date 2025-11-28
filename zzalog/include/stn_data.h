@@ -4,6 +4,10 @@
 #include <map>
 #include <set>
 
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
+
 class record;
 
 //! Station type
@@ -21,6 +25,9 @@ struct stn_default {
 	std::string club_name{ "" };      //!< Club name
 	std::string name{ "" };           //!< Default operator
 };
+
+void to_json(nlohmann::json& j, const stn_default& s);
+void from_json(const nlohmann::json& j, stn_default& s);
 
 //! Identifiers for ADIF fields indicating user's location
 enum qth_value_t : char {
@@ -45,6 +52,9 @@ struct qth_info_t {
 	//! Map QTH paramter to its value.
 	std::map<qth_value_t, std::string> data;
 };
+
+void to_json(nlohmann::json& j, const qth_info_t& s);
+void from_json(const nlohmann::json& j, qth_info_t& s);
 
 //! Mapping identifiers to ADIF field names.
 const std::map<qth_value_t, std::string> QTH_ADIF_MAP = {
@@ -110,6 +120,9 @@ struct oper_info_t {
 	//! Maps operator parameter to its value.
 	std::map< oper_value_t, std::string> data;
 };
+
+void to_json(nlohmann::json& j, const oper_info_t& s);
+void from_json(const nlohmann::json& j, oper_info_t& s);
 
 //! Map of identifiers to ADIF field names
 const std::map<oper_value_t, std::string> OPER_ADIF_MAP = {

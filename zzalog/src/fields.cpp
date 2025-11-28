@@ -16,7 +16,7 @@
 #include <nlohmann/json.hpp>
 
 //! Convert field_info_t to JSON object
-static void to_json(json& j, const field_info_t& s) {
+void to_json(json& j, const field_info_t& s) {
     j = json{
         { "Field", s.field },
         { "Width", s.width },
@@ -25,7 +25,7 @@ static void to_json(json& j, const field_info_t& s) {
 }
 
 //! Convert JSON object to field_info_t
-static void from_json(const json& j, field_info_t& s) {
+void from_json(const json& j, field_info_t& s) {
     j.at("Field").get_to(s.field);
     j.at("Width").get_to(s.width);
     j.at("Header").get_to(s.header);

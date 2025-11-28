@@ -63,6 +63,9 @@ const field_info_t DEFAULT_FIELDS[] = {
 	{ "", "", 0 }
 };
 
+void to_json(json& j, const field_info_t& s);
+void from_json(const json& j, field_info_t& s);
+
 //! Convert usage type to text.
 const std::map<field_app_t, std::string> APPLICATION_LABELS = {
 	{ FO_NONE, "None" },

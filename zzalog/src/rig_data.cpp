@@ -35,7 +35,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(freq_mode_t, {
 )
 
 //! Convert cat_data_t to JSON structure
-static void to_json(json& j, const cat_data_t& s) {
+void to_json(json& j, const cat_data_t& s) {
     json jh = json{
         { "Rig model", s.hamlib->model },
         { "Manufacturer", s.hamlib->mfr },
@@ -76,7 +76,7 @@ static void to_json(json& j, const cat_data_t& s) {
     j[s.nickname] = je;
 }
 //! Convert JSON structure to cat_data_t
-static void from_json(const json& j, cat_data_t& s) {
+void from_json(const json& j, cat_data_t& s) {
     s.hamlib = new hamlib_data_t;
     // Hamlib data
     json jh = j.at("Hamlib data");
@@ -125,7 +125,7 @@ static void from_json(const json& j, cat_data_t& s) {
 }
 
 //! Convert rig_data_t to JSON structure
-static void to_json(json& j, const rig_data_t& s) {
+void to_json(json& j, const rig_data_t& s) {
     j = json{
         { "Antenna", s.antenna},
         { "Use instantaneous", s.use_instant_values},
@@ -143,7 +143,7 @@ static void to_json(json& j, const rig_data_t& s) {
 }
 
 //! Convert JSON structure to rig_data_t
-static void from_json(const json& j, rig_data_t& s) {
+void from_json(const json& j, rig_data_t& s) {
     j.at("Antenna").get_to(s.antenna);
     j.at("Use instantaneous").get_to(s.use_instant_values);
     // Default APP is kept as the index into cat_data: default = -1. In JSON it's the nickname

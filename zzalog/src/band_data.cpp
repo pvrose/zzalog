@@ -29,7 +29,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(band_data::entry_t, {
 	{ band_data::USER_SPOT, "User frequency" }
 })
 
-void to_json(json& j, const range_t& r) {
+static void to_json(json& j, const range_t& r) {
 	if (std::isnan(r.upper) || r.upper == r.lower) {
 		j = json{
 			{ "Lower", r.lower }
@@ -43,7 +43,7 @@ void to_json(json& j, const range_t& r) {
 	}
 }
 
-void from_json(const json& j, range_t& r) {
+static void from_json(const json& j, range_t& r) {
 	if (j.find("Upper") == j.end()) r.upper = nan("");
 	else j.at("Upper").get_to(r.upper);
 	j.at("Lower").get_to(r.lower);
@@ -51,7 +51,7 @@ void from_json(const json& j, range_t& r) {
 
 
 //! band_entry_t to json convertor
-void to_json(json& j, const band_data::band_entry_t& e) {
+static void to_json(json& j, const band_data::band_entry_t& e) {
 	j = json{
 		{ "Type", json(e.type) },
 		{ "Range", json(e.range) },
@@ -60,7 +60,7 @@ void to_json(json& j, const band_data::band_entry_t& e) {
 		{ "Summary", e.summary }
 	};
 }
-void from_json(const json& j, band_data::band_entry_t& e) {
+static void from_json(const json& j, band_data::band_entry_t& e) {
 	if (j.find("Type") == j.end()) e.type = band_data::UNKNOWN;
 	else j.at("Type").get_to(e.type);
 	j.at("Range").get_to(e.range);
