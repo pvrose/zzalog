@@ -9,13 +9,22 @@
 
 #include "nlohmann/json.hpp"
 
+#include <algorithm>
+#include <cstdio>
+#include <fstream>
+#include <iomanip>
+#include <map>
+#include <ostream>
+#include <string>
 #include <vector>
+
+#include <FL/Fl.H>
 
 using json = nlohmann::json;
 
 //! Convert qth_info_t to JSON object
 static void to_json(json& j, const qth_info_t& s) {
-	for (auto it : s.data) {
+	for (auto& it : s.data) {
 		if (it.second.length()) {
 			j[QTH_VALUE_T_2_STRING.at(it.first)] = it.second;
 		}
@@ -25,7 +34,7 @@ static void to_json(json& j, const qth_info_t& s) {
 //! Convert JSON object to qth_info_t
 static void from_json(const json& j, qth_info_t& s) {
 	auto temp = j.get<std::map<std::string, std::string>>();
-	for (auto it : temp) {
+	for (auto& it : temp) {
 		s.data[STRING_2_QTH_INFO_T[it.first]] = it.second;
 	}
 }
@@ -38,7 +47,7 @@ static std::map<oper_value_t, std::string> OPER_VALUE_T_2_STRING = {
 
 //! Convert oper_info_t to JSON object
 static void to_json(json& j, const oper_info_t& s) {
-	for (auto it : s.data) {
+	for (auto& it : s.data) {
 		if (it.second.length()) {
 			j[OPER_VALUE_T_2_STRING.at(it.first)] = it.second;
 		}
@@ -53,7 +62,7 @@ static std::map<std::string, oper_value_t> STRING_2_OPER_INFO_T = {
 //! Convert JSON object to oper_info_t
 static void from_json(const json& j, oper_info_t& s) {
 	auto temp = j.get<std::map<std::string, std::string>>();
-	for (auto it : temp) {
+	for (auto& it : temp) {
 		s.data[STRING_2_OPER_INFO_T[it.first]] = it.second;
 	}
 }
@@ -484,7 +493,7 @@ stn_data::stn_match_t stn_data::match_qso_qths(record* qso, std::string& qth) {
 		return EXTRA;
 	}
 	// For all QTHs - get result
-	for (auto qth : qths_) {
+	for (auto& qth : qths_) {
 		stn_match_t result = match_qso_qth(qso, *qth.second);
 		switch (result) {
 		case CANT:
@@ -595,7 +604,7 @@ stn_data::stn_match_t stn_data::match_qso_opers(record* qso, std::string& oper) 
 		return EXTRA;
 	}
 	// For all opers - get result
-	for (auto oper : opers_) {
+	for (auto& oper : opers_) {
 		stn_match_t result = match_qso_oper(qso, *oper.second);
 		switch (result) {
 		case CANT:

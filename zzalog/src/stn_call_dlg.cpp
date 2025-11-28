@@ -3,16 +3,23 @@
 #include "cty_data.h"
 #include "main.h"
 #include "qso_manager.h"
-#include "record.h"
 #include "stn_data.h"
 
 #include "drawing.h"
 #include "utils.h"
 
+#include <cstdio>
+#include <map>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Input_Choice.H>
-#include <FL/Fl_Output.H>
+#include <FL/Fl_Scroll.H>
+#include <FL/Fl_Widget.H>
 
 //! Constructor 
 
@@ -98,7 +105,7 @@ stn_call_cntnr::~stn_call_cntnr() {
 //! Set the data
 void stn_call_cntnr::redraw_widgets() {
 	// Delete wxisting widgets
-	for (auto it : widgets_) {
+	for (auto& it : widgets_) {
 		Fl_Widget_Tracker wp(it.second);
 		Fl::delete_widget(it.second);
 		while (!wp.deleted()) Fl::check();
@@ -118,7 +125,7 @@ void stn_call_cntnr::redraw_widgets() {
 
 	begin();
 	int cy = ry;
-	for (auto it : *data) {
+	for (auto& it : *data) {
 		// Create widget
 		stn_call_widget* w = new stn_call_widget(rx, cy, rw, ROW_HEIGHT * 4/3);
 		w->copy_label(it.first.c_str());
@@ -289,7 +296,7 @@ void stn_call_dlg::load_data() {
 void stn_call_dlg::populate_callsigns() {
 	ip_new_->clear();
 	const std::map<std::string, std::string>* calls = stn_data_->get_calls();
-	for (auto it : *calls) {
+	for (auto& it : *calls) {
 		ip_new_->add(escape_menu(it.first).c_str());
 	}
 }

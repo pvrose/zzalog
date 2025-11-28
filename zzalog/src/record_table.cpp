@@ -1,14 +1,20 @@
 
 #include "record_table.h"
 
+#include "drawing.h"
 #include "fields.h"
 #include "main.h"
 #include "record.h"
 #include "spec_data.h"
 
-#include "drawing.h"
+#include <cstdlib>
+#include <ctime>
+#include <string>
 
+#include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Table.H>
+#include <FL/Fl_Table_Row.H>
 
 // Constructor
 record_table::record_table(int X, int Y, int W, int H, const char* label) :

@@ -1,26 +1,35 @@
 #include "spec_data.h"
 
-#include "adi_writer.h"
 #include "band.h"
 #include "book.h"
 #include "corr_dialog.h"
 #include "cty_data.h"
+#include <drawing.h>
 #include "file_holder.h"
 #include "main.h"
 #include "record.h"
 #include "regices.h"
 #include "status.h"
-
 #include "utils.h"
+#include <win_dialog.h>
 
 #include "nlohmann/json.hpp"
 
-#include <fstream>
-#include <ostream>
-#include <regex>
+#include <cfloat>
 #include <chrono>
 #include <climits>
-#include <cfloat>
+#include <cmath>
+#include <cstdio>
+#include <ctime>
+#include <fstream>
+#include <map>
+#include <ostream>
+#include <ratio>
+#include <regex>
+#include <set>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 using json = nlohmann::json;
 
@@ -155,18 +164,6 @@ bool spec_data::load_json() {
 			process_subdivision("Secondary_Administrative_Subdivision_Alt");
 			snprintf(msg, sizeof(msg), "ADIF SPEC: File %s loaded OK", filename.c_str());
 			status_->misc_status(ST_OK, msg);
-			if (GENERATE_HEADERS) {
-				snprintf(msg, sizeof(msg), "ADIF SPEC: Generating ADIF header file");
-				status_->misc_status(ST_NOTE, msg);
-				if (generate_adif_hfile()) {
-					status_->misc_status(ST_OK, "ADIF SPEC: Done");
-					return true;
-				}
-				else {
-					status_->misc_status(ST_ERROR, "ADIF SPEC: Failed");
-					return false;
-				}
-			}
 			return true;
 		}
 		catch (const json::exception& e) {
@@ -362,7 +359,7 @@ std::string spec_data::adif_version() {
 }
 
 // Get ADIF Timestamp
-std::chrono::system_clock::time_point spec_data::adif_timestamp() {
+std::chrono::system_clock::time_point spec_data::adif_timestamp() const {
 	return adif_timestamp_;
 }
 
@@ -469,8 +466,8 @@ bool spec_data::add_userdef(int id, const std::string& name, char indicator, std
 	dataset("Fields")->data[name] = temp_map;
 
 	// Add user defined field name to the std::list
-	if ((unsigned)id >= userdef_names_.size()) {
-		userdef_names_.resize(id + 1);
+	if ((size_t)id >= userdef_names_.size()) {
+		userdef_names_.resize((size_t)id + 1);
 	}
 	userdef_names_[id] = name;
 
@@ -742,9 +739,9 @@ std::string spec_data::enumeration_name(const std::string& field_name, record* r
 			// And if it's an enumeration - get the enumeration name
 			std::string enumeration_name = it_field->second->at("Enumeration");
 			if (enumeration_name.substr(0, 7) != "Submode") {
-				int open = enumeration_name.find('[');
+				size_t open = enumeration_name.find('[');
 				if (open != std::string::npos && record) {
-					int close = enumeration_name.find(']');
+					size_t close = enumeration_name.find(']');
 					std::string index = enumeration_name.substr(open + 1, close - open - 1);
 					enumeration_name = enumeration_name.substr(0, open) + '[' + record->item(index) + ']';
 				}
@@ -1786,6 +1783,7 @@ bool spec_data::auto_correction(valn_error_t error_code, const std::string&  dat
  				}
 			}
 		}
+		break;
 	case VE_VALUE_INVALID:
 		// Try again without trailing spaces
 		{
@@ -2268,7 +2266,7 @@ std::string spec_data::get_tip(const std::string& field) {
 }
 
 // User has not abandoned 
-bool spec_data::do_continue() {
+bool spec_data::do_continue() const {
 	return !abandon_validation_;
 }
 
@@ -2433,59 +2431,5 @@ std::string spec_data::summarise_enumaration(std::string name, std::string value
 	}
 }
 
-bool spec_data::valid() { return data_loaded_; }
+bool spec_data::valid() const { return data_loaded_; }
 
-bool spec_data::generate_adif_hfile() {
-	if (!DEVELOPMENT_MODE) {
-		status_->misc_status(ST_ERROR, "Cannot regenerate adif.h - not in development mode");
-		return false;
-	}
-	std::string filename = file_holder_->get_directory(DATA_CODEGEN) + "adif.h";
-	// Add my application defined fields
-	add_my_appdefs();
-	std::ofstream os(filename);
-	os << "#pragma once" << std::endl;
-	os << std::endl;
-	os << "#include <cstdint>" << std::endl;
-	os << "#include <map>" << std::endl;
-	os << "#include <string>" << std::endl;
-
-	os << std::endl;
-	os << "//! This namespace holds the ADIF version dependent maps" << std::endl;
-	os << "namespace ADIF {" << std::endl;
-	os << std::endl;
-	os << "  //! Populated with all the valid ADIF field names plus ZLG Applixation specific ones" << std::endl;
-	os << "  enum field_t : uint16_t {" << std::endl;
-	spec_dataset* fields = dataset("Fields");
-	for (auto f : fields->data) {
-		os << "    " << f.first << ",     //!<" << f.second->at("Description") << std::endl;
-	}
-	os << "    MAX_FIELD               //!< Used to get maximum value" << std::endl;
-	os << "  };";
-	os << std::endl;
-	os << "	 //! Maps the enumerated value to string: used when exporting data" << std::endl;
-	os << "  static const std::map< field_t, std::string> FIELD_2_STRING = " << std::endl;
-	os << "  {" << std::endl;
-	for (auto f : fields->data) {
-		os << "    { " << f.first << ", \"" << f.first << "\" }," << std::endl;
-	}
-	os << "    { MAX_FIELD, \"\" }" << std::endl;
-	os << "  };" << std::endl;
-	os << std::endl;
-	os << "  //! Maps the string to enumerated value: used when importing data" << std::endl;
-	os << "  static const std::map< std::string, field_t> STRING_2_FIELD = " << std::endl;
-	os << "  {" << std::endl;
-	for (auto f : fields->data) {
-		os << "    { \"" << f.first << "\", " << f.first << " }, " << std::endl;
-	}
-	os << "  };" << std::endl;
-	os << std::endl;
-	os << "  //! Current version knwon to compiler" << std::endl;
-	os << "  static const std::string VERSION = \"" << adif_version_ << "\";";
-    os << std::endl;
-	os << "};";
-
-	os.close();
-
-	return true;
-}

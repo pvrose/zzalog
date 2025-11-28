@@ -2,25 +2,32 @@
 
 #include "band.h"
 #include "calendar_input.h"
+#include <callback.h>
 #include "cty_data.h"
+#include <drawing.h>
 #include "field_choice.h"
-#include "icons.h"
-#include "intl_widgets.h"
+#include "main.h"
+#include <search.h>
 #include "settings.h"
 #include "spec_data.h"
-
-#include "main.h"
-
 #include "utils.h"
+#include <win_dialog.h>
 
-#include <set>
+#include <algorithm>
 #include <string>
+#include <cstdio>
+#include <stdexcept>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Button.H>
 #include <FL/Fl_Choice.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Input.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Radio_Round_Button.H>
-#include <FL/Fl_RGB_Image.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 search_dialog::search_dialog() :
@@ -453,7 +460,7 @@ void search_dialog::save_values() {
 			}
 
 		}
-
+		[[fallthrough]];
 	case XC_CALL:
 	case XC_CONT:
 	case XC_SQ2:

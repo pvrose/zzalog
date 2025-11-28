@@ -70,35 +70,35 @@ public:
 
     // Get the various weather items - 
     //! Returns icon
-    Fl_Image* icon();
+    Fl_Image* icon() const;
     //! Returns description
-    std::string description();
+    std::string description() const;
     //! Returns temperature (in kelvins)
-    float temperature();
+    float temperature() const;
     //! Returns wind-speed (in metres per second)
-    float wind_speed();
+    float wind_speed() const;
     //! Returns wind speed name
-    std::string wind_name();
+    std::string wind_name() const;
     //! Returns wind direction (in 16th cardinals)
-    std::string wind_direction();
+    std::string wind_direction() const;
     //! Returns wind direction (in degrees)
-    unsigned int wind_degrees();
+    unsigned int wind_degrees() const;
     //! Returns fraction cloud cover.
-    float cloud();
+    float cloud() const;
     //! Returns cloud description
-    std::string cloud_name();
+    std::string cloud_name() const;
     //! Returns sunrise time
-    time_t sun_rise();
+    time_t sun_rise() const;
     //! Returns sunset time
-    time_t sun_set();
+    time_t sun_set() const;
     //! Returns last updated
-    time_t last_updated();
+    time_t last_updated() const;
     //! Returns location
-    std::string location();
+    std::string location() const;
     //! Returns location coordinates
-    std::string latlong();
+    std::string latlong() const;
     //! Returns atmospheric pressue (in hectopascals)
-    float pressure();
+    float pressure() const;
 
     //! Fetch icon
     static Fl_Image* fetch_icon(std::string name);

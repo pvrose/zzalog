@@ -81,36 +81,36 @@ struct server_data_t;
 		
 
 		// Widgets for eQSL
-		Fl_Group* grp_eqsl_;            //!< eQSL widget group
-		Fl_Group* grp_eqsl_calls_;      //!< Group for eQSL logbook credentials
+		Fl_Group* grp_eqsl_ = nullptr;            //!< eQSL widget group
+		Fl_Group* grp_eqsl_calls_ = nullptr;      //!< Group for eQSL logbook credentials
 		// Widgets for LotW
-		Fl_Group* grp_lotw_;            //!< LotW widget group
+		Fl_Group* grp_lotw_ = nullptr;            //!< LotW widget group
 		// Widgets for QRZ.com
-		Fl_Group* grp_qrz_;             //!< QRZ.com widget group
-		Fl_Group* grp_qrz_xml_;         //!< Group for QRZ.com XML subscription
-		Fl_Group* grp_qrz_api_;         //!< Group for QRZ.com API configuration
+		Fl_Group* grp_qrz_ = nullptr;             //!< QRZ.com widget group
+		Fl_Group* grp_qrz_xml_ = nullptr;         //!< Group for QRZ.com XML subscription
+		Fl_Group* grp_qrz_api_ = nullptr;         //!< Group for QRZ.com API configuration
 		// Widgets for ClubLog
-		Fl_Group* grp_club_;            //!< Clublog.org widget group
+		Fl_Group* grp_club_ = nullptr;            //!< Clublog.org widget group
 		// Widgets for networking   
-		Fl_Group* grp_server_;
+		Fl_Group* grp_server_ = nullptr;
 		// Widgets for e-mail
-		Fl_Group* grp_email_;           //!< e-Mail widget group/#
+		Fl_Group* grp_email_ = nullptr;           //!< e-Mail widget group/#
 		// Widgets for NoQSL
-		Fl_Group* grp_noqsl_;           //!< No QSL widget group
+		Fl_Group* grp_noqsl_ = nullptr;           //!< No QSL widget group
 
 		//! Mapping of callsign to widget groups per QRZ.com logbook
 		std::map<std::string, Fl_Group*> grp_api_books_;
 		//! Mapping of callsign to eQSL last download date widgets.
 		std::map<std::string, Fl_Widget*> w_eqsl_lupds_;
 
-		server_data_t* eqsl_data_;       //! eQSL.cc configuration data
-		server_data_t* lotw_data_;       //! LotW configuration data
-		server_data_t* club_data_;       //! Clublog.org configuration data
-		server_data_t* qrz_data_;        //! QRZ.com configuration data
-		server_data_t* email_data_;      //! e-Mail configuration data
+		server_data_t* eqsl_data_ = nullptr;       //! eQSL.cc configuration data
+		server_data_t* lotw_data_ = nullptr;       //! LotW configuration data
+		server_data_t* club_data_ = nullptr;       //! Clublog.org configuration data
+		server_data_t* qrz_data_ = nullptr;        //! QRZ.com configuration data
+		server_data_t* email_data_ = nullptr;      //! e-Mail configuration data
 		std::set<std::string>* noqsl_data_;   //!< No QSL list data
 
-		std::string add_call_;           //!< Callsign to add
+		std::string add_call_ = "";           //!< Callsign to add
 
 	};
 #endif

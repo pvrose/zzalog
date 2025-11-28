@@ -1,16 +1,22 @@
 #include "status.h"
 
 #include "banner.h"
+#include <drawing.h>
 #include "file_holder.h"
 #include "main.h"
 #include "main_window.h"
-
 #include "utils.h"
 
+#include <cstdint>
+#include <cstdio>
+#include <fstream>
 #include <iostream>
+#include <string>
 
+#include <FL/Enumerations.H>
 #include <FL/Fl.H>
 #include <FL/fl_ask.H>
+#include <FL/fl_utf8.h>
 
 // Constructor
 status::status() :

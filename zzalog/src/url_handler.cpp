@@ -1,10 +1,17 @@
 #include "url_handler.h"
 
 #include "main.h"
-
 #include "utils.h"
 
-#include <FL/fl_ask.H>
+#include <cstdio>
+#include <istream>
+#include <mutex>
+#include <ostream>
+#include <string>
+#include <vector>
+
+#include <curl/curl.h>
+#include <curl/easy.h>
 
 std::string USER_AGENT = PROGRAM_ID + '/' + PROGRAM_VERSION;
 
@@ -165,6 +172,7 @@ bool url_handler::post_url(std::string url, std::string resource, std::istream* 
 	/* check for errors */
 	if (result != CURLE_OK) {
 		char msg[256];
+		memset(msg, 0, sizeof(msg));
 		printf(msg, sizeof(msg), "URL_HANDLER: ERROR %s\n", error_msg);
 		// Reset the operation and clean up
 
@@ -472,9 +480,7 @@ int url_handler::cb_debug(CURL* handle, curl_infotype type,
 	switch (type) {
 	case CURLINFO_TEXT:
 		fprintf(stderr, "== Info: %s", data);
-	default: /* in case a new one is introduced to shock us */
-		return 0;
-
+		break;
 	case CURLINFO_HEADER_OUT:
 		text = "=> Send header";
 		break;
@@ -493,6 +499,8 @@ int url_handler::cb_debug(CURL* handle, curl_infotype type,
 	case CURLINFO_SSL_DATA_IN:
 		text = "<= Recv SSL data";
 		break;
+	default: /* in case a new one is introduced to shock us */
+		return 0;
 	}
 
 	dump(text, stderr, (unsigned char*)data, size);

@@ -1,24 +1,29 @@
 #include "web_dialog.h"
 
 #include "calendar_input.h"
+#include <callback.h>
+#include "drawing.h"
 #include "intl_widgets.h"
 #include "main.h"
+#include <page_dialog.h>
 #include "password_input.h"
 #include "qsl_dataset.h"
 #include "spec_data.h"
-
 #include "utils.h"
-#include "drawing.h"
 
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
-#include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Select_Browser.H>
 #include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 web_dialog::web_dialog(int X, int Y, int W, int H, const char* label) :
@@ -81,7 +86,7 @@ void web_dialog::load_values() {
 	// Add any STATION_CALLSIGNs not yet in the data read from file
 	spec_dataset* call_set = spec_data_->dataset("Dynamic STATION_CALLSIGN");
 	if (call_set) {
-		for (auto it : call_set->data) {
+		for (auto& it : call_set->data) {
 			std::string call = it.first;
 			if (qrz_data_->call_data.find(call) == qrz_data_->call_data.end()) {
 				qrz_data_->call_data[call] = new qsl_call_data;
@@ -799,7 +804,7 @@ void web_dialog::cb_del_noqsl(Fl_Widget* w, void* v) {
 // Populate No QSL l ist
 void web_dialog::populate_noqsl(Fl_Select_Browser* br) {
 	while (br->size()) br->remove(1);
-	for (auto it : *noqsl_data_) {
+	for (auto& it : *noqsl_data_) {
 		br->add(it.c_str());
 	}
 	redraw();

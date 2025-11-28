@@ -2,6 +2,7 @@
 
 #include "adi_reader.h"
 #include "book.h"
+#include <drawing.h>
 #include "main.h"
 #include "menu.h"
 #include "qso_apps.h"
@@ -14,17 +15,21 @@
 #include "spec_data.h"
 #include "status.h"
 #include "ticker.h"
-
 #include "utils.h"
 
-#include <stdio.h>
-#include <sstream>
+#include <cstdint>
+#include <cstdio>
+#include <ctime>
+#include <fstream>
 #include <iostream>
 #include <regex>
+#include <sstream>
+#include <string>
 #include <vector>
 
-#include <FL/Fl.H>
+#include <FL/Enumerations.H>
 #include <FL/fl_ask.H>
+#include <FL/fl_draw.H>
 
 // Constructor: 
 wsjtx_handler::wsjtx_handler()
@@ -286,7 +291,7 @@ int wsjtx_handler::handle_status(std::stringstream& ss) {
 
 // Get an bool from the next byte of datagram 
 bool wsjtx_handler::get_bool(std::stringstream& ss) {
-	unsigned char c;
+	unsigned char c = 0;
 	ss.get((char&)c);
 	bool b = c ? true : false;
 	return b;
@@ -294,7 +299,7 @@ bool wsjtx_handler::get_bool(std::stringstream& ss) {
 
 // Get an unsigned integer from the next byte of datagram 
 uint8_t wsjtx_handler::get_uint8(std::stringstream& ss) {
-	unsigned char c;
+	unsigned char c = 0;
 	ss.get((char&)c);
 	uint8_t i = c;
 	return i;
@@ -341,7 +346,7 @@ std::string wsjtx_handler::get_utf8(std::stringstream& ss) {
 	else {
 		// Create a std::string long enough to receive the data
 		std::string s = "";
-		s.reserve(len + 1);
+		s.reserve((size_t)len + 1);
 		for (uint32_t i = 0; i < len; i++) {
 			// Copy the std::string 1 byte at a timme
 			char c;
@@ -937,6 +942,6 @@ void wsjtx_handler::delete_qso(std::string call) {
 }
 
 // Received data
-bool wsjtx_handler::has_data() {
+bool wsjtx_handler::has_data() const {
 	return connected_;
 }

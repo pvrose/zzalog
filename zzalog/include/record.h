@@ -110,7 +110,7 @@ record.h - Individual record data item: header file
 		//! Returns the header information
 		std::string header();
 		//! Returns true if the record is a header record.
-		bool is_header();
+		bool is_header() const;
 		//! Comparison operator. One record is greater than another if the start date and time is later.
 		bool operator > (record& rhs);
 		//! delete all the derived fields

@@ -28,7 +28,7 @@ void view::set_book(book* book) {
 }
 
 // Return the minimum width resizing
-int view::min_w() { return min_w_; }
+int view::min_w() const { return min_w_; }
 
 // Return the minimum height resizing
-int view::min_h() { return min_h_; }
+int view::min_h() const { return min_h_; }

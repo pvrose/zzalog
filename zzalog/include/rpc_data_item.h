@@ -40,17 +40,17 @@
 		~rpc_data_item();
 
 		//! Returns the data type of this data item
-		rpc_data_t type();
+		rpc_data_t type() const;
 		// Get the data as specific type - returms true if is the correct type
-		bool get(int32_t& i);        //!< Receives item as a 32-bit integer, returns false if not integer
-		bool get(std::string& s);         //!< Receives item as a std::string, returns false if not a std::string
-		bool get(double& d);         //!< Receives item as a double, returns false if not floating point
+		bool get(int32_t& i) const;        //!< Receives item as a 32-bit integer, returns false if not integer
+		bool get(std::string& s) const;         //!< Receives item as a std::string, returns false if not a std::string
+		bool get(double& d) const;         //!< Receives item as a double, returns false if not floating point
 		bool get(rpc_array*& ap);    //!< Receives iten as an array, returns false if not an array.
 		bool get(rpc_struct*& mp);   //!< Receives item as a structure, returns false if not a structure.
 		// Returns the data as specific type
-		int32_t get_int();           //!< Returns item as a 32-bit integer
+		int32_t get_int() const;           //!< Returns item as a 32-bit integer
 		std::string get_string();         //!< Returns item as a std::string
-		double get_double();         //!< Returns item as a double-precision value
+		double get_double() const;         //!< Returns item as a double-precision value
 		rpc_array* get_array();      //!< Returns item as an array
 		rpc_struct* get_struct();    //!< Returns item as a structure
 

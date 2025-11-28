@@ -15,9 +15,15 @@ record.cpp - Individual record data item: implementation file
 
 #include "utils.h"
 
-#include <ctime>
+#include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <stdexcept>
+#include <string>
 
 #include <FL/fl_ask.H>
 
@@ -255,6 +261,7 @@ void record::item(std::string field, std::string value, bool formatted/* = false
 				char as_s[12];
 				snprintf(as_s, 12, "%c%03d %2.3f", c, as_i, as_d);
 				formatted_value = as_s;
+				break;
 			default:
 				formatted_value = upper_value;
 				break;
@@ -467,7 +474,7 @@ std::string record::header() {
 }
 
 // return the is_header flag
-bool record::is_header() {
+bool record::is_header() const {
 	return this->is_header_;
 }
 
@@ -1052,7 +1059,7 @@ std::chrono::system_clock::time_point record::ctimestamp(bool time_off) {
 time_t record::timestamp(bool time_off /*= false*/, bool force /*=false*/) {
 	try {
 		// Convert date and time to a tm struct
-		tm qso_time;
+		tm qso_time{};
 		if (time_off) {
 			if (item("TIME_OFF").length()) {
 				// Get end timestamp

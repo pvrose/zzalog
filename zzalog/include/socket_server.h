@@ -49,7 +49,7 @@
 		//! Start running the server
 		void run_server();
 		//! Returns true if this server is listening
-		bool has_server();
+		bool has_server() const;
 		//! Set callback to handle requests. 
 		void callback(void* instance, int(*do_request)(void*, std::stringstream&));
 		//! Send response
@@ -87,31 +87,31 @@
 		//! HTTP Client
 		SOCKET client_;
 		//! Current client address
-		SOCKADDR_IN client_addr_;
+		SOCKADDR_IN client_addr_{};
 		//! Previous client address
-		std::string prev_addr_;
+		std::string prev_addr_ = "";
 		//! Previous client port number
-		int prev_port_;
+		int prev_port_ = 0;
 		//! Host IP address e.g. 127.0.0.1
-		std::string host_id_;
+		std::string host_id_ = "";
 		//! port number
-		int port_num_;
+		int port_num_ = 0;
 		//! Server address
-		std::string address_;
+		std::string address_= "";
 		//! protocol
-		protocol_t protocol_;
+		protocol_t protocol_ = HTTP;
 		//! Socket is closing
-		std::atomic<bool> closing_;
+		std::atomic<bool> closing_ = false;
 		//! Socket has closed.
-		std::atomic<bool> closed_;
+		std::atomic<bool> closed_ = true;
 		//! Separate std::thread to handle socket transfers.
-		std::thread* th_socket_;
+		std::thread* th_socket_ = nullptr;
 		//! Packet std::queue
 		std::queue<std::string> q_packet_;
 		//! Lock to avoid pushing into the packet std::queue and pulling from it at the same time.
 		std::mutex mu_packet_;
 		//! Client request handler
-		void* instance_;
+		void* instance_ = nullptr;
 
 	};
 

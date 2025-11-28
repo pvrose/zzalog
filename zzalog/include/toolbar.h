@@ -44,7 +44,7 @@ typedef size_t qso_num_t;
 		//! Callback to open international dialog
 		static void cb_bn_intl(Fl_Widget* w, void* v);
 		//! Supply minimum width of toolbar
-		int min_w();
+		int min_w() const;
 		//! Add selected callsign as default input
 		void search_text(int record_num);
 		//! Set search text to a specific calllsign

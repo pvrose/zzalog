@@ -2,18 +2,26 @@
 
 #include "book.h"
 #include "cty_data.h"
+#include "drawing.h"
 #include "main.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "status.h"
 #include "stn_data.h"
-
-#include "drawing.h"
 #include "utils.h"
 
+#include <cstdio>
+#include <map>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Scroll.H>
+#include <FL/Fl_Widget.H>
 
 const std::string LABELS[] = {"Strret", "City", "Postcode", "Locator", "Country", "DXCC",
 	"Prim'y Sub", "Sec'y Sub", "CQ Zone", "ITU Zone", "Continent", "IOTA", "WAB" };
@@ -142,7 +150,7 @@ stn_qth_cntnr::~stn_qth_cntnr() {
 //! Set the data
 void stn_qth_cntnr::redraw_widgets() {
 	// Delete wxisting widgets
-	for (auto it : widgets_) {
+	for (auto& it : widgets_) {
 		Fl_Widget_Tracker wp(it.second);
 		Fl::delete_widget(it.second);
 		while (!wp.deleted()) Fl::check();
@@ -162,7 +170,7 @@ void stn_qth_cntnr::redraw_widgets() {
 
 	begin();
 	int cy = ry;
-	for (auto it : *data) {
+	for (auto& it : *data) {
 		// Create widget
 		stn_qth_widget* w = new stn_qth_widget(rx, cy, rw, ROW_HEIGHT * 5);
 		w->copy_label(it.first.c_str());
@@ -419,7 +427,7 @@ void stn_qth_dlg::update_from_call() {
 	record* dummy_qso = qso_manager_->dummy_qso();
 	dummy_qso->item("CALL", std::string(ch_call_->value()));
 	cty_data_->update_qso(dummy_qso, true);
-	for (auto it : QTH_ADIF_MAP) {
+	for (auto& it : QTH_ADIF_MAP) {
 		if (dummy_qso->item(it.second).length()) {
 			stn_data_->add_qth_item(location_, it.first, dummy_qso->item(it.second));
 		}
@@ -440,7 +448,7 @@ void stn_qth_dlg::load_data() {
 void stn_qth_dlg::populate_calls() {
 	ch_call_->clear();
 	const std::map<std::string, std::string>* calls = stn_data_->get_calls();
-	for (auto it : *calls) {
+	for (auto& it : *calls) {
 		ch_call_->add(escape_menu(it.first).c_str());
 	}
 }
@@ -449,7 +457,7 @@ void stn_qth_dlg::populate_calls() {
 void stn_qth_dlg::populate_locations() {
 	ip_new_->clear();
 	const std::map<std::string, qth_info_t*>* qths = stn_data_->get_qths();
-	for (auto it : *qths) {
+	for (auto& it : *qths) {
 		ip_new_->add(escape_menu(it.first).c_str());
 	}
 }

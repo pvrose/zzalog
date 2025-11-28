@@ -1,21 +1,28 @@
 #include "spec_tree.h"
 
-#include "band.h"
 #include "book.h"
+#include "callback.h"
+#include <drawing.h>
+#include <fields.h>
 #include "main.h"
 #include "settings.h"
 #include "spec_data.h"
 #include "status.h"
 #include "tabbed_forms.h"
-
-#include "callback.h"
 #include "utils.h"
+#include <view.h>
 
+#include <cstdio>
 #include <map>
 #include <string>
 #include <vector>
 
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Tree.H>
+#include <FL/Fl_Tree_Item.H>
+#include <FL/Fl_Tree_Prefs.H>
 
 // Constructor
 spec_tree::spec_tree(int X, int Y, int W, int H, const char* label, field_app_t app) :

@@ -12,8 +12,15 @@
 
 #include "nlohmann/json.hpp"
 
+#include <cmath>
+#include <cstdio>
 #include <sstream>
+#include <string>
+#include <thread>
+#include <vector>
 
+#include <FL/Fl.H>
+#include <FL/Fl_Image.H>
 #include <FL/Fl_PNG_Image.H>
 
 using json = nlohmann::json;
@@ -196,74 +203,74 @@ void wx_handler::cb_fetch_error(void* v) {
 
 // Get the various weather items - 
 // summation icon
-Fl_Image* wx_handler::icon() {
+Fl_Image* wx_handler::icon() const {
     return report_.icon;
 }
 
 // Description
-std::string wx_handler::description() {
+std::string wx_handler::description() const {
     return report_.description;
 }
 
 // Temperature (C)
-float wx_handler::temperature() {
+float wx_handler::temperature() const {
     return report_.temperature_K - 273.15;
 }
 
 // Wind-speed (MPH)
-float wx_handler::wind_speed() {
+float wx_handler::wind_speed() const {
     return report_.wind_speed_ms / MPH2MPS;
 }
 
 // Wind-speed name
-std::string wx_handler::wind_name() {
+std::string wx_handler::wind_name() const {
     return report_.wind_name;
 }
 
 // Wind direction (16th cardinals)
-std::string wx_handler::wind_direction() {
+std::string wx_handler::wind_direction() const {
     if (report_.wind_cardinal == "") return "---";
     else return report_.wind_cardinal;
 }
 
 // Wind direction (degrees)
-unsigned int wx_handler::wind_degrees() {
+unsigned int wx_handler::wind_degrees() const {
     if (report_.wind_cardinal == "") return -1;
     else return report_.wind_dirn;
 }
 
 // Cloud cover
-float wx_handler::cloud() {
+float wx_handler::cloud() const {
     return ((float)report_.cloud_cover)/ 100.0;
 }
 
 // Cloud description
-std::string wx_handler::cloud_name() {
+std::string wx_handler::cloud_name() const {
     return report_.cloud_name;
 }
 
 // Sunris
-time_t wx_handler::sun_rise() {
+time_t wx_handler::sun_rise() const {
     return report_.sunrise;
 }
 
 // Sun std::set
-time_t wx_handler::sun_set() { 
+time_t wx_handler::sun_set() const { 
     return report_.sunset;
 }
 
 // Last updated
-time_t wx_handler::last_updated() {
+time_t wx_handler::last_updated() const {
     return report_.updated;
 }
 
 // Location
-std::string wx_handler::location() {
+std::string wx_handler::location() const {
     return report_.city_name;
 }
 
 // Latlong location
-std::string wx_handler::latlong() {
+std::string wx_handler::latlong() const {
     std::string result = degrees_to_dms(report_.city_location.latitude, true);
     result += " ";
     result += degrees_to_dms(report_.city_location.longitude, false);
@@ -271,7 +278,7 @@ std::string wx_handler::latlong() {
 }
 
 // Pressure
-float wx_handler::pressure() {
+float wx_handler::pressure() const {
     return report_.pressure_hPa;
 }
 

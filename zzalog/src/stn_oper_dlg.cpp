@@ -1,16 +1,24 @@
 #include "stn_oper_dlg.h"
 
 #include "book.h"
+#include "drawing.h"
 #include "main.h"
 #include "status.h"
 #include "stn_data.h"
-
-#include "drawing.h"
 #include "utils.h"
 
+#include <cstdio>
+#include <map>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Input_Choice.H>
+#include <FL/Fl_Scroll.H>
+#include <FL/Fl_Widget.H>
 
 const std::string LABELS[] = { "Name", "Callsign" };
 
@@ -122,7 +130,7 @@ stn_oper_cntnr::~stn_oper_cntnr() {
 //! Set the data
 void stn_oper_cntnr::redraw_widgets() {
 	// Delete wxisting widgets
-	for (auto it : widgets_) {
+	for (auto& it : widgets_) {
 		Fl_Widget_Tracker wp(it.second);
 		Fl::delete_widget(it.second);
 		while (!wp.deleted()) Fl::check();
@@ -142,7 +150,7 @@ void stn_oper_cntnr::redraw_widgets() {
 
 	begin();
 	int cy = ry;
-	for (auto it : *data) {
+	for (auto& it : *data) {
 		// Create widget
 		stn_oper_widget* w = new stn_oper_widget(rx, cy, rw, ROW_HEIGHT * 4/3);
 		w->copy_label(it.first.c_str());
@@ -358,7 +366,7 @@ void stn_oper_dlg::load_data() {
 void stn_oper_dlg::populate_operators() {
 	ip_new_->clear();
 	const std::map<std::string, oper_info_t*>* opers = stn_data_->get_opers();
-	for (auto it : *opers) {
+	for (auto& it : *opers) {
 		ip_new_->add(escape_menu(it.first).c_str());
 	}
 }

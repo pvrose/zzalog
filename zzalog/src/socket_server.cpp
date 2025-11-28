@@ -5,8 +5,6 @@
 
 #include <stdio.h>
 #include <sstream>
-#include <iostream>
-#include <vector>
 
 #ifdef _WIN32
 #include <WS2tcpip.h>
@@ -25,6 +23,9 @@
 #endif
 
 #include <FL/Fl.H>
+#include <cstdio>
+#include <thread>
+#include <istream>
 
 #ifdef _WIN32
 #define LEN_SOCKET_ADDR int
@@ -438,7 +439,7 @@ int socket_server::send_response(std::istream &response)
 }
 
 // Has a server
-bool socket_server::has_server()
+bool socket_server::has_server() const
 {
 	return (server_ != INVALID_SOCKET);
 }

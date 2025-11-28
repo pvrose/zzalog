@@ -1,8 +1,7 @@
 #include "win_dialog.h"
 
 #include <FL/Fl.H>
-
-
+#include <FL/Fl_Window.H>
 
 // Constructor - derived classes will extend this to build the dialog
 win_dialog::win_dialog(int W, int H, const char * label) :

@@ -3,6 +3,7 @@
 #include "book.h"
 #include "callback.h"
 #include "cty_data.h"
+#include "drawing.h"
 #include "extract_data.h"
 #include "file_holder.h"
 #include "icons.h"
@@ -14,15 +15,23 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "status.h"
-
-#include "drawing.h"
 #include "utils.h"
 
+#include <cstdio>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/fl_ask.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Image.H>
 #include <FL/Fl_JPEG_Image.H>
+#include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Tooltip.H>
-#include <FL/fl_ask.H>
+#include <FL/Fl_Widget.H>
+#include <FL/Fl_Window.H>
 
 // Constructor - most buttons invoke a menu item
 toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
@@ -505,7 +514,7 @@ void toolbar::cb_bn_intl(Fl_Widget* w, void* v) {
 }
 
 // Return the minimum width required
-int toolbar::min_w() { return min_w_; }
+int toolbar::min_w() const { return min_w_; }
 
 // Set the record number to get the default input for the search input
 void toolbar::search_text(int record_num) {

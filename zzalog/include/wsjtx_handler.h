@@ -44,7 +44,7 @@ class socket_server;
 		void delete_qso(std::string call);
 
 		//! Return true if a packet has been received.
-		bool has_data();
+		bool has_data() const;
 
 	protected:
 

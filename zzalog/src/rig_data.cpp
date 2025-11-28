@@ -7,9 +7,14 @@
 
 #include "nlohmann/json.hpp"
 
+#include <cstdint>
+#include <cstdio>
+#include <fstream>
+#include <iomanip>
+#include <map>
+#include <ostream>
 #include <string>
 #include <vector>
-#include <set>
 
 using json = nlohmann::json;
 
@@ -94,11 +99,11 @@ static void from_json(const json& j, cat_data_t& s) {
     // Accessories
     s.hamlib->accessory = BAREBACK;
     if (j.find("Amplifier") != j.end()) {
-        (uchar&)s.hamlib->accessory |= (uchar)AMPLIFIER;
+        (uint8_t&)s.hamlib->accessory |= (uint8_t)AMPLIFIER;
         j.at("Ammplifier").at("Gain").get_to(s.hamlib->gain);
     }
     if (j.find("Transverter") != j.end()) {
-        (uchar&)s.hamlib->accessory |= (uchar)TRANSVERTER;
+        (uint8_t&)s.hamlib->accessory |= (uint8_t)TRANSVERTER;
         j.at("Transverter").at("Offset").get_to(s.hamlib->freq_offset);
         j.at("Transverter").at("Power").get_to(s.hamlib->tvtr_power);
     }
@@ -201,7 +206,7 @@ cat_data_t* rig_data::cat_data(std::string rig, int app) {
 std::vector<std::string> rig_data::rigs() {
     std::vector<std::string> result;
     result.clear();
-    for (auto it : data_) {
+    for (auto& it : data_) {
         result.push_back(it.first);
     }
     return result;

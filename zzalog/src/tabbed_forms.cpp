@@ -1,16 +1,27 @@
 #include "tabbed_forms.h"
 
 #include "book.h"
-#include "log_table.h"
-#include "extract_data.h"
-#include "import_data.h"
-#include "main.h"
-#include "spec_tree.h"
-#include "report_tree.h"
-#include "toolbar.h"
 #include "config.h"
-#include "qso_manager.h"
+#include <drawing.h>
 #include "dxcc_view.h"
+#include "extract_data.h"
+#include <fields.h>
+#include "import_data.h"
+#include "log_table.h"
+#include "main.h"
+#include "qso_manager.h"
+#include "report_tree.h"
+#include "spec_tree.h"
+#include "toolbar.h"
+#include <view.h>
+
+#include <algorithm>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 tabbed_forms::tabbed_forms(int X, int Y, int W, int H, const char* label) :

@@ -1,8 +1,11 @@
 #include "report_tree.h"
 
 #include "book.h"
+#include "callback.h"
 #include "cty_data.h"
+#include <drawing.h>
 #include "extract_data.h"
+#include <fields.h>
 #include "main.h"
 #include "menu.h"
 #include "qso_data.h"
@@ -12,11 +15,20 @@
 #include "spec_data.h"
 #include "status.h"
 #include "tabbed_forms.h"
-
-#include "callback.h"
 #include "utils.h"
+#include <view.h>
 
+#include <cstdio>
+#include <map>
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Tree.H>
+#include <FL/Fl_Tree_Item.H>
+#include <FL/Fl_Tree_Prefs.H>
+#include <FL/Fl_Widget.H>
 
 // Constructor
 report_tree::report_tree(int X, int Y, int W, int H, const char* label, field_app_t app) :
@@ -757,7 +769,7 @@ void report_tree::populate_tree(bool activate) {
 				break;
 			case RC_CUSTOM:
 				// Display QSO and total entity counts
-				sprintf(text, "Total: %d QSOs (%s) - Confirmed %d (%d eQSL, %d LotW, %d Card, %d QRZ.com, %d DXCC); %d Items - Confirmed %d (%d eQSL, %d LotW, %d Card, %QRZ.com, %d DXCC)",
+				sprintf(text, "Total: %d QSOs (%s) - Confirmed %d (%d eQSL, %d LotW, %d Card, %d QRZ.com, %d DXCC); %d Items - Confirmed %d (%d eQSL, %d LotW, %d Card, %d QRZ.com, %d DXCC)",
 					count_records, filter.c_str(), num_any, num_eqsl, num_lotw, num_card, num_qrz, num_dxcc,
 					entities_, entities_any_, entities_eqsl_, entities_lotw_, entities_card_, entities_qrz_, entities_dxcc_);
 				break;

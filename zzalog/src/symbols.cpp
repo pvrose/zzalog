@@ -127,14 +127,14 @@ void draw_eyeshut(Fl_Color c) {
 // Data for drawing calendar
 const double cal[8] = { -1.00, -5. / 7., -3. / 7., -1. / 7., 1. / 7., 3. / 7., 5. / 7., 1.0 };
 
-void draw_horizontal(int i) {
+static void draw_horizontal(int i) {
 	fl_begin_line();
 	fl_vertex(cal[0], cal[i]);
 	fl_vertex(cal[7], cal[i]);
 	fl_end_line();
 }
 
-void draw_vertical(int i, bool shrt) {
+static void draw_vertical(int i, bool shrt) {
 	fl_begin_line();
 	fl_vertex(cal[i], cal[shrt ? 2 : 0]);
 	fl_vertex(cal[i], cal[7]);

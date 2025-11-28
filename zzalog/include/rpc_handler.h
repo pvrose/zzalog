@@ -112,7 +112,7 @@ class socket_server;
 		void generate_error(int code, std::string message, rpc_data_item& response);
 
 		//! Remove header - returns true if successful and \p payload receives the request body.
-		bool strip_header(std::stringstream& message, std::stringstream& payload);
+		bool strip_header(std::stringstream& message, std::stringstream& payload) const;
 		//! Add header with result \p code to the \p payload to generate  \p message.
 		bool add_header(http_code code, std::stringstream& payload, std::stringstream& message);
 

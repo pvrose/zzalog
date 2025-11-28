@@ -1,11 +1,12 @@
 #include "serial.h"
 
-#include <iostream>
+#include <cstdio>
 #include <string>
 
 #ifdef _WIN32
 // Note the code is Windows only - need Linux version
 #include <Windows.h>
+#include <sys/stat.h>
 #else 
 #include <errno.h>
 #include <fcntl.h> 
@@ -28,7 +29,7 @@ bool serial::available_ports(int num_ports, std::string* ports, bool all_ports, 
 	const unsigned int MAX_TTY = 255;
 	const unsigned int PATH_MAX = 255;
 	actual_ports = 0;
-	struct stat st;
+	struct stat st {};
 	char ttyname[PATH_MAX + 1];
 
 #ifdef _WIN32

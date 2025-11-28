@@ -1,20 +1,29 @@
 #include "user_dialog.h"
 
 #include "book.h"
+#include "callback.h"
+#include "drawing.h"
 #include "log_table.h"
 #include "main.h"
+#include <page_dialog.h>
 #include "report_tree.h"
 #include "settings.h"
 #include "spec_tree.h"
 #include "tabbed_forms.h"
+#include <utils.h>
 
-#include "callback.h"
-#include "drawing.h"
+#include <algorithm>
+#include <cctype>
+#include <cstdio>
+#include <string>
 
-#include <FL/Fl_Tooltip.H>
-#include <FL/Fl_Hold_Browser.H>
-#include <FL/Fl_Group.H>
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Counter.H>
+#include <FL/Fl_Group.H>
+#include <FL/Fl_Hold_Browser.H>
+#include <FL/Fl_Tooltip.H>
+#include <FL/Fl_Widget.H>
 
 // constructor
 user_dialog::user_dialog(int X, int Y, int W, int H, const char* label) :

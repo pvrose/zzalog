@@ -156,9 +156,9 @@
 
 		// Types of error
 		//! Returns true if the last error was a network error.
-		bool is_network_error();
+		bool is_network_error() const;
 		//! Returns true if the last error was reported by the rig.
-		bool is_rig_error();
+		bool is_rig_error() const;
 
 		//! Returns true if the port was successfully opened
 		bool is_open();

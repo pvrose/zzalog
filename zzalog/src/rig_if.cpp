@@ -2,13 +2,18 @@
 
 #include "main.h"
 #include "status.h"
-
 #include "utils.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <cstdio>
+#include <string>
+#include <thread>
 
 #include <FL/Fl.H>
+
+#include <hamlib/rig.h>
 
 // Returns if the rig opened OK
 bool rig_if::is_open() {
@@ -468,9 +473,9 @@ bool rig_if::th_read_values() {
 	if (error_handler(error_code_, "PTT", nullptr, nullptr)) {
 		return false;
 	}
-	rig_data_.ptt = ptt == ptt_t::RIG_PTT_ON;
+	rig_data_.ptt = (ptt != ptt_t::RIG_PTT_OFF);
 	// If we are releasing PTT record the time
-	if (current_ptt & !ptt) {
+	if (current_ptt && (ptt != ptt_t::RIG_PTT_OFF)) {
 		last_ptt_off_ = std::chrono::system_clock::now();
 	}
 	// Read frequencies
@@ -720,12 +725,12 @@ bool rig_if::is_good() {
 }
 
 // Error code is network error
-bool rig_if::is_network_error() {
+bool rig_if::is_network_error() const {
 	return abs(error_code_) == (int)RIG_EIO;
 }
 
 // Error code is rig error
-bool rig_if::is_rig_error() {
+bool rig_if::is_rig_error() const {
 	return abs(error_code_) == (int)RIG_EPROTO;
 }
 

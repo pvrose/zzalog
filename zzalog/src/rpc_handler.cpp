@@ -13,6 +13,9 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <rpc_data_item.h>
+#include <cstdint>
+#include <vector>
 
 // Constructor
 rpc_handler::rpc_handler(std::string address, int port_number, std::string resource_name)
@@ -325,7 +328,7 @@ int rpc_handler::handle_request(std::stringstream& ss) {
 		}
 		else {
 			// It does, so do it
-			auto meth = method_list_.at(method_name);
+			auto& meth = method_list_.at(method_name);
 			error = meth.callback(meth.v, params, response);
 		}
 		// Convert to XML
@@ -348,7 +351,7 @@ int rpc_handler::handle_request(std::stringstream& ss) {
 }
 
 // Check and parse HTML header - returns start of payload
-bool rpc_handler::strip_header(std::stringstream& message, std::stringstream& payload) {
+bool rpc_handler::strip_header(std::stringstream& message, std::stringstream& payload) const {
 	message.seekg(0, std::ios::beg);
 	std::streampos start = message.tellg();
 	std::string line;

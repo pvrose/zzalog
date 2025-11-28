@@ -1,8 +1,11 @@
 #include "rpc_data_item.h"
 #include "utils.h"
 
-#include <stdexcept>
 #include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <stdexcept>
+#include <string>
 
 // Constructor - sets default values
 rpc_data_item::rpc_data_item()
@@ -99,12 +102,12 @@ rpc_data_item::~rpc_data_item()
 }
 
 // Return the data type
-rpc_data_t rpc_data_item::type() {
+rpc_data_t rpc_data_item::type() const {
 	return type_;
 }
 
 // Get the integer
-bool rpc_data_item::get(int32_t& i) {
+bool rpc_data_item::get(int32_t& i) const {
 	if (type_ == XRT_INT || type_ == XRT_BOOLEAN || type_ == XRT_DEFAULT) {
 		i = i_;
 		return true;
@@ -116,12 +119,12 @@ bool rpc_data_item::get(int32_t& i) {
 }
 
 // Get the integer
-int rpc_data_item::get_int() {
+int rpc_data_item::get_int() const {
 	return i_;
 }
 
 // Get the std::string
-bool rpc_data_item::get(std::string& s) {
+bool rpc_data_item::get(std::string& s) const {
 	if (type_ == XRT_STRING || type_ == XRT_BYTES || type_ == XRT_DATETIME) {
 		s = s_;
 		return true;
@@ -138,7 +141,7 @@ std::string rpc_data_item::get_string() {
 }
 
 // Get the double
-bool rpc_data_item::get(double& d) {
+bool rpc_data_item::get(double& d) const {
 	if (type_ == XRT_DOUBLE || type_ == XRT_DEFAULT) {
 		d = d_;
 		return true;
@@ -150,7 +153,7 @@ bool rpc_data_item::get(double& d) {
 }
 
 // Return the double
-double rpc_data_item::get_double() {
+double rpc_data_item::get_double() const {
 	return d_;
 }
 

@@ -1,5 +1,7 @@
 #include "stn_dialog.h"
 
+#include "callback.h"
+#include "drawing.h"
 #include "init_dialog.h"
 #include "main.h"
 #include "qso_data.h"
@@ -8,15 +10,18 @@
 #include "stn_data.h"
 #include "stn_oper_dlg.h"
 #include "stn_qth_dlg.h"
-
-#include "callback.h"
-#include "drawing.h"
 #include "utils.h"
 
+#include <string>
+
+#include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Group.H>
 #include <FL/Fl_Tabs.H>
+#include <FL/Fl_Widget.H>
 
 stn_dialog::stn_dialog(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L),

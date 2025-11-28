@@ -30,9 +30,9 @@
 		//! \param record_num_2 The index of an asscoiated QSO record. 
 		virtual void update(hint_t hint, qso_num_t record_num_1, qso_num_t record_num_2 = 0) = 0;
 		//! Returns minimum width the view can be resized
-		int min_w();
+		int min_w() const;
 		//! Returns minimum height the view can be resized
-		int min_h();
+		int min_h() const;
 		//! std::set book used by the view.
 		void set_book(book* book);
 		//! Returns the book 

@@ -84,7 +84,7 @@ typedef size_t qso_num_t;
 		//! Returns the ADIF version coded in the file.
 		std::string adif_version();
 		//! Returns ADIF timestamp
-		std::chrono::system_clock::time_point adif_timestamp();
+		std::chrono::system_clock::time_point adif_timestamp() const;
 		//! Returns sorted std::list of field names
 		std::set<std::string>* sorted_fieldnames();
 		//! Add user defined fields 
@@ -131,7 +131,7 @@ typedef size_t qso_num_t;
 		//! Returns the generic tip message.
 		std::string get_tip(const std::string& field);
 		//! User wants to continue after a validation query.
-		bool do_continue();
+		bool do_continue() const;
 		//! Reset continue flag
 		void reset_continue();
 		//! Add application defined field \p name with data type \p indicator.
@@ -151,7 +151,7 @@ typedef size_t qso_num_t;
 		//! Create a std::list of bands in frequency order.
 		void process_bands();
 		//! Returns true if the spec_data has been loaded.
-		bool valid();
+		bool valid() const;
 
 	// protected methods
 	protected:
@@ -193,8 +193,6 @@ typedef size_t qso_num_t;
 		std::string report_timestamp(std::string field, std::string data);
 		//! Process subdivision datasets
 		void process_subdivision(std::string name);
-		//! generate adif.h file
-		bool generate_adif_hfile();
 		// protected attributes
 	protected:
 		//! ADIF Version
