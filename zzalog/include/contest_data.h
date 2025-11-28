@@ -21,7 +21,7 @@ struct ct_date_t {
 	std::chrono::system_clock::time_point finish;    //!< End of the contest period.
 
 	//! Tests if the specified timepoint \p tp is within the contest period.
-	bool has_inside(std::chrono::system_clock::time_point tp) {
+	bool has_inside(std::chrono::system_clock::time_point tp) const {
 		return (tp > start) && (tp < finish);
 	}
 

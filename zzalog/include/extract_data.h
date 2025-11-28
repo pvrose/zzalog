@@ -99,7 +99,7 @@
 		//! Change the selected record (& update any necessary controls)
 		
 		//! Sets the selected index in this log then selects the corresponding index in the full log. 
-		virtual item_num_t selection(item_num_t num_record, hint_t hint = HT_SELECTED, view* requester = nullptr, qso_num_t num_other = 0);
+		virtual item_num_t selection(item_num_t num_record, hint_t hint = HT_SELECTED, view* requester = nullptr, item_num_t num_other = 0);
 
 	protected:
 

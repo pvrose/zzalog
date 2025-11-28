@@ -199,7 +199,7 @@ class socket_server;
 		//! Adds the utf8 to the dgram
 		void put_utf8(std::stringstream& os, std::string s);
 		//! Adds 32-but unsigned integer
-		void put_uint32(std::stringstream& os, const unsigned int i);
+		void put_uint32(std::stringstream& os, const uint32_t i);
 
 		//! Decode the message and return message type.
 		decoded_msg decode_message(std::string message);

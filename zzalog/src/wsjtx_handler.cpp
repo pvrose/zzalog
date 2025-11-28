@@ -353,7 +353,7 @@ std::string wsjtx_handler::get_utf8(std::stringstream& ss) {
 }
 
 // Put an integer as 4 bytes in the next 4 bytes of dgram
-void wsjtx_handler::put_uint32(std::stringstream& ss, uint32_t i) {
+void wsjtx_handler::put_uint32(std::stringstream& ss, const uint32_t i) {
 	for (int ix = 24; ix >= 0; ix-=8) {
 		unsigned char c = (i >> ix) & 0xFF;
 		ss.put(c);
@@ -664,6 +664,7 @@ record* wsjtx_handler::update_qso(bool tx, std::string time, double audio_freq, 
 				case TX4A:
 					// <ME> <THEM> RR73
 					qso->item("QSO_COMPLETE", std::string("?"));
+					[[fallthrough]];
 					// And drop through
 				case TX5:
 					// <ME> <THEM> 73
