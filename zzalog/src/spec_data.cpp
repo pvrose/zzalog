@@ -477,12 +477,12 @@ bool spec_data::add_userdef(int id, const std::string& name, char indicator, std
 }
 
 // Get data type indicator for the field from the lookup table
-char spec_data::datatype_indicator(std::string& field_name) {
+char spec_data::datatype_indicator(const std::string& field_name) {
 	return datatype_indicators_[field_name];
 }
 
 // Get std::list or range for the field
-std::string spec_data::userdef_values(std::string& field_name) {
+std::string spec_data::userdef_values(const std::string& field_name) {
 	// Get the Fields dataset
 	spec_dataset* fields = dataset("Fields");
 	auto it_field = fields->data.find(field_name);

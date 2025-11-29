@@ -96,9 +96,9 @@ typedef size_t qso_num_t;
 		//! \return true if successful.
 		bool add_userdef(int id, const std::string& name, char indicator, std::string& values);
 		//! Returns data type indicator for \p field_name.
-		char datatype_indicator(std::string& field_name);
+		char datatype_indicator(const std::string& field_name);
 		//! Returns a std::list or range of valid values for \p field_name.
-		std::string userdef_values(std::string& field_name);
+		std::string userdef_values(const std::string& field_name);
 		//! Add the std::list of names of ZZALOG application-specific fields.
 		void add_my_appdefs();
 		//! Remove existing user defined fields

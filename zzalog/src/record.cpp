@@ -91,7 +91,7 @@ void record::delete_contents() {
 }
 
 // Set an item pair.
-void record::item(std::string field, std::string value, bool formatted/* = false*/, bool dirty /*=true*/) {
+void record::item(const std::string& field, const std::string& value, bool formatted/* = false*/, bool dirty /*=true*/) {
 	// Check we are not deleting an important field - crash the program if this was unintentional
 	char message[256];
 	snprintf(message, 256, "You are deleting %s, are you sure", field.c_str());
@@ -294,7 +294,7 @@ void record::item(std::string field, std::string value, bool formatted/* = false
 }
 
 // Get an item - as std::string
-std::string record::item(std::string field, bool formatted/* = false*/) {
+std::string record::item(const std::string& field, bool formatted/* = false*/) {
 	std::string result;
 	if (formatted) {
 		// Return the display format for the field
@@ -376,7 +376,7 @@ std::string record::item(std::string field, bool formatted/* = false*/) {
 }
 
 // get an item - as an integer, default 0
-void record::item(std::string field, int& value) {
+void record::item(const std::string& field, int& value) {
 	if (item_exists(field)) {
 		try {
 			// Return integer value
@@ -394,7 +394,7 @@ void record::item(std::string field, int& value) {
 }
 
 // get an item - as an unsigned long long, default 0
-void record::item(std::string field, unsigned long long& value) {
+void record::item(const std::string& field, unsigned long long& value) {
 	if (item_exists(field)) {
 		try {
 			// Return integer value
@@ -412,7 +412,7 @@ void record::item(std::string field, unsigned long long& value) {
 }
 
 // get an item - as a double, default "not-a-number"
-void record::item(std::string field, double& value) {
+void record::item(const std::string& field, double& value) {
 	if (item_exists(field)) {
 		try {
 			// return double value
@@ -457,7 +457,7 @@ bool record::is_valid() {
 }
 
 // does the item exist - in the std::map and not an empty std::string
-bool record::item_exists(std::string field) {
+bool record::item_exists(const std::string& field) {
 	return find(field) != end() && at(field) != "";
 }
 
@@ -801,7 +801,7 @@ void record::update_bearing() {
 
 
 // Change a field name
-void record::change_field_name(std::string from, std::string to) {
+void record::change_field_name(const std::string& from, const std::string& to) {
 	// Set the item changing it to
 	item(to, item(from));
 	// Clear the existing one
@@ -955,7 +955,7 @@ match_result_t record::match_records(record* record) {
 }
 
 // compare the item between this record and supplied record
-bool record::items_match(record* record, std::string field_name) {
+bool record::items_match(record* record, const std::string& field_name) {
 	std::string lhs = item(field_name);
 	std::string rhs = record->item(field_name);
 	// Convert both fields to upper case

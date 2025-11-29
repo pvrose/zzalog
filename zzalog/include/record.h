@@ -79,32 +79,32 @@ record.h - Individual record data item: header file
 		//! \param value Field value.
 		//! \param formatted if true the displayed format is converted to ADIF format.
 		//! \param dirty if true ther record is marked dirty if the contents change.
-		void item(std::string field, std::string value, bool formatted = false, bool dirty = true);
+		void item(const std::string& field, const std::string& value, bool formatted = false, bool dirty = true);
 		//! Returns the item
 		
 		//! \param field Field name.
 		//! \param formatted if true converts data to the displayed format.
 		//! \return Field value.
-		std::string item(std::string field, bool formatted = false);
+		std::string item(const std::string& field, bool formatted = false);
 		//! Gets an integer item
 		
 		//! \param field Field name
 		//! \param value Receives field value converted to an integer, 0 if it cannot be.
-		void item(std::string field, int& value);
+		void item(const std::string& field, int& value);
 		//! Gets a double-precision value
 		
 		//! \param field Field name
 		//! \param value Receives field value converted to a double-precision, NAN if it cannot be.
-		void item(std::string field, double& value);
+		void item(const std::string& field, double& value);
 		//! Gets a long long item
 		
 		//! \param field Field name
 		//! \param value Receives field value converted to an unsigned 64-bit integer, 0 if it cannot be.
-		void item(std::string field, unsigned long long& value);
+		void item(const std::string& field, unsigned long long& value);
 		//! Returns true if the QSO is valid - has a minimum subset of fields
 		bool is_valid();
 		//! Returns true if the item named \p field exists and is not an empty std::string.
-		bool item_exists(std::string field);
+		bool item_exists(const std::string& field);
 		//! Set the header information
 		void header(std::string comment);
 		//! Returns the header information
@@ -139,7 +139,7 @@ record.h - Individual record data item: header file
 		//! Update DISTANCE and ANT_AZ fields. 
 		void update_bearing();
 		//! change the field name from value in \p from to value in \p to.
-		void change_field_name(std::string from, std::string to);
+		void change_field_name(const std::string& from, const std::string& to);
 		//! Returns a std::string where field names in angle brackets in \p data are replaced by their values.
 		std::string item_merge(std::string data, bool indirect = false);
 		//! Returns the timestamp as time_t of the record.
@@ -152,7 +152,7 @@ record.h - Individual record data item: header file
 		//! \param time_off if true use QSO_DATE_OFF + TIME_OFF rather than QS_DATE + TIME_ON for the QSO time.
 		std::chrono::system_clock::time_point ctimestamp(bool time_off = false);
 		//! Itema \p field_name match between \p record and this record.
-		bool items_match(record* record, std::string field_name);
+		bool items_match(record* record, const std::string& field_name);
 		//! Delete all contents
 		void delete_contents();
 		//! Delete QSL statuses.
