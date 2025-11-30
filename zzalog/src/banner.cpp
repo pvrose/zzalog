@@ -268,6 +268,7 @@ void banner::start_progress(uint64_t max_value, object_t object, const char* msg
 	snprintf(text, sizeof(text), "0 out of %lld %s", max_value, suffix);
 	bx_prog_value_->copy_label(text);
 	fd_progress_->selection_color(OBJECT_COLOURS.at(object));
+	fd_progress_->value(0.0);
 
 	redraw();
 	if (visible()) Fl::check();

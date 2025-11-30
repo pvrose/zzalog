@@ -961,7 +961,6 @@ bool cty_data::load_json() {
 		try {
 			is >> jall;
 			is.close();
-			status_->progress(2, OT_PREFIX);
 		}
 		catch (const json::exception& e) {
 			snprintf(msg, sizeof(msg), "CTY DATA: Failed to load %s: %d (%s)",
@@ -971,7 +970,7 @@ bool cty_data::load_json() {
 			is.close();
 			return false;
 		}
-		status_->progress(2, OT_PREFIX);
+		status_->progress(1, OT_PREFIX);
 		if (jall.find("Country Data") == jall.end()) {
 			snprintf(msg, sizeof(msg), "CTY DATA: File %s is not country data",
 				filename.c_str());
@@ -1010,6 +1009,13 @@ bool cty_data::load_json() {
 		if (j.find("Data") != j.end()) {
 			data_ = new all_data;
 			j.at("Data").get_to(*data_);
+			status_->progress(2, OT_PREFIX);
+		}
+		else {
+			snprintf(msg, sizeof(msg), "CTY DATA: File %s dows not contain data", filename.c_str());
+			status_->misc_status(ST_ERROR, msg);
+			status_->progress("Read failed", OT_PREFIX);
+			return false;
 		}
 	}
 	else {
