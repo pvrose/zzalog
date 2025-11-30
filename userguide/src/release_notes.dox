@@ -3,6 +3,7 @@
 \section rev_3-6-12 Revision 3.6.12
 
 - Code refactoring to improve maintainability and performance.
+- Close banner now closes the application.
 - Bug fixes:
   - Progress dial not showing load cty.json progress correctly.
 
