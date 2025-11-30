@@ -281,13 +281,12 @@ target_link_directories(${TARGET} PRIVATE
 endif()
 
 target_link_libraries(${TARGET} PRIVATE 
+  ${FLTK_LIBRARIES}
+  ${CURL_LIBRARIES}
+  ${HAMLIB_LIBRARY}
   zzalog_common
   zzalog_contests
   zzalog_widgets
   pugixml
-  ${FLTK_LIBRARIES}
-  ${CURL_LIBRARIES}
-  ${HAMLIB_LIBRARY}
-  
 )
 
