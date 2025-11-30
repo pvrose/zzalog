@@ -337,15 +337,10 @@ void banner::cancel_progress(const char* msg) {
 	if (visible()) Fl::check();
 }
 
-// Callback - close button - ignore
+// Callback - close button - close app.
 void banner::cb_close(Fl_Widget* w, void* v) {
-	banner* that = (banner*)w;
-	if (that->can_close_) {
-		Fl_Double_Window::default_callback(that, v);
-	}
-	else {
-		printf("ZZALOG: Cannot close the banner\n");
-	}
+	// Pretend to click the close button on the main window
+	::cb_bn_close(w, v);
 }
 
 // Add message to display (with colour)
