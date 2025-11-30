@@ -4,6 +4,8 @@
 
 - Code refactoring to improve maintainability and performance.
 - Close banner now closes the application.
+- Perfomance changes.
+  - Use system command to backup file.
 - Bug fixes:
   - Progress dial not showing load cty.json progress correctly.
 

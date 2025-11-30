@@ -1306,41 +1306,22 @@ int main(int argc, char** argv)
 void backup_file() {
 	std::string source = book_->filename();
 	std::string backup = backup_filename(source);
-	char* message = new char[backup.length() + 25];
-	sprintf(message, "BACKUP: Writing %s", backup.c_str());
+	char message[256];
+	snprintf(message, sizeof(message), "BACKUP: Writing %s", backup.c_str());
 	status_->misc_status(ST_NOTE, message);
-	delete[] message;
-	// In and out streams
-	std::ifstream in(source);
-	in.seekg(0, in.end);
-	int length = (int)in.tellg();
-	const int increment = 8000;
-	in.seekg(0, in.beg);
-	status_->progress(length, OT_MAIN, "Copying data to backup", "bytes");
-	std::ofstream out(backup);
-	bool ok = in.good() && out.good();
-	char buffer[increment];
-	int count = 0;
-	// Copy file in 7999 byte chunks
-	while (!in.eof() && ok) {
-		in.read(buffer, increment);
-		out.write(buffer, in.gcount());
-		count += (int)in.gcount();
-		ok = out.good() && (in.good() || in.eof());
-		status_->progress(count, OT_MAIN);
-	}
-	if (!ok) {
-		status_->progress("Failed before completion", OT_MAIN);
-	} else {
-		if (count != length) {
-			status_->progress(length, OT_MAIN);
-		}
-	}
-	in.close();
-	out.close();
-	if (!ok) {
+
+		// Copy source to working
+#ifdef _WIN32
+	std::string command = "copy \"" + source + "\" \"" + backup + "\"";
+#else
+	std::string command = "cp \"" + source + "\" \"" + backup + "\"";
+#endif
+	int result = system(command.c_str());
+	if (result != 0) {
 		// Report error
-		status_->misc_status(ST_ERROR, "BACKUP: failed");
+		snprintf(message, sizeof(message), "BACKUP: failed to copy to %s: %d", 
+			backup.c_str(), result);
+		status_->misc_status(ST_ERROR, message);
 	} else {
 		status_->misc_status(ST_OK, "BACKUP: Done");
 		settings top_settings;
