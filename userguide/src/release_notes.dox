@@ -3,6 +3,8 @@
 \section rev_3-6-12 Revision 3.6.12
 
 - Code refactoring to improve maintainability and performance.
+- Bug fixes:
+  - Progress dial not showing load cty.json progress correctly.
 
 \section rev_3-6-11 Revision 3.6.11
 
