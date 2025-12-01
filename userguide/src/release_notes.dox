@@ -1,11 +1,11 @@
 /** \page release_notes Revision History
 
-\section rev_3-6-12 Revision 3.6.12
+\section rev_3-6-12 Revision 3.6.12 [Unreleased]
 
 - Code refactoring to improve maintainability and performance.
 - Close banner now closes the application.
 - Perfomance changes.
-  - Use system command to backup file.
+  - Use system command to copy log to backup file.
 - Bug fixes:
   - Progress dial not showing load cty.json progress correctly.
 
