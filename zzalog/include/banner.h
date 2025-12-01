@@ -41,7 +41,8 @@ public:
     //! \param type the status of the message. This determines which output widget displays the
     //! message and the colour in which to display it.
     //! \param msg the message to display.
-    void add_message(status_t type, const char* msg);
+	//! \param ts timestamp string to prefix the message with.
+    void add_message(status_t type, const char* msg, const char* ts);
     //! Start a progress clock.
     
     //! \param max_value the maximum count of object_t items expected.
@@ -87,7 +88,7 @@ public:
 protected:
 
     //! Add message to the message history display (with colour)
-    void copy_msg_display(status_t type, const char* msg);
+    void copy_msg_display(status_t type, const char* msg, const char* ts);
 
     // Widgets
     Fl_Box* bx_icon_;                   //!< holder for the ZZALOG icon.

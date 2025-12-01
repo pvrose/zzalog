@@ -64,7 +64,7 @@ void status::misc_status(status_t status, const char* label) {
 	// X YYYY/MM/DD HH:MM:SS Message 
 	// X is a single letter indicating the message severity
 	snprintf(f_message, sizeof(f_message), "%c %s %s\n", STATUS_CODES.at(status), timestamp.c_str(), label);
-	banner_->add_message(status, label);
+	banner_->add_message(status, label, timestamp.substr(11).c_str());
 
 	if (!report_file_) {
 		// Append the status to the file

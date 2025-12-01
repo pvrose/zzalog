@@ -37,7 +37,7 @@ class banner;
 
 	//! MAp the values of status_t to the colours used to display them.
 	const std::map<status_t, colours_t> STATUS_COLOURS = {
-		{ ST_NONE, { FL_BLUE, FL_BLACK } },
+		{ ST_NONE, { FL_WHITE, FL_BLACK } },
 		{ ST_LOG, { fl_lighter(FL_BLUE), FL_BLACK } },
 		{ ST_DEBUG, { fl_lighter(FL_MAGENTA), FL_BLACK } },
 		{ ST_NOTE, { fl_lighter(FL_CYAN), FL_BLACK } },

@@ -205,7 +205,7 @@ void banner::enable_widgets() {
 }
 
 // Add a message to the banner
-void banner::add_message(status_t type, const char* msg) {
+void banner::add_message(status_t type, const char* msg, const char* ts) {
 	// Trap any call that is not from the main std::thread
 	if (std::this_thread::get_id() != main_thread_id_) {
 		printf("Calling banner::add_message(%s) when not in the main std::thread\n", msg);
@@ -240,7 +240,7 @@ void banner::add_message(status_t type, const char* msg) {
 		break;
 	}
 	}
-	copy_msg_display(type, msg);
+	copy_msg_display(type, msg, ts);
 	redraw();
 	if (visible()) Fl::check();
 }
@@ -344,17 +344,22 @@ void banner::cb_close(Fl_Widget* w, void* v) {
 }
 
 // Add message to display (with colour)
-void banner::copy_msg_display(status_t type, const char* msg) {
+void banner::copy_msg_display(status_t type, const char* msg, const char* ts) {
 	// Append the message to the text buffer
 	Fl_Text_Buffer* buffer = display_->buffer();
+	buffer->append(ts);
+	buffer->append(" ");
 	buffer->append(msg);
 	buffer->append("\n");
 	// Now std::set the style of the added characters
-	// Create a std::string of the required length and fill it with the style character
-	size_t len = strlen(msg) + 1;
+	// Create a string of the required length and fill it with the style character
+	size_t len = strlen(msg) + strlen(ts)  + 2;
 	char* style = new char[len + 1];
 	char s_char = (char)type + 'A';
+	// Set the style of the whole message according to type
 	memset(style, s_char, len);
+	// Set the style of the timestamp to the default
+	memset(style, 'A', strlen(ts) + 1);
 	style[len] = '\0';
 	// Append it to the style buffer
 	Fl_Text_Buffer* s_buffer = display_->style_buffer();
