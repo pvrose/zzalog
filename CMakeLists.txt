@@ -42,7 +42,7 @@ else()
 endif()
 
 # libcurl
-find_package(CURL REQUIRED)
+find_package(CURL CONFIG REQUIRED)
 if (MSVC)
   set(CURL_INCLUDE_DIR "C:\\Users\\pvros\\source\\repos\\curl\\include")
   set(CURL_LIBRARIES CURL::libcurl)
