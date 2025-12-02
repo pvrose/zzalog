@@ -133,13 +133,11 @@ field_input::~field_input() {
 int field_input::handle(int event) {
 	reason_ = IR_NULL;
 	// Tell international character dialog to paste to this widget
-	qso_entry* qe = ancestor_view<qso_entry>(this);
 	switch (event) {
 	case FL_PUSH:
 		if (intl_dialog_) {
 			intl_dialog_->editor(this);
 		}
-		if (qe) qe->save_focus(this);
 		// Remove any tip window on this or other field_input
 		if (tip_window_) {
 			// Delete existing tip window

@@ -806,7 +806,6 @@ void qso_data::action_new_qso(record* qso, qso_init_t mode) {
 	default:
 		break;
 	}
-	qe->set_focus_call();
 	previous_mode_ = new_mode;
 }
 
@@ -1456,7 +1455,6 @@ void qso_data::action_create_net() {
 	g_net_entry_->entry(w);
 	g_misc_->qso(current_qso(), current_number());
 	enable_widgets();
-	g_net_entry_->set_focus_call();
 }
 	
 

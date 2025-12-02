@@ -84,11 +84,14 @@ int qso_entry::handle(int event) {
 		// Acknowledge focus events to get the keyboard event
 		return true;
 	case FL_PUSH:
-		if (!result) {
-			save_focus(this);
-			take_focus();
+	{
+		Fl_Widget* w = Fl::pushed();
+		if (dynamic_cast<field_input*>(w)) {
+			focus_ix_ = (intptr_t)w->user_data();
 		}
+
 		return true;
+	}
 	case FL_KEYBOARD:
 		switch (Fl::event_key()) {
 		case FL_F + 1:
@@ -100,7 +103,7 @@ int qso_entry::handle(int event) {
 			}
 			return true;
 		}
-		set_focus_saved();
+		// set_focus_saved();
 		break;
 	}
 	return result;
@@ -121,6 +124,7 @@ void qso_entry::create_form(int X, int Y) {
 	const int WINPUT = WBUTTON * 7 / 4;
 
 	// For all the fields we can support
+	curr_x = X + GAP;
 	for (int ix = 0; ix < NUMBER_TOTAL; ix++) {
 		// Only allow the userto choose the filed to display for those
 		// inputs that are not for fixed fields
@@ -131,7 +135,16 @@ void qso_entry::create_form(int X, int Y) {
 			ch_field_[ix]->callback(cb_ch_field, (void*)(intptr_t)ix);
 			ch_field_[ix]->set_dataset("Fields");
 		}
-		curr_x += WCHOICE;
+		curr_x += WCHOICE + WINPUT + GAP;
+		if (ix % NUMBER_PER_ROW == (NUMBER_PER_ROW - 1)) {
+			max_x = std::max<int>(max_x, curr_x);
+			curr_x = X + GAP;
+			curr_y += HBUTTON;
+		}
+	}
+	curr_x = X + GAP + WCHOICE;
+	curr_y = Y + HTEXT;
+	for (int ix = 0; ix < NUMBER_TOTAL; ix++) {
 		// Add a field_inpu widget
 		ip_field_[ix] = new field_input(curr_x, curr_y, WINPUT, HBUTTON);
 		ip_field_[ix]->align(FL_ALIGN_LEFT);
@@ -147,13 +160,14 @@ void qso_entry::create_form(int X, int Y) {
 			ip_field_[ix]->copy_label(name.c_str());
 		}
 
-		curr_x += ip_field_[ix]->w() + GAP;
+		curr_x += WCHOICE + WINPUT + GAP;
 		if (ix % NUMBER_PER_ROW == (NUMBER_PER_ROW - 1)) {
 			max_x = std::max<int>(max_x, curr_x);
-			curr_x = X + GAP;
+			curr_x = X + WCHOICE + GAP;
 			curr_y += HBUTTON;
 		}
 	}
+
 	max_x = std::max<int>(max_x, curr_x);
 	// Clear QSO fields
 
