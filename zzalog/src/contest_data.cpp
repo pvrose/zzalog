@@ -114,12 +114,14 @@ ct_entry_t* contest_data::get_contest_info(int number) {
 
 // Load data
 bool contest_data::load_data() {
-	status_->misc_status(ST_NOTE, "CONTEST: loading contest data");
+	status_->misc_status(ST_NOTE, "CONTEST: Loading contest data");
 	std::string filename;
 	std::ifstream is;
 	if (file_holder_->get_file(FILE_CONTEST, is, filename)) {
 		if (load_json(is)) {
-			status_->misc_status(ST_OK, "CONTEST: Contest data loaded OK");
+			char msg[128];
+			snprintf(msg, sizeof(msg), "CONTEST: File %s loaded OK", filename.c_str());
+			status_->misc_status(ST_OK, msg);
 			return true;
 		}
 	}

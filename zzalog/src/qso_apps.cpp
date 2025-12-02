@@ -595,6 +595,7 @@ int qso_apps::handle(int event) {
     void qso_apps::load_values() {
     std::string filename;
     std::ifstream i;
+	status_->misc_status(ST_NOTE, "APPS: Loading apps configuration data");
     char msg[128];
     if (file_holder_->get_file(FILE_APPS, i, filename)) {
         try {

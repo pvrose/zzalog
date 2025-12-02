@@ -58,7 +58,7 @@ public:
     //! \endcond
     
     //! Update weather report - forecd
-    void update();
+    bool update();
     //! Implement timer actions 
     void ticker();
     //! Callback from ticker every 30 minutes (3 minutes in DEBUG_QUICK mode).

@@ -122,14 +122,16 @@ void wx_handler::do_thread(wx_handler* that) {
     while(!that->wx_fetch_.load());
     if (DEBUG_THREADS) printf("WX THREAD: staring to fetch\n");
     that->wx_fetch_.store(false);
-    that->update();
+	if (!that->update()) {
+		status_->misc_status(ST_ERROR, "WX_HANDLER: Unable to determine station location for weather report");
+	}
     if (DEBUG_THREADS) printf("WX THREAD: fetching complete\n");
 	Fl::awake(cb_fetch_done, (void*)that);
     that->wx_valid_.store(true);
 }
 
 // Update weather report - forecd
-void wx_handler::update() {
+bool wx_handler::update() {
     // Create a dummy record to get own location
     record* dummy = qso_manager_->dummy_qso();
     std::string qth_id = qso_manager_->get_default(qso_manager::QTH);
@@ -144,7 +146,7 @@ void wx_handler::update() {
     if (std::isnan(location.latitude) || std::isnan(location.longitude)) {
         report_ = wx_report();
         report_.city_name = "Not known";
-        return;
+        return false;
     }
     char url[1024];
     std::stringstream ss;
@@ -165,13 +167,15 @@ void wx_handler::update() {
             
 		}
     }
+	return true;
 }
 
 // Timer - called every 30 minutes
 void wx_handler::ticker() {
     wx_valid_.store(false);
     if (DEBUG_THREADS) printf("WX MAIN: Starting WX fetch\n");
-    wx_fetch_.store(true);
+	status_->misc_status(ST_NOTE, "WX_HANDLER: Fetching weather data...");
+	wx_fetch_.store(true);
 }
 
 // Static

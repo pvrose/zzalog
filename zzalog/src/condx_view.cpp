@@ -115,6 +115,7 @@ bool condx_view::load_data() {
 		doc.load(ss);
 		// Save file
 		doc.save_file(filename.c_str());
+		status_->misc_status(ST_OK, "SOLAR: Download successful");
 		solar_settings.set<time_t>("Timestamp", now);
 	}
 	else {
@@ -189,7 +190,8 @@ bool condx_view::load_data() {
 			status_->misc_status(ST_WARNING, msg);
 		}
 	}
-	status_->misc_status(ST_OK, "SOLAR: Solar data loaded OK");
+	snprintf(msg, sizeof(msg), "SOLAR: File %s loaded OK", filename.c_str());
+	status_->misc_status(ST_OK, msg);
 	return true;
 }
 
