@@ -86,8 +86,9 @@ int qso_entry::handle(int event) {
 	case FL_PUSH:
 	{
 		Fl_Widget* w = Fl::pushed();
-		if (dynamic_cast<field_input*>(w)) {
-			focus_ix_ = (intptr_t)w->user_data();
+		field_input* f = ancestor_view<field_input>(w);
+		if (f) {
+			focus_ix_ = (intptr_t)f->user_data();
 		}
 
 		return true;
