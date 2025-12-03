@@ -13,7 +13,7 @@ class Fl_Button;
 class Fl_Check_Button;
 class Fl_Image;
 class Fl_Radio_Light_Button;
-class Fl_Tabs;
+class tabs_nonav;
 
 
 typedef size_t qso_num_t;
@@ -111,7 +111,7 @@ protected:
 	bool qso_changed_;
 
 	//! Tabs: "Display", "Status", and "Edit"
-	Fl_Tabs* tabs_;
+	tabs_nonav* tabs_;
 
 	//! "Display" tab.
 	Fl_Group* grp_viewer_;

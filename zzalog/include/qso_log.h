@@ -1,6 +1,6 @@
 #pragma once
 
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 
 class qso_log_info;
 class qso_qsl;
@@ -9,7 +9,7 @@ class qso_bands;
 
 //! This class prides tabs for the qso_log_info, qso_qsl and qso_apps objects.
 class qso_log :
-    public Fl_Tabs
+    public tabs_nonav
 {
 public:
 	//! Constructor.

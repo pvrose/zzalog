@@ -20,7 +20,7 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Group.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 stn_dialog::stn_dialog(int X, int Y, int W, int H, const char* L) :
@@ -97,7 +97,7 @@ void stn_dialog::create_form(int X, int Y) {
 	int ch = y() + h() - cy;
 
 	// Create an Fl_Tabs
-	tabs_ = new Fl_Tabs(cx, cy, cw, ch);
+	tabs_ = new tabs_nonav(cx, cy, cw, ch);
 	tabs_->callback(cb_tab);
 	tabs_->box(FL_FLAT_BOX);
 

@@ -12,7 +12,7 @@
 
 #include <FL/Enumerations.H>
 #include <FL/Fl_Group.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 // Constructor
@@ -34,7 +34,7 @@ void qso_net_entry::create_form(int X, int Y) {
 	labelfont(FL_BOLD);
 
 	// Tabbed std::set of qso_entry forms
-	entries_ = new Fl_Tabs(X, Y + HTEXT, w(), h());
+	entries_ = new tabs_nonav(X, Y + HTEXT, w(), h());
 	entries_->callback(cb_entries);
 	entries_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);
 	int rx = 0;
@@ -210,7 +210,7 @@ void qso_net_entry::append_qso() {
 
 // Callback on selecting a tab
 void qso_net_entry::cb_entries(Fl_Widget* w, void* v) {
-	Fl_Tabs* tabs = (Fl_Tabs*)w;
+	tabs_nonav* tabs = (tabs_nonav*)w;
 	qso_net_entry* that = ancestor_view<qso_net_entry>(w);
 	that->enable_widgets();
 	qso_entry* qe = (qso_entry*)tabs->value();

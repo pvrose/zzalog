@@ -3,7 +3,7 @@
 
 class band_editor;
 class band_widget;
-class Fl_Tabs;
+class tabs_nonav;
 
 //! A separate window that displays the full bandplan view.
 class band_window :
@@ -47,7 +47,7 @@ protected:
     void enable_widgets();
 
     //! The tabs container
-    Fl_Tabs* tabs_;
+    tabs_nonav* tabs_;
     //! The band_widget instance.
     band_widget* bw_;
     //! The band_editor instance.

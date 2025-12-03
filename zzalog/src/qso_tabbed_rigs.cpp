@@ -15,12 +15,12 @@
 #include <vector>
 
 #include <FL/Enumerations.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 // Constructor for the rigs std::set of tabs
 qso_tabbed_rigs::qso_tabbed_rigs(int X, int Y, int W, int H, const char* L) :
-	Fl_Tabs(X, Y, W, H, L)
+	tabs_nonav(X, Y, W, H, L)
 {
 	labeltype(FL_NO_LABEL);
 	box(FL_BORDER_BOX);

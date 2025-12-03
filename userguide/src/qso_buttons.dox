@@ -63,7 +63,7 @@ as well as data read from the rig.
 
 \section shortcuts Keyboard shortcuts
 
-The following shortcuts are available from any position in the QSO manager window:
+The following shortcuts are available from most positions in the QSO manager window:
 
 - <B>ALT a</B> Add QSO
 - <B>ALT A</B> (ALT SHIFT a) Add Call
@@ -80,5 +80,7 @@ The following shortcuts are available from any position in the QSO manager windo
 - <B>ALT RIGHT</B> Next Entry
 - <B>ALT SHIFT RIGHT</B> Last Entry
 - <B>ALT DEL</B> Delete QSO
+
+
 
 */
