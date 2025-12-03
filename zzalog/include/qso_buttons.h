@@ -51,11 +51,8 @@ public:
 		COPY_QSO,           //!< Add a QSO copying all fieds from a previous QSO.
 		CLONE_QSO,          //!< Add a QSO copying fields other than call from a previous QSO.
 		VIEW_QSO,           //!< View an existing QSO using qso_entry.
-		CANCEL_EDIT,        //!< Cancel editing a QSO, restoring its original state.
-		CANCEL_BROWSE,      //!< Cancel brwosing (looking in qso_browse).
 		CANCEL_QSO,         //!< Cancel a real-time QSO.
 		DELETE_QSO,         //!< Delete a previous QSO record.
-		QUIT_QSO,           //!< Quit entry mode
 		SAVE_QSO,           //!< Save the current QSO.
 		SAVE_EDIT,          //!< Save the QSO being edited and carry on editing.
 		SAVE_EXIT,          //!< Save the QSO being edited and leave edit mode.
@@ -82,7 +79,6 @@ public:
 		SAVE_NET,           //!< SAve all QSOs in the net while entering them.
 		CANCEL_NET,         //!< Cancel all QSOs im the net.
 		ADD_NET_QSO,        //!< Start a new QSO as part of the net.
-		SAVE_EDIT_NET,      //!< Save all QSOs in the net while editing them.
 		ENTER_QUERY,        //!< Enter data to start a search for a specific QSO.
 		EXEC_QUERY,         //!< Search for the QSO that matches any entered details.
 		CANCEL_QUERY,       //!< Cancel a search query.

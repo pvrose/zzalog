@@ -44,6 +44,9 @@ although not on this band or mode.
 
 To start logging a QSO with this station click the "Start QSO" (indicated by the yellow arrow). 
 
+\note Keyboard shortcuts are available for the most critical buttons. These may be entered while the
+focus is anywhere in the QSO manager window. See \ref shortcuts.
+
 \subsection parsing Decoding callsigns
 
 ZZALOG makes use of publicly available databases to decode callsigns - see \ref page_6. ZZALOG
@@ -89,12 +92,12 @@ mode and transmit power (red) are read from the rig. Note, that these latter are
 updated from the rig. It is then up to the user to add details from the QSO. In this
 case the name, QTH and reports that were sent and received (blue). 
 
-When the QSO is ended then one of the "Save..." buttons (green) should be clicked.
-- <B>Save</B> will save the data entered so far, but not end the QSO.
-- <b>Save & View</B> will save the data and enter the end time. The QSO will remain in
+When the QSO is ended then one of the "Log..." buttons (green - previously called "Save...") should be clicked.
+- <B>Log</B> will save the data entered so far, but not end the QSO.
+- <b>Log & View</B> will save the data and enter the end time. The QSO will remain in
 view mode.
-- <B>Save & New</B> will save the data and start a new QSO.
-- <B>Save & Edit</B> will save the data and enter the end time. The QSO can still be edited.
+- <B>Log & New</B> will save the data and start a new QSO.
+- <B>Log & Edit</B> will save the data and enter the end time. The QSO can still be edited.
 - <B>Quit QSO</B> will abandon entering the QSO.
 
 You can then continue making more QSOs in the same way.

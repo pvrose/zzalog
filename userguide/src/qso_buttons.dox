@@ -16,14 +16,12 @@ The complete list of buttons:
 
 - <B>Activate</B> Make the dashboard ready to start logging QSOs.
 - <B>Add Call</B> Add a new QSO record to the net in the editor view.
-- <B>Add QSO</B> <I>(Editor mode)</I> Create a new QSO record without initialising time and rig data.
-- <B>Add QSO</B> <I>(Query mode)</I> Add the queried QSO record to the log.
+- <B>Add QSO</B> Create a new QSO record without initialising time and rig data.
 - <B>Browse Log</B> Open the QSO browser (rather than editor) displaying the current QSO.
 The browser allows all fields to be displayed rather than the limited selection in the editor.
 - <B>B4?</B> Extract all QSOs with the callsign in the selected QSO.
-- <B>Cancel</B> <I>(Query mode)</I> cancel the query.
-- <B>Cancel</B> <I>(Read-only edit mode)</I> Cancel the current read-only viewing of the QSO record.
-- <B>Cancel Edit</B> Cancel the current edit without saving the changes to the QSO record.
+- <B>Cancel</B> Cancel the current viewing or editing of the QSO record.
+- <B>Cancel Query</B> Cancel the query.
 - <B>Check</B> Start the search for the above data.
 - <B>Clone QSO</B> Create a new QSO record copying rig data.
 - <B>Copy QSO</B> Create a new QSO record copying call and rig data.
@@ -35,23 +33,19 @@ The browser allows all fields to be displayed rather than the limited selection 
 - <B>Keep 1</B> <I>(Dupe check)</I> Keep the left hand record.
 - <B>Keep 1 & 2</B> <I>(Dupe check)</I> keep both records. They are not duplicates.
 - <B>Keep 2</B> <I>(Dupe check)</I> Keep the right hand record.
+- <B>Log</B> Log the QSO being entered or edited. If the QSO hadn't been started, start it first. 
+If the QSO is being entered, then set the end time.
+- <B>Log & Edit</B> Log the QSO (as above), but continue with the QSO record open in edit mode.
+- <B>Log & New</B> LOg the QSO (as above) and start a new QSO.
+- <B>Log & View</B> Log the QSO (as above), but contine with the QSO record in read-only mode.
+- <B>Log Net</B> Save all records in the editor view.
 - <B>Merge</B> <I>(Dupe check)</I> Merge data between the two records.
 - <B>Merge QSO</B> <I>(Query Mode)</I> Merge data between the queried record and the target record.
 - <B>Parse QSO</B> Add DXCC etc detils to the current record.
 - <B>Query</B> Open an editor view to allow details for a search to be entered.
-- <B>Quit</B> Quit the QSO entry mode.
-- <B>Quit Browse</B> Cancel the current browser view.
-- <B>Quit Net</B> Cancel editing all records in the editor view.
-- <B>Quit QSO</B> Cancel the QSO being entered.
 - <B>Reject QSO</B> <I>(Query Mode)</I> Do not add the queried QSO record to the log.
 - <B>Replace CAT</B> Replace the rig data in the selected record with data freshly read from the rig.
 - <B>Restart</B> Cancel the current QSO entry and start a new one.
-- <B>Save</B> Save the QSO being entered or edited. If the QSO hadn't been started, start it first. 
-If the QSO is being entered, then set the end time.
-- <B>Save & Edit</B> Save the QSO (as above), but continue with the QSO record open in edit mode.
-- <B>Save & New</B> Save the QSO (as above) and start a new QSO.
-- <B>Save & View</B> SAve the QSO (as above), but contine with the QSO record in read-only mode.
-- <B>Save Net</B> Save all records in the editor view.
 - <B>Start Net</B> Start a QSO, expecting it to be the first of a (say club) net.
 - <B>Start QSO</B> Start a real-time (on-air) QSO. This fixes the QSO start date and time.
 as well as data read from the rig.
@@ -66,5 +60,25 @@ as well as data read from the rig.
 - <B>[Reading glass] QRZ.com</B> Open the QRZ.com page for the callsign in the selected record.
 - <B>[Right arrow]</B> Select the next record.
 - <B>[Right arrow and bar]</B> Select the last record.
+
+\section shortcuts Keyboard shortcuts
+
+The following shortcuts are available from any position in the QSO manager window:
+
+- <B>ALT a</B> Add QSO
+- <B>ALT A</B> (ALT SHIFT a) Add Call
+- <B>ALT e</B> Edit QSO
+- <B>ALT l</B> Log QSO
+- <B>ALT L</B> (ALT SHIFT l) Log Net
+- <B>ALT s</B> Start QSO
+- <B>ALT S</B> (ALT SHIFT s) Start Net
+- <B>ALT x</B> Cancel QSO
+- <B>ALT X</B> (ALT SHIFT x) Cancel Net
+- <B>ALT z</B> Activate
+- <B>ALT LEFT</B> Previous Entry
+- <B>ALT SHIFT LEFT</B> First Entry
+- <B>ALT RIGHT</B> Next Entry
+- <B>ALT SHIFT RIGHT</B> Last Entry
+- <B>ALT DEL</B> Delete QSO
 
 */
