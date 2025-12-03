@@ -78,10 +78,23 @@ int qso_manager::handle(int event) {
 	{
 		int key = Fl::event_key();
 		printf("DEBUG: Received shortcut %x\n", key);
+		// Ignore ALT/Ctrl/Shift with no other key
+		switch (key) {
+		case FL_Alt_L:
+		case FL_Alt_R:
+		case FL_Control_L:
+		case FL_Control_R:
+		case FL_Shift_L:
+		case FL_Shift_R:
+			return true;
+		}
 		// Forward to qso_buttons to handle Alt+key shortcuts
 		if (Fl::event_key(FL_Alt_L) || Fl::event_key(FL_Alt_R)) key |= FL_ALT;
 		if (Fl::event_key(FL_Control_L) || Fl::event_key(FL_Control_R)) key |= FL_CTRL;
-		return data_group_->buttons()->handle_shortcut(key);
+		if (Fl::event_key(FL_Shift_L) || Fl::event_key(FL_Shift_R)) key |= FL_SHIFT;
+		if (data_group_->buttons()->handle_shortcut(key)) return true;
+		// TODO: For now just absorb all unhandled shortcuts
+		return true;
 	}
 	}
 
