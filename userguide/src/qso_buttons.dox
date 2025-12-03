@@ -81,6 +81,7 @@ The following shortcuts are available from most positions in the QSO manager win
 - <B>ALT SHIFT RIGHT</B> Last Entry
 - <B>ALT DEL</B> Delete QSO
 
-
+The ALT LEFT and ALT RIGHT shortcuts are not available in the \ref qso_details pane as
+these are used for scrolling the table view of previous contacts.
 
 */

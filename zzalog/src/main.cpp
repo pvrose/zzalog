@@ -1168,8 +1168,8 @@ void save_switches() {
 	settings view_settings(&top_settings, "Views");
 	settings overall_settings(&view_settings, "Overall");
 	settings behav_settings(&top_settings, "Behaviour");
-	overall_settings.set<bool>("Dark Mode", DARK);
-	behav_settings.set<bool>("Update per QSO", AUTO_UPLOAD);
+	overall_settings.set("Dark Mode", DARK);
+	behav_settings.set("Update per QSO", AUTO_UPLOAD);
 	behav_settings.set("Save per QSO", AUTO_SAVE);
 }
 
