@@ -103,7 +103,11 @@ file(COPY ${DATAFILES}
 
 # generate docus
 option(ZZALOG_USERGUIDE "Generate Userguide" ON)
+if (MSVC)
+option(ZZALOG_USERGUIDE_PDF "Generate PDF" OFF)
+else()
 option(ZZALOG_USERGUIDE_PDF "Generate PDF" ON)
+endif()
 if(ZZALOG_USERGUIDE) 
   message(STATUS "Adding userguide")
   add_subdirectory(userguide)
