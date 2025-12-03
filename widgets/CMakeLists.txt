@@ -13,12 +13,14 @@ set(PROGRAMID "ZZALOG")
 set(CPPFILES 
   src/filename_input.cpp
   src/input_hierch.cpp
+  src/tabs_nonav.cpp
 )
 
 set(HPPFILES
   include/button_input.h
   include/filename_input.h
   include/input_hierch.h
+  include/tabs_nonav.h
 )
 
 # set document directory

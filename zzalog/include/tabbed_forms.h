@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <map>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 
 class book;
 enum hint_t : uchar;
@@ -16,7 +16,7 @@ typedef size_t qso_num_t;
 
 
 	//! This class is a view with tabs that contain the specialised views
-	class tabbed_forms : public Fl_Tabs
+	class tabbed_forms : public tabs_nonav
 	{
 	public:
 		//! Construcor.

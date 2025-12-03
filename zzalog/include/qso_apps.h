@@ -13,7 +13,7 @@ class Fl_Light_Button;
 class Fl_Check_Button;
 class Fl_Radio_Light_Button;
 class Fl_Button;
-class Fl_Tabs;
+class tabs_nonav;
 class filename_input;
 class file_viewer;
 
@@ -184,7 +184,7 @@ protected:
     Fl_Input* ip_new_;        //!< Inputfor name of new application.
 
    // Tabbed std::set of app_grp
-    Fl_Tabs* tabs_;           //!< Tabs, one for each app.
+    tabs_nonav* tabs_;           //!< Tabs, one for each app.
 
     // File viewer
     file_viewer* viewer_;     //!< File viewr window.

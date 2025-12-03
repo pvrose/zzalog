@@ -28,7 +28,7 @@
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Output.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 Fl_Color COLOUR_BAD = FL_RED;         //!< Use for bad stuff
@@ -198,7 +198,7 @@ bool condx_view::load_data() {
 //! Instantiate component widgets
 void condx_view::create_form() {
 	box(FL_BORDER_BOX);
-	w_tabs_ = new Fl_Tabs(x(), y(), w(), h() - HBUTTON);
+	w_tabs_ = new tabs_nonav(x(), y(), w(), h() - HBUTTON);
 	w_tabs_->labeltype(FL_NO_LABEL);
 	w_tabs_->box(FL_BORDER_BOX);
 	w_tabs_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);
@@ -631,7 +631,7 @@ void condx_view::cb_ticker(void* v) {
 
 // Callback on switching tab
 void condx_view::cb_tabs(Fl_Widget* w, void* v) {
-	Fl_Tabs* that = (Fl_Tabs*)w;
+	tabs_nonav* that = (tabs_nonav*)w;
 	that->label(that->value()->label());
 	condx_view* cx = ancestor_view<condx_view>(that);
 	cx->enable_widgets();

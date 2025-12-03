@@ -40,7 +40,7 @@
 #include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Slider.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/fl_types.h>
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Widget.H>
@@ -235,7 +235,7 @@ void qso_rig::create_rig_ant(int curr_x, int curr_y) {
 // Create tabbed form for configuration data
 void qso_rig::create_config(int curr_x, int curr_y) {
 	// Tabbed form
-	config_tabs_ = new Fl_Tabs(curr_x, curr_y, w() - 2 * GAP, 10);
+	config_tabs_ = new tabs_nonav(curr_x, curr_y, w() - 2 * GAP, 10);
 	config_tabs_->box(FL_BORDER_BOX);
 	config_tabs_->callback(cb_config);
 	config_tabs_->when(FL_WHEN_CHANGED);

@@ -22,7 +22,7 @@
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Select_Browser.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 // Constructor
@@ -121,7 +121,7 @@ void web_dialog::create_form(int X, int Y) {
 	box(FL_FLAT_BOX);
 
 	// Create a FL_Tabs
-	Fl_Tabs* tabs = new Fl_Tabs(X +GAP, Y + GAP, w() - GAP - GAP, h() - GAP - GAP);
+	tabs_nonav* tabs = new tabs_nonav(X +GAP, Y + GAP, w() - GAP - GAP, h() - GAP - GAP);
 	tabs->callback(cb_tab);
 	tabs->box(FL_FLAT_BOX);
 
@@ -758,7 +758,7 @@ void web_dialog::enable_widgets() {
 	}
 	// Standard tab formats
 	// value() returns the selected widget. We need to test which widget it is.
-	Fl_Tabs* tabs = (Fl_Tabs*)child(0);
+	tabs_nonav* tabs = (tabs_nonav*)child(0);
 	Fl_Widget* tab = tabs->value();
 	for (int ix = 0; ix < tabs->children(); ix++) {
 		Fl_Widget* wx = tabs->child(ix);

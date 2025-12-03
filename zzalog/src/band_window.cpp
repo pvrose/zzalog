@@ -18,13 +18,13 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Double_Window.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 band_window::band_window(int X, int Y, int W, int H, const char* L) :
 	Fl_Double_Window(X, Y, W, H, L)
 {
-	tabs_ = new Fl_Tabs(0, 0, W, H - FOOT_HEIGHT);
+	tabs_ = new tabs_nonav(0, 0, W, H - FOOT_HEIGHT);
 	tabs_->labeltype(FL_NO_LABEL);
 	tabs_->box(FL_BORDER_BOX);
 	tabs_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);

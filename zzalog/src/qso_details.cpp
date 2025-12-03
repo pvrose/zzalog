@@ -374,6 +374,24 @@ qso_details::table_q::table_q(int X, int Y, int W, int H, const char* L) :
 qso_details::table_q::~table_q() {
 }
 
+// Event handler
+int qso_details::table_q::handle(int event) {
+	switch (event) {
+	case FL_FOCUS:
+	case FL_UNFOCUS:
+		return Fl_Table::handle(event);
+	case FL_KEYBOARD:
+		switch (Fl::event_key()) {
+		case FL_Left:
+		case FL_Right:
+			// Deliberately ignore
+			return false;
+		}
+	}
+	return Fl_Table::handle(event);
+
+}
+
 // Draw the previous QSOs tale
 void qso_details::table_q::draw_cell(TableContext context, int R, int C, int X, int Y, int W, int H)
 {

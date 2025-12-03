@@ -36,7 +36,7 @@
 #include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Radio_Light_Button.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/fl_utf8.h>
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
@@ -116,7 +116,7 @@ void qso_qsl_vwr::create_form() {
 	int curr_y = y() + GAP;
 
 	// Tabbed form
-	tabs_ = new Fl_Tabs(curr_x, curr_y, w() - (2 * GAP), h() - GAP);
+	tabs_ = new tabs_nonav(curr_x, curr_y, w() - (2 * GAP), h() - GAP);
 	tabs_->box(FL_BORDER_BOX);
 	tabs_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);
 	tabs_->callback(cb_tabs);

@@ -5,7 +5,7 @@
 class qso_clock;
 class qso_wx;
 class condx_view;
-class Fl_Tabs;
+class tabs_nonav;
 
 //! This class contains the clock and weather displays.
 class qso_clocks :
@@ -46,7 +46,7 @@ public:
 protected:
     // The two instances
     qso_clock* clock_;         //!< Clock display.
-    Fl_Tabs* tabs_;            //!< Contains weather and solar data tabs.
+    tabs_nonav* tabs_;         //!< Contains weather and solar data tabs.
     qso_wx* qso_weather_;      //!< Weather display.
     condx_view* condx_;        //!< Solar conditions.
 

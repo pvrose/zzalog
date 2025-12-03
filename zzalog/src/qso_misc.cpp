@@ -10,12 +10,12 @@
 #include <utils.h>
 
 #include <FL/Enumerations.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 // Constructor
 qso_misc::qso_misc(int X, int Y, int W, int H, const char* L) :
-	Fl_Tabs(X, Y, W, H, L)
+	tabs_nonav(X, Y, W, H, L)
 {
 	box(FL_BORDER_BOX);
 	handle_overflow(OVERFLOW_PULLDOWN);

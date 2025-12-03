@@ -121,6 +121,10 @@ protected:
         //! Inherited from Fl_Table_Row::draw_cell draws the contents of the cells.
         virtual void draw_cell(TableContext context, int R = 0, int C = 0, int X = 0, int Y = 0,
             int W = 0, int H = 0);
+
+		//! Handle - do not allow ALT-Arroe navigation
+		virtual int handle(int event);
+
         //! Callback from clicking on the table, changes the selected QSO to that clicked. 
         static void cb_table(Fl_Widget* w, void* v);
         //! Copy previous QSOs.

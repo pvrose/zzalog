@@ -18,7 +18,7 @@
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Return_Button.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
 
@@ -38,7 +38,7 @@ config::config(int W, int H, const char* label) :
 
 	children_ids_.clear();
 	// Create the std::set of tabs_ - leave enough space beneath for OK etc buttons.
-	tabs_ = new Fl_Tabs(0, 0, W, H - HBUTTON - FOOT_HEIGHT);
+	tabs_ = new tabs_nonav(0, 0, W, H - HBUTTON - FOOT_HEIGHT);
 	tabs_->callback(cb_tab);
 	tabs_->box(FL_FLAT_BOX);
 	tabs_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);
@@ -161,7 +161,7 @@ void config::enable_widgets() {
 void config::cb_bn_cal(Fl_Widget* w, long arg) {
 	// Find the active tab - assume that tabs_ is child 0
 	config* that = ancestor_view<config>(w);
-	Fl_Tabs* tabs_ = (Fl_Tabs*)that->child(0);
+	tabs_nonav* tabs_ = (tabs_nonav*)that->child(0);
 	Fl_Widget* active_tab = tabs_->value();
 	// Button selected
 	switch ((cfg_action_t)arg) {

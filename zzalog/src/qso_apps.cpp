@@ -34,7 +34,7 @@
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Radio_Light_Button.H>
-#include <FL/Fl_Tabs.H>
+#include "tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 using json = nlohmann::json;
@@ -699,7 +699,7 @@ void qso_apps::create_form() {
 
     curr_x = x() + GAP;
 
-    tabs_ = new Fl_Tabs(curr_x, curr_y, avail_w, avail_h);
+    tabs_ = new tabs_nonav(curr_x, curr_y, avail_w, avail_h);
     tabs_->box(FL_BORDER_BOX);
  	tabs_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);
     create_tabs();

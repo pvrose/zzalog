@@ -7,13 +7,13 @@
 #include "qso_wx.h"
 #include "settings.h"
 #include "status.h"
+#include "tabs_nonav.h"
 
 #include <algorithm>
 
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
 #include <FL/Fl_Group.H>
-#include <FL/Fl_Tabs.H>
 #include <FL/Fl_Widget.H>
 
 // Constructor
@@ -87,7 +87,7 @@ void qso_clocks::create_form() {
 	cx = x() + GAP;
 	int cw = max_w - GAP;
 
-	tabs_ = new Fl_Tabs(cx, cy, cw, 50);
+	tabs_ = new tabs_nonav(cx, cy, cw, 50);
 	tabs_->callback(cb_tabs);
 	tabs_->box(FL_BORDER_BOX);
 	tabs_->labeltype(FL_NO_LABEL);
@@ -162,7 +162,7 @@ qso_wx* qso_clocks::wx() {
 }
 
 void qso_clocks::cb_tabs(Fl_Widget* w, void* v) {
-	Fl_Tabs* that = (Fl_Tabs*)w;
+	tabs_nonav* that = (tabs_nonav*)w;
 	that->label(that->value()->label());
 	((qso_clocks*)that->parent())->enable_widgets();
 

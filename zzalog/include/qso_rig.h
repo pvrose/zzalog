@@ -21,7 +21,7 @@ class Fl_Button;
 class Fl_Box;
 class Fl_Light_Button;
 class Fl_Choice;
-class Fl_Tabs;
+class tabs_nonav;
 class Fl_Check_Button;
 class Fl_Input;
 class Fl_Int_Input;
@@ -210,7 +210,7 @@ protected:
 	field_input* ip_antenna_;      //!< Menu: "Antenna" shows available antennas
 
 	//! Configuartion - 5 tabs
-	Fl_Tabs* config_tabs_;
+	tabs_nonav* config_tabs_;
 	//! Connection tab - either serial or network
 	Fl_Group* connect_tab_;
 	Fl_Group* serial_grp_;           //!< Serial port configuration
