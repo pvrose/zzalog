@@ -36,6 +36,12 @@ public:
 	//! Configure widgets after data changes.
 	void enable_widgets();
 
+	//! Handle shortcut (from qso_manager)
+	
+	//! \param shortcut - shortcut pressed
+	bool handle_shortcut(int shortcut);
+	
+
 	//! All the possible buttons
 	enum button_type {
 		ACTIVATE,           //!< Set qso_manager ready to log QSOs.
@@ -98,6 +104,7 @@ public:
 		const char* tooltip;    //!< The tooltip to display
 		Fl_Callback* callback;  //!< Callback action
 		void* userdata;         //!< Callback data
+		int shortcut = 0;       //!< Shortcut key
 	};
 
 	//! Callback to log QSO (start first if in QSO_PENDING)
@@ -172,6 +179,9 @@ protected:
 	qso_data* qso_data_;
 	//! Displayed buttons.
 	Fl_Button* bn_action_[MAX_ACTIONS];
+
+	//! Map shortcut to button type
+	std::map<int, button_type> shortcut_map_;
 
 };
 

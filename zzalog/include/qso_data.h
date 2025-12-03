@@ -273,6 +273,9 @@ public:
 	//! Set do not send QSL into \p qso
 	void set_decline_qsl(record* qso);
 
+	//! Returns qso_buttons component
+	qso_buttons* buttons();
+
 	//! Edit - saved logging state
 	logging_state_t edit_return_state_;
 

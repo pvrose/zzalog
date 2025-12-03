@@ -2158,3 +2158,8 @@ void qso_data::set_decline_qsl(record* qso) {
 		qso->item("QRZCOM_QSO_UPLOAD_STATUS", std::string("N"));
 	}
 }
+
+//! Returns qso_buttons
+qso_buttons* qso_data::buttons() {
+	return g_buttons_;
+}

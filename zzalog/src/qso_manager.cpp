@@ -73,6 +73,16 @@ int qso_manager::handle(int event) {
 			}
 			break;
 		}
+		break;
+	case FL_SHORTCUT:
+	{
+		int key = Fl::event_key();
+		printf("DEBUG: Received shortcut %x\n", key);
+		// Forward to qso_buttons to handle Alt+key shortcuts
+		if (Fl::event_key(FL_Alt_L) || Fl::event_key(FL_Alt_R)) key |= FL_ALT;
+		if (Fl::event_key(FL_Control_L) || Fl::event_key(FL_Control_R)) key |= FL_CTRL;
+		return data_group_->buttons()->handle_shortcut(key);
+	}
 	}
 
 	return Fl_Double_Window::handle(event);

@@ -74,7 +74,7 @@ std::map<qso_data::logging_state_t, std::list<qso_buttons::button_type> > button
 std::map<qso_buttons::button_type, qso_buttons::button_action> action_map_ =
 {
 	{ qso_buttons::ACTIVATE, { "Activate", "Pre-load QSO fields based on logging mode", qso_buttons::cb_activate, 0 } },
-	{ qso_buttons::START_QSO, { "Start QSO", "Start a QSO in real-time", qso_buttons::cb_start, (void*)qso_data::QSO_ON_AIR } },
+	{ qso_buttons::START_QSO, { "Start QSO", "Start a QSO in real-time", qso_buttons::cb_start, (void*)qso_data::QSO_ON_AIR, FL_ALT + 's'} },
 	{ qso_buttons::EDIT_QSO, { "Edit QSO", "Edit the selected QSO", qso_buttons::cb_edit, 0 } },
 	{ qso_buttons::VIEW_QSO, { "View QSO", "View the selected QSO in entry view", qso_buttons::cb_bn_view_qso, 0 } },
 	{ qso_buttons::ADD_QSO, { "Add QSO", "Create a new record (no initialisation)", qso_buttons::cb_start, (void*)qso_data::QSO_NONE }},
@@ -163,6 +163,21 @@ int qso_buttons::handle(int event) {
 	return result;
 }
 
+// Handle shortcut
+bool qso_buttons::handle_shortcut(int shortcut) {
+	printf("DEBUG: Shortcut 0x%x pressed\n", shortcut);
+	if (shortcut_map_.find(shortcut) != shortcut_map_.end()) {
+		button_type bn = shortcut_map_.at(shortcut);
+		if (action_map_.find(bn) != action_map_.end()) {
+			const button_action& action = action_map_.at(bn);
+			if (action.callback != nullptr) {
+				action.callback(this, action.userdata);
+				return true;
+			}
+		}
+	}
+}
+
 // Create all the buttons
 void qso_buttons::create_form(int X, int Y) {
 	int curr_x = X;
@@ -207,6 +222,7 @@ void qso_buttons::create_form(int X, int Y) {
 // Configure the buttons according to the logging_state
 void qso_buttons::enable_widgets() {
 	int ix = 0;
+	shortcut_map_.clear();
 	if (button_map_.find(qso_data_->logging_state()) != button_map_.end()) {
 		// If we have a button std::map for the state use it - else deactivate all buttons
 		const std::list<button_type>& buttons = button_map_.at(qso_data_->logging_state());
@@ -233,6 +249,11 @@ void qso_buttons::enable_widgets() {
 				}
 				default:
 					bn_action_[ix]->activate();
+			}
+			// TODO is this a good thing to do?
+//			bn_action_[ix]->shortcut(action.shortcut);
+			if (action.shortcut != 0) {
+				shortcut_map_[action.shortcut] = *bn;
 			}
 		}
 	}
