@@ -121,6 +121,8 @@ cty_element* cty2_reader::load_pattern(std::string patt, std::string& match, boo
 			result->itu_zone_ = std::stoi(patt.substr(spos, pos - spos));
 			break;
 		case ';':
+		case '\r':
+		case '\n':
 			// ignore 
 			break;
 		default:
