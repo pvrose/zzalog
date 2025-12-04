@@ -13,6 +13,7 @@
   - Progress dial not showing load cty.json progress correctly.
   - Improved focus handling in QSO entry dialog.
   - Settings get corrupted when updating twice in same scope.
+  - Misreads exception VERSION in country-data.com cty.csv file.
 
 \section rev_3-6-11 Revision 3.6.11
 
