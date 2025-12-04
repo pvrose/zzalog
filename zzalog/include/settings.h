@@ -22,8 +22,18 @@ public:
 	//! Clear the settings and unhook the group
 	void clear();
 
+	//! Flush the settings to filestore
+	void flush();
+
 protected:
+
 	//! Set of data items
+	static json* all_settings_;
+
+	//! Number of attachments
+	static int attachments_;
+
+	//! Data relevant to this instance of settings
 	json* data_;
 
 	//! Parent settings
