@@ -89,7 +89,7 @@ void cty_dialog::create_form() {
 	curr_x += WSMEDIT;
 	Fl_Button* bn_update = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Fetch");
 	bn_update->callback(cb_update, (void*)(intptr_t)cty_data::CLUBLOG);
-	bn_update->tooltip("Download latest vesrion of Clublog country date");
+	bn_update->tooltip("Download latest country data from Clublog.org");
 
 	curr_y += HBUTTON;
 	curr_x = GAP;
@@ -105,9 +105,9 @@ void cty_dialog::create_form() {
 	w_versions_[cty_data::COUNTRY_FILES] = o4;
 
 	curr_x += WSMEDIT;
-	Fl_Button* bn_update2 = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Update");
+	Fl_Button* bn_update2 = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Fetch");
 	bn_update2->callback(cb_update, (void*)(intptr_t)cty_data::COUNTRY_FILES);
-	bn_update2->tooltip("Download latest vesrion of Clublog country date");
+	bn_update2->tooltip("Download latest country data fro www.country-files.com");
 
 	curr_y += HBUTTON;
 	curr_x = GAP;
@@ -125,7 +125,7 @@ void cty_dialog::create_form() {
 	curr_x += WSMEDIT;
 	Fl_Button* bn_update3 = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Update");
 	bn_update3->callback(cb_update, (void*)(intptr_t)cty_data::DXATLAS);
-	bn_update3->tooltip("Download latest vesrion of Clublog country date");
+	bn_update3->tooltip("Update latest data from DxAtlas.com");
 
 	curr_y += HBUTTON + GAP;
 	curr_x = bn_update->x() - WBUTTON - WBUTTON;
@@ -190,6 +190,7 @@ void cty_dialog::cb_update(Fl_Widget* w, void* v) {
 	cty_dialog* that = ancestor_view<cty_dialog>(w);
 	switch (t) {
 	case cty_data::CLUBLOG:
+	case cty_data::COUNTRY_FILES:
 		cty_data_->fetch_data(t);
 		[[fallthrough]];
 		// Fall through

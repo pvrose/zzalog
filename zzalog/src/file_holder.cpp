@@ -249,7 +249,7 @@ bool file_holder::copy_working_to_source(file_contents_t type) const {
 		return false;
 	}
 	else {
-		snprintf(msg, sizeof(msg), "File Copied %s to %s", source.c_str(), filename.c_str());
+		snprintf(msg, sizeof(msg), "File Copied %s to %s", filename.c_str(), source.c_str());
 		if (status_) status_->misc_status(ST_NOTE, msg);
 	}
 	//char msg[256];

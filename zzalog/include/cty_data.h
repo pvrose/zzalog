@@ -180,6 +180,19 @@ protected:
 	//! \param type The source of the data.
 	//! \param days Age in days the filename is considered valid. A warning is raised if the file is older.
 	void check_timestamp(cty_type_t type, int days);
+
+	//! \brief Get the URL of the latest big-cty from www.country-files.com.
+	//! \param url Returns the URL of the ZIP file containing latest data
+	//! \return 0 if successful, -1 if version has not changed, +1 if unsuccessful
+	int get_cfile_url(std::string& url);
+
+	//! \brief Download the big-cty zip file from \param url.
+	//! \return true if successful
+	bool download_cfile_zip(const std::string& url, std::string& local_filename);
+
+	//! \brief Unzip the big-cty cty.csv file.
+	//! \return true if successful
+	bool unzip_cfile(const std::string& zip_file);
 	
 	//! The result of a parse request.
 	struct {

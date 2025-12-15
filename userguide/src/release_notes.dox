@@ -5,6 +5,7 @@
 - Code refactoring to improve maintainability and performance.
 - Close banner now closes the application.
 - Add keyboard shortcuts for critical buttons in \ref qso_manager.
+- Download files from www.country-files.com within ZZALOG.
 - Cosmetic changes.
   - Add timestamp to banner status messages.
 - Perfomance changes.

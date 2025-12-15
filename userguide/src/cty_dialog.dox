@@ -16,7 +16,16 @@ button.
 
 \section dl_cfile Updating country-files.com
 
-The user must download the data from www.country-files.com themselves. Open a browser at 
+Downloading datafrom www.country-files.com is managed within ZZALOG. To download the latest 
+data from www.country-files.com click the "Fetch" button.
+
+This feature relies on undocumented information on the formatting of the web-site
+www.country-files.com. If this has changed then 
+the user must download the data from www.country-files.com themselves. 
+
+\subsection manual_cfile Updating manually
+
+Open a browser at 
 <A HREF="https://www.country-files.com">Country-files.com</A>. 
 
 \image html cty_dialog_2.png "Country-files.com website for Big CTY download"

@@ -20,6 +20,7 @@
 #include <chrono>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <cmath>
@@ -874,20 +875,179 @@ bool cty_data::fetch_data(cty_type_t type) {
 		filename = file_holder_->get_filename(FILE_COUNTRY_CLUB);
 		return club_handler_->download_exception(filename);
 	case COUNTRY_FILES:
-		status_->misc_status(ST_WARNING, "CTY DATA: Downloading country-files.com not yet implemented");
+	{
+		std::string url;
+		if (get_cfile_url(url) > 0) return false;
+		if (!download_cfile_zip(url, filename)) return false;
+		if (!unzip_cfile(filename)) return false;
 		return true;
+	}
 	case DXATLAS:
 		status_->misc_status(ST_WARNING, "CTY DATA: Downloading DxAtlas data not yet implemented");
 		return true;
 	default:
 		return false;	
 	}
+
 }
 
 // Return the version
 std::string cty_data::version(cty_type_t type) {
 	return versions_.at(type);
 }
+
+//! \brief Get the URL of the latest big-cty from www.country-files.com.
+//! \param url Returns the URL of the ZIP file containing latest data
+//! \return 0 if successful, -1 if version has not changed, +1 if unsuccessful
+int cty_data::get_cfile_url(std::string& url) {
+	status_->misc_status(ST_NOTE, "CTY DATA: Accessing www.country-files.com");
+	std::stringstream ss;
+	url_handler_->read_url("www.country-files.com", &ss);
+	bool version_read = false;
+	bool url_read = false;
+	bool bigcty_read = false;
+	char msg[128];
+	// Regex to search for version string
+	std::regex version_regex("Version entity</a> is (.*)</p>");
+	std::regex url_regex("href=\"(.*)\">\\[download\\]");
+	std::regex bigcty_regex("rel=\"bookmark\">Big CTY ");
+	std::smatch match_result;
+	std::string text;
+	std::string sversion;
+	while (!bigcty_read && ss.good()) {
+		getline(ss, text);
+		if (std::regex_search(text, bigcty_regex)) {
+			bigcty_read = true;
+		}
+	}
+	while (!version_read && ss.good()) {
+		getline(ss, text);
+		if (std::regex_search(text, match_result, version_regex)) {
+			sversion = match_result[1];
+			version_read = true;
+		}
+	}
+	while (!url_read && ss.good()) {
+		getline(ss, text);
+		if (std::regex_search(text, match_result, url_regex)) {
+			url = match_result[1];
+			url_read = true;
+		}
+	}
+	if (!ss.good() || !url_read || !version_read) {
+		status_->misc_status(ST_ERROR, "CTY DATA: Unable to parse web-page for big-cty");
+		return 1;
+	}
+	if (sversion == version(COUNTRY_FILES)) {
+		snprintf(msg, sizeof(msg), "CTY DATA: Version of big-cty unchanged \"%s\"", sversion.c_str());
+		status_->misc_status(ST_WARNING, msg);
+		return -1;
+	}
+	else {
+		snprintf(msg, sizeof(msg), "CTY DATA: Replacing big-cty \"%s\" with \"%s\"", 
+			version(COUNTRY_FILES).c_str(), 
+			sversion.c_str());
+		status_->misc_status(ST_NOTE, msg);
+	}
+	return 0;
+}
+
+//! \brief Download the big-cty zip file from \param url.
+//! \return true f successfuk
+bool cty_data::download_cfile_zip(const std::string& url, std::string& local_filename) {
+	std::string local_directory = file_holder_->get_directory(DATA_WORKING);
+	local_filename = local_directory + terminal(url);
+	std::ofstream os(local_filename, std::ios::trunc | std::ios::out | std::ios::binary);
+	char msg[128];
+	if (url_handler_->read_url(url, &os)) {
+		os.close();
+		snprintf(msg, sizeof(msg), "CTY DATA: Downloaded %s (big-cty) OK", url.c_str());
+		status_->misc_status(ST_OK, msg);
+		return true;
+	}
+	else {
+		os.close();
+		snprintf(msg, sizeof(msg), "CTY DATA: Download %s (big-cty) failed", url.c_str());
+		status_->misc_status(ST_ERROR, msg);
+		return false;
+	}
+}
+
+//! \brief Unzip the big-cty cty.csv file.
+bool cty_data::unzip_cfile(const std::string& zip_file) {
+	std::string unzip_diry = file_holder_->get_directory(DATA_WORKING) + "bigcty";
+#ifdef _WIN32
+	unzip_diry += "\\";
+#else
+	unzip_diry += "/";
+#endif
+	char cmd[256];
+#ifdef _WIN32
+	snprintf(cmd, sizeof(cmd), "\"C:\\Program Files\\7-Zip\\7z\" e -aoa -o%s %s", 
+		unzip_diry.c_str(),
+		zip_file.c_str());
+#else 
+	snprintf(cmd, sizeof(cmd), "gunzip -f %s", zip_file.c_str());
+#endif
+	char msg[128];
+	snprintf(msg, sizeof(msg), "CTY DATA: Unzipping started: %s", cmd);
+	status_->misc_status(ST_NOTE, msg);
+	int result = system(cmd);
+#ifdef _WIN32
+	if (result < 0) {
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed - check if 7z is available");
+		return false;
+	}
+	// This assumes 7z is the executble
+	switch (result) {
+	case 0:
+		status_->misc_status(ST_OK, "CTY DATA: Unzipping successful");
+		break;
+	case 1:
+		status_->misc_status(ST_WARNING, "CTY DATA: Unzipping incurred a warning");
+		break;
+	case 2:
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed - fatal error");
+		return false;
+	case 7:
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed - command-line error");
+		return false;
+	case 8:
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed - insufficient memory");
+		return false;
+	case 255:
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed - stopped by user");
+		return false;
+	}
+#else
+	if (result != 0) {
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed");
+		return false;
+	}
+	else {
+		status_->misc_status(ST_OK, "CTY DATA: Unzipping successful");
+		break;
+	}
+#endif
+
+	std::string tgt_file = file_holder_->get_filename(FILE_COUNTRY_CFILES);
+	std::string unzip_file = unzip_diry + terminal(tgt_file);
+#ifdef _WIN32
+	std::string command = "copy /y " + unzip_file + " " + tgt_file;
+#else
+	std::string command = "cp " + unzip_file + " " + tgt_file;
+#endif
+	result = system(command.c_str());
+	if (result != 0) {
+		status_->misc_status(ST_ERROR, "CTY DATA: Failed to copy file");
+		return false;
+	}
+	snprintf(msg, sizeof(msg), "CTY DATA: Downloaded %s successfully",
+		tgt_file.c_str());
+	status_->misc_status(ST_OK, msg);
+	return true;
+}
+
 
 // Store JSON
 void cty_data::store_json() {
@@ -1092,3 +1252,4 @@ void from_json(const json& j, cty_data::all_data& d) {
 		}
 	}
 }
+
