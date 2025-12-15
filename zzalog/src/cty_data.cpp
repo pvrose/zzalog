@@ -987,7 +987,8 @@ bool cty_data::unzip_cfile(const std::string& zip_file) {
 		unzip_diry.c_str(),
 		zip_file.c_str());
 #else 
-	snprintf(cmd, sizeof(cmd), "gunzip -f %s", zip_file.c_str());
+	snprintf(cmd, sizeof(cmd), "unzip -u %s -d %s", zip_file.c_str(), unzip_diry.c_str());
+	fl_make_path(unzip_diry.c_str());
 #endif
 	char msg[128];
 	snprintf(msg, sizeof(msg), "CTY DATA: Unzipping started: %s", cmd);
@@ -1026,7 +1027,6 @@ bool cty_data::unzip_cfile(const std::string& zip_file) {
 	}
 	else {
 		status_->misc_status(ST_OK, "CTY DATA: Unzipping successful");
-		break;
 	}
 #endif
 

@@ -186,7 +186,9 @@ protected:
 	//! \return 0 if successful, -1 if version has not changed, +1 if unsuccessful
 	int get_cfile_url(std::string& url);
 
-	//! \brief Download the big-cty zip file from \param url.
+	//! \brief Download the big-cty zip-file
+	//! \param url of the zip-file.
+	//! \param local_filename on this system,
 	//! \return true if successful
 	bool download_cfile_zip(const std::string& url, std::string& local_filename);
 
