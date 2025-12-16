@@ -984,7 +984,7 @@ bool qso_data::action_save(bool continuing) {
 // Action CANCEL - Transition from QSO_STARTED to QSO_INACTIVE without saving record
 void qso_data::action_cancel() {
 	logging_state_t saved_state = logging_state_;
-	action_deactivate();;
+	logging_state_ = QSO_INACTIVE;
 	book_->delete_record(true);
 	logging_state_ = saved_state;
 
