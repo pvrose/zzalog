@@ -8,6 +8,7 @@
 - Download files from www.country-files.com within ZZALOG.
 - Cosmetic changes.
   - Add timestamp to banner status messages.
+  - Make current dirty QSO records a debug option: -d m
 - Perfomance changes.
   - Use system command to copy log to backup file.
 - Bug fixes:

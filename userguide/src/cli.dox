@@ -30,6 +30,7 @@ Sets the hamlib debug level (default ERRORS). <I>N</I> values as below:
     - <B>4</B> Verbose
     - <B>5</B> Tracing
     - <B>6</B> Report cache behaviour
+  - <B>m|mod</B> Display dirty QSO messages.
   - <B>p|pretty</B>  
 Sets the terminal to display formated status message (Needs terminal support).
   - <B>nop|nopretty</B>
