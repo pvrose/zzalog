@@ -87,6 +87,8 @@ extern bool DEBUG_QUICK;
 extern bool DEBUG_RIGS;
 //! Print callsign parsing messages -  by "-d d"
 extern bool DEBUG_PARSE;
+//! Print record modification messages - by "-d m"
+extern bool DEBUG_MOD_STATUS;
 //! Set hamlib debugging verbosity level -  by "-d h=<level>"
 extern rig_debug_level_e HAMLIB_DEBUG_LEVEL;
 

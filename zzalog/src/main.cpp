@@ -117,6 +117,8 @@ bool DEBUG_QUICK = false;
 bool DEBUG_RIGS = false;
 //! Print callsign parsing messages -  by "-d d"
 bool DEBUG_PARSE = false;
+//! Print QSO modification status - by "-d m"
+bool DEBUG_MOD_STATUS = false;
 //! Set hamlib debugging verbosity level -  by "-d h=<level>"
 rig_debug_level_e HAMLIB_DEBUG_LEVEL = RIG_DEBUG_ERR;
 
@@ -489,6 +491,10 @@ int cb_args(int argc, char** argv, int& i) {
 				DEBUG_PARSE = true;
 				i += 1;
 			}
+			else if (strcmp("m", argv[i]) == 0 || strcmp("mod", argv[i]) == 0) {
+				DEBUG_MOD_STATUS = true;
+				i += 1;
+			}
 			// Not processed any parameter
 			if (i == save_i) debugs = false;
 		}
@@ -650,6 +656,7 @@ void show_help() {
 	"\t\te|errors\tprovide more details on errors\n"
 	"\t\t\tnoe|noerrors\n"
 	"\t\th=N|hamlib=N\tSet hamlib debug level (default ERRORS)\n"
+	"\t\tm|mods\tPrint messages when make QSOs dirty or clean\n"
 	"\t\tp|pretty\tDisplay formated status message (Needs terminal support)\n"
 	"\t\tnop|nopretty\n"
 	"\t\tq|quick\tShorten long timeout and polling intervals\n"
@@ -1061,6 +1068,7 @@ void print_args(int argc, char** argv) {
 	snprintf(message, sizeof(message), "ZZALOG: -d h=%d - Hamlib debug level %d", 
 		(int)HAMLIB_DEBUG_LEVEL, (int)HAMLIB_DEBUG_LEVEL);
 	status_->misc_status(ST_NOTE, message);
+	if (DEBUG_MOD_STATUS) status_->misc_status(ST_NOTE, "ZZALOG: -d m - Displaying QSO dirty status");
 	if (NEW_BOOK && !filename_) status_->misc_status(ST_NOTE, "ZZALOG: -e - Starting with empty file");
 	if (NEW_BOOK && filename_) status_->misc_status(ST_WARNING, "ZZALOG: -e - filename specified, switch ignored");
 	if (AUTO_UPLOAD) status_->misc_status(ST_NOTE, "ZZALOG: -n - QSOs uploaded to QSL sites automatically");
