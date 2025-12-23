@@ -289,3 +289,4 @@ __pycache__/
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.11.msi
 /zzalog/include/timestamp.h
 /build
+/include/timestamp.h
