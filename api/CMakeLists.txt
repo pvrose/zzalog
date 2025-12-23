@@ -17,10 +17,10 @@ if(DOXYGEN_FOUND)
   #)
 
   set(DOXY_API_FILES 
-    ../contests/${HPPFILES}
-    ../common/${HPPFILES}
-    ../widgets/${HPPFILES}
-    ../zzalog/${HPPFILES}
+  #  ../contests/${HPPFILES}
+  #  ../common/${HPPFILES}
+  #  ../widgets/${HPPFILES}
+    ../${zzalog_HPPFILES}
   )
 
   # Copy Doxyfile

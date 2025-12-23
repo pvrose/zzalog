@@ -33,7 +33,7 @@ set(CMAKE_BUILD_RPATH ${CMAKE_CURRENT_BINARY_DIR})
 add_library(${TARGET})
 target_include_directories(${TARGET} PRIVATE 
   ./include
-  ../zzalog/include
+  ../include
   ../common/include
   ${FLTK_INCLUDE_DIR}
 )

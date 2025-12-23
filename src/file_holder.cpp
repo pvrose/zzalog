@@ -26,16 +26,16 @@ file_holder::file_holder(const char* arg0, bool& development) {
 #ifdef _WIN32
 	if (run_dir[1] == ':') {
 		// We have an absolutre path
-		default_source_directory_ = run_dir + "\\..\\";
+		default_source_directory_ = run_dir + "\\";
 	} else {
 		default_source_directory_ = std::string(pwd) + "\\" + run_dir + "\\";
 	}
 #else
     if (run_dir[0] == '/') {
 		// We have an absolute path
-		default_source_directory_ = run_dir + "/../";
+		default_source_directory_ = run_dir + "/";
 	} else {
-		default_source_directory_ = std::string(pwd) + "/" + run_dir + "/../";
+		default_source_directory_ = std::string(pwd) + "/" + run_dir + "/";
 	}
 
 #endif
