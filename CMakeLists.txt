@@ -315,24 +315,6 @@ if (NOT HAMLIB_FOUND AND MSVC)
 
 endif()  
 
-add_subdirectory(common)
-add_subdirectory(contests)
-add_subdirectory(widgets)
-add_subdirectory(pugixml)
-
-set(DATAFILES
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/all.json
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/band_plan.json
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/cty.csv
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/cty.xml
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/Prefix.lst
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/intl_chars.txt
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/google-maps.png
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/pdf.png
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/qrz_1.jpg
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/rose.png
-)
-
 # include(ExternalProject)
 
 
@@ -355,6 +337,25 @@ set(DATAFILES
 #     -DCMAKE_ENABLE_EXPORTS=ON
 #     -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/zzawidgets/install
 # )
+
+add_subdirectory(common)
+add_subdirectory(contests)
+add_subdirectory(widgets)
+add_subdirectory(pugixml)
+
+set(DATAFILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/all.json
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/band_plan.json
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/cty.csv
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/cty.xml
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/Prefix.lst
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/intl_chars.txt
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/google-maps.png
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/pdf.png
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/qrz_1.jpg
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/rose.png
+)
+
 
 # Define the zzalog executable
 add_executable(${TARGET} WIN32)
