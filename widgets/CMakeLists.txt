@@ -11,15 +11,23 @@ set(VENDOR "GM3ZZA")
 set(PROGRAMID "ZZALOG")
 
 set(CPPFILES 
+  src/calendar.cpp
+  src/calendar_input.cpp
+  src/calendar_table.cpp
   src/filename_input.cpp
   src/input_hierch.cpp
+  src/password_input.cpp
   src/tabs_nonav.cpp
 )
 
 set(HPPFILES
   include/button_input.h
+  include/calendar.h
+  include/calendar_input.h
+  include/calendar_table.h
   include/filename_input.h
   include/input_hierch.h
+  include/password_input.h
   include/tabs_nonav.h
 )
 

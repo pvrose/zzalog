@@ -32,9 +32,6 @@ set(CPPFILES
   src/band_window.cpp
   src/banner.cpp
   src/book.cpp
-  src/calendar.cpp
-  src/calendar_input.cpp
-  src/calendar_table.cpp
   src/change_dialog.cpp
   src/club_handler.cpp
   src/condx_view.cpp
@@ -71,7 +68,6 @@ set(CPPFILES
   src/main_window.cpp
   src/menu.cpp
   src/page_dialog.cpp
-  src/password_input.cpp
   src/png_writer.cpp
   src/printer.cpp
   src/qrz_handler.cpp
@@ -147,9 +143,6 @@ include/band_widget.h
 include/band_window.h
 include/banner.h
 include/book.h
-include/calendar.h
-include/calendar_input.h
-include/calendar_table.h
 include/change_dialog.h
 include/club_handler.h
 include/condx_view.h
@@ -181,14 +174,12 @@ include/import_data.h
 include/init_dialog.h
 include/intl_dialog.h
 include/intl_widgets.h
-include/logo.h
 include/log_table.h
 include/lotw_handler.h
 include/main.h
 include/main_window.h
 include/menu.h
 include/page_dialog.h
-include/password_input.h
 include/png_writer.h
 include/printer.h
 include/qrz_handler.h
