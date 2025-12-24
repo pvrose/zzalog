@@ -315,11 +315,10 @@ if (NOT HAMLIB_FOUND AND MSVC)
 
 endif()  
 
-
 add_subdirectory(common)
 add_subdirectory(contests)
-add_subdirectory(pugixml)
 add_subdirectory(widgets)
+add_subdirectory(pugixml)
 
 set(DATAFILES
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/all.json
@@ -334,14 +333,39 @@ set(DATAFILES
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/rose.png
 )
 
+# include(ExternalProject)
+
+
+# # Add zzacommon
+# ExternalProject_Add(zzacommon
+#   GIT_REPOSITORY https://github.com/pvrose/zzacommon
+#   PREFIX ${CMAKE_BINARY_DIR}/zzacommon
+#   SOURCE_DIR ${CMAKE_SOURCE_DIR}/zzacommon
+#   CMAKE_ARGS
+#     -DCMAKE_ENABLE_EXPORTS=ON
+#     -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/zzacommon/install
+# )
+
+# # Add zzawidgets
+# ExternalProject_Add(zzawidgets
+#   GIT_REPOSITORY https://github.com/pvrose/zzawidgets
+#   PREFIX ${CMAKE_BINARY_DIR}/zzawidgets
+#   SOURCE_DIR ${CMAKE_SOURCE_DIR}/zzawidgets
+#   CMAKE_ARGS
+#     -DCMAKE_ENABLE_EXPORTS=ON
+#     -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/zzawidgets/install
+# )
+
 # Define the zzalog executable
-add_executable(${TARGET} WIN32 MACOSX_BUNDLE)
+add_executable(${TARGET} WIN32)
+# add_dependencies(${TARGET} zzacommon)
+# add_dependencies(${TARGET} zzawidgets)
 
 target_include_directories(${TARGET} PRIVATE 
   ./include 
-  ./common/include 
   ./contests/include
-  ./widgets/include
+  ${CMAKE_SOURCE_DIR}/common/include
+  ${CMAKE_SOURCE_DIR}/widgets/include
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}
@@ -356,21 +380,14 @@ endif()
 # Add QBS_logo.h to ensure it gets generated
 target_sources(${TARGET} PRIVATE ${CPPFILES})
 
-if (MSVC)
-else()
-target_link_directories(${TARGET} PRIVATE
-  /usr/local/lib
-)
-endif()
-
 target_link_libraries(${TARGET} PRIVATE 
   ${FLTK_LIBRARIES}
   ${CURL_LIBRARIES}
   ${HAMLIB_LIBRARY}
-  zzalog_common
   zzalog_contests
-  zzalog_widgets
   pugixml
+  zzalog_common
+  zzalog_widgets
 )
 
 # copy reference data
@@ -404,7 +421,7 @@ endif()
 if (MSVC)
 else()
     # install zzalog_fe
-    install(TARGETS zzalog)
+    install(TARGETS ${TARGET})
     # install reference data
     install(FILES ${DATAFILES}
         DESTINATION ${CMAKE_INSTALL_RPATH})
