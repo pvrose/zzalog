@@ -337,30 +337,7 @@ ExternalProject_Add(zzacommon
     ${ZZACOMMON_STATIC_LIB}
 )
 
-# # Add zzawidgets
-set(ZZAWIDGETS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/zzawidgets)
-set(ZZAWIDGETS_BUILD_DIR ${CMAKE_BINARY_DIR}/zzawidgets)
-set(ZZAWIDGETS_INSTALL_DIR ${ZZAWIDGETS_BUILD_DIR}/install)
-if(MSVC)
-  set(ZZAWIDGETS_STATIC_LIB ${ZZAWIDGETS_INSTALL_DIR}/lib/zzawidgets.lib)
-else()
-  set(ZZAWIDGETS_STATIC_LIB ${ZZAWIDGETS_INSTALL_DIR}/lib/libzzawidgets.a)
-endif()
-ExternalProject_Add(zzawidgets 
-  GIT_REPOSITORY https://github.com/pvrose/zzawidgets
-  PREFIX ${ZZAWIDGETS_BUILD_DIR}
-  SOURCE_DIR ${ZZAWIDGETS_SOURCE_DIR}
-  CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX=${ZZAWIDGETS_INSTALL_DIR}
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DBUILD_SHARED_LIBS=OFF
-  BUILD_BYPRODUCTS
-    ${ZZAWIDGETS_STATIC_LIB}
-)
-
-# add_subdirectory(common)
 add_subdirectory(contests)
-# add_subdirectory(widgets)
 add_subdirectory(pugixml)
 
 set(DATAFILES
@@ -379,7 +356,7 @@ set(DATAFILES
 
 # Define the zzalog executable
 add_executable(${TARGET} WIN32)
-add_dependencies(${TARGET} zzacommon zzawidgets)
+add_dependencies(${TARGET} zzacommon)
 
 target_include_directories(${TARGET} PRIVATE 
   ./include 
@@ -407,7 +384,6 @@ target_link_libraries(${TARGET} PRIVATE
   zzalog_contests
   pugixml
   ${ZZACOMMON_STATIC_LIB}
-  ${ZZAWIDGETS_STATIC_LIB}
 )
 
 # copy reference data

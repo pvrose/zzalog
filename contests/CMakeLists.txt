@@ -34,7 +34,7 @@ add_library(${TARGET})
 target_include_directories(${TARGET} PRIVATE 
   ./include
   ../include
-  ../common/include
+  ../zzacommon/include
   ${FLTK_INCLUDE_DIR}
 )
 if (MSVC)
