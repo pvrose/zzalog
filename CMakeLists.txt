@@ -247,7 +247,6 @@ include/wx_handler.h
 
 )
 
-
 # set document directory
 if(MSVC)
   set(CMAKE_INSTALL_RPATH C:/ProgramData/${VENDOR}/${PROGRAMID})
@@ -300,47 +299,68 @@ if (NOT HAMLIB_FOUND AND MSVC)
   add_custom_target(hamlib_dll ALL)
   message("Using custom Hamlib settings")
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libhamlib-4.dll" ${CMAKE_CURRENT_BINARY_DIR}/zzalog/.
+  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libhamlib-4.dll" ${CMAKE_BINARY_DIR}/.
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libusb-1.0.dll" ${CMAKE_CURRENT_BINARY_DIR}/zzalog/.
+  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libusb-1.0.dll" ${CMAKE_BINARY_DIR}/.
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libwinpthread-1.dll" ${CMAKE_CURRENT_BINARY_DIR}/zzalog/.
+  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libwinpthread-1.dll" ${CMAKE_BINARY_DIR}/.
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libgcc_s_seh-1.dll" ${CMAKE_CURRENT_BINARY_DIR}/zzalog/.
+  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libgcc_s_seh-1.dll" ${CMAKE_BINARY_DIR}/.
   )
 
 
 endif()  
 
-# include(ExternalProject)
+include(ExternalProject)
 
-
-# # Add zzacommon
-# ExternalProject_Add(zzacommon
-#   GIT_REPOSITORY https://github.com/pvrose/zzacommon
-#   PREFIX ${CMAKE_BINARY_DIR}/zzacommon
-#   SOURCE_DIR ${CMAKE_SOURCE_DIR}/zzacommon
-#   CMAKE_ARGS
-#     -DCMAKE_ENABLE_EXPORTS=ON
-#     -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/zzacommon/install
-# )
+# Add zzacommon
+set(ZZACOMMON_SOURCE_DIR ${CMAKE_SOURCE_DIR}/zzacommon)
+set(ZZACOMMON_BUILD_DIR ${CMAKE_BINARY_DIR}/zzacommon)
+set(ZZACOMMON_INSTALL_DIR ${ZZACOMMON_BUILD_DIR}/install)
+if(MSVC)
+  set(ZZACOMMON_STATIC_LIB ${ZZACOMMON_INSTALL_DIR}/lib/zzacommon.lib)
+else()
+  set(ZZACOMMON_STATIC_LIB ${ZZACOMMON_INSTALL_DIR}/lib/libzzacommon.a)
+endif()
+ExternalProject_Add(zzacommon 
+  GIT_REPOSITORY https://github.com/pvrose/zzacommon
+  PREFIX ${ZZACOMMON_BUILD_DIR}
+  SOURCE_DIR ${ZZACOMMON_SOURCE_DIR}
+  CMAKE_ARGS
+    -DCMAKE_INSTALL_PREFIX=${ZZACOMMON_INSTALL_DIR}
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    -DBUILD_SHARED_LIBS=OFF
+  BUILD_BYPRODUCTS
+    ${ZZACOMMON_STATIC_LIB}
+)
 
 # # Add zzawidgets
-# ExternalProject_Add(zzawidgets
-#   GIT_REPOSITORY https://github.com/pvrose/zzawidgets
-#   PREFIX ${CMAKE_BINARY_DIR}/zzawidgets
-#   SOURCE_DIR ${CMAKE_SOURCE_DIR}/zzawidgets
-#   CMAKE_ARGS
-#     -DCMAKE_ENABLE_EXPORTS=ON
-#     -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/zzawidgets/install
-# )
+set(ZZAWIDGETS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/zzawidgets)
+set(ZZAWIDGETS_BUILD_DIR ${CMAKE_BINARY_DIR}/zzawidgets)
+set(ZZAWIDGETS_INSTALL_DIR ${ZZAWIDGETS_BUILD_DIR}/install)
+if(MSVC)
+  set(ZZAWIDGETS_STATIC_LIB ${ZZAWIDGETS_INSTALL_DIR}/lib/zzawidgets.lib)
+else()
+  set(ZZAWIDGETS_STATIC_LIB ${ZZAWIDGETS_INSTALL_DIR}/lib/libzzawidgets.a)
+endif()
+ExternalProject_Add(zzawidgets 
+  GIT_REPOSITORY https://github.com/pvrose/zzawidgets
+  PREFIX ${ZZAWIDGETS_BUILD_DIR}
+  SOURCE_DIR ${ZZAWIDGETS_SOURCE_DIR}
+  CMAKE_ARGS
+    -DCMAKE_INSTALL_PREFIX=${ZZAWIDGETS_INSTALL_DIR}
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    -DBUILD_SHARED_LIBS=OFF
+  BUILD_BYPRODUCTS
+    ${ZZAWIDGETS_STATIC_LIB}
+)
 
-add_subdirectory(common)
+# add_subdirectory(common)
 add_subdirectory(contests)
-add_subdirectory(widgets)
+# add_subdirectory(widgets)
 add_subdirectory(pugixml)
 
 set(DATAFILES
@@ -359,14 +379,13 @@ set(DATAFILES
 
 # Define the zzalog executable
 add_executable(${TARGET} WIN32)
-# add_dependencies(${TARGET} zzacommon)
-# add_dependencies(${TARGET} zzawidgets)
+add_dependencies(${TARGET} zzacommon zzawidgets)
 
 target_include_directories(${TARGET} PRIVATE 
   ./include 
   ./contests/include
-  ${CMAKE_SOURCE_DIR}/common/include
-  ${CMAKE_SOURCE_DIR}/widgets/include
+  ${ZZACOMMON_SOURCE_DIR}/include
+  ${ZZAWIDGETS_SOURCE_DIR}/include
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}
@@ -387,8 +406,8 @@ target_link_libraries(${TARGET} PRIVATE
   ${HAMLIB_LIBRARY}
   zzalog_contests
   pugixml
-  zzalog_common
-  zzalog_widgets
+  ${ZZACOMMON_STATIC_LIB}
+  ${ZZAWIDGETS_STATIC_LIB}
 )
 
 # copy reference data
@@ -427,7 +446,7 @@ else()
     install(FILES ${DATAFILES}
         DESTINATION ${CMAKE_INSTALL_RPATH})
     # install userguide files
-    if(ZZALOG_USERGUIDE) 
+    if(ZZALOG_USERGUIDE)
       install(
         DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/userguide/html
         DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
