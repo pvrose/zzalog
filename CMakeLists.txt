@@ -30,7 +30,6 @@ set(CPPFILES
   src/band_editor.cpp
   src/band_widget.cpp
   src/band_window.cpp
-  src/banner.cpp
   src/book.cpp
   src/change_dialog.cpp
   src/club_handler.cpp
@@ -54,7 +53,6 @@ set(CPPFILES
   src/field_choice.cpp
   src/fields.cpp
   src/fields_dialog.cpp
-  src/file_holder.cpp
   src/file_viewer.cpp
   src/fllog_emul.cpp
   src/font_dialog.cpp
@@ -107,19 +105,15 @@ set(CPPFILES
   src/rpc_handler.cpp
   src/search_dialog.cpp
   src/serial.cpp
-  src/settings.cpp
   src/socket_server.cpp
   src/spec_data.cpp
   src/spec_tree.cpp
-  src/status.cpp
   src/stn_call_dlg.cpp
   src/stn_data.cpp
   src/stn_dialog.cpp
   src/stn_oper_dlg.cpp
   src/stn_qth_dlg.cpp
-  src/symbols.cpp
   src/tabbed_forms.cpp
-  src/ticker.cpp
   src/toolbar.cpp
   src/url_handler.cpp
   src/user_dialog.cpp
@@ -141,7 +135,6 @@ include/band_editor.h
 include/band.h
 include/band_widget.h
 include/band_window.h
-include/banner.h
 include/book.h
 include/change_dialog.h
 include/club_handler.h
@@ -165,7 +158,6 @@ include/extract_data.h
 include/field_choice.h
 include/fields_dialog.h
 include/fields.h
-include/file_holder.h
 include/file_viewer.h
 include/fllog_emul.h
 include/font_dialog.h
@@ -222,19 +214,15 @@ include/rpc_handler.h
 include/search_dialog.h
 include/search.h
 include/serial.h
-include/settings.h
 include/socket_server.h
 include/spec_data.h
 include/spec_tree.h
-include/status.h
 include/stn_call_dlg.h
 include/stn_data.h
 include/stn_dialog.h
 include/stn_oper_dlg.h
 include/stn_qth_dlg.h
-include/symbols.h
 include/tabbed_forms.h
-include/ticker.h
 include/timestamp.h
 include/toolbar.h
 include/url_handler.h
