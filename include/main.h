@@ -22,7 +22,6 @@
 
 class band_data;
 class band_window;
-class banner;
 class book;
 class club_handler;
 class config;
@@ -166,7 +165,6 @@ enum file_types : uint8_t {
 	FILE_FIELDS,                            //!< Field usage configuration file
 	FILE_CONTEST,                           //!< Contests configuration file
 	FILE_SOLAR,                             //!< Solar data (read every hour at most frequent
-	FILE_STATUS,                            //!< Status log file
 	FILE_STATION,                           //!< Station configuration file
 };
 
@@ -174,7 +172,6 @@ enum file_types : uint8_t {
 // Top level data items - these are declared as externals in each .cpp that uses them
 extern band_data* band_data_;
 extern band_window* band_window_;
-extern banner* banner_;
 extern book* book_;
 extern book* navigation_book_;
 extern club_handler* club_handler_;
@@ -370,9 +367,6 @@ extern std::string sticky_message_;
 
 //! Common seed to use in password encryption - maintaned with sessions.
 extern uint32_t seed_;
-
-//! Do not close banner. Kept \p false unless banner is not deleted at ZZALOG closure in error cases.
-extern bool keep_banner_;
 
 //! This run is a new installation
 extern bool new_installation_;

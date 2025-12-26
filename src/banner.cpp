@@ -47,7 +47,6 @@ std::thread::id main_thread_id_ = std::this_thread::get_id();
 
 banner::banner(int W, int H, const char* L) :
 	Fl_Double_Window(W, H, L)
-	, can_close_(false)
 {
 	// Set the ticker for 2 seconds
 	callback(cb_close);
@@ -368,7 +367,3 @@ void banner::copy_msg_display(status_t type, const char* msg, const char* ts) {
 
 }
 
-// std::set the can_close flag
-void banner::allow_close() {
-	can_close_ = true;
-}

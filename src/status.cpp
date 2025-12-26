@@ -3,8 +3,8 @@
 #include "banner.h"
 #include <drawing.h>
 #include "file_holder.h"
-#include "main.h"
-#include "main_window.h"
+// #include "main.h"
+// #include "main_window.h"
 #include "utils.h"
 
 #include <cstdint>
@@ -18,14 +18,30 @@
 #include <FL/fl_ask.H>
 #include <FL/fl_utf8.h>
 
+extern std::string PROGRAM_ID;
+extern std::string PROGRAM_VERSION;
+extern bool DEVELOPMENT_MODE;
+
 // Constructor
-status::status() :
+status::status(uint8_t features) :
 	  report_filename_("")
 	, report_file_(nullptr)
 	, file_unusable_(false)
 {
-	// Get report filename from the settings
-	report_filename_ = file_holder_->get_filename(FILE_STATUS);
+	feature_set_ = features;
+
+	if (feature_set_ & HAS_LOGFILE) {
+		// Get report filename from the settings
+		report_filename_ = file_holder_->get_filename(FILE_STATUS);
+	}
+	if (feature_set_ & HAS_BANNER) {
+		// Create banner
+		banner_ = new banner(400, 200);
+		std::string title = PROGRAM_ID + " " + PROGRAM_VERSION;
+		if (DEVELOPMENT_MODE) title += " DEVT";
+		banner_->copy_label(title.c_str());
+
+	}
 
 }
 
@@ -33,6 +49,7 @@ status::status() :
 status::~status()
 {
 	if (report_file_) report_file_->close();
+	if (!keep_banner_) Fl::delete_widget(banner_);
 }
 
 // Add a progress item to the stack
@@ -105,7 +122,7 @@ void status::misc_status(status_t status, const char* label) {
 		if (fl_choice("An error that resulted in reduced functionality occurred:\n%s\n\nDo you want to try to continue or quit?", "Continue", "Quit", nullptr, label, report_filename_.c_str()) == 1) {
 			// Set the flag to continue showing the file viewer after all other windows have been hidden.
 			keep_banner_ = true;
-			main_window_->do_callback();
+			close_(window_, nullptr);
 		}
 		break;
 	case ST_FATAL:
@@ -116,7 +133,7 @@ void status::misc_status(status_t status, const char* label) {
 		fl_message("An unrecoverable error has occurred, closing down - check status log");
 		// Close the application down
 		keep_banner_ = true;
-		main_window_->do_callback();
+		close_(window_, nullptr);
 		break;
 	case ST_ERROR:
 		// Open status file viewer and continue
@@ -142,4 +159,16 @@ std::string status::colour_code(status_t status, bool fg) {
 		snprintf(result, sizeof(result), "\033[48;2;%d;%d;%dm", r, g, b);
 	}
 	return std::string(result);
+}
+
+// Set callback
+void status::callback(Fl_Window* w, void(*close)(Fl_Window*, void*)) {
+	close_ = close;
+	window_ = w;
+}
+
+// SEt Cloisng
+void status::close() {
+	banner_->show();
+	banner_->redraw();
 }

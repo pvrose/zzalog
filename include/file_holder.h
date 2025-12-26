@@ -20,8 +20,9 @@ struct file_control_t {
 
 //! File contents
 enum file_contents_t : uint8_t {
-	FILE_ICON_ZZA,                          //!< Must be 0
-	FILE_USER
+	FILE_ICON_ZZA,                          //!< Always have an icon
+	FILE_STATUS,                            //!< Conditionally have a status log
+	FILE_USER = 16                          //!< Provide some free space for m ore
 };
 
 //! Data type for getting directory 
@@ -41,7 +42,7 @@ class file_holder
 {
 public:
 	//! Constructor
-	file_holder(const char* arg0, bool& development, const std::map<uint8_t, file_control_t>& control);
+	file_holder(const char* arg0, const std::map<uint8_t, file_control_t>& control);
 	//! Destructor
 	~file_holder() {};
 

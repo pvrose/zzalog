@@ -506,14 +506,12 @@ void menu::cb_mi_windows_all(Fl_Widget* w, void* v) {
 		main_window_->show();
 		qso_manager_->show();
 		intl_dialog_->show();
-		banner_->show();
 	}
 	else {
 		// Minimise the main window rather than hide it. When all windows are hidden we end the app
 		main_window_->iconize();
 		qso_manager_->hide();
 		intl_dialog_->hide();
-		banner_->hide();
 	}
 	that->update_windows_items();
 }

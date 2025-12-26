@@ -72,8 +72,11 @@ class banner;
 	public:
 
 		//! Constructor.
-		status();
-		//! Destructor.
+		status(uint8_t features);
+		static const uint8_t HAS_BANNER = 1;          //!< Opens a banner window
+		static const uint8_t HAS_LOGFILE = 2;         //!< Writes to a log file
+		static const uint8_t HAS_CONSOLE = 4;         //!< Displays on the console
+     	//! Destructor.
 		~status();
 
 		//! Initialise progress
@@ -96,6 +99,13 @@ class banner;
 		//! Output message \p label with \p status.
 		void misc_status(status_t status, const char* label);
 
+		//! Set closedown callback
+		void callback(Fl_Window* w, void(*close)(Fl_Window* w, void* v));
+
+
+		//! Closing
+		void close();
+
 	protected:
 		//! Returns the terminal characters used for the specific \p fg or bg colour for \p status.
 		std::string colour_code(status_t status, bool fg); 
@@ -103,11 +113,25 @@ class banner;
 
 	protected:
 		//! Status report file
-		std::string report_filename_;
+		std::string report_filename_ = nullptr;
 		//! Output stream for report file.
-		std::ofstream* report_file_;
+		std::ofstream* report_file_ = nullptr; 
 		//! Report file unusable
-		bool file_unusable_;
+		bool file_unusable_ = false;
+
+		//! Callback
+		void(*close_)(Fl_Window* w, void* v);
+		//! Closing window
+		Fl_Window* window_ = nullptr;
+
+		//! Features
+		uint8_t feature_set_ = 0;
+
+		//! Banner
+		banner* banner_;
+
+		//! Keep banner when closing
+		bool keep_banner_ = false;
 	};
 
 	extern status* status_;

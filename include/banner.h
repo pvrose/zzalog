@@ -65,13 +65,7 @@ public:
     //! \param msg message to indicate the reason for the cancellation.
     void cancel_progress(const char* msg);
 
-    //! All the banner to be closed by the system close button.
-    
-    //! Normally the banner cannot be closed, however if ZZALOG has thrown a fatal or severe
-    //! error, the banner will be left visible. In this condition, it can only be closed
-    //! by the system close button.
-    void allow_close();
- 
+
     //! Callback - system close button.
     
     //! The callback normally ignores the click of this button, but can
@@ -115,8 +109,6 @@ protected:
     const char* prg_msg_;
     //! Progress object - affects the colour of the progress clock.
     object_t prg_object_;
-    //! Flag to allow the closure of banner.
-    bool can_close_;
 
 };
 

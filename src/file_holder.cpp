@@ -17,10 +17,11 @@ file_holder* file_holder_ = nullptr;
 uint16_t DEBUG_RESET_CONFIG = 0;
 extern std::string VENDOR;
 extern std::string PROGRAM_ID;
+extern bool DEVELOPMENT_MODE;
 //! File control datra
 
 
-file_holder::file_holder(const char* arg0, bool& development, const std::map<uint8_t, file_control_t>& control) {
+file_holder::file_holder(const char* arg0, const std::map<uint8_t, file_control_t>& control) {
 	control_data_ = control;
 	char * pwd = fl_getcwd(nullptr, 256);
 	std::string run_dir = directory(arg0);
@@ -48,9 +49,9 @@ file_holder::file_holder(const char* arg0, bool& development, const std::map<uin
 	std::string logo = get_filename(FILE_ICON_ZZA);
 	Fl_PNG_Image* ilog = new Fl_PNG_Image(logo.c_str());
 	if (ilog && !ilog->fail()) {
-		development = true;
+		DEVELOPMENT_MODE = true;
 	} else {
-		development = false;
+		DEVELOPMENT_MODE = false;
 #ifdef _WIN32
 		default_source_directory_ = 
 			std::string(getenv("ALLUSERSPROFILE")) + "\\" + 

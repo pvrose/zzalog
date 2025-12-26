@@ -16,7 +16,6 @@ main.cpp - application entry point
 #include "about_dialog.h"
 #include "band_data.h"
 #include "band_window.h"
-#include "banner.h"
 #include "book.h"
 #include "club_handler.h"
 #include "config.h"
@@ -186,7 +185,6 @@ extern int FL_NORMAL_SIZE;
 // Top level data items - these are declared as externals in each .cpp that uses them
 band_data* band_data_ = nullptr;
 band_window* band_window_ = nullptr;
-banner* banner_ = nullptr;
 book* book_ = nullptr;
 book* navigation_book_ = nullptr;
 club_handler* club_handler_ = nullptr;
@@ -252,9 +250,6 @@ std::string development_directory_;
 
 //! Default location for auto-generated compile fodder
 std::string default_code_directory_ = "";
-
-//! Do not close banner. Kept \p false unless banner is not deleted at ZZALOG closure in error cases.
-bool keep_banner_ = false;
 
 //! This run is a new installation
 bool new_installation_ = false;
@@ -330,8 +325,7 @@ void cb_bn_close(Fl_Widget* w, void*v) {
 		closing_ = true;
 		// Stop the ticker
 		ticker_->stop_all();
-		banner_->show();
-		banner_->redraw();
+		status_->close();
 		Fl::check();
 		status_->misc_status(ST_NOTE, "ZZALOG: Closing...");
 		// Currently modifying a (potentially new) record
@@ -1228,7 +1222,7 @@ int main(int argc, char** argv)
 	Fl::args(argc, argv, i, cb_args);
 	// Set the default data directories
 	bool development = false;
-	file_holder_ = new file_holder(argv[0], DEVELOPMENT_MODE, FILE_CONTROL);
+	file_holder_ = new file_holder(argv[0], FILE_CONTROL);
 	// Read any switches that stick between calls
 	read_saved_switches();
 	customise_fltk();
@@ -1264,12 +1258,8 @@ int main(int argc, char** argv)
 	}
 
 	// Ctreate status to handle status messages
-	status_ = new status();
-	// Create banner
-	banner_ = new banner(400, 200);
-	std::string title = PROGRAM_ID + " " + PROGRAM_VERSION;
-	if (DEVELOPMENT_MODE) title += " DEVT";
-	banner_->copy_label(title.c_str());
+	status_ = new status(status::HAS_BANNER | status::HAS_LOGFILE);
+	status_->callback(main_window_, main_window::default_callback);
 
 	// Now display sticky switch message
 	status_->misc_status(ST_NOTE, sticky_message_.c_str());	
@@ -1328,11 +1318,6 @@ int main(int argc, char** argv)
 	}
 	// Delete everything we've created
 	tidy();
-	if (keep_banner_) {
-		banner_->allow_close();
-		banner_->show();
-		while (banner_ && banner_->visible()) Fl::check();
-	}
 	return code;
 }
 
