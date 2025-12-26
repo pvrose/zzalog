@@ -1,7 +1,6 @@
 #include "settings.h"
 
 #include "file_holder.h"
-#include "main.h"
 
 #include <nlohmann/json.hpp>
 
@@ -12,6 +11,9 @@
 #include <string>
 
 using json = nlohmann::json;
+
+extern std::string PROGRAM_ID;
+
 
 json* settings::all_settings_ = nullptr;
 int settings::attachments_ = 0;

@@ -337,6 +337,8 @@ ExternalProject_Add(zzacommon
     ${ZZACOMMON_STATIC_LIB}
 )
 
+
+
 add_subdirectory(contests)
 add_subdirectory(pugixml)
 

@@ -160,7 +160,6 @@ enum file_types : uint8_t {
 	FILE_ICON_PDF,                          //!< Icon for PDF
 	FILE_ICON_QRZ,                          //!< Icon for QRZ.com
 	FILE_APPS,                              //!< Application configuration file
-	FILE_SETTINGS,                          //!< ZZALOG configuration file
 	FILE_RIGS,                              //!< Rig configuration file
 	FILE_FIELDS,                            //!< Field usage configuration file
 	FILE_CONTEST,                           //!< Contests configuration file

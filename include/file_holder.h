@@ -22,6 +22,7 @@ struct file_control_t {
 enum file_contents_t : uint8_t {
 	FILE_ICON_ZZA,                          //!< Always have an icon
 	FILE_STATUS,                            //!< Conditionally have a status log
+	FILE_SETTINGS,                          //!< Conditionally have a settings file
 	FILE_USER = 16                          //!< Provide some free space for m ore
 };
 
