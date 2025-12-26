@@ -1,7 +1,6 @@
 #include "file_holder.h"
 
-#include "main.h"
-#include "status.h"
+#include <status.h>
 
 #include <cstdint>
 #include <cstdio>
@@ -16,8 +15,13 @@
 
 file_holder* file_holder_ = nullptr;
 uint16_t DEBUG_RESET_CONFIG = 0;
+extern std::string VENDOR;
+extern std::string PROGRAM_ID;
+//! File control datra
 
-file_holder::file_holder(const char* arg0, bool& development) {
+
+file_holder::file_holder(const char* arg0, bool& development, const std::map<uint8_t, file_control_t>& control) {
+	control_data_ = control;
 	char * pwd = fl_getcwd(nullptr, 256);
 	std::string run_dir = directory(arg0);
 	printf("ZZALOG: Running in %s\n", run_dir.c_str());
@@ -90,8 +94,8 @@ file_holder::file_holder(const char* arg0, bool& development) {
 #endif
 }
 
-bool file_holder::get_file(file_contents_t type, std::ifstream& is, std::string& filename) {
-	const file_control_t& ctrl = FILE_CONTROL.at(type);
+bool file_holder::get_file(uint8_t type, std::ifstream& is, std::string& filename) {
+	const file_control_t& ctrl = file_holder_->file_control(type);
 	char msg[128];
 	if (ctrl.reference) {
 		if (ctrl.read_only) {
@@ -212,8 +216,8 @@ bool file_holder::copy_source_to_working(file_control_t ctrl) const {
 	return true;
 }
 
-bool file_holder::get_file(file_contents_t type, std::ofstream& os, std::string& filename) const {
-	const file_control_t ctrl = FILE_CONTROL.at(type);
+bool file_holder::get_file(uint8_t type, std::ofstream& os, std::string& filename) const {
+	const file_control_t ctrl = file_holder_->file_control(type);
 	char msg[128];
 	if (ctrl.read_only) {
 		snprintf(msg, sizeof(msg), "FILE: Tring to open %s (read-only)", ctrl.filename.c_str());
@@ -231,8 +235,8 @@ bool file_holder::get_file(file_contents_t type, std::ofstream& os, std::string&
 }
 
 // Copy working copy to source for releasing
-bool file_holder::copy_working_to_source(file_contents_t type) const {
-	file_control_t ctrl = FILE_CONTROL.at(type);
+bool file_holder::copy_working_to_source(uint8_t type) const {
+	file_control_t ctrl = file_holder_->file_control(type);
 	// Copy source to working
 	std::string source = default_source_directory_ + ctrl.filename;
 	std::string filename = default_data_directory_ + ctrl.filename;
@@ -253,43 +257,9 @@ bool file_holder::copy_working_to_source(file_contents_t type) const {
 		if (status_) status_->misc_status(ST_NOTE, msg);
 	}
 	//char msg[256];
-	//if (result != 0) {
-	//	snprintf(msg, sizeof(msg), "FILE: Copy failed %d", result);
-	//	if (status_) status_->misc_status(ST_ERROR, msg);
-	//	return false;
-	//}
-	//char msg[128];
-	//ofstream ss(source);
-	//if (ss.fail()) {
-	//	snprintf(msg, sizeof(msg), "FILE: Cannot open %s", source.c_str());
-	//	if (status_) status_->misc_status(ctrl.fatal ? ST_FATAL : ST_ERROR, msg);
-	//	return false;
-	//}
-	//ifstream ds(filename);
-	//if (ds.fail()) {
-	//	snprintf(msg, sizeof(msg), "FILE: Cannot open %s", filename.c_str());
-	//	if (status_) status_->misc_status(ctrl.fatal ? ST_FATAL : ST_ERROR, msg);
-	//	return false;
-	//}
-	//// Copy file in 16K byte chunks
-	//bool ok = true;
-	//const int increment = 16 * 1024;
-	//char buffer[increment + 1];
-	//snprintf(msg, sizeof(msg), "FILE: Copying %s from %s to %s",
-	//	filename.c_str(),
-	//	default_data_directory_.c_str(),
-	//	default_source_directory_.c_str());
-	//if (status_) status_->misc_status(ST_NOTE, msg);
-	//while (!ds.eof() && ok) {
-	//	ds.read(buffer, increment);
-	//	ss.write(buffer, ds.gcount());
-	//	ok = ss.good() && (ds.good() || ds.eof());
-	//}
-	//ss.close();
-	//ds.close();
-	//if (!ok) {
-	//	if (status_) status_->misc_status(ctrl.fatal ? ST_FATAL : ST_ERROR, "FILE: Copy failed");
-	//	return false;
-	//}
 	return true;
+}
+
+file_control_t file_holder::file_control(uint8_t type) const {
+	return control_data_.at(type);
 }

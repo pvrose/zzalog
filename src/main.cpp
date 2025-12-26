@@ -153,6 +153,32 @@ bool DEVELOPMENT_MODE = false;
 bool GENERATE_HEADERS = false;
 
 
+//! File holder customisation - control data
+const std::map < uint8_t, file_control_t > FILE_CONTROL = {
+	// ID, { filename, reference, read-only
+	{ FILE_ADIF, { "all.json", true, true, DEBUG_RESET_ADIF } },
+	{ FILE_BANDPLAN, { "band_plan.json", true, false, DEBUG_RESET_BAND } },
+	{ FILE_COUNTRY_CLUB, { "cty.xml", true, false, DEBUG_RESET_CTY } },
+	{ FILE_COUNTRY_CFILES, { "cty.csv", true, false, DEBUG_RESET_CTY1 }},
+	{ FILE_COUNTRY_DXATLAS, { "Prefix.lst", true, false, DEBUG_RESET_CTY2 }},
+	{ FILE_COUNTRY, { "cty.json", true, false, DEBUG_RESET_CTY3, false } },
+	{ FILE_INTLCHARS, { "intl_chars.txt", true, false, DEBUG_RESET_INTL }},
+	{ FILE_ICON_GMAPS, { "google-maps.png", true, true, DEBUG_RESET_ICON }},
+	{ FILE_ICON_PDF, { "pdf.png", true, true, DEBUG_RESET_ICON}},
+	{ FILE_ICON_QRZ, { "qrz_1.jpg", true, true, DEBUG_RESET_ICON}},
+	{ FILE_APPS, { "apps.json", false, false, DEBUG_RESET_APPS}},
+	{ FILE_SETTINGS, { "ZZALOG.json", false, false, DEBUG_RESET_SETT }},
+	{ FILE_RIGS, { "rigs.json", false, false, DEBUG_RESET_RIGS }},
+	{ FILE_FIELDS, { "fields.json", false, false, DEBUG_RESET_FLDS}},
+	{ FILE_CONTEST, { "contests.json", false, false, DEBUG_RESET_TEST }},
+	{ FILE_SOLAR, { "solar.xml", false, false, 0}},
+	{ FILE_STATUS, { "status.txt", false, false, 0}},
+	{ FILE_STATION, { "station.json", false, false, DEBUG_RESET_STN }},
+	{ FILE_ICON_ZZA, { "rose.png", true, true, 0}}
+};
+
+
+
 //! Access to FLTK global attribute to  default text size throughout ZZALOG.
 extern int FL_NORMAL_SIZE;
 
@@ -1202,7 +1228,7 @@ int main(int argc, char** argv)
 	Fl::args(argc, argv, i, cb_args);
 	// Set the default data directories
 	bool development = false;
-	file_holder_ = new file_holder(argv[0], DEVELOPMENT_MODE);
+	file_holder_ = new file_holder(argv[0], DEVELOPMENT_MODE, FILE_CONTROL);
 	// Read any switches that stick between calls
 	read_saved_switches();
 	customise_fltk();

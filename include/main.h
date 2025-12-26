@@ -13,6 +13,7 @@
 //! \copyright Philip Rose GM3ZZA 2018-2025. All rights reserved.
 //!
 //! ZZALOG is based in part on the work of the FLTK project <A HREF=https://www.fltk.org>https://www.fltk.org</A>.
+#include "file_holder.h"
 
 #include "hamlib/rig.h"
 
@@ -125,6 +126,50 @@ extern bool GENERATE_HEADERS;
 //! Access to FLTK global attribute to  default text size throughout ZZALOG.
 extern int FL_NORMAL_SIZE;
 
+//! File_holder customisation - debug switches
+const uint16_t DEBUG_RESET_ADIF = 1;        //!< Reset all.json (ADIF)
+const uint16_t DEBUG_RESET_BAND = 1 << 1;   //!< Reset band_plan.json
+const uint16_t DEBUG_RESET_CTY = 1 << 2;    //!< Reset cty.json
+const uint16_t DEBUG_RESET_INTL = 1 << 3;   //!< Reset intl_chars.txt
+const uint16_t DEBUG_RESET_APPS = 1 << 4;   //!< Reset apps.json
+const uint16_t DEBUG_RESET_SETT = 1 << 5;   //!< Reset settings.json
+const uint16_t DEBUG_RESET_RIGS = 1 << 6;   //!< Reset rigs.json
+const uint16_t DEBUG_RESET_FLDS = 1 << 7;   //!< Reset fields.json
+const uint16_t DEBUG_RESET_TEST = 1 << 8;   //!< Reset contests.json
+const uint16_t DEBUG_RESET_ICON = 1 << 9;   //!< Reset Icons
+const uint16_t DEBUG_RESET_STN = 1 << 10;   //!< Reset station.json
+const uint16_t DEBUG_RESET_CTY1 = 1 << 11;    //!< Reset cty.xml
+const uint16_t DEBUG_RESET_CTY2 = 1 << 12;    //!< Reset cty.csv
+const uint16_t DEBUG_RESET_CTY3 = 1 << 13;    //!< Reset prefix.lst
+const uint16_t DEBUG_RESET_ALL = 0xffff;    //!< Reset all
+const uint16_t DEBUG_RESET_CALL =
+	DEBUG_RESET_CTY |
+	DEBUG_RESET_CTY1 |
+	DEBUG_RESET_CTY2 |
+	DEBUG_RESET_CTY3;                       //!< Reset all country files
+
+//! File holder customisations - file tags
+enum file_types : uint8_t {
+	FILE_ADIF = file_contents_t::FILE_USER,                  //!< ADIF Specification
+	FILE_BANDPLAN,                          //!< Band-plan data
+	FILE_COUNTRY_CLUB,                      //!< Country data from Clublog.org
+	FILE_COUNTRY_CFILES,                    //!< Country data from country-files.com
+	FILE_COUNTRY_DXATLAS,                   //!< Country data from DxAtlas
+	FILE_COUNTRY,                           //!< Collated country data
+	FILE_INTLCHARS,                         //!< International chatacter set
+	FILE_ICON_GMAPS,                        //!< Icon for google maps
+	FILE_ICON_PDF,                          //!< Icon for PDF
+	FILE_ICON_QRZ,                          //!< Icon for QRZ.com
+	FILE_APPS,                              //!< Application configuration file
+	FILE_SETTINGS,                          //!< ZZALOG configuration file
+	FILE_RIGS,                              //!< Rig configuration file
+	FILE_FIELDS,                            //!< Field usage configuration file
+	FILE_CONTEST,                           //!< Contests configuration file
+	FILE_SOLAR,                             //!< Solar data (read every hour at most frequent
+	FILE_STATUS,                            //!< Status log file
+	FILE_STATION,                           //!< Station configuration file
+};
+
 //! \cond
 // Top level data items - these are declared as externals in each .cpp that uses them
 extern band_data* band_data_;
@@ -150,7 +195,6 @@ extern qsl_dataset* qsl_dataset_;
 extern qso_manager* qso_manager_;
 extern rig_data* rig_data_;
 extern spec_data* spec_data_;
-extern status* status_;
 extern stn_data* stn_data_;
 extern stn_window* stn_window_;
 extern tabbed_forms* tabbed_forms_;

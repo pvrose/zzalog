@@ -362,7 +362,6 @@ target_include_directories(${TARGET} PRIVATE
   ./include 
   ./contests/include
   ${ZZACOMMON_SOURCE_DIR}/include
-  ${ZZAWIDGETS_SOURCE_DIR}/include
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}

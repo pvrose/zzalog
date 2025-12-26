@@ -8,26 +8,6 @@
 
 //! Reset configuration files
 extern uint16_t DEBUG_RESET_CONFIG;
-const uint16_t DEBUG_RESET_ADIF = 1;        //!< Reset all.json (ADIF)
-const uint16_t DEBUG_RESET_BAND = 1 << 1;   //!< Reset band_plan.json
-const uint16_t DEBUG_RESET_CTY = 1 << 2;    //!< Reset cty.json
-const uint16_t DEBUG_RESET_INTL = 1 << 3;   //!< Reset intl_chars.txt
-const uint16_t DEBUG_RESET_APPS = 1 << 4;   //!< Reset apps.json
-const uint16_t DEBUG_RESET_SETT = 1 << 5;   //!< Reset settings.json
-const uint16_t DEBUG_RESET_RIGS = 1 << 6;   //!< Reset rigs.json
-const uint16_t DEBUG_RESET_FLDS = 1 << 7;   //!< Reset fields.json
-const uint16_t DEBUG_RESET_TEST = 1 << 8;   //!< Reset contests.json
-const uint16_t DEBUG_RESET_ICON = 1 << 9;   //!< Reset Icons
-const uint16_t DEBUG_RESET_STN = 1 << 10;   //!< Reset station.json
-const uint16_t DEBUG_RESET_CTY1 = 1 << 11;    //!< Reset cty.xml
-const uint16_t DEBUG_RESET_CTY2 = 1 << 12;    //!< Reset cty.csv
-const uint16_t DEBUG_RESET_CTY3 = 1 << 13;    //!< Reset prefix.lst
-const uint16_t DEBUG_RESET_ALL = 0xffff;    //!< Reset all
-const uint16_t DEBUG_RESET_CALL =
-	DEBUG_RESET_CTY |
-	DEBUG_RESET_CTY1 |
-	DEBUG_RESET_CTY2 |
-	DEBUG_RESET_CTY3;                       //!< Reset all country files
 
 //! File control structore
 struct file_control_t {
@@ -40,49 +20,8 @@ struct file_control_t {
 
 //! File contents
 enum file_contents_t : uint8_t {
-	FILE_ADIF,                              //!< ADIF Specification
-	FILE_BANDPLAN,                          //!< Band-plan data
-	FILE_COUNTRY_CLUB,                      //!< Country data from Clublog.org
-	FILE_COUNTRY_CFILES,                    //!< Country data from country-files.com
-	FILE_COUNTRY_DXATLAS,                   //!< Country data from DxAtlas
-	FILE_COUNTRY,                           //!< Collated country data
-	FILE_INTLCHARS,                         //!< International chatacter set
-	FILE_ICON_GMAPS,                        //!< Icon for google maps
-	FILE_ICON_PDF,                          //!< Icon for PDF
-	FILE_ICON_QRZ,                          //!< Icon for QRZ.com
-	FILE_APPS,                              //!< Application configuration file
-	FILE_SETTINGS,                          //!< ZZALOG configuration file
-	FILE_RIGS,                              //!< Rig configuration file
-	FILE_FIELDS,                            //!< Field usage configuration file
-	FILE_CONTEST,                           //!< Contests configuration file
-	FILE_SOLAR,                             //!< Solar data (read every hour at most frequent
-	FILE_STATUS,                            //!< Status log file
-	FILE_STATION,                           //!< Station configuration file
-	FILE_ICON_ZZA,                          //!< GM3ZZA Icon
-};
-
-//! File control datra
-const std::map < file_contents_t, file_control_t > FILE_CONTROL = {
-	// ID, { filename, reference, read-only
-	{ FILE_ADIF, { "all.json", true, true, DEBUG_RESET_ADIF } },
-	{ FILE_BANDPLAN, { "band_plan.json", true, false, DEBUG_RESET_BAND } },
-	{ FILE_COUNTRY_CLUB, { "cty.xml", true, false, DEBUG_RESET_CTY } },
-	{ FILE_COUNTRY_CFILES, { "cty.csv", true, false, DEBUG_RESET_CTY1 }},
-	{ FILE_COUNTRY_DXATLAS, { "Prefix.lst", true, false, DEBUG_RESET_CTY2 }},
-	{ FILE_COUNTRY, { "cty.json", true, false, DEBUG_RESET_CTY3, false } },
-	{ FILE_INTLCHARS, { "intl_chars.txt", true, false, DEBUG_RESET_INTL }},
-	{ FILE_ICON_GMAPS, { "google-maps.png", true, true, DEBUG_RESET_ICON }},
-	{ FILE_ICON_PDF, { "pdf.png", true, true, DEBUG_RESET_ICON}},
-	{ FILE_ICON_QRZ, { "qrz_1.jpg", true, true, DEBUG_RESET_ICON}},
-	{ FILE_APPS, { "apps.json", false, false, DEBUG_RESET_APPS}},
-	{ FILE_SETTINGS, { "ZZALOG.json", false, false, DEBUG_RESET_SETT }},
-	{ FILE_RIGS, { "rigs.json", false, false, DEBUG_RESET_RIGS }},
-	{ FILE_FIELDS, { "fields.json", false, false, DEBUG_RESET_FLDS}},
-	{ FILE_CONTEST, { "contests.json", false, false, DEBUG_RESET_TEST }},
-	{ FILE_SOLAR, { "solar.xml", false, false, 0}},
-	{ FILE_STATUS, { "status.txt", false, false, 0}},
-	{ FILE_STATION, { "station.json", false, false, DEBUG_RESET_STN }},
-	{ FILE_ICON_ZZA, { "rose.png", true, true, 0}}
+	FILE_ICON_ZZA,                          //!< Must be 0
+	FILE_USER
 };
 
 //! Data type for getting directory 
@@ -93,12 +32,16 @@ enum file_data_t : uint8_t {
 	DATA_HTML,                  //!< Directory for HTML & PDF (userguide and code docs)
 };
 
+//! Forward declaration to self
+class file_holder;
+extern file_holder* file_holder_;
+
 //! Holder for file naming
 class file_holder
 {
 public:
 	//! Constructor
-	file_holder(const char* arg0, bool& development);
+	file_holder(const char* arg0, bool& development, const std::map<uint8_t, file_control_t>& control);
 	//! Destructor
 	~file_holder() {};
 
@@ -108,7 +51,7 @@ public:
 	//! \param is Returned input stream
 	//! \param filename Returns name of opened file
 	//! \returns true if successful
-	bool get_file(file_contents_t type, std::ifstream& is, std::string& filename);
+	bool get_file(uint8_t type, std::ifstream& is, std::string& filename);
 
 	//! Get file for output
 
@@ -116,11 +59,11 @@ public:
 	//! \param os Returned input stream
 	//! \param filename Returns name of opened file
 	//! \returns true if successful
-	bool get_file(file_contents_t type, std::ofstream& os, std::string& filename) const;
+	bool get_file(uint8_t type, std::ofstream& os, std::string& filename) const;
 
 	//! Get filename for data \p type
-	std::string get_filename(file_contents_t type) {
-		const file_control_t ctrl = FILE_CONTROL.at(type);
+	std::string get_filename(uint8_t type) {
+		const file_control_t ctrl = control_data_.at(type);
 		if (ctrl.read_only) return default_source_directory_ + ctrl.filename;
 		else return default_data_directory_ + ctrl.filename;
 	}
@@ -137,7 +80,10 @@ public:
 	}
 
 	//! Release working copy to source
-	bool copy_working_to_source(file_contents_t type) const;
+	bool copy_working_to_source(uint8_t type) const;
+
+	//! Get file control for type
+	file_control_t file_control(uint8_t type) const;
 
 protected:
 
@@ -157,7 +103,8 @@ protected:
 	//! Default directory for HTML files
 	std::string default_html_directory_;
 
+	//! Control data
+	std::map<uint8_t, file_control_t> control_data_;
+
 
 };
-
-extern file_holder* file_holder_;
