@@ -30,6 +30,7 @@
 #include <FL/Enumerations.H>
 #include <FL/fl_ask.H>
 #include <FL/fl_draw.H>
+#include <FL/Fl_Native_File_Chooser.H>
 
 // Constructor: 
 wsjtx_handler::wsjtx_handler()
@@ -806,6 +807,15 @@ bool wsjtx_handler::match_all_txt(record* qso, bool update_qso) {
 	settings behav_settings(&top_settings, "Behaviour");
 	std::string temp;
 	behav_settings.get<std::string>("WSJT-X", temp, "");
+	if (temp.length() == 0) {
+		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
+		chooser->title("Select directory for WSJT-X ALL.TXT");
+		if (chooser->show() == 0) {
+			temp = chooser->filename();
+		}
+		delete chooser;
+	}
+	behav_settings.set<std::string>("WSJT-X", temp);
 	std::string filename = temp + "/ALL.TXT";
 	std::ifstream* all_file = new std::ifstream(filename.c_str());
 	if (!all_file->good()) {
