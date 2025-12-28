@@ -161,10 +161,10 @@
     <ROW File="main_window.html" Component_="ack.html" FileName="MAIN_W~1.HTM|main_window.html" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\main_window.html" SelfReg="false"/>
     <ROW File="main_window.js" Component_="ack.html" FileName="MAIN_W~1.JS|main_window.js" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\main_window.js" SelfReg="false"/>
     <ROW File="main_window_1.png" Component_="ack.html" FileName="MAIN_W~1.PNG|main_window_1.png" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\main_window_1.png" SelfReg="false"/>
-    <ROW File="menu.html" Component_="ack.html" FileName="MENU~1.HTM|menu.html" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\menu.html" SelfReg="false"/>
+    <ROW File="menu_bar.html" Component_="ack.html" FileName="MENU~1.HTM|menu_bar.html" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\menu_bar.html" SelfReg="false"/>
     <ROW File="menu.js_2" Component_="ack.html" FileName="menu.js" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\menu.js" SelfReg="false"/>
     <ROW File="menudata.js_2" Component_="ack.html" FileName="menudata.js" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\menudata.js" SelfReg="false"/>
-    <ROW File="menu_1.png" Component_="ack.html" FileName="menu_1.png" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\menu_1.png" SelfReg="false"/>
+    <ROW File="menu_bar_1.png" Component_="ack.html" FileName="menu_bar_1.png" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\menu_bar_1.png" SelfReg="false"/>
     <ROW File="navtree.css_2" Component_="ack.html" FileName="navtree.css" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\navtree.css" SelfReg="false"/>
     <ROW File="navtree.js_2" Component_="ack.html" FileName="navtree.js" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\navtree.js" SelfReg="false"/>
     <ROW File="navtreedata.js_2" Component_="ack.html" FileName="NAVTRE~1.JS|navtreedata.js" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\navtreedata.js" SelfReg="false"/>
@@ -724,7 +724,7 @@
     <ROW File="classmain__window.js" Component_="about__dialog_8h.html" FileName="CLASSM~1.JS|classmain__window.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\classmain__window.js" SelfReg="false"/>
     <ROW File="classmain__window.png" Component_="about__dialog_8h.html" FileName="CLASSM~1.PNG|classmain__window.png" Attributes="0" SourcePath="out\build\x64-Release\api\html\classmain__window.png" SelfReg="false"/>
     <ROW File="classmenumembers.html" Component_="about__dialog_8h.html" FileName="CLASSM~3.HTM|classmenu-members.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\classmenu-members.html" SelfReg="false"/>
-    <ROW File="classmenu.html" Component_="about__dialog_8h.html" FileName="CLASSM~4.HTM|classmenu.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\classmenu.html" SelfReg="false"/>
+    <ROW File="classmenu_bar.html" Component_="about__dialog_8h.html" FileName="CLASSM~4.HTM|classmenu_bar.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\classmenu_bar.html" SelfReg="false"/>
     <ROW File="classmenu.js" Component_="about__dialog_8h.html" FileName="CLASSM~2.JS|classmenu.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\classmenu.js" SelfReg="false"/>
     <ROW File="classmenu.png" Component_="about__dialog_8h.html" FileName="CLASSM~2.PNG|classmenu.png" Attributes="0" SourcePath="out\build\x64-Release\api\html\classmenu.png" SelfReg="false"/>
     <ROW File="classpage__dialogmembers.html" Component_="about__dialog_8h.html" FileName="CLASSP~1.HTM|classpage__dialog-members.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\classpage__dialog-members.html" SelfReg="false"/>
@@ -1301,9 +1301,9 @@
     <ROW File="main__window_8h_source.html" Component_="about__dialog_8h.html" FileName="MAIN__~2.HTM|main__window_8h_source.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\main__window_8h_source.html" SelfReg="false"/>
     <ROW File="menu.js" Component_="about__dialog_8h.html" FileName="menu.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\menu.js" SelfReg="false"/>
     <ROW File="menudata.js" Component_="about__dialog_8h.html" FileName="menudata.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\menudata.js" SelfReg="false"/>
-    <ROW File="menu_8h.html" Component_="about__dialog_8h.html" FileName="MENU_8~1.HTM|menu_8h.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\menu_8h.html" SelfReg="false"/>
-    <ROW File="menu_8h.js" Component_="about__dialog_8h.html" FileName="menu_8h.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\menu_8h.js" SelfReg="false"/>
-    <ROW File="menu_8h_source.html" Component_="about__dialog_8h.html" FileName="MENU_8~2.HTM|menu_8h_source.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\menu_8h_source.html" SelfReg="false"/>
+    <ROW File="menu_bar_8h.html" Component_="about__dialog_8h.html" FileName="MENU_8~1.HTM|menu_bar_8h.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\menu_bar_8h.html" SelfReg="false"/>
+    <ROW File="menu_bar_8h.js" Component_="about__dialog_8h.html" FileName="menu_bar_8h.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\menu_bar_8h.js" SelfReg="false"/>
+    <ROW File="menu_bar_8h_source.html" Component_="about__dialog_8h.html" FileName="MENU_8~2.HTM|menu_bar_8h_source.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\menu_bar_8h_source.html" SelfReg="false"/>
     <ROW File="namespacecontests.html" Component_="about__dialog_8h.html" FileName="NAMESP~1.HTM|namespacecontests.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\namespacecontests.html" SelfReg="false"/>
     <ROW File="namespacecontests.js" Component_="about__dialog_8h.html" FileName="NAMESP~1.JS|namespacecontests.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\namespacecontests.js" SelfReg="false"/>
     <ROW File="namespaces.html" Component_="about__dialog_8h.html" FileName="NAMESP~2.HTM|namespaces.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\namespaces.html" SelfReg="false"/>

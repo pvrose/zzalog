@@ -2,7 +2,7 @@
 
 #include "import_data.h"
 #include "main.h"
-#include "menu.h"
+#include "menu_bar.h"
 
 #include <sstream>
 #include <string>
@@ -27,7 +27,7 @@ int main_window::handle(int event) {
 	case FL_HIDE:
 	case FL_SHOW:
 		// Get menu to update Windows controls
-		if(menu_) menu_->update_windows_items();
+		if(menu_bar_) menu_bar_->update_windows_items();
 		break;
 	case FL_PASTE:
 		// Get data from paste

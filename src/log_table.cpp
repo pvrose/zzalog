@@ -9,7 +9,7 @@
 #include "fields.h"
 #include "main.h"
 #include "main_window.h"
-#include "menu.h"
+#include "menu_bar.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "settings.h"
@@ -699,7 +699,7 @@ void log_table::done_edit(bool keep_row) {
 			case OT_MAIN:
 			case OT_EXTRACT:
 				redraw();
-				menu_->update_items();
+				menu_bar_->update_items();
 				// Update all views with the change - fields that change location are major changes that require DxAtlas to be redrawn, date/time the book to be reordered
 				if (field_info.field == "QSO_DATE" || field_info.field == "TIME_ON") {
 					// The book will tell all views

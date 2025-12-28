@@ -308,20 +308,20 @@ void field_input::populate_choice(std::string name) {
 	auto it = dataset->data.begin();
 	Fl_Menu_Button* menu = menubutton();
 	for (int i = 1; it != dataset->data.end(); i++) {
-		std::string menu_entry = escape_menu(it->first);
-		std::string summary = spec_data_->summarise_enumaration(name, menu_entry);
-		std::string temp = menu_entry;
+		std::string menu_bar_entry = escape_menu(it->first);
+		std::string summary = spec_data_->summarise_enumaration(name, menu_bar_entry);
+		std::string temp = menu_bar_entry;
 		if (hierarchic == 1 || hierarchic == 2 && temp.length() == 1) {
-			menu_entry = temp.substr(0, 1) + "/" + temp;
+			menu_bar_entry = temp.substr(0, 1) + "/" + temp;
 		} else if (hierarchic == 2) {
-			menu_entry = temp.substr(0, 1) + "/" + temp.substr(0, 2) + "/" + temp;
+			menu_bar_entry = temp.substr(0, 1) + "/" + temp.substr(0, 2) + "/" + temp;
 		}
-		std::string value = menu_entry;
+		std::string value = menu_bar_entry;
 		if (summary.length()) {
-			menu_entry += comment_marker_ + escape_menu(summary);
+			menu_bar_entry += comment_marker_ + escape_menu(summary);
 		}
-		menu->add(menu_entry.c_str(), 0, nullptr, (void*)value.c_str());
-		add(menu_entry.c_str());
+		menu->add(menu_bar_entry.c_str(), 0, nullptr, (void*)value.c_str());
+		add(menu_bar_entry.c_str());
 		it++;
 	}
 }

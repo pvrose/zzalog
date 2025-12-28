@@ -9,7 +9,7 @@
 #include <fields.h>
 #include "import_data.h"
 #include "main.h"
-#include "menu.h"
+#include "menu_bar.h"
 #include "qrz_handler.h"
 #include "qsl_dataset.h"
 #include "qso_buttons.h"
@@ -195,7 +195,7 @@ void qso_data::enable_widgets() {
 		if (mgr->created_) {
 			// rig_if* rig = mgr->rig();
 			mgr->qsl_control()->enable_widgets();
-			if (menu_) menu_->update_items();
+			if (menu_bar_) menu_bar_->update_items();
 			if (config_) config_->update();
 		}
 

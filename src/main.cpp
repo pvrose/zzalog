@@ -30,7 +30,7 @@ main.cpp - application entry point
 #include "intl_dialog.h"
 #include "lotw_handler.h"
 #include "main_window.h"
-#include "menu.h"
+#include "menu_bar.h"
 #include "qrz_handler.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
@@ -199,7 +199,7 @@ import_data* import_data_ = nullptr;
 intl_dialog* intl_dialog_ = nullptr;
 lotw_handler* lotw_handler_ = nullptr;
 main_window* main_window_ = nullptr;
-menu* menu_ = nullptr;
+menu_bar* menu_bar_ = nullptr;
 qrz_handler* qrz_handler_ = nullptr;
 qsl_dataset* qsl_dataset_ = nullptr;
 qso_manager* qso_manager_ = nullptr;
@@ -302,7 +302,7 @@ void restore_backup() {
 	std::string filename = book_->filename();
 	// Remove existing book
 	status_->misc_status(ST_WARNING, "LOG: Closing current book!");
-	menu::cb_mi_file_new(nullptr, nullptr);
+	menu_bar::cb_mi_file_new(nullptr, nullptr);
 	settings top_settings;
 	settings behav_settings(&top_settings, "Behaviour");
 	settings backup_settings(&behav_settings, "Backup");
@@ -398,11 +398,11 @@ void cb_bn_close(Fl_Widget* w, void*v) {
 				// Save and Exit
 				if (READ_ONLY) {
 					// Open the Save As dialog and save
-					menu::cb_mi_file_saveas(w, (void*)OT_MAIN);
+					menu_bar::cb_mi_file_saveas(w, (void*)OT_MAIN);
 				}
 				else {
 					// Save the file
-					menu::cb_mi_file_save(w, (void*)OT_MAIN);
+					menu_bar::cb_mi_file_save(w, (void*)OT_MAIN);
 				}
 				break;
 			case 2:
@@ -953,10 +953,10 @@ void create_window() {
 // Add all the widgets: menu, status and tool bars, and view displays
 void add_widgets(int& curr_y) {
 	// The menu: disable it until all the data is loaded
-	menu_ = new menu(0, curr_y, WIDTH, MENU_HEIGHT);
-	main_window_->add(menu_);
-	menu_->enable(false);
-	curr_y += menu_->h();
+	menu_bar_ = new menu_bar(0, curr_y, WIDTH, MENU_HEIGHT);
+	main_window_->add(menu_bar_);
+	menu_bar_->enable(false);
+	curr_y += menu_bar_->h();
 	// Toolbar - image buttons representing a number of menu and other commands - disable all menu related buttons
 	toolbar_ = new toolbar(0, curr_y, WIDTH, TOOL_HEIGHT);
 	main_window_->add(toolbar_);
@@ -995,7 +995,7 @@ void resize_window() {
 	// Get minimum resizing from all the children - horizontal limited by views and toolbar
 	int min_w = std::max<int>(tabbed_forms_->min_w(), toolbar_->min_w());
 	// Vertical limited by view, the bars remain a fixed height
-	int min_h = tabbed_forms_->min_h() + toolbar_->h() + menu_->h();
+	int min_h = tabbed_forms_->min_h() + toolbar_->h() + menu_bar_->h();
 	main_window_->size_range(min_w, min_h);
 	// Set the size to the setting or minimum specified by the view + bars if that's larger
 	int rx = left;
@@ -1044,7 +1044,7 @@ void tidy() {
 	delete fields_;
 	if (closing_) status_->misc_status(ST_OK, "ZZALOG: Closed");
 	delete status_;
-	delete menu_;
+	delete menu_bar_;
 	delete main_window_;
 }
 
@@ -1308,9 +1308,9 @@ int main(int argc, char** argv)
 	if (!closing_) {
 		// Now we have created everything add the windows items to the menu
 		// Enable menu so that we can do thigs while waiting for Fllog client to appear
-		menu_->add_windows_items();
-		menu_->enable(true);
-		menu_->redraw();
+		menu_bar_->add_windows_items();
+		menu_bar_->enable(true);
+		menu_bar_->redraw();
 		// Only do this if we haven't tried to close
 		fllog_emul_->run_server();
 		// enable menu
@@ -1371,7 +1371,7 @@ void set_recent_file(std::string filename) {
 		}
 		behav_settings.set("Recent Files", recent_files_);
 
-		menu_->add_recent_files();
+		menu_bar_->add_recent_files();
 
 	}
 

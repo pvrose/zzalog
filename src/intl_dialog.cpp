@@ -3,7 +3,7 @@
 #include <drawing.h>
 #include "file_holder.h"
 #include "main.h"
-#include "menu.h"
+#include "menu_bar.h"
 #include "status.h"
 #include <win_dialog.h>
 
@@ -144,7 +144,7 @@ int intl_dialog::handle(int event) {
 	case FL_HIDE:
 	case FL_SHOW:
 		// Get menu to update Windows controls
-		menu_->update_windows_items();
+		menu_bar_->update_windows_items();
 		break;
 	case FL_FOCUS:
 		return true;

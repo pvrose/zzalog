@@ -64,7 +64,7 @@ set(CPPFILES
   ${CMAKE_SOURCE_DIR}/src/lotw_handler.cpp
   ${CMAKE_SOURCE_DIR}/src/main.cpp
   ${CMAKE_SOURCE_DIR}/src/main_window.cpp
-  ${CMAKE_SOURCE_DIR}/src/menu.cpp
+  ${CMAKE_SOURCE_DIR}/src/menu_bar.cpp
   ${CMAKE_SOURCE_DIR}/src/page_dialog.cpp
   ${CMAKE_SOURCE_DIR}/src/png_writer.cpp
   ${CMAKE_SOURCE_DIR}/src/printer.cpp
@@ -170,7 +170,7 @@ ${CMAKE_SOURCE_DIR}/include/log_table.h
 ${CMAKE_SOURCE_DIR}/include/lotw_handler.h
 ${CMAKE_SOURCE_DIR}/include/main.h
 ${CMAKE_SOURCE_DIR}/include/main_window.h
-${CMAKE_SOURCE_DIR}/include/menu.h
+${CMAKE_SOURCE_DIR}/include/menu_bar.h
 ${CMAKE_SOURCE_DIR}/include/objects.h
 ${CMAKE_SOURCE_DIR}/include/page_dialog.h
 ${CMAKE_SOURCE_DIR}/include/png_writer.h

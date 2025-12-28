@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "menu_bar.h"
 
 #include "callback.h"
 #include "utils.h"
@@ -62,176 +62,176 @@
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
 	// The default menu - std::set of menu items
-	Fl_Menu_Item menu_items[] = {
+	Fl_Menu_Item menu_bar_items[] = {
 		// File operations
 	{ "&File", 0, 0, 0, FL_SUBMENU },
-		{ "&New", 0, menu::cb_mi_file_new, 0 },
-		{ "&Open", 0, menu::cb_mi_file_open, 0 },
-		{ "Rea&d", 0, menu::cb_mi_file_open, (void*)-1L },
-		{ "&Save", 0, menu::cb_mi_file_save, (void*)OT_MAIN },
-		{ "Save &As", 0, menu::cb_mi_file_saveas, (void*)OT_MAIN },
-		{ "&Close", 0, menu::cb_mi_file_close, 0 },
-		{ "&Print Log", 0, menu::cb_mi_file_print, (void*)OT_MAIN, FL_MENU_DIVIDER },
+		{ "&New", 0, menu_bar::cb_mi_file_new, 0 },
+		{ "&Open", 0, menu_bar::cb_mi_file_open, 0 },
+		{ "Rea&d", 0, menu_bar::cb_mi_file_open, (void*)-1L },
+		{ "&Save", 0, menu_bar::cb_mi_file_save, (void*)OT_MAIN },
+		{ "Save &As", 0, menu_bar::cb_mi_file_saveas, (void*)OT_MAIN },
+		{ "&Close", 0, menu_bar::cb_mi_file_close, 0 },
+		{ "&Print Log", 0, menu_bar::cb_mi_file_print, (void*)OT_MAIN, FL_MENU_DIVIDER },
 		{ "&Recent", 0, 0, 0, FL_SUBMENU | FL_MENU_DIVIDER },
 		// Extra menu items are dynamically inserted here 
 			{ 0 },
-		{ "&Backup", 0, menu::cb_mi_file_backup, (void*)false },
-		{ "Res&tore", 0, menu::cb_mi_file_restore, 0 },
+		{ "&Backup", 0, menu_bar::cb_mi_file_backup, (void*)false },
+		{ "Res&tore", 0, menu_bar::cb_mi_file_restore, 0 },
 		{ 0 },
 
 	// Settings operations
 	{ "&Settings", 0, 0, 0, FL_SUBMENU },
-		{ "QSL &Servers", 0, menu::cb_mi_settings, (void*)config::DLG_QSLS },
-		{ "&Fields", 0, menu::cb_mi_settings, (void*)config::DLG_COLUMN },
-		{ "&User config", 0, menu::cb_mi_settings, (void*)config::DLG_USER },
-		{ "&QSL design", 0, menu::cb_mi_settings, (void*)config::DLG_QSLE },
-		{ "&Contests", 0, menu::cb_mi_settings, (void*)config::DLG_CONTEST },
+		{ "QSL &Servers", 0, menu_bar::cb_mi_settings, (void*)config::DLG_QSLS },
+		{ "&Fields", 0, menu_bar::cb_mi_settings, (void*)config::DLG_COLUMN },
+		{ "&User config", 0, menu_bar::cb_mi_settings, (void*)config::DLG_USER },
+		{ "&QSL design", 0, menu_bar::cb_mi_settings, (void*)config::DLG_QSLE },
+		{ "&Contests", 0, menu_bar::cb_mi_settings, (void*)config::DLG_CONTEST },
 		{ 0 },
 
 	// Windows viewing
 	{ "&Windows", 0, 0, 0, FL_SUBMENU },
-		{ "&Show All", 0, menu::cb_mi_windows_all, (void*)true },
-		{ "&Hide All", 0, menu::cb_mi_windows_all, (void*)false },
+		{ "&Show All", 0, menu_bar::cb_mi_windows_all, (void*)true },
+		{ "&Hide All", 0, menu_bar::cb_mi_windows_all, (void*)false },
 		// Extra items to be added here
 		{ 0 },
 
 	// Log navigation
 	{ "&Navigate", 0, 0, 0, FL_SUBMENU },
-		{ "&First", 0, menu::cb_mi_navigate, (void*)(NV_FIRST) },
-		{ "&Previous", 0, menu::cb_mi_navigate, (void*)(NV_PREV) },
-		{ "Ne&xt", 0, menu::cb_mi_navigate, (void*)(NV_NEXT) },
-		{ "&Last", 0, menu::cb_mi_navigate, (void*)(NV_LAST) },
-		{ "&Date", 0, menu::cb_mi_nav_date	, nullptr },
-		{ "&Record No.", 0, menu::cb_mi_nav_recnum, nullptr },
+		{ "&First", 0, menu_bar::cb_mi_navigate, (void*)(NV_FIRST) },
+		{ "&Previous", 0, menu_bar::cb_mi_navigate, (void*)(NV_PREV) },
+		{ "Ne&xt", 0, menu_bar::cb_mi_navigate, (void*)(NV_NEXT) },
+		{ "&Last", 0, menu_bar::cb_mi_navigate, (void*)(NV_LAST) },
+		{ "&Date", 0, menu_bar::cb_mi_nav_date	, nullptr },
+		{ "&Record No.", 0, menu_bar::cb_mi_nav_recnum, nullptr },
 		{ "F&ind", 0, 0, 0, FL_SUBMENU | FL_MENU_DIVIDER },
-			{ "&New", 0, menu::cb_mi_nav_find, (void*)true },
-			{ "Ne&xt", 0, menu::cb_mi_nav_find, (void*)false },
+			{ "&New", 0, menu_bar::cb_mi_nav_find, (void*)true },
+			{ "Ne&xt", 0, menu_bar::cb_mi_nav_find, (void*)false },
 			{ 0 },
 		{ 0 },
 
 	// Log operation
 	{ "&Log", 0, 0, 0, FL_SUBMENU },
-		{ "&New record", 0, menu::cb_mi_log_new, nullptr },
-		{ "&Save record", 0, menu::cb_mi_log_save, nullptr },
-		{ "Re&time record", 0, menu::cb_mi_log_retime, nullptr },
-		{ "&Cancel", 0, menu::cb_mi_log_del, (void*)false },
-		{ "&Delete record", 0, menu::cb_mi_log_del, (void*)true, FL_MENU_DIVIDER },
-		{ "&Parse record", 0, menu::cb_mi_parse_qso, 0 },
-		{ "&Unparse record", 0, menu::cb_mi_unparse_qso, 0 },
-		{ "R&eparse record", 0, menu::cb_mi_reparse_qso, 0 },
-		{ "&Validate record", 0, menu::cb_mi_valid8_qso, 0, FL_MENU_DIVIDER },
-		{ "Pa&rse log", 0, menu::cb_mi_parse_log, 0 },
-		{ "Val&idate log", 0, menu::cb_mi_valid8_log, 0, FL_MENU_DIVIDER },
-		{ "Suspend Save", 0, menu::cb_mi_log_ssave, 0, FL_MENU_TOGGLE },
-		{ "&Bulk changes", 0, menu::cb_mi_log_bulk, 0 },
-		{ "Chec&k Duplicates", 0, menu::cb_mi_log_dupes, 0 },
-		{ "Edit &Header", 0, menu::cb_mi_log_edith, 0 },
+		{ "&New record", 0, menu_bar::cb_mi_log_new, nullptr },
+		{ "&Save record", 0, menu_bar::cb_mi_log_save, nullptr },
+		{ "Re&time record", 0, menu_bar::cb_mi_log_retime, nullptr },
+		{ "&Cancel", 0, menu_bar::cb_mi_log_del, (void*)false },
+		{ "&Delete record", 0, menu_bar::cb_mi_log_del, (void*)true, FL_MENU_DIVIDER },
+		{ "&Parse record", 0, menu_bar::cb_mi_parse_qso, 0 },
+		{ "&Unparse record", 0, menu_bar::cb_mi_unparse_qso, 0 },
+		{ "R&eparse record", 0, menu_bar::cb_mi_reparse_qso, 0 },
+		{ "&Validate record", 0, menu_bar::cb_mi_valid8_qso, 0, FL_MENU_DIVIDER },
+		{ "Pa&rse log", 0, menu_bar::cb_mi_parse_log, 0 },
+		{ "Val&idate log", 0, menu_bar::cb_mi_valid8_log, 0, FL_MENU_DIVIDER },
+		{ "Suspend Save", 0, menu_bar::cb_mi_log_ssave, 0, FL_MENU_TOGGLE },
+		{ "&Bulk changes", 0, menu_bar::cb_mi_log_bulk, 0 },
+		{ "Chec&k Duplicates", 0, menu_bar::cb_mi_log_dupes, 0 },
+		{ "Edit &Header", 0, menu_bar::cb_mi_log_edith, 0 },
 		{ "S&ession", 0, 0, 0, FL_SUBMENU },
-			{ "&Today", 0, menu::cb_mi_log_start, (void*)2L },
-			{ "&Start Session", 0, menu::cb_mi_log_start, (void*)1L },
-			{ "Sto&p Session", 0, menu::cb_mi_log_start, (void*)0L },
+			{ "&Today", 0, menu_bar::cb_mi_log_start, (void*)2L },
+			{ "&Start Session", 0, menu_bar::cb_mi_log_start, (void*)1L },
+			{ "Sto&p Session", 0, menu_bar::cb_mi_log_start, (void*)0L },
 
 			{ 0 },
 		{ 0 },
 
 	// Log Extract and export operations
 	{ "E&xtract", 0, 0, 0, FL_SUBMENU },
-		{ "Clea&r", 0, menu::cb_mi_ext_clr, 0 },
-		{ "&Criteria", 0, menu::cb_mi_ext_crit, 0 },
-		{ "Re&do", 0, menu::cb_mi_ext_redo, 0 },
+		{ "Clea&r", 0, menu_bar::cb_mi_ext_clr, 0 },
+		{ "&Criteria", 0, menu_bar::cb_mi_ext_crit, 0 },
+		{ "Re&do", 0, menu_bar::cb_mi_ext_redo, 0 },
 		{ "Special", 0, 0, 0, FL_SUBMENU },
-			{ "No &Name", 0, menu::cb_mi_ext_special, (void*)extract_data::NO_NAME },
-			{ "No &QTH", 0, menu::cb_mi_ext_special, (void*)extract_data::NO_QTH },
-			{ "Small &Locator", 0, menu::cb_mi_ext_special, (void*)extract_data::LOCATOR },
-			{ "No &Image", 0, menu::cb_mi_ext_no_image, 0 },
+			{ "No &Name", 0, menu_bar::cb_mi_ext_special, (void*)extract_data::NO_NAME },
+			{ "No &QTH", 0, menu_bar::cb_mi_ext_special, (void*)extract_data::NO_QTH },
+			{ "Small &Locator", 0, menu_bar::cb_mi_ext_special, (void*)extract_data::LOCATOR },
+			{ "No &Image", 0, menu_bar::cb_mi_ext_no_image, 0 },
 			{ 0 },
-		{ "&Display", 0, menu::cb_mi_ext_disp, 0, FL_MENU_DIVIDER },
-		{ "e&QSL", 0, menu::cb_mi_ext_qsl, (void*)extract_data::EQSL },
-		{ "&LotW", 0, menu::cb_mi_ext_qsl, (void*)extract_data::LOTW },
-		{ "Car&d", 0, menu::cb_mi_ext_qsl, (void*)extract_data::CARD },
-		{ "e-&Mail", 0, menu::cb_mi_ext_qsl, (void*)extract_data::EMAIL },
-		{ "Club&Log", 0, menu::cb_mi_ext_qsl, (void*)extract_data::CLUBLOG },
-		{ "QR&Z.com", 0, menu::cb_mi_ext_qsl, (void*)extract_data::QRZCOM, FL_MENU_DIVIDER },
-		{ "&Save", 0, menu::cb_mi_file_saveas, (void*)OT_EXTRACT },
-		{ "&Upload", 0, menu::cb_mi_ext_upload, 0 },
-		{ "&Print Cards", 0, menu::cb_mi_ext_print, 0 },
-		{ "Send e-mail", 0, menu::cb_mi_ext_email, 0 },
-		{ "Mar&k sent", 0, menu::cb_mi_ext_mark, 0 },
-		{ "Download &Images", 0, menu::cb_mi_ext_dl_images, 0 },
+		{ "&Display", 0, menu_bar::cb_mi_ext_disp, 0, FL_MENU_DIVIDER },
+		{ "e&QSL", 0, menu_bar::cb_mi_ext_qsl, (void*)extract_data::EQSL },
+		{ "&LotW", 0, menu_bar::cb_mi_ext_qsl, (void*)extract_data::LOTW },
+		{ "Car&d", 0, menu_bar::cb_mi_ext_qsl, (void*)extract_data::CARD },
+		{ "e-&Mail", 0, menu_bar::cb_mi_ext_qsl, (void*)extract_data::EMAIL },
+		{ "Club&Log", 0, menu_bar::cb_mi_ext_qsl, (void*)extract_data::CLUBLOG },
+		{ "QR&Z.com", 0, menu_bar::cb_mi_ext_qsl, (void*)extract_data::QRZCOM, FL_MENU_DIVIDER },
+		{ "&Save", 0, menu_bar::cb_mi_file_saveas, (void*)OT_EXTRACT },
+		{ "&Upload", 0, menu_bar::cb_mi_ext_upload, 0 },
+		{ "&Print Cards", 0, menu_bar::cb_mi_ext_print, 0 },
+		{ "Send e-mail", 0, menu_bar::cb_mi_ext_email, 0 },
+		{ "Mar&k sent", 0, menu_bar::cb_mi_ext_mark, 0 },
+		{ "Download &Images", 0, menu_bar::cb_mi_ext_dl_images, 0 },
 		{ 0 },
 
 	// Log import operations
 	{ "&Import", 0, 0, 0, FL_SUBMENU },
-		{ "&File", 0, menu::cb_mi_imp_file, (void*)(long)import_data::FILE_IMPORT },
-		{ "File (Up&date QSOs)", 0, menu::cb_mi_imp_file, (void*)(long)import_data::FILE_UPDATE },
-		{ "File (QR&Z.com)", 0, menu::cb_mi_imp_file, (void*)(long)import_data::QRZCOM_UPDATE },
-		{ "Download e&QSL", 0, menu::cb_mi_download, (void*)(long)import_data::EQSL_UPDATE },
-		{ "Download &LotW", 0, menu::cb_mi_download, (void*)(long)import_data::LOTW_UPDATE },
-		{ "Download &QRZ.com", 0, menu::cb_mi_download, (void*)(long)import_data::QRZCOM_UPDATE, FL_MENU_DIVIDER },
-		{ "Clip&board", 0, menu::cb_mi_imp_clipb, nullptr },
-		{ "&WSJT-X UDP", 0, menu::cb_mi_imp_wsjtx, nullptr, FL_MENU_DIVIDER },
-		{ "&Merge (New QSOs)", 0, menu::cb_mi_imp_merge, (void*)(long)import_data::FILE_IMPORT },
-		{ "Merge (&Update QSOS)", 0, menu::cb_mi_imp_merge, (void*)(long)import_data::EXISTING },
-		{ "&Cancel", 0, menu::cb_mi_imp_cancel, nullptr },
+		{ "&File", 0, menu_bar::cb_mi_imp_file, (void*)(long)import_data::FILE_IMPORT },
+		{ "File (Up&date QSOs)", 0, menu_bar::cb_mi_imp_file, (void*)(long)import_data::FILE_UPDATE },
+		{ "File (QR&Z.com)", 0, menu_bar::cb_mi_imp_file, (void*)(long)import_data::QRZCOM_UPDATE },
+		{ "Download e&QSL", 0, menu_bar::cb_mi_download, (void*)(long)import_data::EQSL_UPDATE },
+		{ "Download &LotW", 0, menu_bar::cb_mi_download, (void*)(long)import_data::LOTW_UPDATE },
+		{ "Download &QRZ.com", 0, menu_bar::cb_mi_download, (void*)(long)import_data::QRZCOM_UPDATE, FL_MENU_DIVIDER },
+		{ "Clip&board", 0, menu_bar::cb_mi_imp_clipb, nullptr },
+		{ "&WSJT-X UDP", 0, menu_bar::cb_mi_imp_wsjtx, nullptr, FL_MENU_DIVIDER },
+		{ "&Merge (New QSOs)", 0, menu_bar::cb_mi_imp_merge, (void*)(long)import_data::FILE_IMPORT },
+		{ "Merge (&Update QSOS)", 0, menu_bar::cb_mi_imp_merge, (void*)(long)import_data::EXISTING },
+		{ "&Cancel", 0, menu_bar::cb_mi_imp_cancel, nullptr },
 		{ 0 },
 
 	// Log analysis reports
 	{ "Re&port", 0, 0, 0, FL_SUBMENU },
-		{ "&Clear", 0, menu::cb_mi_rep_filter, (void*)RF_NONE, FL_MENU_RADIO },
-		{ "&All", 0, menu::cb_mi_rep_filter, (void*)RF_ALL, FL_MENU_RADIO | FL_MENU_VALUE },
-		{ "A&ll Station", 0, menu::cb_mi_rep_filter, (void*)RF_ALL_CURRENT, FL_MENU_RADIO },
-		{ "E&xtracted", 0, menu::cb_mi_rep_filter, (void*)RF_EXTRACTED, FL_MENU_RADIO },
-		{ "&Selected record", 0, menu::cb_mi_rep_filter, (void*)RF_SELECTED, FL_MENU_RADIO | FL_MENU_DIVIDER },
+		{ "&Clear", 0, menu_bar::cb_mi_rep_filter, (void*)RF_NONE, FL_MENU_RADIO },
+		{ "&All", 0, menu_bar::cb_mi_rep_filter, (void*)RF_ALL, FL_MENU_RADIO | FL_MENU_VALUE },
+		{ "A&ll Station", 0, menu_bar::cb_mi_rep_filter, (void*)RF_ALL_CURRENT, FL_MENU_RADIO },
+		{ "E&xtracted", 0, menu_bar::cb_mi_rep_filter, (void*)RF_EXTRACTED, FL_MENU_RADIO },
+		{ "&Selected record", 0, menu_bar::cb_mi_rep_filter, (void*)RF_SELECTED, FL_MENU_RADIO | FL_MENU_DIVIDER },
 		{ "Level &1", 0, 0, 0, FL_SUBMENU },
-			{ "&Entities", 0, menu::cb_mi_rep_level, (void*)((1 << 8) + RC_DXCC), FL_MENU_RADIO },
-			{ "Entities/&States", 0, menu::cb_mi_rep_level, (void*)((1 << 8) + RC_PAS), FL_MENU_RADIO | FL_MENU_VALUE },
-			{ "&Bands", 0, menu::cb_mi_rep_level, (void*)((1 << 8) + RC_BAND), FL_MENU_RADIO },
-			{ "&Modes", 0, menu::cb_mi_rep_level, (void*)((1 << 8) + RC_MODE), FL_MENU_RADIO },
-			{ "&Callsigns", 0, menu::cb_mi_rep_level, (void*)((1 << 8) + RC_CALL), FL_MENU_RADIO },
-			{ "Cus&tom", 0, menu::cb_mi_rep_level, (void*)((1 << 8) + RC_CUSTOM), FL_MENU_RADIO },
+			{ "&Entities", 0, menu_bar::cb_mi_rep_level, (void*)((1 << 8) + RC_DXCC), FL_MENU_RADIO },
+			{ "Entities/&States", 0, menu_bar::cb_mi_rep_level, (void*)((1 << 8) + RC_PAS), FL_MENU_RADIO | FL_MENU_VALUE },
+			{ "&Bands", 0, menu_bar::cb_mi_rep_level, (void*)((1 << 8) + RC_BAND), FL_MENU_RADIO },
+			{ "&Modes", 0, menu_bar::cb_mi_rep_level, (void*)((1 << 8) + RC_MODE), FL_MENU_RADIO },
+			{ "&Callsigns", 0, menu_bar::cb_mi_rep_level, (void*)((1 << 8) + RC_CALL), FL_MENU_RADIO },
+			{ "Cus&tom", 0, menu_bar::cb_mi_rep_level, (void*)((1 << 8) + RC_CUSTOM), FL_MENU_RADIO },
 			{ 0 },
 		{ "Level &2", 0, 0, 0, FL_SUBMENU },
-			{ "&Entities", 0, menu::cb_mi_rep_level, (void*)((2 << 8) + RC_DXCC), FL_MENU_RADIO },
-			{ "Entities/&States", 0, menu::cb_mi_rep_level, (void*)((2 << 8) + RC_PAS), FL_MENU_RADIO },
-			{ "&Bands", 0, menu::cb_mi_rep_level, (void*)((2 << 8) + RC_BAND), FL_MENU_RADIO },
-			{ "&Modes", 0, menu::cb_mi_rep_level, (void*)((2 << 8) + RC_MODE), FL_MENU_RADIO },
-			{ "&Callsigns", 0, menu::cb_mi_rep_level, (void*)((2 << 8) + RC_CALL), FL_MENU_RADIO },
-			{ "Cus&tom", 0, menu::cb_mi_rep_level, (void*)((2 << 8) + RC_CUSTOM), FL_MENU_RADIO },
-			{ "&Nothing", 0, menu::cb_mi_rep_level, (void*)((2 << 8) + RC_EMPTY), FL_MENU_RADIO | FL_MENU_VALUE },
+			{ "&Entities", 0, menu_bar::cb_mi_rep_level, (void*)((2 << 8) + RC_DXCC), FL_MENU_RADIO },
+			{ "Entities/&States", 0, menu_bar::cb_mi_rep_level, (void*)((2 << 8) + RC_PAS), FL_MENU_RADIO },
+			{ "&Bands", 0, menu_bar::cb_mi_rep_level, (void*)((2 << 8) + RC_BAND), FL_MENU_RADIO },
+			{ "&Modes", 0, menu_bar::cb_mi_rep_level, (void*)((2 << 8) + RC_MODE), FL_MENU_RADIO },
+			{ "&Callsigns", 0, menu_bar::cb_mi_rep_level, (void*)((2 << 8) + RC_CALL), FL_MENU_RADIO },
+			{ "Cus&tom", 0, menu_bar::cb_mi_rep_level, (void*)((2 << 8) + RC_CUSTOM), FL_MENU_RADIO },
+			{ "&Nothing", 0, menu_bar::cb_mi_rep_level, (void*)((2 << 8) + RC_EMPTY), FL_MENU_RADIO | FL_MENU_VALUE },
 			{ 0 },
 		{ "Level &3", 0, 0, 0, FL_SUBMENU },
-			{ "&Entities", 0, menu::cb_mi_rep_level, (void*)((3 << 8) + RC_DXCC), FL_MENU_RADIO },
-			{ "Entities/&States", 0, menu::cb_mi_rep_level, (void*)((3 << 8) + RC_PAS), FL_MENU_RADIO },
-			{ "&Bands", 0, menu::cb_mi_rep_level, (void*)((3 << 8) + RC_BAND), FL_MENU_RADIO },
-			{ "&Modes", 0, menu::cb_mi_rep_level, (void*)((3 << 8) + RC_MODE), FL_MENU_RADIO },
-			{ "&Callsigns", 0, menu::cb_mi_rep_level, (void*)((3 << 8) + RC_CALL), FL_MENU_RADIO },
-			{ "Cus&tom", 0, menu::cb_mi_rep_level, (void*)((3 << 8) + RC_CUSTOM), FL_MENU_RADIO },
-			{ "&Nothing", 0, menu::cb_mi_rep_level, (void*)((3 << 8) + RC_EMPTY), FL_MENU_RADIO | FL_MENU_VALUE },
+			{ "&Entities", 0, menu_bar::cb_mi_rep_level, (void*)((3 << 8) + RC_DXCC), FL_MENU_RADIO },
+			{ "Entities/&States", 0, menu_bar::cb_mi_rep_level, (void*)((3 << 8) + RC_PAS), FL_MENU_RADIO },
+			{ "&Bands", 0, menu_bar::cb_mi_rep_level, (void*)((3 << 8) + RC_BAND), FL_MENU_RADIO },
+			{ "&Modes", 0, menu_bar::cb_mi_rep_level, (void*)((3 << 8) + RC_MODE), FL_MENU_RADIO },
+			{ "&Callsigns", 0, menu_bar::cb_mi_rep_level, (void*)((3 << 8) + RC_CALL), FL_MENU_RADIO },
+			{ "Cus&tom", 0, menu_bar::cb_mi_rep_level, (void*)((3 << 8) + RC_CUSTOM), FL_MENU_RADIO },
+			{ "&Nothing", 0, menu_bar::cb_mi_rep_level, (void*)((3 << 8) + RC_EMPTY), FL_MENU_RADIO | FL_MENU_VALUE },
 			{ 0 },
 		{ 0 },
 
 	// Web-based information
 	{ "&Information", 0, 0, 0, FL_SUBMENU },
-		{ "&QRZ.com", 0, menu::cb_mi_info_qrz },
-		{ "Google &Maps", 0, menu::cb_mi_info_map },
-		{ "QSO &Web-site", 0, menu::cb_mi_info_web },
+		{ "&QRZ.com", 0, menu_bar::cb_mi_info_qrz },
+		{ "Google &Maps", 0, menu_bar::cb_mi_info_map },
+		{ "QSO &Web-site", 0, menu_bar::cb_mi_info_web },
 		{ 0 },
 
 	// Program help features
 	{ "&Help", 0, 0, 0, FL_SUBMENU },
-		{ "&About", 0, menu::cb_mi_help_abt },
-		{ "&User Guide", 0, menu::cb_mi_help_ug },
-		{ "User Guide (&PDF)", 0, menu::cb_mi_help_pdf },
+		{ "&About", 0, menu_bar::cb_mi_help_abt },
+		{ "&User Guide", 0, menu_bar::cb_mi_help_ug },
+		{ "User Guide (&PDF)", 0, menu_bar::cb_mi_help_pdf },
 		{ 0 },
 	{ 0 }
 	};
 
 // Constructor
-menu::menu(int X, int Y, int W, int H, const char* label) :
+menu_bar::menu_bar(int X, int Y, int W, int H, const char* label) :
 	Fl_Menu_Bar(X, Y, W, H, label)
 {
 	// Add the menu
-	Fl_Menu_Bar::menu(menu_items);
+	Fl_Menu_Bar::menu(menu_bar_items);
 	// Add the recent files std::list to it
 	add_recent_files();
 	// default text size - just larger than default font size
@@ -242,13 +242,13 @@ menu::menu(int X, int Y, int W, int H, const char* label) :
 }
 
 // Destructor
-menu::~menu()
+menu_bar::~menu_bar()
 {
 	clear();
 }
 
 // Handle
-int menu::handle(int event) {
+int menu_bar::handle(int event) {
 	int result = Fl_Menu_Bar::handle(event);
 	// Now handle F1 regardless
 	switch (event) {
@@ -263,7 +263,7 @@ int menu::handle(int event) {
 	case FL_KEYBOARD:
 		switch (Fl::event_key()) {
 		case FL_F + 1:
-			open_html("menu.html");
+			open_html("menu_bar.html");
 			return true;
 		}
 		break;
@@ -273,7 +273,7 @@ int menu::handle(int event) {
 
 // File->New
 // v is not used
-void menu::cb_mi_file_new(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_file_new(Fl_Widget* w, void* v) {
 	// Gracefully stop any import in progress - restart with ON_AIR logging - if no rig will drop to OFF_AIR
 	import_data_->stop_update(false);
 	while (!import_data_->update_complete()) Fl::check();
@@ -313,7 +313,7 @@ void menu::cb_mi_file_new(Fl_Widget* w, void* v) {
 
 // File->Open
 // v is a long. -1 = open browser and open file read-only; 0 = open browser and open file; 1-4 = open specific recent file
-void menu::cb_mi_file_open(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_file_open(Fl_Widget* w, void* v) {
 	// Stop any import occurring
 	import_data_->stop_update(false);
 	while (!import_data_->update_complete()) Fl::check();
@@ -375,7 +375,7 @@ void menu::cb_mi_file_open(Fl_Widget* w, void* v) {
 
 // File->Save
 // v is std::set to 0 to represent object_t = OT_MAIN
-void menu::cb_mi_file_save(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_file_save(Fl_Widget* w, void* v) {
 	import_data_->stop_update(false);
 	while (!import_data_->update_complete()) Fl::check();
 	// Get the main book to store itself as long as it wasn't opened read-only
@@ -400,7 +400,7 @@ void menu::cb_mi_file_save(Fl_Widget* w, void* v) {
 
 // File->SaveAs 
 // v is std::set to the enum object_t. OT_MAIN = save main book, OT_EXTRACT = save extracted records
-void menu::cb_mi_file_saveas(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_file_saveas(Fl_Widget* w, void* v) {
 	std::string filename = book_->filename();
 	Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
 	chooser->title("Select file name to save");
@@ -450,7 +450,7 @@ void menu::cb_mi_file_saveas(Fl_Widget* w, void* v) {
 
 // File->Close
 // v is not used
-void menu::cb_mi_file_close(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_file_close(Fl_Widget* w, void* v) {
 	// Gracefully stop import
 	import_data_->stop_update(false);
 	while (!import_data_->update_complete()) Fl::check();
@@ -463,7 +463,7 @@ void menu::cb_mi_file_close(Fl_Widget* w, void* v) {
 
 // File->Print
 // v is not used
-void menu::cb_mi_file_print(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_file_print(Fl_Widget* w, void* v) {
 	// Print the current book
 	object_t type = (object_t)(intptr_t)v;
 	if (type == OT_MAIN) {
@@ -476,21 +476,21 @@ void menu::cb_mi_file_print(Fl_Widget* w, void* v) {
 
 // File->Backup
 // v is not used
-void menu::cb_mi_file_backup(Fl_Widget*, void* v) {
+void menu_bar::cb_mi_file_backup(Fl_Widget*, void* v) {
 	// Back up
 	backup_file();
 }
 
 // File->Restore
 // v is not used
-void menu::cb_mi_file_restore(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_file_restore(Fl_Widget* w, void* v) {
 	// Restore backup
 	restore_backup();
 }
 
 // Config->any
 // v is enum cfg_dialog_t indicating which config page to open at
-void menu::cb_mi_settings(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_settings(Fl_Widget* w, void* v) {
 	// v provides that id of the page of the config dialogs to open with
 	config::cfg_dialog_t active = (config::cfg_dialog_t)(intptr_t)v;
 	config_->set_tab(active);
@@ -499,9 +499,9 @@ void menu::cb_mi_settings(Fl_Widget* w, void* v) {
 
 // Windows->Show All|Hide All
 // v is bool. false = hide all, true = show all
-void menu::cb_mi_windows_all(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_windows_all(Fl_Widget* w, void* v) {
 	bool show_all = (bool)(intptr_t)v;
-	menu* that = ancestor_view<menu>(w);
+	menu_bar* that = ancestor_view<menu_bar>(w);
 	if (show_all) {
 		main_window_->show();
 		qso_manager_->show();
@@ -518,8 +518,8 @@ void menu::cb_mi_windows_all(Fl_Widget* w, void* v) {
 
 // Windows->Other
 // v is Fl_Window* and points to the specified window
-void menu::cb_mi_windows(Fl_Widget* w, void* v) {
-	menu* that = ancestor_view<menu>(w);
+void menu_bar::cb_mi_windows(Fl_Widget* w, void* v) {
+	menu_bar* that = ancestor_view<menu_bar>(w);
 	Fl_Window* win = (Fl_Window*)v;
 	if (win) {
 		if (win == main_window_ && win->visible()) {
@@ -537,7 +537,7 @@ void menu::cb_mi_windows(Fl_Widget* w, void* v) {
 
 // Navigate->First,Previous,Next,Last callbacks
 // v is enum navigate_t indicating which record to go to
-void menu::cb_mi_navigate(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_navigate(Fl_Widget* w, void* v) {
 	// v supplies that navigation target
 	navigate_t target = (navigate_t)(intptr_t)v;
 	// Navigate to the specified point in the specified book
@@ -548,7 +548,7 @@ void menu::cb_mi_navigate(Fl_Widget* w, void* v) {
 
 // Navigate->Date: Opens a calendar window
 // v is ignored
-void menu::cb_mi_nav_date(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_nav_date(Fl_Widget* w, void* v) {
 	// Populate calendar with today's date
 	record* qso = navigation_book_->get_record();
 	std::string date;
@@ -568,7 +568,7 @@ void menu::cb_mi_nav_date(Fl_Widget* w, void* v) {
 
 // Navigate->Record Number
 // v is ignored
-void menu::cb_mi_nav_recnum(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_nav_recnum(Fl_Widget* w, void* v) {
 	qso_num_t record_num;
 	// get record number
 	const char* reply = fl_input("Enter record number");
@@ -584,8 +584,8 @@ void menu::cb_mi_nav_recnum(Fl_Widget* w, void* v) {
 
 // Navigate->Find
 // v is a bool. false = find next; true = new search
-void menu::cb_mi_nav_find(Fl_Widget* w, void* v) {
-	menu* that = ancestor_view<menu>(w);
+void menu_bar::cb_mi_nav_find(Fl_Widget* w, void* v) {
+	menu_bar* that = ancestor_view<menu_bar>(w);
 	// v supplies whether to change search criteria
 	bool do_extract = (bool)(intptr_t)v;
 	if (do_extract || that->criteria_ == nullptr) {
@@ -632,7 +632,7 @@ void menu::cb_mi_nav_find(Fl_Widget* w, void* v) {
 
 // Log->Parse QSO - parse the selectedrecord
 // v is not used
-void menu::cb_mi_parse_qso(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_parse_qso(Fl_Widget* w, void* v) {
 	// Get selected record
 	record* record = navigation_book_->get_record();
 	// get parse mode
@@ -650,7 +650,7 @@ void menu::cb_mi_parse_qso(Fl_Widget* w, void* v) {
 
 // Log->Unparse QSO - remove the parsed fields
 // v is not used
-void menu::cb_mi_unparse_qso(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_unparse_qso(Fl_Widget* w, void* v) {
 	// Get selected record
 	record* record = navigation_book_->get_record();
 	record->unparse();
@@ -659,14 +659,14 @@ void menu::cb_mi_unparse_qso(Fl_Widget* w, void* v) {
 
 // Log->Reparse QSO - Unparse followed by parse
 // v is not used
-void menu::cb_mi_reparse_qso(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_reparse_qso(Fl_Widget* w, void* v) {
 	cb_mi_unparse_qso(w, v);
 	cb_mi_parse_qso(w, v);
 }
 
 // Log ->Parse Log - parse all records in selected book
 // v is not used
-void menu::cb_mi_parse_log(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_parse_log(Fl_Widget* w, void* v) {
 	// display hourglass while we validate the log
 	fl_cursor(FL_CURSOR_WAIT);
 	// Get parse mode
@@ -703,7 +703,7 @@ void menu::cb_mi_parse_log(Fl_Widget* w, void* v) {
 
 // Log->Validate QSO - validate selected record
 // v is not used
-void menu::cb_mi_valid8_qso(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_valid8_qso(Fl_Widget* w, void* v) {
 	record* record = navigation_book_->get_record();
 	qso_num_t record_num = navigation_book_->record_number(navigation_book_->selection());
 	book_->enable_save(false, "Started validate QSO");
@@ -719,7 +719,7 @@ void menu::cb_mi_valid8_qso(Fl_Widget* w, void* v) {
  
 // Log->Validate Log - validate all records in selected log
 // v is not used
-void menu::cb_mi_valid8_log(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_valid8_log(Fl_Widget* w, void* v) {
 	fl_cursor(FL_CURSOR_WAIT);
 		// Command validation is enabled
 	int record_num = -1;
@@ -752,7 +752,7 @@ void menu::cb_mi_valid8_log(Fl_Widget* w, void* v) {
 
 // Log->New - start a new record
 // v is not used
-void menu::cb_mi_log_new(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_log_new(Fl_Widget* w, void* v) {
 	// Force main log book
 	tabbed_forms_->activate_pane(OT_MAIN, true);
 	// Create a new record - on or off-air
@@ -762,14 +762,14 @@ void menu::cb_mi_log_new(Fl_Widget* w, void* v) {
 
 // Log->Save - save current record
 // v is not used
-void menu::cb_mi_log_save(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_log_save(Fl_Widget* w, void* v) {
 	qso_manager_->end_qso();
 	qso_manager_->update_rig();
 }
 
 // Log->Delete/Cancel
 // v is bool. false = cancel new record; true = delete record
-void menu::cb_mi_log_del(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_log_del(Fl_Widget* w, void* v) {
 	// delete_record(true) - deliberately deleting a record
 	// delete_record(false) - only deletes if entering a new record (i.e. cancel)
 	navigation_book_->delete_record((bool)(intptr_t)v);
@@ -778,7 +778,7 @@ void menu::cb_mi_log_del(Fl_Widget* w, void* v) {
 
 // Log->Retime record - reset TIME_OFF to now
 // v is not used
-void menu::cb_mi_log_retime(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_log_retime(Fl_Widget* w, void* v) {
 	record* this_record = navigation_book_->get_record();
 	if (!this_record) {
 		status_->misc_status(ST_ERROR, "LOG: Do not have a current record to retime");
@@ -797,13 +797,13 @@ void menu::cb_mi_log_retime(Fl_Widget* w, void* v) {
 		time.c_str());
 	status_->misc_status(ST_NOTE, message);
 	tabbed_forms_->update_views(nullptr, HT_CHANGED, navigation_book_->selection());
-	menu* that = ancestor_view<menu>(w);
+	menu_bar* that = ancestor_view<menu_bar>(w);
 	that->update_items();
 }
 
 // Log->Bulk Change - Do the same mod on all extracted records (all if none extracted)
 // v is not used
-void menu::cb_mi_log_bulk(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_log_bulk(Fl_Widget* w, void* v) {
 	// Open dialog to allow user to define change
 	change_dialog* dialog = new change_dialog("Bulk change fields");
 	bool repeat = true;
@@ -885,19 +885,19 @@ void menu::cb_mi_log_bulk(Fl_Widget* w, void* v) {
 
 // Log->Check Duplicates - call book's check duplicates
 // v is not used
-void menu::cb_mi_log_dupes(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_log_dupes(Fl_Widget* w, void* v) {
 	navigation_book_->check_dupes(false);
 }
 
 // Log->Edit Header - open editor on header comment
 // v is not used
-void menu::cb_mi_log_edith(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_log_edith(Fl_Widget* w, void* v) {
 	navigation_book_->edit_header();
 }
 
 // Operate->Start Session
 // v is long: 0 is now, 1 is selected QSO, 2 is mos recent QSO
-void menu::cb_mi_log_start(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_log_start(Fl_Widget* w, void* v) {
 	long mode = (intptr_t)v;
 	item_num_t save_pos = book_->selection();
 	switch (mode) {
@@ -937,7 +937,7 @@ void menu::cb_mi_log_start(Fl_Widget* w, void* v) {
 // Log->Suspend Save
 // If suspeneded remove all bars on saving
 // v is not used
-void menu::cb_mi_log_ssave(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_log_ssave(Fl_Widget* w, void* v) {
 	// Get the value of the checked menu item
 	Fl_Menu_* m = (Fl_Menu_*)w;
 	const Fl_Menu_Item* item = m->mvalue();
@@ -951,7 +951,7 @@ void menu::cb_mi_log_ssave(Fl_Widget* w, void* v) {
 
 // Import->File
 // v is not used
-void menu::cb_mi_imp_file(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_imp_file(Fl_Widget* w, void* v) {
 	// Cancel any existing update
 	import_data_->stop_update(false);
 	while (!import_data_->update_complete()) Fl::check();
@@ -973,7 +973,7 @@ void menu::cb_mi_imp_file(Fl_Widget* w, void* v) {
 
 // Import->Download->eQSL/LotW - fetch the data from the server into the import_data_ book
 // v is enum update_mode_t: EQSL_UPDATE or LOTW_UPDATE
-void menu::cb_mi_download(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_download(Fl_Widget* w, void* v) {
 	// v has QSL server
 	import_data::update_mode_t server = (import_data::update_mode_t)(intptr_t)v;
 	qso_manager_->qsl_download(server);
@@ -981,7 +981,7 @@ void menu::cb_mi_download(Fl_Widget* w, void* v) {
 
 // Import->WSJT-X - start the WSJT-X listener for logging datagrams
 // v is not used
-void menu::cb_mi_imp_wsjtx(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_imp_wsjtx(Fl_Widget* w, void* v) {
 	if (!wsjtx_handler_) {
 		// Create new listener
 		wsjtx_handler_ = new wsjtx_handler;
@@ -994,13 +994,13 @@ void menu::cb_mi_imp_wsjtx(Fl_Widget* w, void* v) {
 
 // Import->Clipboard - send FL_PASTE eveny to main_window to handle paste
 // v is not used
-void menu::cb_mi_imp_clipb(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_imp_clipb(Fl_Widget* w, void* v) {
 	Fl::paste(*main_window_, 1);
 }
 
 // Import->Merge - merge what has just been downloaded
 // v is update mode
-void menu::cb_mi_imp_merge(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_imp_merge(Fl_Widget* w, void* v) {
 	// Merge the data
 	import_data::update_mode_t mode = (import_data::update_mode_t)(intptr_t)v;
 	import_data_->merge_data(mode);
@@ -1008,7 +1008,7 @@ void menu::cb_mi_imp_merge(Fl_Widget* w, void* v) {
 
 // Import->Cancel
 // v is not used
-void menu::cb_mi_imp_cancel(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_imp_cancel(Fl_Widget* w, void* v) {
 	// Delete the import records
 	import_data_->delete_contents(false);
 	tabbed_forms_->activate_pane(OT_MAIN, true);
@@ -1018,7 +1018,7 @@ void menu::cb_mi_imp_cancel(Fl_Widget* w, void* v) {
 // Extract->Clear
 // v is not used
 // clear the criteria and display the log book
-void menu::cb_mi_ext_clr(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_clr(Fl_Widget* w, void* v) {
 	extract_records_->clear_criteria();
 	tabbed_forms_->activate_pane(OT_MAIN, true);
 }
@@ -1026,7 +1026,7 @@ void menu::cb_mi_ext_clr(Fl_Widget* w, void* v) {
 // Extract->Criteria
 // v is not used
 // Open the dialog to get the criteria, get the records accordingly and display the extract
-void menu::cb_mi_ext_crit(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_crit(Fl_Widget* w, void* v) {
 	// Open search dialog
 	search_dialog* dialog = new search_dialog;
 	while (dialog->display() == BN_OK) {
@@ -1048,7 +1048,7 @@ void menu::cb_mi_ext_crit(Fl_Widget* w, void* v) {
 
 // Extract->redo - repeat the extraction
 // v is not used
-void menu::cb_mi_ext_redo(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_redo(Fl_Widget* w, void* v) {
 	extract_records_->reextract();
 	// Display the extraction
 	tabbed_forms_->activate_pane(OT_EXTRACT, true);
@@ -1057,7 +1057,7 @@ void menu::cb_mi_ext_redo(Fl_Widget* w, void* v) {
 
 // Extract->display - display the extract criteria in a tooltip window
 // v is not used
-void menu::cb_mi_ext_disp(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_disp(Fl_Widget* w, void* v) {
 	std::string message = "There are no extracted records!\n";
 	if (extract_records_->size()) {
 		message = extract_records_->header()->header();
@@ -1071,7 +1071,7 @@ void menu::cb_mi_ext_disp(Fl_Widget* w, void* v) {
 
 // Extract->eQSL/LotW/Card/ClubLog - specificall extract records for QSL use
 // v is enum extract_mode_t: EQSL, LOTW, CARD or CLUBLOG
-void menu::cb_mi_ext_qsl(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_qsl(Fl_Widget* w, void* v) {
 	// v passes the particular option
 	extract_data::extract_mode_t server = (extract_data::extract_mode_t)(intptr_t)v;
 	qso_manager_->qsl_extract(server);
@@ -1079,7 +1079,7 @@ void menu::cb_mi_ext_qsl(Fl_Widget* w, void* v) {
 
 // Extract->Quick->* - one-click for specific searches
 // v is enum extract_mode_t: NO_NAME, NO_QTH or (inadequate) LOCATOR
-void menu::cb_mi_ext_special(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_special(Fl_Widget* w, void* v) {
 	// v passes the particular option
 	extract_data::extract_mode_t reason = (extract_data::extract_mode_t)(intptr_t)v;
 	extract_records_->extract_special(reason);
@@ -1088,7 +1088,7 @@ void menu::cb_mi_ext_special(Fl_Widget* w, void* v) {
 
 // Extract->No Image-
 // v is not used 
-void menu::cb_mi_ext_no_image(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_no_image(Fl_Widget* w, void* v) {
 	// v passes the particular option
 	extract_records_->extract_no_image();
 	tabbed_forms_->activate_pane(OT_EXTRACT, true);
@@ -1096,31 +1096,31 @@ void menu::cb_mi_ext_no_image(Fl_Widget* w, void* v) {
 
 // Extract->Upload - upload to the server the data was extracted for
 // v is not used
-void menu::cb_mi_ext_upload(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_upload(Fl_Widget* w, void* v) {
 	qso_manager_->qsl_upload();
 }
 
 // Extract->Print - print 
 // v is not used
-void menu::cb_mi_ext_print(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_print(Fl_Widget* w, void* v) {
 	qso_manager_->qsl_print();
 }
 
 // Extract->eMail
-void menu::cb_mi_ext_email(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_email(Fl_Widget* w, void* v) {
 	qso_manager_->qsl_email();
 }
 
 // Extract->Mark sent
 // Update the extracted records with the fct that a QSL has been sent to the appropriate place
 // v is not used
-void menu::cb_mi_ext_mark(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_mark(Fl_Widget* w, void* v) {
 	qso_manager_->qsl_print_done();
 }
 
 // Extract->Download Images
 // v is not used
-void menu::cb_mi_ext_dl_images(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_ext_dl_images(Fl_Widget* w, void* v) {
 	for (item_num_t ix = 0; ix < extract_records_->size(); ix++) {
 		qso_num_t qn = extract_records_->record_number(ix);
 		eqsl_handler_->enqueue_request(qn, true);
@@ -1130,7 +1130,7 @@ void menu::cb_mi_ext_dl_images(Fl_Widget* w, void* v) {
 
 // Report->Clear etc. - std::set the report filter
 // v is enum report_filter_t: RF_NONE, RF_ALL, RF_ALL_CURRENT, RF_EXTRACTED or RF_SELECTED
-void menu::cb_mi_rep_filter(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_rep_filter(Fl_Widget* w, void* v) {
 	// v has the filter
 	report_filter_t filter = (report_filter_t)(intptr_t)v;
 	((report_tree*)tabbed_forms_->get_view(OT_REPORT))->add_filter(filter);
@@ -1139,7 +1139,7 @@ void menu::cb_mi_rep_filter(Fl_Widget* w, void* v) {
 
 // Report->Levelx - std::set report level n to category
 // v contains two bytes { level, category }
-void menu::cb_mi_rep_level(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_rep_level(Fl_Widget* w, void* v) {
 	long params = (intptr_t)v;
 	std::string custom_field = "";
 	report_cat_t category = (report_cat_t)(params & 0xFF);
@@ -1157,7 +1157,7 @@ void menu::cb_mi_rep_level(Fl_Widget* w, void* v) {
 
 // Information->QRZ.com - query QRZ.com about the selected contact
 // v is std::string*. nullptr = uses selected record else uses call sign in v.
-void menu::cb_mi_info_qrz(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_info_qrz(Fl_Widget* w, void* v) {
 	if (v == nullptr) {
 		// Treat as button(s) within qso_manager_
 		qso_manager_->merge_qrz_com();
@@ -1169,7 +1169,7 @@ void menu::cb_mi_info_qrz(Fl_Widget* w, void* v) {
 
 // Information->Google Maps - open browser with Google maps centered on contact's QTH (where calculable)
 // v is not used
-void menu::cb_mi_info_map(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_info_map(Fl_Widget* w, void* v) {
 	// Get currently selected record
 	record* record = book_->get_record();
 	if (record != nullptr) {
@@ -1264,7 +1264,7 @@ void menu::cb_mi_info_map(Fl_Widget* w, void* v) {
 
 // Information->QSO Web-site
 // v is not used
-void menu::cb_mi_info_web(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_info_web(Fl_Widget* w, void* v) {
 	// Get currently selected record
 	record* record = book_->get_record();
 	if (record != nullptr && record->item_exists("WEB")) {
@@ -1287,7 +1287,7 @@ void menu::cb_mi_info_web(Fl_Widget* w, void* v) {
 
 // Help->About - display about dialog
 // v is not used
-void menu::cb_mi_help_abt(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_help_abt(Fl_Widget* w, void* v) {
 	about_dialog* dialog = new about_dialog();
 	//add_sub_window(dialog);
 	dialog->display();
@@ -1296,18 +1296,18 @@ void menu::cb_mi_help_abt(Fl_Widget* w, void* v) {
 }
 
 // Help->User Guide
-void menu::cb_mi_help_ug(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_help_ug(Fl_Widget* w, void* v) {
 	open_html("index.html");
 }
 
 // Help->User Guide (PDF)
-void menu::cb_mi_help_pdf(Fl_Widget* w, void* v) {
+void menu_bar::cb_mi_help_pdf(Fl_Widget* w, void* v) {
 	open_pdf();
 }
 
 // Enable/disable menu 
 // active: false = disable all; true = enable those which can be enabled
-void menu::enable(bool active) {
+void menu_bar::enable(bool active) {
 	active_enabled_ = active;
 	// For all menu items
 	for (int i = 0; i < size(); i++) {
@@ -1329,7 +1329,7 @@ void menu::enable(bool active) {
 }
 
 // Add recent files - add most recent 4 filenames to menu
-void menu::add_recent_files() {
+void menu_bar::add_recent_files() {
 	// Get position to add the items and delete any existing entries
 	int index = find_index("&File/&Recent");
 	if (index != -1) {
@@ -1356,7 +1356,7 @@ void menu::add_recent_files() {
 }
 
 // Set check marks on the menu to represent the actual report tree mode and filter
-void menu::report_mode(std::vector<report_cat_t> report_mode, report_filter_t filter) {
+void menu_bar::report_mode(std::vector<report_cat_t> report_mode, report_filter_t filter) {
 	// Set the Report->Level N->* menu items
 	for (int i = 1; i < 4; i++) {
 		// Get the item indices to std::set modes
@@ -1496,7 +1496,7 @@ void menu::report_mode(std::vector<report_cat_t> report_mode, report_filter_t fi
 }
 
 // Update menu item Help->Status/Append File
-void menu::append_file(bool append) {
+void menu_bar::append_file(bool append) {
 	int index_append = find_index("&Help/&Status/&Append File");
 	if (append) {
 		mode(index_append, mode(index_append) | FL_MENU_VALUE);
@@ -1507,7 +1507,7 @@ void menu::append_file(bool append) {
 }
 
 // Update menu items' active state depending on state of the book
-void menu::update_items() {
+void menu_bar::update_items() {
 	if (active_enabled_) {
 		// Get conditions
 		bool modified = book_->is_dirty();
@@ -1651,7 +1651,7 @@ void menu::update_items() {
 }
 
 // Add windows user data
-void menu::add_windows_items() {
+void menu_bar::add_windows_items() {
 	// Get indices to &Windows
 	int index = find_index("&Windows/&Hide All");
 	insert(index, "&Windows/&Main", 0, cb_mi_windows, main_window_, FL_MENU_TOGGLE);
@@ -1661,7 +1661,7 @@ void menu::add_windows_items() {
 }
 
 // Update Windows sub-menu
-void menu::update_windows_items() {
+void menu_bar::update_windows_items() {
 	// Get indices to menu items
 	int index_main = find_index("&Windows/&Main");
 	int index_oper = find_index("&Windows/Das&hboard");
@@ -1699,7 +1699,7 @@ void menu::update_windows_items() {
 }
 
 // Do not allow a second upload to take place until the first has completed
-void menu::update_qsl_items() {
+void menu_bar::update_qsl_items() {
 	int index_eqsl = find_index("E&xtract/e&QSL");
 	int index_lotw = find_index("E&xtract/&LotW");
 	int index_card = find_index("E&xtract/Car&d");

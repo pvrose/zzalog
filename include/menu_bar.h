@@ -1,6 +1,4 @@
-#ifndef __MENU__
-#define __MENU__
-
+#pragma once
 #include "report_tree.h"
 
 #include <vector>
@@ -14,7 +12,7 @@ struct search_criteria_t;
 
 
 	//! This class provides the menu bar and handles all the menu item callbacks
-	class menu : public Fl_Menu_Bar
+	class menu_bar: public Fl_Menu_Bar
 	{
 	public:
 		//! Constructor
@@ -24,9 +22,9 @@ struct search_criteria_t;
 		//! \param W width 
 		//! \param H height
 		//! \param label label
-		menu(int X, int Y, int W, int H, const char* label = 0);
+		menu_bar(int X, int Y, int W, int H, const char* label = 0);
 		//! Destructor.
-		virtual ~menu();
+		virtual ~menu_bar();
 
 		//! Override of Fl_Menu_Bar::handle to accept focus to allow keybaord F1 to open userguide.
 		virtual int handle(int event);
@@ -228,4 +226,3 @@ struct search_criteria_t;
 		bool active_enabled_;
 
 	};
-#endif

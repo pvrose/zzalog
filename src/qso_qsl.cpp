@@ -9,7 +9,7 @@
 #include "import_data.h"
 #include "lotw_handler.h"
 #include "main.h"
-#include "menu.h"
+#include "menu_bar.h"
 #include "png_writer.h"
 #include "printer.h"
 #include "record.h"
@@ -218,7 +218,7 @@ void qso_qsl::create_form() {
 	bn_extr_qrz_->tooltip("Extract records for upload to QRZ.com");
 	// print
 	bn_save_qrz_ = new Fl_Button(C5, curr_y, W5, HBUTTON, "@filesave");
-	bn_save_qrz_->callback(menu::cb_mi_file_saveas, (void*)OT_EXTRACT);
+	bn_save_qrz_->callback(menu_bar::cb_mi_file_saveas, (void*)OT_EXTRACT);
 	bn_save_qrz_->tooltip("Save extracted data to file for manual upload to QRZ.com");
 	// Upload
 	bn_upld_qrz_ = new Fl_Button(C6, curr_y, W6, HBUTTON, "@8->");

@@ -11,7 +11,7 @@
 #include "intl_widgets.h"
 #include "main.h"
 #include "main_window.h"
-#include "menu.h"
+#include "menu_bar.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "status.h"
@@ -233,7 +233,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	// Extract->Display
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	// Call the menu's callback direct to get the tooltip displayed on this button.
-	bn->callback(menu::cb_mi_ext_disp);
+	bn->callback(menu_bar::cb_mi_ext_disp);
 	bn->when(FL_WHEN_RELEASE);
 	bn->image(new Fl_RGB_Image(ICON_EXTR_DISP, 16, 16, 4));
 	bn->tooltip("Display extract criteria");
@@ -254,7 +254,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	curr_x += H;
 	// Information->QRZ.com
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
-	bn->callback(menu::cb_mi_info_qrz, &search_text_);
+	bn->callback(menu_bar::cb_mi_info_qrz, &search_text_);
 	bn->when(FL_WHEN_RELEASE);
 	std::string qrz_filename = file_holder_->get_filename(FILE_ICON_QRZ);
 	Fl_JPEG_Image* qi = new Fl_JPEG_Image(qrz_filename.c_str());
@@ -393,12 +393,12 @@ int toolbar::handle(int event) {
 void toolbar::cb_bn_menu(Fl_Widget*w, void*v) {
 	// Get the menu item
 	char* item_name = (char*)v;
-	const Fl_Menu_Item* item = menu_->find_item(item_name);
+	const Fl_Menu_Item* item = menu_bar_->find_item(item_name);
 	char* message = new char[strlen((char*)v) + 50];
 	// If the menu item exists - invoke its callback if it can be picked
 	if (item != nullptr) {
 		if (item->active()) {
-			item->do_callback(menu_);
+			item->do_callback(menu_bar_);
 		}
 		else {
 			// log that inactive menu item selected
@@ -545,7 +545,7 @@ void toolbar::update_items() {
 		Fl_Widget* w = child(i);
 		// If it has the menu item callback, then std::set the widget active as the menu item is
 		if (w->callback() == &cb_bn_menu) {
-			const Fl_Menu_Item* item = menu_->find_item((char*)w->user_data());
+			const Fl_Menu_Item* item = menu_bar_->find_item((char*)w->user_data());
 			if (item == nullptr) {
 				// Menu item does not exist - deactivate the toolbar button and report
 				if (status_) {

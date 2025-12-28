@@ -63,7 +63,7 @@ enum hint_t : uchar;
 
 		//! Inherited from Fl_Double_Window::handle.
 		 
-		//! It tells menu_ when it opens and closes.
+		//! It tells menu_bar_ when it opens and closes.
 		//! It takes focus to enable keyboard F1 to open userguide.
 		virtual int handle(int event);
 

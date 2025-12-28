@@ -4,7 +4,7 @@
 #include "book.h"
 #include <drawing.h>
 #include "main.h"
-#include "menu.h"
+#include "menu_bar.h"
 #include "qso_apps.h"
 #include "qso_data.h"
 #include "qso_manager.h"
@@ -144,7 +144,7 @@ int wsjtx_handler::handle_close(std::stringstream& ss) {
 	connected_ = false;
 	qso_manager_->cancel_modem_qso();
 	// Clear any WSJT-X related items
-	menu_->update_items();
+	menu_bar_->update_items();
 	return 1;
 }
 
@@ -394,7 +394,7 @@ void wsjtx_handler::run_server() {
 		status_->misc_status(ST_NOTE, "WSJT-X: Starting socket");
 		server_->run_server();
 	}
-	menu_->update_items();
+	menu_bar_->update_items();
 }
 
 // Close the server

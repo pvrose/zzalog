@@ -10,7 +10,7 @@
 #include "intl_widgets.h"
 #include "lotw_handler.h"
 #include "main.h"
-#include "menu.h"
+#include "menu_bar.h"
 #include "objects.h"
 #include "qrz_handler.h"
 #include "record.h"
@@ -459,7 +459,7 @@ bool book::store_data(std::string filename, bool force, field_list* fields) {
 	}
 	// Update menu item activeness - redraw log tables to remove modified hue
 	tabbed_forms_->update_views(nullptr, HT_FORMAT, 0);
-	menu_->update_items();
+	menu_bar_->update_items();
 	return ok;
 }
 
@@ -563,7 +563,7 @@ item_num_t book::selection(item_num_t num_item, hint_t hint /* = HT_SELECTED */,
 			if (AUTO_SAVE) store_data();
 		}
 		// Update menu item activeness
-		menu_->update_items();
+		menu_bar_->update_items();
 		return record_num;
 	}
 }
@@ -801,7 +801,7 @@ void book::delete_record(bool force) {
 				get_record()->item("CALL").c_str());
 			status_->misc_status(ST_NOTE, text);
 			delete_in_progress_ = true;
-			menu_->update_items();
+			menu_bar_->update_items();
 			// Remove the current record from both the book_ and the extract_data_
 			record* del_record = get_record();
 			delete_dirty_record(del_record);
@@ -819,7 +819,7 @@ void book::delete_record(bool force) {
 			deleted_record_ = true;
 			// After selection has done its all can allow another delete
 			delete_in_progress_ = false;
-			menu_->update_items();
+			menu_bar_->update_items();
 		}
 	}
 	else if (is_dirty_record(get_record())) {
@@ -838,7 +838,7 @@ void book::delete_record(bool force) {
 		}
 		// Because we have not updated other views yet, we only regard this as a minor change
 		selection(-1, HT_MINOR_CHANGE);
-		menu_->update_items();
+		menu_bar_->update_items();
 	}
 	if (AUTO_SAVE && save_level_ == 0 && !READ_ONLY && is_dirty()) {
 		store_data();
@@ -1527,7 +1527,7 @@ void book::cb_close_edith(Fl_Widget* w, void* v) {
 		}
 		that->header_->header(std::string(editor->buffer()->text()));
 	}
-	menu_->enable(true);
+	menu_bar_->enable(true);
 	status_->misc_status(ST_OK, "LOG: Editting header comment - Done!");
 	Fl_Window::default_callback(win, v);
 }

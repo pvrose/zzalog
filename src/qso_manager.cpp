@@ -7,7 +7,7 @@
 #include "import_data.h"
 #include "main.h"
 #include "main_window.h"
-#include "menu.h"
+#include "menu_bar.h"
 #include "qso_clocks.h"
 #include "qso_data.h"
 #include "qso_log.h"
@@ -59,7 +59,7 @@ int qso_manager::handle(int event) {
 	case FL_HIDE:
 	case FL_SHOW:
 		// Get menu to update Windows controls
-		menu_->update_windows_items();
+		menu_bar_->update_windows_items();
 		break;
 	case FL_KEYBOARD:
 		// This 

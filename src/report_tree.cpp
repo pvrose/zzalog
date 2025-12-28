@@ -7,7 +7,7 @@
 #include "extract_data.h"
 #include <fields.h>
 #include "main.h"
-#include "menu.h"
+#include "menu_bar.h"
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -80,7 +80,7 @@ report_tree::report_tree(int X, int Y, int W, int H, const char* label, field_ap
 		adj_order_.push_back(map_order_[i]);
 	}
 	// And reflect this is in menu
-	menu_->report_mode(map_order_, filter_);
+	menu_bar_->report_mode(map_order_, filter_);
 
 	// Minimum resizing
 	min_w_ = w() / 3; // One third the width
@@ -926,7 +926,7 @@ void report_tree::add_category(int level, report_cat_t category, std::string cus
 			adj_order_.push_back(map_order_[i]);
 		}
 		// Update menu
-		menu_->report_mode(map_order_, filter_);
+		menu_bar_->report_mode(map_order_, filter_);
 		// Update settings
 		settings top_settings;
 		settings view_settings(&top_settings, "Views");
