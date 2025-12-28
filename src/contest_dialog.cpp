@@ -202,14 +202,14 @@ void contest_dialog::update_timeframe() {
 	}
 	tm* stm = gmtime(&start);
 	char temp[32];
-	strftime(temp, sizeof(temp), ADIF_DATEFORMAT, stm);
+	strftime(temp, sizeof(temp), "%Y%m%d", stm);
 	w_start_date_->value(temp);
-	strftime(temp, sizeof(temp), ADIF_HOURFORMAT, stm);
+	strftime(temp, sizeof(temp), "%H%M%S", stm);
 	w_start_time_->value(temp);
 	tm* ftm = gmtime(&finish);
-	strftime(temp, sizeof(temp), ADIF_DATEFORMAT, ftm);
+	strftime(temp, sizeof(temp), "%Y%m%d", ftm);
 	w_finish_date_->value(temp);
-	strftime(temp, sizeof(temp), ADIF_HOURFORMAT, ftm);
+	strftime(temp, sizeof(temp), "%H%M%S", ftm);
 	w_finish_time_->value(temp);
 }
 

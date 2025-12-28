@@ -125,6 +125,11 @@ extern bool GENERATE_HEADERS;
 //! Access to FLTK global attribute to  default text size throughout ZZALOG.
 extern int FL_NORMAL_SIZE;
 
+//! main window width
+const unsigned int WIDTH = 1000;
+//! main window height
+const unsigned int HEIGHT = 650;
+
 //! File_holder customisation - debug switches
 const uint16_t DEBUG_RESET_ADIF = 1;        //!< Reset all.json (ADIF)
 const uint16_t DEBUG_RESET_BAND = 1 << 1;   //!< Reset band_plan.json
