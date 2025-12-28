@@ -7,11 +7,11 @@
 #include "cty3_reader.h"
 #include "file_holder.h"
 #include "main.h"
+#include "objects.h"
 #include "record.h"
 #include "spec_data.h"
 #include "status.h"
 
-#include <drawing.h>
 #include "utils.h"
 
 #include <nlohmann/json.hpp>

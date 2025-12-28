@@ -2,7 +2,6 @@
 #define __PRINTER__
 
 #include "fields.h"
-#include "drawing.h"
 
 #include <vector>
 #include <string>
@@ -13,8 +12,7 @@
 
 class record;
 class qsl_data;
-
-
+enum object_t : uint8_t;
 
 	//! This class provides the print facility to print the log book and QSL cards.
 	class printer : public Fl_Printer

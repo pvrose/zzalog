@@ -2,7 +2,7 @@
 #define __BOOK__
 
 #include "band.h"
-#include "drawing.h"
+#include "objects.h"
 #include "search.h"
 
 #include <string>

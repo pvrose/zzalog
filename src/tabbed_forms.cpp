@@ -2,13 +2,13 @@
 
 #include "book.h"
 #include "config.h"
-#include <drawing.h>
 #include "dxcc_view.h"
 #include "extract_data.h"
 #include <fields.h>
 #include "import_data.h"
 #include "log_table.h"
 #include "main.h"
+#include "objects.h"
 #include "qso_manager.h"
 #include "report_tree.h"
 #include "spec_tree.h"
@@ -72,7 +72,7 @@ void tabbed_forms::add_view(const char* label, field_app_t column_data, object_t
 	// Create the view
 	VIEW* view = new VIEW(rx, ry, rw, rh, label, column_data);
 	// standard colour used to represent this view - its tab, selected record/item and progress bar
-	Fl_Color bg_colour = OBJECT_COLOURS.at(object);
+	Fl_Color bg_colour = OBJECT_DATA.at(object).colour;
 	view->selection_color(bg_colour);
 	// Add the tooltip
 	view->tooltip(tooltip);

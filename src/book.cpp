@@ -11,6 +11,7 @@
 #include "lotw_handler.h"
 #include "main.h"
 #include "menu.h"
+#include "objects.h"
 #include "qrz_handler.h"
 #include "record.h"
 #include "search.h"
@@ -1672,7 +1673,7 @@ void book::add_dirty_record(record* qso, std::string reason) {
 	if (has_record(qso)) { 
 		if (!main_loading_ && DEBUG_MOD_STATUS)
 			printf("%s Marking %s %s %s dirty - %s\n",
-				OBJECT_NAMES.at(book_type_),
+				OBJECT_DATA.at(book_type_).name,
 				qso->item("QSO_DATE").c_str(),
 				qso->item("TIME_ON").c_str(),
 				qso->item("CALL").c_str(),
@@ -1681,7 +1682,7 @@ void book::add_dirty_record(record* qso, std::string reason) {
 	}
 	else if (qso == header_) {
 		if (!main_loading_ && DEBUG_MOD_STATUS)
-			printf("%s Marking header dirty - %s\n", OBJECT_NAMES.at(book_type_), reason.c_str());
+			printf("%s Marking header dirty - %s\n", OBJECT_DATA.at(book_type_).name, reason.c_str());
 		dirty_qsos_.insert(qso);
 	}
 	if (!main_loading_) been_modified_ = true;
@@ -1692,7 +1693,7 @@ void book::delete_dirty_record(record* qso) {
 	if (is_dirty_record(qso)) {
 		if (DEBUG_MOD_STATUS) {
 			printf("%s Marking %s %s %s clean\n",
-				OBJECT_NAMES.at(book_type_),
+				OBJECT_DATA.at(book_type_).name,
 				qso->item("QSO_DATE").c_str(),
 				qso->item("TIME_ON").c_str(),
 				qso->item("CALL").c_str());

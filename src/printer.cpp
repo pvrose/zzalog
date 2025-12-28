@@ -3,14 +3,13 @@
 #include "book.h"
 #include "log_table.h"
 #include "main.h"
+#include "objects.h"
 #include "qsl_dataset.h"
 #include "qsl_display.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "status.h"
 #include "tabbed_forms.h"
-
-#include "drawing.h"
 
 #include <algorithm>
 #include <climits>

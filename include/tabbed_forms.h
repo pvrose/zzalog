@@ -3,14 +3,15 @@
 
 #include "view.h"
 #include "fields.h"
-#include "drawing.h"
-
-#include <vector>
-#include <map>
 #include "tabs_nonav.h"
+
+#include <cstdint>
+#include <map>
+#include <vector>
 
 class book;
 enum hint_t : uchar;
+enum object_t : uint8_t;
 typedef size_t qso_num_t;
 
 

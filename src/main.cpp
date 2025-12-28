@@ -1258,7 +1258,7 @@ int main(int argc, char** argv)
 	}
 
 	// Ctreate status to handle status messages
-	status_ = new status(status::HAS_BANNER | status::HAS_LOGFILE);
+	status_ = new status(status::HAS_BANNER | status::HAS_LOGFILE, OBJECT_DATA);
 	status_->callback(main_window_, main_window::default_callback);
 
 	// Now display sticky switch message

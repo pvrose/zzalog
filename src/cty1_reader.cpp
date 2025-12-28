@@ -3,9 +3,8 @@
 #include "cty_data.h"
 #include <cty_element.h>
 #include "main.h"
+#include "objects.h"
 #include "status.h"
-
-#include <drawing.h>
 
 #include "pugixml.hpp"
 
