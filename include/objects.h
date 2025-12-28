@@ -5,7 +5,6 @@
 //! Contains parameters used to present data about various ZZALOG objects
 
 //! \brief The various views and data objects.
-//! \todo This is a ZZALOG specific datatype. Consider moving back to ZZALOG.
 enum object_t : uint8_t {
 	OT_NONE,             //!< No object (for default use)
 	OT_MAIN,             //!< The main log view (book & view)

@@ -449,6 +449,10 @@ void cb_bn_close(Fl_Widget* w, void*v) {
 	}
 }
 
+void cb_bn_close(Fl_Window* w, void* v) {
+	cb_bn_close((Fl_Widget*)w, v);
+}
+
 // Callback to parse arguments
 // See show_help() for meaning of switches
 int cb_args(int argc, char** argv, int& i) {
@@ -1259,7 +1263,6 @@ int main(int argc, char** argv)
 
 	// Ctreate status to handle status messages
 	status_ = new status(status::HAS_BANNER | status::HAS_LOGFILE, OBJECT_DATA);
-	status_->callback(main_window_, main_window::default_callback);
 
 	// Now display sticky switch message
 	status_->misc_status(ST_NOTE, sticky_message_.c_str());	
@@ -1270,6 +1273,7 @@ int main(int argc, char** argv)
 
 	// Create window
 	create_window();
+	status_->callback(main_window_, cb_bn_close);
 	add_properties();
 	recent_files();
 
