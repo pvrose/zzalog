@@ -200,7 +200,7 @@ rig_if::rig_if(const char* name, hamlib_data_t* data)
 	sum_smeters_ = 0;
 	read_item_ = "";
 	
-	// If the name has been std::set, there is a rig
+	// If the name has been set, there is a rig
 	if (hamlib_data_ && my_rig_name_.length()) {
 		if (hamlib_data_->port_type != RIG_PORT_NONE) {
 			open();
@@ -329,7 +329,7 @@ bool rig_if::open() {
 	}
 }
 
-// This is within the std::thread
+// This is within the thread
 void rig_if::th_sopen_rig(rig_if* that) {
 	if (DEBUG_THREADS) printf("RIG THREAD: Opening rig\n");
 	that->th_open_rig(that);

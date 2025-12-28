@@ -1687,6 +1687,17 @@ void qso_rig::modify_hamlib_data() {
 			hamlib_data_t* hamlib = cat_data_->hamlib;
 			const rig_caps* capabilities = rig_get_caps(hamlib->model_id);
 			if (capabilities) {
+				// Check that manufacturer and model are the same and update if not
+				if (strcmp(capabilities->mfg_name, hamlib->mfr.c_str()) != 0 &&
+					strcmp(capabilities->model_name, hamlib->model.c_str()) != 0) {
+					char msg[128];
+					snprintf(msg, sizeof(msg), "RIG: Model was %s/%s now %s/%s",
+						hamlib->mfr.c_str(), hamlib->model.c_str(),
+						capabilities->mfg_name, capabilities->model_name);
+					status_->misc_status(ST_WARNING, msg);
+					hamlib->mfr = capabilities->mfg_name;
+					hamlib->model = capabilities->model_name;
+				}
 				if (capabilities->port_type == RIG_PORT_NONE) {
 					hamlib->power_mode = MAX_POWER;
 				}
