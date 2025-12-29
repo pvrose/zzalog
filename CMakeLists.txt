@@ -448,6 +448,7 @@ else()
       install(
         DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/userguide/html
         DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
+        MESSAGE_NEVER
       )
       if (ZZALOG_USERGUIDE_PDF)
         install(
@@ -461,6 +462,7 @@ else()
       install(
         DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/api/html
         DESTINATION ${CMAKE_INSTALL_RPATH}/api
+        MESSAGE_NEVER
       )
     endif()
 endif(MSVC)
