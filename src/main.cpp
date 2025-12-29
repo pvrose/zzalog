@@ -12,6 +12,7 @@ main.cpp - application entry point
 
 #include "drawing.h"
 #include "utils.h"
+#include "zzacommon.h"
 
 #include "about_dialog.h"
 #include "band_data.h"
@@ -1244,10 +1245,11 @@ int main(int argc, char** argv)
 			version.c_str(),
 			TIMESTAMP.c_str());
 		curl_version_info_data* data = curl_version_info(CURLVERSION_LAST);
-		printf("|-With libraries\n  |- hamlib (%s)\n  |- FLTK (%d.%d.%d)\n  |- Curl (%s)\n",
+		printf("|-With libraries\n  |- hamlib (%s)\n  |- FLTK (%d.%d.%d)\n  |- Curl (%s)\n  |- zzacommon (%s %s)\n",
 			rig_version(),
 			FL_MAJOR_VERSION, FL_MINOR_VERSION, FL_PATCH_VERSION,
-				data->version); 
+			data->version,
+		    ZZACOMMON_VERSION.c_str()); 
 #else
 		about_dialog* dlg = new about_dialog;
 		dlg->show();

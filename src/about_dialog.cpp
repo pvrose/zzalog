@@ -7,6 +7,7 @@
 
 #include "drawing.h"
 #include "utils.h"
+#include "zzacommon.h"
 
 #include <string>
 
@@ -54,6 +55,7 @@ about_dialog::about_dialog() :
 		"\n CURL version " + std::string(data->version) +
 		"\n JSON " +
 		"\n PUGIXML " +
+		"\n ZZACOMMON " + ZZACOMMON_VERSION +
 		"\nSee Userguide for refernce data acknowledgements\n";
 	std::string copyright = COPYRIGHT + "\ne-mail: " + CONTACT + "\n";
 	int w = W2;
