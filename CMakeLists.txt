@@ -273,31 +273,42 @@ find_package(CURL CONFIG REQUIRED)
 else()
 find_package(CURL REQUIRED)
 endif()
-if (MSVC)
-  set(CURL_INCLUDE_DIR "C:\\Users\\pvros\\source\\repos\\curl\\include")
-  set(CURL_LIBRARIES CURL::libcurl)
+if (CURL_FOUND)
+  if (NOT CURL_INCLUDE_DIR) 
+    if (EXISTS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include/curl")
+      set(CURL_INCLUDE_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include/")
+    endif()
+  endif()
+  message(STATUS "CURL found: ${CURL_VERSION}")
+  message(STATUS "CURL include dir: ${CURL_INCLUDE_DIR}")
+  message(STATUS "CURL libraries: ${CURL_LIBRARIES}")
+else()
+  message(STATUS "CURL not found")
 endif()
 
 # libhamlib
 find_package(Hamlib)
 if (NOT HAMLIB_FOUND AND MSVC)
   message("Hamlib not found")
-  set(HAMLIB_INCLUDE_DIR "C:\\Program Files\\hamlib-w64-4.6.5\\include")
-  set(HAMLIB_LIBRARY "C:\\Program Files\\hamlib-w64-4.6.5\\lib\\msvc\\libhamlib-4.lib")
+  if (NOT HAMLIB_INSTALL_DIR)
+    set(HAMLIB_INSTALL_DIR "C:\\Program Files\\hamlib-w64-4.6.5")
+  endif()
+  set(HAMLIB_INCLUDE_DIR "${HAMLIB_INSTALL_DIR}\\include")
+  set(HAMLIB_LIBRARY "${HAMLIB_INSTALL_DIR}\\lib\\msvc\\libhamlib-4.lib")
 # Work-round for adding hamlib DLLs
   add_custom_target(hamlib_dll ALL)
   message("Using custom Hamlib settings")
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libhamlib-4.dll" ${CMAKE_BINARY_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libhamlib-4.dll" ${CMAKE_BINARY_DIR}/.
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libusb-1.0.dll" ${CMAKE_BINARY_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libusb-1.0.dll" ${CMAKE_BINARY_DIR}/.
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libwinpthread-1.dll" ${CMAKE_BINARY_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libwinpthread-1.dll" ${CMAKE_BINARY_DIR}/.
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "C:\\Program Files\\hamlib-w64-4.6.5\\bin\\libgcc_s_seh-1.dll" ${CMAKE_BINARY_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libgcc_s_seh-1.dll" ${CMAKE_BINARY_DIR}/.
   )
 
 
