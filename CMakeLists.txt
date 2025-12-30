@@ -340,7 +340,7 @@ endif()
 ## Clone git repository (under source directory)
 ExternalProject_Add(zzacommon 
   GIT_REPOSITORY https://github.com/pvrose/zzacommon
-#  GIT_TAG f43094e65d55c1afb08e12bd2df8a8d37dcab04e
+  GIT_TAG 9da82e0d471d4b7767a6a2eba72c9b2ccf469d46 # Release_1.0.0
   PREFIX ${ZZACOMMON_BUILD_DIR}
   SOURCE_DIR ${ZZACOMMON_SOURCE_DIR}
   CMAKE_ARGS
