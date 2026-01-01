@@ -10,6 +10,20 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(VENDOR "GM3ZZA")
 set(PROGRAMID "ZZALOG")
 
+## Set home directory per OS.
+if(MSVC)
+  set(USER_HOME_DIR $ENV{USERPROFILE})
+else()
+  set(USER_HOME_DIR $ENV{HOME})
+endif()
+
+# set compiler options
+if (MSVC)
+  add_compile_options(/FS)
+else()
+  add_compile_options(-g)
+endif()
+
 set(CPPFILES 
   src/basic.cpp
   src/iaru_hf.cpp
@@ -39,7 +53,7 @@ target_include_directories(${TARGET} PRIVATE
 )
 if (MSVC)
   target_include_directories(${TARGET} PRIVATE 
-    "C:\\Users\\pvros\\source\\repos\\json\\include"
+    "${USER_HOME_DIR}\\source\\repos\\json\\include"
   )
 endif()
 # Component sources

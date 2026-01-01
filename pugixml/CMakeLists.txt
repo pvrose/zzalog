@@ -19,12 +19,12 @@ set(HPPFILES
   pugixml.hpp
 )
 
-# ser compiler options
+# set compiler options
 if (MSVC)
+  add_compile_options(/FS)
 else()
   add_compile_options(-g)
 endif()
-
 
 set(CMAKE_BUILD_RPATH ${CMAKE_CURRENT_BINARY_DIR})
 add_library(${TARGET})

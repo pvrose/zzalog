@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(zzalog)
+project(ZZALOG)
 
 ## Set program details
 set(VENDOR "GM3ZZA")
@@ -253,12 +253,20 @@ else()
   set(CMAKE_INSTALL_RPATH /etc/${VENDOR}/${PROGRAMID})
 endif()
 
+# Set target directory for .dlls and development-mode data
+if (MSVC)
+  set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+else()
+  set (XXALOG_RUN_DIR ${ZZALOG_BINARY_DIR})
+endif()
+
 # set compiler options
 if (MSVC)
-#  add_compile_options(/MD)
+  add_compile_options(/FS)
 else()
   add_compile_options(-g)
 endif()
+
 
 # FLTK - 
 # TODO: Should this be an ExternalProject?
@@ -278,7 +286,9 @@ else()
 endif()
 
 # libcurl
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH};"${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}")
 if(MSVC)
+  message(STATUS "Looking for CURL at ${CURL_DIR}")
   find_package(CURL CONFIG REQUIRED)
 else()
   find_package(CURL REQUIRED)
@@ -300,7 +310,7 @@ endif()
 # libhamlib
 find_package(Hamlib)
 if (NOT HAMLIB_FOUND AND MSVC)
-  message("Hamlib not found")
+  message(STATUS "Hamlib not found")
 ## Externally set hamlib install directory: find_package(Hamlib) not part of installation
   if (NOT HAMLIB_INSTALL_DIR)
     set(HAMLIB_INSTALL_DIR "C:\\Program Files\\hamlib-w64-4.6.5")
@@ -309,18 +319,19 @@ if (NOT HAMLIB_FOUND AND MSVC)
   set(HAMLIB_LIBRARY "${HAMLIB_INSTALL_DIR}\\lib\\msvc\\libhamlib-4.lib")
 ## Required DLLs need to be copied directory with executable.
   add_custom_target(hamlib_dll ALL)
-  message("Using custom Hamlib settings")
+  message(STATUS "Using custom Hamlib settings - copying .dlls to ${ZZALOG_RUN_DIR}")
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libhamlib-4.dll" ${CMAKE_BINARY_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libhamlib-4.dll" ${ZZALOG_RUN_DIR}/.
+  COMMENT "Copying libhamlib-4.dll and others to ${ZZALOG_RUN_DIR}"
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libusb-1.0.dll" ${CMAKE_BINARY_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libusb-1.0.dll" ${ZZALOG_RUN_DIR}/.
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libwinpthread-1.dll" ${CMAKE_BINARY_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libwinpthread-1.dll" ${ZZALOG_RUN_DIR}/.
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libgcc_s_seh-1.dll" ${CMAKE_BINARY_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libgcc_s_seh-1.dll" ${ZZALOG_RUN_DIR}/.
   )
 endif()  
 
@@ -386,9 +397,10 @@ target_include_directories(${TARGET} PRIVATE
 )
 ## Extra include directories required on MSVC
 if (MSVC)
+  message(STATUS "Including other libraries for MSVC from ${USER_HOME_DIR}")
   target_include_directories(${TARGET} PRIVATE 
-    "${USER_HOME_DIR}\\source\\repos\\pthread-win32"
     "${USER_HOME_DIR}\\source\\repos\\json\\include"
+    "${USER_HOME_DIR}\\source\\repos\\pthread-win32"
   )
 endif()
 
@@ -407,7 +419,7 @@ target_link_libraries(${TARGET} PRIVATE
 
 # copy reference data
 file(COPY ${DATAFILES}
-  DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+  DESTINATION ${ZZALOG_RUN_DIR})
 
 # generate documents - add switches for conditional build.
 option(ZZALOG_USERGUIDE "Generate Userguide" ON)
