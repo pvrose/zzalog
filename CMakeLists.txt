@@ -386,6 +386,7 @@ set(DATAFILES
 add_executable(${TARGET} WIN32)
 # Ensure external projects are built before linking zzalog
 add_dependencies(${TARGET} zzacommon)
+add_dependencies(zzalog_contests zzacommon)
 
 ## Set header include directoies.
 target_include_directories(${TARGET} PRIVATE 
