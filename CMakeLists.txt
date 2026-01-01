@@ -255,13 +255,10 @@ endif()
 
 # Set target directory for .dlls and development-mode data
 message(STATUS "ZZALOG_BINARY_DIR = ${ZZALOG_BINARY_DIR}")
-if (MSVC_IDE) 
-  message(STATIC "Running in MSVC IDE")
-endif()
-if (MSVC AND NOT MSVC_IDE)
+if (MSVC AND MSVC_IDE)
   set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 else()
-  set (XXALOG_RUN_DIR ${ZZALOG_BINARY_DIR})
+  set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR})
 endif()
 
 # set compiler options
