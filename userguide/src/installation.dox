@@ -10,10 +10,53 @@ Data used by ZZALOG will be installed in
 
 \subsection win_source Compiling from source
 
-The source may be cloned from https://github.com/pvrose/zzatools. MSVC may be used to clone this and there is a CMakeLists.txt 
-file that may be used as the basis of the build process. The current file contains hard-coded paths in the author's
-installation. It also contains paths to installations of libcurl, hamlib and fltk that will differ in the 
-user's environment.
+The source may be cloned from https://github.com/pvrose/zzatools. 
+It is recommended to use the base directory for Developer Powershell
+for MS. Open Developer Powershell and run the following:
+
+\par Fetch and install Hamlib.
+Download the latest Hamlib: 
+(say) https://github.com/Hamlib/Hamlib/releases/download/4.6.5/hamlib-w64-4.6.5.exe
+Install this according to the instructions in the downloaded package.
+\par Fetch and build FLTK.
+\code
+git clone https://github.com/fltk/fltk
+cmake -B build
+cmake --build build
+\endcode
+\par Installing libcurl.
+Fetch and install VCPKG
+\code
+git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg
+.\bootstrap-vcpkg.bat 
+.\vcpkg.exe integrate install 
+\endcode
+Use VCPKG to install libcurl 
+\code 
+.\vcpkg.exe install curl 
+\endcode 
+\par Fetch JSON and Pthread include files
+\code 
+cd ..
+git clone https://github.com/nlohmann/json
+git clone https://github.com/GetHobbelt/pthread-win32
+\endcode
+\par Fetch ZZALOG, configure and build.
+\code
+git clone https://github.com/pvrose/zzalog
+cd zzalog
+cmake -B build -D"CMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake" [-DHAMLIB_INSTALL_DIR=[....]]
+cmake --build build 
+cmake --install build
+\endcode
+
+The configure process defaults to using the version of hamlib
+downloaded by the instructions above. If this is different then
+specify the install location of that hamlib.
+
+It should be possible after having cloned the ZZALIB repository to then
+launch the MSVC GUI and build therein.
 
 \section linux_install Linux Installation
 
