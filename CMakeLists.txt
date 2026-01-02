@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(ZZALOG)
+set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
+set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
 
 ## Set program details
 set(VENDOR "GM3ZZA")
@@ -25,225 +27,225 @@ endif()
 string(TIMESTAMP BUILD_TIMESTAMP UTC)
 set(VERSION_STRING "3.6.11+")
 configure_file(
-  ${CMAKE_SOURCE_DIR}/include/timestamp.h.in
-  ${CMAKE_SOURCE_DIR}/include/timestamp.h
+  ${ZZALOG_INCLUDE_DIR}/timestamp.h.in
+  ${ZZALOG_INCLUDE_DIR}/timestamp.h
   @ONLY
 )
 
 # All the source .cpp files
 set(CPPFILES 
-  ${CMAKE_SOURCE_DIR}/src/about_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/adi_reader.cpp
-  ${CMAKE_SOURCE_DIR}/src/adi_writer.cpp
-  ${CMAKE_SOURCE_DIR}/src/adx_handler.cpp
-  ${CMAKE_SOURCE_DIR}/src/band_data.cpp
-  ${CMAKE_SOURCE_DIR}/src/band_editor.cpp
-  ${CMAKE_SOURCE_DIR}/src/band_widget.cpp
-  ${CMAKE_SOURCE_DIR}/src/band_window.cpp
-  ${CMAKE_SOURCE_DIR}/src/book.cpp
-  ${CMAKE_SOURCE_DIR}/src/change_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/club_handler.cpp
-  ${CMAKE_SOURCE_DIR}/src/condx_view.cpp
-  ${CMAKE_SOURCE_DIR}/src/config.cpp
-  ${CMAKE_SOURCE_DIR}/src/contest_algorithm.cpp
-  ${CMAKE_SOURCE_DIR}/src/contest_data.cpp
-  ${CMAKE_SOURCE_DIR}/src/contest_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/contest_scorer.cpp
-  ${CMAKE_SOURCE_DIR}/src/corr_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/cty1_reader.cpp
-  ${CMAKE_SOURCE_DIR}/src/cty2_reader.cpp
-  ${CMAKE_SOURCE_DIR}/src/cty3_reader.cpp
-  ${CMAKE_SOURCE_DIR}/src/cty_data.cpp
-  ${CMAKE_SOURCE_DIR}/src/cty_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/cty_element.cpp
-  ${CMAKE_SOURCE_DIR}/src/dxcc_table.cpp
-  ${CMAKE_SOURCE_DIR}/src/dxcc_view.cpp
-  ${CMAKE_SOURCE_DIR}/src/eqsl_handler.cpp
-  ${CMAKE_SOURCE_DIR}/src/extract_data.cpp
-  ${CMAKE_SOURCE_DIR}/src/field_choice.cpp
-  ${CMAKE_SOURCE_DIR}/src/fields.cpp
-  ${CMAKE_SOURCE_DIR}/src/fields_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/file_viewer.cpp
-  ${CMAKE_SOURCE_DIR}/src/fllog_emul.cpp
-  ${CMAKE_SOURCE_DIR}/src/font_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/import_data.cpp
-  ${CMAKE_SOURCE_DIR}/src/init_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/intl_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/intl_widgets.cpp
-  ${CMAKE_SOURCE_DIR}/src/log_table.cpp
-  ${CMAKE_SOURCE_DIR}/src/lotw_handler.cpp
-  ${CMAKE_SOURCE_DIR}/src/main.cpp
-  ${CMAKE_SOURCE_DIR}/src/main_window.cpp
-  ${CMAKE_SOURCE_DIR}/src/menu_bar.cpp
-  ${CMAKE_SOURCE_DIR}/src/page_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/png_writer.cpp
-  ${CMAKE_SOURCE_DIR}/src/printer.cpp
-  ${CMAKE_SOURCE_DIR}/src/qrz_handler.cpp
-  ${CMAKE_SOURCE_DIR}/src/qsl_dataset.cpp
-  ${CMAKE_SOURCE_DIR}/src/qsl_display.cpp
-  ${CMAKE_SOURCE_DIR}/src/qsl_editor.cpp
-  ${CMAKE_SOURCE_DIR}/src/qsl_emailer.cpp
-  ${CMAKE_SOURCE_DIR}/src/qsl_image.cpp
-  ${CMAKE_SOURCE_DIR}/src/qsl_widget.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_apps.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_bands.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_buttons.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_clock.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_clocks.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_data.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_details.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_dxcc.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_entry.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_log.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_log_info.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_manager.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_misc.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_net_entry.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_operation.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_qsl.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_qsl_vwr.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_query.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_rig.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_tabbed_rigs.cpp
-  ${CMAKE_SOURCE_DIR}/src/qso_wx.cpp
-  ${CMAKE_SOURCE_DIR}/src/record.cpp
-  ${CMAKE_SOURCE_DIR}/src/record_table.cpp
-  ${CMAKE_SOURCE_DIR}/src/report_tree.cpp
-  ${CMAKE_SOURCE_DIR}/src/rig_data.cpp
-  ${CMAKE_SOURCE_DIR}/src/rig_if.cpp
-  ${CMAKE_SOURCE_DIR}/src/rpc_data_item.cpp
-  ${CMAKE_SOURCE_DIR}/src/rpc_handler.cpp
-  ${CMAKE_SOURCE_DIR}/src/search_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/serial.cpp
-  ${CMAKE_SOURCE_DIR}/src/socket_server.cpp
-  ${CMAKE_SOURCE_DIR}/src/spec_data.cpp
-  ${CMAKE_SOURCE_DIR}/src/spec_tree.cpp
-  ${CMAKE_SOURCE_DIR}/src/stn_call_dlg.cpp
-  ${CMAKE_SOURCE_DIR}/src/stn_data.cpp
-  ${CMAKE_SOURCE_DIR}/src/stn_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/stn_oper_dlg.cpp
-  ${CMAKE_SOURCE_DIR}/src/stn_qth_dlg.cpp
-  ${CMAKE_SOURCE_DIR}/src/tabbed_forms.cpp
-  ${CMAKE_SOURCE_DIR}/src/toolbar.cpp
-  ${CMAKE_SOURCE_DIR}/src/url_handler.cpp
-  ${CMAKE_SOURCE_DIR}/src/user_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/view.cpp
-  ${CMAKE_SOURCE_DIR}/src/web_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/win_dialog.cpp
-  ${CMAKE_SOURCE_DIR}/src/wsjtx_handler.cpp
-  ${CMAKE_SOURCE_DIR}/src/wx_handler.cpp
+  ${ZZALOG_SRC_DIR}/about_dialog.cpp
+  ${ZZALOG_SRC_DIR}/adi_reader.cpp
+  ${ZZALOG_SRC_DIR}/adi_writer.cpp
+  ${ZZALOG_SRC_DIR}/adx_handler.cpp
+  ${ZZALOG_SRC_DIR}/band_data.cpp
+  ${ZZALOG_SRC_DIR}/band_editor.cpp
+  ${ZZALOG_SRC_DIR}/band_widget.cpp
+  ${ZZALOG_SRC_DIR}/band_window.cpp
+  ${ZZALOG_SRC_DIR}/book.cpp
+  ${ZZALOG_SRC_DIR}/change_dialog.cpp
+  ${ZZALOG_SRC_DIR}/club_handler.cpp
+  ${ZZALOG_SRC_DIR}/condx_view.cpp
+  ${ZZALOG_SRC_DIR}/config.cpp
+  ${ZZALOG_SRC_DIR}/contest_algorithm.cpp
+  ${ZZALOG_SRC_DIR}/contest_data.cpp
+  ${ZZALOG_SRC_DIR}/contest_dialog.cpp
+  ${ZZALOG_SRC_DIR}/contest_scorer.cpp
+  ${ZZALOG_SRC_DIR}/corr_dialog.cpp
+  ${ZZALOG_SRC_DIR}/cty1_reader.cpp
+  ${ZZALOG_SRC_DIR}/cty2_reader.cpp
+  ${ZZALOG_SRC_DIR}/cty3_reader.cpp
+  ${ZZALOG_SRC_DIR}/cty_data.cpp
+  ${ZZALOG_SRC_DIR}/cty_dialog.cpp
+  ${ZZALOG_SRC_DIR}/cty_element.cpp
+  ${ZZALOG_SRC_DIR}/dxcc_table.cpp
+  ${ZZALOG_SRC_DIR}/dxcc_view.cpp
+  ${ZZALOG_SRC_DIR}/eqsl_handler.cpp
+  ${ZZALOG_SRC_DIR}/extract_data.cpp
+  ${ZZALOG_SRC_DIR}/field_choice.cpp
+  ${ZZALOG_SRC_DIR}/fields.cpp
+  ${ZZALOG_SRC_DIR}/fields_dialog.cpp
+  ${ZZALOG_SRC_DIR}/file_viewer.cpp
+  ${ZZALOG_SRC_DIR}/fllog_emul.cpp
+  ${ZZALOG_SRC_DIR}/font_dialog.cpp
+  ${ZZALOG_SRC_DIR}/import_data.cpp
+  ${ZZALOG_SRC_DIR}/init_dialog.cpp
+  ${ZZALOG_SRC_DIR}/intl_dialog.cpp
+  ${ZZALOG_SRC_DIR}/intl_widgets.cpp
+  ${ZZALOG_SRC_DIR}/log_table.cpp
+  ${ZZALOG_SRC_DIR}/lotw_handler.cpp
+  ${ZZALOG_SRC_DIR}/main.cpp
+  ${ZZALOG_SRC_DIR}/main_window.cpp
+  ${ZZALOG_SRC_DIR}/menu_bar.cpp
+  ${ZZALOG_SRC_DIR}/page_dialog.cpp
+  ${ZZALOG_SRC_DIR}/png_writer.cpp
+  ${ZZALOG_SRC_DIR}/printer.cpp
+  ${ZZALOG_SRC_DIR}/qrz_handler.cpp
+  ${ZZALOG_SRC_DIR}/qsl_dataset.cpp
+  ${ZZALOG_SRC_DIR}/qsl_display.cpp
+  ${ZZALOG_SRC_DIR}/qsl_editor.cpp
+  ${ZZALOG_SRC_DIR}/qsl_emailer.cpp
+  ${ZZALOG_SRC_DIR}/qsl_image.cpp
+  ${ZZALOG_SRC_DIR}/qsl_widget.cpp
+  ${ZZALOG_SRC_DIR}/qso_apps.cpp
+  ${ZZALOG_SRC_DIR}/qso_bands.cpp
+  ${ZZALOG_SRC_DIR}/qso_buttons.cpp
+  ${ZZALOG_SRC_DIR}/qso_clock.cpp
+  ${ZZALOG_SRC_DIR}/qso_clocks.cpp
+  ${ZZALOG_SRC_DIR}/qso_data.cpp
+  ${ZZALOG_SRC_DIR}/qso_details.cpp
+  ${ZZALOG_SRC_DIR}/qso_dxcc.cpp
+  ${ZZALOG_SRC_DIR}/qso_entry.cpp
+  ${ZZALOG_SRC_DIR}/qso_log.cpp
+  ${ZZALOG_SRC_DIR}/qso_log_info.cpp
+  ${ZZALOG_SRC_DIR}/qso_manager.cpp
+  ${ZZALOG_SRC_DIR}/qso_misc.cpp
+  ${ZZALOG_SRC_DIR}/qso_net_entry.cpp
+  ${ZZALOG_SRC_DIR}/qso_operation.cpp
+  ${ZZALOG_SRC_DIR}/qso_qsl.cpp
+  ${ZZALOG_SRC_DIR}/qso_qsl_vwr.cpp
+  ${ZZALOG_SRC_DIR}/qso_query.cpp
+  ${ZZALOG_SRC_DIR}/qso_rig.cpp
+  ${ZZALOG_SRC_DIR}/qso_tabbed_rigs.cpp
+  ${ZZALOG_SRC_DIR}/qso_wx.cpp
+  ${ZZALOG_SRC_DIR}/record.cpp
+  ${ZZALOG_SRC_DIR}/record_table.cpp
+  ${ZZALOG_SRC_DIR}/report_tree.cpp
+  ${ZZALOG_SRC_DIR}/rig_data.cpp
+  ${ZZALOG_SRC_DIR}/rig_if.cpp
+  ${ZZALOG_SRC_DIR}/rpc_data_item.cpp
+  ${ZZALOG_SRC_DIR}/rpc_handler.cpp
+  ${ZZALOG_SRC_DIR}/search_dialog.cpp
+  ${ZZALOG_SRC_DIR}/serial.cpp
+  ${ZZALOG_SRC_DIR}/socket_server.cpp
+  ${ZZALOG_SRC_DIR}/spec_data.cpp
+  ${ZZALOG_SRC_DIR}/spec_tree.cpp
+  ${ZZALOG_SRC_DIR}/stn_call_dlg.cpp
+  ${ZZALOG_SRC_DIR}/stn_data.cpp
+  ${ZZALOG_SRC_DIR}/stn_dialog.cpp
+  ${ZZALOG_SRC_DIR}/stn_oper_dlg.cpp
+  ${ZZALOG_SRC_DIR}/stn_qth_dlg.cpp
+  ${ZZALOG_SRC_DIR}/tabbed_forms.cpp
+  ${ZZALOG_SRC_DIR}/toolbar.cpp
+  ${ZZALOG_SRC_DIR}/url_handler.cpp
+  ${ZZALOG_SRC_DIR}/user_dialog.cpp
+  ${ZZALOG_SRC_DIR}/view.cpp
+  ${ZZALOG_SRC_DIR}/web_dialog.cpp
+  ${ZZALOG_SRC_DIR}/win_dialog.cpp
+  ${ZZALOG_SRC_DIR}/wsjtx_handler.cpp
+  ${ZZALOG_SRC_DIR}/wx_handler.cpp
 
 )
 
 ## All the header files - required for API documentation.
 set( HPPFILES
-  ${CMAKE_SOURCE_DIR}/include/about_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/adi_reader.h
-  ${CMAKE_SOURCE_DIR}/include/adi_writer.h
-  ${CMAKE_SOURCE_DIR}/include/adx_handler.h
-  ${CMAKE_SOURCE_DIR}/include/band_data.h
-  ${CMAKE_SOURCE_DIR}/include/band_editor.h
-  ${CMAKE_SOURCE_DIR}/include/band.h
-  ${CMAKE_SOURCE_DIR}/include/band_widget.h
-  ${CMAKE_SOURCE_DIR}/include/band_window.h
-  ${CMAKE_SOURCE_DIR}/include/book.h
-  ${CMAKE_SOURCE_DIR}/include/change_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/club_handler.h
-  ${CMAKE_SOURCE_DIR}/include/condx_view.h
-  ${CMAKE_SOURCE_DIR}/include/config.h
-  ${CMAKE_SOURCE_DIR}/include/contest_algorithm.h
-  ${CMAKE_SOURCE_DIR}/include/contest_data.h
-  ${CMAKE_SOURCE_DIR}/include/contest_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/contest_scorer.h
-  ${CMAKE_SOURCE_DIR}/include/corr_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/cty1_reader.h
-  ${CMAKE_SOURCE_DIR}/include/cty2_reader.h
-  ${CMAKE_SOURCE_DIR}/include/cty3_reader.h
-  ${CMAKE_SOURCE_DIR}/include/cty_data.h
-  ${CMAKE_SOURCE_DIR}/include/cty_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/cty_element.h
-  ${CMAKE_SOURCE_DIR}/include/dxcc_table.h
-  ${CMAKE_SOURCE_DIR}/include/dxcc_view.h
-  ${CMAKE_SOURCE_DIR}/include/eqsl_handler.h
-  ${CMAKE_SOURCE_DIR}/include/extract_data.h
-  ${CMAKE_SOURCE_DIR}/include/field_choice.h
-  ${CMAKE_SOURCE_DIR}/include/fields_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/fields.h
-  ${CMAKE_SOURCE_DIR}/include/file_viewer.h
-  ${CMAKE_SOURCE_DIR}/include/fllog_emul.h
-  ${CMAKE_SOURCE_DIR}/include/font_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/icons.h
-  ${CMAKE_SOURCE_DIR}/include/import_data.h
-  ${CMAKE_SOURCE_DIR}/include/init_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/intl_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/intl_widgets.h
-  ${CMAKE_SOURCE_DIR}/include/log_table.h
-  ${CMAKE_SOURCE_DIR}/include/lotw_handler.h
-  ${CMAKE_SOURCE_DIR}/include/main.h
-  ${CMAKE_SOURCE_DIR}/include/main_window.h
-  ${CMAKE_SOURCE_DIR}/include/menu_bar.h
-  ${CMAKE_SOURCE_DIR}/include/objects.h
-  ${CMAKE_SOURCE_DIR}/include/page_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/png_writer.h
-  ${CMAKE_SOURCE_DIR}/include/printer.h
-  ${CMAKE_SOURCE_DIR}/include/qrz_handler.h
-  ${CMAKE_SOURCE_DIR}/include/qsl_data.h
-  ${CMAKE_SOURCE_DIR}/include/qsl_dataset.h
-  ${CMAKE_SOURCE_DIR}/include/qsl_display.h
-  ${CMAKE_SOURCE_DIR}/include/qsl_editor.h
-  ${CMAKE_SOURCE_DIR}/include/qsl_emailer.h
-  ${CMAKE_SOURCE_DIR}/include/qsl_image.h
-  ${CMAKE_SOURCE_DIR}/include/qsl_widget.h
-  ${CMAKE_SOURCE_DIR}/include/qso_apps.h
-  ${CMAKE_SOURCE_DIR}/include/qso_bands.h
-  ${CMAKE_SOURCE_DIR}/include/qso_buttons.h
-  ${CMAKE_SOURCE_DIR}/include/qso_clock.h
-  ${CMAKE_SOURCE_DIR}/include/qso_clocks.h
-  ${CMAKE_SOURCE_DIR}/include/qso_data.h
-  ${CMAKE_SOURCE_DIR}/include/qso_details.h
-  ${CMAKE_SOURCE_DIR}/include/qso_dxcc.h
-  ${CMAKE_SOURCE_DIR}/include/qso_entry.h
-  ${CMAKE_SOURCE_DIR}/include/qso_log.h
-  ${CMAKE_SOURCE_DIR}/include/qso_log_info.h
-  ${CMAKE_SOURCE_DIR}/include/qso_manager.h
-  ${CMAKE_SOURCE_DIR}/include/qso_misc.h
-  ${CMAKE_SOURCE_DIR}/include/qso_net_entry.h
-  ${CMAKE_SOURCE_DIR}/include/qso_operation.h
-  ${CMAKE_SOURCE_DIR}/include/qso_qsl.h
-  ${CMAKE_SOURCE_DIR}/include/qso_qsl_vwr.h
-  ${CMAKE_SOURCE_DIR}/include/qso_query.h
-  ${CMAKE_SOURCE_DIR}/include/qso_rig.h
-  ${CMAKE_SOURCE_DIR}/include/qso_tabbed_rigs.h
-  ${CMAKE_SOURCE_DIR}/include/qso_wx.h
-  ${CMAKE_SOURCE_DIR}/include/record.h
-  ${CMAKE_SOURCE_DIR}/include/record_table.h
-  ${CMAKE_SOURCE_DIR}/include/regices.h
-  ${CMAKE_SOURCE_DIR}/include/report_tree.h
-  ${CMAKE_SOURCE_DIR}/include/rig_data.h
-  ${CMAKE_SOURCE_DIR}/include/rig_if.h
-  ${CMAKE_SOURCE_DIR}/include/rpc_data_item.h
-  ${CMAKE_SOURCE_DIR}/include/rpc_handler.h
-  ${CMAKE_SOURCE_DIR}/include/search_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/search.h
-  ${CMAKE_SOURCE_DIR}/include/serial.h
-  ${CMAKE_SOURCE_DIR}/include/socket_server.h
-  ${CMAKE_SOURCE_DIR}/include/spec_data.h
-  ${CMAKE_SOURCE_DIR}/include/spec_tree.h
-  ${CMAKE_SOURCE_DIR}/include/stn_call_dlg.h
-  ${CMAKE_SOURCE_DIR}/include/stn_data.h
-  ${CMAKE_SOURCE_DIR}/include/stn_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/stn_oper_dlg.h
-  ${CMAKE_SOURCE_DIR}/include/stn_qth_dlg.h
-  ${CMAKE_SOURCE_DIR}/include/tabbed_forms.h
-  ${CMAKE_SOURCE_DIR}/include/timestamp.h
-  ${CMAKE_SOURCE_DIR}/include/toolbar.h
-  ${CMAKE_SOURCE_DIR}/include/url_handler.h
-  ${CMAKE_SOURCE_DIR}/include/user_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/view.h
-  ${CMAKE_SOURCE_DIR}/include/web_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/win_dialog.h
-  ${CMAKE_SOURCE_DIR}/include/wsjtx_handler.h
-  ${CMAKE_SOURCE_DIR}/include/wx_handler.h
+  ${ZZALOG_INCLUDE_DIR}/about_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/adi_reader.h
+  ${ZZALOG_INCLUDE_DIR}/adi_writer.h
+  ${ZZALOG_INCLUDE_DIR}/adx_handler.h
+  ${ZZALOG_INCLUDE_DIR}/band_data.h
+  ${ZZALOG_INCLUDE_DIR}/band_editor.h
+  ${ZZALOG_INCLUDE_DIR}/band.h
+  ${ZZALOG_INCLUDE_DIR}/band_widget.h
+  ${ZZALOG_INCLUDE_DIR}/band_window.h
+  ${ZZALOG_INCLUDE_DIR}/book.h
+  ${ZZALOG_INCLUDE_DIR}/change_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/club_handler.h
+  ${ZZALOG_INCLUDE_DIR}/condx_view.h
+  ${ZZALOG_INCLUDE_DIR}/config.h
+  ${ZZALOG_INCLUDE_DIR}/contest_algorithm.h
+  ${ZZALOG_INCLUDE_DIR}/contest_data.h
+  ${ZZALOG_INCLUDE_DIR}/contest_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/contest_scorer.h
+  ${ZZALOG_INCLUDE_DIR}/corr_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/cty1_reader.h
+  ${ZZALOG_INCLUDE_DIR}/cty2_reader.h
+  ${ZZALOG_INCLUDE_DIR}/cty3_reader.h
+  ${ZZALOG_INCLUDE_DIR}/cty_data.h
+  ${ZZALOG_INCLUDE_DIR}/cty_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/cty_element.h
+  ${ZZALOG_INCLUDE_DIR}/dxcc_table.h
+  ${ZZALOG_INCLUDE_DIR}/dxcc_view.h
+  ${ZZALOG_INCLUDE_DIR}/eqsl_handler.h
+  ${ZZALOG_INCLUDE_DIR}/extract_data.h
+  ${ZZALOG_INCLUDE_DIR}/field_choice.h
+  ${ZZALOG_INCLUDE_DIR}/fields_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/fields.h
+  ${ZZALOG_INCLUDE_DIR}/file_viewer.h
+  ${ZZALOG_INCLUDE_DIR}/fllog_emul.h
+  ${ZZALOG_INCLUDE_DIR}/font_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/icons.h
+  ${ZZALOG_INCLUDE_DIR}/import_data.h
+  ${ZZALOG_INCLUDE_DIR}/init_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/intl_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/intl_widgets.h
+  ${ZZALOG_INCLUDE_DIR}/log_table.h
+  ${ZZALOG_INCLUDE_DIR}/lotw_handler.h
+  ${ZZALOG_INCLUDE_DIR}/main.h
+  ${ZZALOG_INCLUDE_DIR}/main_window.h
+  ${ZZALOG_INCLUDE_DIR}/menu_bar.h
+  ${ZZALOG_INCLUDE_DIR}/objects.h
+  ${ZZALOG_INCLUDE_DIR}/page_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/png_writer.h
+  ${ZZALOG_INCLUDE_DIR}/printer.h
+  ${ZZALOG_INCLUDE_DIR}/qrz_handler.h
+  ${ZZALOG_INCLUDE_DIR}/qsl_data.h
+  ${ZZALOG_INCLUDE_DIR}/qsl_dataset.h
+  ${ZZALOG_INCLUDE_DIR}/qsl_display.h
+  ${ZZALOG_INCLUDE_DIR}/qsl_editor.h
+  ${ZZALOG_INCLUDE_DIR}/qsl_emailer.h
+  ${ZZALOG_INCLUDE_DIR}/qsl_image.h
+  ${ZZALOG_INCLUDE_DIR}/qsl_widget.h
+  ${ZZALOG_INCLUDE_DIR}/qso_apps.h
+  ${ZZALOG_INCLUDE_DIR}/qso_bands.h
+  ${ZZALOG_INCLUDE_DIR}/qso_buttons.h
+  ${ZZALOG_INCLUDE_DIR}/qso_clock.h
+  ${ZZALOG_INCLUDE_DIR}/qso_clocks.h
+  ${ZZALOG_INCLUDE_DIR}/qso_data.h
+  ${ZZALOG_INCLUDE_DIR}/qso_details.h
+  ${ZZALOG_INCLUDE_DIR}/qso_dxcc.h
+  ${ZZALOG_INCLUDE_DIR}/qso_entry.h
+  ${ZZALOG_INCLUDE_DIR}/qso_log.h
+  ${ZZALOG_INCLUDE_DIR}/qso_log_info.h
+  ${ZZALOG_INCLUDE_DIR}/qso_manager.h
+  ${ZZALOG_INCLUDE_DIR}/qso_misc.h
+  ${ZZALOG_INCLUDE_DIR}/qso_net_entry.h
+  ${ZZALOG_INCLUDE_DIR}/qso_operation.h
+  ${ZZALOG_INCLUDE_DIR}/qso_qsl.h
+  ${ZZALOG_INCLUDE_DIR}/qso_qsl_vwr.h
+  ${ZZALOG_INCLUDE_DIR}/qso_query.h
+  ${ZZALOG_INCLUDE_DIR}/qso_rig.h
+  ${ZZALOG_INCLUDE_DIR}/qso_tabbed_rigs.h
+  ${ZZALOG_INCLUDE_DIR}/qso_wx.h
+  ${ZZALOG_INCLUDE_DIR}/record.h
+  ${ZZALOG_INCLUDE_DIR}/record_table.h
+  ${ZZALOG_INCLUDE_DIR}/regices.h
+  ${ZZALOG_INCLUDE_DIR}/report_tree.h
+  ${ZZALOG_INCLUDE_DIR}/rig_data.h
+  ${ZZALOG_INCLUDE_DIR}/rig_if.h
+  ${ZZALOG_INCLUDE_DIR}/rpc_data_item.h
+  ${ZZALOG_INCLUDE_DIR}/rpc_handler.h
+  ${ZZALOG_INCLUDE_DIR}/search_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/search.h
+  ${ZZALOG_INCLUDE_DIR}/serial.h
+  ${ZZALOG_INCLUDE_DIR}/socket_server.h
+  ${ZZALOG_INCLUDE_DIR}/spec_data.h
+  ${ZZALOG_INCLUDE_DIR}/spec_tree.h
+  ${ZZALOG_INCLUDE_DIR}/stn_call_dlg.h
+  ${ZZALOG_INCLUDE_DIR}/stn_data.h
+  ${ZZALOG_INCLUDE_DIR}/stn_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/stn_oper_dlg.h
+  ${ZZALOG_INCLUDE_DIR}/stn_qth_dlg.h
+  ${ZZALOG_INCLUDE_DIR}/tabbed_forms.h
+  ${ZZALOG_INCLUDE_DIR}/timestamp.h
+  ${ZZALOG_INCLUDE_DIR}/toolbar.h
+  ${ZZALOG_INCLUDE_DIR}/url_handler.h
+  ${ZZALOG_INCLUDE_DIR}/user_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/view.h
+  ${ZZALOG_INCLUDE_DIR}/web_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/win_dialog.h
+  ${ZZALOG_INCLUDE_DIR}/wsjtx_handler.h
+  ${ZZALOG_INCLUDE_DIR}/wx_handler.h
 )
 
 # set directory to install executable, reference data and documents.
@@ -255,11 +257,12 @@ endif()
 
 # Set target directory for .dlls and development-mode data
 message(STATUS "ZZALOG_BINARY_DIR = ${ZZALOG_BINARY_DIR}")
-if (MSVC AND MSVC_IDE)
-  set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR}/${CMAKE_BUILD_TYPE})
-else()
-  set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR})
-endif()
+message(STATUS "VCPKG_TARGET_TRIPLET = ${VCPKG_TARGET_TRIPLET}")
+#if (VCPKG_TARGET_TRIPLET)
+#  set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR}/${VCPKG_TARGET_TRIPLET})
+#else()
+set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR})
+#endif()
 
 # set compiler options
 if (MSVC)
@@ -287,7 +290,11 @@ else()
 endif()
 
 # libcurl
-set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH};"${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}")
+if (VCPKG_TARGET_TRIPLET)
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH};"${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}")
+else()
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH};"${_VCPKG_INSTALLED_DIR}")
+endif() 
 if(MSVC)
   message(STATUS "Looking for CURL at ${CURL_DIR}")
   find_package(CURL CONFIG REQUIRED)
@@ -323,17 +330,20 @@ if (NOT HAMLIB_FOUND AND MSVC)
   add_custom_target(hamlib_dll ALL)
   message(STATUS "Using custom HAMLIB settings - copying .dlls to ${ZZALOG_RUN_DIR}")
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libhamlib-4.dll" ${ZZALOG_RUN_DIR}/.
-  COMMENT "Copying libhamlib-4.dll and others to ${ZZALOG_RUN_DIR}"
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libhamlib-4.dll" ${ZZALOG_RUN_DIR}
+  COMMENT "Copying libhamlib-4.dll to ${ZZALOG_RUN_DIR}"
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libusb-1.0.dll" ${ZZALOG_RUN_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libusb-1.0.dll" ${ZZALOG_RUN_DIR}
+  COMMENT "Copying libusb-1.0.dll to ${ZZALOG_RUN_DIR}"
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libwinpthread-1.dll" ${ZZALOG_RUN_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libwinpthread-1.dll" ${ZZALOG_RUN_DIR}
+  COMMENT "Copying libwinpthread-1.dll to ${ZZALOG_RUN_DIR}"
   )
   add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libgcc_s_seh-1.dll" ${ZZALOG_RUN_DIR}/.
+  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libgcc_s_seh-1.dll" ${ZZALOG_RUN_DIR}
+  COMMENT "Copying libgcc_s_seh-1 to ${ZZALOG_RUN_DIR}"
   )
 endif()  
 
@@ -371,8 +381,8 @@ add_dependencies(zzalog_contests zzacommon)
 
 ## Set header include directoies.
 target_include_directories(${TARGET} PRIVATE 
-  ${CMAKE_SOURCE_DIR}/include 
-  ${CMAKE_SOURCE_DIR}/contests/include
+  ${ZZALOG_INCLUDE_DIR} 
+  ${ZZALOG_SOURCE_DIR}/contests/include
   ${ZZACOMMON_INCLUDE_DIR}
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
@@ -401,8 +411,14 @@ target_link_libraries(${TARGET} PRIVATE
 )
 
 # copy reference data
-file(COPY ${DATAFILES}
-  DESTINATION ${ZZALOG_RUN_DIR})
+add_custom_target(reference_data ALL)
+message(STATUS "Reference data: ${DATAFILES}")
+foreach(F ${DATAFILES})
+  add_custom_command(TARGET reference_data POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${F} ${ZZALOG_RUN_DIR}
+    COMMENT "Copying ${F} to ${ZZALOG_RUN_DIR}"
+  )
+endforeach()
 
 # generate documents - add switches for conditional build.
 option(ZZALOG_USERGUIDE "Generate Userguide" ON)
