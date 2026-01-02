@@ -76,7 +76,7 @@ if(DOXYGEN_FOUND)
     DEPENDS ${DOXY_UG_FILES} ${DOXY_UG_OUT}
     COMMAND ${DOXYGEN_EXECUTABLE} ${DOXY_UG_OUT}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Generating userguide"
+    COMMENT "ZZALOG: Generating userguide"
     VERBATIM
   )
   add_custom_target(ug_html ALL
@@ -91,7 +91,7 @@ if(DOXYGEN_FOUND)
           DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
                   ug_html
           COMMAND miktex-texworks.exe  ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.tex
-          COMMENT "Generating PDF Userguide"
+          COMMENT "ZZALOG: Generating PDF Userguide"
           VERBATIM
         )
       else()
@@ -100,7 +100,7 @@ if(DOXYGEN_FOUND)
           DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
                   ug_html
           COMMAND make -C ${CMAKE_CURRENT_BINARY_DIR}/latex >> /dev/null
-          COMMENT "Generating PDF Userguide"
+          COMMENT "ZZALOG: Generating PDF Userguide"
           VERBATIM
         )
       endif()

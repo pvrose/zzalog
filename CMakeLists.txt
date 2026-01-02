@@ -340,29 +340,9 @@ endif()
 ## Needed for all external projects
 include(ExternalProject)
 
-# Add zzacommon as an ExternalProject
-## Set the directories to build zzacommon in.
-set(ZZACOMMON_SOURCE_DIR ${CMAKE_SOURCE_DIR}/zzacommon)
-set(ZZACOMMON_BUILD_DIR ${CMAKE_BINARY_DIR}/zzacommon)
-set(ZZACOMMON_INSTALL_DIR ${ZZACOMMON_BUILD_DIR}/install)
-if(MSVC)
-  set(ZZACOMMON_STATIC_LIB ${ZZACOMMON_INSTALL_DIR}/lib/zzacommon.lib)
-else()
-  set(ZZACOMMON_STATIC_LIB ${ZZACOMMON_INSTALL_DIR}/lib/libzzacommon.a)
-endif()
-## Clone git repository (under source directory)
-ExternalProject_Add(zzacommon 
-  GIT_REPOSITORY https://github.com/pvrose/zzacommon
-  GIT_TAG 9da82e0d471d4b7767a6a2eba72c9b2ccf469d46 # Release_1.0.0
-  PREFIX ${ZZACOMMON_BUILD_DIR}
-  SOURCE_DIR ${ZZACOMMON_SOURCE_DIR}
-  CMAKE_ARGS
-    -DCMAKE_INSTALL_PREFIX=${ZZACOMMON_INSTALL_DIR}
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DBUILD_SHARED_LIBS=OFF
-  BUILD_BYPRODUCTS
-    ${ZZACOMMON_STATIC_LIB}
-)
+# Add ZZACOMMON
+add_subdirectory(../zzacommon ../zzacommon/build)
+set(ZZACOMMON_INCLUDE_DIR ${ZZACOMMON_SOURCE_DIR}/include)
 
 ## Subdirectories as part of ZZALOG
 add_subdirectory(contests)
@@ -393,7 +373,7 @@ add_dependencies(zzalog_contests zzacommon)
 target_include_directories(${TARGET} PRIVATE 
   ${CMAKE_SOURCE_DIR}/include 
   ${CMAKE_SOURCE_DIR}/contests/include
-  ${ZZACOMMON_SOURCE_DIR}/include
+  ${ZZACOMMON_INCLUDE_DIR}
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}
@@ -417,7 +397,7 @@ target_link_libraries(${TARGET} PRIVATE
   ${HAMLIB_LIBRARY}
   zzalog_contests
   pugixml
-  ${ZZACOMMON_STATIC_LIB}
+  zzacommon
 )
 
 # copy reference data
@@ -433,11 +413,11 @@ else()
 endif()
 # Generate documents - generate userguide.
 if(ZZALOG_USERGUIDE) 
-  message(STATUS "Adding userguide")
+  message(STATUS "ZZALOG: Adding userguide")
   add_subdirectory(userguide)
   add_dependencies(${TARGET} ug_html)
   if (ZZALOG_USERGUIDE_PDF)
-    message(STATUS "Adding userguide PDF")
+    message(STATUS "ZZALOG: Adding userguide PDF")
     add_dependencies(${TARGET} pdf)
   endif()
 endif()
@@ -445,7 +425,7 @@ endif()
 option(ZZALOG_API_GUIDE "Generate API guide" ON)
 # Generate API documentation.
 if(ZZALOG_API_GUIDE) 
-  message(STATUS "Adding API documentation")
+  message(STATUS "ZZALOG: Adding API documentation")
   add_subdirectory(api)
   add_dependencies(${TARGET} api_html)
 endif()
