@@ -309,10 +309,11 @@ else()
 endif()
 
 # libhamlib
-find_package(Hamlib)
+set(CMAKE_MODULE_PATH ../ ./)
+find_package(HAMLIB)
 if (NOT HAMLIB_FOUND AND MSVC)
-  message(STATUS "Hamlib not found")
-## Externally set hamlib install directory: find_package(Hamlib) not part of installation
+  message(STATUS "HAMLIB not found")
+## Externally set hamlib install directory: find_package(HAMLIB) not part of installation
   if (NOT HAMLIB_INSTALL_DIR)
     set(HAMLIB_INSTALL_DIR "C:\\Program Files\\hamlib-w64-4.6.5")
   endif()
@@ -320,7 +321,7 @@ if (NOT HAMLIB_FOUND AND MSVC)
   set(HAMLIB_LIBRARY "${HAMLIB_INSTALL_DIR}\\lib\\msvc\\libhamlib-4.lib")
 ## Required DLLs need to be copied directory with executable.
   add_custom_target(hamlib_dll ALL)
-  message(STATUS "Using custom Hamlib settings - copying .dlls to ${ZZALOG_RUN_DIR}")
+  message(STATUS "Using custom HAMLIB settings - copying .dlls to ${ZZALOG_RUN_DIR}")
   add_custom_command(TARGET hamlib_dll POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libhamlib-4.dll" ${ZZALOG_RUN_DIR}/.
   COMMENT "Copying libhamlib-4.dll and others to ${ZZALOG_RUN_DIR}"
