@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(zzalog_contests)
+project(ZZALOG_CONTESTS)
+set(ZZALOG_CONTESTS_INCLUDE_DIR ${ZZALOG_CONTESTS_SOURCE_DIR}/include)
 
 set (TARGET zzalog_contests)
 set(CMAKE_CXX_STANDARD 17)
@@ -24,14 +25,14 @@ else()
   add_compile_options(-g)
 endif()
 
-set(CPPFILES 
-  src/basic.cpp
-  src/iaru_hf.cpp
+set(ZZALOG_CONTESTS_CPPFILES 
+  ${ZZALOG_CONTESTS_SOURCE_DIR}/src/basic.cpp
+  ${ZZALOG_CONTESTS_SOURCE_DIR}/src/iaru_hf.cpp
 )
 
-set(HPPFILES
-  include/basic.h
-  include/iaru_hf.h
+set(ZZALOG_CONTESTS_HPPFILES
+  ${ZZALOG_CONTESTS_INCLUDE_DIR}/basic.h
+  ${ZZALOG_CONTESTS_INCLUDE_DIR}/iaru_hf.h
 )
 
 # set document directory
@@ -46,9 +47,9 @@ set(CMAKE_MODULE_PATH ../)
 set(CMAKE_BUILD_RPATH ${CMAKE_CURRENT_BINARY_DIR})
 add_library(${TARGET})
 target_include_directories(${TARGET} PRIVATE 
-  ./include
-  ../include
-  ../zzacommon/include
+  ${ZZALOG_CONTESTS_INCLUDE_DIR}
+  ${ZZALOG_INCLUDE_DIR}
+  ${ZZACOMMON_INCLUDE_DIR}
   ${FLTK_INCLUDE_DIR}
 )
 if (MSVC)
@@ -59,12 +60,12 @@ endif()
 # Component sources
 target_sources(${TARGET} 
   PRIVATE 
-    ${CPPFILES}
+    ${ZZALOG_CONTESTS_CPPFILES}
   PUBLIC 
     FILE_SET contests_headers
     TYPE HEADERS
     BASE_DIRS ./include
-    FILES ${HPPFILES}
+    FILES ${ZZALOG_CONTESTS_HPPFILES}
 )
 
 install(TARGETS ${TARGET})

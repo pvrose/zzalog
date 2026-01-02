@@ -11,8 +11,10 @@ Data used by ZZALOG will be installed in
 \subsection win_source Compiling from source
 
 The source may be cloned from https://github.com/pvrose/zzatools. 
-It is recommended to use the base directory for Developer Powershell
-for MS. Open Developer Powershell and run the following:
+This flow has been checked using Microsoft Visual Studio 2022 and 2026 but only with
+configuration x64-Debug from scratch. 
+It is recommended to run this flow within Visual Studio. Open Visual Studio and continue without
+code. Open a Powershell terminal: View->Terminal then within that terminal do the following:
 
 \par Fetch and install Hamlib.
 Download the latest Hamlib: 
@@ -42,21 +44,18 @@ cd ..
 git clone https://github.com/nlohmann/json
 git clone https://github.com/GetHobbelt/pthread-win32
 \endcode
-\par Fetch ZZALOG, configure and build.
+\par Fetch ZZALOG and the utilities package ZZACOMMON
 \code
 git clone https://github.com/pvrose/zzalog
-cd zzalog
-cmake -B build -D"CMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake" [-DHAMLIB_INSTALL_DIR=[....]]
-cmake --build build 
-cmake --install build
+git clone https://github.com/pvrose/zzacommon
 \endcode
 
-The configure process defaults to using the version of hamlib
-downloaded by the instructions above. If this is different then
-specify the install location of that hamlib.
+\par Building and Installing ZZALOG
+To build ZZALOG open the ZZALOG folder within Visual Studio: File->Open->Folder and
+select zzalog. This should now automatically run the CMake configuration step.
+Select Build->Build ALL and the executable and documentation will get built.
 
-It should be possible after having cloned the ZZALIB repository to then
-launch the MSVC GUI and build therein.
+To install select Build->Install ZZALOG.
 
 \section linux_install Linux Installation
 

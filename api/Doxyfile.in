@@ -991,8 +991,9 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = @CMAKE_SOURCE_DIR@/include \
-                         @CMAKE_SOURCE_DIR@/contests/include
+INPUT                  = @ZZALOG_INCLUDE_DIR@ \
+                         @ZZALOG_CONTESTS_INCLUDE_DIR@ \
+                         @ZZACOMMON_INCLUDE_DIR@
 
 # This tag can be used to specify the character encoding of the source files
 # that Doxygen parses. Internally Doxygen uses the UTF-8 encoding. Doxygen uses

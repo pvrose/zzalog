@@ -9,18 +9,11 @@ if(DOXYGEN_FOUND)
   set(DOXY_API_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
   set(DOXY_API_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 
-  #file(GLOB DOXY_API_FILES 
-  #  ${CMAKE_CURRENT_SOURCE_DIR}/../contests/include/*.h
-  #  ${CMAKE_CURRENT_SOURCE_DIR}/../zzalog/include/*.h
-  #  ${CMAKE_CURRENT_SOURCE_DIR}/../common/include/*.h
-  #  ${CMAKE_CURRENT_SOURCE_DIR}/../widgets/include/*.h
-  #)
-
+  # Set source files
   set(DOXY_API_FILES 
-  #  ../contests/${HPPFILES}
-  #  ../common/${HPPFILES}
-  #  ../widgets/${HPPFILES}
-    ../${zzalog_HPPFILES}
+    ${ZZALOG_CONTESTS_HPPFILES}
+    ${ZZALOG_HPPFILES}
+    ${ZZACOMMON_HPPFILES}
   )
 
   # Copy Doxyfile
