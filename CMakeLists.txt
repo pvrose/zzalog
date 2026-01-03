@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG)
+project(ZZALOG VERSION 3.6.12)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
 
@@ -24,8 +24,7 @@ else()
 endif()
 
 # Set timestamp and version into files (requires to be rebuilt to take effect)
-string(TIMESTAMP BUILD_TIMESTAMP UTC)
-set(VERSION_STRING "3.6.11+")
+string(TIMESTAMP ZZALOG_TIMESTAMP UTC)
 configure_file(
   ${ZZALOG_INCLUDE_DIR}/timestamp.h.in
   ${ZZALOG_INCLUDE_DIR}/timestamp.h
