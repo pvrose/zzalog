@@ -50,11 +50,12 @@ git clone https://github.com/pvrose/zzalog
 git clone https://github.com/pvrose/zzacommon
 \endcode
 
-\par Building and Installing ZZALOG
+\par Building ZZALOG
 To build ZZALOG open the ZZALOG folder within Visual Studio: File->Open->Folder and
 select zzalog. This should now automatically run the CMake configuration step.
 Select Build->Build ALL and the executable and documentation will get built.
 
+\par Installing ZZALOG
 To install select Build->Install ZZALOG.
 
 \section linux_install Linux Installation
