@@ -275,6 +275,7 @@ endif()
 # FLTK - 
 # TODO: Should this be an ExternalProject?
 # MSVC work-round as FLTK built in user.
+message(STATUS "FLTK_DIR: ${FLTK_DIR}")
 if (MSVC AND NOT FLTK_DIR)
   set(FLTK_DIR "${USER_HOME_DIR}\\source\\repos\\fltk\\build")
 endif()
