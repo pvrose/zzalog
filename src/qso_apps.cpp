@@ -3,7 +3,7 @@
 #include "file_holder.h"
 #include "file_viewer.h"
 #include "filename_input.h"
-#include "fllog_emul.h"
+#include "fldigi_handler.h"
 #include "main.h"
 #include "password_input.h"
 #include "qso_manager.h"
@@ -280,12 +280,12 @@ void app_grp::enable_widgets() {
     }
     if (app_data_->server) {
         if (app_data_->name == FLDIGI) {
-            if (fllog_emul_ && fllog_emul_->has_server()) {
+            if (fldigi_handler_ && fldigi_handler_->has_server()) {
                 bn_listening_->value(true);
                 bn_listening_->activate();
                 if (!app_data_->admin || strlen(ip_passw_->value()) > 0) {
                     bn_connect_->activate();
-                    if (fllog_emul_->has_data()) {
+                    if (fldigi_handler_->has_data()) {
                         bn_connect_->value(true);
                     }
                     else {
@@ -377,10 +377,10 @@ void app_grp::cb_bn_listen(Fl_Widget* w, void* v) {
     app_grp* that = ancestor_view<app_grp>(w);
     std::string server = that->label();
     if (server == FLDIGI) {
-        if (fllog_emul_->has_server()) {
-            fllog_emul_->close_server();
+        if (fldigi_handler_->has_server()) {
+            fldigi_handler_->close_server();
         } else {
-            fllog_emul_->run_server();
+            fldigi_handler_->run_server();
         }
     }
     else if (server == WSJTX) {
@@ -807,7 +807,7 @@ void qso_apps::cb_tabs(Fl_Widget* w, void* v) {
 
 // Add the server links
 void qso_apps::add_servers(app_data_t* data) {
-    if (data->name == FLDIGI && fllog_emul_) {
+    if (data->name == FLDIGI && fldigi_handler_) {
     } 
     else if (data->name == WSJTX && wsjtx_handler_) {
     }
