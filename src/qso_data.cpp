@@ -1496,7 +1496,7 @@ void qso_data::action_save_net_all() {
 		switch (logging_state_) {
 		case NET_STARTED:
 			// SAving record number for later upload (only if not on the "no qSL" list
-			if (!qsl_dataset_->no_qsl(g_net_entry_->qso()->item("CALL"))) {
+			if (AUTO_UPLOAD && !qsl_dataset_->no_qsl(g_net_entry_->qso()->item("CALL"))) {
 				upload_qsos->add_record(g_net_entry_->qso_number());
 			}
 			ok = action_save(false);
