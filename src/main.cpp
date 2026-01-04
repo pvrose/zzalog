@@ -26,7 +26,7 @@ main.cpp - application entry point
 #include "extract_data.h"
 #include "fields.h"
 #include "file_holder.h"
-#include "fllog_emul.h"
+#include "fldigi_handler.h"
 #include "import_data.h"
 #include "intl_dialog.h"
 #include "lotw_handler.h"
@@ -195,7 +195,7 @@ cty_data* cty_data_ = nullptr;
 eqsl_handler* eqsl_handler_ = nullptr;
 extract_data* extract_records_ = nullptr;
 fields* fields_ = nullptr;
-fllog_emul* fllog_emul_ = nullptr;
+fldigi_handler* fldigi_handler_ = nullptr;
 import_data* import_data_ = nullptr;
 intl_dialog* intl_dialog_ = nullptr;
 lotw_handler* lotw_handler_ = nullptr;
@@ -909,7 +909,7 @@ void add_qsl_handlers() {
 			wsjtx_handler_ = new wsjtx_handler;
 		}
 		// FLLOG emulator
-		if (fllog_emul_ == nullptr) fllog_emul_ = new fllog_emul;
+		if (fldigi_handler_ == nullptr) fldigi_handler_ = new fldigi_handler;
 		// Weather handler
 		if (wx_handler_ == nullptr) wx_handler_ = new wx_handler;
 	}
@@ -1027,7 +1027,7 @@ void tidy() {
 	delete lotw_handler_;
 	delete eqsl_handler_;
 	delete url_handler_;
-	delete fllog_emul_;
+	delete fldigi_handler_;
 	delete extract_records_;
 	delete import_data_;
 	delete book_;
@@ -1314,7 +1314,7 @@ int main(int argc, char** argv)
 		menu_bar_->enable(true);
 		menu_bar_->redraw();
 		// Only do this if we haven't tried to close
-		fllog_emul_->run_server();
+		fldigi_handler_->run_server();
 		// enable menu
 		// now show the window
 		main_window_->show(argc, argv);
