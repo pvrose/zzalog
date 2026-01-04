@@ -351,7 +351,7 @@ endif()
 include(ExternalProject)
 
 # Add ZZACOMMON
-add_subdirectory(../zzacommon ../zzacommon/build)
+add_subdirectory(../zzacommon ${CMAKE_BINARY_DIR}/zzacommon)
 set(ZZACOMMON_INCLUDE_DIR ${ZZACOMMON_SOURCE_DIR}/include)
 
 ## Subdirectories as part of ZZALOG
