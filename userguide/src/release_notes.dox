@@ -2,13 +2,14 @@
 
 \section rev_3-6-12 Revision 3.6.12 [Unreleased]
 
-- Code refactoring to improve maintainability and performance.
-- Create separate repository for code that can be reused in other projects (ZZACOMMON).
-- Close banner now closes the application.
-- Add keyboard shortcuts for critical buttons in \ref qso_manager.
-- Download files from www.country-files.com within ZZALOG.
-- Add check on Hamlib rig number versus model name.
-- Cosmetic changes.
+- Functional changes
+  - Close banner now closes the application.
+  - Add keyboard shortcuts for critical buttons in \ref qso_manager.
+  - Download files from www.country-files.com within ZZALOG.
+  - Add check on Hamlib rig number versus model name.
+- Cosmetic and non-functional changes.
+  - Code linting - resulted in some performnace improvement.
+  - Create separate repository for code that can be reused in other projects (ZZACOMMON).
   - Add timestamp to banner status messages.
   - Make current dirty QSO records a debug option: -d m
 - Perfomance changes.
@@ -20,6 +21,7 @@
   - Misreads exception VERSION in country-data.com cty.csv file.
   - Exception when trying to delete a single entry from an active net.
   - No way to specify where to find ALL.TXT file used by WSJT-X.
+  - Switch "-t" ignored when saving a net.
 
 \section rev_3-6-11 Revision 3.6.11
 

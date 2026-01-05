@@ -63,6 +63,12 @@ int fldigi_handler::rcv_request(void* instance, std::stringstream& os) {
 
 //! Receive a datagram from FLDIGI
 int fldigi_handler::rcv_dgram(std::stringstream& os) {
+	// Set connected
+	if (!connected_) {
+		connected_ = true;
+		qso_manager_->enable_widgets();
+	}
+	// Get ADIF payload
 	adi_reader* reader = new adi_reader();
 	adi_reader::load_result_t dummy;
 	record* qso = new record;
