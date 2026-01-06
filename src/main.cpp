@@ -86,7 +86,7 @@ main.cpp - application entry point
 
 
 //! Program copyright - displayed in all windows.
-std::string COPYRIGHT = "\302\251 Philip Rose GM3ZZA 2018-2025. All rights reserved.";
+std::string COPYRIGHT = "\302\251 Philip Rose GM3ZZA 2018-2026. All rights reserved.";
 //! Third-party acknowledgments.
 std::string PARTY3RD_COPYRIGHT = "Prefix data courtesy of clublog.org, country-files.com and dxatlas.com\n"
 "ZZALOG is based in part on the work of the FLTK project https://www.fltk.org.";
