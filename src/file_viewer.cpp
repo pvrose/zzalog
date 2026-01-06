@@ -45,6 +45,8 @@ void file_viewer::create() {
 	display_->textfont(FL_COURIER);
 	display_->linenumber_font(FL_COURIER);
 	display_->textsize(12);
+	display_->add_key_binding('s', FL_CTRL, kf_save);
+	display_->add_key_binding('x', FL_CTRL, kf_close);
 
 	display_->buffer(buffer_);
 
@@ -164,5 +166,17 @@ void file_viewer::save_file() {
 // Is dirty
 bool file_viewer::is_dirty() const {
 	return dirty_;
+}
+
+// CTRL-s Entered
+int file_viewer::kf_save(int key, Fl_Text_Editor* editor) {
+	cb_save(editor, nullptr);
+	return 0;
+}
+
+// CTRL-x Entered
+int file_viewer::kf_close(int key, Fl_Text_Editor* editor) {
+	cb_close(editor, nullptr);
+	return 0;
 }
 

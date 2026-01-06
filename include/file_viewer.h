@@ -50,6 +50,10 @@ public:
     //! has been made, so marks the data "dirty".
     static void cb_modified(int pos, int inserted, int deleted, int restyled, const char* deletion, void* arg);
 
+	//! Key binding for CTRL-s - calls save
+	static int kf_save(int c, Fl_Text_Editor* editor);
+	//! Key binding for CTRL-x - ends window
+	static int kf_close(int c, Fl_Text_Editor* editor);
 
 protected:
 
