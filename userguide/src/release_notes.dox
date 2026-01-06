@@ -5,6 +5,7 @@
 - Functional changes
   - Close banner now closes the application.
   - Add keyboard shortcuts for critical buttons in \ref qso_manager.
+  - Add CTRL-s (Save) and CTRL-x (Exit) in script file viewer.
   - Download files from www.country-files.com within ZZALOG.
   - Add check on Hamlib rig number versus model name.
   - Replace FLLog emulation with listening for UDP packets from FlDigi.
