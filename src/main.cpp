@@ -17,6 +17,7 @@ main.cpp - application entry point
 #include "about_dialog.h"
 #include "band_data.h"
 #include "band_window.h"
+#include "banner.h"
 #include "book.h"
 #include "club_handler.h"
 #include "config.h"
@@ -437,6 +438,11 @@ void cb_bn_close(Fl_Widget* w, void*v) {
 		main_settings.set("Top", main_window_->y_root());
 		main_settings.set("Width", main_window_->w());
 		main_settings.set("Height", main_window_->h());
+		settings banner_settings(&view_settings, "Banner");
+		int bw = status_->get_banner()->w();
+		int bh = status_->get_banner()->h();
+		banner_settings.set("Width", bw);
+		banner_settings.set("Height", bh);
 
 		// Save sticky switches
 		save_switches();
@@ -1265,7 +1271,16 @@ int main(int argc, char** argv)
 
 	// Ctreate status to handle status messages
 	status_ = new status(status::HAS_BANNER | status::HAS_LOGFILE, OBJECT_DATA);
-
+	{
+		settings top_settings;
+		settings view_settings(&top_settings, "Views");
+		settings banner_settings(&view_settings, "Banner");
+		int bw = status_->get_banner()->w();
+		int bh = status_->get_banner()->h();
+		banner_settings.get("Width", bw, bw);
+		banner_settings.get("Height", bh, bh);
+		status_->get_banner()->size(bw, bh);
+	}
 	// Now display sticky switch message
 	status_->misc_status(ST_NOTE, sticky_message_.c_str());	
 	print_args(argc, argv);
