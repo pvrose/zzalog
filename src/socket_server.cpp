@@ -239,6 +239,20 @@ int socket_server::create_server()
 				return result;
 			}
 		}
+		// Set up destimation address
+		SOCKADDR_IN d_addr;
+		memset(&d_addr, 0, sizeof(d_addr));
+		d_addr.sin_family = AF_INET;
+		d_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+		d_addr.sin_port = htons(port_num_);
+
+		// Bind to receive address
+		result = bind(server_, (SOCKADDR*)&d_addr, sizeof(d_addr));
+		if (result < 0) {
+			handle_error("Unable to bind socket");
+			return result;
+		}
+
 	}
 //	getsockname(server_, (SOCKADDR *)&server_addr, &len_server_addr);
 	snprintf(message, 256, "SOCKET: Connected socket %s:%d", inet_ntoa(server_addr.sin_addr), htons(server_addr.sin_port));

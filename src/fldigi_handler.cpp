@@ -4,6 +4,7 @@
 #include "main.h"
 #include "menu_bar.h"
 #include "qso_apps.h"
+#include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "socket_server.h"
@@ -71,10 +72,22 @@ int fldigi_handler::rcv_dgram(std::stringstream& os) {
 	// Get ADIF payload
 	adi_reader* reader = new adi_reader();
 	adi_reader::load_result_t dummy;
-	record* qso = new record;
-	reader->load_record(qso, os, dummy);
-	qso->item("MY_STATE", std::string(""));
-	qso->item("MODE", qso->item("MODE"), true);
+	record* dummy_qso = new record;
+	reader->load_record(dummy_qso, os, dummy);
+	record* qso = qso_manager_->start_modem_qso(dummy_qso->item("CALL"), qso_data::QSO_COPY_FLDIGI);
+	for(auto& it : *dummy_qso) {
+		if (qso->item_exists(it.first)) {
+			if (qso->item(it.first) != it.second) {
+				char msg[128];
+				snprintf(msg, sizeof(msg), "FLDIGI: QSO Field %s unexpected value %s (vs %s)",
+			        it.first.c_str(), it.second.c_str(), qso->item(it.first).c_str());
+				status_->misc_status(ST_WARNING, msg);
+			}
+	 	} 
+		else {
+			qso->item(it.first, it.second);
+		}
+	}
 	qso_manager_->update_modem_qso(true);
 	status_->misc_status(ST_NOTE, "FLDIGI: Logged QSO");
 	return 1;
