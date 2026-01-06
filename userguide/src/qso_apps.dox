@@ -57,17 +57,10 @@ WSJT-X should also be configured to use this port number (see below).
 \image html web_dialog_7.png "Screenshot of WSJT-X"
 \image latex web_dialog_7.png "Screenshot of WSJT-X"
 
-\note Multicast addresses are not yet supported in the Windows version of ZZALOG.
-
 \subsection fldigi Configuring for FlDigi
 
-ZZALOG emulates the application FlLog. This is an application which is part of the FlDigi
-suite of programs and is used by FlDigi to check worked-before status and log completed QSOs.
-The address and port that FlDigi uses appears to be hardwired as 127.0.0.1:8421. To enable
-FlDigi to use this, FlDigi must be told to use a log server - see below.
-
-\image html web_dialog_8.png "Screenshot of FlDigi"
-\image latex web_dialog_8.png "Screenshot of FlDigi"
+FlDigi can be configured to send ADIF as UDP datagrams. The defaultt port used is 9876.
+This can be configured in FlDigi but this configuration must be mirrored in ZZALOG.
 
 \section apps_script Using scripts
 

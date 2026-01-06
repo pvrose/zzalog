@@ -7,6 +7,7 @@
   - Add keyboard shortcuts for critical buttons in \ref qso_manager.
   - Download files from www.country-files.com within ZZALOG.
   - Add check on Hamlib rig number versus model name.
+  - Replace FLLog emulation with listening for UDP packets from FlDigi.
 - Cosmetic and non-functional changes.
   - Code linting - resulted in some performnace improvement.
   - Create separate repository for code that can be reused in other projects (ZZACOMMON).
