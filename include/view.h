@@ -33,7 +33,7 @@
 		int min_w() const;
 		//! Returns minimum height the view can be resized
 		int min_h() const;
-		//! std::set book used by the view.
+		//! Set book used by the view.
 		void set_book(book* book);
 		//! Returns the book 
 		book* get_book();

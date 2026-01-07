@@ -38,7 +38,7 @@ typedef size_t qso_num_t;
 		//! \param record_1 The index of the QSO record that has specifically ben modified.
 		//! \param record_2 The index of an asscoiated QSO record. 
 		void update_views(view* requester, hint_t hint, qso_num_t record_1, qso_num_t record_2 = 0);
-		//! std::set the various books into the views
+		//! Set the various books into the views
 		void books();
 		//! Returns the specific view with identifier \p view_name.
 		view* get_view(object_t view_name);

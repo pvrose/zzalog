@@ -9,7 +9,7 @@
 
 class rig_if;
 
-//! This class presents a std::set of tabs indicating the usable rigs.
+//! This class presents a set of tabs indicating the usable rigs.
 
 //! Initially only rigs actively connectable are shown, but if a QSO refers to another
 //! that will tehn get shown.

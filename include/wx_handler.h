@@ -63,9 +63,9 @@ public:
     void ticker();
     //! Callback from ticker every 30 minutes (3 minutes in DEBUG_QUICK mode).
     static void cb_ticker(void* v);
-    //! Callback from fetch std::thread when complete
+    //! Callback from fetch thread when complete
     static void cb_fetch_done(void* v);
-    //! Callback from fetch std::thread on error.
+    //! Callback from fetch thread on error.
     static void cb_fetch_error(void* v);
 
     // Get the various weather items - 
@@ -111,9 +111,9 @@ public:
 
 protected:
 
-    //! Run the fetch std::thread
+    //! Run the fetch thread
     static void do_thread(wx_handler* that);
-    //! The fetch std::thread
+    //! The fetch thread
     std::thread* wx_thread_;
     //! True when data has been received from weather server
     std::atomic<bool> wx_valid_;

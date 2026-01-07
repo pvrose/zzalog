@@ -61,7 +61,7 @@
 		void extract_call(std::string callsign);
 		//! Add record with index \p record_num in full logbook to the extracted book.
 		void add_record(qso_num_t record_num);
-		//! Sort records by \p field_name (timestamp if empty std::string), in reverse order if \p reverse is std::set.
+		//! Sort records by \p field_name (timestamp if empty string), in reverse order if \p reverse is std::set.
 		void sort_records(std::string field_name, bool reverse);
 		//! Special extract (\p for reason = NO_NAME, NO_QTH, LOCATOR).
 		void extract_special(extract_mode_t reason);
@@ -86,7 +86,7 @@
 		//! Check and add record: \p record_num is index in full log. 
 		void check_add_record(qso_num_t record_num);
 
-		//! Map index \p record_num in full std::map to the last index in extracted data.
+		//! Map index \p record_num in full map to the last index in extracted data.
 		void map_record(qso_num_t record_num);
 
 		//! Return the index in the full log representing the index in this log
@@ -135,10 +135,10 @@
 		//! Returns true if \p field in \p lhs QSO is less than \p rhs QSO unless
 		//! \p reversed is true.
 		
-		//! If field is an empty std::string, then the timestamp is used.
+		//! If field is an empty string, then the timestamp is used.
 		bool comp_records(record* lhs, record* rhs, std::string field, bool reversed);
 
-		//! The std::list of extract criteria
+		//! The list of extract criteria
 		std::list<search_criteria_t> extract_criteria_;
 		//! The mapping of indices in this log to those in full log.
 		std::vector<qso_num_t> mapping_;

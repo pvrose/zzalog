@@ -99,7 +99,7 @@ public:
     //! Callback from the "Show" buttons: \p v specifes the specific button.
     static void cb_show(Fl_Widget*w, void* v);
 
-    //! std::set the QSO record \p qso.
+    //! Set the QSO record \p qso.
     void qso(record* qso);
 
     //! Returns the current QTH. 

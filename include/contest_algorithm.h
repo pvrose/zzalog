@@ -76,7 +76,7 @@ public:
 
     //! Return all fields used in algorithm.
     
-    //! \result This method should return a std::vector<std::string> comprising all the
+    //! \result This method should return a vector<string> comprising all the
     //! fields referenced by the algorithm.
     field_list fields();
 

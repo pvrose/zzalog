@@ -136,7 +136,7 @@ enum hint_t : uchar;
 		void deactivate_all();
 
 		// Shared QSL methods
-		//! Download std::list of QSLs from \p server.
+		//! Download list of QSLs from \p server.
 		void qsl_download(uchar server);
 		//! Extract data for uploading to \p server.
 		void qsl_extract(uchar server);

@@ -177,13 +177,13 @@ protected:
     //! Add all the tabs
     void create_tabs(std::string name = "");
 
-    //! ADjust the size of the widget after creating the component widgets.
+    //! Adjust the size of the widget after creating the component widgets.
     void adjust_size();
 
     Fl_Button* bn_new_;       //!< Button to create new app configuration.
     Fl_Input* ip_new_;        //!< Inputfor name of new application.
 
-   // Tabbed std::set of app_grp
+    // Tabbed set of app_grp
     tabs_nonav* tabs_;           //!< Tabs, one for each app.
 
     // File viewer

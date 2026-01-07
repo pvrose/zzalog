@@ -9,14 +9,14 @@
 
 	//! XML-RPC data types
 	enum rpc_data_t {
-		XRT_EMPTY,              //!< Empty data std::set
+		XRT_EMPTY,              //!< Empty data set
 		XRT_INT,                //!< I4
 		XRT_BOOLEAN,            //!< Y/N
 		XRT_DOUBLE,             //!< double
 		XRT_STRING,             //!< String (ASCII)
 		XRT_DEFAULT,            //!< String (ASCII) by default of no type
-		XRT_BYTES,              //!< store as std::string after compacting the data
-		XRT_DATETIME,           //!< Date/time - store as std::string
+		XRT_BYTES,              //!< store as string after compacting the data
+		XRT_DATETIME,           //!< Date/time - store as string
 		XRT_ARRAY,              //!< Array of data types
 		XRT_STRUCT              //!< Struct
 	};
@@ -43,13 +43,13 @@
 		rpc_data_t type() const;
 		// Get the data as specific type - returms true if is the correct type
 		bool get(int32_t& i) const;        //!< Receives item as a 32-bit integer, returns false if not integer
-		bool get(std::string& s) const;         //!< Receives item as a std::string, returns false if not a std::string
+		bool get(std::string& s) const;         //!< Receives item as a string, returns false if not a string
 		bool get(double& d) const;         //!< Receives item as a double, returns false if not floating point
 		bool get(rpc_array*& ap);    //!< Receives iten as an array, returns false if not an array.
 		bool get(rpc_struct*& mp);   //!< Receives item as a structure, returns false if not a structure.
 		// Returns the data as specific type
 		int32_t get_int() const;           //!< Returns item as a 32-bit integer
-		std::string get_string();         //!< Returns item as a std::string
+		std::string get_string();         //!< Returns item as a string
 		double get_double() const;         //!< Returns item as a double-precision value
 		rpc_array* get_array();      //!< Returns item as an array
 		rpc_struct* get_struct();    //!< Returns item as a structure
@@ -58,7 +58,7 @@
 		std::string print_item();
 		//! Set the data as int or bool
 		void set(int32_t i, rpc_data_t Type);
-		//! Set the data as a std::string or byte encoded std::string or a date/time
+		//! Set the data as a string or byte encoded string or a date/time
 		void set(std::string s, rpc_data_t Type);
 		void set(double d);          //!< Set the item as a double-precision value.
 		void set(rpc_array* ap);     //!< Set the item as an array
@@ -69,9 +69,9 @@
 		rpc_data_t type_;
 		//! Its representation as a 32-bit integer
 		int32_t i_;
-		//! Its representation as a std::string
+		//! Its representation as a string
 		std::string s_;
-		//! Its representation as a double-precison value
+		//! Its representation as a double-precision value
 		double d_;
 		//! Its representation as an array
 		rpc_array* array_;

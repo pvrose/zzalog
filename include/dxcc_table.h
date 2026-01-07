@@ -77,9 +77,9 @@ protected:
     //! Total QSOs
     int total_qsos_;
 
-    //! Column header std::list, based on type of count.
+    //! Column header list, based on type of count.
     std::vector<std::string> column_names_;
-    //! Row header std::list, uses DXCC entity identification.
+    //! Row header list, uses DXCC entity identification.
     std::vector<int> row_ids_;
 
     //! Current display type.

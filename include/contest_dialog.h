@@ -65,7 +65,7 @@ protected:
 
 	//! Populate contest instance identifier choice for the specified contest.
 	void populate_ct_index();
-	//! Populate algorithm choice from the std::list of coded algorithms.
+	//! Populate algorithm choice from the list of coded algorithms.
 	void populate_algorithm();
 	//! Update all data values from the database for specified contest instance.
 	void update_contest();

@@ -83,13 +83,13 @@ typedef size_t item_num_t;
 		void delete_all();
 		//! Delete the tree
 		void delete_tree();
-		//! Basic record std::list - std::list of record numbers
+		//! Basic record list - list of record numbers
 		typedef std::list<qso_num_t> record_list_t;
-		//! Basic entry for a std::map
+		//! Basic entry for a map
 		struct report_map_entry_t {
 			//! Depth of entry
 			int entry_type;
-			//! std::list of records in this entry
+			//! List of records in this entry
 			record_list_t* record_list;
 			//! This will either be as above, or: base_map<report_map_entry_t*>* depending on the context.
 			void* next_entry;
@@ -101,23 +101,23 @@ typedef size_t item_num_t;
 				next_entry = nullptr;
 			}
 		};
-		//! The std::map of entries
+		//! The map of entries
 		typedef std::map<std::string, report_map_entry_t*> report_map_t;
-		//! The std::map of entries if first level is a band.
+		//! The map of entries if first level is a band.
 		typedef band_map<report_map_entry_t*> report_band_map_t;
 		// methods
-		//! Add record details to a specific std::map entry
+		//! Add record details to a specific map entry
 		
 		//! \param iRecord index of QSO record.
 		//! \param entry Entry to add record to.
 		void add_record(item_num_t iRecord, report_map_entry_t* entry);
-		//! Copy the std::map to the tree control: \p type indicates level, \p item indicates item to hang, remainder of parameters receive record counts.
+		//! Copy the map to the tree control: \p type indicates level, \p item indicates item to hang, remainder of parameters receive record counts.
 		void copy_map_to_tree(int type, void* pMap, Fl_Tree_Item* item, int& num_records, int& num_eqsl, int& num_lotw, int& num_card, int& num_qrz, int& num_dxcc, int &num_any);
-		//! Copy the std::list of records at a std::map entry to the tree control
+		//! Copy the list of records at a map entry to the tree control
 		void copy_records_to_tree(record_list_t* pRecords, Fl_Tree_Item* item, int& num_records, int& num_eqsl, int& num_lotw, int& num_card, int& num_qrz, int& num_dxcc, int& num_any);
-		//! Create the std::map top-down
+		//! Create the map top-down
 		void create_map();
-		//! Delete the std::map in a specific std::map entry
+		//! Delete the map in a specific map entry
 		void delete_map(report_map_entry_t* entry);
 		//! redraw the tree control
 		void populate_tree(bool activate);
@@ -135,11 +135,11 @@ typedef size_t item_num_t;
 
 		// attributes
 	protected:
-		//! Top-level entry containing a std::map of all first-level entries
+		//! Top-level entry containing a map of all first-level entries
 		report_map_entry_t map_;
-		//! std::map order - e.g. "DXCC","Band","Mode"
+		//! Map order - e.g. "DXCC","Band","Mode"
 		std::vector<report_cat_t> map_order_;
-		//! Adjusted std::map order (including state)
+		//! Adjusted map order (including state)
 		std::vector<report_cat_t> adj_order_;
 		//! Report type
 		report_filter_t filter_;

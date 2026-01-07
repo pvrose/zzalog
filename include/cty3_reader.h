@@ -26,7 +26,7 @@ class cty3_reader
 		CTY_CITY = 9              //!< Special geographic subdivision.
 	};
 
-	//! Each record has these fields in a comma-separated std::list.
+	//! Each record has these fields in a comma-separated list.
 	enum field_type_t : uint8_t {
 		FT_TYPE = 0,          //!< Record type.
 		FT_LONGITUDE = 1,     //!< Longitude in an integer number of 1/180th degree (+ve east).
@@ -76,7 +76,7 @@ protected:
 	//! \param patterns Returns the pattern text.
 	//! \return cty_element record representing the line.
 	cty_element* load_element(cty_element::type_t type, std::string line, std::string& nickname, std::string& patterns);
-	//! Convert prefix mask to std::list of prefixes
+	//! Convert prefix mask to list of prefixes
 	std::list<std::string> expand_mask(std::string patterns);
 
 	//! Internal import database.

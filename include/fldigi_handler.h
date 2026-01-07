@@ -22,7 +22,7 @@ public:
 	//! Is there data
 	bool has_data () const;
 
-	//! Callback from server std::thread: Receive a datagram from FLDIGI
+	//! Callback from server thread: Receive a datagram from FLDIGI
 	static int rcv_request(void* instance, std::stringstream& os);
 	//! Receive a datagram from FLDIGI
 	int rcv_dgram(std::stringstream& os);

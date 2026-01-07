@@ -117,7 +117,7 @@ class socket_server;
 			std::string dx_grid;               //!< Value in DX Gridsquare window
 			bool tx_watchdog{ false };    //!< Transmit watchdog triggered
 			std::string submode;               //!< Submode
-			bool fast_mode{ false };      //!< Fast decode mode std::set
+			bool fast_mode{ false };      //!< Fast decode mode set
 			uint8_t special_op{ 0 };      //!< Special operation 
 			uint32_t freq_tolerance{ 0 }; //!< Frequency tolerance
 			uint32_t tx_rx_period{ 0 };   //!< Transmit/Receive period
@@ -163,7 +163,7 @@ class socket_server;
 			std::string exchange;	    //!< The message payload (grid, report)
 		};
 
-		//! Callback from server std::thread: Receive a datagram from WSJT-X, returns the type of datagram.
+		//! Callback from server thread: Receive a datagram from WSJT-X, returns the type of datagram.
 		static int rcv_request(void* instance, std::stringstream& os);
 		//! Receive a datagram from WSJT-X, returns the type of datagram.
 		int rcv_dgram(std::stringstream& os);

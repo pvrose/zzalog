@@ -17,7 +17,7 @@ struct range_t {
 	double lower; //!< Lower frequency (MHz)
 	double upper; //!< Upper frequency (MHz)
 
-	//! less-than (<) operator provided for ordering for std::set<range_t>.
+	//! less-than (<) operator provided for ordering for set<range_t>.
 	
 	//! \param rhs RHS of &lt; operator
 	//! \return comparison between the lower frequencies of the two ranges.

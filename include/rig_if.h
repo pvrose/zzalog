@@ -77,7 +77,7 @@
 		// additional features required by rig_if to return data
 		//! Timeout value (not a hamlib item
 		double timeout = 1.0;
-		//! S-meter reading std::queue length
+		//! S-meter reading queue length
 		int num_smeters = 5;
 		//! Default power mode.
 		power_mode_t power_mode = RF_METER;
@@ -169,7 +169,7 @@
 
 		//! Receives \p mode and \p submode.  
 		void get_string_mode(std::string& mode, std::string& submode);
-		//! Returns frequency as std::string (in megahertz to 1 hertz resolution)
+		//! Returns frequency as string (in megahertz to 1 hertz resolution)
 		std::string get_frequency(bool tx);
 		//! Returns frequency as double (in megahertz)
 		double get_dfrequency(bool tx);
@@ -183,33 +183,33 @@
 		bool get_ptt();
 		//! Returns Split value
 		bool get_split();
-		//! Run in std::thread to get the data from the rig
+		//! Run in thread to get the data from the rig
 		static void th_run_rig(rig_if* that);
 		//! Returns true if the rig is taking over 1 second to access
 		bool get_slow();
 		//! Returns true if thr rig appears powered.
 		bool get_powered();
-		//! Open rig in rig access std::thread.
+		//! Open rig in rig access thread.
 		static void th_sopen_rig(rig_if* that);
-		//! Callback from rig std::thread if an error is detected.
+		//! Callback from rig thread if an error is detected.
 		static void cb_rig_error(void* v);
-		//! Callback from rig std::thread if a warning is detected.
+		//! Callback from rig thread if a warning is detected.
 		static void cb_rig_warning(void* v);
-		//! std::set frequency (in megahertz)
+		//! Set frequency (in megahertz)
 		bool set_frequency(double f);
 
 
 		// Protected attributes
 	protected:
-		//! Runs in rig std::thread to poll values every 1 second.
+		//! Runs in rig thread to poll values every 1 second.
 		bool th_read_values();
-		//! Open rig - run in std::thread
+		//! Open rig - run in thread
 		void th_open_rig(rig_if* that);
 		//! Handle errors.
 		
 		//! \param code Error code
 		//! \param meter Name of meter value being accessed.
-		//! \param flag Pointer to a Boolean value that if std::set inhibits further attempts to acccess.
+		//! \param flag Pointer to a Boolean value that if set inhibits further attempts to acccess.
 		//! \param to_count Number of accesses allowed befor further ones are inhibited.
 		//! \return true indicates error prevents further access.
 		bool error_handler(int code, const char* meter, bool* flag, int* to_count);
@@ -237,7 +237,7 @@
 		int count_down_;
 		//! Thread in whcih to run rig access.
 		std::thread* thread_;
-		//! Keep rig std::thread running.
+		//! Keep rig thread running.
 		std::atomic<bool> run_read_;
 
 		//! The time of the last PTT off - to decide if it's a new transmission.

@@ -144,9 +144,9 @@ protected:
     //! Station callsign
     std::string station_;
 
-    //! The std::set of bands worked.
+    //! The set of bands worked.
     band_set* bands_worked_;
-    //! The std::set of modes worked.
+    //! The set of modes worked.
     std::set<std::string>* modes_worked_;
 
 };

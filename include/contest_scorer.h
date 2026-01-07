@@ -93,12 +93,12 @@ public:
 
     //! What fields are being used in the contest.
     
-    //! \return std::list of fields used in contest exchanges.
+    //! \return list of fields used in contest exchanges.
     field_list fields();
 
     //! Serial number
     
-    //! \return serial number as std::string
+    //! \return serial number as string
     std::string serial() const;
 
     //! Add score from this QSO, unless \p check_only is true when it checks what it would be.

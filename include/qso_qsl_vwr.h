@@ -103,7 +103,7 @@ protected:
 	record* current_qso_;
 	//! Current QSO index
 	qso_num_t current_qso_num_;
-	//! QSL card Directory std::string
+	//! QSL card Directory string
 	std::string qsl_directory_;
 	//! Full filanem of the QSL card image.
 	std::string full_name_;

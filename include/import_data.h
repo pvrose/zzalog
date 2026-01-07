@@ -33,7 +33,7 @@ class book;
 			DATAGRAM,        //!< Data received from WSJT-X datagram.
 			CLIPBOARD,       //!< Data pasted from clipboard.
 			SINGLE_ADIF,     //!< Import a single ADIF.
-			OQRS,            //!< Book contains a std::list of OQRS QSL requests
+			OQRS,            //!< Book contains a list of OQRS QSL requests
 		};
 
 	public:

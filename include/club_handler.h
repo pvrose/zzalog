@@ -57,7 +57,7 @@ typedef size_t qso_num_t;
 
 		//! Upload the saved log to ClubLog.org using putlogs.php interface
 		
-		//! \param book the std::set of extracted records to upload.
+		//! \param book the set of extracted records to upload.
 		//! \return true if upload successful, false if not.
 		bool upload_log(book* book);
 		//! Download the exception file.
@@ -72,7 +72,7 @@ typedef size_t qso_num_t;
 		bool upload_single_qso(qso_num_t record_num);
 		//! Download OQRS Request data.
 		
-		//! \param adif a std::stringstream to be used by adif_reader.
+		//! \param adif a stringstream to be used by adif_reader.
 		bool download_oqrs(std::stringstream* adif);
 
 	protected:
@@ -88,38 +88,38 @@ typedef size_t qso_num_t;
 		void generate_oqrs(std::ostream& req);
 		//! Unzip the downloaded  exceptions file.
 		bool unzip_exception(std::string filename);
-		//! Copy QSO to ADIF std::string.
+		//! Copy QSO to ADIF string.
 		
 		//! \param this_record the QSO record to convert.
 		//! \param fields the specific fields to copy/
-		//! \return ADIF .adi format as a text std::string.
+		//! \return ADIF .adi format as a text string.
 		std::string to_adif(record* this_record, field_list& fields);
-		//! Callback from the std::thread that executes the IP actions.
+		//! Callback from the thread that executes the IP actions.
 		
 		//! Calls upload_done().
 		//! \param v pointer to the club_handler instance that started the action.
 		static void cb_upload_done(void* v);
-		//! Upload QSO using the separate std::thread.
+		//! Upload QSO using the separate thread.
 		
 		//! \param qso the QSO record to upload.
 		void th_upload(record* qso);
-		//! Run a separate std::thread to handle IP traffic.
+		//! Run a separate thread to handle IP traffic.
 		
 		//! \param that used to pass a pointer to the calling instance of club_handler 
-		//! to the std::thread.
+		//! to the thread.
 		static void thread_run(club_handler* that);
 		//! Process the result from uploading to Clublog.org.
 		
-		//! Runs on the main std::thread.
+		//! Runs on the main thread.
 		//! \param response true if the upload was successful, false if not.
 		bool upload_done(bool response);
 		//! Set ADIF fields required by Clublog.org into internal state.
 		void set_adif_fields();
 		//! Thread in which to run IP activity for uploading QSOs.
 		std::thread* th_upload_;
-		//! Flag to keep running the std::thread until ZZALOG closes.
+		//! Flag to keep running the thread until ZZALOG closes.
 		
-		//! Written by main std::thread and read by upload std::thread.
+		//! Written by main thread and read by upload thread.
 		std::atomic<bool> run_threads_;
 		//! Queue of requests for uploading QSOs.
 		std::queue<record*> upload_queue_;
@@ -131,7 +131,7 @@ typedef size_t qso_num_t;
 		std::string upload_error_;
 		//! Flag to indicate whether the upload was successful or not.
 		
-		//! Written by upload std::thread and read by main std::thread.
+		//! Written by upload thread and read by main thread.
 		std::atomic<bool> upload_response_;
 		//! The ADIF .adi representation of the single QSO upload.
 		std::string single_qso_;

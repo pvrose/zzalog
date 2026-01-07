@@ -26,7 +26,7 @@
 		//! Structure to pass various object types
 		struct field_pair {
 			std::string name;      //!< Object name
-			std::string value;     //!< Value for a std::string data item
+			std::string value;     //!< Value for a string data item
 			std::string filename;  //!< Value for a filename 
 			std::string type;      //!< Value for a data-type.
 		};

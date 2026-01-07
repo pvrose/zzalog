@@ -70,16 +70,16 @@
 		client_status accept_client();
 		//! Error handler - \p phase indicates the peocess that errored.
 		void handle_error(const char* phase);
-		//! Send request - std::set by call-back
+		//! Send request - set by call-back
 		int (*do_request)(void* instance, std::stringstream& request);
 
 		//! Open socket and create server
 		int create_server();
 		//! Print diagnostic data
 		void dump(std::string line);
-		//! Callback from server std::thread to handle packet.
+		//! Callback from server thread to handle packet.
 		static void cb_th_packet(void* v);
-		//! Start the server std::thread.
+		//! Start the server thread.
 		static void thread_run(socket_server* that);
 
 		//! Server socket
@@ -104,11 +104,11 @@
 		std::atomic<bool> closing_ = false;
 		//! Socket has closed.
 		std::atomic<bool> closed_ = true;
-		//! Separate std::thread to handle socket transfers.
+		//! Separate thread to handle socket transfers.
 		std::thread* th_socket_ = nullptr;
-		//! Packet std::queue
+		//! Packet queue
 		std::queue<std::string> q_packet_;
-		//! Lock to avoid pushing into the packet std::queue and pulling from it at the same time.
+		//! Lock to avoid pushing into the packet queue and pulling from it at the same time.
 		std::mutex mu_packet_;
 		//! Client request handler
 		void* instance_ = nullptr;

@@ -38,7 +38,7 @@ public:
     void enable_widgets();
 
    // Shared download method
-    //! Download std::list of QSLs from \p server.
+    //! Download list of QSLs from \p server.
     void qsl_download(import_data::update_mode_t server);
     //! Extract data for uploading to \p server.
     void qsl_extract(extract_data::extract_mode_t server);

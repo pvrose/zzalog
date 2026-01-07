@@ -67,18 +67,6 @@
 		//! Destructor.
 		~cty1_reader();
 
-		//// Overloadable XML handlers
-		////! Start element.
-		//virtual bool start_element(std::string name, std::map<std::string, std::string>* attributes);
-		////! End element
-		//virtual bool end_element(std::string name);
-		////! Special element
-		//virtual bool declaration(xml_element::element_t element_type, std::string name, std::string content);
-		////! Processing instruction
-		//virtual bool process_instr(std::string name, std::string content);
-		////! characters
-		//virtual bool characters(std::string content);
-
 		//! Load data
 		
 		//! \param data Internal database.
@@ -93,20 +81,6 @@
 		std::string xmldt2date(std::string xml_data);
 
 	protected:
-		////! Ignore processing until the end of current element.
-		//bool ignore_processing_;
-		////! Element processig std::list
-		//std::list<std::string> elements_;
-		////! File timestamp
-		//std::string timestamp_;
-		////! Current entity being processed.
-		//cty_entity* current_entity_;
-		////! Current prefix being processed.
-		//cty_prefix* current_prefix_;
-		////! Current exception record being processed
-		//cty_exception* current_exception_;
-		////! Current callsign in an exception match.
-		//std::string current_match_;
 		//! The internal database being loaded.
 		cty_data* data_;
 		//! Value of element

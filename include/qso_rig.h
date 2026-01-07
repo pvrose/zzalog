@@ -270,7 +270,7 @@ protected:
 	bool rig_ok_;
 	//! Current rig state.
 	rig_state_t rig_state_;
-	//! Flag std::set when start button pressed and cleared on connect button
+	//! Flag set when start button pressed and cleared on connect button
 	bool rig_starting_;
 
 	//! Map the hamlib model_id to position in rig choice menu.

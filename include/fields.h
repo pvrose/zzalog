@@ -75,7 +75,7 @@ const std::map<field_app_t, std::string> APPLICATION_LABELS = {
 	{ FO_IMPORTLOG, "Imported data" }
 };
 
-//! Field collection: a std::set of field descriptions.
+//! Field collection: a set of field descriptions.
 typedef std::vector<field_info_t> collection_t;
 //! List of fields.
 typedef std::vector<std::string> field_list;
@@ -99,10 +99,10 @@ public:
 	
 	//! IF \p update then update the collection from the fields.
 	collection_t* collection(std::string name, field_list values, bool update = false);
-	//! Returns the std::list of field names in the collection in the collection \p name.
+	//! Returns the list of field names in the collection in the collection \p name.
 	field_list field_names(std::string name);
 
-	//! Returns the std::set of collection names.
+	//! Returns the set of collection names.
 	std::set<std::string> coll_names();
 	//! Returns the collection name for the usage \p app.
 	std::string coll_name(field_app_t app);

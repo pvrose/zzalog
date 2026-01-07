@@ -56,9 +56,9 @@ class Fl_Group;
 		void create_form();
 		//! Add all the "use character" button group.
 		void add_buttons(int width);
-		//! Transfer UTF-8 characters from text input to std::list of Unicode symbols.
+		//! Transfer UTF-8 characters from text input to list of Unicode symbols.
 		void add_symbols(std::string text);
-		//! The std::set of Unicode symbols to draw buttons for.
+		//! The set of Unicode symbols to draw buttons for.
 		std::set<unsigned int> symbols_;
 		//! New character.
 		std::string new_char_;

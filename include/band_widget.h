@@ -15,7 +15,7 @@
 
 //! This widget displays chart showing the band plan in graphic format
 
-//! It has two types: BAND_FULL, BAND_SUMMARY plus a ZOOMABLE attribute std::set by type().
+//! It has two types: BAND_FULL, BAND_SUMMARY plus a ZOOMABLE attribute set by type().
 class band_widget :
     public Fl_Widget
 {
@@ -133,7 +133,7 @@ protected:
     void add_marker(marker m);
     //! Adjust markers.
     
-    //! Scan the std::list of markers iteratively adjusting the y position of the
+    //! Scan the list of markers iteratively adjusting the y position of the
     //! marker text until they all fit without overlapping. If necessary
     //! remove spot markers.
     void adjust_markers();
@@ -155,7 +155,7 @@ protected:
     const char* label_format();
     //! Set default modes
  
-    //! Sets the various drawing modes depending on type() std::set.
+    //! Sets the various drawing modes depending on type() set.
     void default_mode();
     //! Calculate major and minor labels and display options
     
@@ -169,9 +169,9 @@ protected:
     //! Set scale range
     
     //! Set the frequency range of the display in response to zoom and scroll 
-    //! mouse commands, or if \a restore_default is std::set restore to fit
+    //! mouse commands, or if \a restore_default is set restore to fit
     //! the band.
-    //! \param restore_default std::set the frequency range of the display to 
+    //! \param restore_default set the frequency range of the display to 
     //! the full range of the band.
     void set_range(bool restore_default = false);
 
@@ -185,11 +185,11 @@ protected:
     std::string band_;
     //! Frequency range of the band.
     range_t band_limits_;
-    //! Complete std::set of band_entry_t items.
+    //! Complete set of band_entry_t items.
     std::set<band_data::band_entry_t*, band_data::ptr_lt> data_;
-    //! Used to std::map mode name to mode bar number.
+    //! Used to map mode name to mode bar number.
     std::map<std::string, int> modes_;
-    //! Used to std::map modes that are within the range.
+    //! Used to map modes that are within the range.
     std::map<std::string, int> used_modes_;
     // Major drawing positions
     int x_scale_;      //!< Position of scale axis.
@@ -223,7 +223,7 @@ protected:
     bool display_bands_;    //!< Display bands as a different background
     bool display_spots_;    //!< Display spot and spot-band markers
     bool display_subbands_; //!< Display sub-band markers
-    bool auto_bw_;          //!< automatically std::set bandwidth if value is within a band
+    bool auto_bw_;          //!< automatically set bandwidth if value is within a band
     bool display_band_label_; 
                             //!< Add the label for the band
     bool verbose_;          //!< text displays in full mode

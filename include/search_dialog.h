@@ -39,7 +39,7 @@
 
 		//! Returns the extract criteria
 		search_criteria_t* criteria();
-		//! std::set extract fail message
+		//! set extract fail message
 		void fail(std::string message);
 
 		// callbacks 

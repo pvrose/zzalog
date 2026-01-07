@@ -77,7 +77,7 @@ extern std::string VENDOR;
 // Debug switches
 //! Print errors -  by "-d e"
 extern bool DEBUG_ERRORS;
-//! Print std::thread debugging messages -  by "-d t"
+//! Print thread debugging messages -  by "-d t"
 extern bool DEBUG_THREADS;
 //! Print libcurl debugging messages -  by "-d c"
 extern bool DEBUG_CURL;
@@ -111,7 +111,7 @@ extern bool DISPLAY_VERSION;
 extern bool HELP;
 //! Start with an empty logbook -  by "-e"
 extern bool NEW_BOOK;
-//! Do not add file to recent file std::list -  by "-p"
+//! Do not add file to recent file list -  by "-p"
 extern bool PRIVATE;
 //! Open file in read-only mode -  by "-r"
 extern bool READ_ONLY;
@@ -242,7 +242,7 @@ std::string get_file(char* arg_filename);
 //! Add some global properties
 void add_properties();
 
-//! Read the recent file std::list from the settings.
+//! Read the recent file list from the settings.
 void recent_files();
 
 //! Read the following data items:
@@ -330,7 +330,7 @@ int main(int argc, char** argv);
 //! Backs up file to separate location.
 void backup_file();
 
-//! Add the specified file to the recent files std::list.
+//! Add the specified file to the recent files list.
 void set_recent_file(std::string filename);
 
 //! Open the user-guide at the specified page &lt;\a file&gt;.html.

@@ -22,7 +22,7 @@ class Fl_Widget;
 	public:
 		//! Constructor.
 		
-		//! \param label std::set the window label.
+		//! \param label set the window label.
 		change_dialog(const char* label = 0);
 		//! Destructor.
 		virtual ~change_dialog();

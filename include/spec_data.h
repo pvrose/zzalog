@@ -25,22 +25,22 @@ typedef size_t qso_num_t;
 		VE_VALUE_INPUT_ONLY,           //!< value is Import Only - should be changed for export
 		VE_VALUE_OUT_OF_RANGE,         //!< value is < minimum or > maximum values
 		VE_VALUE_FORMAT_ERROR,         //!< value is not formatted correctly for data type
-		VE_VALUE_FORMAT_WARNING,       //!< std::string value does not have the recommended format
+		VE_VALUE_FORMAT_WARNING,       //!< string value does not have the recommended format
 		VE_VALUE_INVALID,              //!< enumeration value is not valid 
-		VE_VALUE_NOT_RECOMMENDED,      //!< std::string value not recommended for interoperability
-		VE_VALUE_INCOMPATIBLE,         //!< std::string value is incompatible with another field
-		VE_VALUE_OUTDATED,             //!< std::string value has been removed from valid std::list
-		VE_VALUE_MULTILINE,            //!< std::string value includes NL and CR when not multiline
-		VE_VALUE_INTL,                 //!< std::string value includes non-ASCII characters
-		VE_VALUE_UNCHECKABLE,          //!< std::string value cannot be checked for compatibility
+		VE_VALUE_NOT_RECOMMENDED,      //!< string value not recommended for interoperability
+		VE_VALUE_INCOMPATIBLE,         //!< string value is incompatible with another field
+		VE_VALUE_OUTDATED,             //!< string value has been removed from valid list
+		VE_VALUE_MULTILINE,            //!< string value includes NL and CR when not multiline
+		VE_VALUE_INTL,                 //!< string value includes non-ASCII characters
+		VE_VALUE_UNCHECKABLE,          //!< string value cannot be checked for compatibility
 		VE_TOP                         //!< last element in enumerated type
 	};
 
 	//! Reference dataset - data structure
 	struct spec_dataset {
-		//! Names of the columns in the data std::set
+		//! Names of the columns in the data set
 		std::vector<std::string> column_names;
-		//! The data records - std::map from first data item to a std::map of column names to other data items
+		//! The data records - map from first data item to a map of column names to other data items
 		std::map<std::string, std::map<std::string, std::string>* > data;
 		//! Constructor.
 		spec_dataset() {
@@ -51,10 +51,10 @@ typedef size_t qso_num_t;
 
 	enum status_t : char;
 
-	//! This class provides the ADIF specification reference database as a std::set of named datasets. 
+	//! This class provides the ADIF specification reference database as a set of named datasets. 
 	
 	//! It provides the access to the database and methods to validate the ADIF data against the specification
-	//! The database is a std::map of the dataset name to a dataset
+	//! The database is a map of the dataset name to a dataset
 	class spec_data : public std::map<std::string, spec_dataset*>
 	{
 	public:
@@ -85,7 +85,7 @@ typedef size_t qso_num_t;
 		std::string adif_version();
 		//! Returns ADIF timestamp
 		std::chrono::system_clock::time_point adif_timestamp() const;
-		//! Returns sorted std::list of field names
+		//! Returns sorted list of field names
 		std::set<std::string>* sorted_fieldnames();
 		//! Add user defined fields 
 		
@@ -97,9 +97,9 @@ typedef size_t qso_num_t;
 		bool add_userdef(int id, const std::string& name, char indicator, std::string& values);
 		//! Returns data type indicator for \p field_name.
 		char datatype_indicator(const std::string& field_name);
-		//! Returns a std::list or range of valid values for \p field_name.
+		//! Returns a list or range of valid values for \p field_name.
 		std::string userdef_values(const std::string& field_name);
-		//! Add the std::list of names of ZZALOG application-specific fields.
+		//! Add the list of names of ZZALOG application-specific fields.
 		void add_my_appdefs();
 		//! Remove existing user defined fields
 		void delete_userdefs();
@@ -146,9 +146,9 @@ typedef size_t qso_num_t;
 		bool add_user_enum(std::string field, std::string value);
 		//! Remove user enums and macros - and restore originals.
 		void delete_user_data();
-		//! Returns std::list of bands in frequency order.
+		//! Returns list of bands in frequency order.
 		band_set* bands();
-		//! Create a std::list of bands in frequency order.
+		//! Create a list of bands in frequency order.
 		void process_bands();
 		//! Returns true if the spec_data has been loaded.
 		bool valid() const;
@@ -171,7 +171,7 @@ typedef size_t qso_num_t;
 		valn_error_t check_integer(const std::string&  data, const std::string&  field, const std::string&  datatype);
 		//! Check that an enumeration is valid
 		valn_error_t check_enumeration(const std::string& data, const std::string& field, const std::string& datatype);
-		//! Check that the \p data is a separated std::list of the specified datatype/enumeration
+		//! Check that the \p data is a separated list of the specified datatype/enumeration
 		valn_error_t check_list(const std::string&  data, const std::string&  field, const std::string&  datatype, bool bIsEnumeration, char cSeparator);
 		//! Check that the \p data is the specified datatype/enumeration
 		valn_error_t check_datatype(const std::string&  data, const std::string&  field, const std::string&  datatype, bool bIsEnumeration);

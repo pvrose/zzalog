@@ -104,13 +104,13 @@ protected:
 	//! \param logid QRZ.com universal QSO identifier.
 	insert_resp_t insert_response(qsl_call_data* api, std::istream& response, 
 		std::string& fail_reason, unsigned long long& logid);
-	//! Callback when insert upload complete, sent from upload std::thread  to main std::thread.
+	//! Callback when insert upload complete, sent from upload thread  to main thread.
 	static void cb_upload_done(void* v);
-	//! Call to upload std::thread to upload \p qso.
+	//! Call to upload thread to upload \p qso.
 	void th_upload_qso(record* qso);
-	//! Run the std::thread to upload QSOs in the background
+	//! Run the thread to upload QSOs in the background
 	static void thread_run(qrz_handler* that);
-	//! Upload done (run in main std::thread with response \p resp).
+	//! Upload done (run in main thread with response \p resp).
 	void upload_done(upload_resp_t* resp);
 
 	//! The key returned from the login session attempt
@@ -135,13 +135,13 @@ protected:
 	std::map<std::string, qsl_call_data*>* api_data_;
 	//! Thread in which uploads to QRZ.com are run.
 	std::thread* th_upload_;
-	//! Allow std::thread to run: std::set false when closing.
+	//! Allow thread to run: set false when closing.
 	std::atomic<bool> run_threads_;
-	//! Lock between main and upload std::thread used when passing requests and responses.
+	//! Lock between main and upload thread used when passing requests and responses.
 	std::mutex upload_lock_;
 	//! Upload response
 	std::atomic<upload_resp_t*> upload_resp_;
-	//! Upload request std::queue
+	//! Upload request queue
 	std::queue<record*> upload_queue_;
 
 };

@@ -38,7 +38,7 @@ class record;
 		//! Inherited from Fl_Table_Row: draws the contents of each cell from the records.
 		virtual void draw_cell(TableContext context, int R = 0, int C = 0, int X = 0, int Y = 0,
 			int W = 0, int H = 0);
-		//! std::set the records to display.
+		//! Set the records to display.
 		
 		//! \param log_record QSO record from the log.
 		//! \param query_record QSO record being queried against log_record.
@@ -50,7 +50,9 @@ class record;
 
 		// protected methods
 	protected:
-		//! Get the fields that will be displayed - those used in records being displayed plus the minimum std::set of records specified in settings.
+		//! \brief Get the fields that will be displayed - 
+		//! those used in records being displayed 
+		//! plus the minimum set of records specified in settings.
 		void assess_fields();
 
 		// protected attributes

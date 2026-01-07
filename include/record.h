@@ -103,7 +103,7 @@ record.h - Individual record data item: header file
 		void item(const std::string& field, unsigned long long& value);
 		//! Returns true if the QSO is valid - has a minimum subset of fields
 		bool is_valid();
-		//! Returns true if the item named \p field exists and is not an empty std::string.
+		//! Returns true if the item named \p field exists and is not an empty string.
 		bool item_exists(const std::string& field);
 		//! Set the header information
 		void header(std::string comment);
@@ -134,13 +134,13 @@ record.h - Individual record data item: header file
 		bool merge_records(record* record, match_flags_t flags = MR_NONE, hint_t* result = nullptr);
 		//! Returns match_result_t between QSO \p record and this QSO record.
 		match_result_t match_records(record* record);
-		//! Add timeoff if its isn't std::set
+		//! Add timeoff if its isn't set
 		void update_timeoff();
 		//! Update DISTANCE and ANT_AZ fields. 
 		void update_bearing();
 		//! change the field name from value in \p from to value in \p to.
 		void change_field_name(const std::string& from, const std::string& to);
-		//! Returns a std::string where field names in angle brackets in \p data are replaced by their values.
+		//! Returns a string where field names in angle brackets in \p data are replaced by their values.
 		std::string item_merge(std::string data, bool indirect = false);
 		//! Returns the timestamp as time_t of the record.
 		

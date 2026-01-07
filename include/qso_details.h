@@ -60,7 +60,7 @@ protected:
         //! inherited from Fl_Table_Row::draw_cell that draws the data in each cell.
         virtual void draw_cell(TableContext context, int R = 0, int C = 0, int X = 0, int Y = 0,
             int W = 0, int H = 0);
-        //! Concatenate \p names, \p qths, \p locators and \p states into a single std::list.
+        //! Concatenate \p names, \p qths, \p locators and \p states into a single list.
         
         //! This is referenced by draw_cell when drawing the table.
         void set_data(std::set<std::string> names, std::set<std::string> qths, std::set<std::string> locators, std::set<std::string> states);

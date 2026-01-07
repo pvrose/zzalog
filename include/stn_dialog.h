@@ -68,7 +68,7 @@ public:
 		CALLSIGN       //!< Callsign data editor.
 	};
 
-	//! Set the active tab \p t and std::set its default value \p id.
+	//! Set the active tab \p t and set its default value \p id.
 	void set_tab(tab_type t, std::string id, std::string message);
 
 	//! Update 
@@ -115,7 +115,7 @@ public:
 		delete dlg_;
 	}
 
-	//! Set the active tab \p t and std::set its default value \p id.
+	//! Set the active tab \p t and set its default value \p id.
 	void set_tab(stn_dialog::tab_type t, std::string id, std::string msg) {
 		dlg_->set_tab(t, id, msg);
 		show();

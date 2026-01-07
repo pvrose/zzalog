@@ -23,7 +23,7 @@ class cty_data
 
 public:
 
-	//! Source of the data - std::set by type()
+	//! Source of the data - set by type()
 	enum cty_type_t : uint8_t {
 		ADIF = 0,          //!< Data from ADIF Specification.
 		CLUBLOG,           //!< Data from Clublog.org.
@@ -36,7 +36,7 @@ public:
 	struct all_data {
 		//! All the entities - indexed by dxcc_id.
 		std::map < int, cty_entity* > entities;
-		//! All the entity level prefixes - indexed by starting std::string.
+		//! All the entity level prefixes - indexed by starting string.
 		std::map < std::string, std::list<cty_prefix*> > prefixes;
 		//! All the exceptions - indexed by callsign.
 		std::map < std::string, std::list<cty_exception*> > exceptions;

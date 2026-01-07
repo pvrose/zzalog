@@ -52,11 +52,11 @@ typedef size_t qso_num_t;
 		bool download_lotw_log(std::stringstream* adif);
 		//! Upload single QSO \p record_num being the index within the full log.
 		bool upload_single_qso(qso_num_t record_num);
-		//! Callback from upload std::thread.
+		//! Callback from upload thread.
 		static void cb_upload_done(void* v);
-		//! Run system \p command in the upload std::thread.
+		//! Run system \p command in the upload thread.
 		void th_upload(const char* command);
-		//! Start upload std::thread.
+		//! Start upload thread.
 		static void thread_run(lotw_handler* that);
 		//! Handle response from upload.
 		bool upload_done(int response);
@@ -72,22 +72,22 @@ typedef size_t qso_num_t;
 		bool download_adif(const char* url, std::stringstream* adif);
 		//! Validate the data in stream \p adif.
 		bool validate_adif(std::stringstream* adif);
-		//! Set the std::list of QSO fields to upload to LotW.
+		//! Set the list of QSO fields to upload to LotW.
 		void set_adif_fields();
 
-		//! Upload std::thread.
+		//! Upload thread.
 		std::thread* th_upload_;
-		//! Enable for threads: std::set to false to stop the std::thread.
+		//! Enable for threads: set to false to stop the thread.
 		std::atomic<bool> run_threads_;
-		//! Queue of TQSL commands sent from main std::thread to upload std::thread to be run there.
+		//! Queue of TQSL commands sent from main thread to upload thread to be run there.
 		std::queue<char*> upload_queue_;
-		//! Queue of records uploaded: sent from upload std::thread to main std::thread.
+		//! Queue of records uploaded: sent from upload thread to main thread.
 		std::queue<record*> upload_done_queue_;
-		//! Queus of sizes of the blocks of records uploaded: sent from upload std::thread to main std::thread.
+		//! Queus of sizes of the blocks of records uploaded: sent from upload thread to main thread.
 		std::queue<size_t> upload_done_szq_;
 		//! Lock on upload queues to prevent coincident reads and writes.
 		std::mutex upload_lock_;
-		//! Response from upload: transferred from upload std::thread to main std::thread.
+		//! Response from upload: transferred from upload thread to main thread.
 		std::atomic<int> upload_response_;
 		//! List of fields sent in QSOs to LotW.
 		field_list adif_fields_;

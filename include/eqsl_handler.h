@@ -53,7 +53,7 @@ typedef size_t qso_num_t;
 			ER_HTML_ERR,   //!< HTML error
 			ER_DUPLICATE   //!< Duplicate request
 		};
-		//! Data required to std::queue requests into upload std::thread.
+		//! Data required to std::queue requests into upload thread.
 		struct request_t {
 			//! Index of QSO record in full logbook.
 			qso_num_t record_num;
@@ -71,32 +71,14 @@ typedef size_t qso_num_t;
 				, force(f)
 			{}
 		};
-		//! Request std::queue control
+		//! Request queue control
 		enum queue_control_t {
 			EQ_PAUSE,      //!< pause
 			EQ_START,      //!< start
 			EQ_ABANDON     //!< abandon
 		};
-		//! Request std::queue
+		//! Request queue
 		typedef std::queue<request_t> queue_t;
-		////! Information required when removing entry from std::queue
-		//struct dequeue_param_t {
-		//	//! Pointer to the request std::queue.
-		//	queue_t* std::queue;
-		//	//! Pointer to this eqsl_handler.
-		//	eqsl_handler* handler;
-		//	//! Default constructor.
-		//	dequeue_param_t() {
-		//		std::queue = nullptr;
-		//		handler = nullptr;
-		//	}
-		//	//! Constructor to create an instance.
-		//	dequeue_param_t(queue_t* q, eqsl_handler* h)
-		//		: std::queue(q)
-		//		, handler(h)
-		//	{
-		//	}
-		//};
 		//! Upload response.
 		struct upload_response_t {
 			//! Response status.
@@ -128,7 +110,7 @@ typedef size_t qso_num_t;
 		void enqueue_request(qso_num_t record_num, bool force = false);
 		//! Download the data from eqsl into the data stream \p adif.
 		bool download_eqsl_log(std::stringstream* adif);
-		//! Control the scheduling from the request std::queue.
+		//! Control the scheduling from the request queue.
 		
 		//! \param control One of EQ_START, EQ_PAUSE or EQ_ABANDON.
 		void enable_fetch(queue_control_t control);
@@ -147,14 +129,14 @@ typedef size_t qso_num_t;
 		//! \param filename local QSL card image.
 		//! \return true if it exists and is valid PNG.
 		bool card_file_valid(std::string& filename);
-		//! Enqueue single record - passes to upload std::thread.
+		//! Enqueue single record - passes to upload thread.
 		bool upload_single_qso(qso_num_t record_num);
 
 	protected:
 		//! Timer callback: 1 second ticker
 		static void cb_ticker(void* v);
 
-		//! Remove a request from the download std::queue
+		//! Remove a request from the download queue
 		void dequeue_request();
 
 		//! Perform the eQSL card image request. 
@@ -195,17 +177,17 @@ typedef size_t qso_num_t;
 		//! \param adif datastream to receive downloaded data.
 		//! \return response structure.
 		response_t download_adif(std::string& filename, std::stringstream* adif);
-		//! Generate std::list of adif fields for sending to eQSL.cc.
+		//! Generate list of adif fields for sending to eQSL.cc.
 		void set_adif_fields();
 		//! Generate data for POST FORM fields.
 		void form_fields(std::vector<url_handler::field_pair>&);
 		//! Parse the warning message for user readable format.
 		std::map<std::string, std::string> parse_warning(std::string text);
-		//! Callback from request std::thread.
+		//! Callback from request thread.
 		static void cb_upload_done(void* v);
-		//! Upload QSO record \p qso on eQSL request std::thread.
+		//! Upload QSO record \p qso on eQSL request thread.
 		bool th_upload_qso(record* qso);
-		//! Start eQSL request std::thread.
+		//! Start eQSL request thread.
 		static void thread_run(eqsl_handler* that);
 
 		//! Process \p response from eQSL.cc.
@@ -216,9 +198,9 @@ typedef size_t qso_num_t;
 		void progress_download();
 
 	protected:
-		//! The card inage request std::queue between main and request threads.
+		//! The card inage request queue between main and request threads.
 		queue_t request_queue_;
-		//! Request std::queue is allowed to empty
+		//! Request queue is allowed to empty
 		bool empty_queue_enable_;
 		//! Username
 		std::string username_;
@@ -226,11 +208,11 @@ typedef size_t qso_num_t;
 		std::string password_;
 		//! Thread to run eQSL.cc requests in.
 		std::thread* th_upload_;
-		//! Enable for threads - normally true and std::set false when closing ZZALOG.
+		//! Enable for threads - normally true and set false when closing ZZALOG.
 		std::atomic<bool> run_threads_;
 		//! Queue for uplaoding QSO records.
 		std::queue<record*> upload_queue_;
-		//! Semaphore to lock upload std::queue while enqueuing and dequeueing uploads. 
+		//! Semaphore to lock upload queue while enqueuing and dequeueing uploads. 
 		std::mutex upload_lock_;
 		//! Upload response.
 		std::atomic<upload_response_t*> upload_response_;

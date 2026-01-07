@@ -56,7 +56,7 @@ public:
 		{ CF_REPORTS, { "RST_SENT", "RST_RCVD", "SRX", "STX" }}
 	};
 
-	//! The std::set of all copy flags
+	//! The set of all copy flags
 	const std::set < copy_flags > COPY_SET = { CF_RIG_ETC, CF_CAT, CF_DATE, CF_TIME, CF_CALL, CF_DETAILS, CF_REPORTS };
 
 	// Loggable field names
@@ -122,7 +122,7 @@ public:
 	void copy_contest_to_qso();
 	//! Initialise which fields are processed by which pair of widgets (choice and input).
 	void initialise_field_map();
-	//! Returns fields in use as a comma-separated std::list.
+	//! Returns fields in use as a comma-separated list.
 	std::string get_defined_fields();
 	//! Clear all input widgets for field values.
 	void clear_display();
@@ -155,9 +155,9 @@ public:
 	//! Update fields: either another qso_entry has changed it or fields_dialog has.
 	void update_fields();
 protected:
-	//! Callback from selecting field input value: \p v provides index in field std::list.
+	//! Callback from selecting field input value: \p v provides index in field list.
 	static void cb_ip_field(Fl_Widget* w, void* v);
-	//! Callback from selecting field choice: \p v provides index in field std::list.
+	//! Callback from selecting field choice: \p v provides index in field list.
 	static void cb_ch_field(Fl_Widget* w, void* v);
 	//! Callback from "NOTES" input.
 	static void cb_ip_notes(Fl_Widget* w, void* v);

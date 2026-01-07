@@ -48,7 +48,7 @@ void to_json(json& j, const ct_data_t& s);
 //! Conversion of JSON to ct_data_t
 void from_json(const json& j, ct_data_t& s);
 
-//! Amalgamated contest std::list entry
+//! Amalgamated contest list entry
 struct ct_entry_t {
 	std::string id;               //!< Identifier for the contest.
 	std::string index;            //!< Speciifc instance of the contest (eg 2025)
@@ -86,7 +86,7 @@ public:
 	//! Get all the instance identifiers for specific contest
 	
 	//! \param id identifier of the contest.
-	//! \return the std::set of instances of this contest.
+	//! \return the set of instances of this contest.
 	std::set<std::string>* get_contest_indices(std::string id);
 
 
@@ -103,8 +103,8 @@ protected:
 	// The databases 
 	//! Individual contests mapped by ID and index (e.g. year)
 	
-	//! - <B>Inner std::map</B> Addressed by instance identifier.
-	//! - <B>Outer std::map</B> Addressed by contest identifier.
+	//! - <B>Inner map</B> Addressed by instance identifier.
+	//! - <B>Outer map</B> Addressed by contest identifier.
 	std::map<std::string, std::map<std::string, ct_data_t*> > contests_;
 	//! Consolidated database of all contest entries.
 	std::vector<ct_entry_t*> contest_infos_;

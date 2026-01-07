@@ -14,7 +14,7 @@ struct spec_dataset;
 
 	//! This class provides an extension to Fl_Choice to be used for an ADIF field selection choice.
 	
-	//! If there are a large number of possible values, the std::list is broken into a hierarchy.
+	//! If there are a large number of possible values, the list is broken into a hierarchy.
 	class field_choice : public Fl_Choice
 	{
 	public:
@@ -29,19 +29,19 @@ struct spec_dataset;
 		//! Destructor.
 		~field_choice();
 
-		//! Get the data for \p dataset_name from spec_data and std::set the \p default_value choice value.
+		//! Get the data for \p dataset_name from spec_data and set the \p default_value choice value.
 		void set_dataset(std::string dataset_name, std::string default_value = "");
 		//! Get the selected value, removing any hierarchy.
 		const char* value();
 		//! Set the value.
 		void value(const char* field);
-		//! Set hierarchic std::list of values.
+		//! Set hierarchic list of values.
 		void hierarchic(bool h);
 
 	protected:
-		//! Pointer to the dataet inside spec_data containing the std::list of fields 
+		//! Pointer to the dataet inside spec_data containing the list of fields 
 		spec_dataset* dataset_;
-		//! Drop down std::list is hierarchic
+		//! Drop down list is hierarchic
 		bool hierarchic_;
 
 	};

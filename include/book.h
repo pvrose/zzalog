@@ -128,7 +128,7 @@
 		//! Change the selected record.
 		
 		//! Notifies all components of ZZALOG.
-		//! \param num_item the index within this std::set of records.
+		//! \param num_item the index within this set of records.
 		//! \param hint indicates how all components should treat the update.
 		//! \param requester indicates which component changed the record - to avoid indefinite loops.
 		//! \param num_other index of any other relevant record - say in comparison checks.
@@ -136,7 +136,7 @@
 		virtual item_num_t selection(item_num_t num_item, hint_t hint = HT_SELECTED, view* requester = nullptr, item_num_t num_other = 0);
 		//! Get the index of the current selected record.
 		
-		//! \return index within this std::set of records of the current selection.
+		//! \return index within this set of records of the current selection.
 		item_num_t selection() const;
 		//! Insert a record in its chronological position.
 		
@@ -213,7 +213,7 @@
 		//! \param record QSO record to match.
 		//! \return true if the addition criteria match, false if not.
 		bool refine_match(record* record);
-		//! item matching - std::string value.
+		//! item matching - string value.
 		
 		//! Returns whether the \p value matches the \p test according to the \p comparator.
 		//! \param test the value against which the field is being compared.
@@ -221,7 +221,7 @@
 		//! \param comparator search_comp_t operator for the comparison.
 		//! \return true if the values match, false if not.
 		bool match_string(std::string test, int comparator, std::string value);
-		//! Item matching - integer value of std::string items.
+		//! Item matching - integer value of string items.
 		
 		//! \see match_string.
 		bool match_int(std::string test, int comparator, std::string value);
@@ -245,7 +245,7 @@
 		//! \param category get bands worked in worked_t category.
 		//! \param entity get bands worked for DXCC identification number.
 		//! \param call get bands worked using specific station callsign.
-		//! \return the std::set of bands worked in the logbook subject to these conditions.
+		//! \return the set of bands worked in the logbook subject to these conditions.
 		band_set* used_bands(worked_t category, int32_t entity, std::string call);
 		//! Get bands used in logbook.
 
@@ -253,7 +253,7 @@
 		//! \param category get bands worked in worked_t category.
 		//! \param entity get bands worked for DXCC nickname.
 		//! \param call get bands worked using specific station callsign.
-		//! \return the std::set of bands worked in the logbook subject to these conditions.
+		//! \return the set of bands worked in the logbook subject to these conditions.
 		band_set* used_bands(worked_t category, std::string entity, std::string call);
 		//! Get modes used in logbook - worked_t = WK_ANY - all QSOs
 		std::set<std::string>* used_modes();
@@ -263,7 +263,7 @@
 		//! \param category get modes worked in worked_t category.
 		//! \param entity get modes worked for DXCC identification number.
 		//! \param call get modes worked using specific station callsign.
-		//! \return the std::set of modes worked in the logbook subject to these conditions.
+		//! \return the set of modes worked in the logbook subject to these conditions.
 		std::set<std::string>* used_modes(worked_t category, int32_t entity, std::string call);
 		//! Get modes used in logbook.
 
@@ -271,7 +271,7 @@
 		//! \param category get modes worked in worked_t category.
 		//! \param entity get modes worked for DXCC nickname.
 		//! \param call get modes worked using specific station callsign.
-		//! \return the std::set of modes worked in the logbook subject to these conditions.
+		//! \return the set of modes worked in the logbook subject to these conditions.
 		std::set<std::string>* used_modes(worked_t category, std::string entity, std::string call);
 		//! Get submodes used in logbook - worked_t = WK_ANY - all QSOs
 		std::set<std::string>* used_submodes();
@@ -281,7 +281,7 @@
 		//! \param category get submodes worked in worked_t category.
 		//! \param entity get submodes worked for DXCC identification number.
 		//! \param call get submodes worked using specific station callsign.
-		//! \return the std::set of submodes worked in the logbook subject to these conditions.
+		//! \return the set of submodes worked in the logbook subject to these conditions.
 		std::set<std::string>* used_submodes(worked_t category, int32_t entity, std::string call);
 		//! Get submodes used in logbook.
 
@@ -289,7 +289,7 @@
 		//! \param category get submodes worked in worked_t category.
 		//! \param entity get submodes worked for DXCC nickname.
 		//! \param call get submodes worked using specific station callsign.
-		//! \return the std::set of submodes worked in the logbook subject to these conditions.
+		//! \return the set of submodes worked in the logbook subject to these conditions.
 		std::set<std::string>* used_submodes(worked_t category, std::string entity, std::string call);
 		//! New record.
 		
@@ -297,7 +297,7 @@
 		bool new_record() const;
 		//! Set new record.
 		
-		//! \param value std::set whether the current record is a new record or not.
+		//! \param value set whether the current record is a new record or not.
 		void new_record(bool value);
 		//! Mark that the record is not a dupe. Used after a duplicate check.
 		void accept_dupe();
@@ -343,23 +343,23 @@
 
 		//! /param criteria the search criteria.
 		//! /param reset_search restart search at the beginning, otherwise resume the search.
-		//! /return index of matching record within this std::set of records.
+		//! /return index of matching record within this set of records.
 		item_num_t search(search_criteria_t* criteria, bool reset_search);
 
-		//! Convert the index in this std::set to the index in the logbook.
+		//! Convert the index in this set to the index in the logbook.
 		
 		//! \note in the logbook instance these indices are the same number.
-		//! \param item_num index of record in this std::set of records.
+		//! \param item_num index of record in this set of records.
 		//! \return index of record in the logbbok.
 		inline virtual qso_num_t record_number(item_num_t item_num) {
 			return item_num;
 		}
-		//! Convert the index in the logbook to the index in this std::set of records.
+		//! Convert the index in the logbook to the index in this set of records.
 		
 		//! \note in the logbook instance these indices are the same number.
 		//! \param record_num index in the logbook.
-		//! \param nearest return a value that's closest if not in this std::set of records.
-		//! \return index of record in this std::set of numbers. returns -1 if no match.
+		//! \param nearest return a value that's closest if not in this set of records.
+		//! \return index of record in this set of numbers. returns -1 if no match.
 		inline virtual item_num_t item_number(qso_num_t record_num, bool nearest = false) {
 			return record_num;
 		}
@@ -373,7 +373,7 @@
 		
 		//! If a record has its start time changed then the logbook will no longer
 		//! be ordered chronologically.
-		//! \param current_pos current index of the QSO record within this std::set of records.
+		//! \param current_pos current index of the QSO record within this set of records.
 		item_num_t correct_record_position(item_num_t current_pos);
 		//! Add the usage information from this record
 		
@@ -441,7 +441,7 @@
 		void deprecate_macros(record* use_record);
 		//! Set the filename.
 		
-		//! \param filename if the logbook is empty std::set this as the new filename and
+		//! \param filename if the logbook is empty set this as the new filename and
 		//! \param new_file new file is being created that needs saving.
 		//! propagate to other components of ZZALOG.
 		void set_filename(std::string filename, bool new_file);
@@ -457,29 +457,29 @@
 		//! Mark this record dirty.
 		
 		//! A dirty record is one which has been modified and not yet written to filestore.
-		//! \param qso QSO record that has been modified. Add this to the std::list of "dirty"
+		//! \param qso QSO record that has been modified. Add this to the list of "dirty"
 		//! records.
 		//! \param reason Add reason for mrking ot dirty (debug feature).
 		void add_dirty_record(record* qso, std::string reason);
 		//! Mark this record clean.
 		
 		//! A clean record is one that has the same contents as its version in filestore.
-		//! \param qso QSO record has been written to store. Remove this from the std::list od
+		//! \param qso QSO record has been written to store. Remove this from the list od
 		//! "dirty" records.
 		void delete_dirty_record(record* qso);
 		//! Is the record dirty?
 		
-		//! \param qso QSO record to check in std::list of "dirty" records.
-		//! \return true if the record is in the std::list , false if it is not.
+		//! \param qso QSO record to check in list of "dirty" records.
+		//! \return true if the record is in the list , false if it is not.
 		bool is_dirty_record(record* qso);
 		//! Is the book dirty?
 		
-		//! \return true if the "dirty" std::list is not empty, false if it is.
+		//! \return true if the "dirty" list is not empty, false if it is.
 		bool is_dirty();
 
 		// Protected attributes
 	protected:
-		//! Index of the current selected QSO in this std::set of QSO records.
+		//! Index of the current selected QSO in this set of QSO records.
 		item_num_t current_item_;
 		//! Index of a QSO record to be tested whether any duplicates exist.
 		item_num_t test_item_;
@@ -497,8 +497,8 @@
 		adif_format_t format_;
 		//! Inhibit views being updated when selection changes. 
 		
-		//! This is std::set to prevent
-		//! unnecessary redrawing during an std::atomic sequence of updates.
+		//! This is set to prevent
+		//! unnecessary redrawing during an atomic sequence of updates.
 		bool inhibit_view_update_;
 		//! New record being created.
 		bool new_record_;
@@ -508,35 +508,35 @@
 		search_criteria_t* criteria_;
 		//! The index of the most recent search result.
 		item_num_t last_search_result_;
-		//! The std::set of bands logged in records within this std::set of QSO records.
+		//! The set of bands logged in records within this set of QSO records.
 		band_set used_bands_;
-		//! The std::set of modes logged in records within this std::set of QSO records.
+		//! The set of modes logged in records within this set of QSO records.
 		std::set<std::string> used_modes_;
-		//! The std::set of submodes logged in records within this std::set of QSO records.
+		//! The set of submodes logged in records within this set of QSO records.
 		std::set<std::string> used_submodes_;
-		//! The std::set of rigs logged in records within this std::set of QSO records.
+		//! The set of rigs logged in records within this set of QSO records.
 		std::set<std::string> used_rigs_;
-		//! The std::set of antennas logged in records within this std::set of QSO records.
+		//! The set of antennas logged in records within this set of QSO records.
 		std::set<std::string> used_antennas_;
-		//! The std::set of station callsigns logged in records within this std::set of QSO records.
+		//! The set of station callsigns logged in records within this set of QSO records.
 		std::set<std::string> used_callsigns_;
-		//! Multi-dimensional std::map indicating bands used:
+		//! Multi-dimensional map indicating bands used:
 		
-		//! - Outer std::map: Mapped to DXCC entity.
-		//! - Middle std::map: Mapped to worked_t type.
-		//! - Inner std::map: Mapped to station callsign used.
+		//! - Outer map: Mapped to DXCC entity.
+		//! - Middle map: Mapped to worked_t type.
+		//! - Inner map: Mapped to station callsign used.
 		std::map < std::string, std::map < worked_t, std::map < std::string, band_set > > > bands_;
-		//! Multi-dimensional std::map indicating modes used:
+		//! Multi-dimensional map indicating modes used:
 
-		//! - Outer std::map: Mapped to DXCC entity.
-		//! - Middle std::map: Mapped to worked_t type.
-		//! - Inner std::map: Mapped to station callsign used.
+		//! - Outer map: Mapped to DXCC entity.
+		//! - Middle map: Mapped to worked_t type.
+		//! - Inner map: Mapped to station callsign used.
 		std::map < std::string, std::map < worked_t, std::map < std::string, std::set<std::string> > > > modes_;
-		//! Multi-dimensional std::map indicating submodes used:
+		//! Multi-dimensional map indicating submodes used:
 
-		//! - Outer std::map: Mapped to DXCC entity.
-		//! - Middle std::map: Mapped to worked_t type.
-		//! - Inner std::map: Mapped to station callsign used.
+		//! - Outer map: Mapped to DXCC entity.
+		//! - Middle map: Mapped to worked_t type.
+		//! - Inner map: Mapped to station callsign used.
 		std::map < std::string, std::map < worked_t, std::map < std::string, std::set<std::string> > > > submodes_;
 		//! match query question.
 		std::string match_question_;
@@ -561,14 +561,14 @@
 		adi_reader* adi_reader_;  //!< Component used to read a .adi format file.
 		adi_writer* adi_writer_;  //!< Component used to write a .adi format file.
 		adx_handler* adx_handler_; //!< Component useed to read and write an ADX format file.
-		//! Flag std::set when uploads to QSL sites is allowed.
+		//! Flag set when uploads to QSL sites is allowed.
 		bool upload_allowed_;
-		//! The std::set of QSO records that have been declared "dirty". 
+		//! The set of QSO records that have been declared "dirty". 
 		
 		//! Their contents
 		//! differ from the equivalent records in filestore.
 		std::set<record*> dirty_qsos_;
-		//! Flag std::set to indicate that the book is dirty after a record has been deleted.
+		//! Flag set to indicate that the book is dirty after a record has been deleted.
 		bool deleted_record_;
 		//! Flag to indicate that the book has been modified and so needs backing up.
 		bool been_modified_;

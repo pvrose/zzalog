@@ -24,7 +24,7 @@ typedef size_t qso_num_t;
 enum navigate_t : uint8_t;
 
 
-//! Default field std::set for qso_entry.
+//! Default field set for qso_entry.
 static const field_list QSO_FIELDS = {
 	"QSO_DATE",
 	"TIME_ON",

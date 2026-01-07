@@ -42,7 +42,7 @@ namespace contests {
         
         //! The fields DXCC and BAND are concatenated to create a 
         //! multiplier. If this multiplier is not present in \a multipliers
-        //! it is added and the value 1 is std::set in the multiplier attribute
+        //! it is added and the value 1 is set in the multiplier attribute
         //! of the return value.
         //! If the DXCC entity of \a qso is not the same as the user's
         //! DXCC entity a value of 1 is returned in the qso_points 
