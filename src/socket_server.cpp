@@ -376,7 +376,7 @@ int socket_server::rcv_packet()
 		}
 		if (bytes_rcvd > 0)
 		{
-			if (buffer) dump(std::string(buffer, bytes_rcvd));
+			if (buffer && DEBUG_SOCKET) dump(std::string(buffer, bytes_rcvd));
 			mu_packet_.lock();
 			std::string s = std::string(buffer, bytes_rcvd);
 			q_packet_.push(s);

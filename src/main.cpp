@@ -120,6 +120,8 @@ bool DEBUG_RIGS = false;
 bool DEBUG_PARSE = false;
 //! Print QSO modification status - by "-d m"
 bool DEBUG_MOD_STATUS = false;
+//! Print socket debug messages - by7 "-d k"
+bool DEBUG_SOCKET = false;
 //! Set hamlib debugging verbosity level -  by "-d h=<level>"
 rig_debug_level_e HAMLIB_DEBUG_LEVEL = RIG_DEBUG_ERR;
 
@@ -526,6 +528,10 @@ int cb_args(int argc, char** argv, int& i) {
 				DEBUG_MOD_STATUS = true;
 				i += 1;
 			}
+			else if (strcmp("k", argv[i]) == 0 || strcmp("socket", argv[i]) ==0) {
+				DEBUG_SOCKET = true;
+				i += 1;
+			}
 			// Not processed any parameter
 			if (i == save_i) debugs = false;
 		}
@@ -687,6 +693,7 @@ void show_help() {
 	"\t\te|errors\tprovide more details on errors\n"
 	"\t\t\tnoe|noerrors\n"
 	"\t\th=N|hamlib=N\tSet hamlib debug level (default ERRORS)\n"
+	"\t\tk|socket\tPrint socket traffic\n"
 	"\t\tm|mods\tPrint messages when make QSOs dirty or clean\n"
 	"\t\tp|pretty\tDisplay formated status message (Needs terminal support)\n"
 	"\t\tnop|nopretty\n"

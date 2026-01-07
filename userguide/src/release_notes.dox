@@ -14,6 +14,7 @@
   - Create separate repository for code that can be reused in other projects (ZZACOMMON).
   - Add timestamp to banner status messages.
   - Make current dirty QSO records a debug option: -d m
+  - Make socket diagnostics a debug option: -d k
   - Remember previous banner size and restore it.
 - Perfomance changes.
   - Use system command to copy log to backup file.
