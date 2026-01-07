@@ -119,7 +119,7 @@ search_dialog::search_dialog() :
 
 	const int H = YGX + HBUTTON + FOOT_HEIGHT;
 
-	// now std::set the correct size
+	// now set the correct size
 	size(W, H);
 	// Read initial settings
 	load_values();
@@ -227,7 +227,7 @@ search_dialog::search_dialog() :
 	// Choice - Band to limit search to
 	Fl_Choice* ch26 = new Fl_Choice(C221, R22, W221, HTEXT, "Band");
 	ch26->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
-	// Get the std::list of bands from ADIF specification
+	// Get the list of bands from ADIF specification
 	band_set* bands = spec_data_->bands();
 	// Start with "Any"
 	ch26->add("Any");
@@ -248,7 +248,7 @@ search_dialog::search_dialog() :
 	// Choice - Mode to limit search to
 	Fl_Choice* ch27 = new Fl_Choice(C222, R22, W222, HTEXT, "Mode");
 	ch27->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
-	// Get the std::list of modes from the ADIF specification
+	// Get the list of modes from the ADIF specification
 	spec_dataset* modes = spec_data_->dataset("Combined");
 	// Start with "Any"
 	ch27->add("Any");
@@ -256,7 +256,7 @@ search_dialog::search_dialog() :
 		ch27->value(0);
 	}
 	ix = 1;
-	// Append all the modes in the data std::set
+	// Append all the modes in the data set
 	for (auto it = modes->data.begin(); it != modes->data.end(); it++, ix++) {
 		ch27->add(it->first.c_str());
 		if (it->first == criteria_->mode) {
@@ -269,7 +269,7 @@ search_dialog::search_dialog() :
 	// Choice - Mode to limit search to
 	Fl_Choice* ch27a = new Fl_Choice(C223, R22, W223, HTEXT, "My Call");
 	ch27a->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
-	// Get the std::list of modes from the ADIF specification
+	// Get the list of modes from the ADIF specification
 	spec_dataset* callsigns = spec_data_->dataset("Dynamic STATION_CALLSIGN");
 	// Start with "Any"
 	ch27a->add("Any");
@@ -277,7 +277,7 @@ search_dialog::search_dialog() :
 		ch27a->value(0);
 	}
 	ix = 1;
-	// Append all the modes in the data std::set
+	// Append all the modes in the data set
 	for (auto it = callsigns->data.begin(); it != callsigns->data.end(); it++, ix++) {
 		ch27a->add(escape_menu(it->first).c_str());
 		if (it->first == criteria_->mode) {
@@ -495,7 +495,7 @@ search_criteria_t* search_dialog::criteria() {
 	return criteria_;
 }
 
-// Add a fail message to the dialog - empty std::string clears it
+// Add a fail message to the dialog - empty string clears it
 void search_dialog::fail(std::string message) {
 	if (message.length()) {
 		// Copy message to box and colour the box red.
@@ -504,7 +504,7 @@ void search_dialog::fail(std::string message) {
 		fail_box_->labelcolor(FL_BLACK);
 	}
 	else {
-		// Write empty std::string to box and std::set its colour to the background
+		// Write empty string to box and set its colour to the background
 		fail_box_->copy_label("");
 		fail_box_->color(FL_BACKGROUND_COLOR);
 		fail_box_->labelcolor(FL_FOREGROUND_COLOR);

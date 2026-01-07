@@ -99,7 +99,7 @@ void qso_misc::save_values() {
 	}
 }
 
-// std::set the QSO details into the various forms
+// Set the QSO details into the various forms
 void qso_misc::qso(record* qso, qso_num_t number) {
 	qso_ = qso;
 	details_->set_qso(qso_);

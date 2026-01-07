@@ -100,7 +100,7 @@ void intl_dialog::add_buttons(int width) {
 	// For each row and column
 	for (int R = 0; R < num_rows; R++) {
 		for (int C = 0; C < num_cols && ucs != symbols_.end(); C++) {
-			// Get the next character from the std::list 
+			// Get the next character from the list 
 			len = fl_utf8encode(*ucs, utf8);
 			utf8[len] = 0;
 			// Button - copy and paste the label on the button to the current editor
@@ -190,7 +190,7 @@ void intl_dialog::cb_bn_restore(Fl_Widget* w, void* v) {
 // Callback - Add characters to the displayed buttons
 void intl_dialog::cb_bn_add(Fl_Widget* w, void* v) {
 	intl_dialog* that = ancestor_view<intl_dialog>(w);
-	// Get the std::string from the input
+	// Get the string from the input
 	that->add_symbols(that->new_char_);
 	that->add_buttons(that->buttons_->w());
 }
@@ -220,15 +220,15 @@ Fl_Widget* intl_dialog::editor() {
 	return editor_;
 }
 
-// Add the characters in the input text to the std::list of characters displayed
+// Add the characters in the input text to the list of characters displayed
 void intl_dialog::add_symbols(std::string text) {
-	// Create a copy of the input text and std::set a pointer to the end
+	// Create a copy of the input text and set a pointer to the end
 	char* utf8 = new char[text.length() + 1];
 	char* end = utf8 + text.length();
 	unsigned int ucs;
 	int len;
 	strcpy(utf8, text.c_str());
-	// now scan the std::string for new symbols
+	// now scan the string for new symbols
 	while (utf8 < end) {
 		if (*utf8 & 0x80) {
 			// non-ASCII character - get it and how many bytes it is, 

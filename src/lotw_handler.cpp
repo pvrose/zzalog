@@ -30,7 +30,7 @@
 // Constructor
 lotw_handler::lotw_handler()
 {
-	// Initialise std::thread interface
+	// Initialise thread interface
 	run_threads_ = true;
 	upload_response_ = 0;	
 	if (DEBUG_THREADS) printf("LOTW MAIN: Starting std::thread\n");
@@ -43,7 +43,7 @@ lotw_handler::lotw_handler()
 // Destructor
 lotw_handler::~lotw_handler()
 {
-	// Close down upload std::thread
+	// Close down upload thread
 	run_threads_ = false;
 	th_upload_->join();
 	delete th_upload_;
@@ -167,7 +167,7 @@ bool lotw_handler::download_lotw_log(std::stringstream* adif) {
 			status_->misc_status(ST_WARNING, "LOTW: data is HTML not ADIF - opening browser");
 			adif->seekg(adif->beg);
 			Fl_Help_Dialog* help_dlg = new Fl_Help_Dialog;
-			// std::stringstream needs converting to a C++ std::string then a C-std::string
+			// stringstream needs converting to a C++ std::string then a C-string
 			help_dlg->value(adif->str().c_str());
 			help_dlg->show();
 			ok = false;
@@ -199,7 +199,7 @@ bool lotw_handler::download_lotw_log(std::stringstream* adif) {
 	return ok;
 }
 
-// get user details - std::set any parameter to nullptr to skip setting it
+// get user details - set any parameter to nullptr to skip setting it
 bool lotw_handler::user_details(std::string* username, std::string* password, std::string* last_access) {
 	server_data_t* lotw_data = qsl_dataset_->get_server_data("LotW");
 	if (username != nullptr) {
@@ -379,7 +379,7 @@ bool lotw_handler::upload_done(int result) {
 	return ok;
 }
 
-// Run tne std::thread to handle the LotW interface
+// Run tne thread to handle the LotW interface
 void lotw_handler::thread_run(lotw_handler* that) {
 	if (DEBUG_THREADS) printf("LOTW THREAD: Thread started\n");
 	while (that->run_threads_) {
@@ -403,7 +403,7 @@ void lotw_handler::thread_run(lotw_handler* that) {
 	}
 }
 
-// Run TQSL and wait for response - runs in separate std::thread
+// Run TQSL and wait for response - runs in separate thread
 void lotw_handler::th_upload(const char* command) {
 	// Blocking system request
 	int result = system(command);
@@ -414,7 +414,7 @@ void lotw_handler::th_upload(const char* command) {
 	std::this_thread::yield();
 }
 
-// Callback in main std::thread after upload complete
+// Callback in main thread after upload complete
 void lotw_handler::cb_upload_done(void* v) {
 	if (DEBUG_THREADS) printf("LOTW MAIN: Entered std::thread callback handler\n");
 	lotw_handler* that = (lotw_handler*)v;
@@ -425,7 +425,7 @@ void lotw_handler::cb_upload_done(void* v) {
 void lotw_handler::set_adif_fields() {
 	// Ser default values if necessary
 	(void)fields_->collection("Upload/LotW", LOTW_FIELDS);
-	// Now copy to the std::set 
+	// Now copy to the set 
 	adif_fields_ = fields_->field_names("Upload/LotW");
 }
 

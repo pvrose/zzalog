@@ -19,7 +19,7 @@ cty2_reader::cty2_reader() {
 cty2_reader::~cty2_reader() {
 }
 
-// Load data from specified file into and add each record to the std::map
+// Load data from specified file into and add each record to the map
 bool cty2_reader::load_data(cty_data* data, std::istream& in, std::string& version) {
 	data_ = data;
 	// calculate the file size and initialise the progress bar

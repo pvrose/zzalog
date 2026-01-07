@@ -101,7 +101,7 @@ std::string adi_writer::item_to_adif(record* record, std::string field) {
 	int out_size = len_value + field.length() + (int)log10(len_value) + 6;
 	// Get the type indicator from the ADIF spec database
 	char type_indicator = spec_data_->datatype_indicator(field);
-	// Don't write out any items that are an empty std::string.
+	// Don't write out any items that are an empty string.
 	if (len_value > 0) {
 		char* temp = nullptr;
 		if (field.length() > 3 && field.substr(0, 3) == "APP") {
@@ -118,7 +118,7 @@ std::string adi_writer::item_to_adif(record* record, std::string field) {
 			}
 		}
 		else if (field.length() > 7 && field.substr(0, 7) == "USERDEF") {
-			// user defined fields require type and optional std::list or range of values
+			// user defined fields require type and optional list or range of values
 			std::string list_range = spec_data_->userdef_values(field);
 			if (list_range.length() > 0) {
 				// Add enough bytes to cover the type indicator and the userdef range length

@@ -117,7 +117,7 @@ void stn_qth_widget::enable_widgets() {
 //! Callback - entering value into an input
 
 //! \param widget that raised the callback
-//! \param v pointer to std::string item to take input
+//! \param v pointer to string item to take input
 void stn_qth_widget::cb_ip_data(Fl_Widget* w, void* v) {
 	Fl_Input* ip = (Fl_Input*)w;
 	stn_qth_widget* that = ancestor_view<stn_qth_widget>(w);

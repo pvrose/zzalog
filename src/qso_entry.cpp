@@ -56,7 +56,7 @@ qso_entry::qso_entry(int X, int Y, int W, int H, const char* L) :
 		ch_field_[ix] = nullptr;
 	}
 
-	// Initialise field input std::map
+	// Initialise field input map
 	field_ip_map_.clear();
 	tooltip("Allows the display and editing of QSO record fields");
 	create_form(X, Y);
@@ -356,7 +356,7 @@ void qso_entry::copy_qso_to_display(int flags) {
 	redraw();
 }
 
-// Copy from an existing record: fields depend on flags std::set
+// Copy from an existing record: fields depend on flags set
 void qso_entry::copy_qso_to_qso(record* old_record, int flags) {
 	// Create a new record
 	qso(-1);
@@ -366,7 +366,7 @@ void qso_entry::copy_qso_to_qso(record* old_record, int flags) {
 			copy_flags f = (*sf);
 			for (auto fx = COPY_FIELDS.at(f).begin(); fx != COPY_FIELDS.at(f).end(); fx++) {
 				if (flags & f) {
-					// If it's std::set copy it
+					// If it's set copy it
 					qso_->item((*fx), old_record->item((*fx)));
 				}
 				else {
@@ -565,7 +565,7 @@ void qso_entry::clear_qso() {
 	copy_qso_to_display(CF_QSO);
 }
 
-// Initialise field std::map
+// Initialise field map
 void qso_entry::initialise_field_map() {
 	field_ip_map_.clear();
 	for (int ix = 0; ix < NUMBER_FIXED; ix++) {
@@ -578,7 +578,7 @@ void qso_entry::initialise_field_map() {
 void qso_entry::initialise_fields() {
 	if (field_map_) delete field_map_;
 	field_map_ = new field_list;
-	// Now std::set fields
+	// Now set fields
 	// TODO: this is where we configure for context
 	switch (qso_data_->logging_state()) {
 	case qso_data::TEST_ACTIVE:
@@ -607,11 +607,11 @@ void qso_entry::initialise_fields() {
 		field_map_->resize(NUMBER_TOTAL - NUMBER_FIXED);
 	}
 	fields_in_use_.resize(field_map_->size() + NUMBER_FIXED);
-	// Clear field std::map
+	// Clear field map
 	initialise_field_map();
 	size_t ix = 0;
 	int iy;
-	// For non-fixed fields - std::set field name into field choice and populate
+	// For non-fixed fields - set field name into field choice and populate
 	// drop-down menu into field input with permitted values
 	for (ix = 0, iy = NUMBER_FIXED; ix < field_map_->size(); ix++, iy++) {
 		std::string name = (*field_map_)[ix];
@@ -629,7 +629,7 @@ void qso_entry::initialise_fields() {
 	set_focus_call();
 }
 
-// Return fields that have been defines as comma seperated std::list
+// Return fields that have been defines as comma seperated list
 std::string qso_entry::get_defined_fields() {
 	std::string defn = "";
 	for (int i = NUMBER_FIXED; i < NUMBER_TOTAL; i++) {
@@ -644,7 +644,7 @@ std::string qso_entry::get_defined_fields() {
 	return defn;
 }
 
-// Action add field - add the selected field to the std::set of entries
+// Action add field - add the selected field to the set of entries
 void qso_entry::action_add_field(int ix, std::string field) {
 	if (ix == -1 && fields_in_use_.size() == NUMBER_TOTAL) {
 		char msg[128];
@@ -723,11 +723,11 @@ void qso_entry::cb_ch_field(Fl_Widget* w, void* v) {
 	const char* field = ch->value();
 	int ix = (int)(intptr_t)v;
 	if (strlen(field)) {
-		// Add a field to the std::list if its not null
+		// Add a field to the list if its not null
 		that->action_add_field(ix, field);
 	}
 	else {
-		// Delete it if the name is null std::string
+		// Delete it if the name is null string
 		that->action_del_field(ix);
 	}
 }
@@ -989,7 +989,7 @@ void qso_entry::set_focus_call() {
 	if (!visible_r()) return;
 	int call_ix = 0;
 	bool found = false;
-	// Find the ip_field_ widget that holds CALL and std::set focus to it. 
+	// Find the ip_field_ widget that holds CALL and set focus to it. 
 	while (!found && call_ix < fields_in_use_.size()) {
 		if (fields_in_use_[call_ix] == "CALL") {
 			found = true; 

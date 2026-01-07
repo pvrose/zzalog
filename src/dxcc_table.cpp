@@ -249,7 +249,7 @@ void dxcc_table::scan_book() {
                 total_qsos_++;
             }
         }
-        // convert to std::vector
+        // convert to vector
         for (auto it = dxccs.begin(); it != dxccs.end(); it++) {
             row_ids_.push_back(*it);
         }

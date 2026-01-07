@@ -70,7 +70,7 @@ void field_choice::set_dataset(std::string dataset_name, std::string default_fie
 	value(default_field.c_str());
 }
 
-// Get the character std::string at the selected item
+// Get the character string at the selected item
 const char* field_choice::value() {
 	char* result = new char[128];
 	char temp[128];
@@ -267,7 +267,7 @@ void field_input::field_name(const char* field_name, record* qso /*= nullptr*/) 
 	field_name_ = field_name;
 	qso_ = qso;
 	std::string enum_name;
-	// Note MODE is a special case as the enumeration std::list is that of MODE and SUBMODE combined
+	// Note MODE is a special case as the enumeration list is that of MODE and SUBMODE combined
 	if (field_name_ == "MODE") enum_name = "Combined";
 	else enum_name= spec_data_->enumeration_name(field_name_, qso);
 	if (enum_name.length()) {
@@ -405,9 +405,9 @@ void field_input::reload_choice(record* qso /* = nullptr */) {
 	qso_ = qso;
 }
 
-// Field is a std::string type - allow case choice
+// Field is a string type - allow case choice
 bool field_input::is_string(std::string field) const {
-	// Special case where a std::string is a suggested enumeation
+	// Special case where a string is a suggested enumeation
 	if (spec_data_->enumeration_name(field_name_, nullptr).length()) return false;
 	char c = spec_data_->datatype_indicator(field);
 	switch (c) {

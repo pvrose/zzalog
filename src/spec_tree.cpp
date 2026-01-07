@@ -216,7 +216,7 @@ void spec_tree::insert_adif_spec(Fl_Tree_Item* parent, const spec_dataset& datas
 		// Entry name and data items for entry
 		std::string entry = it->first;
 		if (name == "DXCC_Entity_Code") {
-			// Special case for DXCC - numerical order not std::string order 
+			// Special case for DXCC - numerical order not string order 
 			switch (entry.length()) {
 			case 1:
 				entry = "  " + entry;
@@ -237,7 +237,7 @@ void spec_tree::insert_adif_spec(Fl_Tree_Item* parent, const spec_dataset& datas
 			if (entry_data->find(column) != entry_data->end()) {
 				std::string column_text = (*entry_data)[column];
 				if (column_text.length() > 0) {
-					// The data value is not an empty std::string
+					// The data value is not an empty string
 					char line[2048];
 					snprintf(line, 2048, "%s: %s", column.c_str(), column_text.c_str());
 					Fl_Tree_Item* column_item = entry_item->add(prefs(), line);

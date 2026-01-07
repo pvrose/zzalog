@@ -27,7 +27,7 @@ void rpc_data_item::set(int32_t i, rpc_data_t type) {
 	}
 }
 
-// Set the data to a std::string type
+// Set the data to a string type
 void rpc_data_item::set(std::string s, rpc_data_t type) {
 	if (type == XRT_BYTES || type == XRT_DATETIME || type == XRT_STRING) {
 		type_ = type;
@@ -35,7 +35,7 @@ void rpc_data_item::set(std::string s, rpc_data_t type) {
 	}
 	else if (type == XRT_DEFAULT) {
 		// Some servers send bad RPC with integers and doubles supplied as default 
-		// type which is std::string
+		// type which is string
 		type_ = type;
 		s_ = s;
 		// Try it as integer
@@ -123,19 +123,19 @@ int rpc_data_item::get_int() const {
 	return i_;
 }
 
-// Get the std::string
+// Get the string
 bool rpc_data_item::get(std::string& s) const {
 	if (type_ == XRT_STRING || type_ == XRT_BYTES || type_ == XRT_DATETIME) {
 		s = s_;
 		return true;
 	}
 	else {
-		// Not a std::string type
+		// Not a string type
 		return false;
 	}
 }
 
-// return std::string
+// return string
 std::string rpc_data_item::get_string() {
 	return s_;
 }
@@ -217,12 +217,12 @@ std::string rpc_data_item::print_item() {
 		result = temp;
 		break;
 	case XRT_DATETIME:
-		// Date/Time as std::string
+		// Date/Time as string
 		snprintf(temp, 1024, "Date/Time: %s\n", s_.c_str());
 		result = temp;
 		break;
 	case XRT_BYTES:
-		// Base64 encoding as std::string
+		// Base64 encoding as string
 		snprintf(temp, 1024, "Base64: %s\n", encode_base_64(s_).c_str());
 		result = temp;
 		break;

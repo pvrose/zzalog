@@ -318,7 +318,7 @@ void user_dialog::populate_size(Fl_Hold_Browser* br, const Fl_Font* font, const 
 			br->value(*size);
 		}
 		else {
-			// Only std::list available sizes
+			// Only list available sizes
 			int select = 0;
 			for (int i = 0; i < num_sizes; i++) {
 				// while the current value is less than required up the selected value

@@ -151,7 +151,7 @@ int wsjtx_handler::handle_close(std::stringstream& ss) {
 // Handle the logged ADIF datagram. Send it to the logger
 int wsjtx_handler::handle_log(std::stringstream& ss) {
 	status_->misc_status(ST_LOG, "WSJT-X: Received Log ADIF datagram");
-	// Get ADIF std::string
+	// Get ADIF string
 	std::string utf8 = get_utf8(ss);
 	// Convert it to a record
 	std::stringstream adif;
@@ -336,20 +336,20 @@ double wsjtx_handler::get_double(std::stringstream& ss) {
 	return *d;
 }
 
-// Get a std::string from the QByteArray (4 byte length + that number of bytes)
+// Get a string from the QByteArray (4 byte length + that number of bytes)
 std::string wsjtx_handler::get_utf8(std::stringstream& ss) {
 	// Get 4-byte length
 	uint32_t len = get_uint32(ss);
 	if (len == ~(0)) {
-		// Length is all 1's - represents a null std::string
+		// Length is all 1's - represents a null string
 		return "";
 	}
 	else {
-		// Create a std::string long enough to receive the data
+		// Create a string long enough to receive the data
 		std::string s = "";
 		s.reserve((size_t)len + 1);
 		for (uint32_t i = 0; i < len; i++) {
-			// Copy the std::string 1 byte at a timme
+			// Copy the string 1 byte at a timme
 			char c;
 			ss.get(c);
 			s += c;
@@ -366,7 +366,7 @@ void wsjtx_handler::put_uint32(std::stringstream& ss, const uint32_t i) {
 	}
 }
 
-// Put a std::string as QByteArray (see above) into the dgram
+// Put a string as QByteArray (see above) into the dgram
 void wsjtx_handler::put_utf8(std::stringstream& ss, std::string s) {
 	put_uint32(ss, s.length());
 	for (unsigned int ix = 0; ix < s.length(); ix++) {
@@ -534,7 +534,7 @@ record* wsjtx_handler::update_qso(bool tx, std::string time, double audio_freq, 
 			case TX1A:
 				// <THEM> <ME> 
 			{
-				// I am starting a new call - std::set date/ time/freq/mode
+				// I am starting a new call - set date/time/freq/mode
 				if (qso->item("QSO_DATE") == "") qso->item("QSO_DATE", today);
 				qso->item("TIME_ON", time);
 				char f[20];
@@ -748,7 +748,7 @@ bool wsjtx_handler::parse_all_txt(record* qso, std::string line) {
 	double dial_frequency = 0.0;
 	double audio_frequency = 0.0;
 	std::string time_on = "";
-	// After this initial processing pos will point to the start og the QSO decode std::string - look for old-style transmit record
+	// After this initial processing pos will point to the start og the QSO decode string - look for old-style transmit record
 	size_t pos = line.find("Transmitting");
 	if (pos != std::string::npos) {
 		pos = line.find(qso->item("MODE"));

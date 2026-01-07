@@ -737,12 +737,12 @@ void book::navigate(navigate_t target) {
 
 // Go to the date specified
 void book::go_date(std::string date) {
-	// std::set the bounds of the search - binary split search
+	// Set the bounds of the search - binary split search
 	item_num_t u_bound = size() - 1;
 	item_num_t l_bound = 0;
 	// Continue until a gap of only 1 between upper and lower bounds of the search
 	while (u_bound - l_bound > 1) {
-		// Compare std::string form of dates
+		// Compare string form of dates
 		std::string u_date = at(u_bound)->item("QSO_DATE");
 		std::string l_date = at(l_bound)->item("QSO_DATE");
 		if (u_date < date) {
@@ -784,7 +784,7 @@ std::string book::filename(bool full /*=true*/) {
 	}
 }
 
-// delete the selected record - force std::set if not created the record through book API
+// delete the selected record - force set if not created the record through book API
 void book::delete_record(bool force) {
 	// Either entering a new record or user allows to delete a saved record
 	if (force || new_record_) {
@@ -888,7 +888,7 @@ bool book::basic_match(record* record) {
 		// See if it is a valid nickname
 		int dxcc = cty_data_->entity(criteria_->pattern);
 		if (criteria_->pattern.length() == 0) {
-			// Null std::string - check records with no value
+			// Null string - check records with no value
 			return match_string(criteria_->pattern, criteria_->comparator, record->item("DXCC"));
 		}
 		else if (dxcc == -1 || criteria_->comparator == XP_LT || criteria_->comparator == XP_LE ||
@@ -968,7 +968,7 @@ bool book::refine_match(record* record) {
 	return true;
 }
 
-// std::string item matches taking whether to use regex or not.
+// String item matches taking whether to use regex or not.
 bool book::match_string(std::string test, int comparator, std::string value) {
 	switch ((search_comp_t)comparator) {
 	case XP_REGEX: {
@@ -1314,7 +1314,7 @@ bool book::enable_save() const {
 	return save_level_ == 0;
 }
 
-// Check duplicates - restart std::set after a query to confirm it's a duplicate
+// Check duplicates - restart set after a query to confirm it's a duplicate
 void book::check_dupes(bool restart) {
 	if (!restart) {
 		test_item_ = 0;
@@ -1586,7 +1586,7 @@ bool book::enterring_record() {
 	return new_record_ || is_dirty_record(get_record());
 }
 
-// Find the most recent QSO that is the gap after the previous one and std::set that as session start
+// Find the most recent QSO that is the gap after the previous one and set that as session start
 void book::set_session_start() {
 	if (RESUME_SESSION && size()) session_start_ = get_record(size() - 1, false)->timestamp();
 	else session_start_ = time(nullptr);
@@ -1668,7 +1668,7 @@ bool book::has_record(record* qso) {
 	else return false;
 }
 
-// Add this record to the dirty std::set
+// Add this record to the dirty set
 void book::add_dirty_record(record* qso, std::string reason) {
 	if (has_record(qso)) { 
 		if (!main_loading_ && DEBUG_MOD_STATUS)
@@ -1688,7 +1688,7 @@ void book::add_dirty_record(record* qso, std::string reason) {
 	if (!main_loading_) been_modified_ = true;
 }
 
-// Remove this record from the dirty std::set
+// Remove this record from the dirty set
 void book::delete_dirty_record(record* qso) {
 	if (is_dirty_record(qso)) {
 		if (DEBUG_MOD_STATUS) {

@@ -76,11 +76,11 @@ eqsl_handler::~eqsl_handler()
 	delete th_upload_;
 }
 
-/* The request std::queue is filled as the downloaded update is processed. It is emptied one request every 10 s
+/* The request queue is filled as the downloaded update is processed. It is emptied one request every 10 s
    to avoid overwhelming the eQSL server. 
 */
 
-// Put the image request on to the std::queue 
+// Put the image request on to the queue 
 void eqsl_handler::enqueue_request(qso_num_t record_num, bool force /*=false*/) {
 	// eQSL requests can be disabled when compiled with _DEBUG
 	// Inhibit saving log
@@ -127,12 +127,12 @@ void eqsl_handler::progress_download() {
 	}
 }
 
-// Reomve a request from the std::queue
+// Reomve a request from the queue
 void eqsl_handler::dequeue_request() {
 	char message[512];
 	// Do not send any requests if we have reached the limit in a session
 	if (!request_queue_.empty() && empty_queue_enable_) {
-		// send the next eQSL request in the std::queue - but leave it in the std::queue until we've seen the response
+		// send the next eQSL request in the queue - but leave it in the queue until we've seen the response
 		request_t request = request_queue_.front();
 		// Let user know what we are doing
 		sprintf(message, "EQSL: Downloading card %s", book_->get_record(request.record_num, false)->item("CALL").c_str());
@@ -146,10 +146,10 @@ void eqsl_handler::dequeue_request() {
 			fl_beep(FL_BEEP_QUESTION);
 			switch (fl_choice("eQSL download failed, do you want try again or cancel all", fl_yes, fl_cancel, fl_no)) {
 			case 0:
-				// Try again - leave the request on the std::queue
+				// Try again - leave the request on the queue
 				break;
 			case 1:
-				// Cancel - delete all requests in the std::queue
+				// Cancel - delete all requests in the queue
 				while (!request_queue_.empty()) {
 					request_queue_.pop();
 					book_->enable_save(true, "Cancelling eQSL image request");
@@ -157,7 +157,7 @@ void eqsl_handler::dequeue_request() {
 				cards_skipped = true;
 				break;
 			case 2:
-				// Request failed and repeat not wanted - remove request from std::queue
+				// Request failed and repeat not wanted - remove request from queue
 				if (fl_choice("Do you want to remove eQSL received flag?", fl_yes, fl_no, nullptr) == 0) {
 					record* qso = book_->get_record(request.record_num, false);
 					qso->item("EQSL_QSL_RCVD", std::string(""));
@@ -170,12 +170,12 @@ void eqsl_handler::dequeue_request() {
 			}
 			break;
 		case ER_OK:
-			// request succeeded - remove request from std::queue
+			// request succeeded - remove request from queue
 			request_queue_.pop();
 			book_->enable_save(true, "Dequeued eQSL image request");
 			break;
 		case ER_SKIPPED:
-			// request skipped - remove request from std::queue
+			// request skipped - remove request from queue
 			request_queue_.pop();
 			tick_count_ = EQSL_THROTTLE;
 			book_->enable_save(true, "Skipped eQSL image request");
@@ -188,10 +188,10 @@ void eqsl_handler::dequeue_request() {
 			fl_beep(FL_BEEP_QUESTION);
 			switch (fl_choice("Internet access failed, do you want to try again or cancel all?", fl_yes, fl_cancel, fl_no)) {
 			case 0:
-				// Yes - leave on std::queue
+				// Yes - leave on queue
 				break;
 			case 1:
-				// Cancel - delete all requests in the std::queue
+				// Cancel - delete all requests in the queue
 				while (!request_queue_.empty()) {
 					request_queue_.pop();
 					book_->enable_save(true, "Failed eqSL image request");
@@ -199,7 +199,7 @@ void eqsl_handler::dequeue_request() {
 				cards_skipped = true;
 				break;
 			case 2:
-				// Request failed and repeat not wanted - delete request from std::queue
+				// Request failed and repeat not wanted - delete request from queue
 				request_queue_.pop();
 				book_->enable_save(true, "Failed eQSL image request");
 				cards_skipped = true;
@@ -209,11 +209,11 @@ void eqsl_handler::dequeue_request() {
 		default:
 			break;
 		}
-		// Set the timeout again if the std::queue is still not empty and fetches are enabled
+		// Set the timeout again if the queue is still not empty and fetches are enabled
 		if (!request_queue_.empty() && empty_queue_enable_) {
 			// Let user know
 			request = request_queue_.front();
-			// Now peek the std::queue and select the front request so user sees the QSO being requested
+			// Now peek the queue and select the front request so user sees the QSO being requested
 			book_->selection(request.record_num);
 			sprintf(message, "EQSL: %zu card requests pending - next request %s", request_queue_.size(), book_->get_record()->item("CALL").c_str());
 			status_->misc_status(ST_NOTE, message);
@@ -397,7 +397,7 @@ eqsl_handler::response_t eqsl_handler::card_filename_r(
 		// Interpret returned page - read a line at a time looking for one of the signatures
 		while (getline(eqsl_ss, text_line) && eqsl_ss.good() && !got_card_filename) {
 			file += text_line;
-			// First look for Error: and std::set status to error message
+			// First look for Error: and set status to error message
 			char_pos = text_line.find(error_signature);
 			if (char_pos != std::string::npos) {
 				// We have an error
@@ -418,7 +418,7 @@ eqsl_handler::response_t eqsl_handler::card_filename_r(
 					status_->misc_status(ST_ERROR, message);
 				}
 				else {
-					// The look for <img src=" and std::set image file name to what then follows
+					// The look for <img src=" and set image file name to what then follows
 					char_pos = text_line.find(image_signature);
 					if (char_pos != std::string::npos) {
 						// Position to after the first quote
@@ -540,7 +540,7 @@ bool eqsl_handler::user_details(
 		*confirmed = eqsl_data->download_confirmed;
 	}
 	if (username == nullptr || *username == "" || password == nullptr || *password == "") {
-		// User name or password not std::set
+		// User name or password not set
 		return false;
 	}
 	else {
@@ -548,7 +548,7 @@ bool eqsl_handler::user_details(
 	}
 }
 
-// Download the eQSL inbox - ADIF is an internal std::stringstream that is later loaded into import_data_ in ADIF format
+// Download the eQSL inbox - ADIF is an internal stringstream that is later loaded into import_data_ in ADIF format
 bool eqsl_handler::download_eqsl_log(std::stringstream* adif) {
 	std::string filename;
 	// Takes time as it's online
@@ -711,7 +711,7 @@ void eqsl_handler::enable_fetch(queue_control_t control) {
 	case EQ_PAUSE:
 		break;
 	case EQ_ABANDON:
-		// remove timer and empty std::queue
+		// remove timer and empty queue
 		while (!request_queue_.empty()) request_queue_.pop();
 		download_count_ = 0;
 		tick_count_ = 0;
@@ -720,7 +720,7 @@ void eqsl_handler::enable_fetch(queue_control_t control) {
 	}
 }
 
-// Request std::queue is not empty
+// Request queue is not empty
 bool eqsl_handler::requests_queued() {
 	return !request_queue_.empty();
 }
@@ -772,7 +772,7 @@ bool eqsl_handler::upload_eqsl_log(book* book) {
 			this_message = record->item_merge(qsl_message);
 		}
 	}
-	// Create an internal std::stringstream to accept the ADIF data
+	// Create an internal stringstream to accept the ADIF data
 	std::stringstream ss;
 	adi_writer* writer = new adi_writer;
 	writer->store_book(book, ss, false, &adif_fields_);
@@ -915,7 +915,7 @@ bool eqsl_handler::upload_eqsl_log(book* book) {
 void eqsl_handler::set_adif_fields() {
 	// Ser default values if necessary
 	(void)fields_->collection("Upload/eQSL", EQSL_FIELDS);
-	// Now copy to the std::set 
+	// Now copy to the set 
 	adif_fields_ = fields_->field_names("Upload/eQSL");
 	// And write the settings back
 }
@@ -1012,7 +1012,7 @@ bool eqsl_handler::upload_single_qso(qso_num_t record_num) {
 		// Only upload valid records or reply to SWL reports
 		if (this_record->is_valid() || this_record->item("SWL") == "Y") {
 			book_->enable_save(false, "Uploading to eQSL");
-			// Now send to upload std::thread to process
+			// Now send to upload thread to process
 			upload_lock_.lock();
 			if (DEBUG_THREADS) printf("EQSL MAIN: Enqueueing eQSL request %s\n", this_record->item("CALL").c_str());
 			upload_queue_.push(this_record);
@@ -1022,7 +1022,7 @@ bool eqsl_handler::upload_single_qso(qso_num_t record_num) {
 	return upload_qso;
 }
 
-// Upload the QSO. This is running in a separate std::thread
+// Upload the QSO. This is running in a separate thread
 bool eqsl_handler::th_upload_qso(record* this_record) {
 	if (DEBUG_THREADS) printf("EQSL THREAD: Uploading eQSL %s\n", this_record->item("CALL").c_str());
 	// Generate URL parameters for QSL
@@ -1157,7 +1157,7 @@ bool eqsl_handler::th_upload_qso(record* this_record) {
 	return true;
 }
 
-// Handle call back from upload std::thread
+// Handle call back from upload thread
 void eqsl_handler::cb_upload_done(void* v) {
 	if (DEBUG_THREADS) printf("EQSL MAIN: Entered std::thread callback handler\n");
 	eqsl_handler* that = (eqsl_handler*)v;
@@ -1218,7 +1218,7 @@ void eqsl_handler::display_response(std::string response) {
 	help_window_->show();
 }
 
-// Run the std::thread to handle eQSL interface
+// Run the thread to handle eQSL interface
 void eqsl_handler::thread_run(eqsl_handler* that) {
 	if (DEBUG_THREADS) printf("EQSL THREAD: Thread started\n");
 	while (that->run_threads_) {

@@ -224,7 +224,7 @@ void qsl_editor::create_form(int X, int Y) {
     g_202->box(FL_FLAT_BOX);
 
     curr_x += WLABEL;
-    // Input to std::set number of columns to print
+    // Input to set number of columns to print
 	Fl_Value_Input* w_20201 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Columns");
 	w_20201->value(data_->columns);
 	w_20201->align(FL_ALIGN_LEFT);
@@ -473,7 +473,7 @@ void qsl_editor::create_items() {
 	int available_h = g_4_->y() + g_4_->h() - curr_y - GAP;
 	curr_x = g_4_->x() + GAP;
 
-	// Fl_Scroll encapsulates a std::set of Group 4.1.x
+	// Fl_Scroll encapsulates a set of Group 4.1.x
 	Fl_Scroll* gg_401 = new Fl_Scroll(curr_x, curr_y, 100, available_h);
 	gg_401->type(Fl_Scroll::VERTICAL);
 	
@@ -668,7 +668,7 @@ void qsl_editor::create_fparams(int& curr_x, int& curr_y, qsl_data::field_def* f
 	f_box->when(FL_WHEN_RELEASE);
 
 	curr_x += f_box->w();
-	// Button to select whether the label and box are displayed if the value is an empty std::string
+	// Button to select whether the label and box are displayed if the value is an empty string
 	Fl_Check_Button* f_ignore = new Fl_Check_Button(curr_x, curr_y, HBUTTON, HBUTTON);
 	f_ignore->tooltip("Select if the item is to be displayed if null value");
 	f_ignore->callback(cb_ip_bool, (void*)&field->display_empty);

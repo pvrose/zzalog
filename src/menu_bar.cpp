@@ -61,7 +61,7 @@
 #include <FL/Fl_Tooltip.H>
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
-	// The default menu - std::set of menu items
+	// The default menu - set of menu items
 	Fl_Menu_Item menu_bar_items[] = {
 		// File operations
 	{ "&File", 0, 0, 0, FL_SUBMENU },
@@ -232,7 +232,7 @@ menu_bar::menu_bar(int X, int Y, int W, int H, const char* label) :
 {
 	// Add the menu
 	Fl_Menu_Bar::menu(menu_bar_items);
-	// Add the recent files std::list to it
+	// Add the recent files list to it
 	add_recent_files();
 	// default text size - just larger than default font size
 	textsize(FL_NORMAL_SIZE + 1);
@@ -374,7 +374,7 @@ void menu_bar::cb_mi_file_open(Fl_Widget* w, void* v) {
 }
 
 // File->Save
-// v is std::set to 0 to represent object_t = OT_MAIN
+// v is set to 0 to represent object_t = OT_MAIN
 void menu_bar::cb_mi_file_save(Fl_Widget* w, void* v) {
 	import_data_->stop_update(false);
 	while (!import_data_->update_complete()) Fl::check();
@@ -399,7 +399,7 @@ void menu_bar::cb_mi_file_save(Fl_Widget* w, void* v) {
 }
 
 // File->SaveAs 
-// v is std::set to the enum object_t. OT_MAIN = save main book, OT_EXTRACT = save extracted records
+// v is set to the enum object_t. OT_MAIN = save main book, OT_EXTRACT = save extracted records
 void menu_bar::cb_mi_file_saveas(Fl_Widget* w, void* v) {
 	std::string filename = book_->filename();
 	Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
@@ -436,7 +436,7 @@ void menu_bar::cb_mi_file_saveas(Fl_Widget* w, void* v) {
 				// Save even if not modified
 				b->store_data(filename, true);
 				if (type == OT_MAIN) {
-					// Change filename in title and top of recent file std::list
+					// Change filename in title and top of recent file list
 					main_window_label(filename);
 					set_recent_file(filename);
 				}
@@ -866,7 +866,7 @@ void menu_bar::cb_mi_log_bulk(Fl_Widget* w, void* v) {
 					num_changed, (int)navigation_book_->size(), old_field_name.c_str(), new_text.c_str());
 				break;
 			case CHANGE_FIELD:
-				snprintf(message, 256, "LOG: Bulk Change done, %d records: Field %s std::set to %s",
+				snprintf(message, 256, "LOG: Bulk Change done, %d records: Field %s set to %s",
 					num_changed, old_field_name.c_str(), new_text.c_str());
 				break;
 			}
@@ -1128,7 +1128,7 @@ void menu_bar::cb_mi_ext_dl_images(Fl_Widget* w, void* v) {
 	eqsl_handler_->enable_fetch(eqsl_handler::EQ_START);
 }
 
-// Report->Clear etc. - std::set the report filter
+// Report->Clear etc. - set the report filter
 // v is enum report_filter_t: RF_NONE, RF_ALL, RF_ALL_CURRENT, RF_EXTRACTED or RF_SELECTED
 void menu_bar::cb_mi_rep_filter(Fl_Widget* w, void* v) {
 	// v has the filter
@@ -1137,7 +1137,7 @@ void menu_bar::cb_mi_rep_filter(Fl_Widget* w, void* v) {
 	tabbed_forms_->activate_pane(OT_REPORT, true);
 }
 
-// Report->Levelx - std::set report level n to category
+// Report->Levelx - set report level n to category
 // v contains two bytes { level, category }
 void menu_bar::cb_mi_rep_level(Fl_Widget* w, void* v) {
 	long params = (intptr_t)v;
@@ -1324,7 +1324,7 @@ void menu_bar::enable(bool active) {
 		// Disable specific items that do not make sense in the current state of the app
 		update_items();
 	}
-	// Enable/disable toolbar buttons that std::map onto menu items
+	// Enable/disable toolbar buttons that map onto menu items
 	if (toolbar_) toolbar_->update_items();
 }
 
@@ -1359,7 +1359,7 @@ void menu_bar::add_recent_files() {
 void menu_bar::report_mode(std::vector<report_cat_t> report_mode, report_filter_t filter) {
 	// Set the Report->Level N->* menu items
 	for (int i = 1; i < 4; i++) {
-		// Get the item indices to std::set modes
+		// Get the item indices to set modes
 		char item_label[128];
 		sprintf(item_label, "Re&port/Level &%d/&Entities", i);
 		int index_entities = find_index(item_label);
@@ -1445,7 +1445,7 @@ void menu_bar::report_mode(std::vector<report_cat_t> report_mode, report_filter_
 			}
 		}
 		else {
-			// This level is not used - std::set Nothing
+			// This level is not used - set Nothing
 			mode(index_nothing, mode(index_nothing) | FL_MENU_VALUE);
 			mode(index_entities, mode(index_entities) & ~FL_MENU_VALUE);
 			mode(index_states, mode(index_states) & ~FL_MENU_VALUE);

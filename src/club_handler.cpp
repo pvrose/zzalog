@@ -34,7 +34,7 @@
 club_handler::club_handler() {
 	// Create the URL handler if it hasn't already been done
 	if (!url_handler_) url_handler_ = new url_handler;
-	// Initialise std::thread interface
+	// Initialise thread interface
 	run_threads_ = true;
 	upload_response_ = 0;
 	if (DEBUG_THREADS) printf("CLUBLOG MAIN: Starting std::thread\n");
@@ -111,14 +111,14 @@ void club_handler::generate_form(std::vector<url_handler::field_pair>& fields, r
 		// get logging callsign from QSO record
 		std::string callsign = qso_manager_->get_default(qso_manager::CALLSIGN);
 		fields.push_back({ "callsign", callsign.c_str(), "", "" });
-		// Get std::string ADIF
+		// Get string ADIF
 		fields.push_back({ "adif", single_qso_, "", "" });
 	}
 	else {
 		// Get callsign from settings
 		std::string callsign = qso_manager_->get_default(qso_manager::CALLSIGN);
 		fields.push_back({ "callsign", callsign.c_str(), "", ""});
-		// Set file to empty std::string to use the supplied data stream
+		// Set file to empty string to use the supplied data stream
 		fields.push_back({ "file", "", "clublog.adi", "application/octet-stream" });
 	}
 	// Hard-coded API Key for this application
@@ -223,7 +223,7 @@ bool club_handler::upload_single_qso(qso_num_t record_num) {
 	return false;
 }
 
-// Upload QSO to clublog (in std::thread)
+// Upload QSO to clublog (in thread)
 void club_handler::th_upload(record* this_record) {
 	std::set<std::string> adif_fields;
 	single_qso_ = to_adif(this_record, adif_fields_);
@@ -249,8 +249,8 @@ void club_handler::th_upload(record* this_record) {
 	std::this_thread::yield();
 }
 
-// Method in the main std::thread that is 
-// called when the std::thread handling upload has finished
+// Method in the main thread that is 
+// called when the thread handling upload has finished
 // Updates the QSO recotrd that the update has been completed
 bool club_handler::upload_done(bool response) {
 	char message[200];
@@ -283,14 +283,14 @@ bool club_handler::upload_done(bool response) {
 	return response;
 }
 
-// Static interface between upload std::thread and main std::thread to handle upload complete
+// Static interface between upload thread and main thread to handle upload complete
 void club_handler::cb_upload_done(void* v) {
 	if (DEBUG_THREADS) printf("CLUBLOG MAIN: Entered std::thread callback handler\n");
 	club_handler* that = (club_handler*)v;
 	that->upload_done(that->upload_response_);
 }
 
-// Start and progress the std::thread that handles uploads without stalling main std::thread
+// Start and progress the thread that handles uploads without stalling main thread
 void club_handler::thread_run(club_handler* that) {
 	if (DEBUG_THREADS) printf("CLUBLOG THREAD: Thread started\n");
 	while (that->run_threads_) {
@@ -328,11 +328,11 @@ std::string club_handler::to_adif(record* this_record, field_list &fields) {
 void club_handler::set_adif_fields() {
 	// Ser default values if necessary
 	(void)fields_->collection("Upload/ClubLog", CLUBLOG_FIELDS);
-	// Now copy to the std::set 
+	// Now copy to the set 
 	adif_fields_ = fields_->field_names("Upload/ClubLog");
 }
 
-// Download the OQRS std::list of QSL requests
+// Download the OQRS list of QSL requests
 bool club_handler::download_oqrs(std::stringstream* adif) {
 	fl_cursor(FL_CURSOR_WAIT);
 	status_->misc_status(ST_NOTE, "CLUBLOG: Starting download OQRS");

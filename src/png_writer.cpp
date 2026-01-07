@@ -127,7 +127,7 @@ bool png_writer::initialise_png() {
 	png_init_io(png_, out_file_);
 	// Set the compression level - go nuclear
 	png_set_compression_level(png_, Z_BEST_COMPRESSION);
-	// Now std::set image attributes
+	// Now set image attributes
 	png_set_IHDR(png_, info_,
 		image_->data_w(), image_->data_h(), 8, // width, height and bit-depth
 		PNG_COLOR_TYPE_RGB,                 // RGB

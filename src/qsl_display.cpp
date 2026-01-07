@@ -135,7 +135,7 @@ void qsl_display::draw_field(qsl_data::field_def& field) {
 			}
 		}
 	} else {
-		// We have records and concatenating valeus into a single std::string
+		// We have records and concatenating values into a single string
 		std::set<std::string> values;
 		// Only print each values once
 		for (int i = 0; i < num_records_; i++) {
@@ -172,7 +172,7 @@ void qsl_display::draw_field(qsl_data::field_def& field) {
 	// Get the X and Y positions - "-1" indicates abut it to previous item
 	int fx = (field.dx == -1) ? next_x_ : draw_x_ + scale(field.dx);
 	int fy = (field.dy == -1) ? next_y_ : draw_y_ + scale(field.dy);
-	// Are we displaying the field if its value is the empty std::string?
+	// Are we displaying the field if its value is the empty string?
 	if (field.display_empty || text.length()) {
 		// Draw the box if necessary
 		fl_color(FL_BLACK);
@@ -230,7 +230,7 @@ void qsl_display::draw_field(qsl_data::field_def& field) {
 	// Restore font
 	fl_font(savef, savez);
 
-	// std::set the next X,Y position
+	// Set the next X,Y position
 	if (field.vertical) {
 		// The next item will be drawn to the right
 		next_x_ = fx + fw + 2 * box_gap;
@@ -261,7 +261,7 @@ void qsl_display::draw_text(qsl_data::text_def& text) {
 	// The next item will be drawn below
 	int fw = 0, fh = 0;
 	fl_measure(fulltext.c_str(), fw, fh);
-	// std::set the next X,Y position
+	// Set the next X,Y position
 	if (text.vertical) {
 		// The next item will be drawn to the right
 		next_x_ = fx + fw;
@@ -481,7 +481,7 @@ void qsl_display::set_image(Fl_Image* image) {
 	alt_text_ = nullptr;
 }
 
-// std::set alternate text
+// Set alternate text
 void qsl_display::set_text(const char* text, Fl_Color colour) {
 	if (alt_text_) delete alt_text_;
 	if (text == nullptr) alt_text_ = nullptr;

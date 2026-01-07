@@ -74,7 +74,7 @@ void socket_server::run_server()
 	}
 	// Start listening for packets - will set a timer to the listen after that
 	if (DEBUG_THREADS) {
-		printf("SOCKET MAIN: Staring std::thread for %s\n", protocol_ == UDP ? "UDP" : "HTTP");
+		printf("SOCKET MAIN: Starting thread for %s\n", protocol_ == UDP ? "UDP" : "HTTP");
 	}
 	th_socket_ = new std::thread(thread_run, this);
 }
@@ -413,7 +413,7 @@ int socket_server::rcv_packet()
 		}
 #endif
 	} while (!closing_);
-	// Now see if we have another - the timer goes on the scheduling std::queue so other tasks will get in
+	// Now see if we have another - the timer goes on the scheduling queue so other tasks will get in
 	closed_ = true;
 	std::this_thread::yield();
 	if (buffer) delete[] buffer;
@@ -534,11 +534,11 @@ void socket_server::dump(std::string data)
 	printf("%s\n", escaped.c_str());
 }
 
-// main std::thread side handle packet
+// main thread-side handle packet
 void socket_server::cb_th_packet(void *v)
 {
 	socket_server *that = (socket_server *)v;
-	// Lock std::queue while empty it
+	// Lock queue while empty it
 	that->mu_packet_.lock();
 	while (!that->q_packet_.empty())
 	{
@@ -548,7 +548,7 @@ void socket_server::cb_th_packet(void *v)
 		ss << s;
 		that->q_packet_.pop();
 		that->mu_packet_.unlock();
-		// Process packet having unlocked std::queue to allow another packet in
+		// Process packet having unlocked queue to allow another packet in
 		that->do_request(that->instance_, ss);
 		that->mu_packet_.lock();
 	}

@@ -534,7 +534,7 @@ void qso_details::table_q::cb_table(Fl_Widget* w, void* v) {
 // Set the table items
 void qso_details::table_q::set_data(std::set<qso_num_t> items, std::set<qso_num_t> possibles) {
 	items_.clear();
-	// The std::vector is built up from the end - put the possibles at the end
+	// The vector is built up from the end - put the possibles at the end
 	for (auto it = possibles.begin(); it != possibles.end(); it++) {
 		items_.insert(items_.begin(), (*it));
 	}

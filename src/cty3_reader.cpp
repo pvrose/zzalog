@@ -36,7 +36,7 @@ cty_element* cty3_reader::load_element(cty_element::type_t type, std::string lin
 	return result;
 }
 
-// Convert prefix mask to std::list of prefixes
+// Convert prefix mask to list of prefixes
 std::list<std::string> cty3_reader::expand_mask(std::string patterns) {
 	std::list<std::string> result;
 	// Separate int patterns
@@ -205,7 +205,7 @@ cty_element* cty3_reader::load_usage(std::string line) {
 }
 
 
-// Load data from specified file into and add each record to the std::map
+// Load data from specified file into and add each record to the map
 bool cty3_reader::load_data(cty_data* data, std::istream& in, std::string& version) {
 	data_ = data;
 	// calculate the file size and initialise the progress bar

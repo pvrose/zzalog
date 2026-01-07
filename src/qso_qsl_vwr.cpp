@@ -414,7 +414,7 @@ void qso_qsl_vwr::create_form() {
 	bn_card_reqd_->callback(cb_bn_card_reqd, (void*)"R");
 	bn_card_reqd_->when(FL_WHEN_RELEASE);
 	curr_x += WBUTTON;
-	// Button - QSO partner declines a card - std::set QSL_SENT=N
+	// Button - QSO partner declines a card - set QSL_SENT=N
 	bn_card_decl_ = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Declined");
 	bn_card_decl_->tooltip("Mark QSO as declining a card QSL");
 	bn_card_decl_->callback(cb_bn_card_reqd, (void*)"N");
@@ -481,7 +481,7 @@ void qso_qsl_vwr::cb_rad_card(Fl_Widget* w, void* v) {
 // v is record_num_t* containing the number of the record to fetch the eQSL card for
 void qso_qsl_vwr::cb_bn_fetch(Fl_Widget* w, void* v) {
 	qso_qsl_vwr* that = ancestor_view<qso_qsl_vwr>(w);
-	// Put the card request onto the eQSL request std::queue - so that requests are made
+	// Put the card request onto the eQSL request queue - so that requests are made
 	eqsl_handler_->enqueue_request(that->current_qso_num_, true);
 	eqsl_handler_->enable_fetch(eqsl_handler::EQ_START);
 	// Wait until donwload complete
@@ -492,7 +492,7 @@ void qso_qsl_vwr::cb_bn_fetch(Fl_Widget* w, void* v) {
 }
 
 // Set the QSL_RCVD and QSLRDATE values in current record
-// Set QSL_SENT to QUEUED if not already std::set
+// Set QSL_SENT to QUEUED if not already set
 // v selects scanned card (QI_CARD_FRONT) or e-mail (QI_EMAIL)
 void qso_qsl_vwr::cb_bn_log_card(Fl_Widget* w, void* v) {
 	qso_qsl_vwr* that = ancestor_view<qso_qsl_vwr>(w);
@@ -567,7 +567,7 @@ void qso_qsl_vwr::cb_bn_decline(Fl_Widget* w, void* v) {
 	}
 }
 
-// std::set the current QSO
+// Set the current QSO
 void qso_qsl_vwr::set_qso(record* qso, qso_num_t number) {
 	if (current_qso_ == qso) qso_changed_ = false;
 	else qso_changed_ = true;
@@ -683,7 +683,6 @@ void qso_qsl_vwr::set_image() {
 			bool png_is_jpeg = false;
 			char filename[256];
 			std::string target_name = "";
-			// std::string default_name;
 			if (current_qso_ != nullptr) {
 				// We want to display the received card (eQSL or scanned image)
 				// Get callsign

@@ -221,9 +221,9 @@ void qso_buttons::enable_widgets() {
 	int ix = 0;
 	shortcut_map_.clear();
 	if (button_map_.find(qso_data_->logging_state()) != button_map_.end()) {
-		// If we have a button std::map for the state use it - else deactivate all buttons
+		// If we have a button map for the state use it - else deactivate all buttons
 		const std::list<button_type>& buttons = button_map_.at(qso_data_->logging_state());
-		// Activate the buttons we need and std::set their parameters
+		// Activate the buttons we need and set their parameters
 		for (auto bn = buttons.begin(); bn != buttons.end() && ix < MAX_ACTIONS; bn++, ix++) {
 			const button_action& action = action_map_.at(*bn);
 			bn_action_[ix]->label(action.label);

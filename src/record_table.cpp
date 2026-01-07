@@ -256,7 +256,7 @@ void record_table::draw_cell(TableContext context, int R, int C, int X, int Y, i
 
 }
 
-// std::set the records to display
+// Set the records to display
 void record_table::set_records(record* log_record, record* query_record, record* saved_record) {
 	log_record_ = log_record;
 	query_record_ = query_record;
@@ -292,7 +292,8 @@ void record_table::set_records(record* log_record, record* query_record, record*
 	if (cols())	col_width_all(tow / cols());
 }
 
-// Get the fields that will be displayed - those used in records being displayed plus the minimum std::set of records specified in settings
+// Get the fields that will be displayed - those used in records being displayed 
+// plus the minimum set of records specified in settings
 void record_table::assess_fields() {
 	// Clear any existing fields
 	display_fields_.clear();
@@ -315,7 +316,7 @@ void record_table::assess_fields() {
 				}
 			}
 			if (!found) {
-				// Not already selected - add it to the std::list of fields to display
+				// Not already selected - add it to the list of fields to display
 				display_fields_.push_back(it->first);
 			}
 		}
@@ -333,7 +334,7 @@ void record_table::assess_fields() {
 				}
 			}
 			if (!found) {
-				// Not already selected - add it to the std::list of fields to display
+				// Not already selected - add it to the list of fields to display
 				display_fields_.push_back(it->first);
 			}
 		}

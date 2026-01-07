@@ -34,7 +34,7 @@ qrz_handler::qrz_handler() :
 {
 
 	run_threads_ = true;
-	if (DEBUG_THREADS) printf("QRZ MAIN: Starting std::thread\n");
+	if (DEBUG_THREADS) printf("QRZ MAIN: Starting thread\n");
 	th_upload_ = new std::thread(thread_run, this);
 
 	// Got no log-in details - raise a warning for now.
@@ -48,7 +48,7 @@ qrz_handler::qrz_handler() :
 
 // Destructor
 qrz_handler::~qrz_handler() {
-	// Close the upload std::thread
+	// Close the upload thread
 	run_threads_ = false;
 	th_upload_->join();
 	delete th_upload_;
@@ -388,7 +388,7 @@ bool qrz_handler::download_qrzlog_log(std::stringstream* adif) {
 		return false;
 	}
 	int count = 0;
-	// Create a 1M holding std::string (for debug)
+	// Create a 1M holding string (for debug)
 	std::string sadif;
 	sadif.reserve(1024 * 1024);
 	std::stringstream request;
@@ -574,7 +574,7 @@ bool qrz_handler::upload_single_qso(qso_num_t qso_number) {
 		return false;
 	}
 	book_->enable_save(false, "Uploading to QRZ.com");
-	// Now send to upload std::thread to process
+	// Now send to upload thread to process
 	upload_lock_.lock();
 	if (DEBUG_THREADS) printf("EQSL MAIN: Enqueueing eQSL request %s\n", qso->item("CALL").c_str());
 	upload_queue_.push(qso);
@@ -593,7 +593,7 @@ bool qrz_handler::upload_log(book* log) {
 	return ok;
 }
 
-// Upload std::thread - sit in a loop waiting for upload requests
+// Upload thread - sit in a loop waiting for upload requests
 void qrz_handler::thread_run(qrz_handler* that) {
 	if (DEBUG_THREADS) printf("QRZ THREAD: Thread started\n");
 	while (that->run_threads_) {
@@ -632,14 +632,14 @@ void qrz_handler::th_upload_qso(record* qso) {
 	resp->qso = qso;
 	// Send response back to 
 	upload_resp_ = resp;
-	if (DEBUG_THREADS) printf("QRZ THREAD: Calling std::thread callback\n");
+	if (DEBUG_THREADS) printf("QRZ THREAD: Calling thread callback\n");
 	Fl::awake(cb_upload_done, (void*)this);
 	std::this_thread::yield();
 }
 
 // Upload done: wrapper
 void qrz_handler::cb_upload_done(void* v) {
-	if (DEBUG_THREADS) printf("QRZ MAIN: Entered std::thread callback handler\n");
+	if (DEBUG_THREADS) printf("QRZ MAIN: Entered thread callback handler\n");
 	qrz_handler* that = (qrz_handler*)v;
 	that->upload_done(that->upload_resp_);
 }

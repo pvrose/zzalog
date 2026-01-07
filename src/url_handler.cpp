@@ -214,7 +214,7 @@ bool url_handler::post_form(std::string url, std::vector<field_pair> fields, std
 		field = curl_mime_addpart(form);
 		curl_mime_name(field, (*it).name.c_str());
 		if ((*it).value.length()) {
-			// We have specified a non-empty std::string so use that
+			// We have specified a non-empty string so use that
 			curl_mime_data(field, (*it).value.c_str(), (*it).value.length());
 		}
 		else if (req != nullptr) {
@@ -307,7 +307,7 @@ bool url_handler::send_email(std::string url, std::string user, std::string pass
 	// Set SSL
 	curl_easy_setopt(curl_, CURLOPT_USE_SSL, CURLUSESSL_ALL);
 
-	// std::set the sender 
+	// Set the sender 
 	snprintf(text, sizeof(text), "<%s>", user.c_str());
 	curl_easy_setopt(curl_, CURLOPT_MAIL_FROM, text);
 	// Add the recipients - which hopefully should not be seen

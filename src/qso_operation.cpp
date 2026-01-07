@@ -195,7 +195,7 @@ void qso_operation::cb_show(Fl_Widget *w, void *v)
 		break;
 	}
 }
-// std::set the QSO
+// Set the QSO
 void qso_operation::qso(record *qso)
 {
 	current_qso_ = qso;

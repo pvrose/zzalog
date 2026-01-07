@@ -227,7 +227,7 @@ void corr_dialog::cb_bn_quit(Fl_Widget* w, void* v) {
 	that->do_button(BN_SPARE);
 }
 
-// Returns correction message - std::set in OK button
+// Returns correction message - set in OK button
 std::string corr_dialog::correction_message() {
 	return correction_message_;
 }

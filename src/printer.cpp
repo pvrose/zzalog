@@ -155,10 +155,10 @@ void printer::calculate_properties() {
 	// get the font for the field header - and ditto
 	fl_font(PRINT_FONT + FL_BOLD + FL_ITALIC, ROW_SIZE);
 	available_height -= (fl_height() + LINE_WIDTH);
-	// std::set the record font - keep 1 point margin
+	// set the record font - keep 1 point margin
 	fl_font(PRINT_FONT, ROW_SIZE);
 	int item_height = fl_height() + LINE_WIDTH + LINE_MARGIN;
-	// std::set page properties
+	// set page properties
 	items_per_page_ = available_height / item_height;
 	number_pages_ = (((signed)(navigation_book_->size() - 1)) / items_per_page_) + 1;
 }
@@ -235,7 +235,7 @@ void printer::print_page_header(int page_number) {
 
 // Print a record
 void printer::print_record(record* record) {
-	// std::set up the record font and calculate depth dimensions
+	// set up the record font and calculate depth dimensions
 	fl_color(FL_BLACK);
 	fl_font(PRINT_FONT, ROW_SIZE);
 	int height = fl_height();

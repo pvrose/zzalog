@@ -99,7 +99,7 @@ wx_handler::wx_handler() :
     error_code_(0)
 {
     report_.icon = nullptr;
-    // Start std::thread
+    // Start thread
     wx_fetch_.store(false);
     wx_valid_.store(false);
     wx_thread_ = new std::thread(do_thread, this);
@@ -112,11 +112,11 @@ wx_handler::wx_handler() :
 // Destructor   
 wx_handler::~wx_handler() {
     ticker_->remove_ticker(this);
-    // Close the std::thread down cleanly
+    // Close the thread down cleanly
     if (wx_thread_) wx_thread_->join();
 };
 
-// Do std::thread - when told to by wx_fetch_ fetch the WX data.
+// Do thread - when told to by wx_fetch_ fetch the WX data.
 // Abandon when run_thread_ is deasserted
 void wx_handler::do_thread(wx_handler* that) {
     while(!that->wx_fetch_.load());
@@ -253,12 +253,12 @@ std::string wx_handler::cloud_name() const {
     return report_.cloud_name;
 }
 
-// Sunris
+// Sunrise
 time_t wx_handler::sun_rise() const {
     return report_.sunrise;
 }
 
-// Sun std::set
+// Sunset
 time_t wx_handler::sun_set() const { 
     return report_.sunset;
 }

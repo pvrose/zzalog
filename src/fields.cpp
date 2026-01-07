@@ -120,7 +120,7 @@ void fields::load_data() {
     if (coll_map_.find("Default") == coll_map_.end()) {
         // Create the default collection
         collection_t* coll = new collection_t;
-        // For all fields in default field std::set add it to the new field std::set
+        // For all fields in default field set add it to the new field set
         for (unsigned int i = 0; DEFAULT_FIELDS[i].field.size() > 0; i++) {
             coll->push_back(DEFAULT_FIELDS[i]);
         }
@@ -193,7 +193,7 @@ void fields::store_data() {
 // Save the data as JSON
 
 
-// Get the std::list of collection names
+// Get the list of collection names
 std::set<std::string> fields::coll_names() {
     std::set<std::string> result;
     result.clear();
@@ -225,7 +225,7 @@ bool fields::delete_coll(std::string name) {
         auto it = coll_map_.find(name);
         if (it == coll_map_.end()) return false;
         else {
-            // Delete the entry and remove it from the std::map
+            // Delete the entry and remove it from the map
             delete (*it).second;
             coll_map_.erase(it);
             // Check if any app uses it and replace with Default

@@ -182,14 +182,6 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 	gp1->box(FL_FLAT_BOX);
 	gp1->align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_INSIDE);
 
-	//// Row 1 Col 2 - Date last accessed
-	//calendar_input* in1_1_2 = new calendar_input(C2, R1_1, W2 + H1_1, H1_1, "Last accessed");
-	//in1_1_2->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
-	//in1_1_2->value(eqsl_data_->last_downloaded.c_str());
-	//in1_1_2->callback(cb_value<intl_input, std::string>, &eqsl_data_->last_downloaded);
-	//in1_1_2->when(FL_WHEN_CHANGED);
-	//in1_1_2->tooltip("Last time eQSL.cc accessed");
-
 	// Leave room for the eQSL enable button
 	int curr_x = rx + GAP + HBUTTON;
 	int curr_y = ry + GAP + GAP;
@@ -296,7 +288,7 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 	in1_3_2->when(FL_WHEN_CHANGED);
 	in1_3_2->tooltip("Message to send to eQSL.cc or print on cards for SWL reports");
 
-	// Create the std::list of widgets to be disabled when eQSL disabled
+	// Create the list of widgets to be disabled when eQSL disabled
 	grp_eqsl_ = gp1;
 
 	gp1->end();
@@ -378,7 +370,7 @@ void web_dialog::create_lotw(int rx, int ry, int rw, int rh) {
 	bn2_1A_1->when(FL_WHEN_CHANGED);
 	bn2_1A_1->tooltip("Upload each QSO as it is logged");
 
-	// Create the std::list of widgets to be disabled when eQSL disabled
+	// Create the list of widgets to be disabled when eQSL disabled
 	grp_lotw_ = gp2;
 
 	gp2->end();
@@ -525,7 +517,7 @@ void web_dialog::create_qrz(int rx, int ry, int rw, int rh) {
 
 	grp_qrz_api_->end();
 
-	// Create the std::list of widgets to be disabled when eQSL disabled
+	// Create the list of widgets to be disabled when eQSL disabled
 	grp_qrz_ = gp3;
 
 	gp3->end();

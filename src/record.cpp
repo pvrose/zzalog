@@ -33,7 +33,7 @@ bool record::inhibit_error_reporting_ = false;
 
 // Comparison operator - compares QSO_DATE and TIME_ON - orders the records by time.
 bool record::operator > (record& them) {
-	// Basic std::string comparison "YYYYMMDDHHMMSS"
+	// Basic string comparison "YYYYMMDDHHMMSS"
 	if (timestamp_ > them.timestamp_) {
 		return true;
 	}
@@ -158,16 +158,16 @@ void record::item(const std::string& field, const std::string& value, bool forma
 				try {
 					int_value = std::stoi(value, &dummy);
 					if (dummy == value.length()) {
-						// The whole std::string is an integer - convert it back to std::string
+						// The whole string is an integer - convert it back to std::string
 						upper_value = std::to_string(int_value);
 					}
 					else {
-						// Use the original std::string
+						// Use the original string
 						upper_value = value;
 					}
 				}
 				catch (std::invalid_argument&) {
-					// Empty std::string, so use that
+					// Empty string, so use that
 					upper_value = value;
 				}
 			}
@@ -188,7 +188,7 @@ void record::item(const std::string& field, const std::string& value, bool forma
 	if (formatted) {
 		// Convert from the displayed format to ADIF format
 		if (upper_value == "") {
-			// empty std::string gives empty std::string
+			// empty string gives empty string
 			formatted_value = "";
 		}
 		else {
@@ -225,7 +225,7 @@ void record::item(const std::string& field, const std::string& value, bool forma
 						formatted_value = spec_data_->mode_for_submode(formatted_value);
 					}
 					else {
-						// std::set submode to ""
+						// Set submode to ""
 						item("SUBMODE", std::string(""));
 					}
 				}
@@ -293,13 +293,13 @@ void record::item(const std::string& field, const std::string& value, bool forma
 		set_timestamp();
 }
 
-// Get an item - as std::string
+// Get an item - as string
 std::string record::item(const std::string& field, bool formatted/* = false*/) {
 	std::string result;
 	if (formatted) {
 		// Return the display format for the field
 		std::string unformatted_value = item(field);
-		// Convert empty std::string to empty std::string
+		// Convert empty string to empty string
 		if (unformatted_value == "") {
 			result = unformatted_value;
 		}
@@ -364,7 +364,7 @@ std::string record::item(const std::string& field, bool formatted/* = false*/) {
 		// Use the field directly
 		auto it = find(field);
 		if (it == end()) {
-			// Field not present return empty std::string
+			// Field not present return empty string
 			result = "";
 		}
 		else {
@@ -456,12 +456,12 @@ bool record::is_valid() {
 	}
 }
 
-// does the item exist - in the std::map and not an empty std::string
+// does the item exist - in the map and not return an empty string
 bool record::item_exists(const std::string& field) {
 	return find(field) != end() && at(field) != "";
 }
 
-// std::set the header information
+// Set the header information
 void record::header(std::string comment) {
 	is_header_ = true;
 	header_comment_ = comment;
@@ -736,7 +736,7 @@ bool record::merge_records(record* merge_record, match_flags_t flags, hint_t* re
 			merged = true;
 		}
 		else if (!item_match && (field_name == "RST_RVCD" || field_name == "RST_SENT")) {
-			// Use merge data if the values match numerically but differ in std::string value
+			// Use merge data if the values match numerically but differ in string value
 			int l_value;
 			int r_value;
 			item(field_name, l_value);
@@ -1050,7 +1050,7 @@ bool record::items_match(record* record, const std::string& field_name) {
 	return false;
 }
 
-// Get the date and time as a std::chrono::system_clock::timepoisnt
+// Get the date and time as a chrono::system_clock::timepoint
 std::chrono::system_clock::time_point record::ctimestamp(bool time_off) {
 	return std::chrono::system_clock::from_time_t(timestamp(time_off));
 }
@@ -1123,7 +1123,7 @@ time_t record::timestamp(bool time_off /*= false*/, bool force /*=false*/) {
 				if (item("TIME_ON").length() == 6) {
 					qso_time.tm_sec = std::stoi(item("TIME_ON").substr(4, 2));
 				}
-				// To stop it getting randomly std::set in implementations that do not consistently initialise structures
+				// To stop it getting randomly set in implementations that do not consistently initialise structures
 				qso_time.tm_isdst = false;
 
 				return mktime(&qso_time);

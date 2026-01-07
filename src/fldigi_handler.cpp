@@ -57,7 +57,7 @@ void fldigi_handler::close_server() {
 	}
 }
 
-//! Callback from server std::thread: Receive a datagram from FLDIGI
+//! Callback from server thread: Receive a datagram from FLDIGI
 int fldigi_handler::rcv_request(void* instance, std::stringstream& os) {
 	return ((fldigi_handler*)instance)->rcv_dgram(os);
 }

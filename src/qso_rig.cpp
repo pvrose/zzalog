@@ -55,7 +55,7 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 {
 	// If no name is provided then get from qso_manager
 	if (L == nullptr || strlen(L) == 0) copy_label(ancestor_view<qso_manager>(this)->get_default(qso_manager::RIG).c_str());
-	// Otherwise copy that supplied as it is probably a transient std::string
+	// Otherwise copy that supplied as it is probably a transient string
 	else copy_label(L);
 	// CAT control group
 	labelfont(FL_BOLD);
@@ -1251,21 +1251,21 @@ void qso_rig::populate_port_choice() {
 		int num_ports = 1;
 		std::string* existing_ports = new std::string[1];
 		serial serial;
-		// Get the std::list of all ports or available (not in use) ports
+		// Get the list of all ports or available (not in use) ports
 		while (!serial.available_ports(num_ports, existing_ports, use_all_ports_, num_ports)) {
 			delete[] existing_ports;
 			existing_ports = new std::string[num_ports];
 		}
 		// now for the returned ports
 		for (int i = 0; i < num_ports; i++) {
-			// Add the name onto the choice drop-down std::list
+			// Add the name onto the choice drop-down list
 			char message[100];
 			std::string sport = *(existing_ports + i);
 			const char* port = sport.c_str();
 			snprintf(message, sizeof(message), "DASH: Found port %s", port);
 			status_->misc_status(ST_LOG, message);
 			ch_port_name_->add(port);
-			// Set the value to the std::list of ports
+			// Set the value to the list of ports
 			if (strcmp(port, cat_data_->hamlib->port_name.c_str()) == 0) {
 				ch_port_name_->value(i);
 			}
@@ -1454,7 +1454,7 @@ void qso_rig::cb_bn_select(Fl_Widget* w, void* v) {
 }
 
 // Clicked start button
-// v points to the std::string containing the command to  invoke flrig
+// v points to the string containing the command to invoke flrig
 void qso_rig::cb_bn_start(Fl_Widget* w, void* v) {
 	qso_rig* that = ancestor_view<qso_rig>(w);
 	cat_data_t* cat_data = that->cat_data_;
@@ -1663,7 +1663,7 @@ void qso_rig::ticker() {
 
 // Static 1s ticker
 void qso_rig::cb_ticker(void* v) {
-	// temporarily remove onself from the ticker std::list as this may take for than 1 s
+	// temporarily remove onself from the ticker list as this may take for than 1 s
 	ticker_->activate_ticker(v, false);
 	((qso_rig*)v)->ticker();
 	ticker_->activate_ticker(v, true);

@@ -23,7 +23,7 @@ cty1_reader::cty1_reader() {
 cty1_reader::~cty1_reader() {
 }
 
-// Load data from specified file into and add each record to the std::map
+// Load data from specified file into and add each record to the map
 bool cty1_reader::load_data(cty_data* data, std::istream& in, std::string& version) {
 	fl_cursor(FL_CURSOR_WAIT);
 

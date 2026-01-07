@@ -86,7 +86,7 @@ spec_data::~spec_data()
 			it2->second->clear();
 			delete it2->second;
 		}
-		// clear any info held by the std::map item and free the memory
+		// clear any info held by the map item and free the memory
 		dataset->data.clear();
 		delete dataset;
 	}
@@ -230,7 +230,8 @@ void spec_data::process_fieldnames() {
 
 // Get the DXCC award mode for a particulat ADIF mode
 std::string spec_data::dxcc_mode(std::string mode) {
-	// For non-data modes, there is mostly a one-to-one mapping (except HFSK->CW) all other modes std::map to DATA
+	// For non-data modes, there is mostly a one-to-one
+	// mapping (except HFSK->CW) all other modes map to DATA
 	if (mode == "AM") {
 		return "AM";
 	}
@@ -269,7 +270,7 @@ std::string spec_data::mode_for_submode(std::string submode) {
 		return it->second->at("Mode");
 	}
 	else {
-		// Else return empty std::string
+		// Else return empty string
 		return "";
 	}
 }
@@ -363,7 +364,7 @@ std::chrono::system_clock::time_point spec_data::adif_timestamp() const {
 	return adif_timestamp_;
 }
 
-// Get sorted std::list of field names
+// Get sorted list of field names
 std::set<std::string>* spec_data::sorted_fieldnames() {
 	return &field_names_;
 }
@@ -408,7 +409,8 @@ bool spec_data::add_userdef(int id, const std::string& name, char indicator, std
 	datatype_indicators_[userdef_name] = ' ';
 	datatype_indicators_[name] = indicator;
 
-	// The data type is an enumeration, values is a comma separated std::list of enumeration values
+	// The data type is an enumeration, values is a comma separated list of
+	// enumeration values
 	std::string enumeration_name;
 	if (indicator == 'E' && values.length() > 0) {
 		std::vector<std::string> value_array;
@@ -465,7 +467,7 @@ bool spec_data::add_userdef(int id, const std::string& name, char indicator, std
 	(*temp_map)["ADIF Status"] = "Not approved";
 	dataset("Fields")->data[name] = temp_map;
 
-	// Add user defined field name to the std::list
+	// Add user defined field name to the list
 	if ((size_t)id >= userdef_names_.size()) {
 		userdef_names_.resize((size_t)id + 1);
 	}
@@ -481,7 +483,7 @@ char spec_data::datatype_indicator(const std::string& field_name) {
 	return datatype_indicators_[field_name];
 }
 
-// Get std::list or range for the field
+// Get list or range for the field
 std::string spec_data::userdef_values(const std::string& field_name) {
 	// Get the Fields dataset
 	spec_dataset* fields = dataset("Fields");
@@ -490,7 +492,7 @@ std::string spec_data::userdef_values(const std::string& field_name) {
 		// If the field has an entry
 		// Get the Data Types dataset
 		if (it_field->second->at("Data Type") == "Enumeration") {
-			// Build up the comma-separated std::list of enumeration values
+			// Build up the comma-separated list of enumeration values
 			char temp[100];
 			std::string enumeration_name;
 			sprintf(temp, "User Enumeration %s", field_name.c_str());
@@ -498,7 +500,7 @@ std::string spec_data::userdef_values(const std::string& field_name) {
 			// Get the specific user enumeration dataset
 			spec_dataset* enumerations = dataset(enumeration_name);
 			std::string values;
-			// For each entry in the dataset append the key to the std::list
+			// For each entry in the dataset append the key to the list
 			for (auto it = enumerations->data.begin(); it != enumerations->data.end(); ) {
 				values += it->first;
 				it++;
@@ -583,7 +585,7 @@ bool spec_data::add_appdef(const std::string& name, char indicator) {
 
 		appdef_names_.insert(name);
 
-		// Add to the std::set of names
+		// Add to the set of names
 		field_names_.insert(name);
 	}
 
@@ -594,7 +596,7 @@ bool spec_data::add_appdef(const std::string& name, char indicator) {
 void spec_data::delete_userdefs() {
 	// Get the field dataset
 	spec_dataset* fields = dataset("Fields");
-	// Look in each entry in the user def name std::list.
+	// Look in each entry in the user def name list.
 	for (unsigned int i = 0; i < userdef_names_.size(); i++) {
 		std::string field_name = userdef_names_[i];
 		if (field_name != "") {
@@ -631,7 +633,7 @@ void spec_data::delete_userdefs() {
 			}
 		}
 	}
-	// Remove the items in the std::list of user defined names
+	// Remove the items in the list of user defined names
 	userdef_names_.clear();
 }
 
@@ -639,7 +641,7 @@ void spec_data::delete_userdefs() {
 void spec_data::delete_appdefs() {
 	// Get the Fields dataset
 	spec_dataset* fields = dataset("Fields");
-	// For each entry in the std::list of application defined names
+	// For each entry in the list of application defined names
 	for (auto it = appdef_names_.begin(); it != appdef_names_.end(); it++) {
 		if ((*it) != "") {
 			// Get the entry in the dataset
@@ -657,7 +659,7 @@ void spec_data::delete_appdefs() {
 			}
 		}
 	}
-	// Remove all the items in the std::list
+	// Remove all the items in the list
 	appdef_names_.clear();
 }
 
@@ -680,12 +682,12 @@ void spec_data::delete_user_data() {
 
 // Return true if field is a user defined one.
 bool spec_data::is_userdef(std::string field_name) {
-	// For all items in the std::list of user defined names
+	// For all items in the list of user defined names
 	for (unsigned int i = 0; i < userdef_names_.size(); i++) {
 		// Return true if it's this one
 		if (userdef_names_[i] == field_name) return true;
 	}
-	// Not found in the std::list
+	// Not found in the list
 	return false;
 
 }
@@ -703,7 +705,7 @@ std::string spec_data::datatype(char indicator) {
 			return it->first;
 		}
 	}
-	// Not found in the std::list
+	// Not found in the list
 	char message[256];
 	sprintf(message, "ADIF SPEC: Cannot find the data type for indicator %c", indicator);
 	status_->misc_status(ST_ERROR, message);
@@ -841,7 +843,7 @@ bool spec_data::add_user_enum(std::string field, std::string value) {
 		(*dynamic_data)["Description"] = "Dynamic enumeration for field " + field;
 		types_dataset->data["Dynamic"] = dynamic_data;
 	}
-	// Find data std::set for enumeration
+	// Find data set for enumeration
 	// Add new dataset for the enumeration values
 	spec_dataset* enum_dataset = dataset(enum_name);
 	if (enum_dataset == nullptr) {
@@ -867,7 +869,7 @@ bool spec_data::add_user_enum(std::string field, std::string value) {
 
 // The DXCC has ADIF defined primary administrative subdivisions
 bool spec_data::has_states(int dxcc) {
-	// Look up DXCC name in std::list of DXCCs with "states".
+	// Look up DXCC name in list of DXCCs with "states".
 	if (dataset("Primary_Administrative_Subdivision[" + std::to_string(dxcc) + "]")) {
 		return true;
 	}
@@ -879,7 +881,7 @@ bool spec_data::has_states(int dxcc) {
 // Check that the data is a valid number between minimum and maximum values
 valn_error_t spec_data::check_number(const std::string&  data, const std::string&  field, const std::string&  datatype)
 {
-	// Convert the std::string to a double
+	// Convert the string to a double
 	size_t pos;
 	double data_value;
 	try {
@@ -890,7 +892,7 @@ valn_error_t spec_data::check_number(const std::string&  data, const std::string
 		return VE_VALUE_INVALID;
 	}
 	if (pos != data.length()) {
-		// If the whole std::string is not a valid decimal number - invalid
+		// If the whole string is not a valid decimal number - invalid
 		return VE_VALUE_INVALID;
 	}
 	// Get the ADIF field parameters. Minimum and Maximum values - uses largest +/- value if blank
@@ -928,7 +930,7 @@ valn_error_t spec_data::check_integer(const std::string&  data, const std::strin
 		return VE_VALUE_INVALID;
 	}
 	if (pos != data.length()) {
-		// If the whole std::string is not a valid integer - invalid
+		// If the whole string is not a valid integer - invalid
 		return VE_VALUE_INVALID;
 	}
 	// Get the ADIF field parameters. Minimum and Maximum values - uses largest +/- value if blank
@@ -956,7 +958,7 @@ valn_error_t spec_data::check_integer(const std::string&  data, const std::strin
 // Check that an enumeration is valid
 valn_error_t spec_data::check_enumeration(const std::string& data, const std::string& field, const std::string& datatype) {
 	// Check that the enumeration value is correct for the record. Note we have already checked if the data is a valid member of the enumeration
-	// Specified by inference that it is a valid SOTA reference - check against the std::list of SOTA references
+	// Specified by inference that it is a valid SOTA reference - check against the list of SOTA references
 	if (field == "SOTA_REF") {
 		if (datatype == "SOTARef") {
 			// currently return not supported
@@ -1018,7 +1020,7 @@ valn_error_t spec_data::check_enumeration(const std::string& data, const std::st
 	}
 }
 
-// Check the std::string has the right format if it needs it.
+// Check the string has the right format if it needs it.
 valn_error_t spec_data::check_string(const std::string&  data, const std::string&  field, const std::string&  datatype)
 {
 	// ADIF_VER should to be x.y.z
@@ -1042,11 +1044,11 @@ valn_error_t spec_data::check_string(const std::string&  data, const std::string
 			return error;
 		}
 		else {
-			// Not valid format - not std::string or length <> 15
+			// Not valid format - not a string or length <> 15
 			return VE_VALUE_FORMAT_WARNING;
 		}
 	}
-	// SUBMODE - is only recommended to be one of an enumerated std::list
+	// SUBMODE - is only recommended to be one of an enumerated list
 	else if (field == "SUBMODE") {
 		std::map<std::string, std::string>* fields;
 		std::string upper_data = to_upper(data);
@@ -1099,7 +1101,7 @@ valn_error_t spec_data::check_string(const std::string&  data, const std::string
 			}
 		}
 		else {
-			// DXCC is not in the std::list - either blank in which case how do we have a COUNTRY value
+			// DXCC is not in the list - either blank in which case how do we have a COUNTRY value
 			if (data.length()) {
 				if (dxcc_code.length()) {
 					return VE_VALUE_INCOMPATIBLE;
@@ -1159,14 +1161,14 @@ valn_error_t spec_data::check_format(const std::string&  data, const std::string
 
 }
 
-// We have a separated std::list of datatype items - check each one in turn
+// We have a separated list of datatype items - check each one in turn
 valn_error_t spec_data::check_list(const std::string& data, const std::string&  field, const std::string&  datatype, bool is_enumeration, char separator)
 {
 	valn_error_t error = VE_OK;
 	std::vector<std::string> items;
-	// Split the std::list into an array
+	// Split the list into an array
 	split_line(data, items, separator);
-	// For each item in the std::list, while they return OK
+	// For each item in the list, while they return OK
 	for (unsigned int i = 0; i < items.size() && error == VE_OK; i++) {
 		// Check it individually
 		error = check_datatype(items[i], field, datatype, is_enumeration);
@@ -1243,7 +1245,7 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 	}
 	// Test these data types in approximate order of frequency of occurrence
 	else {
-		// Get the Data Types data std::set.
+		// Get the Data Types data set.
 		spec_dataset* datatypes_set = dataset("Data Types");
 		// Get the datatype record
 		if (datatypes_set->data.find(datatype) != datatypes_set->data.end()) {
@@ -1297,10 +1299,10 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 						valn_error_t error;
 						error = check_format(data, field, datatype, REGEX_STRING);
 						if (error != VE_OK && check_format(data, field, datatype, REGEX_BAD_MULTILINE) == VE_OK) {
-							// It's not valid as a std::string but is as a multi-line std::string
+							// It's not valid as a string but is as a multi-line string
 							error = check_string(data, field, datatype);
 							if (error == VE_OK) {
-								// Only invalid as a multi-line std::string - check for format/value errors
+								// Only invalid as a multi-line string - check for format/value errors
 								return VE_VALUE_MULTILINE;
 							}
 							else {
@@ -1309,7 +1311,7 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 							}
 						}
 						if (error != VE_OK && check_format(data, field, datatype, REGEX_INTL_STRING) == VE_OK) {
-							// It's not valid as a std::string but is as an international std::string
+							// It's not valid as a string but is as an international string
 							error = check_string(data, field, datatype);
 							if (error == VE_OK) {
 								return VE_VALUE_INTL;
@@ -1319,7 +1321,7 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 							}
 						}
 						if (error == VE_OK) {
-							// Valid std::string - check for format/value errors
+							// Valid string - check for format/value errors
 							return check_string(data, field, datatype);
 						}
 						else {
@@ -1327,7 +1329,7 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 						}
 					}
 					case 'M': {
-						// Multi-line std::string - no special value checking
+						// Multi-line string - no special value checking
 						valn_error_t error;
 						error = check_format(data, field, datatype, REGEX_MULTILINE);
 						if (error != VE_OK) {
@@ -1341,10 +1343,10 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 						else return VE_OK;
 					}
 					case 'I': {
-						// International std::string
+						// International string
 						valn_error_t error = check_format(data, field, datatype, REGEX_INTL_STRING);
 						if (error != VE_OK && (check_format(data, field, datatype, REGEX_BAD_INTL_MULTILINE) == VE_OK)) {
-							// It's not OK as an intl std::string but is as a multi-line one - check value/format
+							// It's not OK as an intl string but is as a multi-line one - check value/format
 							error = check_string(data, field, datatype);
 							if (error == VE_OK) {
 								// OK as multi-line
@@ -1362,7 +1364,7 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 						}
 					}
 					case 'G': {
-						// International multi-line std::string
+						// International multi-line string
 						return check_format(data, field, datatype, REGEX_INTL_MULTILINE);
 					}
 					case 'L': {
@@ -1415,15 +1417,15 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 				}
 				// Followed by the rarer ones
 				else if (datatype == "AwardList") {
-					// Comma-separated std::list of Award
+					// Comma-separated list of Award
 					return check_list(data, field, "Award", true, ',');
 				}
 				else if (datatype == "CreditList") {
-					// Comma-separated std::list of CredtItem (not ADIF type but created to allow two level checking
+					// Comma-separated list of CredtItem (not ADIF type but created to allow two level checking
 					return check_list(data, field, "CreditItem", false, ',');
 				}
 				else if (datatype == "SponsoredAwardList") {
-					// comma-separated std::list of Sposnsored_Award
+					// comma-separated list of Sposnsored_Award
 					return check_list(data, field, "Sponsored_Award", true, ',');
 				}
 				else if (datatype == "Digit") {
@@ -1439,11 +1441,11 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 					return check_format(data, field, datatype, REGEX_INTL_CHAR);
 				}
 				else if (datatype == "GridSquareList") {
-					// comma-separated std::list of GridSquare
+					// comma-separated list of GridSquare
 					return check_list(data, field, "GridSquare", false, ',');
 				}
 				else if (datatype == "SecondarySubdivisionList") {
-					// colon-separated std::list of Secondary_Administrative_Subdivision
+					// colon-separated list of Secondary_Administrative_Subdivision
 					return check_list(data, field, "Secondary_Administrative_Subdivision", true, ':');
 				}
 				else if (datatype == "SOTARef") {
@@ -1470,10 +1472,10 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 				return check_datatype(data, field, "Credit", true);
 			}
 			else {
-				// Colon, check the Credit value and the std::list of media.
+				// Colon, check the Credit value and the list of media.
 				valn_error_t error = check_datatype(data.substr(0, pos_colon), field, "Credit", true);
 				if (error == VE_OK) {
-					// Credit value OK, now check the std::list of QSL Media
+					// Credit value OK, now check the list of QSL Media
 					return check_list(data.substr(pos_colon + 1), field, "QSL_Medium", true, '&');
 				}
 				else {
@@ -1513,10 +1515,10 @@ valn_error_t spec_data::validate(const std::string& field, const std::string& da
 		else {
 			// Get the data type
 			datatype = (*field_entry)["Data Type"];
-			// Some fields can have more than one data type - so split the std::list
+			// Some fields can have more than one data type - so split the list
 			std::vector<std::string> datatypes;
 			split_line(datatype, datatypes, ',');
-			// For each data type in the std::list - while it's still OK
+			// For each data type in the list - while it's still OK
 			for (unsigned int i = 0; i < datatypes.size() && error != VE_OK; i++) {
 				datatype = datatypes[i];
 				if ((*field_entry)["Import Only"] != "") {
@@ -1767,7 +1769,7 @@ bool spec_data::auto_correction(valn_error_t error_code, const std::string&  dat
 		if (field == "SUBMODE") {
 			std::string mode = record_->item("MODE");
 			if (mode == display_item) {
-				// MODE and SUBMODE std::set to the same - remove SUBMODE
+				// MODE and SUBMODE set to the same - remove SUBMODE
 				record_->item("SUBMODE", std::string(""));
 				correction_message_ = field + "=" + display_item + " removed as MODE=" + display_item + " already std::set.";
 				return true;
@@ -1796,7 +1798,7 @@ bool spec_data::auto_correction(valn_error_t error_code, const std::string&  dat
 					return true;
 				}
 			}
-			// Special case - some Sub-modes are not Import-only in the Mode std::list
+			// Special case - some Sub-modes are not Import-only in the Mode list
 			if (field == "MODE") {
 				spec_dataset* submode_set = dataset("Submode");
 				auto it = submode_set->data.find(data);
@@ -1844,7 +1846,7 @@ bool spec_data::auto_correction(valn_error_t error_code, const std::string&  dat
 	case VE_VALUE_INPUT_ONLY:
 		// Correct Import-only enumeration values
 		if (field == "MODE") {
-			// Look in Submode type and if present change field name to SUBMODE and std::set MODE to process_mode specified in submode
+			// Look in Submode type and if present change field name to SUBMODE and set MODE to process_mode specified in submode
 			spec_dataset* submode_set = dataset("Submode");
 			if (submode_set->data.find(data) != submode_set->data.end()) {
 				std::map<std::string, std::string>* submode_data = submode_set->data.at(data);
@@ -1954,7 +1956,7 @@ bool spec_data::auto_correction(valn_error_t error_code, const std::string&  dat
 		}
 		if (field == "CONTEST_ID") {
 			if (data == "EA-RTTY" || data == "RAC") {
-				// Contest removedfrom std::list
+				// Contest removed from list
 				record_->item(field, std::string(""), true);
 				correction_message_ = field + "=" + display_item + " removed.";
 				return true;
@@ -2106,9 +2108,9 @@ bool spec_data::validate(record* record, qso_num_t number)
 	return record_corrected_;
 }
 
-// Remove CR and LF from a std::string to convert multi-line to a non-multi-line std::string
+// Remove CR and LF from a string to convert multi-line to a non-multi-line string
 std::string spec_data::convert_ml_string(const std::string& data) {
-	// Create a std::string to return and pre-allocate a buffer big enough.
+	// Create a string to return and pre-allocate a buffer big enough.
 	// It should be smaller than the provided data
 	std::string return_data;
 	return_data.reserve(data.capacity() );
@@ -2156,7 +2158,7 @@ std::string spec_data::get_tip(const std::string& field, record* record) {
 	if (fields != nullptr) {
 		// If the field is valid - get the entry for the field
 		std::map<std::string, std::string>* field_data = fields->data[field];
-		// Start building the tip std::string
+		// Start building the tip string
 		std::string tip = "Field: " + field + "\n\n";
 		std::string text;
 		std::string data = record->item(field);
@@ -2201,28 +2203,28 @@ std::string spec_data::get_tip(const std::string& field, record* record) {
 		case VE_VALUE_FORMAT_ERROR:         // value is not formatted correctly for data type
 			tip += "Value has incorrect format";
 			break;
-		case VE_VALUE_FORMAT_WARNING:       // std::string value does not have the recommended format
+		case VE_VALUE_FORMAT_WARNING:       // string value does not have the recommended format
 			tip += "Value does not have recommended format";
 			break;
 		case VE_VALUE_INVALID:              // enumeration value is not valid
 			tip += "Value is not valid for the enumeration";
 			break;
-		case VE_VALUE_NOT_RECOMMENDED:      // std::string value not recommended for interoperability
+		case VE_VALUE_NOT_RECOMMENDED:      // string value not recommended for interoperability
 			tip += "Value is not recommended for interoperability";
 			break;
-		case VE_VALUE_INCOMPATIBLE:         // std::string value is incompatible with another field
+		case VE_VALUE_INCOMPATIBLE:         // string value is incompatible with another field
 			tip += "Value is incompatible with another field";
 			break;
-		case VE_VALUE_OUTDATED:             // std::string value has been removed from valid std::list
+		case VE_VALUE_OUTDATED:             // string value has been removed from valid std::list
 			tip += "Value is no longer valid";
 			break;
-		case VE_VALUE_MULTILINE:            // std::string value includes \n and \r when not multiline
+		case VE_VALUE_MULTILINE:            // string value includes \n and \r when not multiline
 			tip += "Value has invalid line breaks";
 			break;
-		case VE_VALUE_INTL:                 // std::string value includes non-ASCII characters
+		case VE_VALUE_INTL:                 // string value includes non-ASCII characters
 			tip += "Value has invalid non-ASCII characters";
 			break;
-		case VE_VALUE_UNCHECKABLE:          // std::string value cannot be checked for compatibility
+		case VE_VALUE_UNCHECKABLE:          // string value cannot be checked for compatibility
 			tip += "No data to check compatibility with other fields";
 			break;
 		default:
@@ -2333,7 +2335,7 @@ void spec_data::process_modes() {
 	(*this)["Combined"] = combined;
 }
 
-// Copy the bands into an std::set ordered by frequency
+// Copy the bands into an set ordered by frequency
 void spec_data::process_bands() {
 	if (bands_) delete bands_;
 	bands_ = new band_set;
@@ -2348,7 +2350,7 @@ band_set* spec_data::bands() {
 	return bands_;
 }
 
-// Return a std::string that describes the enumeration and the meaning of the given value
+// Return a string that describes the enumeration and the meaning of the given value
 std::string spec_data::describe_enumeration(spec_dataset* dataset, std::string value) {
 	// Get the selected explanation - default to Not Available
 	std::string enum_text = "";

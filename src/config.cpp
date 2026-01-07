@@ -37,7 +37,7 @@ config::config(int W, int H, const char* label) :
 	position(left, top);
 
 	children_ids_.clear();
-	// Create the std::set of tabs_ - leave enough space beneath for OK etc buttons.
+	// Create the set of tabs_ - leave enough space beneath for OK etc buttons.
 	tabs_ = new tabs_nonav(0, 0, W, H - HBUTTON - FOOT_HEIGHT);
 	tabs_->callback(cb_tab);
 	tabs_->box(FL_FLAT_BOX);

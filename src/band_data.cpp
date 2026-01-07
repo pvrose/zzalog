@@ -177,12 +177,12 @@ bool band_data::in_band(double frequency) {
 	}
 }
 
-// Return the band std::list
+// Return the band list
 band_map<std::set<range_t >>& band_data::bands() {
 	return bands_;
 }
 
-// Generate the band std::list
+// Generate the band list
 void band_data::create_bands() {
 	bool has_bands = false;
 	range_t current_range = { 0.0, 0.0 };
@@ -202,7 +202,7 @@ void band_data::create_bands() {
 				bands_.at(current_band).insert(current_range); 
 			}
 			if (band != current_band) {
-				// Create new band with an empty std::set of ranges
+				// Create new band with an empty set of ranges
 				current_band = band;
 				bands_[current_band] = {};
 			}

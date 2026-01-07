@@ -91,9 +91,9 @@ log_table::log_table(int X, int Y, int W, int H, const char* label, field_app_t 
 	application_ = app;
 	// Get the fields to display
 	get_fields();
-	// std::set number of fields
+	// Set number of fields
 	cols(log_fields_->size());
-	// For each field std::set the column width
+	// For each field set the column width
 	for (unsigned int i = 0; i < log_fields_->size(); i++) {
 		col_width(i, (*log_fields_)[i].width);
 	}
@@ -438,13 +438,13 @@ void log_table::update(hint_t hint, qso_num_t record_num_1, qso_num_t record_num
 		status_->misc_status(ST_WARNING, message);
 		edit_input_->hide();
 	}
-	// std::set the number of rows
+	// Set the number of rows
 	rows(my_book_->get_count());
 	switch (hint) {
 	case HT_FORMAT:
 		// format has changed - it may be fields so update them
 		get_fields();
-		// std::set number of fields
+		// set number of fields
 		cols(log_fields_->size());
 		// and each one's width
 		for (unsigned int i = 0; i < log_fields_->size(); i++) {
@@ -488,7 +488,7 @@ void log_table::adjust_row_sizes() {
 	if (book_) sz = book_->size() + 1;
 	std::string max_number = std::to_string(sz) + ' ';
 	fl_measure(max_number.c_str(), w1, height);
-	// Get the size of the row header "column header" and std::set the width to the larger of the two
+	// Get the size of the row header "column header" and set the width to the larger of the two
 	fl_measure("QSO No.", w2, height);
 	row_header_width(std::max<int>(w1, w2));
 }
@@ -501,7 +501,7 @@ void log_table::draw_cell(TableContext context, int R, int C, int X, int Y, int 
 	switch (context) {
 
 	case CONTEXT_STARTPAGE:
-		// std::set the default font for the page
+		// Set the default font for the page
 		fl_font(font_, fontsize_);
 		return;
 
@@ -643,12 +643,12 @@ void log_table::draw_cell(TableContext context, int R, int C, int X, int Y, int 
 	}
 }
 
-// Get the appropriate field std::set for the application using this view
+// Get the appropriate field set for the application using this view
 void log_table::get_fields() {
 	log_fields_ = fields_->collection(application_);
 }
 
-// Returns the field std::set
+// Returns the field set
 collection_t& log_table::fields() {
 	return *log_fields_;
 }
@@ -714,7 +714,7 @@ void log_table::done_edit(bool keep_row) {
 							edit_row_ = my_book_->size() - 1 - new_item_num;
 							break;
 						default:
-							// Do not std::set edit_row_
+							// Do not set edit_row_
 							break;
 						}
 					}
@@ -766,7 +766,7 @@ void log_table::describe_cell(int item, int col) {
 		item_number = my_book_->size() - 1 - item;
 		break;
 	default:
-		// NB. We do not std::map items numbers to record numbers for sorted displays
+		// NB. We do not map items numbers to record numbers for sorted displays
 		item_number = item;
 		break;
 	}

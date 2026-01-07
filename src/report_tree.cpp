@@ -70,7 +70,7 @@ report_tree::report_tree(int X, int Y, int W, int H, const char* label, field_ap
 	//	level_settings.get<report_cat_t>(
 	//		level_settings.entry(i), map_order_[i], (report_cat_t)-1);
 	//}
-	// Add state level - copy selected std::map order adding DXCC before PAS
+	// Add state level - copy selected map order adding DXCC before PAS
 	adj_order_.clear();
 	adj_order_.clear();
 	for (size_t i = 0; i < map_order_.size(); i++) {
@@ -171,7 +171,7 @@ void report_tree::delete_tree() {
 }
 
 // methods
-// Add record details to a specific std::map entry
+// Add record details to a specific map entry
 void report_tree::add_record(item_num_t record_num, report_map_entry_t* entry) {
 	std::string map_key = "";
 	std::string state_code;
@@ -195,7 +195,7 @@ void report_tree::add_record(item_num_t record_num, report_map_entry_t* entry) {
 		}
 		switch (category) {
 		case RC_DXCC:
-			// DXCC std::map
+			// DXCC map
 			if (record->item("SWL") == "Y") {
 				// Treat SWL as a separate DXCC
 				map_key = "{ SWL }"; // Forces it before alpha
@@ -233,7 +233,7 @@ void report_tree::add_record(item_num_t record_num, report_map_entry_t* entry) {
 			state_code = record->item("STATE");
 			record->item("DXCC", dxcc);
 
-			// STATE std::map
+			// STATE map
 			if (state_code == "") {
 				// PAS not specified
 				if (spec_data_->has_states(dxcc)) {
@@ -295,7 +295,7 @@ void report_tree::add_record(item_num_t record_num, report_map_entry_t* entry) {
 		}
 	}
 	if ((size_t)entry->entry_type < adj_order_.size()) {
-		// We have further std::map entries to navigate
+		// We have further map entries to navigate
 		if (skip_state) {
 			// Skip this entry and hang the record at the next level
 			entry->entry_type++;
@@ -305,15 +305,15 @@ void report_tree::add_record(item_num_t record_num, report_map_entry_t* entry) {
 			report_map_entry_t* next_entry;
 			switch(category) {
 				case RC_BAND: {
-					// First find the std::map at this entry - create a new one if one doesn't exist
+					// First find the map at this entry - create a new one if one doesn't exist
 					if (entry->next_entry == nullptr) {
 						entry->next_entry = new report_band_map_t;
 					}
-					// now look in the std::map for the entry
+					// now look in the map for the entry
 					// Find any existing entry with the label
 					auto it = ((report_band_map_t*)entry->next_entry)->find(map_key);
 					if (it == ((report_band_map_t*)entry->next_entry)->end()) {
-						// A std::map doesn't exist for this key - so create one and add it
+						// A map doesn't exist for this key - so create one and add it
 						next_entry = new report_map_entry_t;
 						next_entry->entry_type = entry->entry_type + 1;
 						// next_entry->entry_cat = adj_order_[entry->entry_type];
@@ -332,11 +332,11 @@ void report_tree::add_record(item_num_t record_num, report_map_entry_t* entry) {
 					if (entry->next_entry == nullptr) {
 						entry->next_entry = new report_map_t;
 					}
-					// now look in the std::map for the entry
+					// now look in the map for the entry
 					// Find any existing entry with the label
 					auto it = ((report_map_t*)entry->next_entry)->find(map_key);
 					if (it == ((report_map_t*)entry->next_entry)->end()) {
-						// A std::map doesn't exist for this key - so create one and add it
+						// A map doesn't exist for this key - so create one and add it
 						next_entry = new report_map_entry_t;
 						next_entry->entry_type = entry->entry_type + 1;
 						// next_entry->entry_cat = adj_order_[entry->entry_type];
@@ -345,7 +345,7 @@ void report_tree::add_record(item_num_t record_num, report_map_entry_t* entry) {
 						(*(report_map_t*)entry->next_entry)[map_key] = next_entry;
 					}
 					else {
-						// Step to the next entry in the std::map
+						// Step to the next entry in the map
 						next_entry = it->second;
 					}
 					break;
@@ -356,17 +356,17 @@ void report_tree::add_record(item_num_t record_num, report_map_entry_t* entry) {
 		}
 	}
 	else {
-		// We are at the final std::map entry so add the record to the std::list
+		// We are at the final map entry so add the record to the list
 		if (entry->record_list == nullptr) {
-			// Record std::list does not yet exist, create it.
+			// Record list does not yet exist, create it.
 			entry->record_list = new record_list_t;
 		}
-		// Add to the new std::list
+		// Add to the new list
 		entry->record_list->push_back(record_num);
 	}
 }
 
-// Copy the std::map to the tree control and totalise record counts
+// Copy the map to the tree control and totalise record counts
 void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item, int& num_records, int& num_eqsl, int& num_lotw, int& num_card, int& num_qrz, int& num_dxcc, int &num_any) {
 	report_map_entry_t* next_entry;
 	std::string map_key;
@@ -374,12 +374,12 @@ void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item,
 	// Default format for a branch node on the tree 
 	char format[] = "%s %d QSOs - Confirmed %d (%d eQSL, %d LotW, %d Card, %d QRZ.com, %d DXCC)";
 	size_t count = 1;
-	// For all entries at this level of the std::map
+	// For all entries at this level of the map
 	bool done = false;
 	auto ita = ((report_map_t*)this_map)->begin();
 	auto itb = ((report_band_map_t*)this_map)->begin(); 
 	do {
-		// Initialise totals for this std::map
+		// Initialise totals for this map
 		int count_records = 0;
 		int count_eqsl = 0;
 		int count_lotw = 0;
@@ -387,7 +387,7 @@ void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item,
 		int count_qrz = 0;
 		int count_dxcc = 0;  // For LotW OR Card
 		int count_any = 0;
-		// Get entry in the std::map
+		// Get entry in the map
 		switch (adj_order_[type]) {
 			case RC_BAND: {
 				map_key = itb->first;
@@ -401,7 +401,7 @@ void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item,
 			}
 		}
 		if (next_entry->record_list != nullptr) {
-			// There is a valid record std::list in the entry
+			// There is a valid record list in the entry
 			// Hang a placeholder text line on the trees - key won't change so unlikely to affect sort order
 			count_records = next_entry->record_list->size();
 			sprintf(text, format, map_key.c_str(), count_records, 0, 0, 0, 0, 0, 0);
@@ -413,12 +413,12 @@ void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item,
 			else {
 				next_item = item->add(prefs(), text);
 			}
-			// Copy the record std::list to the tree - adding the count of records to the totals
+			// Copy the record list to the tree - adding the count of records to the totals
 			copy_records_to_tree(next_entry->record_list, next_item, count_records, count_eqsl, count_lotw, count_card, count_qrz, count_dxcc, count_any);
 			// Update the text with actual total record counts
 			sprintf(text, format, map_key.c_str(), count_records, count_any, count_eqsl, count_lotw, count_card, count_qrz, count_dxcc);
 			next_item->label(text);
-			// Item data std::set to say it isn't a record entry
+			// Item data set to say it isn't a record entry
 			next_item->user_data((void*)(long)-1);
 			if (count_dxcc) next_item->labelcolor(DARK ? FL_GREEN : fl_darker(FL_GREEN));
 			else if (count_eqsl || count_qrz) next_item->labelcolor(DARK ? FL_CYAN : FL_BLUE);
@@ -426,7 +426,7 @@ void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item,
 			next_item->close();
 		}
 		if (next_entry->next_entry != nullptr) {
-			// There is a valid std::map in the entry - hang a placeholder text on the tree 
+			// There is a valid map in the entry - hang a placeholder text on the tree 
 			sprintf(text, format, map_key.c_str(), 0, 0, 0, 0, 0, 0);
 			Fl_Tree_Item* next_item;
 			if (item == nullptr) {
@@ -434,15 +434,15 @@ void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item,
 				next_item = add(escape_string(text, "\\/").c_str());
 			}
 			else {
-				// Otherwies can just std::set label
+				// Otherwies can just set label
 				next_item = item->add(prefs(), text);
 			}
-			// Copy the next level down of the std::map to the tree
+			// Copy the next level down of the map to the tree
 			copy_map_to_tree(next_entry->entry_type, next_entry->next_entry, next_item, count_records, count_eqsl, count_lotw, count_card, count_qrz, count_dxcc, count_any);
 			// Update the text with actual total record counts
 			sprintf(text, format, map_key.c_str(), count_records, count_any, count_eqsl, count_lotw, count_card, count_qrz, count_dxcc);
 			next_item->label(text);
-			// Item data std::set to say it isn't a record entry
+			// Item data set to say it isn't a record entry
 			next_item->user_data((void*)(long)-1);
 			if (count_dxcc) next_item->labelcolor(DARK ? FL_GREEN : fl_darker(FL_GREEN));
 			else if (count_eqsl || count_qrz) next_item->labelcolor(DARK ? FL_CYAN : FL_BLUE);
@@ -457,7 +457,7 @@ void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item,
 		num_qrz += count_qrz;
 		num_dxcc += count_dxcc;
 		num_any += count_any;
-		// Only mark progress if top-level std::map
+		// Only mark progress if top-level map
 		if (item == nullptr) {
 			if ((adj_order_[0] == RC_DXCC && map_key.substr(0, 7) != "{ SWL }" && map_key.substr(0,2) != "00") ||
 			adj_order_[0] == RC_CUSTOM) {
@@ -486,14 +486,14 @@ void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item,
 		}
 	}
 	while (!done);
-	// Only display this on top-level std::map
+	// Only display this on top-level map
 	if (item == nullptr) {
 		status_->misc_status(ST_OK, "LOG: Report display done!");
 	}
 	delete[] text;
 }
 
-// Copy the std::list of records in a std::map entry to the tree control
+// Copy the list of records in a map entry to the tree control
 void report_tree::copy_records_to_tree(record_list_t* record_list, Fl_Tree_Item* item, int& num_records, int& num_eqsl, int& num_lotw, int& num_card, int& num_qrz, int& num_dxcc, int& num_any) {
 	if (record_list != nullptr) {
 		Fl_Tree_Sort saved = sortorder();
@@ -501,7 +501,7 @@ void report_tree::copy_records_to_tree(record_list_t* record_list, Fl_Tree_Item*
 		// We have records to copy - return the number of recordsf
 		num_records = record_list->size();
 		char* text = new char[1024];
-		// For each entry in the record std::list
+		// For each entry in the record list
 		for (auto it = record_list->begin(); it != record_list->end(); it++) {
 			// Get the record
 			item_num_t record_num = *it;
@@ -569,7 +569,7 @@ void report_tree::copy_records_to_tree(record_list_t* record_list, Fl_Tree_Item*
 	}
 }
 
-// Create the std::map top-down
+// Create the map top-down
 void report_tree::create_map() {
 	bool station_only = false;
 	// Select what records are being analysed
@@ -584,7 +584,7 @@ void report_tree::create_map() {
 		station_only = true;
 		break;
 	case report_filter_t::RF_EXTRACTED:
-		// Select records from the extracted records std::list
+		// Select records from the extracted records list
 		set_book(extract_records_);
 		break;
 	case report_filter_t::RF_NONE:
@@ -639,7 +639,7 @@ void report_tree::create_map() {
 		record* record = get_book()->get_record(i, false);
 		if (!station_only || record->item("STATION_CALLSIGN") == station_call_) {
 			if (filter_ != RF_SELECTED || record->item(field_name, true) == selector_name) {
-				// If it is in the domain of the analysis - add it to the std::map
+				// If it is in the domain of the analysis - add it to the map
 				add_record(i, &map_);
 			}
 		}
@@ -649,12 +649,12 @@ void report_tree::create_map() {
 	status_->misc_status(ST_OK, "LOG: Report selection done!");
 }
 
-// Delete the std::map in a specific std::map entry
+// Delete the map in a specific map entry
 void report_tree::delete_map(report_map_entry_t* entry) {
 	if (entry->next_entry != nullptr) {
 		switch (adj_order_[entry->entry_type]) {
 			case RC_BAND: {
-				// We have a child std::map, for each entry in it, 
+				// We have a child map, for each entry in it, 
 				for (auto it = ((report_band_map_t*)entry->next_entry)->begin(); 
 					it != ((report_band_map_t*)entry->next_entry)->end(); it++) {
 					// Delete the entry and release memory 
@@ -669,7 +669,7 @@ void report_tree::delete_map(report_map_entry_t* entry) {
 				break;
 			}
 			default: {
-				// We have a child std::map, for each entry in it, 
+				// We have a child map, for each entry in it, 
 				for (auto it = ((report_map_t*)entry->next_entry)->begin(); 
 					it != ((report_map_t*)entry->next_entry)->end(); it++) {
 					// Delete the entry and release memory 
@@ -687,7 +687,7 @@ void report_tree::delete_map(report_map_entry_t* entry) {
 		entry->next_entry = nullptr;
 	}
 	if (entry->record_list != nullptr) {
-		// We have a std::list of records, tidy it up
+		// We have a list of records, tidy it up
 		entry->record_list->clear();
 		delete entry->record_list;
 		entry->record_list = nullptr;
@@ -697,7 +697,7 @@ void report_tree::delete_map(report_map_entry_t* entry) {
 // redraw the tree control
 void report_tree::populate_tree(bool activate) {
 	fl_cursor(FL_CURSOR_WAIT);
-	// Only if there's a reference table std::set up.
+	// Only if there's a reference table set up.
 	// Delete existing data, clear the tree control and recreate the data
 	delete_all();
 	entities_ = 0;
@@ -709,7 +709,7 @@ void report_tree::populate_tree(bool activate) {
 	entities_any_ = 0;
 	clear();
 	if (adj_order_.size() > 0) {
-		// Generate the std::map of records
+		// Generate the map of records
 		create_map();
 		if (map_.next_entry != nullptr) {
 			// If we actually have data copy it to the tree control
@@ -725,7 +725,7 @@ void report_tree::populate_tree(bool activate) {
 			root(root_item);
 			root_item->labelfont(item_labelfont() | FL_BOLD);
 			root_item->labelcolor(FL_FOREGROUND_COLOR);
-			// Copy the std::map to the tree - starting by adding top level entries to the root
+			// Copy the map to the tree - starting by adding top level entries to the root
 			// This then iterates down to the record entries
 			// Initialise progress bar
 			status_->misc_status(ST_NOTE, "LOG: Report display started");
@@ -917,7 +917,7 @@ void report_tree::add_category(int level, report_cat_t category, std::string cus
 			map_order_.push_back(category);
 			break;
 		}
-		// Add state level - copy selected std::map order adding DXCC before PAS
+		// Add state level - copy selected map order adding DXCC before PAS
 		adj_order_.clear();
 		for (size_t i = 0; i < map_order_.size(); i++) {
 			if (map_order_[i] == RC_PAS) {

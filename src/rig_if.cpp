@@ -102,7 +102,7 @@ double rig_if::get_dpower(bool max) {
 	return value;
 }
 
-// Convert power to std::string
+// Convert power to string
 std::string rig_if::get_tx_power(bool max) {
 	char text[100];
 	snprintf(text, 100, "%g", get_dpower(max));
@@ -235,7 +235,7 @@ void rig_if::close() {
 			status_->misc_status(ST_NOTE, msg);
 		}
 		// If we have a connection and it's open, close it and tidy memory used by hamlib
-		// Delete the std::thread that reads the required rig values
+		// Delete the thread that reads the required rig values
 		run_read_ = false;
 		thread_->join();
 		delete thread_;
@@ -266,7 +266,7 @@ bool rig_if::open() {
 		return false;
 
 	}
-	if (DEBUG_THREADS) printf("RIG MAIN: Starting rig %s/%s access std::thread\n",
+	if (DEBUG_THREADS) printf("RIG MAIN: Starting rig %s/%s access thread\n",
 		hamlib_data_->mfr.c_str(), hamlib_data_->model.c_str());
 	if (rig_ == nullptr) close();
 	opening_.store(true, std::memory_order_seq_cst);
@@ -344,7 +344,7 @@ void rig_if::th_open_rig(rig_if* that) {
 	if (rig_ != nullptr) {
 		switch (hamlib_data_->port_type) {
 		case RIG_PORT_SERIAL:
-			// Successful - std::set up the serial port parameters
+			// Successful - set up the serial port parameters
 			strcpy(rig_->state.rigport.pathname, hamlib_data_->port_name.c_str());
 			rig_->state.rigport.parm.serial.rate = hamlib_data_->baud_rate;
 			rig_->state.timeout = (int)(hamlib_data_->timeout * 1000.);
@@ -384,7 +384,7 @@ std::string& rig_if::rig_name() {
 
 // Thraed method
 void rig_if::th_run_rig(rig_if* that) {
-	if (DEBUG_THREADS) printf("RIG THREAD: Rig access std::thread started\n");
+	if (DEBUG_THREADS) printf("RIG THREAD: Rig access thread started\n");
 	// run_read_ will be cleared when the rig closes or errors.
 	bool ok = that->th_read_values();
 	that->opened_ok_.store(ok);
@@ -513,7 +513,7 @@ bool rig_if::th_read_values() {
 		double previous_freq = rig_data_.rx_frequency;
 		if (!rig_data_.ptt) {
 			rig_data_.rx_frequency = d_temp;
-			// If we have QSY'd then std::set TX frequency to RX frequency
+			// If we have QSY'd then set TX frequency to RX frequency
 			if (previous_freq != d_temp || previous_split) rig_data_.tx_frequency = d_temp;
 		} else {
 			rig_data_.tx_frequency = d_temp;
@@ -581,7 +581,7 @@ bool rig_if::th_read_values() {
 	value_t meter_value;
 	if (has_smeter_) {
 		read_item_ = "S-meter";
-		// S-meter - std::set to max value during RX and last RX value during TX
+		// S-meter - set to max value during RX and last RX value during TX
 		if (DEBUG_RIGS) printf("RIGS: Reading S-meter\n");
 		error_code_ = rig_get_level(rig_, RIG_VFO_CURR, RIG_LEVEL_STRENGTH, &meter_value);
 		if (DEBUG_RIGS) printf("RIGS: Read S-meter - %d\n", meter_value.i);
@@ -590,7 +590,7 @@ bool rig_if::th_read_values() {
 		}
 		// TX->RX (or changed RX frequency - use read value
 		if (current_ptt && !rig_data_.ptt) {
-			// empty smeter std::queue
+			// empty smeter queue
 			smeters_.clear();
 		}
 		// Push value into smeters stack

@@ -83,7 +83,7 @@ void from_json(const json& j, app_data_t& d) {
     }
 }
 
-// Constructor for one std::set of modem controls
+// Constructor for one set of modem controls
 app_grp::app_grp(int X, int Y, int W, int H, const char* L) :
     Fl_Group(X, Y, W, H, L)
 {
@@ -481,7 +481,7 @@ void app_grp::cb_bn_delete(Fl_Widget* w, void* v) {
     apps->delete_app(that);
 }
 
-// Callback to std::set can_disable
+// Callback to set can_disable
 void app_grp::cb_bn_disable(Fl_Widget* w, void* v) {
     app_grp* that = ancestor_view<app_grp>(w);
     cb_value<Fl_Light_Button, bool>(w, &that->app_data_->can_disable);

@@ -151,7 +151,7 @@ void import_data::update_book() {
 		// Process the records - always process the zeroth one as it gets deleted
 		// update_in_progress_ indicates we want to drop out to present user with a 
 		// choice.
-		// If we have killed an update by another means, update_mode_ will be std::set to NONE
+		// If we have killed an update by another means, update_mode_ will be set to NONE
 		for (int ix = 0; ix < number_update_records && !update_in_progress_ && update_mode_ != NONE; ix++) {
 			// Get first QSO in update log
 			record* import_record = at(0);
@@ -326,7 +326,7 @@ void import_data::update_book() {
 				number_swl_++;
 				had_swl_match = false;
 			}
-			// Unexpected new record (update from log) - std::set flags to display new record - 
+			// Unexpected new record (update from log) - set flags to display new record - 
 			// user will either accept, reject or search for match
 			if (!found_match && !cancel_update && update_mode_ != FILE_IMPORT && 
 				update_mode_ != DATAGRAM && update_mode_ != CLIPBOARD) {
@@ -472,7 +472,7 @@ void import_data::finish_update(bool merged /*= true*/) {
 // log not the server
 void import_data::convert_update(record* qso) const {
 	// For each field in the record
-	// Get the std::list of fields because we may end up erasing some
+	// Get the list of fields because we may end up erasing some
 	std::set<std::string> field_names;
 	for (auto& it : *qso) {
 		field_names.insert(it.first);
@@ -655,7 +655,7 @@ bool import_data::download_data(import_data::update_mode_t server) {
 		result = qrz_handler_->download_qrzlog_log(&adif);
 		break;
 	case OQRS:
-		// Fetch QSL request std::list from Clublog.org
+		// Fetch QSL request list from Clublog.org
 		update_mode_ = server;
 		status_->misc_status(ST_NOTE, "IMPORT: Downloading OQRS from Cliublog.org");
 		result = club_handler_->download_oqrs(&adif);

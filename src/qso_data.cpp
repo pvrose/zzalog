@@ -879,7 +879,7 @@ bool qso_data::action_save(bool continuing) {
 	// On-air logging add date/time off
 	switch (previous_mode_) {
 	case QSO_ON_AIR:
-		// All on-air modes - std::set cime-off to now
+		// All on-air modes - set time-off to now
 		if (qso->item("TIME_OFF") == "") {
 			// Add end date/time - current time of interactive entering
 			// Get current date and time in UTC
@@ -893,7 +893,7 @@ bool qso_data::action_save(bool continuing) {
 	case QSO_COPY_CALL:
 	case QSO_COPY_CONDX:
 	case QSO_COPY_FOR_NET:
-		// All on-air modes - std::set cime-off to now
+		// All on-air modes - set time-off to now
 		if (qso->item("TIME_OFF") == "") {
 			// Add end date/time - current time of interactive entering
 			// Get current date and time in UTC

@@ -108,7 +108,7 @@ std::string VENDOR = "GM3ZZA";
 // Debug switches
 //! Print errors -  by "-d e"
 bool DEBUG_ERRORS = true;
-//! Print std::thread debugging messages -  by "-d t"
+//! Print thread debugging messages -  by "-d t"
 bool DEBUG_THREADS = false;
 //! Print libcurl debugging messages -  by "-d c"
 bool DEBUG_CURL = false;
@@ -142,7 +142,7 @@ bool DISPLAY_VERSION = false;
 bool HELP = false;
 //! Start with an empty logbook -  by "-e"
 bool NEW_BOOK = false;
-//! Do not add file to recent file std::list -  by "-p"
+//! Do not add file to recent file list -  by "-p"
 bool PRIVATE = false;
 //! Open file in read-only mode -  by "-r"
 bool READ_ONLY = false;
@@ -692,7 +692,7 @@ void show_help() {
 	"\t\tnop|nopretty\n"
 	"\t\tq|quick\tShorten long timeout and polling intervals\n"
 	"\t\tr|rig\tPrint rig diagnostics\n"
-	"\t\tt|threads\tProvide debug tracing on std::thread use\n"
+	"\t\tt|threads\tProvide debug tracing on thread use\n"
 	"\t\t\tnot|nothreads\n"
 	"\t-e|--new\tCreate new file\n"
 	"\t-g|--generate\tGenerate header file from ADIF data\n"
@@ -701,7 +701,7 @@ void show_help() {
 	"\t-l|--light\tLight mode (sticky)\n"
 	"\t-m|--resume\tResume the previous session\n"
 	"\t-n|--noisy\tDo publish QSOs to online sites (sticky)\n"
-	"\t-p|--private\tDo not update recent files std::list\n"
+	"\t-p|--private\tDo not update recent files list\n"
 	"\t-q|--quiet\tDo not publish QSOs to online sites (sticky)\n"
 	"\t-r|--read_only\tOpen file in read only mode\n"
 	"\t-t|--test\tTest mode: infers -q -w\n"
@@ -784,7 +784,7 @@ void recent_files() {
 
 // read in the prefix and adif reference data
 void add_data() {
-	// Note closing can get std::set during any of the below actions.
+	// Note closing can get set during any of the below actions.
 	if (!closing_) {
 		// add ADIF specification data.
 		spec_data_ = new spec_data;
@@ -835,7 +835,7 @@ void add_data() {
 // read in the log data
 void add_book(char* arg) {
 	if (!closing_) {
-		// Create the book options and std::set them in the forms
+		// Create the book options and set them in the forms
 		book_ = new book;
 		navigation_book_ = book_;
 		import_data_ = new import_data;
@@ -883,7 +883,7 @@ void add_book(char* arg) {
 
 				}
 			} else {
-				// Move this file to the top of the recent file std::list
+				// Move this file to the top of the recent file list
 				set_recent_file(log_file);
 				char msg[128];
 				if (new_file_) {
@@ -969,7 +969,7 @@ void add_widgets(int& curr_y) {
 	main_window_->add(toolbar_);
 	toolbar_->update_items();
 	curr_y += toolbar_->h();
-	// The main views - this is a std::set of tabs with each view
+	// The main views - this is a set of tabs with each view
 	tabbed_forms_ = new tabbed_forms(0, curr_y, WIDTH, HEIGHT - curr_y - FOOT_HEIGHT);
 	main_window_->add(tabbed_forms_);
 	curr_y += tabbed_forms_->h();
@@ -1068,14 +1068,14 @@ std::map<uchar, std::string> colours = {
 
 // Display the arguments in the status log
 void print_args(int argc, char** argv) {
-	// Create a std::string to hold all the info
+	// Create a string to hold all the info
 	int length = 20;
 	for (int i = 0; i < argc; i++) {
 		length += strlen(argv[i]);
 	}
 	char message[256];
 	memset(message, 0, sizeof(message));
-	// Generate the std::string
+	// Generate the string
 	strcpy(message, "ZZALOG: ");
 	for (int i = 0; i < argc; i++) {
 		strcat(message, argv[i]);
@@ -1093,7 +1093,7 @@ void print_args(int argc, char** argv) {
 	status_->misc_status(ST_NOTE, message);
 
 	if (DEBUG_ERRORS) status_->misc_status(ST_NOTE, "ZZALOG: -d e - Displaying debug error messages");
-	if (DEBUG_THREADS) status_->misc_status(ST_NOTE, "ZZALOG: -d t - Displaying std::thread debug messages");
+	if (DEBUG_THREADS) status_->misc_status(ST_NOTE, "ZZALOG: -d t - Displaying thread debug messages");
 	if (DEBUG_CURL) status_->misc_status(ST_NOTE, "ZZALOG: -d c - Displaying more verbosity from libcurl");
 	if (DEBUG_QUICK) status_->misc_status(ST_WARNING, "ZZALOG: -d q - Reducing periods of some reguat events");
 	snprintf(message, sizeof(message), "ZZALOG: -d h=%d - Hamlib debug level %d", 
@@ -1108,7 +1108,7 @@ void print_args(int argc, char** argv) {
 	else status_->misc_status(ST_WARNING, "ZZALOG: -w - QSOs are not being saved automatically");
 	if (READ_ONLY) status_->misc_status(ST_WARNING, "ZZALOG: -r - File opened read-only");
 	if (RESUME_SESSION) status_->misc_status(ST_NOTE, "ZZALOG: -m - Resuming previous session");
-	if (PRIVATE) status_->misc_status(ST_WARNING, "ZZALOG: -p - This file not being noted on recent files std::list");
+	if (PRIVATE) status_->misc_status(ST_WARNING, "ZZALOG: -p - This file not being noted on recent files list");
 	if (DARK) status_->misc_status(ST_NOTE, "ZZALOG: -k - Opening in dark mode");
 	else status_->misc_status(ST_NOTE, "ZZALOG: -l - Opening in normal FLTK colours");
 	snprintf(message, sizeof(message), "ZZALOG: -x (value = %x) - Reset file (bit signficant)",
@@ -1224,7 +1224,7 @@ void load_rig_data() {
 // The main app entry point
 int main(int argc, char** argv)
 {
-	// Allow the main std::thread to respond to Fl::awake() requests
+	// Allow the main thread to respond to Fl::awake() requests
 	Fl::lock();
 	// 
 	printf("%s %s: Loading...\n", PROGRAM_ID.c_str(), PROGRAM_VERSION.c_str());
@@ -1371,12 +1371,12 @@ void backup_file() {
 	}
 }
 
-// Add the current file to the recent files std::list
+// Add the current file to the recent files list
 void set_recent_file(std::string filename) {
-	// Do not add to recent file std::list if using backup or CLI inihibited
+	// Do not add to recent file list if using backup or CLI inihibited
 	if (!PRIVATE && !using_backup_ && filename.length()) {
 
-		// Add or move the file to the front of std::list
+		// Add or move the file to the front of list
 		recent_files_.remove(filename);
 		recent_files_.push_front(filename);
 

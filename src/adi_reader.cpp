@@ -149,7 +149,7 @@ std::istream& adi_reader::load_record(record* in_record, std::istream& in, load_
 							VC_DUPLICATE
 						} validity = VC_NO_ERROR;
 						// Add User defined fields to the reference data base if found in a header
-						// <USERDEFn:sz:ty>name[,{std::list or range}]
+						// <USERDEFn:sz:ty>name[,{list or range}]
 						if (in_record->is_header() && field.length() > 7 && field.substr(0, 7) == "USERDEF") {
 							std::string list_range = "";
 							size_t pos_comma = value.find(',');

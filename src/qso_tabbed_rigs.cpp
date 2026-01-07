@@ -18,7 +18,7 @@
 #include "tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
-// Constructor for the rigs std::set of tabs
+// Constructor for the rigs set of tabs
 qso_tabbed_rigs::qso_tabbed_rigs(int X, int Y, int W, int H, const char* L) :
 	tabs_nonav(X, Y, W, H, L)
 {
@@ -44,7 +44,7 @@ qso_tabbed_rigs::~qso_tabbed_rigs() {
 void qso_tabbed_rigs::load_values() {
 	// Get existing rig names from spec_data - as seen in log
 	spec_dataset* rig_dataset = spec_data_->dataset("Dynamic MY_RIG");
-	// Ger the std::list of rigs as seen in rig.xml
+	// Ger the list of rigs as seen in rig.xml
 	std::vector<std::string> rigs = rig_data_->rigs();
 	for (auto& it : rigs) {
 		// If the rig is in both lists
@@ -148,7 +148,7 @@ void qso_tabbed_rigs::switch_rig() {
 	if (rig_name.length()) {
 		if (label_map_.find(rig_name) == label_map_.end() || label_map_.at(rig_name) == nullptr) {
 			if (label_map_.size() == 1 && (*label_map_.begin()).first == std::string("")) {
-				// Place holder null std::string - delete it and its reference
+				// Place holder null string - delete it and its reference
 				delete (qso_rig*)(*label_map_.begin()).second;
 				label_map_.erase(std::string(""));
 			}
