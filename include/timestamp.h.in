@@ -1,4 +1,4 @@
 //! To update the timestamp and version string, run 'cmake' in the build directory.
 
 std::string TIMESTAMP = "@ZZALOG_TIMESTAMP@";
-std::string VERSION_STRING = "@ZZALOG_VERSION@";
+std::string VERSION_STRING = "@ZZALOG_VERSION@" "@ZZALOG_RC_VALUE@";
