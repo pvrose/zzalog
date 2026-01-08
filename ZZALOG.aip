@@ -1991,6 +1991,7 @@
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
+    <ROW Shortcut="ZZALOG.pdf" Directory_="SHORTCUTDIR" Name="ZZALOG.pdf" Component_="ZZALOG.pdf" Target="[#ZZALOG.pdf]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="userguide_Dir"/>
     <ROW Shortcut="zzalog" Directory_="SHORTCUTDIR" Name="zzalog" Component_="zzalog.exe" Target="[#zzalog.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
