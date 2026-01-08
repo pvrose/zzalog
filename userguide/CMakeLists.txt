@@ -114,7 +114,7 @@ if(DOXYGEN_FOUND)
                   ug_pdf
           COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.pdf
-            ${CMAKE_CURRENT_BINARY_DIR}/${PROGRAMID}.pdf
+            ${ZZALOG_SOURCE_DIR}/${PROGRAMID}.pdf
           COMMENT "Copying PDF"
       )
        add_custom_target(

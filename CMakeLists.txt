@@ -423,7 +423,7 @@ endforeach()
 # generate documents - add switches for conditional build.
 option(ZZALOG_USERGUIDE "Generate Userguide" ON)
 if (MSVC)
-  option(ZZALOG_USERGUIDE_PDF "Generate PDF" OFF)
+  option(ZZALOG_USERGUIDE_PDF "Generate PDF" ON)
 else()
   option(ZZALOG_USERGUIDE_PDF "Generate PDF" ON)
 endif()
