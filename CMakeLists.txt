@@ -348,11 +348,8 @@ if (NOT HAMLIB_FOUND AND MSVC)
   )
 endif()  
 
-## Needed for all external projects
-include(ExternalProject)
-
 # Add ZZACOMMON
-add_subdirectory(../zzacommon ${CMAKE_BINARY_DIR}/zzacommon)
+add_subdirectory(zzacommon)
 set(ZZACOMMON_INCLUDE_DIR ${ZZACOMMON_SOURCE_DIR}/include)
 
 ## Subdirectories as part of ZZALOG
