@@ -25,7 +25,9 @@ It also requires configuration for both audio and CAT, so the "Aud./CAT" button 
 \image latex new_apps_1.png "Configuring for wSJT-X" width=5cm
 
 You will see that this choice is reflected in the label below this: "IC-705 FlRig". In the box below, a script is named. To
-view or edit the script click the "Show" button.
+view or edit the script click the "Show" button. The keyboard
+shortcuts CTRL-s, to save any changes, and CTRL-x, to close
+the editor, are available.
 
 \image html new_apps_2.png "Script to launch WSJT-X"
 \image latex new_apps_2.png "Script to launch WSJT-X" width=8cm
@@ -34,8 +36,7 @@ As ZZALOG is acting as a server for WSJT-X, ZZALOG needs to be initialised with 
 to access it.
 In this case, ZZALOG will listen on port 224.0.0.1:2237. ZZALOG is not the only server that WSJT-X uses, so
 the address supplied here is a Multicast address so that both ZZALOG and the other server will receive the
-packets. Otherwise it would be "first come, only serve". <B>NB</B> the Windows version of ZZALOG does not yet
-support Multicast addresses.
+packets. Otherwise it would be "first come, only serve".
 
 The script simply calls WSJT-X and tells it to use the configuration IC705, which the user has set up within WSJT-X. For
 information on this refer to the application's manual.

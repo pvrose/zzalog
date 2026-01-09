@@ -10,7 +10,8 @@ Data used by ZZALOG will be installed in
 
 \subsection win_source Compiling from source
 
-The source may be cloned from https://github.com/pvrose/zzatools. 
+The source may be cloned from https://github.com/pvrose/zzalog. 
+It will be necessary to clone the database in recursive mode.
 This flow has been checked using Microsoft Visual Studio 2022 and 2026 but only with
 configuration x64-Debug from scratch. 
 It is recommended to run this flow within Visual Studio. Open Visual Studio and continue without
@@ -46,8 +47,7 @@ git clone https://github.com/GetHobbelt/pthread-win32
 \endcode
 \par Fetch ZZALOG and the utilities package ZZACOMMON
 \code
-git clone https://github.com/pvrose/zzalog
-git clone https://github.com/pvrose/zzacommon
+git clone --recursive https://github.com/pvrose/zzalog
 \endcode
 
 \par Building ZZALOG
@@ -61,7 +61,9 @@ To install select Build->Install ZZALOG.
 \section linux_install Linux Installation
 
 ZZALOG is available in source form. It may be cloned from 
-https://github.com/pvrose/zzatools. It has dependencies on the 
+https://github.com/pvrose/zzalog. 
+It will be necessary to clone the database in recursive mode.
+It has dependencies on the 
 external libraries: fltk, hamlib, libcurl and nlohmann/json. The 
 library pugixml is included in the source data.
 
@@ -101,7 +103,7 @@ The build and install processes use CMake.
 
 The following CMake flags are available:
 - <B>ZZALOG_USERGUIDE</B> Default: ON. Generates the HTML version of the userguide.
-- <B>ZZALOG_USERGUIDE_PDF</B> Default: ON (OFF on Windows). Generates the PDF version of the userguide.
+- <B>ZZALOG_USERGUIDE_PDF</B> Default: ON. Generates the PDF version of the userguide.
 - <B>ZZALOG_API_GUIDE</B> Default: ON. Generates HTML specification of the API.
 
 To build ZZALOG with documentation:

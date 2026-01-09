@@ -17,7 +17,7 @@ that provides the following functionality:
 	cards.
 - Includes: a shack clock;
 	weather report; propagation forecast and band plan view.
-- Interfaces with a number of
+- Interfaces with the
 	modem applications: WSJT-X and FlDigi.
 
 This document can be opened at

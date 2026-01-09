@@ -45,7 +45,9 @@ the website.
 
 \subsection qsl_download Downloading QSLs
 
-There is no automatic download feature from these websites. To download from a specific 
+There is no automatic download feature from these websites. 
+The websites provide the means to download all new records since
+the last download. To download from a specific 
 website, click a button boxed in green in the image below.
 
 \image html qsls_6.png "Controls for downloading QSLs"
@@ -173,7 +175,7 @@ to update these QSO records.
 
 \subsection qsl_oqrs OQRS
 
-OQRS, or the <i>On-line Qsl Request Service</I> is run as part of the clublog.org website. It is a facility
+OQRS, or the <i>On-line QSL Request Service</I> is run as part of the clublog.org website. It is a facility
 that allows other operators to request a physical QSL card. Clicking the "OQRS" button will 
 fetch a list of these requests. The records corresponding to this list will then
 be updated with QSL_SENT to "R" (for requested).

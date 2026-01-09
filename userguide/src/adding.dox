@@ -1,6 +1,8 @@
 /** \page adding Adding QSOs
 
-Sometimes it is not possible to use computer logging. For case like this, ZZALOG provides a number of ways
+Sometimes it is not possible to use computer logging at the 
+timeof making the QSO.
+For case like this, ZZALOG provides a number of ways
 to manually add QSO records. 
 
 \section add_manual Adding QSOs manually
@@ -23,9 +25,9 @@ enter a sequence of QSOs, but new data can be entered.
 Data may now be entered into the form as required. When complete the user can then save the record with one of the 
 save buttons:
 
-- <B>Save & New</B> - Save the current record and start a new record.
-- <B>Save & Exit</B> - Save the current record and quit adding records.
-- <B>Save & Edit</B> - Save the current record, but continue editing it.
+- <B>Log & New</B> - Save the current record and start a new record.
+- <B>Log & Exit</B> - Save the current record and quit adding records.
+- <B>Log & Edit</B> - Save the current record, but continue editing it.
 
 \section add_file Adding data from a file
 

@@ -28,10 +28,12 @@ for the specific transceiver type, and its CAT and audio port connections. Once 
 \image html basic2_2.png "Telling FlDigi to connect to ZZALOG"
 \image latex basic2_2.png "Telling FlDigi to connect to ZZALOG"
 
-From the FlDigi menu, select the "Logbook" drop-down menu and ensure "Connect to Server"
-is checked, as above. Once this is done, FlDigi will access ZZALOG to query the
-worked-before status of a call and tell ZZALOG to save the QSO record on completion 
-of the QSO.
+From the FlDigi menu, select the "Configuration->Logging->Cloud-UDP
+screen. Make sure that the address and port number on the ZZALOG 
+and FlDigi windws agree. The default values should agree. When 
+the log button on FlDigi is pressed, or when its macro equivalent
+is encountered, FlDigi will send a UDP packet with the QSO record 
+to ZZALOG. ZZALOG will then add it to the log.
 
 \section b2_wsjtx Launching and Connecting WSJT-X
 

@@ -2,7 +2,7 @@
 
 ZZALOG uses hamlib to access the CAT control port of any rig. Hamlib is a  library that provides a 
 common API to allow software to access most rigs. It is available for both 
-Windows and Linux Operating systems. Using hamlib, ZZALOG
+Windows and Linux Operating systems. Using Hamlib, ZZALOG
 is able to directly connect to the CAT port of the rig. However, in most cases, connecting ZZALOG to
 the CAT port precludes any other application from connecting to that port. There are a number of
 third party applications that can connect to a rig's CAT control port and then provide an interface 
@@ -140,17 +140,17 @@ TX power of a transverter (in red) to be specified.
 \image html new_rig_12.png "Specifying accessories"
 \image latex new_rig_12.png "Specifying accessories" width=5cm
 
-\section rig_hamlib Updating hamlib
+\section rig_hamlib Updating Hamlib
 
-Hamlib is under continual development as new rigs come onto the market and new features are added to hamlib itself.
+Hamlib is under continual development as new rigs come onto the market and new features are added to Hamlib itself.
 
-On Windows, a fixed version of hamlib is supplied with the ZZALOG installation package. This contains a DLL
-file containing the hamlib binary. It is located in "C:\Program Files\GM3ZZA\ZZALOG\libhamlib-4.dll".
-It is intended that when a new official release of hamlib is made, then ZZALOG will be re-released.
+On Windows, a fixed version of Hamlib is supplied with the ZZALOG installation package. This contains a DLL
+file containing the Hamlib binary. It is located in "C:\Program Files\GM3ZZA\ZZALOG\libhamlib-4.dll".
+It is intended that when a new official release of Hamlib is made, then ZZALOG will be re-released.
 It is possible
-to overwrite this file with the latest unreleased version of hamlib. 
+to overwrite this file with the latest unreleased version of Hamlib. 
 
-On Linux, hamlib is available for compiling from source. Download the latest and follow the instructions for 
-building the hamlib library. Then rebuild (and if necessary re-install) ZZALOG according to \ref install_proc.
+On Linux, Hamlib is available for compiling from source. Download the latest and follow the instructions for 
+building the Hamlib library. Then rebuild (and if necessary re-install) ZZALOG according to \ref install_proc.
 
 */
