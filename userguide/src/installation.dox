@@ -91,9 +91,11 @@ and texlive-latex-extra.
 
 \subsection install_proc Installation
 
-Either clone the source from github (https://github.com/pvrose/zzatools) or download the
-source tarball from https://sourceforge.net/projects/zzalog/ and unpack it into the chosen
-directory.
+Clone the source from github (https://github.com/pvrose/zzalog) including submodules.
+
+<code>
+git clone --recursive https://github.com/pvrose/zzalog
+</code>
 
 The build and install processes use CMake.
 
@@ -110,7 +112,7 @@ cmake -B build\n
 cmake --build build\n
 </code>
 
-This creates the executable <i>build/zzalog/zzalog</i>.
+This creates the executable <i>build/zzalog</i>.
 
 To install ZZALOG:
 
