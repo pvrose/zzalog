@@ -443,21 +443,17 @@ else()
     install(FILES ${DATAFILES}
         DESTINATION ${CMAKE_INSTALL_RPATH})
     # install userguide HTML files and PDF
-    if(ZZALOG_USERGUIDE)
+    if(ZZALOG_DOX)
       install(
         DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/userguide/html
         DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
         MESSAGE_NEVER
       )
-      if (ZZALOG_USERGUIDE_PDF)
-        install(
-          FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${PROGRAMID}.pdf
-          DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
-        )
-      endif()
-    endif()
-    # install API documentation HTML filesn
-    if(ZZALOG_API_GUIDE) 
+      install(
+        FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${PROGRAMID}.pdf
+        DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
+      )
+      # install API documentation HTML filesn
       install(
         DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/api/html
         DESTINATION ${CMAKE_INSTALL_RPATH}/api
