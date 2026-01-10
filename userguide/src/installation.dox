@@ -53,7 +53,9 @@ git clone --recursive https://github.com/pvrose/zzalog
 \par Building ZZALOG
 To build ZZALOG open the ZZALOG folder within Visual Studio: File->Open->Folder and
 select zzalog. This should now automatically run the CMake configuration step.
-Select Build->Build ALL and the executable and documentation will get built.
+Select Build->Build ALL and the executable and documentation will get built. By default
+the documents will not be build. To add documents, under CMake setting set the CMake
+command arguments to "-DZZALOG_DOX=ON".
 
 \par Installing ZZALOG
 To install select Build->Install ZZALOG.
@@ -95,33 +97,41 @@ and texlive-latex-extra.
 
 Clone the source from github (https://github.com/pvrose/zzalog) including submodules.
 
-<code>
+\code
 git clone --recursive https://github.com/pvrose/zzalog
-</code>
+\endcode
 
 The build and install processes use CMake.
 
-The following CMake flags are available:
-- <B>ZZALOG_USERGUIDE</B> Default: ON. Generates the HTML version of the userguide.
-- <B>ZZALOG_USERGUIDE_PDF</B> Default: ON. Generates the PDF version of the userguide.
-- <B>ZZALOG_API_GUIDE</B> Default: ON. Generates HTML specification of the API.
+The following CMake flag is available:
+\par ZZALOG_DOX
+Default: <b>OFF</b>. Generates HTML versions of Userguide and API Documenation and the PDF
+version of the Userguide.
 
 To build ZZALOG with documentation:
 
-<code>
+\code
+cd [zzalog]\n
+cmake -B build -DZZALOG_DOX=ON\n
+cmake --build build\n
+\endcode
+
+and without:
+
+\code
 cd [zzalog]\n
 cmake -B build\n
 cmake --build build\n
-</code>
+\endcode
 
-This creates the executable <i>build/zzalog</i>.
+These create the executable <i>build/zzalog</i>.
 
 To install ZZALOG:
 
-<code>
+\code
 cd [zzalog]\n
 cmake --install build
-</code>
+\endcode
 
 This copies the executable <i>zzalog</i> to /usr/local/bin and the reference data to /etc/GM3ZZA/ZZALOG.
 

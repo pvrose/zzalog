@@ -24,6 +24,9 @@ else()
   set(USER_HOME_DIR $ENV{HOME})
 endif()
 
+# generate documents - add switches for conditional build.
+option(ZZALOG_DOX "Generate Documentation" OFF)
+
 # Set timestamp and version into files (requires to be rebuilt to take effect)
 string(TIMESTAMP ZZALOG_TIMESTAMP UTC)
 configure_file(
@@ -349,6 +352,7 @@ if (NOT HAMLIB_FOUND AND MSVC)
 endif()  
 
 # Add ZZACOMMON
+set(ZZACOMMON_DOX ${ZZALOG_DOX})
 add_subdirectory(zzacommon)
 set(ZZACOMMON_INCLUDE_DIR ${ZZACOMMON_SOURCE_DIR}/include)
 
@@ -418,27 +422,13 @@ foreach(F ${DATAFILES})
   )
 endforeach()
 
-# generate documents - add switches for conditional build.
-option(ZZALOG_USERGUIDE "Generate Userguide" ON)
-if (MSVC)
-  option(ZZALOG_USERGUIDE_PDF "Generate PDF" ON)
-else()
-  option(ZZALOG_USERGUIDE_PDF "Generate PDF" ON)
-endif()
 # Generate documents - generate userguide.
-if(ZZALOG_USERGUIDE) 
+if(ZZALOG_DOX) 
   message(STATUS "ZZALOG: Adding userguide")
   add_subdirectory(userguide)
   add_dependencies(${TARGET} ug_html)
-  if (ZZALOG_USERGUIDE_PDF)
-    message(STATUS "ZZALOG: Adding userguide PDF")
-    add_dependencies(${TARGET} pdf)
-  endif()
-endif()
-# Switch to generate API documentation.
-option(ZZALOG_API_GUIDE "Generate API guide" ON)
-# Generate API documentation.
-if(ZZALOG_API_GUIDE) 
+  message(STATUS "ZZALOG: Adding userguide PDF")
+  add_dependencies(${TARGET} pdf)
   message(STATUS "ZZALOG: Adding API documentation")
   add_subdirectory(api)
   add_dependencies(${TARGET} api_html)

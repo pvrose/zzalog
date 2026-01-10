@@ -51,11 +51,11 @@
     <ROW Component="ProductInformation" ComponentId="{E180E30E-16B6-4506-97ED-6FEB327E79BE}" Directory_="APPDIR" Attributes="260" KeyPath="Version"/>
     <ROW Component="SHORTCUTDIR" ComponentId="{84314646-C63A-40ED-8299-1DA86028A185}" Directory_="SHORTCUTDIR" Attributes="0"/>
     <ROW Component="ZZALOG.pdf" ComponentId="{5FB67BDE-4649-4AE7-B497-6E9A00628D98}" Directory_="userguide_Dir" Attributes="0" KeyPath="ZZALOG.pdf" Type="0"/>
-    <ROW Component="about__dialog_8h.html" ComponentId="{9BC54A5B-646B-47C4-B2E2-DB8024F66EBD}" Directory_="html_Dir" Attributes="0" KeyPath="about__dialog_8h.html" Type="0"/>
-    <ROW Component="ack.html" ComponentId="{15DC77AA-355F-46FE-9806-CC5657C93633}" Directory_="html_1_Dir" Attributes="0" KeyPath="ack.html" Type="0"/>
+    <ROW Component="about__dialog_8h.html" ComponentId="{7BEA0A4A-20D5-4164-B1D3-29843ED5A71B}" Directory_="html_Dir" Attributes="0" KeyPath="about__dialog_8h.html" Type="0"/>
+    <ROW Component="ack.html" ComponentId="{6C6BED50-6BB2-43B9-9103-D70E3B6F8B8C}" Directory_="html_1_Dir" Attributes="0" KeyPath="ack.html" Type="0"/>
     <ROW Component="all.json" ComponentId="{499AD5E3-3C3D-4FC8-A9CC-37A094E8E15F}" Directory_="ZZALOG_Dir" Attributes="0" KeyPath="all.json" Type="0"/>
-    <ROW Component="all_0.js" ComponentId="{098FC1C9-D1CA-4A21-99C1-B5BE70F528F2}" Directory_="search_Dir" Attributes="0" KeyPath="all_0.js" Type="0"/>
-    <ROW Component="all_0.js_1" ComponentId="{98BDFF2D-DE67-47E2-B565-4E58F6ACB083}" Directory_="search_1_Dir" Attributes="0" KeyPath="all_0.js_1" Type="0"/>
+    <ROW Component="all_0.js" ComponentId="{576A6081-3F9E-4D86-8F70-3223CC6C94A5}" Directory_="search_Dir" Attributes="0" KeyPath="all_0.js" Type="0"/>
+    <ROW Component="all_0.js_1" ComponentId="{28AE8378-F050-4FA1-9B4F-1988B1C397CE}" Directory_="search_1_Dir" Attributes="0" KeyPath="all_0.js_1" Type="0"/>
     <ROW Component="api" ComponentId="{A0114166-DBEF-4A0C-AC5D-C38117BC3387}" Directory_="api_Dir" Attributes="0"/>
     <ROW Component="libcurl.dll" ComponentId="{909DF664-96FC-4BBC-AF4D-206BD52FBC5F}" Directory_="APPDIR" Attributes="256" KeyPath="libcurl.dll"/>
     <ROW Component="libgcc_s_seh1.dll" ComponentId="{C066CEDF-E29D-45C3-9698-2B819C81C30C}" Directory_="APPDIR" Attributes="256" KeyPath="libgcc_s_seh1.dll"/>
@@ -88,6 +88,7 @@
     <ROW File="libwinpthread1.dll" Component_="libwinpthread1.dll" FileName="LIBWIN~1.DLL|libwinpthread-1.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\build\x64-Release\libwinpthread-1.dll" SelfReg="false"/>
     <ROW File="zlib1.dll" Component_="zlib1.dll" FileName="zlib1.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\build\x64-Release\zlib1.dll" SelfReg="false"/>
     <ROW File="zzalog.exe" Component_="zzalog.exe" FileName="zzalog.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\build\x64-Release\zzalog.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="ZZALOG.pdf" Component_="ZZALOG.pdf" FileName="ZZALOG.pdf" Attributes="0" SourcePath="out\build\x64-Release\userguide\ZZALOG.pdf" SelfReg="false"/>
     <ROW File="about__dialog_8h.html" Component_="about__dialog_8h.html" FileName="ABOUT_~1.HTM|about__dialog_8h.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\about__dialog_8h.html" SelfReg="false"/>
     <ROW File="about__dialog_8h.js" Component_="about__dialog_8h.html" FileName="ABOUT_~1.JS|about__dialog_8h.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\about__dialog_8h.js" SelfReg="false"/>
     <ROW File="about__dialog_8h_source.html" Component_="about__dialog_8h.html" FileName="ABOUT_~2.HTM|about__dialog_8h_source.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\about__dialog_8h_source.html" SelfReg="false"/>
@@ -696,8 +697,8 @@
     <ROW File="cty__element_8h_source.html" Component_="about__dialog_8h.html" FileName="CTY__E~2.HTM|cty__element_8h_source.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\cty__element_8h_source.html" SelfReg="false"/>
     <ROW File="dir_1271e7f9c7da25d09c4b1f827e5943a3.html" Component_="about__dialog_8h.html" FileName="DIR_12~1.HTM|dir_1271e7f9c7da25d09c4b1f827e5943a3.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\dir_1271e7f9c7da25d09c4b1f827e5943a3.html" SelfReg="false"/>
     <ROW File="dir_1271e7f9c7da25d09c4b1f827e5943a3.js" Component_="about__dialog_8h.html" FileName="DIR_12~1.JS|dir_1271e7f9c7da25d09c4b1f827e5943a3.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\dir_1271e7f9c7da25d09c4b1f827e5943a3.js" SelfReg="false"/>
-    <ROW File="dir_6f819eef0a700cdf7ddf6246ac8fe125.html" Component_="about__dialog_8h.html" FileName="DIR_6F~1.HTM|dir_6f819eef0a700cdf7ddf6246ac8fe125.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\dir_6f819eef0a700cdf7ddf6246ac8fe125.html" SelfReg="false"/>
-    <ROW File="dir_6f819eef0a700cdf7ddf6246ac8fe125.js" Component_="about__dialog_8h.html" FileName="DIR_6F~1.JS|dir_6f819eef0a700cdf7ddf6246ac8fe125.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\dir_6f819eef0a700cdf7ddf6246ac8fe125.js" SelfReg="false"/>
+    <ROW File="dir_d44c64559bbebec7f509842c48db8b23.html" Component_="about__dialog_8h.html" FileName="DIR_D4~1.HTM|dir_d44c64559bbebec7f509842c48db8b23.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\dir_d44c64559bbebec7f509842c48db8b23.html" SelfReg="false"/>
+    <ROW File="dir_d44c64559bbebec7f509842c48db8b23.js" Component_="about__dialog_8h.html" FileName="DIR_D4~1.JS|dir_d44c64559bbebec7f509842c48db8b23.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\dir_d44c64559bbebec7f509842c48db8b23.js" SelfReg="false"/>
     <ROW File="dir_da1bd83b9617953807086b767e42bab2.html" Component_="about__dialog_8h.html" FileName="DIR_DA~1.HTM|dir_da1bd83b9617953807086b767e42bab2.html" Attributes="0" SourcePath="out\build\x64-Release\api\html\dir_da1bd83b9617953807086b767e42bab2.html" SelfReg="false"/>
     <ROW File="dir_da1bd83b9617953807086b767e42bab2.js" Component_="about__dialog_8h.html" FileName="DIR_DA~1.JS|dir_da1bd83b9617953807086b767e42bab2.js" Attributes="0" SourcePath="out\build\x64-Release\api\html\dir_da1bd83b9617953807086b767e42bab2.js" SelfReg="false"/>
     <ROW File="doxygen.css" Component_="about__dialog_8h.html" FileName="doxygen.css" Attributes="0" SourcePath="out\build\x64-Release\api\html\doxygen.css" SelfReg="false"/>
@@ -1867,10 +1868,9 @@
     <ROW File="web_dialog_6.png" Component_="ack.html" FileName="WEB_DI~5.PNG|web_dialog_6.png" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\web_dialog_6.png" SelfReg="false"/>
     <ROW File="web_dialog_7.png" Component_="ack.html" FileName="WEB_DI~6.PNG|web_dialog_7.png" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\web_dialog_7.png" SelfReg="false"/>
     <ROW File="web_dialog_9.png" Component_="ack.html" FileName="WEB_DI~7.PNG|web_dialog_9.png" Attributes="0" SourcePath="out\build\x64-Release\userguide\html\web_dialog_9.png" SelfReg="false"/>
-    <ROW File="ZZALOG.pdf" Component_="ZZALOG.pdf" FileName="ZZALOG.pdf" Attributes="0" SourcePath="out\build\x64-Release\userguide\ZZALOG.pdf" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="x64_Release" BuildName="x64_Release" BuildOrder="1" BuildType="0" PackageFileName="ZZALOG-3.6.12-rc1" Languages="en_GB" InstallationType="4" SummInfoMetadata="Page Count:450" UseLargeSchema="true" MsiPackageType="x64"/>
+    <ROW BuildKey="x64_Release" BuildName="x64_Release" BuildOrder="1" BuildType="0" PackageFileName="ZZALOG-3.6.12-rc2" Languages="en_GB" InstallationType="4" SummInfoMetadata="Page Count:450" UseLargeSchema="true" MsiPackageType="x64"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -1955,11 +1955,11 @@
     <ROW Feature_="MainFeature" Component_="libwinpthread1.dll"/>
     <ROW Feature_="MainFeature" Component_="zlib1.dll"/>
     <ROW Feature_="MainFeature" Component_="zzalog.exe"/>
+    <ROW Feature_="MainFeature" Component_="ZZALOG.pdf"/>
+    <ROW Feature_="MainFeature" Component_="ack.html"/>
     <ROW Feature_="MainFeature" Component_="about__dialog_8h.html"/>
     <ROW Feature_="MainFeature" Component_="all_0.js"/>
-    <ROW Feature_="MainFeature" Component_="ack.html"/>
     <ROW Feature_="MainFeature" Component_="all_0.js_1"/>
-    <ROW Feature_="MainFeature" Component_="ZZALOG.pdf"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
