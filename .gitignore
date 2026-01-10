@@ -293,3 +293,4 @@ __pycache__/
 /ZZALOG.back(23.2).aip
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.12-rc1.msi
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.12-rc2.msi
+*.msi
