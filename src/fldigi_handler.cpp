@@ -79,14 +79,12 @@ int fldigi_handler::rcv_dgram(std::stringstream& os) {
 		if (qso->item_exists(it.first)) {
 			if (qso->item(it.first) != it.second) {
 				char msg[128];
-				snprintf(msg, sizeof(msg), "FLDIGI: QSO Field %s unexpected value %s (vs %s)",
-			        it.first.c_str(), it.second.c_str(), qso->item(it.first).c_str());
+				snprintf(msg, sizeof(msg), "FLDIGI: Updating QSO Field %s: was %s now %s",
+			        it.first.c_str(), qso->item(it.first).c_str(), it.second.c_str());
 				status_->misc_status(ST_WARNING, msg);
 			}
 	 	} 
-		else {
-			qso->item(it.first, it.second);
-		}
+		qso->item(it.first, it.second);
 	}
 	qso_manager_->update_modem_qso(true);
 	status_->misc_status(ST_NOTE, "FLDIGI: Logged QSO");

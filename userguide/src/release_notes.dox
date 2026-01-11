@@ -1,5 +1,16 @@
 /** \page release_notes Revision History
 
+\section rev_3-6-13 Revision 3.6.13 [Unreleased]
+
+- Functional changes
+  - None.
+- Cosmetic and non-functional changes.
+  - None.
+- Perfomance changes.
+  - None.
+- Bug fixes:
+  - Logged frequency and start time not being set correctly from FlDigi.
+
 \section rev_3-6-12 Revision 3.6.12
 
 - Functional changes
