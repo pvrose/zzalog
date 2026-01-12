@@ -287,10 +287,9 @@ __pycache__/
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.10-rc2.msi
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.10.msi
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.11.msi
-/zzalog/include/timestamp.h
 /build
-/include/timestamp.h
 /ZZALOG.back(23.2).aip
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.12-rc1.msi
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.12-rc2.msi
 *.msi
+/include/timestamp.h
