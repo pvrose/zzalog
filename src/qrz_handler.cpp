@@ -176,9 +176,9 @@ bool qrz_handler::query_merge() {
 std::string qrz_handler::generate_session_uri() {
 	std::string result;
 	char format[] = "http://xmldata.qrz.com/xml/current/?username=%s;password=%s;agent=%s%s";
-	int length = strlen(format) + username_.length() + password_.length() + PROG_ID.length() + APP_VERSION.length();
+	int length = strlen(format) + username_.length() + password_.length() + APP_NAME.length() + APP_VERSION.length();
 	char* uri = new char[length];
-	snprintf(uri, length, format, username_.c_str(), password_.c_str(), PROG_ID.c_str(), APP_VERSION.c_str());
+	snprintf(uri, length, format, username_.c_str(), password_.c_str(), APP_NAME.c_str(), APP_VERSION.c_str());
 	result = uri;
 	return result;
 }
