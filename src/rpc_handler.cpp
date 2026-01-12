@@ -394,7 +394,7 @@ bool rpc_handler::add_header(http_code code, std::stringstream& payload, std::st
 		//	Content-Length : 124
 		resp << "HTTP/1.1 " << code << " OK\r\n";
 		resp << "Date: " << now(false, "%a %d %b %Y %X GMT") << "\r\n";
-		resp << "Server: " << PROGRAM_ID << ". " << PROGRAM_VERSION << "\r\n";
+		resp << "Server: " << APP_NAME << ". " << APP_VERSION << "\r\n";
 		resp << "Content-Type: text/xml\r\n";
 		resp << "Content-Length: " << len_pl << "\r\n";
 		resp << "\r\n";
@@ -403,7 +403,7 @@ bool rpc_handler::add_header(http_code code, std::stringstream& payload, std::st
 	case BAD_REQUEST:
 		resp << "HTTP/1.1 " << code << " BAD REQUEST\r\n";
 		resp << "Date: " << now(false, "%a %d %b %Y %X GMT") << "\r\n";
-		resp << "Server: " << PROGRAM_ID << ". " << PROGRAM_VERSION << "\r\n";
+		resp << "Server: " << APP_NAME << ". " << APP_VERSION << "\r\n";
 		resp << "Connection: close\r\n";
 		resp << "\r\n";
 		break;

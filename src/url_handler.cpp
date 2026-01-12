@@ -13,7 +13,7 @@
 #include <curl/curl.h>
 #include <curl/easy.h>
 
-std::string USER_AGENT = PROGRAM_ID + '/' + PROGRAM_VERSION;
+std::string USER_AGENT = APP_NAME + '/' + APP_VERSION;
 
 // Make sure only one HTML transfer happens at once
 std::recursive_mutex url_handler::lock_;

@@ -125,11 +125,11 @@ int wsjtx_handler::send_hbeat() {
 	// Frequency
 	put_uint32(ss, 0);
 	// Add the ID
-	put_utf8(ss, PROGRAM_ID);
+	put_utf8(ss, APP_NAME);
 	// Add the max schema
 	put_uint32(ss, 3);
 	// Add the version
-	put_utf8(ss, PROGRAM_VERSION);
+	put_utf8(ss, APP_VERSION);
 	// Add the revision ""
 	put_uint32(ss, (uint32_t)(~0));
 	

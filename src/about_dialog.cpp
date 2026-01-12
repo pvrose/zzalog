@@ -90,7 +90,7 @@ about_dialog::about_dialog() :
 	const int YICON = (HALL - HICON) / 2;
 	const int YNAME = YICON - HBUTTON;
 	Fl_Box* bx_name = new Fl_Box(C1, YNAME, WICON, HBUTTON);
-	bx_name->copy_label(PROGRAM_ID.c_str());
+	bx_name->copy_label(APP_NAME.c_str());
 	bx_name->labelfont(FL_BOLD);
 	bx_name->labelsize(FL_NORMAL_SIZE + 4);
 	bx_name->align(FL_ALIGN_CENTER);
@@ -104,7 +104,7 @@ about_dialog::about_dialog() :
 	const int YVERS = YICON + HICON;
 	Fl_Box* bx_vers = new Fl_Box(C1, YVERS, WICON, HBUTTON);
 
-	std::string version = PROGRAM_VERSION;
+	std::string version = APP_VERSION;
 	if (DEVELOPMENT_MODE) version += " DEVT";
 	bx_vers->copy_label(version.c_str());
 	bx_vers->labelfont(FL_BOLD);
@@ -114,7 +114,7 @@ about_dialog::about_dialog() :
 	// resize the window to include everything
 	resizable(nullptr);
 	size(WALL, HALL);
-	copy_label(std::string("About " + PROGRAM_ID).c_str());
+	copy_label(std::string("About " + APP_NAME).c_str());
 
 	end();
 

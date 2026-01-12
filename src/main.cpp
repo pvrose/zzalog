@@ -96,14 +96,8 @@ std::string CONTACT = "gm3zza@@btinternet.com";
 std::string CONTACT2 = "gm3zza@btinternet.com";
 //! Copyright placed in exported data items.
 std::string DATA_COPYRIGHT = "\302\251 Philip Rose %s. This data may be copied for the purpose of correlation and analysis";
-//! Program identifier: used in ADIF PROGRAM_ID field and filestore
-std::string PROGRAM_ID = "ZZALOG";
 //! Short-form program identifier.
 std::string PROG_ID = "ZLG";
-//! Program version. 
-std::string PROGRAM_VERSION = VERSION_STRING;
-//! Program vendor.
-std::string VENDOR = "GM3ZZA";
 
 // Debug switches
 //! Print errors -  by "-d e"
@@ -933,9 +927,9 @@ void add_dashboard() {
 	if (!closing_) {
 		if (!qso_manager_) {
 			char l[128];
-			std::string version = PROGRAM_VERSION;
+			std::string version = APP_VERSION;
 			if (DEVELOPMENT_MODE) version += " DEVT";
-			snprintf(l, sizeof(l), "%s %s: Operating Dashboard", PROGRAM_ID.c_str(), version.c_str());
+			snprintf(l, sizeof(l), "%s %s: Operating Dashboard", APP_NAME.c_str(), version.c_str());
 			qso_manager_ = new qso_manager(10, 10);
 			qso_manager_->copy_label(l);
 		}
@@ -946,8 +940,8 @@ void add_dashboard() {
 
 // Set the text in the main window label
 void main_window_label(std::string text) {
-	// e.g. ZZALOG 3.0.0: <filename> - PROGRAM_VERSION includes (Debug) if compiled under _DEBUG
-	std::string label = PROGRAM_ID + " " + PROGRAM_VERSION;
+	// e.g. ZZALOG 3.0.0: <filename> - APP_VERSION includes (Debug) if compiled under _DEBUG
+	std::string label = APP_NAME + " " + APP_VERSION;
 	if (DEVELOPMENT_MODE) label += " DEVT";
 	label += ": " + text;
 	main_window_->copy_label(label.c_str());
@@ -1091,7 +1085,7 @@ void print_args(int argc, char** argv) {
 	strcat(message, "Started");
 	status_->misc_status(ST_NOTE, message);
 	snprintf(message, sizeof(message), "ZZALOG: %s %s", 
-		PROGRAM_ID.c_str(), PROGRAM_VERSION.c_str());
+		APP_NAME.c_str(), APP_VERSION.c_str());
 	status_->misc_status(ST_NOTE, message);
 	if (DEVELOPMENT_MODE) {
 		status_->misc_status(ST_WARNING, "ZZALOG: Development mode");
@@ -1164,7 +1158,7 @@ void customise_fltk() {
 	// Default message properties
 	fl_message_size_ = FL_NORMAL_SIZE;
 	fl_message_font_ = 0;
-	fl_message_title_default(PROGRAM_ID.c_str());
+	fl_message_title_default(APP_NAME.c_str());
 	// Set foreground and background colours
 	if (DARK) {
 		Fl::foreground(240, 240, 240);             // 15/16 White
@@ -1234,7 +1228,7 @@ int main(int argc, char** argv)
 	// Allow the main thread to respond to Fl::awake() requests
 	Fl::lock();
 	// 
-	printf("%s %s: Loading...\n", PROGRAM_ID.c_str(), PROGRAM_VERSION.c_str());
+	printf("%s %s: Loading...\n", APP_NAME.c_str(), APP_VERSION.c_str());
 	// Parse command-line arguments - accept FLTK standard arguments and custom ones (in cb_args)
 	int i = 1;
 	Fl::args(argc, argv, i, cb_args);
@@ -1250,11 +1244,11 @@ int main(int argc, char** argv)
 
 	if (DISPLAY_VERSION) {
 #ifndef WIN32
-		std::string version = PROGRAM_VERSION;
+		std::string version = APP_VERSION;
 		if (DEVELOPMENT_MODE) version += " DEVT";
 		// Display version
 		printf("%s Version %s Compiled %s\n", 
-			PROGRAM_ID.c_str(), 
+			APP_NAME.c_str(), 
 			version.c_str(),
 			TIMESTAMP.c_str());
 		curl_version_info_data* data = curl_version_info(CURLVERSION_LAST);

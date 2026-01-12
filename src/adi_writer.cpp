@@ -187,7 +187,7 @@ void adi_writer::to_adif(record* record, std::ostream& out, field_list* fields /
 		snprintf(copyright, sizeof(copyright), DATA_COPYRIGHT.c_str(), year.c_str());
 		// Add red-tape after header fields
 		out << std::endl;
-		out << PROGRAM_ID << std::endl;
+		out << APP_NAME << std::endl;
 		out << copyright << std::endl;
 		out << "<EOH>" << std::endl << std::endl;
 	}

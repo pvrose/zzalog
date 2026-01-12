@@ -6,8 +6,8 @@ set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
 set(ZZALOG_RC_VALUE "")
 
 ## Set program details
-set(VENDOR "GM3ZZA")
-set(PROGRAMID "ZZALOG")
+set(APP_VENDOR "GM3ZZA")
+set(APP_NAME "ZZALOG")
 
 ## Set target executable
 set(TARGET zzalog)
@@ -26,14 +26,6 @@ endif()
 
 # generate documents - add switches for conditional build.
 option(ZZALOG_DOX "Generate Documentation" OFF)
-
-# Set timestamp and version into files (requires to be rebuilt to take effect)
-string(TIMESTAMP ZZALOG_TIMESTAMP UTC)
-configure_file(
-  ${ZZALOG_INCLUDE_DIR}/timestamp.h.in
-  ${ZZALOG_INCLUDE_DIR}/timestamp.h
-  @ONLY
-)
 
 # All the source .cpp files
 set(CPPFILES 
@@ -240,7 +232,7 @@ set( HPPFILES
   ${ZZALOG_INCLUDE_DIR}/stn_oper_dlg.h
   ${ZZALOG_INCLUDE_DIR}/stn_qth_dlg.h
   ${ZZALOG_INCLUDE_DIR}/tabbed_forms.h
-  ${ZZALOG_INCLUDE_DIR}/timestamp.h
+  ${ZZALOG_INCLUDE_DIR}/zzacommon.h
   ${ZZALOG_INCLUDE_DIR}/toolbar.h
   ${ZZALOG_INCLUDE_DIR}/url_handler.h
   ${ZZALOG_INCLUDE_DIR}/user_dialog.h
@@ -253,9 +245,9 @@ set( HPPFILES
 
 # set directory to install executable, reference data and documents.
 if(MSVC)
-  set(CMAKE_INSTALL_RPATH C:/ProgramData/${VENDOR}/${PROGRAMID})
+  set(CMAKE_INSTALL_RPATH C:/ProgramData/${VENDOR}/${APP_NAME})
 else()
-  set(CMAKE_INSTALL_RPATH /etc/${VENDOR}/${PROGRAMID})
+  set(CMAKE_INSTALL_RPATH /etc/${VENDOR}/${APP_NAME})
 endif()
 
 # Set target directory for .dlls and development-mode data
@@ -450,7 +442,7 @@ else()
         MESSAGE_NEVER
       )
       install(
-        FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${PROGRAMID}.pdf
+        FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${APP_NAME}.pdf
         DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
       )
       # install API documentation HTML filesn

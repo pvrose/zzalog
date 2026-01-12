@@ -66,13 +66,13 @@ extern std::string CONTACT2;
 //! Copyright placed in exported data items.
 extern std::string DATA_COPYRIGHT;
 //! Program identifier: used in ADIF PROGRAM_ID field and filestore
-extern std::string PROGRAM_ID;
+extern std::string APP_NAME;
 //! Short-form program identifier.
 extern std::string PROG_ID;
 //! Program version. 
-extern std::string PROGRAM_VERSION;
+extern std::string APP_VERSION;
 //! Program vendor.
-extern std::string VENDOR;
+extern std::string APP_VENDOR;
 
 // Debug switches
 //! Print errors -  by "-d e"
