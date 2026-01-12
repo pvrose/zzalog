@@ -1,6 +1,6 @@
 #include "url_handler.h"
 
-#include "main.h"
+#include "ident.h"
 #include "utils.h"
 
 #include <cstdio>
@@ -13,6 +13,7 @@
 #include <curl/curl.h>
 #include <curl/easy.h>
 
+extern bool DEBUG_CURL;
 std::string USER_AGENT = APP_NAME + '/' + APP_VERSION;
 
 // Make sure only one HTML transfer happens at once

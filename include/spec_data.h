@@ -15,7 +15,7 @@ class band_set;
 class record;
 typedef size_t qso_num_t;
 
-	//! validation status for each check
+//! validation status for each check
 	enum valn_error_t {
 		VE_OK,                         //!< No problem
 		VE_TYPE_UNKNOWN,               //!< Datatype or enumeration type not known

@@ -2,7 +2,7 @@
 
 #include "band_editor.h"
 #include "band_widget.h"
-#include "main.h"
+#include "ident.h"
 #include "qso_manager.h"
 #include "rig_if.h"
 #include "status.h"

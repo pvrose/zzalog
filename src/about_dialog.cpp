@@ -1,6 +1,7 @@
 #include "about_dialog.h"
 
 #include "file_holder.h"
+#include "ident.h"
 #include "main.h"
 #include "spec_data.h"
 #include "win_dialog.h"
@@ -22,7 +23,7 @@
 #include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Widget.H>
 
-extern std::string TIMESTAMP;
+extern bool DEVELOPMENT_MODE;
 
 // Creates the about box dialog and displays it.
 about_dialog::about_dialog() :
@@ -47,7 +48,7 @@ about_dialog::about_dialog() :
 
 	// Draw the two text boxes - first program ID and versions
 	std::string program_id =
-		"Compiled " + TIMESTAMP + "\n" +
+		"Compiled " + APP_TIMESTAMP + "\n" +
 		(spec_data_ ? "using ADIF Version " + spec_data_->adif_version() + "\n" : "") +
 		" hamlib version " + rig_version() +
 		"\n FLTK version " + std::to_string(FL_MAJOR_VERSION) + "." +

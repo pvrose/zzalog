@@ -2,7 +2,7 @@
 
 #include "adi_writer.h"
 #include "book.h"
-#include "main.h"
+#include "ident.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"

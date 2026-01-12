@@ -55,25 +55,6 @@ class Fl_PNG_Image;
 class Fl_Widget;
 enum rig_debug_level_e;
 
-//! Program copyright - displayed in all windows.
-extern std::string COPYRIGHT;
-//! Third-party acknowledgments.
-extern std::string PARTY3RD_COPYRIGHT;
-//! Contact address for use in FLTK widget labels.
-extern std::string CONTACT;
-//! Contact address for use in general texts.
-extern std::string CONTACT2;
-//! Copyright placed in exported data items.
-extern std::string DATA_COPYRIGHT;
-//! Program identifier: used in ADIF PROGRAM_ID field and filestore
-extern std::string APP_NAME;
-//! Short-form program identifier.
-extern std::string PROG_ID;
-//! Program version. 
-extern std::string APP_VERSION;
-//! Program vendor.
-extern std::string APP_VENDOR;
-
 // Debug switches
 //! Print errors -  by "-d e"
 extern bool DEBUG_ERRORS;

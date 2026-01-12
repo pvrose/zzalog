@@ -1,5 +1,6 @@
 #include "rpc_handler.h"
 
+#include "ident.h"
 #include "main.h"
 #include "socket_server.h"
 #include "status.h"

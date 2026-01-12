@@ -2,7 +2,7 @@
 
 #include "contest_dialog.h"
 #include "fields_dialog.h"
-#include "main.h"
+#include "ident.h"
 #include "page_dialog.h"
 #include "qsl_editor.h"
 #include "settings.h"

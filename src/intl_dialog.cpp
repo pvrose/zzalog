@@ -2,6 +2,7 @@
 
 #include <drawing.h>
 #include "file_holder.h"
+#include "ident.h"
 #include "main.h"
 #include "menu_bar.h"
 #include "status.h"

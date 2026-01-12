@@ -12,7 +12,6 @@ main.cpp - application entry point
 
 #include "drawing.h"
 #include "utils.h"
-#include "zzacommon.h"
 
 #include "about_dialog.h"
 #include "band_data.h"
@@ -28,6 +27,7 @@ main.cpp - application entry point
 #include "fields.h"
 #include "file_holder.h"
 #include "fldigi_handler.h"
+#include "ident.h"
 #include "import_data.h"
 #include "intl_dialog.h"
 #include "lotw_handler.h"
@@ -47,7 +47,6 @@ main.cpp - application entry point
 #include "symbols.h"
 #include "tabbed_forms.h"
 #include "ticker.h"
-#include "timestamp.h"
 #include "toolbar.h"
 #include "url_handler.h"
 #include "wsjtx_handler.h"
@@ -83,21 +82,6 @@ main.cpp - application entry point
 #include <Windows.h>
 #endif
 #include <FL/Fl_Window.H>
-
-
-//! Program copyright - displayed in all windows.
-std::string COPYRIGHT = "\302\251 Philip Rose GM3ZZA 2018-2026. All rights reserved.";
-//! Third-party acknowledgments.
-std::string PARTY3RD_COPYRIGHT = "Prefix data courtesy of clublog.org, country-files.com and dxatlas.com\n"
-"ZZALOG is based in part on the work of the FLTK project https://www.fltk.org.";
-//! Contact address for use in FLTK widget labels.
-std::string CONTACT = "gm3zza@@btinternet.com";
-//! Contact address for use in general texts.
-std::string CONTACT2 = "gm3zza@btinternet.com";
-//! Copyright placed in exported data items.
-std::string DATA_COPYRIGHT = "\302\251 Philip Rose %s. This data may be copied for the purpose of correlation and analysis";
-//! Short-form program identifier.
-std::string PROG_ID = "ZLG";
 
 // Debug switches
 //! Print errors -  by "-d e"
@@ -1090,7 +1074,7 @@ void print_args(int argc, char** argv) {
 	if (DEVELOPMENT_MODE) {
 		status_->misc_status(ST_WARNING, "ZZALOG: Development mode");
 	}
-	snprintf(message, sizeof(message), "ZZALOG: Compiled %s", TIMESTAMP.c_str());
+	snprintf(message, sizeof(message), "ZZALOG: Compiled %s", APP_TIMESTAMP.c_str());
 	status_->misc_status(ST_NOTE, message);
 
 	if (DEBUG_ERRORS) status_->misc_status(ST_NOTE, "ZZALOG: -d e - Displaying debug error messages");

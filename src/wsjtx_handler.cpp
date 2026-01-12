@@ -3,7 +3,7 @@
 #include "adi_reader.h"
 #include "book.h"
 #include <drawing.h>
-#include "main.h"
+#include "ident.h"
 #include "menu_bar.h"
 #include "qso_apps.h"
 #include "qso_data.h"

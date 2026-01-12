@@ -6,7 +6,7 @@
 #include "cty_data.h"
 #include <drawing.h>
 #include "field_choice.h"
-#include "main.h"
+#include "ident.h"
 #include <search.h>
 #include "settings.h"
 #include "spec_data.h"

@@ -1,9 +1,9 @@
 #include "qso_manager.h"
 
-#include "adi_writer.h"
 #include "book.h"
 #include <drawing.h>
 #include "extract_data.h"
+#include "ident.h"
 #include "import_data.h"
 #include "main.h"
 #include "main_window.h"

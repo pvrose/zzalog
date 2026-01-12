@@ -2,7 +2,7 @@
 
 #include "band_widget.h"
 #include "band_window.h"
-#include "main.h"
+#include "ident.h"
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"

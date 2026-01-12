@@ -2,7 +2,7 @@
 
 #include "book.h"
 #include "fields.h"
-#include "main.h"
+#include "ident.h"
 #include "record.h"
 #include "spec_data.h"
 #include "status.h"
