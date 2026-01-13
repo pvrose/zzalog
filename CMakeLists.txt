@@ -351,7 +351,6 @@ endif()
 # Add ZZACOMMON
 set(ZZACOMMON_DOX ${ZZALOG_DOX})
 add_subdirectory(zzacommon)
-set(ZZACOMMON_INCLUDE_DIR ${ZZACOMMON_SOURCE_DIR}/include)
 
 ## Subdirectories as part of ZZALOG
 add_subdirectory(contests)
