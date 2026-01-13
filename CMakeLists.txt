@@ -14,7 +14,7 @@ set(APP_VERSION "${ZZALOG_VERSION}${ZZALOG_RC_VALUE}")
 ## Set target executable
 set(TARGET zzalog)
 if (NOT MSVC)
-  set(BUILD_SHARED_LIBS ON)
+  set(BUILD_SHARED_LIBS OFF)
 endif()
 
 ## Set C++ requirements.

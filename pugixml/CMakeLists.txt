@@ -40,6 +40,6 @@ target_sources(${TARGET}
     FILES ${HPPFILES}
 )
 
-if (NOT BUILD_SHARED_LIBS)
-  install(TARGETS ${TARGET})
+if (BUILD_SHARED_OBJECTS)
+install(TARGETS ${TARGET})
 endif()

@@ -68,7 +68,6 @@ target_sources(${TARGET}
     FILES ${ZZALOG_CONTESTS_HPPFILES}
 )
 
-if (NOT BUILD_SHARED_LIBS)
-  install(TARGETS ${TARGET})
+if (BUILD_SHARED_OBJECTS)
+install(TARGETS ${TARGET})
 endif()
-
