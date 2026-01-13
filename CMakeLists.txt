@@ -9,11 +9,13 @@ set(ZZALOG_RC_VALUE "")
 set(APP_VENDOR "GM3ZZA")
 set(APP_NAME "ZZALOG")
 string(TIMESTAMP APP_TIMESTAMP UTC)
-set(APP_VERSION "${ZZALOG_VERSION}")
+set(APP_VERSION "${ZZALOG_VERSION}${ZZALOG_RC_VALUE}")
 
 ## Set target executable
 set(TARGET zzalog)
-set(BUILD_SHARED_LIBS ON)
+if (NOT MSVC)
+  set(BUILD_SHARED_LIBS ON)
+endif()
 
 ## Set C++ requirements.
 set(CMAKE_CXX_STANDARD 17)

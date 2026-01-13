@@ -108,16 +108,16 @@ if(DOXYGEN_FOUND)
   )
   # Copy from latex/refman.pdf to ZZALOG.pdf
   add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROGRAMID}.pdf
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}.pdf
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.pdf
             ug_pdf
     COMMAND ${CMAKE_COMMAND} -E copy
     ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.pdf
-    ${CMAKE_CURRENT_BINARY_DIR}/${PROGRAMID}.pdf
+    ${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}.pdf
     COMMENT "Copying PDF"
   )
   add_custom_target(
     pdf ALL
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${PROGRAMID}.pdf
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}.pdf
   )
 endif()
