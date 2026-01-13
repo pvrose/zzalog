@@ -40,5 +40,6 @@ target_sources(${TARGET}
     FILES ${HPPFILES}
 )
 
-install(TARGETS ${TARGET})
-
+if (NOT BUILD_SHARED_LIBS)
+  install(TARGETS ${TARGET})
+endif()
