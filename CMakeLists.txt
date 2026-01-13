@@ -250,9 +250,9 @@ set( HPPFILES
 
 # set directory to install executable, reference data and documents.
 if(MSVC)
-  set(CMAKE_INSTALL_RPATH C:/ProgramData/${VENDOR}/${APP_NAME})
+  set(CMAKE_INSTALL_RPATH C:/ProgramData/${APP_VENDOR}/${APP_NAME})
 else()
-  set(CMAKE_INSTALL_RPATH /etc/${VENDOR}/${APP_NAME})
+  set(CMAKE_INSTALL_RPATH /etc/${APP_VENDOR}/${APP_NAME})
 endif()
 
 # Set target directory for .dlls and development-mode data
