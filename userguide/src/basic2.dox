@@ -28,7 +28,7 @@ for the specific transceiver type, and its CAT and audio port connections. Once 
 \image html basic2_2.png "Telling FlDigi to connect to ZZALOG"
 \image latex basic2_2.png "Telling FlDigi to connect to ZZALOG"
 
-From the FlDigi menu, select the "Configuration->Logging->Cloud-UDP
+From the FlDigi menu, select the "Configuration->Logging->Cloud-UDP"
 screen. Make sure that the address and port number on the ZZALOG 
 and FlDigi windws agree. The default values should agree. When 
 the log button on FlDigi is pressed, or when its macro equivalent
