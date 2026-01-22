@@ -408,8 +408,8 @@ int socket_server::rcv_packet()
 		else
 		{
 			// Try again after checking for any fltk events
-			std::this_thread::yield();
-			//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			//std::this_thread::yield();
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 #endif
 	} while (!closing_);

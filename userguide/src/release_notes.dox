@@ -7,7 +7,7 @@
 - Cosmetic and non-functional changes.
   - Standardising app identification across ZZACOMMON apps.
 - Perfomance changes.
-  - None.
+  - ZZALOG used 200% CPU when idling. 
 - Bug fixes:
   - Logged frequency and start time not being set correctly from FlDigi.
 
