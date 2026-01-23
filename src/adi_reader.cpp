@@ -3,10 +3,10 @@
 #include "book.h"
 #include "main.h"
 #include "record.h"
-#include "status.h"
+#include "zc_status.h"
 #include "spec_data.h"
 
-#include "utils.h"
+#include "zc_utils.h"
 
 #include <istream>
 #include <string>

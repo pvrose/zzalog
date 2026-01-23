@@ -5,12 +5,12 @@
 #include "ident.h"
 #include "page_dialog.h"
 #include "qsl_editor.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include "user_dialog.h"
 #include "web_dialog.h"
 
-#include "utils.h"
-#include "drawing.h"
+#include "zc_utils.h"
+#include "zc_drawing.h"
 
 #include <string>
 
@@ -18,7 +18,7 @@
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Return_Button.H>
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
 
@@ -28,9 +28,9 @@ config::config(int W, int H, const char* label) :
 	, tabs_(nullptr)
 {
 	updatable_views_.clear();
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings config_settings(&view_settings, "Config");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings config_settings(&view_settings, "Config");
 	int left, top;
 	config_settings.get<int>("Left", left, 0);
 	config_settings.get<int>("Top", top, 100);
@@ -38,7 +38,7 @@ config::config(int W, int H, const char* label) :
 
 	children_ids_.clear();
 	// Create the set of tabs_ - leave enough space beneath for OK etc buttons.
-	tabs_ = new tabs_nonav(0, 0, W, H - HBUTTON - FOOT_HEIGHT);
+	tabs_ = new zc_tabs_nonav(0, 0, W, H - HBUTTON - FOOT_HEIGHT);
 	tabs_->callback(cb_tab);
 	tabs_->box(FL_FLAT_BOX);
 	tabs_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);
@@ -127,9 +127,9 @@ config::config(int W, int H, const char* label) :
 config::~config()
 {
 	// Rememeber window position
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings config_settings(&view_settings, "Config");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings config_settings(&view_settings, "Config");
 	config_settings.set<int>("Left", x_root());
 	config_settings.set<int>("Top", y_root());
 
@@ -161,7 +161,7 @@ void config::enable_widgets() {
 void config::cb_bn_cal(Fl_Widget* w, long arg) {
 	// Find the active tab - assume that tabs_ is child 0
 	config* that = ancestor_view<config>(w);
-	tabs_nonav* tabs_ = (tabs_nonav*)that->child(0);
+	zc_tabs_nonav* tabs_ = (zc_tabs_nonav*)that->child(0);
 	Fl_Widget* active_tab = tabs_->value();
 	// Button selected
 	switch ((cfg_action_t)arg) {

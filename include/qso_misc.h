@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 
 class record;
 class qso_details;
@@ -11,7 +11,7 @@ typedef size_t qso_num_t;
 
 //! This class displays a set of tabs for qso_qth, qso_details, qso_dxcc, qso_qsl_vwr and contest_scorer.
 class qso_misc :
-    public tabs_nonav
+    public zc_tabs_nonav
 {
 public:
 	//! Constructor.

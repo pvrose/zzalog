@@ -4,7 +4,7 @@
 #include <qsl_data.h>
 #include "qsl_dataset.h"
 #include "record.h"
-#include "status.h"
+#include "zc_status.h"
 
 #include <algorithm>
 #include <cerrno>

@@ -2,7 +2,7 @@
 
 #include "adi_reader.h"
 #include "book.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "ident.h"
 #include "menu_bar.h"
 #include "qso_apps.h"
@@ -10,12 +10,12 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "regices.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include "socket_server.h"
 #include "spec_data.h"
-#include "status.h"
-#include "ticker.h"
-#include "utils.h"
+#include "zc_status.h"
+#include "zc_ticker.h"
+#include "zc_utils.h"
 
 #include <cstdint>
 #include <cstdio>
@@ -803,8 +803,8 @@ bool wsjtx_handler::parse_all_txt(record* qso, std::string line) {
 
 // Look for details of the supplied QSO in the "ALL.TXT" file
 bool wsjtx_handler::match_all_txt(record* qso, bool update_qso) {
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
 	std::string temp;
 	behav_settings.get<std::string>("WSJT-X", temp, "");
 	if (temp.length() == 0) {

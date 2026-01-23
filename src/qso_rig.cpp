@@ -1,20 +1,20 @@
 #include "qso_rig.h"
 
 #include "band_data.h"
-#include <callback.h>
-#include <drawing.h>
+#include <zc_callback.h>
+#include <zc_drawing.h>
 #include "field_choice.h"
 #include "file_viewer.h"
-#include "filename_input.h"
+#include "zc_filename_input.h"
 #include "main.h"
 #include "qso_manager.h"
 #include "rig_data.h"
 #include "rig_if.h"
 #include "serial.h"
 #include "spec_data.h"
-#include "status.h"
-#include "ticker.h"
-#include <utils.h>
+#include "zc_status.h"
+#include "zc_ticker.h"
+#include <zc_utils.h>
 
 #include <algorithm>
 #include <cstdio>
@@ -40,7 +40,7 @@
 #include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Slider.H>
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 #include <FL/fl_types.h>
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Widget.H>
@@ -235,7 +235,7 @@ void qso_rig::create_rig_ant(int curr_x, int curr_y) {
 // Create tabbed form for configuration data
 void qso_rig::create_config(int curr_x, int curr_y) {
 	// Tabbed form
-	config_tabs_ = new tabs_nonav(curr_x, curr_y, w() - 2 * GAP, 10);
+	config_tabs_ = new zc_tabs_nonav(curr_x, curr_y, w() - 2 * GAP, 10);
 	config_tabs_->box(FL_BORDER_BOX);
 	config_tabs_->callback(cb_config);
 	config_tabs_->when(FL_WHEN_CHANGED);
@@ -379,7 +379,7 @@ void qso_rig::create_network(int curr_x, int curr_y) {
 	int this_w = network_grp_->w() + network_grp_->x() - curr_x - GAP - GAP;
 
 	// App name (flrig or wfview to connect to rig
-	ip_app_name_ = new filename_input(curr_x, curr_y, this_w, HTEXT);
+	ip_app_name_ = new zc_filename_input(curr_x, curr_y, this_w, HTEXT);
 	ip_app_name_->callback(cb_value<Fl_Input, std::string>, nullptr);
 	ip_app_name_->tooltip("Please provide the command to use to connect");
 	ip_app_name_->value("");
@@ -1582,7 +1582,7 @@ void qso_rig::cb_bn_transverter(Fl_Widget* w, void* v) {
 
 // Show scripts
 void qso_rig::cb_show_app(Fl_Widget* w, void* v) {
-	filename_input* ip = *(filename_input**)v;
+	zc_filename_input* ip = *(zc_filename_input**)v;
 	if (strlen(ip->value()) > 0) {
 		file_viewer* fwin = new file_viewer(640, 480);
 		fwin->load_file(ip->value());

@@ -1,10 +1,10 @@
 #include "stn_data.h"
 
 #include "config.h"
-#include "file_holder.h"
+#include "zc_file_holder.h"
 #include "main.h"
 #include "record.h"
-#include "status.h"
+#include "zc_status.h"
 #include "stn_dialog.h"
 
 #include "nlohmann/json.hpp"

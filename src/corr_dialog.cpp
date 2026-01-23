@@ -1,8 +1,8 @@
 #include "corr_dialog.h"
 
-#include "callback.h"
-#include <drawing.h>
-#include "utils.h"
+#include "zc_callback.h"
+#include <zc_drawing.h>
+#include "zc_utils.h"
 #include "field_choice.h"
 #include "intl_widgets.h"
 #include "record.h"

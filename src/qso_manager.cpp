@@ -1,7 +1,7 @@
 #include "qso_manager.h"
 
 #include "book.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "extract_data.h"
 #include "ident.h"
 #include "import_data.h"
@@ -15,7 +15,7 @@
 #include "qso_buttons.h"
 #include "qso_qsl.h"
 #include "record.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include "stn_data.h"
 
 #include <algorithm>
@@ -177,9 +177,9 @@ void qso_manager::create_form(int X, int Y) {
 // Load values
 void qso_manager::load_values() {
 	// Get position of window
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
 	int left, top;
 	dash_settings.get("Left", left, 0);
 	dash_settings.get("Top", top, 100);
@@ -190,9 +190,9 @@ void qso_manager::load_values() {
 void qso_manager::save_values() {
 
 	// Save window position
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
 	dash_settings.set("Left", x_root());
 	dash_settings.set("Top", y_root());
 

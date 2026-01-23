@@ -8,7 +8,7 @@ enum navigate_t : uchar;
 typedef size_t qso_num_t;
 class record;
 class qso_entry;
-class tabs_nonav;
+class zc_tabs_nonav;
 
 //! This class provides a tabbed collection of qso_entry widgets
 
@@ -83,7 +83,7 @@ public:
 
 protected:
 	//! The tabbed qso_entry widgets.
-	tabs_nonav* entries_;
+	zc_tabs_nonav* entries_;
 
 	
 

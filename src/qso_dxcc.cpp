@@ -9,8 +9,8 @@
 #include "record.h"
 #include "spec_data.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <cmath>
 #include <cstdio>

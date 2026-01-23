@@ -3,7 +3,7 @@
 #include "book.h"
 #include "main.h"
 #include "record.h"
-#include "status.h"
+#include "zc_status.h"
 
 // pugixml
 #include "pugixml.hpp"

@@ -1,8 +1,8 @@
 #include "fields.h"
 
-#include "file_holder.h"
+#include "zc_file_holder.h"
 #include "main.h"
-#include "status.h"
+#include "zc_status.h"
 
 #include <cstdio>
 #include <fstream>

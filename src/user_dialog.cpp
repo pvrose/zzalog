@@ -1,16 +1,16 @@
 #include "user_dialog.h"
 
 #include "book.h"
-#include "callback.h"
-#include "drawing.h"
+#include "zc_callback.h"
+#include "zc_drawing.h"
 #include "log_table.h"
 #include "main.h"
 #include <page_dialog.h>
 #include "report_tree.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include "spec_tree.h"
 #include "tabbed_forms.h"
-#include <utils.h>
+#include <zc_utils.h>
 
 #include <algorithm>
 #include <cctype>
@@ -72,20 +72,20 @@ int user_dialog::handle(int event) {
 
 // Load values from settings
 void user_dialog::load_values() {
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
 	// Log table
-	settings log_settings(&view_settings, "Log Table");
+	zc_settings log_settings(&view_settings, "Log Table");
 	log_settings.get("Font Name", log_font_, log_font_);
 	log_settings.get("Font Size", log_size_, log_size_);
 	log_settings.get("Session Gap", session_elapse_, session_elapse_);
 	// Tooltip
-	settings tip_settings(&view_settings, "Tooltip");
+	zc_settings tip_settings(&view_settings, "Tooltip");
 	tip_settings.get("Duration", tip_duration_, Fl_Tooltip::delay());
 	tip_settings.get("Font Name", tip_font_, Fl_Tooltip::font());
 	tip_settings.get("Font Size", tip_size_, Fl_Tooltip::size());
 	// Tree views
-	settings tree_settings(&view_settings, "Log Table");
+	zc_settings tree_settings(&view_settings, "Log Table");
 	tree_settings.get("Font Name", tree_font_, (Fl_Font)0);
 	tree_settings.get("Font Size", tree_size_, FL_NORMAL_SIZE);
 }
@@ -215,17 +215,17 @@ void user_dialog::create_form(int X, int Y) {
 
 // Used to write settings back
 void user_dialog::save_values() {
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
 	// Log table
-	settings log_settings(&view_settings, "Log Table");
+	zc_settings log_settings(&view_settings, "Log Table");
 	log_settings.set("Font Name", log_font_);
 	log_settings.set("Font Size", log_size_);
 	log_settings.set("Session Gap", session_elapse_);
 	// Tell the log views
 	log_table::set_font(log_font_, log_size_);
 	// Tooltip
-	settings tip_settings(&view_settings, "Tooltip");
+	zc_settings tip_settings(&view_settings, "Tooltip");
 	tip_settings.set("Duration", tip_duration_);
 	tip_settings.set("Font Name", tip_font_);
 	tip_settings.set("Font Size", tip_size_);
@@ -234,7 +234,7 @@ void user_dialog::save_values() {
 	Fl_Tooltip::font(tip_font_);
 	Fl_Tooltip::size(tip_size_);
 	// Tree view settings
-	settings tree_settings(&view_settings, "Log Table");
+	zc_settings tree_settings(&view_settings, "Log Table");
 	tree_settings.set("Font Name", tree_font_);
 	tree_settings.set("Font Size", tree_size_);
 	//((pfx_tree*)tabbed_forms_->get_view(OT_PREFIX))->set_font(tree_font_, tree_size_);

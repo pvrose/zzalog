@@ -1,16 +1,16 @@
 #include "contest_dialog.h"
 
-#include "calendar.h"
-#include "calendar_input.h"
+#include "zc_calendar.h"
+#include "zc_calendar_input.h"
 #include "contest_algorithm.h"
 #include "contest_data.h"
 #include "field_choice.h"
 #include "main.h"
 #include <page_dialog.h>
-#include "settings.h"
+#include "zc_settings.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <chrono>
 #include <ctime>
@@ -70,11 +70,11 @@ int contest_dialog::handle(int event) {
 
 // inherited methods
 
-// Load values from settings
+// Load values from zc_settings
 void contest_dialog::load_values() {
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
-	settings contest_settings( &behav_settings, "Contest");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
+	zc_settings contest_settings( &behav_settings, "Contest");
 	contest_settings.get<std::string>("Current ID", contest_id_, "");
 	contest_settings.get<std::string>("Current Index", contest_index_, "");
 }
@@ -106,7 +106,7 @@ void contest_dialog::create_form(int X, int Y) {
 
 	curr_y += GAP + HBUTTON;
 
-	w_start_date_ = new calendar_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON, "Contest start");
+	w_start_date_ = new zc_calendar_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON, "Contest start");
 	w_start_date_->align(FL_ALIGN_LEFT);
 	w_start_date_->tooltip("Please specify the start date (UTC) of the contest");
 
@@ -117,7 +117,7 @@ void contest_dialog::create_form(int X, int Y) {
 	curr_y += HBUTTON;
 	curr_x = x() + WLLABEL;
 
-	w_finish_date_ = new calendar_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON, "Contest finish");
+	w_finish_date_ = new zc_calendar_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON, "Contest finish");
 	w_finish_date_->align(FL_ALIGN_LEFT);
 	w_finish_date_->tooltip("Please specify the finish date (UTC) of the contest");
 
@@ -132,7 +132,7 @@ void contest_dialog::create_form(int X, int Y) {
 	show();
 }
 
-// Used to write settings back
+// Used to write zc_settings back
 void contest_dialog::save_values() {
 	if (!contest_) contest_ = contest_data_->get_contest(contest_id_, contest_index_, true);
 	if (contest_) {

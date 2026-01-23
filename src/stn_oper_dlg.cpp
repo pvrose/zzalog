@@ -1,11 +1,11 @@
 #include "stn_oper_dlg.h"
 
 #include "book.h"
-#include "drawing.h"
+#include "zc_drawing.h"
 #include "main.h"
-#include "status.h"
+#include "zc_status.h"
 #include "stn_data.h"
-#include "utils.h"
+#include "zc_utils.h"
 
 #include <cstdio>
 #include <map>

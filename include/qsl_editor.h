@@ -3,11 +3,11 @@
 #include "page_dialog.h"
 #include "qsl_data.h"
 
-#include "callback.h"
-#include "utils.h"
+#include "zc_callback.h"
+#include "zc_utils.h"
 
 class field_input;
-class filename_input;
+class zc_filename_input;
 class qsl_display;
 class qsl_widget;
 class record;

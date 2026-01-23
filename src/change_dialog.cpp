@@ -1,11 +1,11 @@
 #include "change_dialog.h"
-#include "callback.h"
+#include "zc_callback.h"
 #include "field_choice.h"
 #include "intl_widgets.h"
 #include "main.h"
 #include "spec_data.h"
-#include <drawing.h>
-#include <utils.h>
+#include <zc_drawing.h>
+#include <zc_utils.h>
 #include <win_dialog.h>
 
 #include <algorithm>

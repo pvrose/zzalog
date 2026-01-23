@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 
 
 
@@ -14,7 +14,7 @@ class rig_if;
 //! Initially only rigs actively connectable are shown, but if a QSO refers to another
 //! that will tehn get shown.
 class qso_tabbed_rigs :
-    public tabs_nonav
+    public zc_tabs_nonav
 {
 public:
 	//! Constructor.

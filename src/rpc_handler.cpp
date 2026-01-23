@@ -3,10 +3,10 @@
 #include "ident.h"
 #include "main.h"
 #include "socket_server.h"
-#include "status.h"
+#include "zc_status.h"
 #include "url_handler.h"
 
-#include "utils.h"
+#include "zc_utils.h"
 
 #include "pugixml.hpp"
 

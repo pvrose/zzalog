@@ -4,7 +4,7 @@
 #include <cty_element.h>
 #include "main.h"
 #include "objects.h"
-#include "status.h"
+#include "zc_status.h"
 
 #include "pugixml.hpp"
 

@@ -6,7 +6,7 @@
 
 
 
-class calendar_input;
+class zc_calendar_input;
 class field_input;
 class Fl_Button;
 class Fl_Choice;
@@ -88,9 +88,9 @@ protected:
 	// Fields
 	Fl_Input_Choice* w_algorithm_;    //!< Choice for algorithm.
 	// Timeframe
-	calendar_input* w_start_date_;    //!< Calendar selector for start date.
+	zc_calendar_input* w_start_date_;    //!< Calendar selector for start date.
 	Fl_Int_Input* w_start_time_;      //!< Input for start time.
-	calendar_input* w_finish_date_;   //!< Calendar selector for finish date.
+	zc_calendar_input* w_finish_date_;   //!< Calendar selector for finish date.
 	Fl_Int_Input* w_finish_time_;     //!< Input for finish time.
 };
 

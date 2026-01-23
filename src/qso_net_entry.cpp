@@ -1,18 +1,18 @@
 #include "qso_net_entry.h"
 
 #include "book.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "main.h"
 #include "qso_entry.h"
 #include "record.h"
-#include "status.h"
-#include <utils.h>
+#include "zc_status.h"
+#include <zc_utils.h>
 
 #include <cstdio>
 
 #include <FL/Enumerations.H>
 #include <FL/Fl_Group.H>
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 // Constructor
@@ -34,7 +34,7 @@ void qso_net_entry::create_form(int X, int Y) {
 	labelfont(FL_BOLD);
 
 	// Tabbed set of qso_entry forms
-	entries_ = new tabs_nonav(X, Y + HTEXT, w(), h());
+	entries_ = new zc_tabs_nonav(X, Y + HTEXT, w(), h());
 	entries_->callback(cb_entries);
 	entries_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);
 	int rx = 0;
@@ -210,7 +210,7 @@ void qso_net_entry::append_qso() {
 
 // Callback on selecting a tab
 void qso_net_entry::cb_entries(Fl_Widget* w, void* v) {
-	tabs_nonav* tabs = (tabs_nonav*)w;
+	zc_tabs_nonav* tabs = (zc_tabs_nonav*)w;
 	qso_net_entry* that = ancestor_view<qso_net_entry>(w);
 	that->enable_widgets();
 	qso_entry* qe = (qso_entry*)tabs->value();

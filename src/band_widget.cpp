@@ -4,8 +4,8 @@
 #include "band_data.h"
 #include "main.h"
 #include "spec_data.h"
-#include "status.h"
-#include "drawing.h"
+#include "zc_status.h"
+#include "zc_drawing.h"
 
 #include <algorithm>
 #include <cfloat>

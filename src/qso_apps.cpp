@@ -1,20 +1,20 @@
 #include "qso_apps.h"
 
-#include "file_holder.h"
+#include "zc_file_holder.h"
 #include "file_viewer.h"
-#include "filename_input.h"
+#include "zc_filename_input.h"
 #include "fldigi_handler.h"
 #include "main.h"
-#include "password_input.h"
+#include "zc_password_input.h"
 #include "qso_manager.h"
 #include "qso_rig.h"
-#include "settings.h"
-#include "status.h"
+#include "zc_settings.h"
+#include "zc_status.h"
 #include "wsjtx_handler.h"
 
-#include "callback.h"
-#include "drawing.h"
-#include "utils.h"
+#include "zc_callback.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -34,7 +34,7 @@
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Radio_Light_Button.H>
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 using json = nlohmann::json;
@@ -173,7 +173,7 @@ void app_grp::create_form() {
     curr_x += WBUTTON / 2;
 
     // Input to specify the command for invoking the app
-    ip_app_name_ = new filename_input(curr_x, curr_y, WBUTTON * 2, HBUTTON);
+    ip_app_name_ = new zc_filename_input(curr_x, curr_y, WBUTTON * 2, HBUTTON);
     ip_app_name_->callback(cb_ip_app);
     ip_app_name_->tooltip("Enter the command to invoke the app for the selected rig");
     ip_app_name_->when(FL_WHEN_CHANGED);
@@ -199,7 +199,7 @@ void app_grp::create_form() {
     curr_x += WBUTTON / 2;
 
     // The script needed to disconnect
-    ip_disable_app_ = new filename_input(curr_x, curr_y, WBUTTON * 2, HBUTTON);
+    ip_disable_app_ = new zc_filename_input(curr_x, curr_y, WBUTTON * 2, HBUTTON);
     ip_disable_app_->callback(cb_ip_disable);
     ip_disable_app_->tooltip("Enter the command to disconnect the application");
     ip_disable_app_->when(FL_WHEN_CHANGED);
@@ -218,7 +218,7 @@ void app_grp::create_form() {
     curr_x += WBUTTON;
 
     // Password input
-    ip_passw_ = new password_input(curr_x, curr_y, WBUTTON * 2, HBUTTON);
+    ip_passw_ = new zc_password_input(curr_x, curr_y, WBUTTON * 2, HBUTTON);
     ip_passw_->tooltip("Enter the administrator's password");
     ip_passw_->value("");
     ip_passw_->callback(cb_ip_passw);
@@ -505,7 +505,7 @@ void app_grp::cb_ip_passw(Fl_Widget* w, void* v) {
 // Show scripts
 void app_grp::cb_show_script(Fl_Widget* w, void* v) {
     app_grp* that = ancestor_view<app_grp>(w);
-    filename_input* ip = *(filename_input**)v;
+    zc_filename_input* ip = *(zc_filename_input**)v;
     std::string fn = ip->value();
     qso_apps* qa = ancestor_view<qso_apps>(that);
     file_viewer* fwin = qa->viewer();
@@ -621,9 +621,9 @@ int qso_apps::handle(int event) {
         status_->misc_status(ST_OK, msg);
     }
     // Load default tab value
-    settings top_settings;
-    settings view_settings(&top_settings, "Views");
-    settings dash_settings(&view_settings, "Dashboard");
+    zc_settings top_settings;
+    zc_settings view_settings(&top_settings, "Views");
+    zc_settings dash_settings(&view_settings, "Dashboard");
     dash_settings.get("Default App", default_tab_, std::string(""));
 }
 
@@ -699,7 +699,7 @@ void qso_apps::create_form() {
 
     curr_x = x() + GAP;
 
-    tabs_ = new tabs_nonav(curr_x, curr_y, avail_w, avail_h);
+    tabs_ = new zc_tabs_nonav(curr_x, curr_y, avail_w, avail_h);
     tabs_->box(FL_BORDER_BOX);
  	tabs_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);
     create_tabs();
@@ -736,9 +736,9 @@ void qso_apps::save_values() {
     file_holder_->get_file(FILE_APPS, o, filename);
     o << std::setw(4) << jout << '\n';
     o.close();
-    settings top_settings;
-    settings view_settings(&top_settings, "Views");
-    settings dash_settings(&view_settings, "Dashboard");
+    zc_settings top_settings;
+    zc_settings view_settings(&top_settings, "Views");
+    zc_settings dash_settings(&view_settings, "Dashboard");
     // Find the current selected tab and save its index
     if (tabs_->value()) {
         dash_settings.set("Default App", std::string(tabs_->value()->label()));

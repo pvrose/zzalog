@@ -6,7 +6,7 @@
 #include <FL/Fl_Menu_Bar.H>
 
 class book;
-class status;
+class zc_status;
 class extract_data;
 struct search_criteria_t;
 

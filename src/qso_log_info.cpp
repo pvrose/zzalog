@@ -2,10 +2,10 @@
 
 #include "book.h"
 #include "main.h"
-#include "ticker.h"
+#include "zc_ticker.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <algorithm>
 

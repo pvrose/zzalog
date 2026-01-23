@@ -1,9 +1,9 @@
 #include "band_data.h"
 
 #include "band.h"
-#include "file_holder.h"
+#include "zc_file_holder.h"
 #include "main.h"
-#include "status.h"
+#include "zc_status.h"
 #include "spec_data.h"
 
 #include "nlohmann/json.hpp"

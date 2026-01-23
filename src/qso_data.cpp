@@ -4,7 +4,7 @@
 #include "config.h"
 #include "contest_scorer.h"
 #include "cty_data.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "extract_data.h"
 #include <fields.h>
 #include "import_data.h"
@@ -22,10 +22,10 @@
 #include "qso_query.h"
 #include "record.h"
 #include "rig_if.h"
-#include "status.h"
+#include "zc_status.h"
 #include "spec_data.h"
 #include "tabbed_forms.h"
-#include "utils.h"
+#include "zc_utils.h"
 #include "wsjtx_handler.h"
 
 

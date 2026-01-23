@@ -1,7 +1,7 @@
 #ifndef __VIEW__
 #define __VIEW__
 
-#include "drawing.h"
+#include "zc_drawing.h"
 
 #include <map>
 #include <string>

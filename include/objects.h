@@ -1,6 +1,6 @@
 #pragma once
 
-#include <status.h>
+#include <zc_status.h>
 //! \file
 //! Contains parameters used to present data about various ZZALOG objects
 

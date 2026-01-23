@@ -1,21 +1,21 @@
 #include "qso_misc.h"
 
 #include "contest_scorer.h"
-#include "drawing.h"
+#include "zc_drawing.h"
 #include "qso_details.h"
 #include "qso_dxcc.h"
 #include "qso_qsl_vwr.h"
 #include "record.h"
-#include "settings.h"
-#include <utils.h>
+#include "zc_settings.h"
+#include <zc_utils.h>
 
 #include <FL/Enumerations.H>
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 // Constructor
 qso_misc::qso_misc(int X, int Y, int W, int H, const char* L) :
-	tabs_nonav(X, Y, W, H, L)
+	zc_tabs_nonav(X, Y, W, H, L)
 {
 	box(FL_BORDER_BOX);
 	handle_overflow(OVERFLOW_PULLDOWN);
@@ -31,9 +31,9 @@ qso_misc::~qso_misc() {
 // get settings
 void qso_misc::load_values() {
 	// Load default tab value
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
 	dash_settings.get("Default Miscellaneous", default_tab_, 0);
 }
 
@@ -87,9 +87,9 @@ void qso_misc::enable_widgets() {
 
 // save value
 void qso_misc::save_values() {
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
 	// Find the current selected tab and save its index
 	Fl_Widget* w = value();
 	for (int ix = 0; ix != children(); ix++) {

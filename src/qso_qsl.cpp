@@ -1,9 +1,9 @@
 #include "qso_qsl.h"
 
 #include "book.h"
-#include "callback.h"
+#include "zc_callback.h"
 #include "club_handler.h"
-#include "drawing.h"
+#include "zc_drawing.h"
 #include "eqsl_handler.h"
 #include "extract_data.h"
 #include "import_data.h"
@@ -21,10 +21,10 @@
 #include "qso_data.h"
 #include "qso_manager.h"
 #include <spec_data.h>
-#include "status.h"
+#include "zc_status.h"
 #include "tabbed_forms.h"
-#include "ticker.h"
-#include <utils.h>
+#include "zc_ticker.h"
+#include <zc_utils.h>
 
 
 #include <cstdio>

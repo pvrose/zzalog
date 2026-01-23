@@ -12,7 +12,7 @@ class Fl_Group;
 class Fl_Input;
 class Fl_Input_Choice;
 class Fl_Multiline_Input;
-class tabs_nonav;
+class zc_tabs_nonav;
 class Fl_Widget;
 
 class init_dialog;
@@ -80,7 +80,7 @@ protected:
 	record* qso_;
 
 	Fl_Box* message_;           //!< Message 
-	tabs_nonav* tabs_;             //!< Tabs:
+	zc_tabs_nonav* tabs_;             //!< Tabs:
 	init_dialog* g_defs_;       //!< Tab: Defaults dislog 
 	stn_qth_dlg* g_qth_;        //!< Tab: Location editing
 	stn_oper_dlg* g_oper_;      //!< Tab: Operator editing.

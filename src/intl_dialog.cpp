@@ -1,15 +1,15 @@
 ﻿#include "intl_dialog.h"
 
-#include <drawing.h>
-#include "file_holder.h"
+#include <zc_drawing.h>
+#include "zc_file_holder.h"
 #include "ident.h"
 #include "main.h"
 #include "menu_bar.h"
-#include "status.h"
+#include "zc_status.h"
 #include <win_dialog.h>
 
-#include "callback.h"
-#include "utils.h"
+#include "zc_callback.h"
+#include "zc_utils.h"
 
 #include <fstream>
 #include <string>

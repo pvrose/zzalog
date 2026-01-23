@@ -1,9 +1,9 @@
 #include "qso_entry.h"
 
 #include "book.h"
-#include <callback.h>
+#include <zc_callback.h>
 #include "contest_scorer.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "field_choice.h"
 #include "fields.h"
 #include "intl_widgets.h"
@@ -15,10 +15,10 @@
 #include "record.h"
 #include "rig_if.h"
 #include "spec_data.h"
-#include "status.h"
+#include "zc_status.h"
 #include "tabbed_forms.h"
-#include "ticker.h"
-#include <utils.h>
+#include "zc_ticker.h"
+#include <zc_utils.h>
 
 #include <algorithm>
 #include <cmath>

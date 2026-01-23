@@ -1,7 +1,7 @@
 
 #include "record_table.h"
 
-#include "drawing.h"
+#include "zc_drawing.h"
 #include "fields.h"
 #include "main.h"
 #include "record.h"

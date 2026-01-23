@@ -20,12 +20,12 @@
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
 #include <FL/Fl_Group.H>
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 // Constructor
 tabbed_forms::tabbed_forms(int X, int Y, int W, int H, const char* label) :
-	tabs_nonav(X, Y, W, H, label)
+	zc_tabs_nonav(X, Y, W, H, label)
 {	
 	handle_overflow(OVERFLOW_PULLDOWN);
 	forms_.clear();

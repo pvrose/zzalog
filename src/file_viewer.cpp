@@ -1,9 +1,9 @@
 #include "file_viewer.h"
 #include "main.h"
-#include "status.h"
+#include "zc_status.h"
 
-#include "utils.h"
-#include "drawing.h"
+#include "zc_utils.h"
+#include "zc_drawing.h"
 
 #include <cstdio>
 #include <cstdlib>

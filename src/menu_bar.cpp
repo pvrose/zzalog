@@ -1,16 +1,16 @@
 #include "menu_bar.h"
 
-#include "callback.h"
-#include "utils.h"
+#include "zc_callback.h"
+#include "zc_utils.h"
 
 #include "about_dialog.h"
-#include "banner.h"
+#include "zc_banner.h"
 #include "book.h"
-#include "calendar.h"
+#include "zc_calendar.h"
 #include "change_dialog.h"
 #include "config.h"
 #include "cty_data.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "eqsl_handler.h"
 #include "extract_data.h"
 #include "import_data.h"
@@ -26,9 +26,9 @@
 #include <search.h>
 #include "search_dialog.h"
 #include "spec_data.h"
-#include "status.h"
+#include "zc_status.h"
 #include "tabbed_forms.h"
-#include "ticker.h"
+#include "zc_ticker.h"
 #include "toolbar.h"
 #include <view.h>
 #include <win_dialog.h>
@@ -554,9 +554,9 @@ void menu_bar::cb_mi_nav_date(Fl_Widget* w, void* v) {
 	std::string date;
 	if (qso) date = qso->item("QSO_DATE");
 	else date = now(false, "%Y%m%d");
-	calendar* cal = new calendar(Fl::event_x_root(), Fl::event_y_root());
+	zc_calendar* cal = new zc_calendar(Fl::event_x_root(), Fl::event_y_root());
 	cal->value(date.c_str());
-	cal->callback(cb_value<calendar, std::string>, &date);
+	cal->callback(cb_value<zc_calendar, std::string>, &date);
 	cal->show();
 	Fl_Widget_Tracker wt(cal);
 	while (wt.exists()) Fl::check();

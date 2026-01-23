@@ -1,9 +1,9 @@
 #include "qsl_editor.h"
 
-#include <callback.h>
-#include <drawing.h>
+#include <zc_callback.h>
+#include <zc_drawing.h>
 #include "field_choice.h"
-#include "filename_input.h"
+#include "zc_filename_input.h"
 #include "font_dialog.h"
 #include "intl_widgets.h"
 #include "main.h"
@@ -15,11 +15,11 @@
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "settings.h"
-#include "status.h"
+#include "zc_settings.h"
+#include "zc_status.h"
 #include <win_dialog.h>
 
-#include "utils.h"
+#include "zc_utils.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -122,9 +122,9 @@ void qsl_editor::load_values() {
 	}
 	qsl_type_ = qsl_data::LABEL;
 	// Get the display window position
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings qsl_win_settings(&view_settings, "QSL Design");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings qsl_win_settings(&view_settings, "QSL Design");
 	qsl_win_settings.get("Top", win_y_, 10);
 	qsl_win_settings.get("Left", win_x_, 10);
 
@@ -423,9 +423,9 @@ void qsl_editor::resize() {
 void qsl_editor::save_values() {
 
 	// Sabe the display window position
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings qsl_win_settings(&view_settings, "QSL Design");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings qsl_win_settings(&view_settings, "QSL Design");
 	qsl_win_settings.set("Top", win_y_);
 	qsl_win_settings.set("Left", win_x_);
 	qsl_dataset_->save_data();
@@ -760,12 +760,12 @@ void qsl_editor::create_iparams(int& curr_x, int& curr_y, qsl_data::image_def* i
 	curr_x += i_dy->w() + GAP;
 
 	// Input - image filename
-	filename_input* i_filename = new filename_input(curr_x, curr_y, WEDIT + HBUTTON, HBUTTON);
+	zc_filename_input* i_filename = new zc_filename_input(curr_x, curr_y, WEDIT + HBUTTON, HBUTTON);
 	i_filename->callback(cb_image, image);
 	i_filename->when(FL_WHEN_CHANGED);
 	i_filename->value(image->filename.c_str());
 	i_filename->tooltip("Location of image file");
-	i_filename->type(filename_input::FILE);
+	i_filename->type(zc_filename_input::FILE);
 	i_filename->title("Please select image file");
 	i_filename->pattern("Image Files\t*.{png,bmp,jpg}");
 

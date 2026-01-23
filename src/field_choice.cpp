@@ -2,7 +2,7 @@
 #include "main.h"
 #include "spec_data.h"
 #include "intl_dialog.h"
-#include "utils.h"
+#include "zc_utils.h"
 #include "cty_data.h"
 #include "qso_entry.h"
 

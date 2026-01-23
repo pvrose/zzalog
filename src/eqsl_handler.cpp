@@ -8,14 +8,14 @@
 #include "qso_manager.h"
 #include "qso_qsl.h"
 #include "record.h"
-#include "settings.h"
-#include "status.h"
+#include "zc_settings.h"
+#include "zc_status.h"
 #include "stn_data.h"
-#include "ticker.h"
+#include "zc_ticker.h"
 #include "url_handler.h"
 
-#include <drawing.h>
-#include "utils.h"
+#include <zc_drawing.h>
+#include "zc_utils.h"
 
 #include <chrono>
 #include <cstdint>
@@ -297,8 +297,8 @@ std::string eqsl_handler::card_filename_l(record* record, bool use_default) {
 		stn_data_->defaults().callsign : record->item("STATION_CALLSIGN");
 	de_slash(station);
 	// Location of top-directory for QSL card images
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
 	std::string qsl_directory;
 	behav_settings.get<std::string>("QSL Cards", qsl_directory, "");
 	// If the directory name is not defined, open a chooser to get it.

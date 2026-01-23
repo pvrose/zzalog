@@ -1,15 +1,15 @@
 #include "web_dialog.h"
 
-#include "calendar_input.h"
-#include <callback.h>
-#include "drawing.h"
+#include "zc_calendar_input.h"
+#include <zc_callback.h>
+#include "zc_drawing.h"
 #include "intl_widgets.h"
 #include "main.h"
 #include <page_dialog.h>
-#include "password_input.h"
+#include "zc_password_input.h"
 #include "qsl_dataset.h"
 #include "spec_data.h"
-#include "utils.h"
+#include "zc_utils.h"
 
 #include <string>
 
@@ -22,7 +22,7 @@
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Select_Browser.H>
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 // Constructor
@@ -121,7 +121,7 @@ void web_dialog::create_form(int X, int Y) {
 	box(FL_FLAT_BOX);
 
 	// Create a FL_Tabs
-	tabs_nonav* tabs = new tabs_nonav(X +GAP, Y + GAP, w() - GAP - GAP, h() - GAP - GAP);
+	zc_tabs_nonav* tabs = new zc_tabs_nonav(X +GAP, Y + GAP, w() - GAP - GAP, h() - GAP - GAP);
 	tabs->callback(cb_tab);
 	tabs->box(FL_FLAT_BOX);
 
@@ -196,7 +196,7 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 
 	// Row 1 Col 5 - Password entry field
 	curr_x += WSMEDIT + GAP;
-	password_input* in1_1_5 = new password_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON, "Password");
+	zc_password_input* in1_1_5 = new zc_password_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON, "Password");
 	in1_1_5->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in1_1_5->value(eqsl_data_->password.c_str());
 	in1_1_5->callback(cb_value<Fl_Input, std::string>, &eqsl_data_->password);
@@ -256,7 +256,7 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 		bn_use->tooltip("Select to allow access for this book");
 
 		curr_x += HBUTTON + GAP;
-		calendar_input* ip_lastdl = new calendar_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON);
+		zc_calendar_input* ip_lastdl = new zc_calendar_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON);
 		ip_lastdl->value(it->second->last_download.c_str());
 		ip_lastdl->callback(cb_value<intl_input, std::string>, &it->second->last_download);
 		ip_lastdl->tooltip("The date of the last download");
@@ -339,7 +339,7 @@ void web_dialog::create_lotw(int rx, int ry, int rw, int rh) {
 	gp2->align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_INSIDE);
 
 	// Row 1 Col 2 - Date last accessed
-	calendar_input* in2_1_2 = new calendar_input(C2, R2_1, W2, H2_1, "Last accessed");
+	zc_calendar_input* in2_1_2 = new zc_calendar_input(C2, R2_1, W2, H2_1, "Last accessed");
 	in2_1_2->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in2_1_2->value(lotw_data_->last_downloaded.c_str());
 	in2_1_2->callback(cb_value<intl_input, std::string>, &lotw_data_->last_downloaded);
@@ -355,7 +355,7 @@ void web_dialog::create_lotw(int rx, int ry, int rw, int rh) {
 	in2_1_4->tooltip("Enter user name for Logbook of the World");
 
 	// Row 1 Col 5 - Password entry field
-	password_input* in2_1_5 = new password_input(C5, R2_1, W5 + W6, H2_1, "Password");
+	zc_password_input* in2_1_5 = new zc_password_input(C5, R2_1, W5 + W6, H2_1, "Password");
 	in2_1_5->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in2_1_5->value(lotw_data_->password.c_str());
 	in2_1_5->callback(cb_value<Fl_Input, std::string>, &lotw_data_->password);
@@ -425,7 +425,7 @@ void web_dialog::create_qrz(int rx, int ry, int rw, int rh) {
 	curr_x += WSMEDIT + GAP;
 
 	// Row 1 Col 5 - Password entry field
-	password_input* in3_1_5 = new password_input(curr_x, curr_y, WSMEDIT, HBUTTON, "Password");
+	zc_password_input* in3_1_5 = new zc_password_input(curr_x, curr_y, WSMEDIT, HBUTTON, "Password");
 	in3_1_5->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in3_1_5->value(qrz_data_->password.c_str());
 	in3_1_5->callback(cb_value<Fl_Input, std::string>, &qrz_data_->password);
@@ -499,12 +499,12 @@ void web_dialog::create_qrz(int rx, int ry, int rw, int rh) {
 		Fl_Group* grp_api = new Fl_Group(XKEY, curr_y, WKEY + WLASTID + WLASTDL, HBUTTON);
 		grp_api->box(FL_FLAT_BOX);
 
-		password_input* ip_key = new password_input(XKEY, curr_y, WKEY, HBUTTON);
+		zc_password_input* ip_key = new zc_password_input(XKEY, curr_y, WKEY, HBUTTON);
 		ip_key->value(it->second->key.c_str());
 		ip_key->callback(cb_value<Fl_Input, std::string>, &it->second->key);
 		ip_key->tooltip("Enter the QRZ.com API key for logbook");
 
-		calendar_input* ip_lastdl = new calendar_input(XLASTDL, curr_y, WLASTDL, HBUTTON);
+		zc_calendar_input* ip_lastdl = new zc_calendar_input(XLASTDL, curr_y, WLASTDL, HBUTTON);
 		ip_lastdl->value(it->second->last_download.c_str());
 		ip_lastdl->callback(cb_value<intl_input, std::string>, &it->second->last_download);
 		ip_lastdl->tooltip("The date of the last download");
@@ -566,7 +566,7 @@ void web_dialog::create_club(int rx, int ry, int rw, int rh) {
 	in4_1_4->tooltip("Enter e-mail address for ClubLog");
 
 	// Row 1 Col 5 - Password entry field
-	password_input* in4_1_5 = new password_input(C5, R4_1, W5, H4_1, "Password");
+	zc_password_input* in4_1_5 = new zc_password_input(C5, R4_1, W5, H4_1, "Password");
 	in4_1_5->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in4_1_5->value(club_data_->password.c_str());
 	in4_1_5->callback(cb_value<Fl_Input, std::string>, &club_data_->password);
@@ -628,7 +628,7 @@ void web_dialog::create_email(int rx, int ry, int rw, int rh) {
 	ip62->tooltip("Please enter the account for the SMTP server (usually an e-mail address)");
 	
 	curr_y += HBUTTON;
-	password_input* ip63 = new password_input(curr_x, curr_y, WSMEDIT, HBUTTON, "Password");
+	zc_password_input* ip63 = new zc_password_input(curr_x, curr_y, WSMEDIT, HBUTTON, "Password");
 	ip63->align(FL_ALIGN_LEFT);
 	ip63->value(email_data_->password.c_str());
 	ip63->callback(cb_value< Fl_Input, std::string >, &email_data_->password);
@@ -750,7 +750,7 @@ void web_dialog::enable_widgets() {
 	}
 	// Standard tab formats
 	// value() returns the selected widget. We need to test which widget it is.
-	tabs_nonav* tabs = (tabs_nonav*)child(0);
+	zc_tabs_nonav* tabs = (zc_tabs_nonav*)child(0);
 	Fl_Widget* tab = tabs->value();
 	for (int ix = 0; ix < tabs->children(); ix++) {
 		Fl_Widget* wx = tabs->child(ix);

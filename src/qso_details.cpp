@@ -1,14 +1,14 @@
 #include "qso_details.h"
 
 #include "book.h"
-#include "drawing.h"
+#include "zc_drawing.h"
 #include "main.h"
 #include "qso_data.h"
 #include "record.h"
 #include "regices.h"
 #include "spec_data.h"
-#include "status.h"
-#include <utils.h>
+#include "zc_status.h"
+#include <zc_utils.h>
 
 #include <cstdio>
 #include <regex>

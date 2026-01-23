@@ -2,12 +2,12 @@
 
 #include "main.h"
 #include "record.h"
-#include "status.h"
+#include "zc_status.h"
 #include "stn_data.h"
 #include "stn_dialog.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <cstdio>
 #include <map>

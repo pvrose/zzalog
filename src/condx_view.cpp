@@ -1,17 +1,17 @@
 #include "condx_view.h"
 
-#include "file_holder.h"
+#include "zc_file_holder.h"
 #include "main.h"
 #include "qso_manager.h"
 #include "qso_wx.h"
-#include "settings.h"
-#include "status.h"
-#include "ticker.h"
+#include "zc_settings.h"
+#include "zc_status.h"
+#include "zc_ticker.h"
 #include "url_handler.h"
 
-#include "drawing.h"
+#include "zc_drawing.h"
 #include "pugixml.hpp"
-#include "utils.h"
+#include "zc_utils.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -28,7 +28,7 @@
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Output.H>
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 Fl_Color COLOUR_BAD = FL_RED;         //!< Use for bad stuff
@@ -95,11 +95,11 @@ bool condx_view::load_data() {
 	std::string filename = file_holder_->get_filename(FILE_SOLAR);
 
 	// Check if saved file is > 1 hour old
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
-	settings condx_settings(&dash_settings, "Conditions");
-	settings solar_settings(&condx_settings, "Solar");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
+	zc_settings condx_settings(&dash_settings, "Conditions");
+	zc_settings solar_settings(&condx_settings, "Solar");
 	time_t when;
 	solar_settings.get<time_t>("Timestamp", when, 0);
 	time_t now = time(nullptr);
@@ -198,7 +198,7 @@ bool condx_view::load_data() {
 //! Instantiate component widgets
 void condx_view::create_form() {
 	box(FL_BORDER_BOX);
-	w_tabs_ = new tabs_nonav(x(), y(), w(), h() - HBUTTON);
+	w_tabs_ = new zc_tabs_nonav(x(), y(), w(), h() - HBUTTON);
 	w_tabs_->labeltype(FL_NO_LABEL);
 	w_tabs_->box(FL_BORDER_BOX);
 	w_tabs_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);
@@ -631,7 +631,7 @@ void condx_view::cb_ticker(void* v) {
 
 // Callback on switching tab
 void condx_view::cb_tabs(Fl_Widget* w, void* v) {
-	tabs_nonav* that = (tabs_nonav*)w;
+	zc_tabs_nonav* that = (zc_tabs_nonav*)w;
 	that->label(that->value()->label());
 	condx_view* cx = ancestor_view<condx_view>(that);
 	cx->enable_widgets();

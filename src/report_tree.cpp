@@ -1,9 +1,9 @@
 #include "report_tree.h"
 
 #include "book.h"
-#include "callback.h"
+#include "zc_callback.h"
 #include "cty_data.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "extract_data.h"
 #include <fields.h>
 #include "main.h"
@@ -11,11 +11,11 @@
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include "spec_data.h"
-#include "status.h"
+#include "zc_status.h"
 #include "tabbed_forms.h"
-#include "utils.h"
+#include "zc_utils.h"
 #include <view.h>
 
 #include <cstdio>
@@ -48,9 +48,9 @@ report_tree::report_tree(int X, int Y, int W, int H, const char* label, field_ap
 	, custom_field_("")
 {
 	map_order_.clear();
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings tree_settings(&view_settings, "Tree Views");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings tree_settings(&view_settings, "Tree Views");
 	tree_settings.get("Font Name", font_, 0);
 	tree_settings.get("Font Size", fontsize_, FL_NORMAL_SIZE);
 
@@ -59,7 +59,7 @@ report_tree::report_tree(int X, int Y, int W, int H, const char* label, field_ap
 	item_labelfont(font_);
 	item_labelsize(fontsize_);
 	// Get initial filter
-	settings report_settings(&view_settings, "Report");
+	zc_settings report_settings(&view_settings, "Report");
 	report_settings.get("Filter", filter_, RF_NONE);
 	callback(cb_tree_report);
 	delete_tree();
@@ -853,9 +853,9 @@ void report_tree::update_status() {
 // Add filter - and redraw
 void report_tree::add_filter(report_filter_t filter) {
 	filter_ = filter;
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings report_settings(&view_settings, "Report");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings report_settings(&view_settings, "Report");
 	report_settings.set("Filter", filter_);
 	populate_tree(true);
 	redraw();
@@ -928,9 +928,9 @@ void report_tree::add_category(int level, report_cat_t category, std::string cus
 		// Update menu
 		menu_bar_->report_mode(map_order_, filter_);
 		// Update settings
-		settings top_settings;
-		settings view_settings(&top_settings, "Views");
-		settings report_settings(&view_settings, "Report");
+		zc_settings top_settings;
+		zc_settings view_settings(&top_settings, "Views");
+		zc_settings report_settings(&view_settings, "Report");
 		report_settings.set("Levels", map_order_);
 		//level_settings.clear();
 		//for (size_t i = 0; i < map_order_.size(); i++) {

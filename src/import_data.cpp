@@ -4,7 +4,7 @@
 #include <book.h>
 #include "club_handler.h"
 #include "cty_data.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
 #include "main.h"
@@ -12,10 +12,10 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "spec_data.h"
-#include "status.h"
+#include "zc_status.h"
 #include "tabbed_forms.h"
 
-#include "utils.h"
+#include "zc_utils.h"
 
 #include <chrono>
 #include <cstdio>

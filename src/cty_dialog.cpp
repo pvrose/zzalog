@@ -1,11 +1,11 @@
 #include "cty_dialog.h"
 
 #include "cty_data.h"
-#include "file_holder.h"
+#include "zc_file_holder.h"
 #include "main.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <chrono>
 #include <ctime>

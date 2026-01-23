@@ -13,7 +13,7 @@
 //! \copyright Philip Rose GM3ZZA 2018-2025. All rights reserved.
 //!
 //! ZZALOG is based in part on the work of the FLTK project <A HREF=https://www.fltk.org>https://www.fltk.org</A>.
-#include "file_holder.h"
+#include "zc_file_holder.h"
 
 #include "hamlib/rig.h"
 
@@ -42,11 +42,11 @@ class qso_manager;
 class record;
 class rig_data;
 class spec_data;
-class status;
+class zc_status;
 class stn_data;
 class stn_window;
 class tabbed_forms;
-class ticker;
+class zc_ticker;
 class toolbar;
 class url_handler;
 class wsjtx_handler;
@@ -182,7 +182,7 @@ extern spec_data* spec_data_;
 extern stn_data* stn_data_;
 extern stn_window* stn_window_;
 extern tabbed_forms* tabbed_forms_;
-extern ticker* ticker_;
+extern zc_ticker* ticker_;
 extern toolbar* toolbar_;
 extern url_handler* url_handler_;
 extern wsjtx_handler* wsjtx_handler_;

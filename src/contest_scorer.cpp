@@ -8,9 +8,9 @@
 #include "main.h"
 #include "qso_data.h"
 #include "record.h"
-#include "settings.h"
+#include "zc_settings.h"
 
-#include "utils.h"
+#include "zc_utils.h"
 
 #include <cstdio>
 #include <ctime>
@@ -27,7 +27,7 @@
 #include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Widget.H>
-#include <drawing.h>
+#include <zc_drawing.h>
 
 contest_scorer::contest_scorer(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L)
@@ -77,9 +77,9 @@ int contest_scorer::handle(int event) {
 }
 
 void contest_scorer::load_data() {
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
-	settings contest_settings(&behav_settings, "Contest");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
+	zc_settings contest_settings(&behav_settings, "Contest");
 	contest_settings.get<std::string>("Contest", contest_id_, "");
 	contest_settings.get<std::string>("Index", contest_index_, "");
 	contest_settings.get<contest_scorer::ct_status>("Active", contest_status_, NO_CONTEST);
@@ -235,9 +235,9 @@ void contest_scorer::create_form() {
 }
 
 void contest_scorer::save_data() const {
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
-	settings contest_settings(&behav_settings, "Contest");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
+	zc_settings contest_settings(&behav_settings, "Contest");
 	contest_settings.set("Contest", contest_id_);
 	contest_settings.set("Index", contest_index_);
 	contest_settings.set<contest_scorer::ct_status>("Active", contest_status_);

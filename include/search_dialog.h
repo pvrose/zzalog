@@ -2,7 +2,7 @@
 #define __SEARCH_DIALOG__
 
 #include "win_dialog.h"
-#include "callback.h"
+#include "zc_callback.h"
 #include "search.h"
 
 #include <string>

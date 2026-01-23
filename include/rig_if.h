@@ -1,8 +1,8 @@
 #ifndef __RIG_IF__
 #define __RIG_IF__
 
-#include "callback.h"
-#include "utils.h"
+#include "zc_callback.h"
+#include "zc_utils.h"
 
 // hamlib icludes
 #include "hamlib/rig.h"

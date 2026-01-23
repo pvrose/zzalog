@@ -4,13 +4,13 @@
 #include "book.h"
 #include "corr_dialog.h"
 #include "cty_data.h"
-#include <drawing.h>
-#include "file_holder.h"
+#include <zc_drawing.h>
+#include "zc_file_holder.h"
 #include "main.h"
 #include "record.h"
 #include "regices.h"
-#include "status.h"
-#include "utils.h"
+#include "zc_status.h"
+#include "zc_utils.h"
 #include <win_dialog.h>
 
 #include "nlohmann/json.hpp"

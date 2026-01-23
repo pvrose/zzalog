@@ -1,16 +1,16 @@
 #include "search_dialog.h"
 
 #include "band.h"
-#include "calendar_input.h"
-#include <callback.h>
+#include "zc_calendar_input.h"
+#include <zc_callback.h>
 #include "cty_data.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "field_choice.h"
 #include "ident.h"
 #include <search.h>
-#include "settings.h"
+#include "zc_settings.h"
 #include "spec_data.h"
-#include "utils.h"
+#include "zc_utils.h"
 #include <win_dialog.h>
 
 #include <algorithm>
@@ -209,14 +209,14 @@ search_dialog::search_dialog() :
 	bn21->value(criteria_->by_dates);
 	bn21->tooltip("Use date range to limit records to match");
 	// Input - Start date
-	calendar_input* in22 = new calendar_input(C212, R21, W212 + HBUTTON, HTEXT, "From:");
+	zc_calendar_input* in22 = new zc_calendar_input(C212, R21, W212 + HBUTTON, HTEXT, "From:");
 	in22->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in22->value(criteria_->from_date.c_str());
 	in22->callback(cb_value<Fl_Input, std::string>, &criteria_->from_date);
 	in22->when(FL_WHEN_CHANGED);
 	in22->tooltip("Select date to start matching records");
 	// Input - End date
-	calendar_input* in24 = new calendar_input(C214, R21, W214 + HBUTTON , HTEXT, "To:");
+	zc_calendar_input* in24 = new zc_calendar_input(C214, R21, W214 + HBUTTON , HTEXT, "To:");
 	in24->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in24->value(criteria_->to_date.c_str());
 	in24->callback(cb_value<Fl_Input, std::string>, &criteria_->to_date);
@@ -416,9 +416,9 @@ void search_dialog::load_values() {
 	criteria_ = new search_criteria_t;
 	criteria_->from_date = "";
 	// Get previous criteria from settings
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
-	settings search_settings(&behav_settings, "Search");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
+	zc_settings search_settings(&behav_settings, "Search");
 	search_settings.get("By Dates", criteria_->by_dates, false);
 	search_settings.get("By Comparison", criteria_->comparator, XP_EQ);
 	search_settings.get("Confirmed Card", criteria_->confirmed_card, false);
@@ -472,9 +472,9 @@ void search_dialog::save_values() {
 		break;
 	}
 	// Save criteria in settings
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
-	settings search_settings(&behav_settings, "Search");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
+	zc_settings search_settings(&behav_settings, "Search");
 	search_settings.set("By Dates", criteria_->by_dates);
 	search_settings.set("By Comparison", criteria_->comparator);
 	search_settings.set("Confirmed Card", criteria_->confirmed_card);

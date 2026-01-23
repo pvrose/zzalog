@@ -3,7 +3,7 @@
 #include "contest_algorithm.h"
 #include "record.h"
 #include "stn_data.h"
-#include "utils.h"
+#include "zc_utils.h"
 
 #include <set>
 #include <string>

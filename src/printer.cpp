@@ -8,7 +8,7 @@
 #include "qsl_display.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "status.h"
+#include "zc_status.h"
 #include "tabbed_forms.h"
 
 #include <algorithm>

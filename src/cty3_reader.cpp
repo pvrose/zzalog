@@ -4,9 +4,9 @@
 #include <cty_element.h>
 #include "main.h"
 #include "objects.h"
-#include "status.h"
+#include "zc_status.h"
 
-#include <utils.h>
+#include <zc_utils.h>
 
 #include <istream>
 #include <list>

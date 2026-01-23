@@ -3,11 +3,11 @@
 #include "qso_clocks.h"
 
 #include "main.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include "wx_handler.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <algorithm>
 #include <cmath>
@@ -79,11 +79,11 @@ int qso_wx::handle(int event) {
 // get settings
 void qso_wx::load_values() {
 	// Get last used display formats
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
-	settings condx_settings(&dash_settings, "Conditions");
-	settings wx_settings(&condx_settings, "Weather");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
+	zc_settings condx_settings(&dash_settings, "Conditions");
+	zc_settings wx_settings(&condx_settings, "Weather");
 	wx_settings.get("Speed", display_speed_, MILE_PER_HOUR);
 	wx_settings.get("Direction", display_direction_, CARDINAL);
 	wx_settings.get("Temperature", display_temperature_, CELSIUS);
@@ -385,11 +385,11 @@ void qso_wx::enable_widgets() {
 
 // save value
 void qso_wx::save_values() const {
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
-	settings condx_settings(&dash_settings, "Conditions");
-	settings wx_settings(&condx_settings, "Weather");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
+	zc_settings condx_settings(&dash_settings, "Conditions");
+	zc_settings wx_settings(&condx_settings, "Weather");
 	wx_settings.set("Speed", display_speed_);
 	wx_settings.set("Direction", display_direction_);
 	wx_settings.set("Temperature", display_temperature_);

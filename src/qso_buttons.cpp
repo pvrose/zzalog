@@ -1,11 +1,11 @@
 #include "qso_buttons.h"
 
 #include "book.h"
-#include "drawing.h"
+#include "zc_drawing.h"
 #include "main.h"
 #include "qso_data.h"
 #include "spec_data.h"
-#include <utils.h>
+#include <zc_utils.h>
 
 #include <algorithm>
 #include <list>

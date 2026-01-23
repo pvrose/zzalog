@@ -6,9 +6,9 @@
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "status.h"
+#include "zc_status.h"
 #include "url_handler.h"
-#include <utils.h>
+#include <zc_utils.h>
 
 #include "pugixml.hpp"
 

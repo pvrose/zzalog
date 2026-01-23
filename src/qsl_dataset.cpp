@@ -2,9 +2,9 @@
 
 #include "main.h"
 #include <qsl_data.h>
-#include "settings.h"
-#include "status.h"
-#include "utils.h"
+#include "zc_settings.h"
+#include "zc_status.h"
+#include "zc_utils.h"
 
 #include "nlohmann/json.hpp"
 
@@ -397,8 +397,8 @@ void qsl_dataset::load_data() {
 }
 
 std::string qsl_dataset::json_file() {
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
 	behav_settings.get<std::string>("QSL Cards", qsl_path_, "");
 	if (qsl_path_.length() == 0) {
 		status_->misc_status(ST_WARNING, "QSL: No directory in settings - please search");

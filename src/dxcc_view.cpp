@@ -3,11 +3,11 @@
 #include "dxcc_table.h"
 #include <fields.h>
 #include "main.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include <view.h>
 
-#include <drawing.h>
-#include "utils.h"
+#include <zc_drawing.h>
+#include "zc_utils.h"
 
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
@@ -152,18 +152,18 @@ void dxcc_view::cb_confirm(Fl_Widget* w, void* v) {
 // Get previously saved values for display and confirmation types
 void dxcc_view::load_data() {
     
-    settings top_settings;
-    settings view_settings(&top_settings, "Views");
-    settings dxcc_settings(&view_settings, "DXCC Table");
+    zc_settings top_settings;
+    zc_settings view_settings(&top_settings, "Views");
+    zc_settings dxcc_settings(&view_settings, "DXCC Table");
     dxcc_settings.get("Display Type", display_type_, dxcc_table::BANDS);
     dxcc_settings.get("Confirmation", confirm_type_, dxcc_table::LOTW);
 }
 
 // Remember values for display and confirmation types
 void dxcc_view::store_data() const {
-    settings top_settings;
-    settings view_settings(&top_settings, "Views");
-    settings dxcc_settings(&view_settings, "DXCC Table");
+    zc_settings top_settings;
+    zc_settings view_settings(&top_settings, "Views");
+    zc_settings dxcc_settings(&view_settings, "DXCC Table");
     dxcc_settings.set("Display Type", display_type_);
     dxcc_settings.set("Confirmation", confirm_type_);
 }

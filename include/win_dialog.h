@@ -1,7 +1,7 @@
 #ifndef __DIALOG__
 #define __DIALOG__
 
-#include "drawing.h"
+#include "zc_drawing.h"
 
 #include <FL/Fl_Window.H>
 

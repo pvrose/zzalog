@@ -11,7 +11,7 @@
 class Fl_Box;
 class Fl_Image;
 class Fl_Output;
-class tabs_nonav;
+class zc_tabs_nonav;
 
 //! Solar data
 struct solar_data {
@@ -93,7 +93,7 @@ protected:
     Fl_Image* solar_image_;
 
     // Components
-    tabs_nonav* w_tabs_;         //!< 5 tabs: Solar data, Geomag data, HF f/c, VHF f/c.
+    zc_tabs_nonav* w_tabs_;         //!< 5 tabs: Solar data, Geomag data, HF f/c, VHF f/c.
     // Solar data
     Fl_Group* g_solar_;       //!< Solar data tab
     Fl_Output* w_sfi_;        //!< Solar flux index.

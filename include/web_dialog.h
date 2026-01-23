@@ -2,7 +2,7 @@
 #define __WEB_DIALOG__
 
 #include "page_dialog.h"
-#include "callback.h"
+#include "zc_callback.h"
 
 #include <string>
 #include <ctime>

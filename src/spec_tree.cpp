@@ -1,15 +1,15 @@
 #include "spec_tree.h"
 
 #include "book.h"
-#include "callback.h"
-#include <drawing.h>
+#include "zc_callback.h"
+#include <zc_drawing.h>
 #include <fields.h>
 #include "main.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include "spec_data.h"
-#include "status.h"
+#include "zc_status.h"
 #include "tabbed_forms.h"
-#include "utils.h"
+#include "zc_utils.h"
 #include <view.h>
 
 #include <cstdio>
@@ -33,9 +33,9 @@ spec_tree::spec_tree(int X, int Y, int W, int H, const char* label, field_app_t 
 	, sub_item_(nullptr)
 {
 	// Tree parameters
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings tree_settings(&view_settings, "Tree Views");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings tree_settings(&view_settings, "Tree Views");
 	tree_settings.get("Font Name", (int&)font_, 0);
 	tree_settings.get("Font Size", (int&)fontsize_, FL_NORMAL_SIZE);
 

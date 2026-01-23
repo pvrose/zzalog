@@ -15,15 +15,15 @@
 #include "qrz_handler.h"
 #include "record.h"
 #include "search.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include "spec_data.h"
-#include "status.h"
+#include "zc_status.h"
 #include "stn_data.h"
 #include "tabbed_forms.h"
 #include "view.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 // C/C++ header files
 #include <cstdint>
@@ -1590,9 +1590,9 @@ bool book::enterring_record() {
 void book::set_session_start() {
 	if (RESUME_SESSION && size()) session_start_ = get_record(size() - 1, false)->timestamp();
 	else session_start_ = time(nullptr);
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings log_settings(&view_settings, "Log Table");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings log_settings(&view_settings, "Log Table");
 	double session_gap_mins;
 	log_settings.get("Session Gap", session_gap_mins, 30.0);
 	if (size()) {

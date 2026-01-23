@@ -3,7 +3,7 @@
 
 #include "book.h"
 #include "cty_data.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "extract_data.h"
 #include "field_choice.h"
 #include "fields.h"
@@ -12,11 +12,11 @@
 #include "menu_bar.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include "spec_data.h"
-#include "status.h"
+#include "zc_status.h"
 #include "toolbar.h"
-#include "utils.h"
+#include "zc_utils.h"
 #include <view.h>
 
 #include <algorithm>
@@ -56,9 +56,9 @@ log_table::log_table(int X, int Y, int W, int H, const char* label, field_app_t 
 	tip_root_y_ = 0;
 
 	// These are static, but will get to the same value each time
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings log_settings(&view_settings, "Log Table");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings log_settings(&view_settings, "Log Table");
 	log_settings.get("Font Name", font_, (Fl_Font)0);
 	log_settings.get("Font Size", fontsize_, FL_NORMAL_SIZE);
 	begin();
@@ -823,9 +823,9 @@ void log_table::dbl_click_column(int col) {
 		current_item_num_ = my_book_->size() - 1 - current_item_num_;
 		display_current();
 		// Save value in settings
-		settings top_settings;
-		settings view_settings(&top_settings, "Views");
-		settings log_settings(&view_settings, "Log Table");
+		zc_settings top_settings;
+		zc_settings view_settings(&top_settings, "Views");
+		zc_settings log_settings(&view_settings, "Log Table");
 		log_settings.set("Recent First", order_);
 		// Redraw the window
 		redraw();

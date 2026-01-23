@@ -10,13 +10,13 @@
 #include "qso_manager.h"
 #include "eqsl_handler.h"
 #include "record.h"
-#include "settings.h"
-#include "status.h"
+#include "zc_settings.h"
+#include "zc_status.h"
 #include "stn_data.h"
 #include "tabbed_forms.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -36,7 +36,7 @@
 #include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Radio_Light_Button.H>
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 #include <FL/fl_utf8.h>
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
@@ -88,8 +88,8 @@ int qso_qsl_vwr::handle(int event) {
 
 // Load values
 void qso_qsl_vwr::load_values() {
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
 	if (!behav_settings.get<std::string>("QSL Cards", qsl_directory_, "")) {
 		//Fl_File_Chooser* chooser = new Fl_File_Chooser("", nullptr, Fl_File_Chooser::DIRECTORY,
 		//	"Select QSL card directory");
@@ -116,7 +116,7 @@ void qso_qsl_vwr::create_form() {
 	int curr_y = y() + GAP;
 
 	// Tabbed form
-	tabs_ = new tabs_nonav(curr_x, curr_y, w() - (2 * GAP), h() - GAP);
+	tabs_ = new zc_tabs_nonav(curr_x, curr_y, w() - (2 * GAP), h() - GAP);
 	tabs_->box(FL_BORDER_BOX);
 	tabs_->handle_overflow(Fl_Tabs::OVERFLOW_PULLDOWN);
 	tabs_->callback(cb_tabs);

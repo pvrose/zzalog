@@ -9,7 +9,7 @@
 
 
 class Fl_Widget;
-class tabs_nonav;
+class zc_tabs_nonav;
 
 class page_dialog;
 
@@ -80,7 +80,7 @@ const int HCONFIG = 500;
 		// protected attributes
 	protected:
 		//! The main component with its own component tabs.
-		tabs_nonav* tabs_;
+		zc_tabs_nonav* tabs_;
 		//! Any widgets that need updating on record selection
 		std::set<page_dialog*> updatable_views_;
 		//! List of the intantiated tabs.

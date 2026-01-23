@@ -1,13 +1,13 @@
 #include "qso_clocks.h"
 
 #include "condx_view.h"
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "main.h"
 #include "qso_clock.h"
 #include "qso_wx.h"
-#include "settings.h"
-#include "status.h"
-#include "tabs_nonav.h"
+#include "zc_settings.h"
+#include "zc_status.h"
+#include "zc_tabs_nonav.h"
 
 #include <algorithm>
 
@@ -59,10 +59,10 @@ int qso_clocks::handle(int event) {
 
 void qso_clocks::load_values() {
 	// Load default tab value
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
-	settings condx_settings(&dash_settings, "Conditions");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
+	zc_settings condx_settings(&dash_settings, "Conditions");
 	condx_settings.get("Local Timezone", local_, false);
 }
 
@@ -87,7 +87,7 @@ void qso_clocks::create_form() {
 	cx = x() + GAP;
 	int cw = max_w - GAP;
 
-	tabs_ = new tabs_nonav(cx, cy, cw, 50);
+	tabs_ = new zc_tabs_nonav(cx, cy, cw, 50);
 	tabs_->callback(cb_tabs);
 	tabs_->box(FL_BORDER_BOX);
 	tabs_->labeltype(FL_NO_LABEL);
@@ -126,10 +126,10 @@ void qso_clocks::create_form() {
 }
 
 void qso_clocks::save_values() const {
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
-	settings condx_settings(&dash_settings, "Conditions");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
+	zc_settings condx_settings(&dash_settings, "Conditions");
 	// Find the current selected tab and save its index
 	condx_settings.set("Local Timezone", local_);
 }
@@ -162,7 +162,7 @@ qso_wx* qso_clocks::wx() {
 }
 
 void qso_clocks::cb_tabs(Fl_Widget* w, void* v) {
-	tabs_nonav* that = (tabs_nonav*)w;
+	zc_tabs_nonav* that = (zc_tabs_nonav*)w;
 	that->label(that->value()->label());
 	((qso_clocks*)that->parent())->enable_widgets();
 

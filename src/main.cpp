@@ -10,13 +10,13 @@ main.cpp - application entry point
 #include "main.h"
 
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include "about_dialog.h"
 #include "band_data.h"
 #include "band_window.h"
-#include "banner.h"
+#include "zc_banner.h"
 #include "book.h"
 #include "club_handler.h"
 #include "config.h"
@@ -25,7 +25,7 @@ main.cpp - application entry point
 #include "eqsl_handler.h"
 #include "extract_data.h"
 #include "fields.h"
-#include "file_holder.h"
+#include "zc_file_holder.h"
 #include "fldigi_handler.h"
 #include "ident.h"
 #include "import_data.h"
@@ -38,15 +38,15 @@ main.cpp - application entry point
 #include "qso_manager.h"
 #include "record.h"
 #include "rig_data.h"
-#include "settings.h"
+#include "zc_settings.h"
 #include "spec_data.h"
 #include "spec_tree.h"
-#include "status.h"
+#include "zc_status.h"
 #include "stn_data.h"
 #include "stn_dialog.h"
-#include "symbols.h"
+#include "zc_symbols.h"
 #include "tabbed_forms.h"
-#include "ticker.h"
+#include "zc_ticker.h"
 #include "toolbar.h"
 #include "url_handler.h"
 #include "wsjtx_handler.h"
@@ -188,11 +188,11 @@ qsl_dataset* qsl_dataset_ = nullptr;
 qso_manager* qso_manager_ = nullptr;
 rig_data* rig_data_ = nullptr;
 spec_data* spec_data_ = nullptr;
-status* status_ = nullptr;
+zc_status* status_ = nullptr;
 stn_data* stn_data_ = nullptr;
 stn_window* stn_window_ = nullptr;
 tabbed_forms* tabbed_forms_ = nullptr;
-ticker* ticker_ = nullptr;
+zc_ticker* ticker_ = nullptr;
 toolbar* toolbar_ = nullptr;
 url_handler* url_handler_ = nullptr;
 wsjtx_handler* wsjtx_handler_ = nullptr;
@@ -239,9 +239,9 @@ bool new_installation_ = false;
 
 // Get the backup filename
 std::string backup_filename(std::string source) {
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
-	settings backup_settings(&behav_settings, "Backup");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
+	zc_settings backup_settings(&behav_settings, "Backup");
 	// Get back-up directory
 	std::string backup;
 	backup_settings.get<std::string>("Path", backup, "");
@@ -286,9 +286,9 @@ void restore_backup() {
 	// Remove existing book
 	status_->misc_status(ST_WARNING, "LOG: Closing current book!");
 	menu_bar::cb_mi_file_new(nullptr, nullptr);
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
-	settings backup_settings(&behav_settings, "Backup");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
+	zc_settings backup_settings(&behav_settings, "Backup");
 	std::string backup;
 	backup_settings.get<std::string>("Last Backup", backup, "");
 	// Get backup data
@@ -412,14 +412,14 @@ void cb_bn_close(Fl_Widget* w, void*v) {
 		}
 
 		// Save the window position
-		settings top_settings;
-		settings view_settings(&top_settings, "Views");
-		settings main_settings(&view_settings, "Main Window");
+		zc_settings top_settings;
+		zc_settings view_settings(&top_settings, "Views");
+		zc_settings main_settings(&view_settings, "Main Window");
 		main_settings.set("Left", main_window_->x_root());
 		main_settings.set("Top", main_window_->y_root());
 		main_settings.set("Width", main_window_->w());
 		main_settings.set("Height", main_window_->h());
-		settings banner_settings(&view_settings, "Banner");
+		zc_settings banner_settings(&view_settings, "Banner");
 		int bw = status_->get_banner()->w();
 		int bh = status_->get_banner()->h();
 		banner_settings.set("Width", bw);
@@ -742,9 +742,9 @@ std::string get_file(char * arg_filename) {
 
 // Add some global properties
 void add_properties() {
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings tip_settings(&view_settings, "Tooltip");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings tip_settings(&view_settings, "Tooltip");
 	Fl_Font font;
 	Fl_Fontsize size;
 	float duration;
@@ -760,8 +760,8 @@ void add_properties() {
 // Get the recent files from settings
 void recent_files() {
 	recent_files_.clear();
-	settings top_settings;
-	settings behav_settings(&top_settings, "Behaviour");
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
 	behav_settings.get("Recent Files", recent_files_, {});
 	if (recent_files_.size() > 4) {
 		recent_files_.resize(4);
@@ -836,9 +836,9 @@ void add_book(char* arg) {
 
 			if (!book_->load_data(log_file)) {
 				if (!NEW_BOOK) {
-					settings top_settings;
-					settings behav_settings(&top_settings, "Behaviour");
-					settings backup_settings(&behav_settings, "Backup");
+					zc_settings top_settings;
+					zc_settings behav_settings(&top_settings, "Behaviour");
+					zc_settings backup_settings(&behav_settings, "Backup");
 					std::string backup;
 					backup_settings.get<std::string>("Last Backup", backup, "");
 					// Cannot access book - try backup
@@ -976,9 +976,9 @@ void resize_window() {
 	int width;
 	int top;
 	int height;
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings main_settings(&view_settings, "Main Window");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings main_settings(&view_settings, "Main Window");
 	main_settings.get<int>("Left", left, 0);
 	main_settings.get<int>("Top", top, 100);
 	main_settings.get<int>("Width", width, WIDTH);
@@ -1161,10 +1161,10 @@ void customise_fltk() {
 
 // Some switches get saved between sessions - so-called sticky switches
 void read_saved_switches() {
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings overall_settings(&view_settings, "Overall");
-	settings behav_settings(&top_settings, "Behaviour");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings overall_settings(&view_settings, "Overall");
+	zc_settings behav_settings(&top_settings, "Behaviour");
 	// Read all the sticky switches
 	char msg[128];
 	strcpy(msg, "ZZALOG: Sticky switches: ");
@@ -1189,10 +1189,10 @@ void read_saved_switches() {
 
 // Save "sticky" switches
 void save_switches() {
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings overall_settings(&view_settings, "Overall");
-	settings behav_settings(&top_settings, "Behaviour");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings overall_settings(&view_settings, "Overall");
+	zc_settings behav_settings(&top_settings, "Behaviour");
 	overall_settings.set("Dark Mode", DARK);
 	behav_settings.set("Update per QSO", AUTO_UPLOAD);
 	behav_settings.set("Save per QSO", AUTO_SAVE);
@@ -1219,13 +1219,13 @@ int main(int argc, char** argv)
 	Fl::args(argc, argv, i, cb_args);
 	// Set the default data directories
 	bool development = false;
-	file_holder_ = new file_holder(argv[0], FILE_CONTROL);
+	file_holder_ = new zc_file_holder(argv[0], FILE_CONTROL);
 	// Read any switches that stick between calls
 	read_saved_switches();
 	customise_fltk();
 
 	// Create the ticker first of all
-	ticker_ = new ticker();
+	ticker_ = new zc_ticker();
 
 	if (DISPLAY_VERSION) {
 #ifndef WIN32
@@ -1256,11 +1256,11 @@ int main(int argc, char** argv)
 	}
 
 	// Ctreate status to handle status messages
-	status_ = new status(status::HAS_BANNER | status::HAS_LOGFILE, OBJECT_DATA);
+	status_ = new zc_status(zc_status::HAS_BANNER | zc_status::HAS_LOGFILE, OBJECT_DATA);
 	{
-		settings top_settings;
-		settings view_settings(&top_settings, "Views");
-		settings banner_settings(&view_settings, "Banner");
+		zc_settings top_settings;
+		zc_settings view_settings(&top_settings, "Views");
+		zc_settings banner_settings(&view_settings, "Banner");
 		int bw = status_->get_banner()->w();
 		int bh = status_->get_banner()->h();
 		banner_settings.get("Width", bw, bw);
@@ -1350,9 +1350,9 @@ void backup_file() {
 		status_->misc_status(ST_ERROR, message);
 	} else {
 		status_->misc_status(ST_OK, "BACKUP: Done");
-		settings top_settings;
-		settings behav_settings(&top_settings, "Behaviour");
-		settings backup_settings(&behav_settings, "Backup");
+		zc_settings top_settings;
+		zc_settings behav_settings(&top_settings, "Behaviour");
+		zc_settings backup_settings(&behav_settings, "Backup");
 		backup_settings.set("Last Backup", backup);
 	}
 }
@@ -1367,8 +1367,8 @@ void set_recent_file(std::string filename) {
 		recent_files_.push_front(filename);
 
 		// Update recent files in the settings
-		settings top_settings;
-		settings behav_settings(&top_settings, "Behaviour");
+		zc_settings top_settings;
+		zc_settings behav_settings(&top_settings, "Behaviour");
 		if (recent_files_.size() > 4) {
 			recent_files_.resize(4);
 		}

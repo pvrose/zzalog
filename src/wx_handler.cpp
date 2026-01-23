@@ -3,12 +3,12 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "main.h"   
-#include "status.h"
+#include "zc_status.h"
 #include "stn_data.h"
-#include "ticker.h"
+#include "zc_ticker.h"
 #include "url_handler.h"
 
-#include "utils.h"
+#include "zc_utils.h"
 
 #include "nlohmann/json.hpp"
 

@@ -1,11 +1,11 @@
 #include "toolbar.h"
 
 #include "book.h"
-#include "callback.h"
+#include "zc_callback.h"
 #include "cty_data.h"
-#include "drawing.h"
+#include "zc_drawing.h"
 #include "extract_data.h"
-#include "file_holder.h"
+#include "zc_file_holder.h"
 #include "icons.h"
 #include "intl_dialog.h"
 #include "intl_widgets.h"
@@ -14,8 +14,8 @@
 #include "menu_bar.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "status.h"
-#include "utils.h"
+#include "zc_status.h"
+#include "zc_utils.h"
 
 #include <cstdio>
 #include <string>

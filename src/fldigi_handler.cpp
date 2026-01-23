@@ -8,7 +8,7 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "socket_server.h"
-#include "status.h"
+#include "zc_status.h"
 
 #include <sstream>
 

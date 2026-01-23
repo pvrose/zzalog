@@ -1,7 +1,7 @@
 #include "extract_data.h"
 
 #include <book.h>
-#include <drawing.h>
+#include <zc_drawing.h>
 #include "club_handler.h"
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
@@ -12,7 +12,7 @@
 #include <search.h>
 #include "search_dialog.h"
 #include "spec_data.h"
-#include "status.h"
+#include "zc_status.h"
 #include "tabbed_forms.h"
 #include <view.h>
 

@@ -2,10 +2,10 @@
 
 #include "main.h"
 #include "qso_manager.h"
-#include "ticker.h"
+#include "zc_ticker.h"
 
-#include "utils.h"
-#include "drawing.h"
+#include "zc_utils.h"
+#include "zc_drawing.h"
 
 #include <ctime>
 

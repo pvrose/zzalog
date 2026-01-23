@@ -4,8 +4,8 @@
 #include "stn_data.h"
 #include "stn_dialog.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <FL/Enumerations.H>
 #include <FL/Fl_Button.H>

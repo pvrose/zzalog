@@ -1,8 +1,8 @@
 ﻿#include "rig_if.h"
 
 #include "main.h"
-#include "status.h"
-#include "utils.h"
+#include "zc_status.h"
+#include "zc_utils.h"
 
 #include <algorithm>
 #include <chrono>

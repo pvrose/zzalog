@@ -1,7 +1,7 @@
 #include "font_dialog.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 #include <win_dialog.h>
 
 #include <algorithm>

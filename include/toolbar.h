@@ -1,7 +1,7 @@
 #ifndef __TOOLBAR__
 #define __TOOLBAR__
 
-#include "drawing.h"
+#include "zc_drawing.h"
 
 #include <string>
 

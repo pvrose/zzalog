@@ -8,9 +8,9 @@
 
 #include <page_dialog.h>
 
-#include "callback.h"
-#include "drawing.h"
-#include "utils.h"
+#include "zc_callback.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <cstdio>
 #include <set>

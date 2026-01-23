@@ -6,7 +6,7 @@
 #include "record.h"
 #include "spec_data.h"
 
-#include "drawing.h"
+#include "zc_drawing.h"
 
 #include <cstdio>
 #include <set>

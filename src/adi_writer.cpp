@@ -5,10 +5,10 @@
 #include "ident.h"
 #include "record.h"
 #include "spec_data.h"
-#include "status.h"
+#include "zc_status.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 
 #include <cmath>
 #include <cstdio>

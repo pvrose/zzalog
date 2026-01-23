@@ -6,15 +6,15 @@
 #include <FL/Fl_Group.H>
 
 
-class password_input;
+class zc_password_input;
 class Fl_Input;
 class Fl_Int_Input;
 class Fl_Light_Button;
 class Fl_Check_Button;
 class Fl_Radio_Light_Button;
 class Fl_Button;
-class tabs_nonav;
-class filename_input;
+class zc_tabs_nonav;
+class zc_filename_input;
 class file_viewer;
 
 const std::string FLDIGI = "FLDigi";
@@ -99,7 +99,7 @@ class app_grp :
 
  
         // Widgets
-        filename_input* ip_app_name_;        //!< Input for app command name.
+        zc_filename_input* ip_app_name_;        //!< Input for app command name.
         Fl_Light_Button* bn_listening_;      //!< Light button indicates listening.
         Fl_Light_Button* bn_connect_;        //!< Light button to launch command.
         Fl_Light_Button* bn_server_;         //!< Light buuton indicates server mode.
@@ -109,10 +109,10 @@ class app_grp :
         Fl_Radio_Light_Button* bn_rig_cat_;  //!< Radio button - app configuration affected by CAT and audio
         Fl_Button* bn_rig_;                  //!< Button displaying rig and connections.
         Fl_Light_Button* bn_admin_;          //!< Light button controls admin. mode.
-        password_input* ip_passw_;           //!< Input for admin mode password.
+        zc_password_input* ip_passw_;           //!< Input for admin mode password.
         Fl_Button* bn_delete_;               //!< Button to undo app.
         Fl_Light_Button* bn_disable_;        //!< Light button controls has undo command.
-        filename_input* ip_disable_app_;     //!< Input for undo command.
+        zc_filename_input* ip_disable_app_;     //!< Input for undo command.
         Fl_Button* bn_show_script_;          //!< Button to open editor for launch command.
         Fl_Button* bn_show_script2_;         //!< Button to open editor for undo command.
         Fl_Input* ip_nw_address_;            //!< Input for network address in server mode.
@@ -184,7 +184,7 @@ protected:
     Fl_Input* ip_new_;        //!< Inputfor name of new application.
 
     // Tabbed set of app_grp
-    tabs_nonav* tabs_;           //!< Tabs, one for each app.
+    zc_tabs_nonav* tabs_;           //!< Tabs, one for each app.
 
     // File viewer
     file_viewer* viewer_;     //!< File viewr window.

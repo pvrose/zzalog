@@ -1,13 +1,13 @@
 #include "about_dialog.h"
 
-#include "file_holder.h"
+#include "zc_file_holder.h"
 #include "ident.h"
 #include "main.h"
 #include "spec_data.h"
 #include "win_dialog.h"
 
-#include "drawing.h"
-#include "utils.h"
+#include "zc_drawing.h"
+#include "zc_utils.h"
 #include "zzacommon.h"
 
 #include <string>

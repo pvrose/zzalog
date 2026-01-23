@@ -4,17 +4,17 @@
 #include "qso_bands.h"
 #include "qso_log_info.h"
 #include "qso_qsl.h"
-#include "settings.h"
+#include "zc_settings.h"
 
 #include <algorithm>
 
 #include <FL/Enumerations.H>
-#include "tabs_nonav.h"
+#include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 // Constructor
 qso_log::qso_log(int X, int Y, int W, int H, const char* l) :
-	tabs_nonav(X, Y, W, H, l)
+	zc_tabs_nonav(X, Y, W, H, l)
 {
 	labeltype(FL_NO_LABEL);
 	box(FL_BORDER_BOX);
@@ -34,9 +34,9 @@ qso_log::~qso_log() {
 // get settings 
 void qso_log::load_values() {
 	// Load default tab value
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
 	dash_settings.get("Default Log Pane", default_tab_, 0);
 }
 
@@ -109,9 +109,9 @@ void qso_log::enable_widgets() {
 
 // Save changes
 void qso_log::save_values() {
-	settings top_settings;
-	settings view_settings(&top_settings, "Views");
-	settings dash_settings(&view_settings, "Dashboard");
+	zc_settings top_settings;
+	zc_settings view_settings(&top_settings, "Views");
+	zc_settings dash_settings(&view_settings, "Dashboard");
 	// Find the current selected tab and save its index
 	Fl_Widget* w = value();
 	for (int ix = 0; ix != children(); ix++) {

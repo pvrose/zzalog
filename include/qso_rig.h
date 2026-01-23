@@ -15,13 +15,13 @@ class rig_if;
 struct hamlib_data_t;
 struct cat_data_t;
 struct rig_data_t;
-class filename_input;
+class zc_filename_input;
 class Fl_Output;
 class Fl_Button;
 class Fl_Box;
 class Fl_Light_Button;
 class Fl_Choice;
-class tabs_nonav;
+class zc_tabs_nonav;
 class Fl_Check_Button;
 class Fl_Input;
 class Fl_Int_Input;
@@ -210,7 +210,7 @@ protected:
 	field_input* ip_antenna_;      //!< Menu: "Antenna" shows available antennas
 
 	//! Configuartion - 5 tabs
-	tabs_nonav* config_tabs_;
+	zc_tabs_nonav* config_tabs_;
 	//! Connection tab - either serial or network
 	Fl_Group* connect_tab_;
 	Fl_Group* serial_grp_;           //!< Serial port configuration
@@ -223,7 +223,7 @@ protected:
 	Fl_Group* network_grp_;          //!< Network port configuration
 	Fl_Light_Button* bn_use_app_;    //!< Light: "Use" use an application to connect.
 	Fl_Button* bn_show_app_;         //!< Button: "Show" open a file_editor to show script used to connect.
-	filename_input* ip_app_name_;    //!< Input: Command or script namme to connect.
+	zc_filename_input* ip_app_name_;    //!< Input: Command or script namme to connect.
 	// Hamlib widgets to revalue when rig selected changes
 	Fl_Input* ip_port_;              //!< Input: "Host:Port" network address eg localhost:12345.
 

@@ -2,13 +2,13 @@
 
 #include "book.h"
 #include "cty_data.h"
-#include "drawing.h"
+#include "zc_drawing.h"
 #include "main.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "status.h"
+#include "zc_status.h"
 #include "stn_data.h"
-#include "utils.h"
+#include "zc_utils.h"
 
 #include <cstdio>
 #include <map>

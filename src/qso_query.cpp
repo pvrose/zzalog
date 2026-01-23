@@ -1,12 +1,12 @@
 #include "qso_query.h"
 
 #include "book.h"
-#include "drawing.h"
+#include "zc_drawing.h"
 #include <main.h>
 #include "qso_data.h"
 #include "record.h"
 #include "record_table.h"
-#include "utils.h"
+#include "zc_utils.h"
 
 #include <string>
 
