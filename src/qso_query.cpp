@@ -113,7 +113,7 @@ std::string qso_query::query_message() {
 // Callback - table 
 // v is not used
 void qso_query::cb_tab_qso(Fl_Widget* w, void* v) {
-	qso_query* that = ancestor_view<qso_query>(w);
+	qso_query* that = zc::ancestor_view<qso_query>(w);
 	record_table* table = (record_table*)w;
 	int row = table->callback_row();
 	int col = table->callback_col();

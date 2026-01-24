@@ -2,6 +2,7 @@
 
 #include "zc_utils.h"
 
+#include <cstring>
 #include <string>
 
 #include <FL/Fl_Group.H>
@@ -24,7 +25,7 @@ public:
 
     //! Callback when menu item is selected: copies userdata into the input widget.
     static void cb_menu(Fl_Widget* w, void* v) {
-        annotated_choice* that = ancestor_view<annotated_choice>(w);
+        annotated_choice* that = zc::ancestor_view<annotated_choice>(w);
         const char* val = that->menubutton()->text();
         const char* pos = strstr(val, ":--->");
         if (pos == nullptr) {
@@ -41,7 +42,7 @@ public:
 
     //! Callback when input widget is changed: emulates the enter ket being pressed.
     static void cb_inp(Fl_Widget* w, void* v) {
-        annotated_choice* that = ancestor_view<annotated_choice>(w);
+        annotated_choice* that = zc::ancestor_view<annotated_choice>(w);
         that->do_callback(FL_REASON_ENTER_KEY);
     }
 

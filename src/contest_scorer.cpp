@@ -344,7 +344,7 @@ void contest_scorer::copy_points_to_display() {
 // callbacks
 void contest_scorer::cb_contest(Fl_Widget* w, void* v) {
 	Fl_Choice* ch = (Fl_Choice*)w;
-	contest_scorer* that = ancestor_view<contest_scorer>(w);
+	contest_scorer* that = zc::ancestor_view<contest_scorer>(w);
 	const Fl_Menu_Item* item = ch->mvalue();
 	ct_entry_t* entry = (ct_entry_t*)item->user_data();
 	that->contest_ = entry->definition;
@@ -360,7 +360,7 @@ void contest_scorer::cb_contest(Fl_Widget* w, void* v) {
 }
 
 void contest_scorer::cb_bn_status(Fl_Widget* w, void* v) {
-	contest_scorer* that = ancestor_view<contest_scorer>(w);
+	contest_scorer* that = zc::ancestor_view<contest_scorer>(w);
 	switch (that->contest_status_) {
 	case NO_CONTEST:
 	case FUTURE:
@@ -381,15 +381,15 @@ void contest_scorer::cb_bn_status(Fl_Widget* w, void* v) {
 
 // Parse the recived exchange and update QSO with it
 void contest_scorer::cb_parse(Fl_Widget* w, void* v) {
-	contest_scorer* that = ancestor_view<contest_scorer>(w);
-	qso_data* data = ancestor_view<qso_data>(that);
+	contest_scorer* that = zc::ancestor_view<contest_scorer>(w);
+	qso_data* data = zc::ancestor_view<qso_data>(that);
 	that->algorithm_->parse_exchange(that->qso_, that->w_rx_exchange_->value());
 	data->update_qso(that->qso_number_);
 }
 
 // Changethe serial number
 void contest_scorer::cb_serno(Fl_Widget* w, void* v) {
-	contest_scorer* that = ancestor_view<contest_scorer>(w);
+	contest_scorer* that = zc::ancestor_view<contest_scorer>(w);
 	double val = ((Fl_Counter*)w)->value();
 	*(int*)v = val;
 	that->enable_widgets();

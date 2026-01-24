@@ -160,7 +160,7 @@ void config::enable_widgets() {
 // Callback - Save, OK or Cancel
 void config::cb_bn_cal(Fl_Widget* w, long arg) {
 	// Find the active tab - assume that tabs_ is child 0
-	config* that = ancestor_view<config>(w);
+	config* that = zc::ancestor_view<config>(w);
 	zc_tabs_nonav* tabs_ = (zc_tabs_nonav*)that->child(0);
 	Fl_Widget* active_tab = tabs_->value();
 	// Button selected
@@ -183,7 +183,7 @@ void config::cb_bn_cal(Fl_Widget* w, long arg) {
 
 // Callback on changing tab
 void config::cb_tab(Fl_Widget* w, void* v) {
-	config* that = ancestor_view<config>(w);
+	config* that = zc::ancestor_view<config>(w);
 	that->enable_widgets();
 }
 

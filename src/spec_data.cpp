@@ -135,7 +135,7 @@ bool spec_data::load_json() {
 			j.at("Version").get_to(adif_version_);
 			std::string temp;
 			j.at("Date").get_to(temp);
-			adif_timestamp_ = std::chrono::system_clock::from_time_t(convert_iso_datetime(temp));
+			adif_timestamp_ = std::chrono::system_clock::from_time_t(zc::convert_iso_datetime(temp));
 			// Ignore Status, Date, Created
 			spec_dataset* ds;
 			auto enums = j.at("Enumerations").get<std::map<std::string, json>>();
@@ -425,7 +425,7 @@ bool spec_data::add_userdef(int id, const std::string& name, char indicator, std
 		dataset->column_names[1] = "ADIF Version";
 		dataset->column_names[2] = "ADIF Status";
 		// now create records for each enumeration value
-		split_line(values, value_array, ',');
+		zc::split_line(values, value_array, ',');
 		for (unsigned int i = 0; i < value_array.size(); i++) {
 			temp_map = new std::map<std::string, std::string>;
 			(*temp_map)["Comments"] = "";
@@ -443,7 +443,7 @@ bool spec_data::add_userdef(int id, const std::string& name, char indicator, std
 	std::string max_value;
 	if (indicator == 'N' && values.length() > 0) {
 		std::vector<std::string> value_array;
-		split_line(values, value_array, ':');
+		zc::split_line(values, value_array, ':');
 		min_value = value_array[0];
 		max_value = value_array[1];
 	}
@@ -1051,7 +1051,7 @@ valn_error_t spec_data::check_string(const std::string&  data, const std::string
 	// SUBMODE - is only recommended to be one of an enumerated list
 	else if (field == "SUBMODE") {
 		std::map<std::string, std::string>* fields;
-		std::string upper_data = to_upper(data);
+		std::string upper_data = zc::to_upper(data);
 		if (dataset("Submode")->data.find(upper_data) != dataset("Submode")->data.end()) {
 			// Submode has been found in Submode dataset
 			// Check that it is a valid submode of the MODE field
@@ -1091,7 +1091,7 @@ valn_error_t spec_data::check_string(const std::string&  data, const std::string
 			std::map<std::string, std::string>* dxcc_data = dxcc_set->data.at(dxcc_code);
 			// Get the entity name from the entry
 			std::string entity_name = (*dxcc_data)["Entity Name"];
-			if (data == to_upper(entity_name)) {
+			if (data == zc::to_upper(entity_name)) {
 				// Matches the data - OK
 				return VE_OK;
 			}
@@ -1167,7 +1167,7 @@ valn_error_t spec_data::check_list(const std::string& data, const std::string&  
 	valn_error_t error = VE_OK;
 	std::vector<std::string> items;
 	// Split the list into an array
-	split_line(data, items, separator);
+	zc::split_line(data, items, separator);
 	// For each item in the list, while they return OK
 	for (unsigned int i = 0; i < items.size() && error == VE_OK; i++) {
 		// Check it individually
@@ -1211,7 +1211,7 @@ valn_error_t spec_data::check_datatype(const std::string&  data, const std::stri
 		}
 		std::string test_data;
 		// Special case - Bands are enumerated in lower case
-		if (enumeration_name == "Band") test_data = to_lower(data);
+		if (enumeration_name == "Band") test_data = zc::to_lower(data);
 		else test_data = data;
 		// Get the enumeration entry for the particular value
 		if (enumeration_data->data.find(test_data) != enumeration_data->data.end()) {
@@ -1517,7 +1517,7 @@ valn_error_t spec_data::validate(const std::string& field, const std::string& da
 			datatype = (*field_entry)["Data Type"];
 			// Some fields can have more than one data type - so split the list
 			std::vector<std::string> datatypes;
-			split_line(datatype, datatypes, ',');
+			zc::split_line(datatype, datatypes, ',');
 			// For each data type in the list - while it's still OK
 			for (unsigned int i = 0; i < datatypes.size() && error != VE_OK; i++) {
 				datatype = datatypes[i];

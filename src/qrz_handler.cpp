@@ -533,7 +533,7 @@ bool qrz_handler::fetch_response(qsl_call_data* api, std::istream& resp, int& co
 		pos = amper + 1;
 	}
 	if (ok)  {
-		std::string today = now(false, "%Y%m%d");
+		std::string today = zc::now(false, "%Y%m%d");
 		api->last_download = today;
 		api->last_logid = last_logid;
 	}
@@ -650,7 +650,7 @@ void qrz_handler::upload_done(upload_resp_t* resp) {
 	switch(resp->success) {
 		case IR_GOOD:
 		resp->qso->item("QRZCOM_QSO_UPLOAD_STATUS", std::string("Y"));
-		resp->qso->item("QRZCOM_QSO_UPLOAD_DATE", now(false, "%Y%m%d"));
+		resp->qso->item("QRZCOM_QSO_UPLOAD_DATE", zc::now(false, "%Y%m%d"));
 		resp->qso->item("APP_QRZLOG_LOGID", std::to_string(resp->logid));
 		snprintf(msg, sizeof(msg), "QRZ: %s %s %s QSL uploaded (logid=%llu)",
 			resp->qso->item("QSO_DATE").c_str(),
@@ -662,7 +662,7 @@ void qrz_handler::upload_done(upload_resp_t* resp) {
 		break;
 	case IR_DUPLICATE:
 		resp->qso->item("QRZCOM_QSO_UPLOAD_STATUS", std::string("Y"));
-		resp->qso->item("QRZCOM_QSO_UPLOAD_DATE", now(false, "%Y%m%d"));
+		resp->qso->item("QRZCOM_QSO_UPLOAD_DATE", zc::now(false, "%Y%m%d"));
 		resp->qso->item("APP_QRZLOG_LOGID", std::to_string(resp->logid));
 		snprintf(msg, sizeof(msg), "QRZ: %s %s %s QSL uploaded (duplicate logid=%llu)",
 			resp->qso->item("QSO_DATE").c_str(),

@@ -228,7 +228,7 @@ void qso_wx::enable_widgets() {
 	std::string wx_location = wx_handler_ ? wx_handler_->location() : "";
 	std::string wx_latlong = wx_handler_ ? wx_handler_->latlong() : "";
 
-	bool local = ancestor_view<qso_clocks>(this)->is_local();
+	bool local = zc::ancestor_view<qso_clocks>(this)->is_local();
 
 	tm sunup_time;
 	tm sundown_time;
@@ -254,7 +254,7 @@ void qso_wx::enable_widgets() {
 		strcat(label, wx_descr.c_str());
 		strcat(label, "\n");
 	}
-	strcat(label, to_lower(wind_descr).c_str());
+	strcat(label, zc::to_lower(wind_descr).c_str());
 	strcat(label, "\n");
 	strcat(label, cloud_descr.c_str());
 	bn_wx_description_->copy_label(label);
@@ -400,7 +400,7 @@ void qso_wx::save_values() const {
 // Icon clicked' - reload weather
 // v is not used
 void qso_wx::cb_bn_icon(Fl_Widget* w, void* v) {
-	qso_wx* that = ancestor_view<qso_wx>(w);
+	qso_wx* that = zc::ancestor_view<qso_wx>(w);
 	wx_handler_->update();
 	that->enable_widgets();
 }
@@ -408,7 +408,7 @@ void qso_wx::cb_bn_icon(Fl_Widget* w, void* v) {
 // Temperetaure clicked - cycle units
 // v is not used
 void qso_wx::cb_bn_temperature(Fl_Widget* w, void * v) {
-	qso_wx* that = ancestor_view<qso_wx>(w);
+	qso_wx* that = zc::ancestor_view<qso_wx>(w);
 	switch (that->display_temperature_) {
 		case CELSIUS: {
 			that->display_temperature_ = FAHRENHEIT;
@@ -425,7 +425,7 @@ void qso_wx::cb_bn_temperature(Fl_Widget* w, void * v) {
 // Speed clicked - cycled units
 // v is not used
 void qso_wx::cb_bn_speed(Fl_Widget* w, void * v) {
-	qso_wx* that = ancestor_view<qso_wx>(w);
+	qso_wx* that = zc::ancestor_view<qso_wx>(w);
 	switch (that->display_speed_) {
 		case MILE_PER_HOUR: {
 			that->display_speed_ = METRE_PER_SECOND;
@@ -450,7 +450,7 @@ void qso_wx::cb_bn_speed(Fl_Widget* w, void * v) {
 // Pressure clicked - cycle units
 // v is not used
 void qso_wx::cb_bn_pressure(Fl_Widget* w, void * v) {
-	qso_wx* that = ancestor_view<qso_wx>(w);
+	qso_wx* that = zc::ancestor_view<qso_wx>(w);
 	switch (that->display_pressure_) {
 		case HECTOPASCAL: {
 			that->display_pressure_ = MM_MERCURY;
@@ -475,7 +475,7 @@ void qso_wx::cb_bn_pressure(Fl_Widget* w, void * v) {
 // Direction clicked - cycle display format
 // v is not used
 void qso_wx::cb_bn_direction(Fl_Widget* w, void * v) {
-	qso_wx* that = ancestor_view<qso_wx>(w);
+	qso_wx* that = zc::ancestor_view<qso_wx>(w);
 	switch (that->display_direction_) {
 		case CARDINAL: {
 			that->display_direction_ = DEGREES;
@@ -496,7 +496,7 @@ void qso_wx::cb_bn_direction(Fl_Widget* w, void * v) {
 // Cloud clicked - cycle formats
 // v is not used
 void qso_wx::cb_bn_cloud(Fl_Widget* w, void* v) {
-	qso_wx* that = ancestor_view<qso_wx>(w);
+	qso_wx* that = zc::ancestor_view<qso_wx>(w);
 	switch (that->display_cloud_) {
 		case PERCENT: {
 			that->display_cloud_ = OKTA;

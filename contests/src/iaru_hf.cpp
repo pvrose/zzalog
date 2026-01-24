@@ -23,7 +23,7 @@ contests::iaru_hf::iaru_hf() : contest_algorithm() {
 // Algorithm specific method to split text into a number of fields
 void contests::iaru_hf::parse_exchange(record* qso, std::string text) {
 	std::vector<std::string> words;
-	split_line(text, words, ' ');
+	zc::split_line(text, words, ' ');
 	qso->item("RST_RCVD", words[0]);
 	qso->item("ITUZ", words[1]);
 }
@@ -54,7 +54,7 @@ score_result contests::iaru_hf::score_qso(record* qso, std::set<std::string>& mu
 	// ITU Zone or otherwise
 	std::string ituz = qso->item("ITUZ");
 	std::string cont = qso->item("CONT");
-	bool itu_station = !is_integer(ituz);
+	bool itu_station = !zc::is_integer(ituz);
 	score_result res;
 	std::string multiplier = ituz + " " + qso->item("BAND");
 	if (multipliers.find(multiplier) == multipliers.end()) {

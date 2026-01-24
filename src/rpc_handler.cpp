@@ -163,7 +163,7 @@ void rpc_handler::write_item(rpc_data_item& item, pugi::xml_node& node) {
 		n_value.append_child("dateTime.iso8601").text().set(item.get_string());
 		break;
 	case XRT_BYTES:
-		n_value.append_child("base64").text().set(encode_base_64(item.get_string()));
+		n_value.append_child("base64").text().set(zc::encode_base_64(item.get_string()));
 		break;
 	case XRT_ARRAY: {
 		pugi::xml_node n_array = n_value.append_child("array");
@@ -259,7 +259,7 @@ void rpc_handler::read_item(pugi::xml_node& node, rpc_data_item& item) {
 		item.set(array);
 	}
 	else if (strcmp(type, "base64") == 0) {
-		std::string s = decode_base_64(n_item.text().as_string());
+		std::string s = zc::decode_base_64(n_item.text().as_string());
 		item.set(s, XRT_STRING);
 	}
 	else if (strcmp(type, "boolean") == 0) {
@@ -359,15 +359,15 @@ bool rpc_handler::strip_header(std::stringstream& message, std::stringstream& pa
 	// First line - e.g. POST <resource>....
 	getline(message, line);
 	std::vector<std::string> words;
-	split_line(line, words, ' ');
+	zc::split_line(line, words, ' ');
 	if (words[0] != "POST" || words[1] != resource_) {
 		return false;
 	}
 	else {
 		// Find the payload length
-		while (to_upper(words[0]) != "CONTENT-LENGTH:") {
+		while (zc::to_upper(words[0]) != "CONTENT-LENGTH:") {
 			getline(message, line);
-			split_line(line, words, ' ');
+			zc::split_line(line, words, ' ');
 		}
 		// Now go on to the payload indicated by an empty line
 		while (line != "" && line != "\r") {
@@ -394,7 +394,7 @@ bool rpc_handler::add_header(http_code code, std::stringstream& payload, std::st
 		//	Content-Type : text/xml
 		//	Content-Length : 124
 		resp << "HTTP/1.1 " << code << " OK\r\n";
-		resp << "Date: " << now(false, "%a %d %b %Y %X GMT") << "\r\n";
+		resp << "Date: " << zc::now(false, "%a %d %b %Y %X GMT") << "\r\n";
 		resp << "Server: " << APP_NAME << ". " << APP_VERSION << "\r\n";
 		resp << "Content-Type: text/xml\r\n";
 		resp << "Content-Length: " << len_pl << "\r\n";
@@ -403,7 +403,7 @@ bool rpc_handler::add_header(http_code code, std::stringstream& payload, std::st
 		break;
 	case BAD_REQUEST:
 		resp << "HTTP/1.1 " << code << " BAD REQUEST\r\n";
-		resp << "Date: " << now(false, "%a %d %b %Y %X GMT") << "\r\n";
+		resp << "Date: " << zc::now(false, "%a %d %b %Y %X GMT") << "\r\n";
 		resp << "Server: " << APP_NAME << ". " << APP_VERSION << "\r\n";
 		resp << "Connection: close\r\n";
 		resp << "\r\n";

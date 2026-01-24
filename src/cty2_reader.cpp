@@ -55,7 +55,7 @@ bool cty2_reader::load_entity(cty_entity* entry, std::istream& in, int& dxcc) {
 	getline(in, line);
 	if (in.good()) {
 		std::vector<std::string> items;
-		split_line(line, items, ',');
+		zc::split_line(line, items, ',');
 		if (items[0][0] == '*') return false;
 		entry->nickname_ = items[0];
 		entry->name_ = items[1];
@@ -68,7 +68,7 @@ bool cty2_reader::load_entity(cty_entity* entry, std::istream& in, int& dxcc) {
 		//entry->timezone = std::stod(items[8]);
 		// Now parse patterns
 		std::vector<std::string> patts;
-		split_line(items[9], patts, ' ');
+		zc::split_line(items[9], patts, ' ');
 		for (auto& it : patts) {
 			std::string match;
 			bool exception;

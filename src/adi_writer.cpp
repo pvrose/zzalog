@@ -182,7 +182,7 @@ void adi_writer::to_adif(record* record, std::ostream& out, field_list* fields /
 		}
 	}
 	if (record->is_header()) {
-		std::string year = now(false, "%Y");
+		std::string year = zc::now(false, "%Y");
 		char copyright[128];
 		snprintf(copyright, sizeof(copyright), DATA_COPYRIGHT.c_str(), year.c_str());
 		// Add red-tape after header fields

@@ -16,7 +16,7 @@ struct wx_report {
 
     unsigned int city_id{ 0 };       //!< City ID number
     std::string city_name;                //!< Location name
-    lat_long_t city_location;        //!< Latitude and longitude
+    zc::lat_long_t city_location;        //!< Latitude and longitude
     std::string iso_country;              //!< ISO country code (eg GB)
     float timezone_hr{ 0.0F };       //!< Timezone difference (hours)
     time_t sunrise{ 0 };             //!< Sunrise (UTC)

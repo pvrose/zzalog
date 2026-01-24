@@ -119,7 +119,7 @@ void qso_bands::enable_widgets() {
 
 
 void qso_bands::cb_band(Fl_Widget* w, void* v) {
-	qso_bands* that = ancestor_view<qso_bands>(w);
+	qso_bands* that = zc::ancestor_view<qso_bands>(w);
 	if (that->full_window_->visible()) {
 		that->full_window_->hide();
 		that->open_window_ = false;
@@ -132,7 +132,7 @@ void qso_bands::cb_band(Fl_Widget* w, void* v) {
 
 void qso_bands::cb_ticker(void* v) {
 	qso_bands* that = (qso_bands*)v;
-	qso_manager* mgr = ancestor_view<qso_manager>(that);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
 	rig_if* rig = mgr->rig();
 	if (rig && rig->is_good()) {
 		double tx = rig->get_dfrequency(true);

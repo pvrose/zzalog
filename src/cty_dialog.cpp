@@ -187,7 +187,7 @@ void cty_dialog::update_widgets() {
 // where possible download new data and update the info about them
 void cty_dialog::cb_update(Fl_Widget* w, void* v) {
 	cty_data::cty_type_t t = (cty_data::cty_type_t)(intptr_t)v;
-	cty_dialog* that = ancestor_view<cty_dialog>(w);
+	cty_dialog* that = zc::ancestor_view<cty_dialog>(w);
 	switch (t) {
 	case cty_data::CLUBLOG:
 	case cty_data::COUNTRY_FILES:
@@ -201,7 +201,7 @@ void cty_dialog::cb_update(Fl_Widget* w, void* v) {
 
 // Reload cty_data
 void cty_dialog::cb_reload(Fl_Widget* w, void* v) {
-	cty_dialog* that = ancestor_view<cty_dialog>(w);
+	cty_dialog* that = zc::ancestor_view<cty_dialog>(w);
 	delete cty_data_;
 	cty_data_ = new cty_data(true);
 	that->update_widgets();
@@ -209,7 +209,7 @@ void cty_dialog::cb_reload(Fl_Widget* w, void* v) {
 
 // Close the dialog
 void cty_dialog::cb_close(Fl_Widget* w, void* v) {
-	cty_dialog* that = ancestor_view<cty_dialog>(w);
+	cty_dialog* that = zc::ancestor_view<cty_dialog>(w);
 	default_callback(that, v);
 }
 
@@ -224,7 +224,7 @@ void cty_dialog::cb_browser(Fl_Widget* w, void* v) {
 
 // Release and reload
 void cty_dialog::cb_release(Fl_Widget* w, void* v) {
-	cty_dialog* that = ancestor_view<cty_dialog>(w);
+	cty_dialog* that = zc::ancestor_view<cty_dialog>(w);
 	// Copy working copies back to source - will fail if not DEVELOPMENT_MODE
 	file_holder_->copy_working_to_source(FILE_COUNTRY_CLUB);
 	file_holder_->copy_working_to_source(FILE_COUNTRY_CFILES);

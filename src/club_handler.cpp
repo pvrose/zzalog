@@ -81,7 +81,7 @@ bool club_handler::upload_log(book* book) {
 			status_->misc_status(ST_OK, "CLUBLOG: Upload successful");
 			book_->enable_save(false, "Updating Clublog status");
 			ok = true;
-			std::string today = now(false, "%Y%m%d");
+			std::string today = zc::now(false, "%Y%m%d");
 			for (auto it = book->begin(); it != book->end(); it++) {
 				(*it)->item("CLUBLOG_QSO_UPLOAD_DATE", today);
 				(*it)->item("CLUBLOG_QSO_UPLOAD_STATUS", std::string("Y"));
@@ -274,7 +274,7 @@ bool club_handler::upload_done(bool response) {
 			this_record->item("TIME_ON").c_str(),
 			this_record->item("CALL").c_str());
 		status_->misc_status(ST_OK, message);
-		std::string today = now(false, "%Y%m%d");
+		std::string today = zc::now(false, "%Y%m%d");
 		this_record->item("CLUBLOG_QSO_UPLOAD_DATE", today);
 		this_record->item("CLUBLOG_QSO_UPLOAD_STATUS", std::string("Y"));
 		book_->enable_save(true, "Uploaded to Clublog");

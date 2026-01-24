@@ -103,8 +103,8 @@ bool cty_element::time_contains(std::string when) const {
 std::ostream& operator<<(std::ostream& os, const cty_element& rhs) {
 	os << "(" << rhs.time_validity_.start << "-" << rhs.time_validity_.finish << ") " <<
 		"Name=" << rhs.name_ << ", CQ=" << rhs.cq_zone_ << ", ITU=" << rhs.itu_zone_ <<
-		", Cont=" << rhs.continent_ << ", Coords=" << degrees_to_dms(rhs.coordinates_.latitude, true) <<
-		", " << degrees_to_dms(rhs.coordinates_.longitude, false) <<
+		", Cont=" << rhs.continent_ << ", Coords=" << zc::degrees_to_dms(rhs.coordinates_.latitude, true) <<
+		", " << zc::degrees_to_dms(rhs.coordinates_.longitude, false) <<
 		(rhs.deleted_ ? " (DELETED)" : "");
 	return os;
 }

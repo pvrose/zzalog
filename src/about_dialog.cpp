@@ -130,12 +130,12 @@ about_dialog::~about_dialog()
 
 // OK button callback - do standard win_dialog OK action
 void about_dialog::cb_bn_ok(Fl_Widget* w, void* v) {
-	about_dialog* that = ancestor_view<about_dialog>(w);
+	about_dialog* that = zc::ancestor_view<about_dialog>(w);
 	that->do_button(BN_OK);
 }
 
 // cancel button callback - do standard win_dialog Close action
 void about_dialog::cb_bn_cancel (Fl_Widget* w, void* v) {
-	about_dialog* that = ancestor_view<about_dialog>(w);
+	about_dialog* that = zc::ancestor_view<about_dialog>(w);
 	that->do_button(BN_CANCEL);
 }

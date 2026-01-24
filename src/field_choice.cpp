@@ -51,7 +51,7 @@ void field_choice::set_dataset(std::string dataset_name, std::string default_fie
 	if (dataset_->data.size() > HIERARCHIC_LIMIT) {
 		hierarchic_ = true;
 		for (int i = 1; it != dataset_->data.end(); i++) {
-			std::string text = escape_menu(it->first);
+			std::string text = zc::escape_menu(it->first);
 			char curr = text[0];
 			// generate tree A/ADDRESS etc
 			char entry[128];
@@ -63,7 +63,7 @@ void field_choice::set_dataset(std::string dataset_name, std::string default_fie
 	else {
 		hierarchic_ = false;
 		for (int i = 1; it != dataset_->data.end(); i++) {
-			add(escape_menu(it->first).c_str(), 0, (Fl_Callback*)nullptr);
+			add(zc::escape_menu(it->first).c_str(), 0, (Fl_Callback*)nullptr);
 			it++;
 		}
 	}
@@ -174,7 +174,7 @@ int field_input::handle(int event) {
 					tip_window_ = nullptr;
 				}
 				// Remember tip position
-				tip_window_ = ::tip_window(tip, Fl::event_x_root(), Fl::event_y_root());
+				tip_window_ = zc::tip_window(tip, Fl::event_x_root(), Fl::event_y_root());
 				tip_window_->show();
 			}
 			break;
@@ -308,7 +308,7 @@ void field_input::populate_choice(std::string name) {
 	auto it = dataset->data.begin();
 	Fl_Menu_Button* menu = menubutton();
 	for (int i = 1; it != dataset->data.end(); i++) {
-		std::string menu_bar_entry = escape_menu(it->first);
+		std::string menu_bar_entry = zc::escape_menu(it->first);
 		std::string summary = spec_data_->summarise_enumaration(name, menu_bar_entry);
 		std::string temp = menu_bar_entry;
 		if (hierarchic == 1 || hierarchic == 2 && temp.length() == 1) {
@@ -318,7 +318,7 @@ void field_input::populate_choice(std::string name) {
 		}
 		std::string value = menu_bar_entry;
 		if (summary.length()) {
-			menu_bar_entry += comment_marker_ + escape_menu(summary);
+			menu_bar_entry += comment_marker_ + zc::escape_menu(summary);
 		}
 		menu->add(menu_bar_entry.c_str(), 0, nullptr, (void*)value.c_str());
 		add(menu_bar_entry.c_str());
@@ -447,7 +447,7 @@ void field_input::draw() {
 
 // Menu button callback
 void field_input::cb_menu(Fl_Widget* w, void* v) {
-	field_input* that = ancestor_view<field_input>(w);
+	field_input* that = zc::ancestor_view<field_input>(w);
 	const char* val = that->menubutton()->text();
 	const char* pos = strstr(val, comment_marker_);
 	if (pos == nullptr) {

@@ -162,14 +162,14 @@ void stn_dialog::enable_widgets() {
 
 // Switch tabs
 void stn_dialog::cb_tab(Fl_Widget* w, void* v) {
-	stn_dialog* that = ancestor_view<stn_dialog>(w);
+	stn_dialog* that = zc::ancestor_view<stn_dialog>(w);
 	that->enable_widgets();
 }
 
 // Done
 void stn_dialog::cb_done(Fl_Widget* w, void* v) {
-	stn_dialog* that = ancestor_view<stn_dialog>(w);
-	stn_window* win = ancestor_view<stn_window>(that);
+	stn_dialog* that = zc::ancestor_view<stn_dialog>(w);
+	stn_window* win = zc::ancestor_view<stn_window>(that);
 	that->save_values();
 	win->hide();
 }

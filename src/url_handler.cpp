@@ -329,7 +329,7 @@ bool url_handler::send_email(std::string url, std::string user, std::string pass
 	// Add the header Date:, To: From: Cc: Subject:
 	struct curl_slist* headers = nullptr;
 	// Date
-	std::string date = now(true, "%a, %d %b %Y %T %z");
+	std::string date = zc::now(true, "%a, %d %b %Y %T %z");
 	snprintf(text, sizeof(text), "Date: %s", date.c_str());
 	headers = curl_slist_append(headers, text);
 	for (auto it = to_list.begin(); it != to_list.end(); it++) {

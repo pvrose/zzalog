@@ -54,7 +54,7 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 	rig_state_(NO_RIG)
 {
 	// If no name is provided then get from qso_manager
-	if (L == nullptr || strlen(L) == 0) copy_label(ancestor_view<qso_manager>(this)->get_default(qso_manager::RIG).c_str());
+	if (L == nullptr || strlen(L) == 0) copy_label(zc::ancestor_view<qso_manager>(this)->get_default(qso_manager::RIG).c_str());
 	// Otherwise copy that supplied as it is probably a transient string
 	else copy_label(L);
 	// CAT control group
@@ -168,7 +168,7 @@ void qso_rig::create_status(int curr_x, int curr_y) {
 	bn_instant_ = new Fl_Check_Button(curr_x, curr_y, WDISPLAY, HBUTTON, "Display instantaneous");
 	bn_instant_->tooltip("Display shows instananoues power and S-meter values or maxuimum over recent samples");
 	bn_instant_->box(FL_FLAT_BOX);
-	bn_instant_->callback(cb_value<Fl_Button, bool>, &rig_info_->use_instant_values);
+	bn_instant_->callback(zc::cb_value<Fl_Button, bool>, &rig_info_->use_instant_values);
 	bn_instant_->value(rig_info_->use_instant_values);
 	bn_instant_->type(FL_TOGGLE_BUTTON);
 
@@ -222,7 +222,7 @@ void qso_rig::create_rig_ant(int curr_x, int curr_y) {
 	// field input to select an antenna from the ones previously logged or type in new
 	ip_antenna_ = new field_input(curr_x, curr_y, WSMEDIT, HBUTTON, "Antenna");
 	ip_antenna_->align(FL_ALIGN_LEFT);
-	ip_antenna_->callback(cb_value<field_input, std::string>, &rig_info_->antenna);
+	ip_antenna_->callback(zc::cb_value<field_input, std::string>, &rig_info_->antenna);
 	ip_antenna_->tooltip("Select the preferred antenna for this rig");
 	ip_antenna_->field_name("MY_ANTENNA");
 	ip_antenna_->value(rig_info_->antenna.c_str());
@@ -380,7 +380,7 @@ void qso_rig::create_network(int curr_x, int curr_y) {
 
 	// App name (flrig or wfview to connect to rig
 	ip_app_name_ = new zc_filename_input(curr_x, curr_y, this_w, HTEXT);
-	ip_app_name_->callback(cb_value<Fl_Input, std::string>, nullptr);
+	ip_app_name_->callback(zc::cb_value<Fl_Input, std::string>, nullptr);
 	ip_app_name_->tooltip("Please provide the command to use to connect");
 	ip_app_name_->value("");
 
@@ -465,7 +465,7 @@ void qso_rig::create_defaults(int curr_x, int curr_y) {
 	curr_y += HBUTTON;
 	ip_max_pwr_ = new Fl_Float_Input(curr_x, curr_y, WBUTTON, HBUTTON, "W");
 	ip_max_pwr_->align(FL_ALIGN_RIGHT);
-	ip_max_pwr_->callback(cb_value_double<Fl_Float_Input>, nullptr);
+	ip_max_pwr_->callback(zc::cb_value_double<Fl_Float_Input>, nullptr);
 	ip_max_pwr_->tooltip("Specify the maximum power out from the rig");
 
 	int max_y = curr_y + HBUTTON + GAP;
@@ -488,7 +488,7 @@ void qso_rig::create_defaults(int curr_x, int curr_y) {
 	curr_y += HBUTTON;
 	ip_xtal_ = new Fl_Float_Input(curr_x, curr_y, WBUTTON, HBUTTON, "MHz");
 	ip_xtal_->align(FL_ALIGN_RIGHT);
-	ip_xtal_->callback(cb_value_double<Fl_Float_Input>, nullptr);
+	ip_xtal_->callback(zc::cb_value_double<Fl_Float_Input>, nullptr);
 	ip_xtal_->tooltip("Provide a fixed frequency - eg crystal");
 	max_y = std::max<int>(max_y, curr_y + HBUTTON + GAP);
 	int max_x = curr_x + WBUTTON + GAP;
@@ -515,7 +515,7 @@ void qso_rig::create_accessory(int curr_x, int curr_y) {
 	curr_y += HBUTTON;
 	ip_gain_ = new Fl_Int_Input(curr_x, curr_y, WBUTTON - 5, HBUTTON, "dB");
 	ip_gain_->align(FL_ALIGN_RIGHT);
-	ip_gain_->callback(cb_value_int<Fl_Int_Input>, nullptr);
+	ip_gain_->callback(zc::cb_value_int<Fl_Int_Input>, nullptr);
 	ip_gain_->tooltip("Specify the amplifier gain in decibels");
 
 	int max_y = curr_y = HBUTTON + GAP;
@@ -531,13 +531,13 @@ void qso_rig::create_accessory(int curr_x, int curr_y) {
 	curr_y += HBUTTON;
 	ip_offset_ = new Fl_Float_Input(curr_x, curr_y, WBUTTON, HBUTTON, "\316\224MHz");
 	ip_offset_->align(FL_ALIGN_RIGHT);
-	ip_offset_->callback(cb_value_double<Fl_Float_Input>, nullptr);
+	ip_offset_->callback(zc::cb_value_double<Fl_Float_Input>, nullptr);
 	ip_offset_->tooltip("Specify the Transverter frequency offset to apply");
 
 	curr_y += HBUTTON ;
 	ip_tvtr_pwr_ = new Fl_Float_Input(curr_x, curr_y, WBUTTON, HBUTTON, "W");
 	ip_tvtr_pwr_->align(FL_ALIGN_RIGHT);
-	ip_tvtr_pwr_->callback(cb_value_double<Fl_Float_Input>, nullptr);
+	ip_tvtr_pwr_->callback(zc::cb_value_double<Fl_Float_Input>, nullptr);
 	ip_tvtr_pwr_->tooltip("Specify the transverter power output");
 
 	max_y = std::max<int>(max_y, curr_y + HBUTTON + GAP);
@@ -1206,8 +1206,8 @@ void qso_rig::populate_model_choice() {
 			char* temp = new char[256];
 			// The '/' ensures all rigs from same manufacturer are in a 
 			// a sub-menu to the manufacturer
-			std::string mfg = escape_menu(capabilities->mfg_name);
-			std::string model = escape_menu(capabilities->model_name);
+			std::string mfg = zc::escape_menu(capabilities->mfg_name);
+			std::string model = zc::escape_menu(capabilities->model_name);
 			if (model.length() == 0) {
 				model = mfg;
 				mfg = "Other";
@@ -1340,7 +1340,7 @@ void qso_rig::populate_power_choice() {
 // v is not used
 void qso_rig::cb_ch_model(Fl_Widget* w, void* v) {
 	Fl_Choice* ch = (Fl_Choice*)w;
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	const Fl_Menu_Item* item = ch->mvalue();
 	// The rig id was passed as user data to the menu item when it was added
 	rig_model_t id = (intptr_t)item->user_data();
@@ -1380,21 +1380,21 @@ void qso_rig::cb_ch_model(Fl_Widget* w, void* v) {
 // Callback selecting serial port
 // v is unused
 void qso_rig::cb_ch_port(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
-	cb_text<Fl_Choice, std::string>(w, (void*)&that->cat_data_->hamlib->port_name);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
+	zc::cb_text<Fl_Choice, std::string>(w, (void*)&that->cat_data_->hamlib->port_name);
 }
 
 // Callback entering named port
 // v is unused
 void qso_rig::cb_ip_port(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
-	cb_value<Fl_Input, std::string>(w, (void*)&that->cat_data_->hamlib->port_name);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
+	zc::cb_value<Fl_Input, std::string>(w, (void*)&that->cat_data_->hamlib->port_name);
 }
 
 // Callback selecting baud-rate
 // v is unused
 void qso_rig::cb_ch_baud(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	const char* text = ((Fl_Choice*)w)->text();
 	that->cat_data_->hamlib->baud_rate = atoi(text);
 }
@@ -1402,23 +1402,23 @@ void qso_rig::cb_ch_baud(Fl_Widget* w, void* v) {
 // Override rig capabilities selected - repopulate the baud choice
 // v is uused
 void qso_rig::cb_ch_over(Fl_Widget* w, void* v) {
-	cb_value<Fl_Check_Button, bool>(w, v);
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	zc::cb_value<Fl_Check_Button, bool>(w, v);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	that->populate_baud_choice();
 }
 
 // Select "display all ports" in port choice
 // v is a pointer to the all ports flag
 void qso_rig::cb_bn_all(Fl_Widget* w, void* v) {
-	cb_value<Fl_Check_Button, bool>(w, v);
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	zc::cb_value<Fl_Check_Button, bool>(w, v);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	that->populate_port_choice();
 }
 
 // Pressed the connect button - this is also called from toolbar
 // v is not used 
 void qso_rig::cb_bn_connect(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	if (!that->rig_) {
 		that->rig_ = new rig_if(that->label(), that->cat_data_->hamlib);
 		if (that->rig_->is_good()) that->rig_ok_ = true;
@@ -1443,7 +1443,7 @@ void qso_rig::cb_bn_connect(Fl_Widget* w, void* v) {
 // Pressed the select button 
 // v is not used 
 void qso_rig::cb_bn_select(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	Fl_Light_Button* bn = (Fl_Light_Button*)w;
 	if (bn->value()) {
 		// This is called in switch_rig
@@ -1456,7 +1456,7 @@ void qso_rig::cb_bn_select(Fl_Widget* w, void* v) {
 // Clicked start button
 // v points to the string containing the command to invoke flrig
 void qso_rig::cb_bn_start(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	cat_data_t* cat_data = that->cat_data_;
 #ifdef _WIN32
 	std::string command = "start /min " + cat_data->app;
@@ -1484,49 +1484,49 @@ void qso_rig::cb_bn_start(Fl_Widget* w, void* v) {
 // Selecting config tab
 // v is not used
 void qso_rig::cb_config(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	that->enable_widgets(DAMAGE_ALL);
 }
 
 // Use application button
 void qso_rig::cb_bn_use_app(Fl_Widget* w, void* v) {
-	cb_value<Fl_Light_Button, bool>(w, v);
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	zc::cb_value<Fl_Light_Button, bool>(w, v);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	that->enable_widgets(DAMAGE_ALL);
 }
 
 // Timeout callback
 void qso_rig::cb_timeout(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
-	cb_value<Fl_Value_Slider, double>(w, &that->cat_data_->hamlib->timeout);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
+	zc::cb_value<Fl_Value_Slider, double>(w, &that->cat_data_->hamlib->timeout);
 }
 
 // Smeter stack length
 void qso_rig::cb_smeters(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	double value;
-	cb_value<Fl_Value_Slider, double>(w, &value);
+	zc::cb_value<Fl_Value_Slider, double>(w, &value);
 	that->cat_data_->hamlib->num_smeters = (int)value;;
 }
 
 // Timeout count
 void qso_rig::cb_to_count(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	double value;
-	cb_value<Fl_Value_Slider, double>(w, &value);
+	zc::cb_value<Fl_Value_Slider, double>(w, &value);
 	that->cat_data_->hamlib->max_to_count = (int)value;;
 }
 
 // Use selected CAT
 void qso_rig::cb_select_cat(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	that->rig_info_->default_app = (int)(intptr_t)v;
 	that->switch_rig();
 }
 
 // Generate a new CAT
 void qso_rig::cb_new_cat(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	cat_data_t* data = new cat_data_t;
 	const char* nickname = fl_input("Please enter the nickname for the CAT connection", "None");
 	if (nickname) {
@@ -1542,7 +1542,7 @@ void qso_rig::cb_new_cat(Fl_Widget* w, void* v) {
 
 // Remove a CAT
 void qso_rig::cb_del_cat(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	auto erase_it = that->rig_info_->cat_data.begin() + that->rig_info_->default_app;
 	that->rig_info_->cat_data.erase(erase_it);
 	if (that->rig_info_->default_app >= that->rig_info_->cat_data.size()) {
@@ -1555,7 +1555,7 @@ void qso_rig::cb_del_cat(Fl_Widget* w, void* v) {
 
 // ACcessories
 void qso_rig::cb_bn_amplifier(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	bool value = ((Fl_Check_Button*)w)->value();
 	accessory_t* t = (accessory_t*)v;
 	if (value) {
@@ -1568,7 +1568,7 @@ void qso_rig::cb_bn_amplifier(Fl_Widget* w, void* v) {
 }
 
 void qso_rig::cb_bn_transverter(Fl_Widget* w, void* v) {
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	bool value = ((Fl_Check_Button*)w)->value();
 	accessory_t* t = (accessory_t*)v;
 	if (value) {
@@ -1591,31 +1591,31 @@ void qso_rig::cb_show_app(Fl_Widget* w, void* v) {
 
 // Override hamlib
 void qso_rig::cb_bn_override(Fl_Widget* w, void* v) {
-	cb_value<Fl_Check_Button, bool>(w, v);
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	zc::cb_value<Fl_Check_Button, bool>(w, v);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	that->enable_widgets(DAMAGE_ADDONS);
 }
 
 // Select hamlib override power type
 void qso_rig::cb_ch_power(Fl_Widget* w, void* v) {
-	cb_value<Fl_Choice, power_mode_t>(w, v);
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	zc::cb_value<Fl_Choice, power_mode_t>(w, v);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	that->enable_widgets(DAMAGE_ADDONS);
 }
 
 // Select autostart
 void qso_rig::cb_bn_autostart(Fl_Widget* w, void* v) {
 	bool value;
-	cb_value<Fl_Check_Button, bool>(w, &value);
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	zc::cb_value<Fl_Check_Button, bool>(w, &value);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	that->cat_data_->auto_start = value;
 }
 
 // Select autoconnect
 void qso_rig::cb_bn_autoconn(Fl_Widget* w, void* v) {
 	bool value;
-	cb_value<Fl_Check_Button, bool>(w, &value);
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	zc::cb_value<Fl_Check_Button, bool>(w, &value);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	that->cat_data_->auto_connect = value;
 	that->enable_widgets(DAMAGE_AUTOS);
 }
@@ -1623,8 +1623,8 @@ void qso_rig::cb_bn_autoconn(Fl_Widget* w, void* v) {
 // Connect delay
 void qso_rig::cb_connect_delay(Fl_Widget* w, void* v) {
 	double value;
-	cb_value<Fl_Value_Slider, double>(w, &value);
-	qso_rig* that = ancestor_view<qso_rig>(w);
+	zc::cb_value<Fl_Value_Slider, double>(w, &value);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	that->cat_data_->connect_delay = value;
 }
 
@@ -1644,7 +1644,7 @@ void qso_rig::switch_rig() {
 	if (cat_data_) {
 		rig_ = new rig_if(label(), cat_data_->hamlib);
 		modify_hamlib_data();
-		ancestor_view<qso_manager>(this)->update_rig();
+		zc::ancestor_view<qso_manager>(this)->update_rig();
 	}
 	enable_widgets(DAMAGE_ALL);
 }

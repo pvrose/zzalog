@@ -76,7 +76,7 @@ void stn_call_widget::enable_widgets() {
 //! \param v pointer to string item to take input
 void stn_call_widget::cb_ip_data(Fl_Widget* w, void* v) {
 	Fl_Input* ip = (Fl_Input*)w;
-	stn_call_widget* that = ancestor_view<stn_call_widget>(w);
+	stn_call_widget* that = zc::ancestor_view<stn_call_widget>(w);
 	stn_data_->set_call_descr(that->label(), ip->value());
 	// Tidy up display
 	that->enable_widgets();
@@ -176,7 +176,7 @@ stn_call_dlg::~stn_call_dlg() {
 
 //! Callback from "Add" button
 void stn_call_dlg::cb_add(Fl_Widget* w, void* v) {
-	stn_call_dlg* that = ancestor_view<stn_call_dlg>(w);
+	stn_call_dlg* that = zc::ancestor_view<stn_call_dlg>(w);
 	stn_data_->add_call(that->new_callsign_);
 	that->callsign_ = that->new_callsign_;
 	that->selected_new_ = false;
@@ -185,7 +185,7 @@ void stn_call_dlg::cb_add(Fl_Widget* w, void* v) {
 
 //! Callback from "Delete" button
 void stn_call_dlg::cb_delete(Fl_Widget* w, void* v) {
-	stn_call_dlg* that = ancestor_view<stn_call_dlg>(w);
+	stn_call_dlg* that = zc::ancestor_view<stn_call_dlg>(w);
 	stn_data_->delete_call(that->callsign_);
 	that->callsign_ = "";
 	that->ip_new_->value("");
@@ -194,7 +194,7 @@ void stn_call_dlg::cb_delete(Fl_Widget* w, void* v) {
 
 //! Callback from "Clear" button to clear all values for specific identifier.
 void stn_call_dlg::cb_clear(Fl_Widget* w, void* v) {
-	stn_call_dlg* that = ancestor_view<stn_call_dlg>(w);
+	stn_call_dlg* that = zc::ancestor_view<stn_call_dlg>(w);
 	stn_data_->delete_call(that->callsign_);
 	stn_data_->add_call(that->callsign_);
 	that->enable_widgets();
@@ -203,7 +203,7 @@ void stn_call_dlg::cb_clear(Fl_Widget* w, void* v) {
 //! Callback from choice
 void stn_call_dlg::cb_choice(Fl_Widget* w, void* v) {
 	Fl_Input_Choice* ch = (Fl_Input_Choice*)w;
-	stn_call_dlg* that = ancestor_view<stn_call_dlg>(w);
+	stn_call_dlg* that = zc::ancestor_view<stn_call_dlg>(w);
 	if (ch->menubutton()->changed()) {
 		that->selected_new_ = false;
 		that->callsign_ = ch->value();
@@ -217,7 +217,7 @@ void stn_call_dlg::cb_choice(Fl_Widget* w, void* v) {
 
 //! Set default button
 void stn_call_dlg::cb_default(Fl_Widget* w, void* v) {
-	stn_call_dlg* that = ancestor_view<stn_call_dlg>(w);
+	stn_call_dlg* that = zc::ancestor_view<stn_call_dlg>(w);
 	stn_default defaults = stn_data_->defaults();
 	defaults.callsign = that->callsign_;
 	stn_data_->set_defaults(defaults);
@@ -297,7 +297,7 @@ void stn_call_dlg::populate_callsigns() {
 	ip_new_->clear();
 	const std::map<std::string, std::string>* calls = stn_data_->get_calls();
 	for (auto& it : *calls) {
-		ip_new_->add(escape_menu(it.first).c_str());
+		ip_new_->add(zc::escape_menu(it.first).c_str());
 	}
 }
 

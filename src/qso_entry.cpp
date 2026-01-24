@@ -48,7 +48,7 @@ qso_entry::qso_entry(int X, int Y, int W, int H, const char* L) :
 	, field_map_(nullptr)
 {
 	// Get the enclosing qso_data instance
-	qso_data_ = ancestor_view<qso_data>(this);
+	qso_data_ = zc::ancestor_view<qso_data>(this);
 	box(FL_BORDER_BOX);
 
 	for (int ix = 0; ix < NUMBER_TOTAL; ix++) {
@@ -86,7 +86,7 @@ int qso_entry::handle(int event) {
 	case FL_PUSH:
 	{
 		Fl_Widget* w = Fl::pushed();
-		field_input* f = ancestor_view<field_input>(w);
+		field_input* f = zc::ancestor_view<field_input>(w);
 		if (f) {
 			focus_ix_ = (intptr_t)f->user_data();
 		}
@@ -96,7 +96,7 @@ int qso_entry::handle(int event) {
 	case FL_KEYBOARD:
 		switch (Fl::event_key()) {
 		case FL_F + 1:
-			qso_net_entry* qn = ancestor_view<qso_net_entry>(this);
+			qso_net_entry* qn = zc::ancestor_view<qso_net_entry>(this);
 			if (qn) {
 				open_html("qso_net_entry.html");
 			} else {
@@ -718,7 +718,7 @@ void qso_entry::action_del_field(int ix) {
 
 // Callback change field selected
 void qso_entry::cb_ch_field(Fl_Widget* w, void* v) {
-	qso_entry* that = ancestor_view<qso_entry>(w);
+	qso_entry* that = zc::ancestor_view<qso_entry>(w);
 	field_choice* ch = (field_choice*)w;
 	const char* field = ch->value();
 	int ix = (int)(intptr_t)v;
@@ -735,8 +735,8 @@ void qso_entry::cb_ch_field(Fl_Widget* w, void* v) {
 // Callback - general input
 // v - index of input widget
 void qso_entry::cb_ip_field(Fl_Widget* w, void* v) {
-	qso_entry* that = ancestor_view<qso_entry>(w);
-	qso_manager* mgr = ancestor_view<qso_manager>(that->qso_data_);
+	qso_entry* that = zc::ancestor_view<qso_entry>(w);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(that->qso_data_);
 	field_input* ip = (field_input*)w;
 	field_input::exit_reason_t reason = ip->reason();
 	// Index number of field_input
@@ -875,9 +875,9 @@ void qso_entry::cb_ip_field(Fl_Widget* w, void* v) {
 // Callback -notes input
 // v - not used
 void qso_entry::cb_ip_notes(Fl_Widget* w, void* v) {
-	qso_entry* that = ancestor_view<qso_entry>(w);
+	qso_entry* that = zc::ancestor_view<qso_entry>(w);
 	std::string notes;
-	cb_value<intl_input, std::string>(w, &notes);
+	zc::cb_value<intl_input, std::string>(w, &notes);
 	if (that->qso_) {
 		that->qso_->item("NOTES", notes);
 		tabbed_forms_->update_views(nullptr, HT_MINOR_CHANGE, that->qso_number_);

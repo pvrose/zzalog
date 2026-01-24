@@ -223,7 +223,7 @@ std::string rpc_data_item::print_item() {
 		break;
 	case XRT_BYTES:
 		// Base64 encoding as string
-		snprintf(temp, 1024, "Base64: %s\n", encode_base_64(s_).c_str());
+		snprintf(temp, 1024, "Base64: %s\n", zc::encode_base_64(s_).c_str());
 		result = temp;
 		break;
 	case XRT_ARRAY:

@@ -126,11 +126,11 @@ protected:
     //! The DXCC number per ADIF.
     int dxcc_;
     //! The latitude and longitude of the DXCC centre
-    lat_long_t location_;
+    zc::lat_long_t location_;
     //! The source of geographic coordinates.
     location_t loc_source_;
     //! The latitude and longitude of the user station
-    lat_long_t my_location_;
+    zc::lat_long_t my_location_;
     //! How has the callsign been parsed to get the DXCC - decoded or exception
     cty_data::parse_source_t source_;
     //! Current geographic subdivision.

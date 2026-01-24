@@ -119,11 +119,11 @@ record.h - Individual record data item: header file
 		
 		//! \param my_station if true returns the user's coordinates, otherwise of the contacted station.
 		//! \param source Receives an indication of how the coordinates were calculated.
-		lat_long_t location(bool my_station, location_t& source);
+		zc::lat_long_t location(bool my_station, location_t& source);
 		//! Get the latitude and longuitude without specifying a source.
 		
 		//! \param my_station if true returns the user's coordinates, otherwise of the contacted station.
-		lat_long_t location(bool my_station);
+		zc::lat_long_t location(bool my_station);
 		//! update BAND from FREQ. If \p force is false do not overwrite an existing BAND field.
 		bool update_band(bool force = false);
 		//! combine records - update result with hint to use in subsequent update.

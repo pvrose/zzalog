@@ -883,7 +883,7 @@ bool qso_data::action_save(bool continuing) {
 		if (qso->item("TIME_OFF") == "") {
 			// Add end date/time - current time of interactive entering
 			// Get current date and time in UTC
-			std::string timestamp = now(false, "%Y%m%d%H%M%S");
+			std::string timestamp = zc::now(false, "%Y%m%d%H%M%S");
 			qso->item("QSO_DATE_OFF", timestamp.substr(0, 8));
 			// Time as HHMMSS - always log seconds.
 			qso->item("TIME_OFF", timestamp.substr(8));
@@ -897,7 +897,7 @@ bool qso_data::action_save(bool continuing) {
 		if (qso->item("TIME_OFF") == "") {
 			// Add end date/time - current time of interactive entering
 			// Get current date and time in UTC
-			std::string timestamp = now(false, "%Y%m%d%H%M%S");
+			std::string timestamp = zc::now(false, "%Y%m%d%H%M%S");
 			qso->item("QSO_DATE_OFF", timestamp.substr(0, 8));
 			// Time as HHMMSS - always log seconds.
 			qso->item("TIME_OFF", timestamp.substr(8));
@@ -1779,7 +1779,7 @@ void qso_data::action_parse_qso() {
 // Dummy QSO
 record* qso_data::dummy_qso() {
 	record* dummy = new record;
-	std::string timestamp = now(false, "%Y%m%d%H%M%S");
+	std::string timestamp = zc::now(false, "%Y%m%d%H%M%S");
 	// Get current date and time in UTC
 	dummy->item("QSO_DATE", timestamp.substr(0, 8));
 	// Time as HHMMSS - always log seconds.

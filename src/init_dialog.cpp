@@ -118,14 +118,14 @@ void init_dialog::load_values() {
 
 //! Callback when "Accept" button clicked
 void init_dialog::cb_accept(Fl_Widget* w, void* v) {
-	init_dialog* that = ancestor_view<init_dialog>(w);
+	init_dialog* that = zc::ancestor_view<init_dialog>(w);
 	stn_default defaults = stn_data_->defaults();
-	defaults.callsign = to_upper(that->ip_call_->value());
+	defaults.callsign = zc::to_upper(that->ip_call_->value());
 	defaults.location = that->ip_location_->value();
 	defaults.name = that->ip_name_->value();
 	defaults.club_name = that->ip_club_->value();
 	stn_data_->set_defaults(defaults);
-	stn_dialog* dlg = ancestor_view<stn_dialog>(that);
+	stn_dialog* dlg = zc::ancestor_view<stn_dialog>(that);
 	dlg->enable_widgets();
 	dlg->set_tab(stn_dialog::QTH, defaults.location, "Set initial values.");
 }
@@ -135,7 +135,7 @@ void init_dialog::cb_accept(Fl_Widget* w, void* v) {
 //! \param w: widget clicked
 //! \param v: object of type stn_type indicates the new station type
 void init_dialog::cb_type(Fl_Widget* w, void* v) {
-	init_dialog* that = ancestor_view<init_dialog>(w);
+	init_dialog* that = zc::ancestor_view<init_dialog>(w);
 	stn_data_->set_type((stn_type)(intptr_t)v);
 	that->enable_widgets();
 }

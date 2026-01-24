@@ -80,13 +80,13 @@ void file_viewer::enable_widgets() {
 
 // Callback 
 void file_viewer::cb_close(Fl_Widget* w, void* v) {
-	file_viewer* win = ancestor_view<file_viewer>(w);
+	file_viewer* win = zc::ancestor_view<file_viewer>(w);
 	win->hide();
 }
 
 // Reload file
 void file_viewer::cb_reload(Fl_Widget* w, void* v) {
-	file_viewer* that = ancestor_view<file_viewer>(w);
+	file_viewer* that = zc::ancestor_view<file_viewer>(w);
 	int len = that->buffer_->length();
 	that->buffer_->remove(0, len);
 	that->load_file(that->filename_);
@@ -94,7 +94,7 @@ void file_viewer::cb_reload(Fl_Widget* w, void* v) {
 
 // Save file
 void file_viewer::cb_save(Fl_Widget* w, void* v) {
-	file_viewer* that = ancestor_view<file_viewer>(w);
+	file_viewer* that = zc::ancestor_view<file_viewer>(w);
 	that->save_file();
 }
 

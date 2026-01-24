@@ -275,7 +275,7 @@ std::string backup_filename(std::string source) {
 	else {
 		base_name = source.substr(last_slash + 1, last_period - last_slash - 1);
 	}
-	std::string timestamp = now(false, "%Y%m%d_%H%MZ");
+	std::string timestamp = zc::now(false, "%Y%m%d_%H%MZ");
 	backup += base_name + "_" + timestamp + suffix;
 	return backup;
 }
@@ -719,7 +719,7 @@ std::string get_file(char * arg_filename) {
 		if (!filename.length()) {
 			status_->misc_status(ST_WARNING, "ZZALOG: No log file - assuming a new installation.");
 			stn_default defaults = stn_data_->defaults();
-			std::string def_filename = to_lower(defaults.callsign) + ".adi";
+			std::string def_filename = zc::to_lower(defaults.callsign) + ".adi";
 			Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
 			chooser->title("Select log file name");
 			chooser->preset_file(def_filename.c_str());
@@ -748,7 +748,7 @@ void add_properties() {
 	Fl_Font font;
 	Fl_Fontsize size;
 	float duration;
-	tip_settings.get("Duration", duration, (float)TIP_SHOW);
+	tip_settings.get("Duration", duration, (float)zc::TIP_SHOW);
 	tip_settings.get("Font Name", font, 0);
 	tip_settings.get("Font Size", size, FL_NORMAL_SIZE);
 	// Set the default tooltip properties

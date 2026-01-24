@@ -214,7 +214,7 @@ void fields_table::cb_table(Fl_Widget* w, void* v) {
                     that->select_row(row);
                     that->selected_row_ = row;
                 }
-                ancestor_view<fields_dialog>(that)->enable_widgets();
+                zc::ancestor_view<fields_dialog>(that)->enable_widgets();
                 that->damage(FL_DAMAGE_ALL);
                 that->redraw();
             }
@@ -229,7 +229,7 @@ void fields_table::cb_table(Fl_Widget* w, void* v) {
 
 // Callback from field_choice
 void fields_table::cb_field(Fl_Widget* w, void* v) {
-    fields_table* that = ancestor_view<fields_table>(w);
+    fields_table* that = zc::ancestor_view<fields_table>(w);
     int row = (int)(intptr_t)v;
     field_choice* ch = (field_choice*)w;
     if (row == that->data_->size()) {
@@ -260,10 +260,10 @@ void fields_table::cb_field(Fl_Widget* w, void* v) {
 
 // Callback from the header input
 void fields_table::cb_header(Fl_Widget* w, void* v) {
-    fields_table* that = ancestor_view<fields_table>(w);
+    fields_table* that = zc::ancestor_view<fields_table>(w);
     int row = (int)(intptr_t)v;
     std::string header;
-    cb_value<intl_input, std::string>(w, &header);
+    zc::cb_value<intl_input, std::string>(w, &header);
     (*that->data_)[row].header = header;
     w->hide();
     that->edit_row_ = -1;
@@ -276,10 +276,10 @@ void fields_table::cb_header(Fl_Widget* w, void* v) {
 
 // Callback from the width input
 void fields_table::cb_width(Fl_Widget* w, void* v) {
-    fields_table* that = ancestor_view<fields_table>(w);
+    fields_table* that = zc::ancestor_view<fields_table>(w);
     int row = (int)(intptr_t)v;
     int width;
-    cb_value_int<intl_input>(w, &width);
+    zc::cb_value_int<intl_input>(w, &width);
     (*that->data_)[row].width = width;
     w->hide();
     that->edit_row_ = -1;
@@ -468,7 +468,7 @@ void fields_dialog::enable_widgets() {
 // v is not used
 void fields_dialog::cb_application(Fl_Widget* w, void* v) {
     Fl_Choice* ch = (Fl_Choice*)w;
-    fields_dialog* that = ancestor_view<fields_dialog>(w);
+    fields_dialog* that = zc::ancestor_view<fields_dialog>(w);
     // Set the application, get the associated collection and link them
     that->application_ = (field_app_t)ch->value();
     that->collection_ = fields_->coll_name(that->application_);
@@ -480,7 +480,7 @@ void fields_dialog::cb_application(Fl_Widget* w, void* v) {
 // v is not used
 void fields_dialog::cb_collection(Fl_Widget* w, void* v) {
     Fl_Input_Choice* ch = (Fl_Input_Choice*)w;
-    fields_dialog* that = ancestor_view<fields_dialog>(w);
+    fields_dialog* that = zc::ancestor_view<fields_dialog>(w);
     if (ch->menubutton()->changed() == 0) {
         // New collection - initialise as copy of "Default"
         that->collection_ = ch->value();
@@ -502,14 +502,14 @@ void fields_dialog::cb_collection(Fl_Widget* w, void* v) {
 // Up/Don button callback
 // v: true = up; false = down
 void fields_dialog::cb_move(Fl_Widget* w, void* v) {
-    fields_dialog* that = ancestor_view<fields_dialog>(w);
+    fields_dialog* that = zc::ancestor_view<fields_dialog>(w);
     bool up = (bool)(intptr_t)v;
     that->navigate_table(up);
 }
 
 // Delete the displayed collection
 void fields_dialog::cb_del_coll(Fl_Widget* w, void* v) {
-    fields_dialog* that = ancestor_view<fields_dialog>(w);
+    fields_dialog* that = zc::ancestor_view<fields_dialog>(w);
     if (fields_->delete_coll(that->collection_)) {
         that->collection_ = fields_->coll_name(that->application_);
         that->enable_widgets();
@@ -520,8 +520,8 @@ void fields_dialog::cb_del_coll(Fl_Widget* w, void* v) {
 // Link the application
 void fields_dialog::cb_linked(Fl_Widget* w, void* v) {
     // Gete the new value of the button
-    cb_value<Fl_Light_Button, bool>(w, v);
-    fields_dialog* that = ancestor_view<fields_dialog>(w);
+    zc::cb_value<Fl_Light_Button, bool>(w, v);
+    fields_dialog* that = zc::ancestor_view<fields_dialog>(w);
     if (that->linked_) {
         fields_->link_app(that->application_, that->collection_);
     }

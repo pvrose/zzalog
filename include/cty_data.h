@@ -71,7 +71,7 @@ public:
 	int cq_zone(record* qso);      //!< Returns the CQ Zone of the callsign in the \p QSO.
 	int itu_zone(record* qso);     //!< Returns the ITU Zone of the callsign in the \p QSO.
 	// Get location
-	lat_long_t location(record* qso); //!< Returns the longitude and latitude of the station in the \p QSO.
+	zc::lat_long_t location(record* qso); //!< Returns the longitude and latitude of the station in the \p QSO.
 	
 	//! Update record based on parsing
 	

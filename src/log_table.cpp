@@ -209,7 +209,7 @@ void log_table::cb_tab_log(Fl_Widget* w, void* v) {
 
 // Callback from the edit input - Enter key has been typed
 void log_table::cb_input(Fl_Widget* w, void* v) {
-	log_table* that = ancestor_view<log_table>(w);
+	log_table* that = zc::ancestor_view<log_table>(w);
 	field_input* fi = (field_input*)w;
 	that->edit_save(fi->reason());
 }
@@ -792,7 +792,7 @@ void log_table::describe_cell(int item, int col) {
 	// Remember tip position
 	tip_root_x_ = last_rootx_ - 5;
 	tip_root_y_ = last_rooty_ - 5;
-	tip_window_ = ::tip_window(tip, tip_root_x_, tip_root_y_);
+	tip_window_ = zc::tip_window(tip, tip_root_x_, tip_root_y_);
 	tip_window_->show();
 }
 

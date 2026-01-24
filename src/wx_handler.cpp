@@ -135,7 +135,7 @@ bool wx_handler::update() {
     // Create a dummy record to get own location
     record* dummy = qso_manager_->dummy_qso();
     std::string qth_id = qso_manager_->get_default(qso_manager::QTH);
-    lat_long_t location = { nan(""), nan("") };
+    zc::lat_long_t location = { nan(""), nan("") };
     if (qth_id.length()) {
         const qth_info_t* info = stn_data_->get_qth(qth_id);
         if (info != nullptr && info->data.find(LOCATOR) != info->data.end()) {
@@ -275,9 +275,9 @@ std::string wx_handler::location() const {
 
 // Latlong location
 std::string wx_handler::latlong() const {
-    std::string result = degrees_to_dms(report_.city_location.latitude, true);
+    std::string result = zc::degrees_to_dms(report_.city_location.latitude, true);
     result += " ";
-    result += degrees_to_dms(report_.city_location.longitude, false);
+    result += zc::degrees_to_dms(report_.city_location.longitude, false);
     return result;
 }
 

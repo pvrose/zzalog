@@ -377,8 +377,8 @@ void band_row::selected(bool value) {
 
 //! Callback from select button
 void band_row::cb_select(Fl_Widget* w, void* v) {
-    band_row* that = ancestor_view<band_row>(w);
-    band_table* t = ancestor_view<band_table>(that);
+    band_row* that = zc::ancestor_view<band_row>(w);
+    band_table* t = zc::ancestor_view<band_table>(that);
     if (((Fl_Check_Button*)w)->value()) {
         t->selected(that->entry_);
     }
@@ -387,55 +387,55 @@ void band_row::cb_select(Fl_Widget* w, void* v) {
 }
 //! Callback from the Type entry field.
 void band_row::cb_type(Fl_Widget* w, void* v) {
-    band_row* that = ancestor_view<band_row>(w);
+    band_row* that = zc::ancestor_view<band_row>(w);
     // Remove entry before updating the sort key (type)
     band_data_->get_entries().erase(that->entry_);
     that->entry_->type = (band_data::entry_t)((Fl_Choice*)w)->value();
     // Add back again
     band_data_->get_entries().insert(that->entry_);
-    band_table* table = ancestor_view<band_table>(that);
+    band_table* table = zc::ancestor_view<band_table>(that);
     table->set_values();
     that->enable_widgets();
 }
 
 //! Callback from the Lower entry field.
 void band_row::cb_lower(Fl_Widget* w, void* v) {
-    band_row* that = ancestor_view<band_row>(w);
+    band_row* that = zc::ancestor_view<band_row>(w);
     // Remove entry before updating the sort key (frequency)
     band_data_->get_entries().erase(that->entry_);
     // Change frequency
     that->entry_->range.lower = atof(((Fl_Float_Input*)w)->value());
     // Add back again
     band_data_->get_entries().insert(that->entry_);
-    band_table* table = ancestor_view<band_table>(that);
+    band_table* table = zc::ancestor_view<band_table>(that);
     table->set_values();
     that->enable_widgets();
 }
 
 //! Callback from the Upper entry field.
 void band_row::cb_upper(Fl_Widget* w, void* v) {
-    band_row* that = ancestor_view<band_row>(w);
+    band_row* that = zc::ancestor_view<band_row>(w);
     that->entry_->range.upper = atof(((Fl_Float_Input*)w)->value());
     that->enable_widgets();
 }
 
 //! Callback from the bandwidth entry field.
 void band_row::cb_width(Fl_Widget* w, void* v) {
-    band_row* that = ancestor_view<band_row>(w);
+    band_row* that = zc::ancestor_view<band_row>(w);
     that->entry_->bandwidth = atof(((Fl_Float_Input*)w)->value());
     that->enable_widgets();
 }
 
 //! Callback from the Modes entry field.
 void band_row::cb_modes(Fl_Widget* w, void* v) {
-    band_row* that = ancestor_view<band_row>(w);
+    band_row* that = zc::ancestor_view<band_row>(w);
     that->entry_->modes = ((band_modechoice*)w)->value();
     that->enable_widgets();
 }
 
 //! Callback from the Description entry field.
 void band_row::cb_description(Fl_Widget* w, void* v) {
-    band_row* that = ancestor_view<band_row>(w);
+    band_row* that = zc::ancestor_view<band_row>(w);
     that->entry_->summary = ((Fl_Input*)w)->value();
     that->enable_widgets();
 }
@@ -511,7 +511,7 @@ band_editor::~band_editor()
 
 //!Callback from add row button
 void band_editor::cb_add(Fl_Widget* w, void* v) {
-    band_editor* that = ancestor_view<band_editor>(w);
+    band_editor* that = zc::ancestor_view<band_editor>(w);
     if (that->table_->selected()) {
         band_entry_t* e = that->table_->selected();
         band_entry_t* new_e = new band_entry_t;
@@ -526,7 +526,7 @@ void band_editor::cb_add(Fl_Widget* w, void* v) {
 
 //! Callback from delete row button
 void band_editor::cb_delete(Fl_Widget* w, void* v) {
-    band_editor* that = ancestor_view<band_editor>(w);
+    band_editor* that = zc::ancestor_view<band_editor>(w);
     if (that->table_->selected()) {
         band_entry_t* e = that->table_->selected();
         band_data_->get_entries().erase(e);

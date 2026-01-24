@@ -195,7 +195,7 @@ int cty_data::itu_zone(record* qso) {
 }
 
 // Get location
-lat_long_t cty_data::location(record* qso) {
+zc::lat_long_t cty_data::location(record* qso) {
 	parse(qso);
 	// Check exception
 	cty_exception* except = exception();
@@ -613,7 +613,7 @@ cty_filter* cty_data::match_filter(cty_element* element, cty_filter::filter_t ty
 void cty_data::split_call(std::string call, std::string& alt, std::string& body) {
 	// Split the callsign into its various components
 	std::vector<std::string> words;
-	split_line(call, words, '/');
+	zc::split_line(call, words, '/');
 	std::string suffix = words.back();
 	// Try and work out which bit of the call is which
 	switch (words.size()) {
@@ -956,7 +956,7 @@ int cty_data::get_cfile_url(std::string& url) {
 //! \return true f successfuk
 bool cty_data::download_cfile_zip(const std::string& url, std::string& local_filename) {
 	std::string local_directory = file_holder_->get_directory(DATA_WORKING);
-	local_filename = local_directory + terminal(url);
+	local_filename = local_directory + zc::terminal(url);
 	std::ofstream os(local_filename, std::ios::trunc | std::ios::out | std::ios::binary);
 	char msg[128];
 	if (url_handler_->read_url(url, &os)) {
@@ -1031,7 +1031,7 @@ bool cty_data::unzip_cfile(const std::string& zip_file) {
 #endif
 
 	std::string tgt_file = file_holder_->get_filename(FILE_COUNTRY_CFILES);
-	std::string unzip_file = unzip_diry + terminal(tgt_file);
+	std::string unzip_file = unzip_diry + zc::terminal(tgt_file);
 #ifdef _WIN32
 	std::string command = "copy /y " + unzip_file + " " + tgt_file;
 #else
@@ -1066,16 +1066,16 @@ void cty_data::store_json() {
 		time_t tst = std::chrono::system_clock::to_time_t(ts.second);
 		switch (ts.first) {
 		case ADIF:
-			jsources["ADIF"]["Timestamp"] = convert_iso_datetime(tst);
+			jsources["ADIF"]["Timestamp"] = zc::convert_iso_datetime(tst);
 			break;
 		case CLUBLOG:
-			jsources["Clublog.org"]["Timestamp"] = convert_iso_datetime(tst);
+			jsources["Clublog.org"]["Timestamp"] = zc::convert_iso_datetime(tst);
 			break;
 		case COUNTRY_FILES:
-			jsources["Countryfiles.com"]["Timestamp"] = convert_iso_datetime(tst);
+			jsources["Countryfiles.com"]["Timestamp"] = zc::convert_iso_datetime(tst);
 			break;
 		case DXATLAS:
-			jsources["DxAtlas"]["Timestamp"] = convert_iso_datetime(tst);
+			jsources["DxAtlas"]["Timestamp"] = zc::convert_iso_datetime(tst);
 			break;
 		}
 	}
@@ -1097,7 +1097,7 @@ void cty_data::store_json() {
 
 	}
 	time_t now = time(nullptr);
-	jsources["ZZALOG Collated"] = convert_iso_datetime(now);
+	jsources["ZZALOG Collated"] = zc::convert_iso_datetime(now);
 	jall["Data"] = *data_;
 	jall["Sources"] = jsources;
 	json j;
@@ -1144,25 +1144,25 @@ bool cty_data::load_json() {
 			if (js.find("ADIF") != js.end()) {
 				json jd = js.at("ADIF");
 				jd.at("Timestamp").get_to(sts);
-				timestamps_[ADIF] = std::chrono::system_clock::from_time_t(convert_iso_datetime(sts));
+				timestamps_[ADIF] = std::chrono::system_clock::from_time_t(zc::convert_iso_datetime(sts));
 				jd.at("Version").get_to(versions_[ADIF]);
 			}
 			if (js.find("Clublog.org") != js.end()) {
 				json jd = js.at("Clublog.org");
 				jd.at("Timestamp").get_to(sts);
-				timestamps_[CLUBLOG] = std::chrono::system_clock::from_time_t(convert_iso_datetime(sts));
+				timestamps_[CLUBLOG] = std::chrono::system_clock::from_time_t(zc::convert_iso_datetime(sts));
 				jd.at("Version").get_to(versions_[CLUBLOG]);
 			}
 			if (js.find("Countryfiles.com") != js.end()) {
 				json jd = js.at("Countryfiles.com");
 				jd.at("Timestamp").get_to(sts);
-				timestamps_[COUNTRY_FILES] = std::chrono::system_clock::from_time_t(convert_iso_datetime(sts));
+				timestamps_[COUNTRY_FILES] = std::chrono::system_clock::from_time_t(zc::convert_iso_datetime(sts));
 				jd.at("Version").get_to(versions_[COUNTRY_FILES]);
 			}
 			if (js.find("DxAtlas") != js.end()) {
 				json jd = js.at("DxAtlas");
 				jd.at("Timestamp").get_to(sts);
-				timestamps_[DXATLAS] = std::chrono::system_clock::from_time_t(convert_iso_datetime(sts));
+				timestamps_[DXATLAS] = std::chrono::system_clock::from_time_t(zc::convert_iso_datetime(sts));
 				jd.at("Version").get_to(versions_[DXATLAS]);
 			}
 		}

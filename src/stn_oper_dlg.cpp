@@ -100,7 +100,7 @@ void stn_oper_widget::enable_widgets() {
 //! \param v pointer to string item to take input
 void stn_oper_widget::cb_ip_data(Fl_Widget* w, void* v) {
 	Fl_Input* ip = (Fl_Input*)w;
-	stn_oper_widget* that = ancestor_view<stn_oper_widget>(w);
+	stn_oper_widget* that = zc::ancestor_view<stn_oper_widget>(w);
 	oper_value_t field = (oper_value_t)(intptr_t)v;
 	stn_data_->add_oper_item(that->label(), field, ip->value());
 	// Tidy up display
@@ -201,7 +201,7 @@ stn_oper_dlg::~stn_oper_dlg() {
 
 //! Callback from "Add" button
 void stn_oper_dlg::cb_add(Fl_Widget* w, void* v) {
-	stn_oper_dlg* that = ancestor_view<stn_oper_dlg>(w);
+	stn_oper_dlg* that = zc::ancestor_view<stn_oper_dlg>(w);
 	oper_info_t* info = new oper_info_t;
 	stn_data_->add_oper(that->new_operator_, info);
 	that->operator_ = that->new_operator_;
@@ -211,7 +211,7 @@ void stn_oper_dlg::cb_add(Fl_Widget* w, void* v) {
 
 //! Callback from "Delete" button
 void stn_oper_dlg::cb_delete(Fl_Widget* w, void* v) {
-	stn_oper_dlg* that = ancestor_view<stn_oper_dlg>(w);
+	stn_oper_dlg* that = zc::ancestor_view<stn_oper_dlg>(w);
 	stn_data_->delete_oper(that->operator_);
 	that->operator_ = "";
 	that->ip_new_->value("");
@@ -220,7 +220,7 @@ void stn_oper_dlg::cb_delete(Fl_Widget* w, void* v) {
 
 //! Callback from "Clear" button to clear all values for specific identifier.
 void stn_oper_dlg::cb_clear(Fl_Widget* w, void* v) {
-	stn_oper_dlg* that = ancestor_view<stn_oper_dlg>(w);
+	stn_oper_dlg* that = zc::ancestor_view<stn_oper_dlg>(w);
 	oper_info_t* info = new oper_info_t;
 	stn_data_->delete_oper(that->operator_);
 	stn_data_->add_oper(that->operator_, info);
@@ -230,7 +230,7 @@ void stn_oper_dlg::cb_clear(Fl_Widget* w, void* v) {
 //! Callback from choice
 void stn_oper_dlg::cb_choice(Fl_Widget* w, void* v) {
 	Fl_Input_Choice* ch = (Fl_Input_Choice*)w;
-	stn_oper_dlg* that = ancestor_view<stn_oper_dlg>(w);
+	stn_oper_dlg* that = zc::ancestor_view<stn_oper_dlg>(w);
 	if (ch->menubutton()->changed()) {
 		that->selected_new_ = false;
 		that->operator_ = ch->value();
@@ -272,7 +272,7 @@ void stn_oper_dlg::cb_check(Fl_Widget* w, void* v) {
 		}
 		status_->progress(++ix, OT_STN);
 	}
-	stn_oper_dlg* that = ancestor_view<stn_oper_dlg>(w);
+	stn_oper_dlg* that = zc::ancestor_view<stn_oper_dlg>(w);
 	char msg[128];
 	snprintf(msg, sizeof(msg), "STN DATA: %d do match; %d don't; %d can't; %d extra; %d multi",
 		num_do, num_dont, num_cant, num_extra, num_multi);
@@ -282,7 +282,7 @@ void stn_oper_dlg::cb_check(Fl_Widget* w, void* v) {
 
 //! Set default button
 void stn_oper_dlg::cb_default(Fl_Widget* w, void* v) {
-	stn_oper_dlg* that = ancestor_view<stn_oper_dlg>(w);
+	stn_oper_dlg* that = zc::ancestor_view<stn_oper_dlg>(w);
 	stn_default defaults = stn_data_->defaults();
 	defaults.name = that->operator_;
 	stn_data_->set_defaults(defaults);
@@ -367,7 +367,7 @@ void stn_oper_dlg::populate_operators() {
 	ip_new_->clear();
 	const std::map<std::string, oper_info_t*>* opers = stn_data_->get_opers();
 	for (auto& it : *opers) {
-		ip_new_->add(escape_menu(it.first).c_str());
+		ip_new_->add(zc::escape_menu(it.first).c_str());
 	}
 }
 

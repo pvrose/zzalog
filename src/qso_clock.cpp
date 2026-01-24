@@ -125,9 +125,9 @@ void qso_clock::cb_ticker(void* v) {
 
 // Click date or ime
 void qso_clock::cb_clock(Fl_Widget* w, void* v) {
-	qso_clock* that= ancestor_view<qso_clock>(w);
+	qso_clock* that= zc::ancestor_view<qso_clock>(w);
 	that->display_local_ = !that->display_local_;
-	qso_manager* mgr = ancestor_view<qso_manager>(that);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
 	mgr->enable_widgets();
 }
 

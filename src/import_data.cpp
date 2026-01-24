@@ -609,7 +609,7 @@ void import_data::convert_update(record* qso) const {
 			qso->erase(*it);
 		}
 		// Add EQSL_QSLRDATE - date eQSL received and the eQSL timestamp
-		std::string qsl_rdate = now(false, "%Y%m%d");
+		std::string qsl_rdate = zc::now(false, "%Y%m%d");
 		qso->item("EQSL_QSLRDATE", qsl_rdate);
 
 		// Delete QSLMSG

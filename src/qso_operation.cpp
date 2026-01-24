@@ -131,7 +131,7 @@ void qso_operation::load_data() {
 void qso_operation::cb_qth(Fl_Widget *w, void *v)
 {
 	Fl_Input_Choice *ch = (Fl_Input_Choice *)w;
-	qso_operation *that = ancestor_view<qso_operation>(w);
+	qso_operation *that = zc::ancestor_view<qso_operation>(w);
 	*(std::string *)v = ch->value();
 	if (!ch->menubutton()->changed())
 	{
@@ -147,7 +147,7 @@ void qso_operation::cb_qth(Fl_Widget *w, void *v)
 void qso_operation::cb_oper(Fl_Widget *w, void *v)
 {
 	Fl_Input_Choice *ch = (Fl_Input_Choice *)w;
-	qso_operation *that = ancestor_view<qso_operation>(w);
+	qso_operation *that = zc::ancestor_view<qso_operation>(w);
 	*(std::string *)v = ch->value();
 	if (!ch->menubutton()->changed())
 	{
@@ -163,7 +163,7 @@ void qso_operation::cb_oper(Fl_Widget *w, void *v)
 void qso_operation::cb_call(Fl_Widget *w, void *v)
 {
 	Fl_Input_Choice *ch = (Fl_Input_Choice *)w;
-	qso_operation *that = ancestor_view<qso_operation>(w);
+	qso_operation *that = zc::ancestor_view<qso_operation>(w);
 	*(std::string *)v = ch->value();
 	if (!ch->menubutton()->changed())
 	{
@@ -178,7 +178,7 @@ void qso_operation::cb_call(Fl_Widget *w, void *v)
 
 void qso_operation::cb_show(Fl_Widget *w, void *v)
 {
-	qso_operation *that = ancestor_view<qso_operation>(w);
+	qso_operation *that = zc::ancestor_view<qso_operation>(w);
 	stn_dialog::tab_type t = (stn_dialog::tab_type)(intptr_t)v;
 	switch (t)
 	{
@@ -230,7 +230,7 @@ void qso_operation::populate_choices()
 		if (it.second) {
 			std::map<qth_value_t, std::string>& data = it.second->data;
 			snprintf(l, sizeof(l), "%s:--->%s,%s,%s",
-				escape_menu(it.first).c_str(),
+				zc::escape_menu(it.first).c_str(),
 				data.find(STREET) == data.end() ? "" : data.at(STREET).c_str(),
 				data.find(CITY) == data.end() ? "" : data.at(CITY).c_str(),
 				data.find(LOCATOR) == data.end() ? "" : data.at(LOCATOR).c_str());
@@ -246,7 +246,7 @@ void qso_operation::populate_choices()
 		if (it.second) {
 			std::map<oper_value_t, std::string>& data = it.second->data;
 			snprintf(l, sizeof(l), "%s:--->%s,%s",
-				escape_menu(it.first).c_str(),
+				zc::escape_menu(it.first).c_str(),
 				data.find(NAME) == data.end() ? "" : data.at(NAME).c_str(),
 				data.find(CALLSIGN) == data.end() ? "" : data.at(CALLSIGN).c_str());
 			ch_oper_->add(l);
@@ -258,7 +258,7 @@ void qso_operation::populate_choices()
 	ch_call_->add("");
 	for (auto& it : *stn_data_->get_calls())
 	{
-		ch_call_->add(escape_menu(it.first).c_str());
+		ch_call_->add(zc::escape_menu(it.first).c_str());
 	}
 }
 

@@ -44,7 +44,7 @@ spec_tree::spec_tree(int X, int Y, int W, int H, const char* label, field_app_t 
 	item_labelsize(fontsize_);
 	// item_labelfgcolor(fl_contrast(FL_FOREGROUND_COLOR, item_labelbgcolor()));
 	// Call back standard tree callback
-	callback(cb_tree);
+	callback(zc::cb_tree);
 
 	end();
 }
@@ -170,7 +170,7 @@ void spec_tree::insert_adif_spec(Fl_Tree_Item* parent, const spec_dataset& datas
 		}
 		else {
 			// Create a top level tree item
-			hang_item = add(escape_string(name, "\\/").c_str());
+			hang_item = add(zc::escape_string(name, "\\/").c_str());
 		}
 		if (subdivision || submode) {
 			// Find the split between the subdivision name and DXCC code and get the DXCC code
@@ -287,7 +287,7 @@ void spec_tree::insert_adif_spec(Fl_Tree_Item* parent, const spec_dataset& datas
 						if (type_dataset != nullptr) {
 							// If it exists - get the  data type name (may be > 1)
 							std::vector<std::string> type_names;
-							split_line(column_text, type_names, ',');
+							zc::split_line(column_text, type_names, ',');
 							// For each data type name
 							for (size_t type_ix = 0; type_ix < type_names.size(); type_ix++) {
 								// Get the entry for the data type

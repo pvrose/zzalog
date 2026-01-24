@@ -262,7 +262,7 @@ void qso_dxcc::enable_widgets() {
 			double bearing;
 			double distance;
 			// Calculate bearing and distance
-			great_circle(my_location_, location_, bearing, distance);
+			zc::great_circle(my_location_, location_, bearing, distance);
 			snprintf(text, sizeof(text), "Distance %0.fkm, Bearing %0.f\302\260",
 				distance, bearing);
 		}
@@ -305,8 +305,8 @@ void qso_dxcc::set_data(record* qso) {
 
 // QRZ.com button clicked
 void qso_dxcc::cb_bn_qrz(Fl_Widget* w, void* v) {
-	qso_dxcc* that = ancestor_view<qso_dxcc>(w);
-	qso_data* data = ancestor_view<qso_data>(that);
+	qso_dxcc* that = zc::ancestor_view<qso_dxcc>(w);
+	qso_data* data = zc::ancestor_view<qso_data>(that);
 	data->action_qrz_com();
 }
 
@@ -339,7 +339,7 @@ qso_dxcc::wb4_table::~wb4_table() {
 // inherited from Fl_Table
 void qso_dxcc::wb4_table::draw_cell(TableContext context, int R, int C, int X, int Y, int W, int H) {
 	worked_t cat = (worked_t)(R + 1);
-	qso_dxcc* qd = ancestor_view<qso_dxcc>(this);
+	qso_dxcc* qd = zc::ancestor_view<qso_dxcc>(this);
 	switch (context) {
 	case CONTEXT_ROW_HEADER:
 		fl_color(FL_BACKGROUND_COLOR);
@@ -456,7 +456,7 @@ void qso_dxcc::wb4_table::draw_cell(TableContext context, int R, int C, int X, i
 
 // Getthe data for the table
 void qso_dxcc::wb4_table::set_data() {
-	qso_dxcc* qd = ancestor_view<qso_dxcc>(this);
+	qso_dxcc* qd = zc::ancestor_view<qso_dxcc>(this);
 
 	double freq;
 	qd->qso_->item("FREQ", freq);

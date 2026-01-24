@@ -127,7 +127,7 @@ void user_dialog::create_form(int X, int Y) {
 	val0->step(10.0);
 	val0->range(10.0, 120.0);
 	val0->value(session_elapse_);
-	val0->callback(cb_value<Fl_Counter, float>, &session_elapse_);
+	val0->callback(zc::cb_value<Fl_Counter, float>, &session_elapse_);
 	// End group - fit to size
 	pos_y = val0->y() + val0->h() + GAP;
 	pos_x = std::max<int>(br2->x() + br2->w(), val0->x() + val0->w()) + GAP;
@@ -170,7 +170,7 @@ void user_dialog::create_form(int X, int Y) {
 	val1->step(0.5);
 	val1->range(1.0, 15.0);
 	val1->value(tip_duration_);
-	val1->callback(cb_value<Fl_Counter, float>, &tip_duration_);
+	val1->callback(zc::cb_value<Fl_Counter, float>, &tip_duration_);
 	val1->tooltip("Please select the time (in seconds) that a tooltip will display");
 	// End group - fit to size
 	g2->resizable(nullptr);
@@ -251,7 +251,7 @@ void user_dialog::enable_widgets() {}
 // Callback for log_font browser
 // v is unused
 void user_dialog::cb_br_logfont(Fl_Widget* w, void* v) {
-	user_dialog* that = ancestor_view<user_dialog>(w);
+	user_dialog* that = zc::ancestor_view<user_dialog>(w);
 	Fl_Hold_Browser* font_br = (Fl_Hold_Browser*)w;
 	that->log_font_ = (Fl_Font)font_br->value() - 1;
 	that->populate_size((Fl_Hold_Browser*)v, &that->log_font_, &that->log_size_);
@@ -270,7 +270,7 @@ void user_dialog::cb_br_size(Fl_Widget* w, void* v) {
 // Callback for tooltip font browser
 // v is unused
 void user_dialog::cb_br_tipfont(Fl_Widget* w, void* v) {
-	user_dialog* that = ancestor_view<user_dialog>(w);
+	user_dialog* that = zc::ancestor_view<user_dialog>(w);
 	Fl_Hold_Browser* font_br = (Fl_Hold_Browser*)w;
 	that->tip_font_ = (Fl_Font)font_br->value() - 1;
 	that->populate_size((Fl_Hold_Browser*)v, &that->tip_font_, &that->tip_size_);
@@ -279,7 +279,7 @@ void user_dialog::cb_br_tipfont(Fl_Widget* w, void* v) {
 // Callback for tree view font browser
 // v is unused
 void user_dialog::cb_br_treefont(Fl_Widget* w, void* v) {
-	user_dialog* that = ancestor_view<user_dialog>(w);
+	user_dialog* that = zc::ancestor_view<user_dialog>(w);
 	Fl_Hold_Browser* font_br = (Fl_Hold_Browser*)w;
 	that->tree_font_ = (Fl_Font)font_br->value() - 1;
 	that->populate_size((Fl_Hold_Browser*)v, &that->tree_font_, &that->tree_size_);

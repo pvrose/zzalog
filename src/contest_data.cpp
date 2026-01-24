@@ -46,10 +46,10 @@ void to_json(json& j, const ct_date_t& s) {
 void from_json(const json& j, ct_date_t& s) {
 	std::string temps;
 	j.at("Start").get_to(temps);
-	std::time_t result = convert_iso_datetime(temps);
+	std::time_t result = zc::convert_iso_datetime(temps);
 	s.start = std::chrono::system_clock::from_time_t(result);
 	j.at("Finish").get_to(temps);
-	result = convert_iso_datetime(temps);
+	result = zc::convert_iso_datetime(temps);
 	s.finish = std::chrono::system_clock::from_time_t(result);
 }
 

@@ -73,7 +73,7 @@ public:
 	//! Continent
 	std::string continent_ = "";
 	//! Co-ordinates
-	lat_long_t coordinates_ = { nan(""), nan("") };
+	zc::lat_long_t coordinates_ = { nan(""), nan("") };
 	//! Item is no longer valid, but has been.
 	bool deleted_ = false;
 	//! Filters that can be applied to this item.

@@ -280,7 +280,7 @@ int wsjtx_handler::handle_status(std::stringstream& ss) {
 	if (status.transmitting) {
 		// Onl;y update QSO if not already doing so - this is called by multiple threads
 		if (!tx_semaphore_.test_and_set()) {
-			record* qso = update_qso(true, now(false, "%H%M%S"), (double)status.tx_offset, status.tx_message);
+			record* qso = update_qso(true, zc::now(false, "%H%M%S"), (double)status.tx_offset, status.tx_message);
 			if (qso && qso->item("CALL").substr(0,2) != "CQ") qso_manager_->update_modem_qso(false);
 			tx_semaphore_.clear();
 		}
@@ -415,7 +415,7 @@ wsjtx_handler::decoded_msg wsjtx_handler::decode_message(std::string message) {
 	size_t ix = message.length();
 	while(message[--ix] == ' ');
 	std::string pruned = message.substr(0, ix+1);
-	split_line(pruned, words, ' ');
+	zc::split_line(pruned, words, ' ');
 
 	std::string test_exch = words.back();
 	const char* test = test_exch.c_str();
@@ -425,7 +425,7 @@ wsjtx_handler::decoded_msg wsjtx_handler::decode_message(std::string message) {
 		words.pop_back();
 		decode.sender = words.back();
 		words.pop_back();
-		decode.target = join_line(words, ' ');
+		decode.target = zc::join_line(words, ' ');
 		decode.type = TX4A;
 	}
 	else if (regex_match(test, REGEX_GRIDSQUARE4)) {
@@ -434,7 +434,7 @@ wsjtx_handler::decoded_msg wsjtx_handler::decode_message(std::string message) {
 		words.pop_back();
 		decode.sender = words.back();
 		words.pop_back();
-		decode.target = join_line(words, ' ');
+		decode.target = zc::join_line(words, ' ');
 		if (regex_match(decode.target.c_str(), REGEX_CQ)) {
 			decode.type = TX6;
 		}
@@ -448,7 +448,7 @@ wsjtx_handler::decoded_msg wsjtx_handler::decode_message(std::string message) {
 		words.pop_back();
 		decode.sender = words.back();
 		words.pop_back();
-		decode.target = join_line(words, ' ');
+		decode.target = zc::join_line(words, ' ');
 		decode.type = TX2;
 	}
 	else if (regex_match(test, REGEX_ROGER)) {
@@ -457,7 +457,7 @@ wsjtx_handler::decoded_msg wsjtx_handler::decode_message(std::string message) {
 		words.pop_back();
 		decode.sender = words.back();
 		words.pop_back();
-		decode.target = join_line(words, ' ');
+		decode.target = zc::join_line(words, ' ');
 		decode.type = TX3;
 	}
 	else if (strcmp(test, "RRR") == 0) {
@@ -466,7 +466,7 @@ wsjtx_handler::decoded_msg wsjtx_handler::decode_message(std::string message) {
 		words.pop_back();
 		decode.sender = words.back();
 		words.pop_back();
-		decode.target = join_line(words, ' ');
+		decode.target = zc::join_line(words, ' ');
 		decode.type = TX4;
 	}
 	else if (strcmp(test, "73") == 0) {
@@ -475,7 +475,7 @@ wsjtx_handler::decoded_msg wsjtx_handler::decode_message(std::string message) {
 		words.pop_back();
 		decode.sender = words.back();
 		words.pop_back();
-		decode.target = join_line(words, ' ');
+		decode.target = zc::join_line(words, ' ');
 		decode.type = TX5;
 	}
 	else {
@@ -483,7 +483,7 @@ wsjtx_handler::decoded_msg wsjtx_handler::decode_message(std::string message) {
 		decode.exchange = "";
 		decode.sender = words.back();
 		words.pop_back();
-		decode.target = join_line(words, ' ');
+		decode.target = zc::join_line(words, ' ');
 		if (regex_match(decode.target.c_str(), REGEX_CQ)) {
 			decode.type = TX6A;
 		}
@@ -499,7 +499,7 @@ record* wsjtx_handler::update_qso(bool tx, std::string time, double audio_freq, 
 	decoded_msg decode = decode_message(message);
 	std::string sender = decode.sender[0] == '<' ? decode.sender.substr(1, decode.sender.length() - 2) : decode.sender;
 	std::string target = decode.target[0] == '<' ? decode.target.substr(1, decode.target.length() - 2) : decode.target;
-	std::string today = now(false, "%Y%m%d");
+	std::string today = zc::now(false, "%Y%m%d");
 	double df = dial == 0.0 ? dial_frequency_ : dial;
 	std::string m = mode == "" ? mode_ : mode;
 	char msg[100];

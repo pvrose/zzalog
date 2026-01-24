@@ -181,7 +181,7 @@ void qso_log_info::cb_ticker(void* v) {
 // Callback on Save Enable button
 // v is not used
 void qso_log_info::cb_bn_enable(Fl_Widget* w, void* v) {
-	qso_log_info* that = ancestor_view<qso_log_info>(w);
+	qso_log_info* that = zc::ancestor_view<qso_log_info>(w);
 	bool value = ((Fl_Check_Button*)w)->value();
 	if (!value) {
 		book_->enable_save(false, "Disabling save from QSO Manager");

@@ -40,7 +40,7 @@ void page_dialog::cb_bn_ok(Fl_Widget* w, void* v) {
 
 // Default enable button 
 void page_dialog::cb_ch_enable(Fl_Widget* w, void* v) {
-	page_dialog* that = ancestor_view<page_dialog>(w);
-	cb_value<Fl_Check_Button, bool>(w, v);
+	page_dialog* that = zc::ancestor_view<page_dialog>(w);
+	zc::cb_value<Fl_Check_Button, bool>(w, v);
 	that->enable_widgets();
 }

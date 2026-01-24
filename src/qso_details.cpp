@@ -124,7 +124,7 @@ void qso_details::get_qsos() {
 	bool match_possible = true;
 	std::vector < std::string > parts;
 	// Split the call up into potential prefix, body and suffix
-	split_line(call, parts, '/');
+	zc::split_line(call, parts, '/');
 	std::string call_body = "";
 	if (parts.size() == 1) {
 		call_body = parts[0];
@@ -342,7 +342,7 @@ void qso_details::table_d::set_data(
 // Table callback 
 // Set the selected value in the appropriate record item
 void qso_details::table_d::cb_table(Fl_Widget* w, void* v) {
-	table_d* that = ancestor_view<table_d>(w);
+	table_d* that = zc::ancestor_view<table_d>(w);
 	if (that->callback_context() & CONTEXT_CELL) {
 		int row = that->callback_row();
 		std::string field = that->name_map_.at(that->items_[row].type).field;
@@ -516,7 +516,7 @@ void qso_details::table_q::cb_table(Fl_Widget* w, void* v) {
 	table_q* that = (table_q*)w;
 	if (that->callback_context() & CONTEXT_CELL) {
 		int row = that->callback_row();
-		qso_data* data = ancestor_view<qso_data>(that);
+		qso_data* data = zc::ancestor_view<qso_data>(that);
 		switch (data->logging_state()) {
 		case qso_data::QSO_BROWSE:
 		case qso_data::QSO_VIEW:

@@ -211,7 +211,7 @@ void qso_net_entry::append_qso() {
 // Callback on selecting a tab
 void qso_net_entry::cb_entries(Fl_Widget* w, void* v) {
 	zc_tabs_nonav* tabs = (zc_tabs_nonav*)w;
-	qso_net_entry* that = ancestor_view<qso_net_entry>(w);
+	qso_net_entry* that = zc::ancestor_view<qso_net_entry>(w);
 	that->enable_widgets();
 	qso_entry* qe = (qso_entry*)tabs->value();
 	book_->selection(qe->qso_number());

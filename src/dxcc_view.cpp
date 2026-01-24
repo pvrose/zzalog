@@ -131,14 +131,14 @@ void dxcc_view::enable_widgets() {}
 
 // Display choice
 void dxcc_view::cb_display(Fl_Widget* w, void* v) {
-    dxcc_view* that = ancestor_view<dxcc_view>(w);
+    dxcc_view* that = zc::ancestor_view<dxcc_view>(w);
     that->display_type_ = (dxcc_table::display_t)(intptr_t)v;
     that->table_->display_type(that->display_type_);
 }
 
 // Confirmation choice
 void dxcc_view::cb_confirm(Fl_Widget* w, void* v) {
-    dxcc_view* that = ancestor_view<dxcc_view>(w);
+    dxcc_view* that = zc::ancestor_view<dxcc_view>(w);
     Fl_Check_Button* bn = (Fl_Check_Button*)w;
     if (bn->value()) {
         (char&)that->confirm_type_ |= (char)(intptr_t)v;

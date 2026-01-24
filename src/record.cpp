@@ -141,7 +141,7 @@ void record::item(const std::string& field, const std::string& value, bool forma
 		field == "MY_COUNTRY" ||
 		field == "APP_ZZA_PFX") {
 		// Force upper case for these fields
-		upper_value = to_upper(value);
+		upper_value = zc::to_upper(value);
 	}
 	else {
 		if (field[0] == '!') {
@@ -173,7 +173,7 @@ void record::item(const std::string& field, const std::string& value, bool forma
 			}
 			else if (datatype == "Enumeration" && field != "BAND" && field != "BAND_RX") {
 				// Treat all enumerations as upper case. ADIF can accept either
-				upper_value = to_upper(value);
+				upper_value = zc::to_upper(value);
 			}
 			else if (datatype == "Date") {
 				// Do not convert to upper case to preserve lower-case month names
@@ -217,7 +217,7 @@ void record::item(const std::string& field, const std::string& value, bool forma
 				break;
 			case 'E':
 				// Enumeration: convert to uppercase
-				formatted_value = to_upper(upper_value);
+				formatted_value = zc::to_upper(upper_value);
 				if (field == "MODE") {
 					if (spec_data_->is_submode(formatted_value)) {
 						// Set submode to this value and the mode to its parent mode
@@ -500,15 +500,15 @@ void record::unparse() {
 }
 
 // Return longitude and latitude
-lat_long_t record::location(bool my_station) {
+zc::lat_long_t record::location(bool my_station) {
 	location_t dummy;
 	return location(my_station, dummy);
 }
 
 // Return longitude and latitude from the record
-lat_long_t record::location(bool my_station, location_t& source) {
+zc::lat_long_t record::location(bool my_station, location_t& source) {
 	// Set a bad coordinate
-	lat_long_t lat_long = { nan(""), nan("") };
+	zc::lat_long_t lat_long = { nan(""), nan("") };
 
 	// now look at the various sources of lat/lon
 	// By preference use LAT/LON
@@ -537,7 +537,7 @@ lat_long_t record::location(bool my_station, location_t& source) {
 			value_1 = item("GRIDSQUARE");
 		}
 		// Get the lat/long of the centre of the grid-square 
-		lat_long = grid_to_latlong(value_1);
+		lat_long = zc::grid_to_latlong(value_1);
 		// 2 or 4 character grid square - use centre of grid square
 		if (value_1.length() <= 4) {
 			// Get prefix coordinates
@@ -776,15 +776,15 @@ bool record::merge_records(record* merge_record, match_flags_t flags, hint_t* re
 
 // Update the ANT_AZ and DISTANCE fields based on record data or entity data
 void record::update_bearing() {
-	lat_long_t their_location = location(false);
-	lat_long_t my_location = location(true);
+	zc::lat_long_t their_location = location(false);
+	zc::lat_long_t my_location = location(true);
 	// Need both user and contact locations
 	if (!std::isnan(my_location.latitude) && !std::isnan(my_location.longitude) &&
 		!std::isnan(their_location.latitude) && !std::isnan(their_location.longitude)) {
 		double bearing;
 		double distance;
 		// Calculate bearing and distance
-		great_circle(my_location, their_location, bearing, distance);
+		zc::great_circle(my_location, their_location, bearing, distance);
 		char azimuth[16];
 		sprintf(azimuth, "%0.f", bearing);
 		char distance_string[16];
@@ -1017,12 +1017,12 @@ bool record::items_match(record* record, const std::string& field_name) {
 	}
 	else if (field_name == "MODE" || field_name == "SUBMODE") {
 		// Special case for MODE - check against SUBMODE as well (both ways)
-		if (lhs == to_upper(record->item("SUBMODE")) || lhs == to_upper(record->item("MODE"))) {
+		if (lhs == zc::to_upper(record->item("SUBMODE")) || lhs == zc::to_upper(record->item("MODE"))) {
 			return true;
 		}
 		// The case where the input record has deprecated MODE against existing record SUBMODE
 		else if (field_name == "MODE" &&
-			to_upper(item("SUBMODE")) == rhs) {
+			zc::to_upper(item("SUBMODE")) == rhs) {
 			return true;
 		}
 		else if (field_name == "MODE" && 
@@ -1076,7 +1076,7 @@ time_t record::timestamp(bool time_off /*= false*/, bool force /*=false*/) {
 					qso_time.tm_mday = std::stoi(item("QSO_DATE").substr(6, 2));
 					if (item("TIME_ON") > item("TIME_OFF")) {
 						// QSO_DATE_OFF show be inferred to be the day after - increment date
-						if (qso_time.tm_mday > days_in_month(&qso_time)) {
+						if (qso_time.tm_mday > zc::days_in_month(&qso_time)) {
 							qso_time.tm_mday = 1;
 							if (qso_time.tm_mon == 11) {
 								qso_time.tm_mon = 0;

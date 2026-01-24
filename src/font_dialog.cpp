@@ -102,13 +102,13 @@ font_dialog::~font_dialog() {}
 
 // callback - OK button
 void font_dialog::cb_bn_ok(Fl_Widget* w, void* v) {
-	font_dialog* that = ancestor_view<font_dialog>(w);
+	font_dialog* that = zc::ancestor_view<font_dialog>(w);
 	that->do_button(BN_OK);
 }
 
 // callback - cancel button (window close only)
 void font_dialog::cb_bn_cancel(Fl_Widget* w, void * v) {
-    font_dialog* that = ancestor_view<font_dialog>(w);
+    font_dialog* that = zc::ancestor_view<font_dialog>(w);
 	that->do_button(BN_CANCEL);
 
 }
@@ -116,7 +116,7 @@ void font_dialog::cb_bn_cancel(Fl_Widget* w, void * v) {
 // Callback - font chooser 
 void font_dialog::cb_font(Fl_Widget* w, void* v) {
     Fl_Hold_Browser* br = (Fl_Hold_Browser*)w;
-    font_dialog* that = ancestor_view<font_dialog>(w);
+    font_dialog* that = zc::ancestor_view<font_dialog>(w);
     that->font_ = (Fl_Font)br->value() - 1;
 	// The chosen font may affect sizes available so  update size chooser
     that->populate_size((Fl_Widget*)v, &that->font_, &that->fontsize_);
@@ -126,7 +126,7 @@ void font_dialog::cb_font(Fl_Widget* w, void* v) {
 // size chooser
 void font_dialog::cb_size(Fl_Widget* w, void* v) {
     Fl_Hold_Browser* br = (Fl_Hold_Browser*)w;
-    font_dialog* that = ancestor_view<font_dialog>(w);
+    font_dialog* that = zc::ancestor_view<font_dialog>(w);
     int line = br->value();
     *(Fl_Fontsize*)v = std::stoi(br->text(line));
 	that->set_sample();
@@ -135,7 +135,7 @@ void font_dialog::cb_size(Fl_Widget* w, void* v) {
 // Colour chooser
 void font_dialog::cb_colour(Fl_Widget* w, void* v) {
     Fl_Color_Chooser* cc = (Fl_Color_Chooser*)w;
-    font_dialog* that = ancestor_view<font_dialog>(w);
+    font_dialog* that = zc::ancestor_view<font_dialog>(w);
 	// Convert RGB 0->1.0 to 0->255
     that->colour_ = fl_rgb_color(255 * cc->r(), 255 * cc->g(), 255 * cc->b());
 	that->set_sample();

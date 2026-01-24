@@ -65,7 +65,7 @@
 		search_criteria_t* criteria_;
 
 		//! Radio button callback parameters - basic condition
-		radio_param_t condition_params_[XC_MAXIMUM] =
+		zc::radio_param_t condition_params_[XC_MAXIMUM] =
 		{
 			{ XC_DXCC, nullptr },
 			{ XC_CQZ, nullptr },
@@ -78,14 +78,14 @@
 			{ XC_FIELD, nullptr }
 		};
 		//! Radio button callback parameters - combination mode
-		radio_param_t combination_params_[3] =
+		zc::radio_param_t combination_params_[3] =
 		{
 			{ XM_NEW, nullptr },
 			{ XM_AND, nullptr },
 			{ XM_OR, nullptr }
 		};
 		//! Radio button callback parameters - comparison mode
-		radio_param_t comparator_params_[7] =
+		zc::radio_param_t comparator_params_[7] =
 		{
 			{XP_REGEX, nullptr},
 			{XP_NE, nullptr},

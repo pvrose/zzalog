@@ -19,7 +19,7 @@ cty3_reader::~cty3_reader() {}
 // Parse the generic parts of the record
 cty_element* cty3_reader::load_element(cty_element::type_t type, std::string line, std::string& nickname, std::string& patterns) {
 	std::vector<std::string> fields;
-	split_line(line, fields, '|');
+	zc::split_line(line, fields, '|');
 	cty_element* result = new cty_element;
 	result->type_ = type;
 	if (fields[FT_DXCC_ID].length()) result->dxcc_id_ = std::stoi(fields[FT_DXCC_ID]);
@@ -41,7 +41,7 @@ std::list<std::string> cty3_reader::expand_mask(std::string patterns) {
 	std::list<std::string> result;
 	// Separate int patterns
 	std::vector<std::string> indiv_patts;
-	split_line(patterns, indiv_patts, ',');
+	zc::split_line(patterns, indiv_patts, ',');
 	for (auto& ptn : indiv_patts) {
 		int num_multis = 0;
 		for (auto c : ptn) {

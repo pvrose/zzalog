@@ -63,7 +63,7 @@ class Fl_Widget;
 		//! New value for the field being changed.
 		std::string new_text_;
 		//! Radio button callback data: sets the action for each radio button.
-		const radio_param_t radio_params_[4] =
+		const zc::radio_param_t radio_params_[4] =
 		{
 			{ RENAME_FIELD, (int*)&action_ },
 			{ DELETE_FIELD, (int*)&action_ },

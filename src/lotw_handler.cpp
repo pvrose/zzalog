@@ -193,7 +193,7 @@ bool lotw_handler::download_lotw_log(std::stringstream* adif) {
 	}
 	if (ok) {
 		server_data_t* lotw_data = qsl_dataset_->get_server_data("LotW");
-		lotw_data->last_downloaded = now(false, "%Y%m%d");
+		lotw_data->last_downloaded = zc::now(false, "%Y%m%d");
 	}
 	fl_cursor(FL_CURSOR_DEFAULT);
 	return ok;
@@ -368,7 +368,7 @@ bool lotw_handler::upload_done(int result) {
 		upload_done_queue_.pop();
 		if (ok) {
 			if (qso->item("LOTW_QSLSDATE") == "") {
-				qso->item("LOTW_QSLSDATE", now(false, "%Y%m%d"));
+				qso->item("LOTW_QSLSDATE", zc::now(false, "%Y%m%d"));
 			}
 			if (qso->item("LOTW_QSL_SENT") != "Y") {
 				qso->item("LOTW_QSL_SENT", std::string("Y"));

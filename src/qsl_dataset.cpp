@@ -171,11 +171,11 @@ void to_json(json& j, const qsl_data& s) {
 
 // Convert qsl_call_data to JSON object
 void to_json(json& j, const qsl_call_data& s) {
-	uchar offset = hash8(qsl_dataset::server_name().c_str());
+	uchar offset = zc::hash8(qsl_dataset::server_name().c_str());
 	if (s.used) {
 		j["In use"] = true;
 		j["Last downloaded"] = s.last_download;
-		j["Key"] = string_to_hex(xor_crypt(s.key, seed_, offset));
+		j["Key"] = zc::string_to_hex(zc::xor_crypt(s.key, seed_, offset));
 	}
 	else {
 		j["In use"] = false;
@@ -184,10 +184,10 @@ void to_json(json& j, const qsl_call_data& s) {
 
 // Convert server_data_t to JSON object
 void to_json(json& j, const server_data_t& s) {
-	uchar offset = hash8(qsl_dataset::server_name().c_str());
+	uchar offset = zc::hash8(qsl_dataset::server_name().c_str());
 	// Common items
 	j["User"] = s.user;
-	j["Password"] = string_to_hex(xor_crypt(s.password, seed_, offset));
+	j["Password"] = zc::string_to_hex(zc::xor_crypt(s.password, seed_, offset));
 	if (qsl_dataset::server_name() != "eMail") {
 		j["Enable"] = s.enabled;
 		j["Upload per QSO"] = s.upload_per_qso;
@@ -286,23 +286,23 @@ void from_json(const json& j, qsl_data& s) {
 }
 
 void from_json(const json& j, qsl_call_data& s) {
-	uchar offset = hash8(qsl_dataset::server_name().c_str());
+	uchar offset = zc::hash8(qsl_dataset::server_name().c_str());
 	j.at("In use").get_to(s.used);
 	if (s.used) {
 		std::string key;
 		j.at("Key").get_to(key);
-		s.key = xor_crypt(hex_to_string(key), seed_, offset);
+		s.key = zc::xor_crypt(zc::hex_to_string(key), seed_, offset);
 		j.at("Last downloaded").get_to(s.last_download);
 	}
 }
 
 void from_json(const json& j, server_data_t& s) {
 	std::string server = qsl_dataset::server_name();
-	uchar offset = hash8(server.c_str());
+	uchar offset = zc::hash8(server.c_str());
 	std::string password;
 	j.at("User").get_to(s.user);
 	j.at("Password").get_to(password);
-	s.password = xor_crypt(hex_to_string(password), seed_, offset);
+	s.password = zc::xor_crypt(zc::hex_to_string(password), seed_, offset);
 	if (server == "eMail") {
 		j.at("eMail server").get_to(s.mail_server);
 		j.at("CC address").get_to(s.cc_address);

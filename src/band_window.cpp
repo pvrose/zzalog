@@ -98,7 +98,7 @@ void band_window::cb_widget(Fl_Widget* w, void* v) {
 
 //! Callback from tabs
 void band_window::cb_tabs(Fl_Widget* w, void* v) {
-	band_window* that = ancestor_view<band_window>(w);
+	band_window* that = zc::ancestor_view<band_window>(w);
 	that->enable_widgets();
 }
 

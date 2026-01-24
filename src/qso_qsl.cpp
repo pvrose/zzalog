@@ -308,7 +308,7 @@ void qso_qsl::enable_widgets() {
 	// Update the Auto update flags
 	load_values();
 	// Single QSO - do this first as the valeu of single_qso_ affects the others
-	qso_manager* mgr = ancestor_view<qso_manager>(this);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 	if (mgr->data()->current_qso()) bn_single_qso_->activate();
 	else {
 		single_qso_ = false;
@@ -419,7 +419,7 @@ void qso_qsl::enable_widgets() {
 // Auto download v = eQSL/LotW/ClubLog
 void qso_qsl::cb_auto(Fl_Widget* w, void* v) {
 	Fl_Check_Button* bn = (Fl_Check_Button*)w;
-	qso_qsl* that = ancestor_view<qso_qsl>(w);
+	qso_qsl* that = zc::ancestor_view<qso_qsl>(w);
 	bool* enable = nullptr;
 	extract_data::extract_mode_t server = (extract_data::extract_mode_t)(intptr_t)v;
 	switch (server) {
@@ -447,34 +447,34 @@ void qso_qsl::cb_auto(Fl_Widget* w, void* v) {
 void qso_qsl::cb_download(Fl_Widget* w, void* v) {
 	// v has QSL server
 	import_data::update_mode_t server = (import_data::update_mode_t)(intptr_t)v;
-	qso_qsl* that = ancestor_view<qso_qsl>(w);
+	qso_qsl* that = zc::ancestor_view<qso_qsl>(w);
 	that->qsl_download(server);
 }
 
 // Extract. v = eQSL/LotW/ClubLog/Card
 void qso_qsl::cb_extract(Fl_Widget* w, void* v) {
 	extract_data::extract_mode_t server = (extract_data::extract_mode_t)(intptr_t)v;
-	qso_qsl* that = ancestor_view<qso_qsl>(w);
+	qso_qsl* that = zc::ancestor_view<qso_qsl>(w);
 	that->qsl_extract(server);
 }
 
 // Upload. v = eQSL/LotW/Clublog
 void qso_qsl::cb_upload(Fl_Widget* w, void* v) {
 	// extract_records has remembered the server
-	qso_qsl* that = ancestor_view<qso_qsl>(w);
+	qso_qsl* that = zc::ancestor_view<qso_qsl>(w);
 	if (that->single_qso_) that->qsl_1_upload((extract_data::extract_mode_t)(intptr_t)v);
 	else that->qsl_upload();
 }
 
 // Print . Card only
 void qso_qsl::cb_print(Fl_Widget* w, void* v) {
-	qso_qsl* that = ancestor_view<qso_qsl>(w);
+	qso_qsl* that = zc::ancestor_view<qso_qsl>(w);
 	that->qsl_print();
 }
 
 // Mark printing done
 void qso_qsl::cb_mark_done(Fl_Widget* w, void* v) {
-	qso_qsl* that = ancestor_view<qso_qsl>(w);
+	qso_qsl* that = zc::ancestor_view<qso_qsl>(w);
 	std::string via = { (char)(intptr_t)v };
 	that->via_code_ = via;
 	that->qsl_mark_done();
@@ -482,34 +482,34 @@ void qso_qsl::cb_mark_done(Fl_Widget* w, void* v) {
 
 // Cancel extraction
 void qso_qsl::cb_cancel(Fl_Widget* w, void* v) {
-	qso_qsl* that = ancestor_view<qso_qsl>(w);
+	qso_qsl* that = zc::ancestor_view<qso_qsl>(w);
 	that->qsl_cancel();
 }
 
 // Generate PNG files
 void qso_qsl::cb_png(Fl_Widget* w, void* v) {
-	qso_qsl* that = ancestor_view<qso_qsl>(w);
+	qso_qsl* that = zc::ancestor_view<qso_qsl>(w);
 	if (that->single_qso_) that->qsl_1_generate_png();
 	else that->qsl_generate_png();
 }
 
 // Send e-mails
 void qso_qsl::cb_email(Fl_Widget* w, void* v) {
-	qso_qsl* that = ancestor_view<qso_qsl>(w);
+	qso_qsl* that = zc::ancestor_view<qso_qsl>(w);
 	if (that->single_qso_) that->qsl_1_send_email();
 	else that->qsl_send_email();
 }
 
 // Single QSO
 void qso_qsl::cb_single(Fl_Widget* w, void* v) {
-	qso_qsl* that = ancestor_view<qso_qsl>(w);
-	cb_value< Fl_Check_Button, bool >(w, v);
+	qso_qsl* that = zc::ancestor_view<qso_qsl>(w);
+	zc::cb_value< Fl_Check_Button, bool >(w, v);
 	that->enable_widgets();
 }
 
 // Download. v = eQSL/LotW (import data enum)
 void qso_qsl::qsl_download(import_data::update_mode_t server) {
-	qso_manager* mgr = ancestor_view<qso_manager>(this);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 	if (mgr->data()->inactive()) {
 		import_data_->download_data(server);
 		enable_widgets();
@@ -520,7 +520,7 @@ void qso_qsl::qsl_download(import_data::update_mode_t server) {
 
 // Extract 
 void qso_qsl::qsl_extract(extract_data::extract_mode_t server) {
-	qso_manager* mgr = ancestor_view<qso_manager>(this);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 	if (mgr->data()->inactive()) {
 		// Set flag to indicate this is being done - used to disable further attempts
 		extract_in_progress_ = true;
@@ -544,7 +544,7 @@ void qso_qsl::qsl_extract(extract_data::extract_mode_t server) {
 
 // Upload
 void qso_qsl::qsl_upload() {
-	qso_manager* mgr = ancestor_view<qso_manager>(this);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 	if (mgr->data()->inactive()) {
 		extract_records_->upload();
 		tabbed_forms_->activate_pane(OT_MAIN, true);
@@ -556,7 +556,7 @@ void qso_qsl::qsl_upload() {
 
 // Upload single
 void qso_qsl::qsl_1_upload(extract_data::extract_mode_t mode) {
-	qso_manager* mgr = ancestor_view<qso_manager>(this);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 	qso_num_t number = mgr->data()->current_number();
 	if (number != -1) {
 		switch (mode) {
@@ -604,7 +604,7 @@ void qso_qsl::qsl_mark_done() {
 		std::string date_name;
 		std::string sent_name;
 		std::string via_name;
-		std::string today = now(false, "%Y%m%d");
+		std::string today = zc::now(false, "%Y%m%d");
 		bool overwrite = false;
 		extract_data::extract_mode_t mode = extract_records_->use_mode();
 		if (single_qso_) {
@@ -632,7 +632,7 @@ void qso_qsl::qsl_mark_done() {
 		snprintf(message, 200, "EXTRACT: Setting %s to \"%s\", %s to \"Y\"", date_name.c_str(), today.c_str(), sent_name.c_str());
 		status_->misc_status(ST_NOTE, message);
 		if (single_qso_) {
-			qso_manager* mgr = ancestor_view<qso_manager>(this);
+			qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 			record* qso = mgr->data()->current_qso();
 			if (qso && (overwrite || qso->item(sent_name) == "")) {
 				qso->item(date_name, today);
@@ -674,7 +674,7 @@ void qso_qsl::qsl_generate_png() {
 
 // Generate single PNG file
 void qso_qsl::qsl_1_generate_png() {
-	qso_manager* mgr = ancestor_view<qso_manager>(this);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 	record* qso = mgr->data()->current_qso();
 	if (qso) {
 		png_writer* png = new png_writer();
@@ -717,7 +717,7 @@ void qso_qsl::qsl_1_send_email(record* qso) {
 
 // Send single e-mail to current QSO
 void qso_qsl::qsl_1_send_email() {
-	qso_manager* mgr = ancestor_view<qso_manager>(this);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 	record* qso = mgr->data()->current_qso();
 	if (qso) {
 		qsl_1_send_email(qso);

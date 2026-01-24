@@ -110,7 +110,7 @@ void qso_misc::qso(record* qso, qso_num_t number) {
 
 // Callback when changing tabs
 void qso_misc::cb_tabs(Fl_Widget* w, void* v) {
-	qso_misc* that = ancestor_view<qso_misc>(w);
+	qso_misc* that = zc::ancestor_view<qso_misc>(w);
 	that->enable_widgets();
 }
 

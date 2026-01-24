@@ -216,7 +216,7 @@ void contest_dialog::update_timeframe() {
 // Callbacks
 // Contest ID field_input
 void contest_dialog::cb_id(Fl_Widget* w, void* v) {
-	contest_dialog* that = ancestor_view<contest_dialog>(w);
+	contest_dialog* that = zc::ancestor_view<contest_dialog>(w);
 	that->contest_id_ = ((field_input*)w)->value();
 	that->contest_index_ = "";
 	that->w_contest_ix_->value("");
@@ -227,7 +227,7 @@ void contest_dialog::cb_id(Fl_Widget* w, void* v) {
 
 // Contest index
 void contest_dialog::cb_index(Fl_Widget* w, void* v) {
-	contest_dialog* that = ancestor_view<contest_dialog>(w);
+	contest_dialog* that = zc::ancestor_view<contest_dialog>(w);
 	that->contest_index_ = ((Fl_Input_Choice*)w)->value();
 	that->update_contest();
 	that->update_algorithm();

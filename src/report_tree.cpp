@@ -408,7 +408,7 @@ void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item,
 
 			Fl_Tree_Item* next_item;
 			if (item == nullptr) {
-				next_item = add(escape_string(text, "\\/").c_str());
+				next_item = add(zc::escape_string(text, "\\/").c_str());
 			}
 			else {
 				next_item = item->add(prefs(), text);
@@ -431,7 +431,7 @@ void report_tree::copy_map_to_tree(int type, void* this_map, Fl_Tree_Item* item,
 			Fl_Tree_Item* next_item;
 			if (item == nullptr) {
 				// Top-level - need to escape slash characters
-				next_item = add(escape_string(text, "\\/").c_str());
+				next_item = add(zc::escape_string(text, "\\/").c_str());
 			}
 			else {
 				// Otherwies can just set label
@@ -955,10 +955,10 @@ void report_tree::cb_tree_report(Fl_Widget* w, void* v) {
 			that->get_book()->selection((item_num_t)(intptr_t)item->user_data(), HT_SELECTED);
 			return;
 		}
-		cb_tree(w, v);
+		zc::cb_tree(w, v);
 		break;
 	default:
-		cb_tree(w, v);
+		zc::cb_tree(w, v);
 		break;
 	}
 }

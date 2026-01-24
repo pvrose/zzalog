@@ -176,7 +176,7 @@ search_dialog::search_dialog() :
 		bn13->value(criteria_->comparator == i);
 		bn13->copy_tooltip(comparator_tooltips_[i].c_str());
 		comparator_params_[i].attribute = (int*)&criteria_->comparator;
-		bn13->callback(cb_radio, (void*)&comparator_params_[i]);
+		bn13->callback(zc::cb_radio, (void*)&comparator_params_[i]);
 		bn13->when(FL_WHEN_RELEASE);
 	}
 	gp1b->end();
@@ -184,7 +184,7 @@ search_dialog::search_dialog() :
 	field_input* ip14 = new field_input(C11, R15
 		, WEDIT, HTEXT, "Search text");
 	ip14->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
-	ip14->callback(cb_value<field_input, std::string>, (void*)&criteria_->pattern);
+	ip14->callback(zc::cb_value<field_input, std::string>, (void*)&criteria_->pattern);
 	ip14->when(FL_WHEN_CHANGED);
 	ip14->value(criteria_->pattern.c_str());
 	ip14->tooltip("The expression to match records against");
@@ -204,7 +204,7 @@ search_dialog::search_dialog() :
 	Fl_Light_Button* bn21 = new Fl_Light_Button(C211, R21, W211, HBUTTON, "By date");
 	bn21->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
 	bn21->selection_color(FL_RED);
-	bn21->callback(cb_value<Fl_Light_Button, bool>, (void*)&criteria_->by_dates);
+	bn21->callback(zc::cb_value<Fl_Light_Button, bool>, (void*)&criteria_->by_dates);
 	bn21->when(FL_WHEN_RELEASE);
 	bn21->value(criteria_->by_dates);
 	bn21->tooltip("Use date range to limit records to match");
@@ -212,14 +212,14 @@ search_dialog::search_dialog() :
 	zc_calendar_input* in22 = new zc_calendar_input(C212, R21, W212 + HBUTTON, HTEXT, "From:");
 	in22->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in22->value(criteria_->from_date.c_str());
-	in22->callback(cb_value<Fl_Input, std::string>, &criteria_->from_date);
+	in22->callback(zc::cb_value<Fl_Input, std::string>, &criteria_->from_date);
 	in22->when(FL_WHEN_CHANGED);
 	in22->tooltip("Select date to start matching records");
 	// Input - End date
 	zc_calendar_input* in24 = new zc_calendar_input(C214, R21, W214 + HBUTTON , HTEXT, "To:");
 	in24->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in24->value(criteria_->to_date.c_str());
-	in24->callback(cb_value<Fl_Input, std::string>, &criteria_->to_date);
+	in24->callback(zc::cb_value<Fl_Input, std::string>, &criteria_->to_date);
 	in24->when(FL_WHEN_CHANGED);
 	in24->tooltip("Select date to end matching records");
 
@@ -242,7 +242,7 @@ search_dialog::search_dialog() :
 			ch26->value(ix);
 		}
 	}
-	ch26->callback(cb_text<Fl_Choice, std::string>, (void*)&criteria_->band);
+	ch26->callback(zc::cb_text<Fl_Choice, std::string>, (void*)&criteria_->band);
 	ch26->when(FL_WHEN_RELEASE);
 	ch26->tooltip("Select the band for matching records");
 	// Choice - Mode to limit search to
@@ -263,7 +263,7 @@ search_dialog::search_dialog() :
 			ch27->value(ix);
 		}
 	}
-	ch27->callback(cb_text<Fl_Choice, std::string>, (void*)&criteria_->mode);
+	ch27->callback(zc::cb_text<Fl_Choice, std::string>, (void*)&criteria_->mode);
 	ch27->when(FL_WHEN_RELEASE);
 	ch27->tooltip("Select the mode for matching records - a mode will match all submodes");
 	// Choice - Mode to limit search to
@@ -279,12 +279,12 @@ search_dialog::search_dialog() :
 	ix = 1;
 	// Append all the modes in the data set
 	for (auto it = callsigns->data.begin(); it != callsigns->data.end(); it++, ix++) {
-		ch27a->add(escape_menu(it->first).c_str());
+		ch27a->add(zc::escape_menu(it->first).c_str());
 		if (it->first == criteria_->mode) {
 			ch27a->value(ix);
 		}
 	}
-	ch27a->callback(cb_text<Fl_Choice, std::string>, (void*)&criteria_->my_call);
+	ch27a->callback(zc::cb_text<Fl_Choice, std::string>, (void*)&criteria_->my_call);
 	ch27a->when(FL_WHEN_RELEASE);
 	ch27a->tooltip("Select 'STATION_CALLSIGN' for matching records");
 
@@ -294,7 +294,7 @@ search_dialog::search_dialog() :
 	bn28->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
 	bn28->selection_color(FL_RED);
 	bn28->value(criteria_->confirmed_eqsl);
-	bn28->callback(cb_value<Fl_Light_Button, bool>, (void*)&criteria_->confirmed_eqsl);
+	bn28->callback(zc::cb_value<Fl_Light_Button, bool>, (void*)&criteria_->confirmed_eqsl);
 	bn28->when(FL_WHEN_RELEASE);
 	bn28->tooltip("Match only when confirmed by eQSL");
 	// Check - Restrict to records confirmed by LotW
@@ -302,7 +302,7 @@ search_dialog::search_dialog() :
 	bn29->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
 	bn29->selection_color(FL_RED);
 	bn29->value(criteria_->confirmed_lotw);
-	bn29->callback(cb_value<Fl_Light_Button, bool>, (void*)&criteria_->confirmed_lotw);
+	bn29->callback(zc::cb_value<Fl_Light_Button, bool>, (void*)&criteria_->confirmed_lotw);
 	bn29->when(FL_WHEN_RELEASE);
 	bn29->tooltip("Match only when confirmed by LotW");
 	// Check - Restrict to records confirmed by Paper QSL
@@ -310,7 +310,7 @@ search_dialog::search_dialog() :
 	bn210->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
 	bn210->selection_color(FL_RED);
 	bn210->value(criteria_->confirmed_card);
-	bn210->callback(cb_value<Fl_Light_Button, bool>, (void*)&criteria_->confirmed_card);
+	bn210->callback(zc::cb_value<Fl_Light_Button, bool>, (void*)&criteria_->confirmed_card);
 	bn210->when(FL_WHEN_RELEASE);
 	bn210->tooltip("Match only when confirmed by card");
 
@@ -333,7 +333,7 @@ search_dialog::search_dialog() :
 		bn31->box(FL_THIN_UP_BOX);
 		bn31->value(criteria_->combi_mode == i);
 		combination_params_[i].attribute = (int*)&criteria_->combi_mode;
-		bn31->callback(cb_radio, (void*)&combination_params_[i]);
+		bn31->callback(zc::cb_radio, (void*)&combination_params_[i]);
 		bn31->when(FL_WHEN_RELEASE);
 		switch ((search_combi_t)i) {
 		case XM_NEW:
@@ -440,7 +440,7 @@ void search_dialog::save_values() {
 	switch (criteria_->condition) {
 	case XC_DXCC:
 		// special case - DXCC and pattern not numeric
-		criteria_->pattern = to_upper(criteria_->pattern);
+		criteria_->pattern = zc::to_upper(criteria_->pattern);
 		if (!criteria_->comparator != XP_REGEX && criteria_->pattern.length()) {
 			std::string::size_type dummy;
 			int dxcc;
@@ -466,7 +466,7 @@ void search_dialog::save_values() {
 	case XC_SQ2:
 	case XC_SQ4:
 		// Convert to upper case
-		criteria_->pattern = to_upper(criteria_->pattern);
+		criteria_->pattern = zc::to_upper(criteria_->pattern);
 		break;
 	default:
 		break;
@@ -515,7 +515,7 @@ void search_dialog::fail(std::string message) {
 // callback - OK button clicked
 // v is not used
 void search_dialog::cb_bn_ok(Fl_Widget* w, void* v) {
-	search_dialog* that = ancestor_view<search_dialog>(w);
+	search_dialog* that = zc::ancestor_view<search_dialog>(w);
 	that->save_values();
 	// Closes the dialog - returns OK
 	that->do_button(BN_OK);
@@ -524,22 +524,22 @@ void search_dialog::cb_bn_ok(Fl_Widget* w, void* v) {
 // callback - Cancel button clicked
 // v is not used
 void search_dialog::cb_bn_cancel(Fl_Widget* w, void* v) {
-	search_dialog* that = ancestor_view<search_dialog>(w);
+	search_dialog* that = zc::ancestor_view<search_dialog>(w);
 	// Closes the dialog - returns FAIL
 	that->do_button(BN_CANCEL);
 }
 
 // call back condition button
 void search_dialog::cb_bn_condx(Fl_Widget* w, void* v) {
-	search_dialog* that = ancestor_view<search_dialog>(w);
-	cb_radio(w, v);
+	search_dialog* that = zc::ancestor_view<search_dialog>(w);
+	zc::cb_radio(w, v);
 	that->enable_widgets();
 }
 
 // Field name choice
 void search_dialog::cb_ch_field(Fl_Widget* w, void* v) {
-	search_dialog* that = ancestor_view<search_dialog>(w);
-	cb_value<field_choice, std::string>(w, v);
+	search_dialog* that = zc::ancestor_view<search_dialog>(w);
+	zc::cb_value<field_choice, std::string>(w, v);
 	that->criteria_->pattern = "";
 	that->enable_widgets();
 }

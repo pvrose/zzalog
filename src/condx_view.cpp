@@ -633,6 +633,6 @@ void condx_view::cb_ticker(void* v) {
 void condx_view::cb_tabs(Fl_Widget* w, void* v) {
 	zc_tabs_nonav* that = (zc_tabs_nonav*)w;
 	that->label(that->value()->label());
-	condx_view* cx = ancestor_view<condx_view>(that);
+	condx_view* cx = zc::ancestor_view<condx_view>(that);
 	cx->enable_widgets();
 }

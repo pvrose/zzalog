@@ -228,7 +228,7 @@ void qsl_editor::create_form(int X, int Y) {
 	Fl_Value_Input* w_20201 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Columns");
 	w_20201->value(data_->columns);
 	w_20201->align(FL_ALIGN_LEFT);
-	w_20201->callback(cb_value<Fl_Value_Input, int>, &data_->columns);
+	w_20201->callback(zc::cb_value<Fl_Value_Input, int>, &data_->columns);
 	w_20201->when(FL_WHEN_CHANGED);
 	w_20201->tooltip("Please specify the number of columns when printing");
 	ip_cols_ = w_20201;
@@ -246,7 +246,7 @@ void qsl_editor::create_form(int X, int Y) {
 	Fl_Value_Input* w_20203 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Position");
 	w_20203->value(data_->col_left);
 	w_20203->align(FL_ALIGN_LEFT);
-	w_20203->callback(cb_value<Fl_Value_Input, double>, &data_->col_left);
+	w_20203->callback(zc::cb_value<Fl_Value_Input, double>, &data_->col_left);
 	w_20203->when(FL_WHEN_CHANGED);
 	w_20203->tooltip("Please specify the position of the first column");
 	ip_cpos_ = w_20203;
@@ -255,7 +255,7 @@ void qsl_editor::create_form(int X, int Y) {
 	Fl_Value_Input* w_20204 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Spacing");
 	w_20204->value(data_->col_width);
 	w_20204->align(FL_ALIGN_LEFT);
-	w_20204->callback(cb_value<Fl_Value_Input, double>, &data_->col_width);
+	w_20204->callback(zc::cb_value<Fl_Value_Input, double>, &data_->col_width);
 	w_20204->when(FL_WHEN_CHANGED);
 	w_20204->tooltip("Please specify the spacing between columns");
 	ip_cspace_ = w_20204;
@@ -267,7 +267,7 @@ void qsl_editor::create_form(int X, int Y) {
 	Fl_Value_Input* w_20205 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Rows");
 	w_20205->value(data_->rows);
 	w_20205->align(FL_ALIGN_LEFT);
-	w_20205->callback(cb_value<Fl_Value_Input, int>, &data_->rows);
+	w_20205->callback(zc::cb_value<Fl_Value_Input, int>, &data_->rows);
 	w_20205->when(FL_WHEN_CHANGED);
 	w_20205->tooltip("Please specify the number of rows when printing");
 	ip_rows_ = w_20205;
@@ -285,7 +285,7 @@ void qsl_editor::create_form(int X, int Y) {
 	Fl_Value_Input* w_20207 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Position");
 	w_20207->value(data_->row_top);
 	w_20207->align(FL_ALIGN_LEFT);
-	w_20207->callback(cb_value<Fl_Value_Input, double>, &data_->row_top);
+	w_20207->callback(zc::cb_value<Fl_Value_Input, double>, &data_->row_top);
 	w_20207->when(FL_WHEN_CHANGED);
 	w_20207->tooltip("Please specify the position of the first row");
 	ip_rpos_ = w_20207;
@@ -294,7 +294,7 @@ void qsl_editor::create_form(int X, int Y) {
 	Fl_Value_Input* w_20208 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Spacing");
 	w_20208->value(data_->row_height);
 	w_20208->align(FL_ALIGN_LEFT);
-	w_20208->callback(cb_value<Fl_Value_Input, double>, &data_->row_height);
+	w_20208->callback(zc::cb_value<Fl_Value_Input, double>, &data_->row_height);
 	w_20208->when(FL_WHEN_CHANGED);
 	w_20208->tooltip("Please specify the spacing between rows");
 	ip_rspace_ = w_20208;
@@ -305,7 +305,7 @@ void qsl_editor::create_form(int X, int Y) {
 	Fl_Value_Input* w_20209 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "QSOs/Card");
 	w_20209->value(data_->max_qsos);
 	w_20209->align(FL_ALIGN_LEFT);
-	w_20209->callback(cb_value<Fl_Value_Input, int>, &data_->max_qsos);
+	w_20209->callback(zc::cb_value<Fl_Value_Input, int>, &data_->max_qsos);
 	w_20209->when(FL_WHEN_CHANGED);
 	w_20209->tooltip("Please specify the number of QSOs per Card");
 	ip_qsos_ = w_20209;
@@ -887,7 +887,7 @@ void qsl_editor::update_dimensions() {
 
 // Call back when a radio button is pressed - v indicates which button
 void qsl_editor::cb_radio_dim(Fl_Widget* w, void* v) {
-	qsl_editor* that = ancestor_view<qsl_editor>(w);
+	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
 	that->data_->unit = ((qsl_data::dim_unit)(intptr_t)v);
 	that->update_size();
 	that->redraw_display(true);
@@ -896,7 +896,7 @@ void qsl_editor::cb_radio_dim(Fl_Widget* w, void* v) {
 // Want to change the style (font, size and colour) of the text
 void qsl_editor::cb_bn_style(Fl_Widget* w, void* v) {
 	// Get the current style
-   	qsl_editor* that = ancestor_view<qsl_editor>(w);
+   	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
 	qsl_data::style_def* style = (qsl_data::style_def*)v;
 	// Open a font, size and colour dialog
     font_dialog* d = new font_dialog(style->font, style->size, style->colour, "QSL Editor - text style chooser");
@@ -913,24 +913,24 @@ void qsl_editor::cb_bn_style(Fl_Widget* w, void* v) {
 
 // Want to change a size parameter (widgth or height of label)
 void qsl_editor::cb_size_double(Fl_Widget* w, void* v) {
-    qsl_editor* that = ancestor_view<qsl_editor>(w);
-    cb_value<Fl_Value_Input, double>(w, v);
+    qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
+    zc::cb_value<Fl_Value_Input, double>(w, v);
 	that->update_size();
     that->redraw_display(true);
 }
 
 // String input
 void qsl_editor::cb_ip_string(Fl_Widget* w, void* v) {
-    qsl_editor* that = ancestor_view<qsl_editor>(w);
-    cb_value<intl_input, std::string>(w, v);
+    qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
+    zc::cb_value<intl_input, std::string>(w, v);
     that->redraw_display(true);  
 	// that->create_items();
 }
 
 // integer input
 void qsl_editor::cb_ip_int(Fl_Widget* w, void* v) {
-    qsl_editor* that = ancestor_view<qsl_editor>(w);
-    cb_value_int<Fl_Input>(w, v);
+    qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
+    zc::cb_value_int<Fl_Input>(w, v);
 	that->update_size();
 	that->redraw_display(true);  
 	// that->create_items();
@@ -938,16 +938,16 @@ void qsl_editor::cb_ip_int(Fl_Widget* w, void* v) {
 
 // Bool input
 void qsl_editor::cb_ip_bool(Fl_Widget* w, void* v) {
-    qsl_editor* that = ancestor_view<qsl_editor>(w);
-    cb_value<Fl_Check_Button, bool>(w, v);
+    qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
+    zc::cb_value<Fl_Check_Button, bool>(w, v);
     that->redraw_display(true);  
 	// that->create_items();
 }
 
 // Callsign 
 void qsl_editor::cb_callsign(Fl_Widget* w, void* v) {
-    qsl_editor* that = ancestor_view<qsl_editor>(w);
-    cb_value<field_input, std::string>(w, v);
+    qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
+    zc::cb_value<field_input, std::string>(w, v);
 	that->data_ = qsl_dataset_->get_card(that->callsign_, that->qsl_type_, true);
 	that->qsl_->set_card(that->data_);
 	that->update_dimensions();
@@ -959,7 +959,7 @@ void qsl_editor::cb_callsign(Fl_Widget* w, void* v) {
 
 // Field
 void qsl_editor::cb_ch_field(Fl_Widget* w, void* v) { 
-    qsl_editor* that = ancestor_view<qsl_editor>(w);
+    qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
 	field_choice* ch = (field_choice*)w;
 	const char* field = ch->value();
 	std::string* item_field = (std::string*)v;
@@ -969,7 +969,7 @@ void qsl_editor::cb_ch_field(Fl_Widget* w, void* v) {
 
 // Type choice
 void qsl_editor::cb_ch_type(Fl_Widget* w, void* v) {
-	qsl_editor* that = ancestor_view<qsl_editor>(w);
+	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
 	Fl_Choice* ch = (Fl_Choice*)w;
 	// v points to the type field of that item
 	qsl_data::item_type* type = (qsl_data::item_type*)v;
@@ -980,7 +980,7 @@ void qsl_editor::cb_ch_type(Fl_Widget* w, void* v) {
 
 // New item
 void qsl_editor::cb_new_item(Fl_Widget* w, void* v) {
-	qsl_editor* that = ancestor_view<qsl_editor>(w);
+	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
 	Fl_Choice* ch = (Fl_Choice*)w;
 	qsl_data::item_def* item = new qsl_data::item_def();
 	item->type = (qsl_data::item_type)ch->value();
@@ -992,8 +992,8 @@ void qsl_editor::cb_new_item(Fl_Widget* w, void* v) {
 // Image
 void qsl_editor::cb_image(Fl_Widget* w, void* v) {
 	qsl_data::image_def& image = *(qsl_data::image_def*)v;
-	qsl_editor* that = ancestor_view<qsl_editor>(w);
-	cb_value<Fl_Input, std::string>(w, &image.filename);
+	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
+	zc::cb_value<Fl_Input, std::string>(w, &image.filename);
 
 	if (!that->relative_filename(image.filename)) {
 		char msg[256];
@@ -1008,22 +1008,22 @@ void qsl_editor::cb_image(Fl_Widget* w, void* v) {
 // Select date or time formats
 template<class ENUM>
 void qsl_editor::cb_datetime(Fl_Widget* w, void* v) {
-	cb_value<Fl_Choice, ENUM>(w, v);
-	qsl_editor* that = ancestor_view<qsl_editor>(w);
+	zc::cb_value<Fl_Choice, ENUM>(w, v);
+	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
 	that->redraw_display(true);
 }
 
 // Use example qSO in display
 void qsl_editor::cb_example(Fl_Widget* w, void* v) {
-	cb_value<Fl_Light_Button, bool>(w, v);
-	qsl_editor* that = ancestor_view<qsl_editor>(w);
+	zc::cb_value<Fl_Light_Button, bool>(w, v);
+	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
 	that->redraw_display(true);
 }
 
 // Seelect different QSL type
 void qsl_editor::cb_qsl_type(Fl_Widget* w, void* v) {
-	cb_value<Fl_Choice, int>(w, v);
-	qsl_editor* that = ancestor_view<qsl_editor>(w);
+	zc::cb_value<Fl_Choice, int>(w, v);
+	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
 	that->data_ = qsl_dataset_->get_card(that->callsign_, that->qsl_type_, true);
 	that->qsl_->set_card(that->data_);
 	that->update_dimensions();
@@ -1035,7 +1035,7 @@ void qsl_editor::cb_qsl_type(Fl_Widget* w, void* v) {
 
 // Restore the drawing size
 void qsl_editor::cb_descale(Fl_Widget* w, void* v) {
-	qsl_editor* that = ancestor_view<qsl_editor>(w);
+	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
 	that->redraw_display(false);
 }
 
@@ -1126,8 +1126,8 @@ void qsl_editor::update() {
 bool qsl_editor::relative_filename(std::string& filename) {
 	std::string path = qsl_dataset_->get_path();
 	// Make both names portable
-	forward_slash(path);
-	forward_slash(filename);
+	zc::forward_slash(path);
+	zc::forward_slash(filename);
 	std::string result;
 	char msg[256];
 	// First check it's directly under the path

@@ -301,7 +301,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	search_text_ = "";
 	record_num_ = -1;
 	intl_input* ip = new intl_input(curr_x, Y, WSMEDIT, H, 0);
-	ip->callback(cb_value<intl_input, std::string>, &search_text_);
+	ip->callback(zc::cb_value<intl_input, std::string>, &search_text_);
 	ip->when(FL_WHEN_CHANGED);
 	ip->value(search_text_.c_str());
 	ip->tooltip("Enter will search for the callsign typed");
@@ -417,14 +417,14 @@ void toolbar::cb_bn_menu(Fl_Widget*w, void*v) {
 // Search the log for the next occurence of the callsign
 // v indicates whether to start a new search (true) or resume (false)
 void toolbar::cb_bn_search(Fl_Widget* w, void* v) {
-	toolbar* that = ancestor_view<toolbar>(w);
+	toolbar* that = zc::ancestor_view<toolbar>(w);
 	bool reset = (bool)(intptr_t)v;
 	if (reset) {
 		that->record_num_ = 0;
 	}
 	bool found = false;
 	bool keep_on = true;
-	std::string search_call = to_upper(that->search_text_);
+	std::string search_call = zc::to_upper(that->search_text_);
 	while (keep_on) {
 		// For each record from the last search result until found
 		for (item_num_t i = that->record_num_; i < navigation_book_->size() && !found; i++) {
@@ -474,26 +474,26 @@ void toolbar::cb_bn_search(Fl_Widget* w, void* v) {
 // Callback to extract all the records for the callsign in the search text box
 // v is not used
 void toolbar::cb_bn_extract(Fl_Widget* w, void* v) {
-	toolbar* that = ancestor_view<toolbar>(w);
-	cb_value<intl_input, std::string>((Fl_Widget*)that->ip_search_, (void*)& that->search_text_);
+	toolbar* that = zc::ancestor_view<toolbar>(w);
+	zc::cb_value<intl_input, std::string>((Fl_Widget*)that->ip_search_, (void*)& that->search_text_);
 	extract_records_->extract_call(that->search_text_);
 }
 
 // Open a tooltip that displays the parse results for the callsign in the search text box
 // v is not used
 void toolbar::cb_bn_explain(Fl_Widget* w, void* v) {
-	toolbar* that = ancestor_view<toolbar>(w);
+	toolbar* that = zc::ancestor_view<toolbar>(w);
 	// Create a temporary record to parse theh callsign
 	record* tip_record = qso_manager_->dummy_qso();
 	std::string message = "";
 	// Set the callsign in the temporary record
-	tip_record->item("CALL", to_upper(that->search_text_));
+	tip_record->item("CALL", zc::to_upper(that->search_text_));
 	// Parse the temporary record
 	message = cty_data_->get_tip(tip_record);
 	// Create a tooltip window at the explain button (in w) X and Y
-	Fl_Window* tw = ::tip_window(message, main_window_->x_root() + w->x(), main_window_->y_root() + w->y());
+	Fl_Window* tw = zc::tip_window(message, main_window_->x_root() + w->x(), main_window_->y_root() + w->y());
 	// Set the timeout on the tooltip
-	Fl::add_timeout(Fl_Tooltip::delay(), cb_timer_tip, tw);
+	Fl::add_timeout(Fl_Tooltip::delay(), zc::cb_timer_tip, tw);
 	delete tip_record;
 }
 

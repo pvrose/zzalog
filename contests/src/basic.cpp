@@ -20,7 +20,7 @@ contests::basic::basic() : contest_algorithm() {
 // Algorithm specific method to split text into a number of fields
 void contests::basic::parse_exchange(record* qso, std::string text) {
 	std::vector<std::string> words;
-	split_line(text, words, ' ');
+	zc::split_line(text, words, ' ');
 	int ix = 0;
 	for (auto& it : rx_items_) {
 		qso->item(it, words[ix]);

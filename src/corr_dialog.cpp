@@ -84,41 +84,41 @@ corr_dialog::corr_dialog(record* record, const std::string& field, const std::st
 	// Action choice - change its value
 	Fl_Check_Button* cb1 = new Fl_Check_Button(COL1, ROW2, WLLABEL, HTEXT, "Change value");
 	cb1->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
-	cb1->callback(cb_value<Fl_Check_Button, bool>, (void*)&change_value_);
+	cb1->callback(zc::cb_value<Fl_Check_Button, bool>, (void*)&change_value_);
 	cb1->when(FL_WHEN_CHANGED);
 	cb1->tooltip("Change the data in the field");
 	// Input - the new value wanted
 	intl_input* ip1 = new intl_input(COL3, ROW2, WEDIT, HTEXT);
-	ip1->callback(cb_value<intl_input, std::string>, (void*)&change_value_data_);
+	ip1->callback(zc::cb_value<intl_input, std::string>, (void*)&change_value_data_);
 	ip1->value(op2->value());
 	ip1->when(FL_WHEN_CHANGED);
 	ip1->tooltip("Value to change data to");
 	// Action choice - change the field's name
 	Fl_Check_Button* cb2 = new Fl_Check_Button(COL1, ROW3, WLLABEL, HTEXT, "Change field");
 	cb2->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
-	cb2->callback(cb_value<Fl_Check_Button, bool>, (void*)&change_field_);
+	cb2->callback(zc::cb_value<Fl_Check_Button, bool>, (void*)&change_field_);
 	cb2->when(FL_WHEN_CHANGED);
 	cb2->tooltip("Change the field name");
 	// Drop-down choice provides all possible field names
 	field_choice* ch1 = new field_choice(COL2, ROW3, WEDIT, HTEXT);
-	ch1->callback(cb_value<field_choice, std::string>, (void*)&change_field_name_);
+	ch1->callback(zc::cb_value<field_choice, std::string>, (void*)&change_field_name_);
 	ch1->when(FL_WHEN_CHANGED);
 	ch1->tooltip("Name to change field to");
 	// Action choice - add another field
 	Fl_Check_Button* cb3 = new Fl_Check_Button(COL1, ROW4, WLLABEL, HTEXT, "Add field");
 	cb3->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
-	cb3->callback(cb_value<Fl_Check_Button, bool>, (void*)&add_field_);
+	cb3->callback(zc::cb_value<Fl_Check_Button, bool>, (void*)&add_field_);
 	cb3->when(FL_WHEN_CHANGED);
 	cb3->tooltip("Add another field");
 	// Drop-down choice provides all possible field names
 	field_choice* ch2 = new field_choice(COL2, ROW4, WEDIT, HTEXT);
-	ch2->callback(cb_value<field_choice, std::string>, (void*)&add_field_name_);
+	ch2->callback(zc::cb_value<field_choice, std::string>, (void*)&add_field_name_);
 	ch2->when(FL_WHEN_CHANGED);
 	ch2->tooltip("Field to add");
 	// Input - data to use in the additional field
 	intl_input* ip2 = new intl_input(COL3, ROW4, WEDIT, HTEXT);
 	ip2->value(op2->value());
-	ip2->callback(cb_value<intl_input, std::string>, (void*)&add_value_data_);
+	ip2->callback(zc::cb_value<intl_input, std::string>, (void*)&add_value_data_);
 	ip2->when(FL_WHEN_CHANGED);
 	ip2->tooltip("Data to use in added field");
 	// Output to display the reason for the validation error.
@@ -170,7 +170,7 @@ corr_dialog::~corr_dialog()
 
 // OK button - obey choices made
 void corr_dialog::cb_bn_ok(Fl_Widget* w, void* v) {
-	corr_dialog* that = ancestor_view<corr_dialog>(w);
+	corr_dialog* that = zc::ancestor_view<corr_dialog>(w);
 	std::string new_value;
 	std::string new_field;
 	std::string old_value = that->record_->item(that->query_field_);
@@ -217,13 +217,13 @@ void corr_dialog::cb_bn_ok(Fl_Widget* w, void* v) {
 
 // Cancel button - do nothing except report cancel
 void corr_dialog::cb_bn_cancel(Fl_Widget* w, void* v) {
-	corr_dialog* that = ancestor_view<corr_dialog>(w);
+	corr_dialog* that = zc::ancestor_view<corr_dialog>(w);
 	that->do_button(BN_CANCEL);
 }
 
 // Quit button
 void corr_dialog::cb_bn_quit(Fl_Widget* w, void* v) {
-	corr_dialog* that = ancestor_view<corr_dialog>(w);
+	corr_dialog* that = zc::ancestor_view<corr_dialog>(w);
 	that->do_button(BN_SPARE);
 }
 

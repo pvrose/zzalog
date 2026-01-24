@@ -130,7 +130,7 @@ bool book::load_data(std::string filename)
 				std::string filetype;
 				size_t last_period = filename.find_last_of('.');
 				if (last_period != std::string::npos) {
-					filetype = to_lower(filename.substr(last_period));
+					filetype = zc::to_lower(filename.substr(last_period));
 				}
 				// Check for .adi or .adif format
 				if (filetype == ".adi" || filetype == ".adif") {
@@ -375,7 +375,7 @@ bool book::store_data(std::string filename, bool force, field_list* fields) {
 				size_t last_period = filename_.find_last_of('.');
 				if (last_period != std::string::npos) {
 					// Get file type
-					filetype = to_lower(filename_.substr(last_period));
+					filetype = zc::to_lower(filename_.substr(last_period));
 				}
 				// Check for .adi format
 				if (filetype == ".adi" || filetype == ".adif") {
@@ -972,21 +972,21 @@ bool book::refine_match(record* record) {
 bool book::match_string(std::string test, int comparator, std::string value) {
 	switch ((search_comp_t)comparator) {
 	case XP_REGEX: {
-		std::basic_regex<char> regex(to_upper(test));
-		return regex_match(to_upper(value), regex);
+		std::basic_regex<char> regex(zc::to_upper(test));
+		return regex_match(zc::to_upper(value), regex);
 	}
 	case XP_NE:
-		return (to_upper(value) != to_upper(test));
+		return (zc::to_upper(value) != zc::to_upper(test));
 	case XP_LT:
-		return (to_upper(value) < to_upper(test));
+		return (zc::to_upper(value) < zc::to_upper(test));
 	case XP_LE:
-		return (to_upper(value) <= to_upper(test));
+		return (zc::to_upper(value) <= zc::to_upper(test));
 	case XP_EQ:
-		return (to_upper(value) == to_upper(test));
+		return (zc::to_upper(value) == zc::to_upper(test));
 	case XP_GE:
-		return (to_upper(value) >= to_upper(test));
+		return (zc::to_upper(value) >= zc::to_upper(test));
 	case XP_GT:
-		return (to_upper(value) > to_upper(test));
+		return (zc::to_upper(value) > zc::to_upper(test));
 	default:
 		return false;
 	}

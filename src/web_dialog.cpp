@@ -190,7 +190,7 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 	intl_input* in1_1_4 = new intl_input(curr_x, curr_y, WSMEDIT, HBUTTON, "User");
 	in1_1_4->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in1_1_4->value(eqsl_data_->user.c_str());
-	in1_1_4->callback(cb_value<intl_input, std::string>, &eqsl_data_->user);
+	in1_1_4->callback(zc::cb_value<intl_input, std::string>, &eqsl_data_->user);
 	in1_1_4->when(FL_WHEN_CHANGED);
 	in1_1_4->tooltip("Enter user name for eQSL.cc");
 
@@ -199,7 +199,7 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 	zc_password_input* in1_1_5 = new zc_password_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON, "Password");
 	in1_1_5->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in1_1_5->value(eqsl_data_->password.c_str());
-	in1_1_5->callback(cb_value<Fl_Input, std::string>, &eqsl_data_->password);
+	in1_1_5->callback(zc::cb_value<Fl_Input, std::string>, &eqsl_data_->password);
 	in1_1_5->when(FL_WHEN_CHANGED);
 	in1_1_5->tooltip("Enter password for eQSL.cc");
 
@@ -209,7 +209,7 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 	Fl_Check_Button* bn1_1A_1 = new Fl_Check_Button(curr_x, curr_y, HBUTTON, HBUTTON, "Update each QSO");
 	bn1_1A_1->align(FL_ALIGN_RIGHT);
 	bn1_1A_1->value(eqsl_data_->upload_per_qso);
-	bn1_1A_1->callback(cb_value < Fl_Check_Button, bool>, &eqsl_data_->upload_per_qso);
+	bn1_1A_1->callback(zc::cb_value < Fl_Check_Button, bool>, &eqsl_data_->upload_per_qso);
 	bn1_1A_1->when(FL_WHEN_CHANGED);
 	bn1_1A_1->tooltip("Upload each QSO as it is logged");
 
@@ -218,7 +218,7 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 	Fl_Check_Button* bn1_1A_2 = new Fl_Check_Button(curr_x, curr_y, HBUTTON, HBUTTON, "Download Confirmed");
 	bn1_1A_2->align(FL_ALIGN_RIGHT);
 	bn1_1A_2->value(eqsl_data_->download_confirmed);
-	bn1_1A_2->callback(cb_value<Fl_Check_Button, bool>, &eqsl_data_->download_confirmed);
+	bn1_1A_2->callback(zc::cb_value<Fl_Check_Button, bool>, &eqsl_data_->download_confirmed);
 	bn1_1A_2->when(FL_WHEN_CHANGED);
 	bn1_1A_2->tooltip("Include previously confirmed QSOs");
 
@@ -258,7 +258,7 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 		curr_x += HBUTTON + GAP;
 		zc_calendar_input* ip_lastdl = new zc_calendar_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON);
 		ip_lastdl->value(it->second->last_download.c_str());
-		ip_lastdl->callback(cb_value<intl_input, std::string>, &it->second->last_download);
+		ip_lastdl->callback(zc::cb_value<intl_input, std::string>, &it->second->last_download);
 		ip_lastdl->tooltip("The date of the last download");
 
 		w_eqsl_lupds_[it->first] = ip_lastdl;
@@ -275,7 +275,7 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 	intl_input* in1_2_2 = new intl_input(curr_x, curr_y, WEDIT, HBUTTON, "QSL Message (QSO)");
 	in1_2_2->align(FL_ALIGN_LEFT);
 	in1_2_2->value(eqsl_data_->qso_message.c_str());
-	in1_2_2->callback(cb_value<intl_input, std::string>, &eqsl_data_->qso_message);
+	in1_2_2->callback(zc::cb_value<intl_input, std::string>, &eqsl_data_->qso_message);
 	in1_2_2->when(FL_WHEN_CHANGED);
 	in1_2_2->tooltip("Message to send to eQSL.cc or print on cards for QSOs");
 
@@ -284,7 +284,7 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 	intl_input* in1_3_2 = new intl_input(curr_x, curr_y, WEDIT, HBUTTON, "QSL Message (SWL)");
 	in1_3_2->align(FL_ALIGN_LEFT);
 	in1_3_2->value(eqsl_data_->swl_message.c_str());
-	in1_3_2->callback(cb_value<intl_input, std::string>, &eqsl_data_->swl_message);
+	in1_3_2->callback(zc::cb_value<intl_input, std::string>, &eqsl_data_->swl_message);
 	in1_3_2->when(FL_WHEN_CHANGED);
 	in1_3_2->tooltip("Message to send to eQSL.cc or print on cards for SWL reports");
 
@@ -342,7 +342,7 @@ void web_dialog::create_lotw(int rx, int ry, int rw, int rh) {
 	zc_calendar_input* in2_1_2 = new zc_calendar_input(C2, R2_1, W2, H2_1, "Last accessed");
 	in2_1_2->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in2_1_2->value(lotw_data_->last_downloaded.c_str());
-	in2_1_2->callback(cb_value<intl_input, std::string>, &lotw_data_->last_downloaded);
+	in2_1_2->callback(zc::cb_value<intl_input, std::string>, &lotw_data_->last_downloaded);
 	in2_1_2->when(FL_WHEN_CHANGED);
 	in2_1_2->tooltip("Last time Logbook of the World accessed");
 
@@ -350,7 +350,7 @@ void web_dialog::create_lotw(int rx, int ry, int rw, int rh) {
 	intl_input* in2_1_4 = new intl_input(C4, R2_1, W4, H2_1, "User");
 	in2_1_4->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in2_1_4->value(lotw_data_->user.c_str());
-	in2_1_4->callback(cb_value<intl_input, std::string>, &lotw_data_->user);
+	in2_1_4->callback(zc::cb_value<intl_input, std::string>, &lotw_data_->user);
 	in2_1_4->when(FL_WHEN_CHANGED);
 	in2_1_4->tooltip("Enter user name for Logbook of the World");
 
@@ -358,7 +358,7 @@ void web_dialog::create_lotw(int rx, int ry, int rw, int rh) {
 	zc_password_input* in2_1_5 = new zc_password_input(C5, R2_1, W5 + W6, H2_1, "Password");
 	in2_1_5->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in2_1_5->value(lotw_data_->password.c_str());
-	in2_1_5->callback(cb_value<Fl_Input, std::string>, &lotw_data_->password);
+	in2_1_5->callback(zc::cb_value<Fl_Input, std::string>, &lotw_data_->password);
 	in2_1_5->when(FL_WHEN_CHANGED);
 	in2_1_5->tooltip("Enter password for Logbook of the World");
 
@@ -366,7 +366,7 @@ void web_dialog::create_lotw(int rx, int ry, int rw, int rh) {
 	Fl_Check_Button* bn2_1A_1 = new Fl_Check_Button(C1, R2_1A, W1, H2_1A, "Update each QSO");
 	bn2_1A_1->align(FL_ALIGN_RIGHT);
 	bn2_1A_1->value(lotw_data_->upload_per_qso);
-	bn2_1A_1->callback(cb_value < Fl_Check_Button, bool>, &lotw_data_->upload_per_qso);
+	bn2_1A_1->callback(zc::cb_value < Fl_Check_Button, bool>, &lotw_data_->upload_per_qso);
 	bn2_1A_1->when(FL_WHEN_CHANGED);
 	bn2_1A_1->tooltip("Upload each QSO as it is logged");
 
@@ -418,7 +418,7 @@ void web_dialog::create_qrz(int rx, int ry, int rw, int rh) {
 	intl_input* in3_1_4 = new intl_input(curr_x, curr_y, WSMEDIT, HBUTTON, "User");
 	in3_1_4->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in3_1_4->value(qrz_data_->user.c_str());
-	in3_1_4->callback(cb_value<intl_input, std::string>, &qrz_data_->user);
+	in3_1_4->callback(zc::cb_value<intl_input, std::string>, &qrz_data_->user);
 	in3_1_4->when(FL_WHEN_CHANGED);
 	in3_1_4->tooltip("Enter user name for QRZ.com");
 
@@ -428,7 +428,7 @@ void web_dialog::create_qrz(int rx, int ry, int rw, int rh) {
 	zc_password_input* in3_1_5 = new zc_password_input(curr_x, curr_y, WSMEDIT, HBUTTON, "Password");
 	in3_1_5->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in3_1_5->value(qrz_data_->password.c_str());
-	in3_1_5->callback(cb_value<Fl_Input, std::string>, &qrz_data_->password);
+	in3_1_5->callback(zc::cb_value<Fl_Input, std::string>, &qrz_data_->password);
 	in3_1_5->when(FL_WHEN_CHANGED);
 	in3_1_5->tooltip("Enter password for QRZ.com");
 
@@ -462,7 +462,7 @@ void web_dialog::create_qrz(int rx, int ry, int rw, int rh) {
 	Fl_Check_Button* bn_qrz_upload = new Fl_Check_Button(curr_x, curr_y, WRADIO, HRADIO, "Update each QSO");
 	bn_qrz_upload->align(FL_ALIGN_RIGHT);
 	bn_qrz_upload->value(qrz_data_->upload_per_qso);
-	bn_qrz_upload->callback(cb_value < Fl_Check_Button, bool>, &qrz_data_->upload_per_qso);
+	bn_qrz_upload->callback(zc::cb_value < Fl_Check_Button, bool>, &qrz_data_->upload_per_qso);
 	bn_qrz_upload->when(FL_WHEN_CHANGED);
 	bn_qrz_upload->tooltip("Upload each QSO as it is logged");
 
@@ -501,12 +501,12 @@ void web_dialog::create_qrz(int rx, int ry, int rw, int rh) {
 
 		zc_password_input* ip_key = new zc_password_input(XKEY, curr_y, WKEY, HBUTTON);
 		ip_key->value(it->second->key.c_str());
-		ip_key->callback(cb_value<Fl_Input, std::string>, &it->second->key);
+		ip_key->callback(zc::cb_value<Fl_Input, std::string>, &it->second->key);
 		ip_key->tooltip("Enter the QRZ.com API key for logbook");
 
 		zc_calendar_input* ip_lastdl = new zc_calendar_input(XLASTDL, curr_y, WLASTDL, HBUTTON);
 		ip_lastdl->value(it->second->last_download.c_str());
-		ip_lastdl->callback(cb_value<intl_input, std::string>, &it->second->last_download);
+		ip_lastdl->callback(zc::cb_value<intl_input, std::string>, &it->second->last_download);
 		ip_lastdl->tooltip("The date of the last download");
 
 		grp_api->end();
@@ -561,7 +561,7 @@ void web_dialog::create_club(int rx, int ry, int rw, int rh) {
 	intl_input* in4_1_4 = new intl_input(C3, R4_1, W34, H4_1, "User (e-mail)");
 	in4_1_4->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in4_1_4->value(club_data_->user.c_str());
-	in4_1_4->callback(cb_value<intl_input, std::string>, &club_data_->user);
+	in4_1_4->callback(zc::cb_value<intl_input, std::string>, &club_data_->user);
 	in4_1_4->when(FL_WHEN_CHANGED);
 	in4_1_4->tooltip("Enter e-mail address for ClubLog");
 
@@ -569,7 +569,7 @@ void web_dialog::create_club(int rx, int ry, int rw, int rh) {
 	zc_password_input* in4_1_5 = new zc_password_input(C5, R4_1, W5, H4_1, "Password");
 	in4_1_5->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	in4_1_5->value(club_data_->password.c_str());
-	in4_1_5->callback(cb_value<Fl_Input, std::string>, &club_data_->password);
+	in4_1_5->callback(zc::cb_value<Fl_Input, std::string>, &club_data_->password);
 	in4_1_5->when(FL_WHEN_CHANGED);
 	in4_1_5->tooltip("Enter password for ClubLog");
 
@@ -577,7 +577,7 @@ void web_dialog::create_club(int rx, int ry, int rw, int rh) {
 	Fl_Check_Button* bn4_1A_1 = new Fl_Check_Button(C1, R4_1A, W1, H4_1A, "Update each QSO");
 	bn4_1A_1->align(FL_ALIGN_RIGHT);
 	bn4_1A_1->value(club_data_->upload_per_qso);
-	bn4_1A_1->callback(cb_value < Fl_Check_Button, bool>, &club_data_->upload_per_qso);
+	bn4_1A_1->callback(zc::cb_value < Fl_Check_Button, bool>, &club_data_->upload_per_qso);
 	bn4_1A_1->when(FL_WHEN_CHANGED);
 	bn4_1A_1->tooltip("Upload each QSO as it is logged");
 
@@ -615,7 +615,7 @@ void web_dialog::create_email(int rx, int ry, int rw, int rh) {
 	Fl_Input* ip61 = new Fl_Input(curr_x, curr_y, WSMEDIT, HBUTTON, "Server");
 	ip61->align(FL_ALIGN_LEFT);
 	ip61->value(email_data_->mail_server.c_str());
-	ip61->callback(cb_value< Fl_Input, std::string >, &email_data_->mail_server);
+	ip61->callback(zc::cb_value< Fl_Input, std::string >, &email_data_->mail_server);
 	ip61->when(FL_WHEN_CHANGED);
 	ip61->tooltip("Please enter the address of the SMTP server");
 
@@ -623,7 +623,7 @@ void web_dialog::create_email(int rx, int ry, int rw, int rh) {
 	Fl_Input* ip62 = new Fl_Input(curr_x, curr_y, WSMEDIT, HBUTTON, "User");
 	ip62->align(FL_ALIGN_LEFT);
 	ip62->value(email_data_->user.c_str());
-	ip62->callback(cb_value< Fl_Input, std::string >, &email_data_->user);
+	ip62->callback(zc::cb_value< Fl_Input, std::string >, &email_data_->user);
 	ip62->when(FL_WHEN_CHANGED);
 	ip62->tooltip("Please enter the account for the SMTP server (usually an e-mail address)");
 	
@@ -631,7 +631,7 @@ void web_dialog::create_email(int rx, int ry, int rw, int rh) {
 	zc_password_input* ip63 = new zc_password_input(curr_x, curr_y, WSMEDIT, HBUTTON, "Password");
 	ip63->align(FL_ALIGN_LEFT);
 	ip63->value(email_data_->password.c_str());
-	ip63->callback(cb_value< Fl_Input, std::string >, &email_data_->password);
+	ip63->callback(zc::cb_value< Fl_Input, std::string >, &email_data_->password);
 	ip63->when(FL_WHEN_CHANGED);
 	ip63->tooltip("Please enter the password for the above account");
 
@@ -639,7 +639,7 @@ void web_dialog::create_email(int rx, int ry, int rw, int rh) {
 	Fl_Input* ip64 = new Fl_Input(curr_x, curr_y, WSMEDIT, HBUTTON, "CC");
 	ip64->align(FL_ALIGN_LEFT);
 	ip64->value(email_data_->cc_address.c_str());
-	ip64->callback(cb_value< Fl_Input, std::string >, &email_data_->cc_address);
+	ip64->callback(zc::cb_value< Fl_Input, std::string >, &email_data_->cc_address);
 	ip64->when(FL_WHEN_CHANGED);
 	ip64->tooltip("Please enter an e-mail address to receive copy of e-mail sent");
 
@@ -663,7 +663,7 @@ void web_dialog::create_noqsl(int rx, int ry, int rw, int rh) {
 
 	Fl_Input* ip71 = new Fl_Input(curr_x, curr_y, WSMEDIT, HBUTTON, "New Callsign");
 	ip71->align(FL_ALIGN_LEFT);
-	ip71->callback(cb_value<Fl_Input, std::string>, &add_call_);
+	ip71->callback(zc::cb_value<Fl_Input, std::string>, &add_call_);
 	ip71->value("");
 	ip71->tooltip("Enter Callsign to add to the No QSL List");
 
@@ -770,23 +770,23 @@ void web_dialog::enable_widgets() {
 
 // Callback on changing tab
 void web_dialog::cb_tab(Fl_Widget* w, void* v) {
-	web_dialog* that = ancestor_view<web_dialog>(w);
+	web_dialog* that = zc::ancestor_view<web_dialog>(w);
 	that->enable_widgets();
 }
 
 // Callback: add call to NoQSL list
 // v points to input choice
 void web_dialog::cb_add_noqsl(Fl_Widget* w, void* v) {
-	web_dialog* that = ancestor_view<web_dialog>(w);
+	web_dialog* that = zc::ancestor_view<web_dialog>(w);
 	Fl_Select_Browser* br = (Fl_Select_Browser*)v;
-	that->noqsl_data_->insert(to_upper(that->add_call_));
+	that->noqsl_data_->insert(zc::to_upper(that->add_call_));
 	that->populate_noqsl(br);
 }
 
 // Callback: remove call from NoQSL list
 // v points to input choice
 void web_dialog::cb_del_noqsl(Fl_Widget* w, void* v) {
-	web_dialog* that = ancestor_view<web_dialog>(w);
+	web_dialog* that = zc::ancestor_view<web_dialog>(w);
 	Fl_Select_Browser* br = (Fl_Select_Browser*)v;
 	std::string call = br->text(br->value());
 	that->noqsl_data_->erase(call);

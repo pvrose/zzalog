@@ -287,7 +287,7 @@ eqsl_handler::response_t eqsl_handler::request_eqsl(request_t request) {
 std::string eqsl_handler::card_filename_l(record* record, bool use_default) {
 	std::string call = record->item("CALL");
 	// Replace all / in call-sign with _ - e.g. PA/GM3ZZA/P => PA_GM3ZZA_P
-	de_slash(call);
+	zc::de_slash(call);
 	// Get QSO details
 	std::string qso_date = record->item("QSO_DATE");
 	std::string time_on = record->item("TIME_ON");
@@ -295,7 +295,7 @@ std::string eqsl_handler::card_filename_l(record* record, bool use_default) {
 	std::string band = record->item("BAND");
 	std::string station = use_default ? 
 		stn_data_->defaults().callsign : record->item("STATION_CALLSIGN");
-	de_slash(station);
+	zc::de_slash(station);
 	// Location of top-directory for QSL card images
 	zc_settings top_settings;
 	zc_settings behav_settings(&top_settings, "Behaviour");
@@ -506,7 +506,7 @@ bool eqsl_handler::user_details(
 		// eqsl_data.get("User", temp, "");
 		// *username = temp;
 		// free(temp);
-		if (to_upper(*username) != callsign) {
+		if (zc::to_upper(*username) != callsign) {
 			char message[128];
 			snprintf(message, 128, "EQSL: Station call %s differs from username %s", callsign.c_str(), username->c_str());
 			status_->misc_status(ST_WARNING, message);
@@ -669,7 +669,7 @@ eqsl_handler::response_t eqsl_handler::adif_filename(std::string& filename) {
 
 	// Remember now as the last download date
 	if (result == ER_OK) {
-		last_access = now(false, EQSL_TIMEFORMAT);
+		last_access = zc::now(false, EQSL_TIMEFORMAT);
 		server_data_t* eqsl_data = qsl_dataset_->get_server_data("eQSL");
 		eqsl_data->call_data[station]->last_download = last_access;
 	}
@@ -746,7 +746,7 @@ bool eqsl_handler::upload_eqsl_log(book* book) {
 	// For book - use STATION_CALLSIGN of first QSO
 	record* this_record = book->get_record(0, false);
 	std::string station = this_record->item("STATION_CALLSIGN", true);
-	if (station.length() && station != to_upper(username_)) {
+	if (station.length() && station != zc::to_upper(username_)) {
 		char message[100];
 		snprintf(message, 100, "EQSL: Uploading %s instead of username %s", station.c_str(), username_.c_str());
 		status_->misc_status(ST_WARNING, message);
@@ -893,7 +893,7 @@ bool eqsl_handler::upload_eqsl_log(book* book) {
 				}
 			}
 			if (!dont_update) {
-				record->item("EQSL_QSLSDATE", now(false, "%Y%m%d"));
+				record->item("EQSL_QSLSDATE", zc::now(false, "%Y%m%d"));
 				record->item("EQSL_QSL_SENT", std::string("Y"));
 			}
 		}
@@ -932,7 +932,7 @@ void eqsl_handler::form_fields(std::vector<url_handler::field_pair>& fields) {
 std::map<std::string, std::string> eqsl_handler::parse_warning(std::string text) {
 	// Warning: Y=2020 M=05 D=31 LA6MNA 10M FT8 Bad record : Duplicate
 	std::vector<std::string> words;
-	split_line(text, words, ' ');
+	zc::split_line(text, words, ' ');
 	std::map<std::string, std::string> result;
 	result["QSO_DATE"] = words[1].substr(2) + words[2].substr(2) + words[3].substr(2);
 	result["CALL"] = words[4];
@@ -989,7 +989,7 @@ bool eqsl_handler::upload_single_qso(qso_num_t record_num) {
 		}
 		// For single QSO - use STATION_CALLSIGN
 		std::string station = this_record->item("STATION_CALLSIGN", true);
-		if (station.length() && station != to_upper(username)) {
+		if (station.length() && station != zc::to_upper(username)) {
 			char message[200];
 			snprintf(message, 200, "EQSL: %s:%s %s: Station call %s differs from username %s",
 				this_record->item("QSO_TIME").c_str(),
@@ -1077,7 +1077,7 @@ bool eqsl_handler::th_upload_qso(record* this_record) {
 	}
 	bool upload_failed = false;
 	// Concatenate components of full URL
-	std::string full_url = url + escape_url(std::string(header_data) + std::string(qsl_data));
+	std::string full_url = url + zc::escape_url(std::string(header_data) + std::string(qsl_data));
 	std::stringstream resp;
 	// Send URL with QSO details and download response
 	if (url_handler_->read_url(full_url, (std::ostream*)&resp)) {
@@ -1172,14 +1172,14 @@ bool eqsl_handler::upload_done(upload_response_t* response) {
 	switch (response->status) {
 	case ER_OK:
 		// If uploaded OK, Update QSO with EQSL sent information
-		response->qso->item("EQSL_QSLSDATE", now(false, "%Y%m%d"));
+		response->qso->item("EQSL_QSLSDATE", zc::now(false, "%Y%m%d"));
 		response->qso->item("EQSL_QSL_SENT", std::string("Y"));
 		passed = true;
 		break;
 	case ER_DUPLICATE:
 		// This has been uploaded before
 		if (response->qso->item("EQSL_QSLSDATE") == "") {
-			response->qso->item("EQSL_QSLSDATE", now(false, "%Y%m%d"));
+			response->qso->item("EQSL_QSLSDATE", zc::now(false, "%Y%m%d"));
 		}
 		if (response->qso->item("EQSL_QSL_SENT") != "Y") {
 			response->qso->item("EQSL_QSL_SENT", std::string("Y"));

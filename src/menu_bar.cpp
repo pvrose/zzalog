@@ -344,7 +344,7 @@ void menu_bar::cb_mi_file_open(Fl_Widget* w, void* v) {
 	if (file_id <= 0) {
 		// Open file chooser to get file to load
 		filename = book_->get_filename();
-		std::string directory = ::directory(filename);
+		std::string directory = zc::directory(filename);
 		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_FILE);
 		chooser->title("Select file name to load");
 		chooser->directory(directory.c_str());
@@ -501,7 +501,7 @@ void menu_bar::cb_mi_settings(Fl_Widget* w, void* v) {
 // v is bool. false = hide all, true = show all
 void menu_bar::cb_mi_windows_all(Fl_Widget* w, void* v) {
 	bool show_all = (bool)(intptr_t)v;
-	menu_bar* that = ancestor_view<menu_bar>(w);
+	menu_bar* that = zc::ancestor_view<menu_bar>(w);
 	if (show_all) {
 		main_window_->show();
 		qso_manager_->show();
@@ -519,7 +519,7 @@ void menu_bar::cb_mi_windows_all(Fl_Widget* w, void* v) {
 // Windows->Other
 // v is Fl_Window* and points to the specified window
 void menu_bar::cb_mi_windows(Fl_Widget* w, void* v) {
-	menu_bar* that = ancestor_view<menu_bar>(w);
+	menu_bar* that = zc::ancestor_view<menu_bar>(w);
 	Fl_Window* win = (Fl_Window*)v;
 	if (win) {
 		if (win == main_window_ && win->visible()) {
@@ -553,10 +553,10 @@ void menu_bar::cb_mi_nav_date(Fl_Widget* w, void* v) {
 	record* qso = navigation_book_->get_record();
 	std::string date;
 	if (qso) date = qso->item("QSO_DATE");
-	else date = now(false, "%Y%m%d");
+	else date = zc::now(false, "%Y%m%d");
 	zc_calendar* cal = new zc_calendar(Fl::event_x_root(), Fl::event_y_root());
 	cal->value(date.c_str());
-	cal->callback(cb_value<zc_calendar, std::string>, &date);
+	cal->callback(zc::cb_value<zc_calendar, std::string>, &date);
 	cal->show();
 	Fl_Widget_Tracker wt(cal);
 	while (wt.exists()) Fl::check();
@@ -585,7 +585,7 @@ void menu_bar::cb_mi_nav_recnum(Fl_Widget* w, void* v) {
 // Navigate->Find
 // v is a bool. false = find next; true = new search
 void menu_bar::cb_mi_nav_find(Fl_Widget* w, void* v) {
-	menu_bar* that = ancestor_view<menu_bar>(w);
+	menu_bar* that = zc::ancestor_view<menu_bar>(w);
 	// v supplies whether to change search criteria
 	bool do_extract = (bool)(intptr_t)v;
 	if (do_extract || that->criteria_ == nullptr) {
@@ -785,7 +785,7 @@ void menu_bar::cb_mi_log_retime(Fl_Widget* w, void* v) {
 		return;
 	}
 	std::string old_time = this_record->item("TIME_OFF");
-	std::string time = now(false, "%H%M%S");
+	std::string time = zc::now(false, "%H%M%S");
 	this_record->item("TIME_OFF", time);
 	char message[200];
 	snprintf(message, 200, "LOG: %s %s %s record changed %s from %s to %s",
@@ -797,7 +797,7 @@ void menu_bar::cb_mi_log_retime(Fl_Widget* w, void* v) {
 		time.c_str());
 	status_->misc_status(ST_NOTE, message);
 	tabbed_forms_->update_views(nullptr, HT_CHANGED, navigation_book_->selection());
-	menu_bar* that = ancestor_view<menu_bar>(w);
+	menu_bar* that = zc::ancestor_view<menu_bar>(w);
 	that->update_items();
 }
 
@@ -957,7 +957,7 @@ void menu_bar::cb_mi_imp_file(Fl_Widget* w, void* v) {
 	while (!import_data_->update_complete()) Fl::check();
 	// Get data directory
 	std::string filename = book_->get_filename();
-	std::string directory = ::directory(filename);
+	std::string directory = zc::directory(filename);
 	// Open file chooser
 	Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_FILE);
 	chooser->title("Select file name");
@@ -1063,9 +1063,9 @@ void menu_bar::cb_mi_ext_disp(Fl_Widget* w, void* v) {
 		message = extract_records_->header()->header();
 	}
 	// Create a tooltip window at the explain button (in w) X and Y
-	Fl_Window* tip_window = ::tip_window(message, main_window_->x_root() + w->x(), main_window_->y_root() + w->y());
+	Fl_Window* tip_window = zc::tip_window(message, main_window_->x_root() + w->x(), main_window_->y_root() + w->y());
 	// Set the timeout on the tooltip
-	Fl::add_timeout(Fl_Tooltip::delay(), cb_timer_tip, tip_window);
+	Fl::add_timeout(Fl_Tooltip::delay(), zc::cb_timer_tip, tip_window);
 
 }
 
@@ -1176,7 +1176,7 @@ void menu_bar::cb_mi_info_map(Fl_Widget* w, void* v) {
 		// If there is one
 		// Get locator, QTH and callsign
 		location_t source;
-		lat_long_t location = record->location(false, source);
+		zc::lat_long_t location = record->location(false, source);
 		std::string locator = record->item("GRIDSQUARE");
 		std::string city = record->item("QTH");
 		std::string label = record->item("CALL");
@@ -1253,8 +1253,8 @@ void menu_bar::cb_mi_info_map(Fl_Widget* w, void* v) {
 			// @%f,%f,25000m display 10 km around long/lat
 			snprintf(uri, sizeof(uri), "http://google.com/maps/@%f,%f,10000m", location.latitude, location.longitude);
 			snprintf(message, 128, "INFO: Launching Google maps for %s %s",
-				degrees_to_dms(location.latitude, true).c_str(),
-				degrees_to_dms(location.longitude, false).c_str());
+				zc::degrees_to_dms(location.latitude, true).c_str(),
+				zc::degrees_to_dms(location.longitude, false).c_str());
 			break;
 		}
 		status_->misc_status(ST_NOTE, message);

@@ -463,7 +463,7 @@ void qso_qsl_vwr::create_form() {
 // called when any of the image selection radio buttons is released
 // v is enum image_t.
 void qso_qsl_vwr::cb_rad_card(Fl_Widget* w, void* v) {
-	qso_qsl_vwr* that = ancestor_view<qso_qsl_vwr>(w);
+	qso_qsl_vwr* that = zc::ancestor_view<qso_qsl_vwr>(w);
 	// Get the selected image and display it.
 	image_t value = (image_t)(intptr_t)v;
 	if (value == that->selected_image_) {
@@ -480,7 +480,7 @@ void qso_qsl_vwr::cb_rad_card(Fl_Widget* w, void* v) {
 // Fetch the eQSL card for the supplied record
 // v is record_num_t* containing the number of the record to fetch the eQSL card for
 void qso_qsl_vwr::cb_bn_fetch(Fl_Widget* w, void* v) {
-	qso_qsl_vwr* that = ancestor_view<qso_qsl_vwr>(w);
+	qso_qsl_vwr* that = zc::ancestor_view<qso_qsl_vwr>(w);
 	// Put the card request onto the eQSL request queue - so that requests are made
 	eqsl_handler_->enqueue_request(that->current_qso_num_, true);
 	eqsl_handler_->enable_fetch(eqsl_handler::EQ_START);
@@ -495,9 +495,9 @@ void qso_qsl_vwr::cb_bn_fetch(Fl_Widget* w, void* v) {
 // Set QSL_SENT to QUEUED if not already set
 // v selects scanned card (QI_CARD_FRONT) or e-mail (QI_EMAIL)
 void qso_qsl_vwr::cb_bn_log_card(Fl_Widget* w, void* v) {
-	qso_qsl_vwr* that = ancestor_view<qso_qsl_vwr>(w);
+	qso_qsl_vwr* that = zc::ancestor_view<qso_qsl_vwr>(w);
 	const char* source = (const char*)v;
-	std::string today = now(false, "%Y%m%d");
+	std::string today = zc::now(false, "%Y%m%d");
 	that->current_qso_->item("QSLRDATE", today);
 	that->current_qso_->item("QSL_RCVD", std::string("Y"));
 	that->current_qso_->item("QSL_RCVD_VIA", std::string(source));
@@ -519,7 +519,7 @@ void qso_qsl_vwr::cb_bn_log_card(Fl_Widget* w, void* v) {
 // Show/hide full view window
 // v is not used
 void qso_qsl_vwr::cb_bn_image(Fl_Widget* w, void* v) {
-	qso_qsl_vwr* that = ancestor_view<qso_qsl_vwr>(w);
+	qso_qsl_vwr* that = zc::ancestor_view<qso_qsl_vwr>(w);
 	if (that->win_full_view_->visible()) {
 		that->win_full_view_->hide();
 	}
@@ -532,7 +532,7 @@ void qso_qsl_vwr::cb_bn_image(Fl_Widget* w, void* v) {
 // Set card requested "QSL_SENT=[v]"
 // v is a pointer to const char - either R or N
 void qso_qsl_vwr::cb_bn_card_reqd(Fl_Widget* w, void* v) {
-	qso_qsl_vwr* that = ancestor_view<qso_qsl_vwr>(w);
+	qso_qsl_vwr* that = zc::ancestor_view<qso_qsl_vwr>(w);
 	char* value = (char*)v;
 	that->current_qso_->item("QSL_SENT", std::string(value));
 	switch (*value) {
@@ -540,7 +540,7 @@ void qso_qsl_vwr::cb_bn_card_reqd(Fl_Widget* w, void* v) {
 		that->current_qso_->item("QSL_SENT_VIA", std::string("B"));
 		break;
 	}
-	qso_data* data = ancestor_view<qso_data>(that);
+	qso_data* data = zc::ancestor_view<qso_data>(that);
 	data->enable_widgets();
 	tabbed_forms_->update_views(nullptr, HT_MINOR_CHANGE, that->current_qso_num_);
 
@@ -548,13 +548,13 @@ void qso_qsl_vwr::cb_bn_card_reqd(Fl_Widget* w, void* v) {
 
 // tabs
 void qso_qsl_vwr::cb_tabs(Fl_Widget* w, void* v) {
-	qso_qsl_vwr* that = ancestor_view<qso_qsl_vwr>(w);
+	qso_qsl_vwr* that = zc::ancestor_view<qso_qsl_vwr>(w);
 	that->enable_widgets();
 }
 
 // Decline QSL 
 void qso_qsl_vwr::cb_bn_decline(Fl_Widget* w, void* v) {
-	qso_qsl_vwr* that = ancestor_view<qso_qsl_vwr>(w);
+	qso_qsl_vwr* that = zc::ancestor_view<qso_qsl_vwr>(w);
 	std::string* s = (std::string*)v;
 	bool value = ((Fl_Check_Button*)w)->value();
 	if (value) {
@@ -666,7 +666,7 @@ void qso_qsl_vwr::set_image() {
 				thumb->set_card(card);
 				thumb->set_qsos(&current_qso_, 1);
 			} else {
-				qso_manager* mgr = ancestor_view<qso_manager>(this);
+				qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 				std::string def_call = mgr->get_default(qso_manager::CALLSIGN);
 				card = qsl_dataset_->get_card(def_call, type, false);
 				full->set_card(card);
@@ -701,7 +701,7 @@ void qso_qsl_vwr::set_image() {
 					delete raw_image_;
 					raw_image_ = nullptr;
 					std::string station = current_qso_->item("STATION_CALLSIGN");
-					de_slash(station);
+					zc::de_slash(station);
 
 					// Select the image type: eQSL or scanned in card (front or back)
 					switch (selected_image_) {
@@ -1044,7 +1044,7 @@ void qso_qsl_vwr::set_qsl_status() {
 
 // Display log buttons 
 void qso_qsl_vwr::set_log_buttons() {
-	qso_data* data = ancestor_view<qso_data>(this);
+	qso_data* data = zc::ancestor_view<qso_data>(this);
 	if (current_qso_ && data->qso_editing(current_qso_num_)) {
 		grp_editor_->activate();
 	} else {

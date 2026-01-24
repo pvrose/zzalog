@@ -120,7 +120,7 @@ void stn_qth_widget::enable_widgets() {
 //! \param v pointer to string item to take input
 void stn_qth_widget::cb_ip_data(Fl_Widget* w, void* v) {
 	Fl_Input* ip = (Fl_Input*)w;
-	stn_qth_widget* that = ancestor_view<stn_qth_widget>(w);
+	stn_qth_widget* that = zc::ancestor_view<stn_qth_widget>(w);
 	qth_value_t field = (qth_value_t)(intptr_t)v;
 	stn_data_->add_qth_item(that->label(), field, ip->value());
 	// Tidy up display
@@ -223,7 +223,7 @@ stn_qth_dlg::~stn_qth_dlg() {
 
 //! Callback from "Add" button
 void stn_qth_dlg::cb_add(Fl_Widget* w, void* v) {
-	stn_qth_dlg* that = ancestor_view<stn_qth_dlg>(w);
+	stn_qth_dlg* that = zc::ancestor_view<stn_qth_dlg>(w);
 	qth_info_t* info = new qth_info_t;
 	stn_data_->add_qth(that->new_location_, info);
 	that->location_ = that->new_location_;
@@ -233,7 +233,7 @@ void stn_qth_dlg::cb_add(Fl_Widget* w, void* v) {
 
 //! Callback from "Delete" button
 void stn_qth_dlg::cb_delete(Fl_Widget* w, void* v) {
-	stn_qth_dlg* that = ancestor_view<stn_qth_dlg>(w);
+	stn_qth_dlg* that = zc::ancestor_view<stn_qth_dlg>(w);
 	stn_data_->delete_qth(that->location_);
 	that->location_ = "";
 	that->ip_new_->value("");
@@ -242,7 +242,7 @@ void stn_qth_dlg::cb_delete(Fl_Widget* w, void* v) {
 
 //! Callback from "Clear" button to clear all values for specific identifier.
 void stn_qth_dlg::cb_clear(Fl_Widget* w, void* v) {
-	stn_qth_dlg* that = ancestor_view<stn_qth_dlg>(w);
+	stn_qth_dlg* that = zc::ancestor_view<stn_qth_dlg>(w);
 	qth_info_t* info = new qth_info_t;
 	stn_data_->delete_qth(that->location_);
 	stn_data_->add_qth(that->location_, info);
@@ -251,7 +251,7 @@ void stn_qth_dlg::cb_clear(Fl_Widget* w, void* v) {
 
 //! Callback from "Rename" button to clear all values for specific identifier.
 void stn_qth_dlg::cb_rename(Fl_Widget* w, void* v) {
-	stn_qth_dlg* that = ancestor_view<stn_qth_dlg>(w);
+	stn_qth_dlg* that = zc::ancestor_view<stn_qth_dlg>(w);
 	qth_info_t* info = new qth_info_t;
 	*info = *stn_data_->get_qth(that->location_);
 	stn_data_->add_qth(that->new_location_, info);
@@ -262,14 +262,14 @@ void stn_qth_dlg::cb_rename(Fl_Widget* w, void* v) {
 
 //! Callback from "Update from call" updates locator items that can be decoded from the call.
 void stn_qth_dlg::cb_update(Fl_Widget* w, void* v) {
-	stn_qth_dlg* that = ancestor_view<stn_qth_dlg>(w);
+	stn_qth_dlg* that = zc::ancestor_view<stn_qth_dlg>(w);
 	that->update_from_call();
 }
 
 //! Callback from choice
 void stn_qth_dlg::cb_choice(Fl_Widget* w, void* v) {
 	Fl_Input_Choice* ch = (Fl_Input_Choice*)w;
-	stn_qth_dlg* that = ancestor_view<stn_qth_dlg>(w);
+	stn_qth_dlg* that = zc::ancestor_view<stn_qth_dlg>(w);
 	if (ch->menubutton()->changed()) {
 		that->selected_new_ = false;
 		that->location_ = ch->value();
@@ -311,7 +311,7 @@ void stn_qth_dlg::cb_check(Fl_Widget* w, void* v) {
 		}
 		status_->progress(++ix, OT_STN);
 	}
-	stn_qth_dlg* that = ancestor_view<stn_qth_dlg>(w);
+	stn_qth_dlg* that = zc::ancestor_view<stn_qth_dlg>(w);
 	char msg[128];
 	snprintf(msg, sizeof(msg), "STN DATA: %d do match; %d don't; %d can't; %d extra; %d multi",
 		num_do, num_dont, num_cant, num_extra, num_multi);
@@ -321,7 +321,7 @@ void stn_qth_dlg::cb_check(Fl_Widget* w, void* v) {
 
 //! Set default button
 void stn_qth_dlg::cb_default(Fl_Widget* w, void* v) {
-	stn_qth_dlg* that = ancestor_view<stn_qth_dlg>(w);
+	stn_qth_dlg* that = zc::ancestor_view<stn_qth_dlg>(w);
 	stn_default defaults = stn_data_->defaults();
 	defaults.location = that->location_;
 	stn_data_->set_defaults(defaults);
@@ -449,7 +449,7 @@ void stn_qth_dlg::populate_calls() {
 	ch_call_->clear();
 	const std::map<std::string, std::string>* calls = stn_data_->get_calls();
 	for (auto& it : *calls) {
-		ch_call_->add(escape_menu(it.first).c_str());
+		ch_call_->add(zc::escape_menu(it.first).c_str());
 	}
 }
 
@@ -458,7 +458,7 @@ void stn_qth_dlg::populate_locations() {
 	ip_new_->clear();
 	const std::map<std::string, qth_info_t*>* qths = stn_data_->get_qths();
 	for (auto& it : *qths) {
-		ip_new_->add(escape_menu(it.first).c_str());
+		ip_new_->add(zc::escape_menu(it.first).c_str());
 	}
 }
 

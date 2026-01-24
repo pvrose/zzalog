@@ -64,7 +64,7 @@ void intl_dialog::create_form() {
 	curr_x += bn_add->w();
 	// Input - allows additional characters to be defined.
 	Fl_Input* ip_new = new Fl_Input(curr_x, curr_y, WSMEDIT, HBUTTON);
-	ip_new->callback(cb_value<Fl_Input, std::string>, (void*)&new_char_);
+	ip_new->callback(zc::cb_value<Fl_Input, std::string>, (void*)&new_char_);
 	ip_new->tooltip("Paste in desired additional characters");
 	// Get the size of the button array
 	int width = curr_x + ip_new->w() - EDGE;
@@ -171,7 +171,7 @@ int intl_dialog::handle(int event) {
 
 // Callback - save button - save data to a file
 void intl_dialog::cb_bn_save(Fl_Widget* w, void* v) {
-	intl_dialog* that = ancestor_view<intl_dialog>(w);
+	intl_dialog* that = zc::ancestor_view<intl_dialog>(w);
 	if (!that->save_data()) {
 		status_->misc_status(ST_ERROR, "INTL: Unable to save data");
 	}
@@ -179,7 +179,7 @@ void intl_dialog::cb_bn_save(Fl_Widget* w, void* v) {
 
 // Callback - restore button - reload data
 void intl_dialog::cb_bn_restore(Fl_Widget* w, void* v) {
-	intl_dialog* that = ancestor_view<intl_dialog>(w);
+	intl_dialog* that = zc::ancestor_view<intl_dialog>(w);
 	if (!that->load_data()) {
 		status_->misc_status(ST_ERROR, "INTL: Unable to load data");
 	}
@@ -190,7 +190,7 @@ void intl_dialog::cb_bn_restore(Fl_Widget* w, void* v) {
 
 // Callback - Add characters to the displayed buttons
 void intl_dialog::cb_bn_add(Fl_Widget* w, void* v) {
-	intl_dialog* that = ancestor_view<intl_dialog>(w);
+	intl_dialog* that = zc::ancestor_view<intl_dialog>(w);
 	// Get the string from the input
 	that->add_symbols(that->new_char_);
 	that->add_buttons(that->buttons_->w());
@@ -199,7 +199,7 @@ void intl_dialog::cb_bn_add(Fl_Widget* w, void* v) {
 // Paste the buttons label into the editor widget
 void intl_dialog::cb_bn_use(Fl_Widget* w, void* v) {
 	const char* utf8 = ((Fl_Button*)w)->label();
-	intl_dialog* that = ancestor_view<intl_dialog>(w);
+	intl_dialog* that = zc::ancestor_view<intl_dialog>(w);
 	if (that->editor_) {
 		int len = strlen(utf8);
 		// Copy to clipboard

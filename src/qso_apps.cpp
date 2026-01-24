@@ -374,7 +374,7 @@ void app_grp::set_data(app_data_t* data) {
 // Listen button callback (per modem)
 // v is not used
 void app_grp::cb_bn_listen(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
     std::string server = that->label();
     if (server == FLDIGI) {
         if (fldigi_handler_->has_server()) {
@@ -396,7 +396,7 @@ void app_grp::cb_bn_listen(Fl_Widget* w, void* v) {
 // Start button callback
 // v is not used
 void app_grp::cb_bn_connect(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
     const char* rig_name;
     if (that->app_data_->can_disable && !((Fl_Light_Button*)w)->value()) rig_name = "NONE";
     else rig_name = that->rig_id();
@@ -430,9 +430,9 @@ void app_grp::cb_bn_connect(Fl_Widget* w, void* v) {
 
 // App typed in
 void app_grp::cb_ip_app(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
     std::string value;
-    cb_value<Fl_Input, std::string>(w, &value);
+    zc::cb_value<Fl_Input, std::string>(w, &value);
     const char* rig_name = that->rig_id();
     that->app_data_->commands[rig_name] = value; 
     that->enable_widgets();
@@ -440,7 +440,7 @@ void app_grp::cb_ip_app(Fl_Widget* w, void* v) {
 
 // Listen and server button callback
 void app_grp::cb_bn_class(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
     that->app_data_->rig_class = (app_rig_class_t)(intptr_t)v;
     ((qso_apps*)that->parent())->add_servers(that->app_data_);
     that->enable_widgets();
@@ -448,66 +448,66 @@ void app_grp::cb_bn_class(Fl_Widget* w, void* v) {
 
 // Listen and server button callback
 void app_grp::cb_bn_server(Fl_Widget* w, void* v) {
-    cb_value<Fl_Light_Button, bool>(w, v);
-    app_grp* that = ancestor_view<app_grp>(w);
+    zc::cb_value<Fl_Light_Button, bool>(w, v);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
     that->enable_widgets();
 }
 
 // Network address
 void app_grp::cb_ip_nwaddr(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
-    cb_value<Fl_Input, std::string>(w, &that->app_data_->address);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
+    zc::cb_value<Fl_Input, std::string>(w, &that->app_data_->address);
     that->enable_widgets();
 }
 
 // Network port
 void app_grp::cb_ip_nwport(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
-    cb_value_int<Fl_Int_Input>(w, &that->app_data_->port_num);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
+    zc::cb_value_int<Fl_Int_Input>(w, &that->app_data_->port_num);
     that->enable_widgets();
 }
 
 // Call back for needing admin
 void app_grp::cb_bn_admin(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
-    cb_value<Fl_Light_Button, bool>(w, &that->app_data_->admin);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
+    zc::cb_value<Fl_Light_Button, bool>(w, &that->app_data_->admin);
     that->enable_widgets();
 }
 
 // Callback to delete the application
 void app_grp::cb_bn_delete(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
-    qso_apps* apps = ancestor_view<qso_apps>(that);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
+    qso_apps* apps = zc::ancestor_view<qso_apps>(that);
     apps->delete_app(that);
 }
 
 // Callback to set can_disable
 void app_grp::cb_bn_disable(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
-    cb_value<Fl_Light_Button, bool>(w, &that->app_data_->can_disable);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
+    zc::cb_value<Fl_Light_Button, bool>(w, &that->app_data_->can_disable);
     that->enable_widgets();
 }
 
 // Callback to read disable command
 void app_grp::cb_ip_disable(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
     std::string value;
-    cb_value<Fl_Input, std::string>(w, &value);
+    zc::cb_value<Fl_Input, std::string>(w, &value);
     that->app_data_->commands["NONE"] = value; 
 }
 
 // Callback on typing pasword
 void app_grp::cb_ip_passw(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
     that->enable_widgets();
 }
 
 // Show scripts
 void app_grp::cb_show_script(Fl_Widget* w, void* v) {
-    app_grp* that = ancestor_view<app_grp>(w);
+    app_grp* that = zc::ancestor_view<app_grp>(w);
     zc_filename_input* ip = *(zc_filename_input**)v;
     std::string fn = ip->value();
-    qso_apps* qa = ancestor_view<qso_apps>(that);
+    qso_apps* qa = zc::ancestor_view<qso_apps>(that);
     file_viewer* fwin = qa->viewer();
     if (fwin->file() == fn && fwin->visible() && !fwin->is_dirty()) {
         fwin->hide();
@@ -519,7 +519,7 @@ void app_grp::cb_show_script(Fl_Widget* w, void* v) {
 // Generate rig id 
 const char* app_grp::rig_id() {
     char* result = new char[32];
-    qso_manager* mgr = ancestor_view<qso_manager>(this);
+    qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
     qso_rig* rig_ctrl = mgr->rig_control();
     switch(app_data_->rig_class) {
         case NO_CONNECTION:
@@ -771,7 +771,7 @@ void qso_apps::enable_widgets() {
 
 // Set new tab
 void qso_apps::cb_bn_new(Fl_Widget* w, void* v) {
-    qso_apps* that = ancestor_view<qso_apps>(w);
+    qso_apps* that = zc::ancestor_view<qso_apps>(w);
 
      // Default data
     app_data_t* new_data = new app_data_t;
@@ -794,14 +794,14 @@ void qso_apps::cb_bn_new(Fl_Widget* w, void* v) {
 
 // Input new app nae
 void qso_apps::cb_ip_new(Fl_Widget* w, void* v) {
-    qso_apps* that = ancestor_view<qso_apps>(w);
-    cb_value<Fl_Input, std::string>(w, v);
+    qso_apps* that = zc::ancestor_view<qso_apps>(w);
+    zc::cb_value<Fl_Input, std::string>(w, v);
     that->enable_widgets(); 
 }
 
 // Switch tab
 void qso_apps::cb_tabs(Fl_Widget* w, void* v) {
-    qso_apps* that = ancestor_view<qso_apps>(w);
+    qso_apps* that = zc::ancestor_view<qso_apps>(w);
     that->enable_widgets();
 }
 
