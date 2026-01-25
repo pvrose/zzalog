@@ -187,15 +187,13 @@ void wx_handler::cb_ticker(void* v) {
 void wx_handler::cb_fetch_done(void* v) {
     wx_handler* that = (wx_handler*)v;
     that->wx_fetch_.store(false);
-    char msg[1024];
-    snprintf(msg, sizeof(msg), "WX_HANDLER: Weather read OK: %s %0.0f\302\260C %0.0fMPH %s %0.0f hPa. %0.0f%% cloud",
+    status_->misc_status(ST_OK, "WX_HANDLER: Weather read OK: %s %0.0f\302\260C %0.0fMPH %s %0.0f hPa. %0.0f%% cloud",
         that->description().c_str(), 
         that->temperature(), 
         that->wind_speed(), 
         that->wind_direction().c_str(), 
         that->pressure(), 
         that->cloud() * 100);
-    status_->misc_status(ST_OK, msg);
     qso_manager_->enable_widgets();
 }
 
