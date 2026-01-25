@@ -124,10 +124,34 @@ void init_dialog::cb_accept(Fl_Widget* w, void* v) {
 	defaults.location = that->ip_location_->value();
 	defaults.name = that->ip_name_->value();
 	defaults.club_name = that->ip_club_->value();
-	stn_data_->set_defaults(defaults);
-	stn_dialog* dlg = zc::ancestor_view<stn_dialog>(that);
-	dlg->enable_widgets();
-	dlg->set_tab(stn_dialog::QTH, defaults.location, "Set initial values.");
+	switch(defaults.type) {
+	case CLUB:
+        if (defaults.callsign.length() &&
+		    defaults.club_name.length() &&
+		    defaults.location.length())
+		    that->valid_data_ = true;
+		else that->valid_data_ = false;
+		break;
+	case INDIVIDUAL:
+        if (defaults.callsign.length() &&
+		    defaults.location.length())
+		    that->valid_data_ = true;
+		else that->valid_data_ = false;
+		break;
+	}
+	if (that->valid_data_) {
+		that->invalid_ = false;
+		stn_data_->set_defaults(defaults);
+		stn_dialog* dlg = zc::ancestor_view<stn_dialog>(that);
+		dlg->enable_widgets();
+		dlg->set_tab(stn_dialog::QTH, defaults.location, "Set initial values.");
+	} else {
+		that->invalid_ = true;
+		stn_data_->set_defaults(defaults);
+		stn_dialog* dlg = zc::ancestor_view<stn_dialog>(that);
+		dlg->enable_widgets();
+		dlg->set_tab(stn_dialog::DEFAULTS, "", "Please supply callsign and location (and club name if relevant).");
+	}
 }
 
 //! Callback when radio button is selected
@@ -147,6 +171,13 @@ void init_dialog::enable_widgets() {
 	case NOT_USED:
 		bn_club_->value(false);
 		bn_indiv_->value(false);
+		if (invalid_) {
+			bn_club_->labelcolor(FL_RED);
+			bn_indiv_->labelcolor(FL_RED);
+		} else {
+			bn_club_->labelcolor(FL_FOREGROUND_COLOR);
+			bn_indiv_->labelcolor(FL_FOREGROUND_COLOR);
+		}
 		ip_club_->deactivate();
 		ip_club_->value("");
 		ip_call_->deactivate();
@@ -161,12 +192,27 @@ void init_dialog::enable_widgets() {
 		bn_indiv_->value(false);
 		ip_club_->activate();
 		ip_club_->value(defaults.club_name.c_str());
+		if (invalid_ && defaults.club_name.length() == 0) {
+			ip_club_->labelcolor(FL_RED);
+		} else {
+			ip_club_->labelcolor(FL_FOREGROUND_COLOR);
+		}
 		ip_call_->activate();
 		ip_call_->value(defaults.callsign.c_str());
+		if (invalid_ && defaults.callsign.length() == 0) {
+			ip_call_->labelcolor(FL_RED);
+		} else {
+			ip_call_->labelcolor(FL_FOREGROUND_COLOR);
+		}
 		ip_name_->deactivate();
 		ip_name_->value("");
 		ip_location_->activate();
 		ip_location_->value(defaults.location.c_str());
+		if (invalid_ && defaults.location.length() == 0) {
+			ip_location_->labelcolor(FL_RED);
+		} else {
+			ip_location_->labelcolor(FL_FOREGROUND_COLOR);
+		}
 		break;
 	case INDIVIDUAL:
 		bn_club_->value(false);
@@ -175,10 +221,24 @@ void init_dialog::enable_widgets() {
 		ip_club_->value("");
 		ip_call_->activate();
 		ip_call_->value(defaults.callsign.c_str());
+		if (invalid_ && defaults.callsign.length() == 0) {
+			ip_call_->labelcolor(FL_RED);
+		} else {
+			ip_call_->labelcolor(FL_FOREGROUND_COLOR);
+		}
 		ip_name_->activate();
 		ip_name_->value(defaults.name.c_str());
 		ip_location_->activate();
 		ip_location_->value(defaults.location.c_str());
+		if (invalid_ && defaults.location.length() == 0) {
+			ip_location_->labelcolor(FL_RED);
+		} else {
+			ip_location_->labelcolor(FL_FOREGROUND_COLOR);
+		}
 		break;
 	}
+}
+
+bool init_dialog::valid_data() {
+	return valid_data_;
 }

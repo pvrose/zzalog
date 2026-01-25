@@ -770,6 +770,13 @@ void recent_files() {
 
 // read in the prefix and adif reference data
 void add_data() {
+	// Add the Station details database
+	if (!closing_) {
+		stn_data_ = new stn_data;
+		stn_window_ = new stn_window();
+		stn_window_->hide();
+		stn_data_->load_data();
+	}
 	// Note closing can get set during any of the below actions.
 	if (!closing_) {
 		// add ADIF specification data.
@@ -804,13 +811,6 @@ void add_data() {
 	// Add the QSL design data
 	if (!closing_) {
 		qsl_dataset_ = new qsl_dataset;
-	}
-	// Add the Station details database
-	if (!closing_) {
-		stn_data_ = new stn_data;
-		stn_window_ = new stn_window();
-		stn_window_->hide();
-		stn_data_->load_data();
 	}
 	// Add the contest details database
 	if (!closing_) {

@@ -38,6 +38,9 @@ public:
     //! Configure widgets
     void enable_widgets();
 
+    //! Valid data has been entered
+    bool valid_data();
+
 protected:
     //! Callback when "Accept" button clicked
     static void cb_accept(Fl_Widget* w, void* v);
@@ -47,7 +50,13 @@ protected:
     //! \param w: widget clicked
     //! \param v: object of type stn_type indicates the new station type
     static void cb_type(Fl_Widget* w, void* v);
-    
+
+    //! VAlid data has been entered. 
+    bool valid_data_ = false; 
+
+    //! Invalid data has been entered
+    bool invalid_ = false;
+
     // Widgets
     Fl_Radio_Round_Button* bn_club_;        //!< Club station
     Fl_Radio_Round_Button* bn_indiv_;       //!< Individual station

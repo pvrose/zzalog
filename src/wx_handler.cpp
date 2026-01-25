@@ -140,9 +140,9 @@ bool wx_handler::update() {
         const qth_info_t* info = stn_data_->get_qth(qth_id);
         if (info != nullptr && info->data.find(LOCATOR) != info->data.end()) {
             dummy->item("MY_GRIDSQUARE", info->data.at(LOCATOR));
-            location = dummy->location(true);
         }
     }
+    location = dummy->location(true);
     if (std::isnan(location.latitude) || std::isnan(location.longitude)) {
         report_ = wx_report();
         report_.city_name = "Not known";

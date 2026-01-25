@@ -80,6 +80,7 @@ protected:
 	record* qso_;
 
 	Fl_Box* message_;           //!< Message 
+	Fl_Button* bn_done_ = nullptr;   //!< Done button
 	zc_tabs_nonav* tabs_;             //!< Tabs:
 	init_dialog* g_defs_;       //!< Tab: Defaults dislog 
 	stn_qth_dlg* g_qth_;        //!< Tab: Location editing

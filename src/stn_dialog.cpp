@@ -87,9 +87,9 @@ void stn_dialog::create_form(int X, int Y) {
 
 	cy += message_->h();
 	cx += (cw / 2) - (WBUTTON / 2);
-	Fl_Button* bn_done = new Fl_Button(cx, cy, WBUTTON, HBUTTON, "Done!");
-	bn_done->callback(cb_done);
-	bn_done->tooltip("Close the window to accept the changes");
+	bn_done_ = new Fl_Button(cx, cy, WBUTTON, HBUTTON, "Done!");
+	bn_done_->callback(cb_done);
+	bn_done_->tooltip("Close the window to accept the changes");
 
 	cy += HBUTTON;
 	cx = x() + GAP;
@@ -153,6 +153,11 @@ void stn_dialog::enable_widgets() {
 			wx->labelcolor(FL_FOREGROUND_COLOR);
 			wx->deactivate();
 		}
+	}
+	if (tab != g_defs_ || g_defs_->valid_data()) {
+		bn_done_->activate();
+	} else {
+		bn_done_->deactivate();
 	}
 	g_defs_->enable_widgets();
 	g_qth_->enable_widgets();

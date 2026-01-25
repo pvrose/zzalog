@@ -6,10 +6,15 @@
   - None.
 - Cosmetic and non-functional changes.
   - Standardising app identification across ZZACOMMON apps.
+  - Change names and namespaces for ZZACOMMON classes and stand-alone methods.
 - Perfomance changes.
   - ZZALOG used 200% CPU when idling. 
 - Bug fixes:
   - Logged frequency and start time not being set correctly from FlDigi.
+  - Problems with cold-start with minimal user input during configuration.
+    - Exception from WX handler with no user location.
+    - Open user station dialog before any other dialog.
+    - Force user to supply some data during configuration.
 
 \section rev_3-6-12 Revision 3.6.12
 

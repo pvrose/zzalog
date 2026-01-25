@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.6.12.1)
+project(ZZALOG VERSION 3.6.12.2)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
 set(ZZALOG_RC_VALUE "")
