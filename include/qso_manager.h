@@ -108,7 +108,7 @@ enum hint_t : uchar;
 		//! Start a new QSO.
 		void start_qso();
 		//! Returns a dummy qso - eg for parsing a callsign
-		record* dummy_qso();
+		static record* dummy_qso();
 		//! End the current QSO.
 		void end_qso();
 		//! Edit the selected QSO record.

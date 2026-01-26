@@ -169,7 +169,7 @@ protected:
     Fl_Button* bn_default_;          //!< Set as default
     stn_qth_cntnr* table_;           //!< Table displaying QTH details
 
-    bool selected_new_;              //!< A new location has been enetered (for Add or REname)
+    bool selected_new_ = false;      //!< A new location has been enetered (for Add or REname)
 
     std::string new_location_;       //!< New location entered
     std::string location_;           //!< Current selected location

@@ -364,7 +364,7 @@ void qso_manager::edit_qso() {
 
 // Dummy QSO - only current date and time
 record* qso_manager::dummy_qso() {
-	return data_group_->dummy_qso();
+	return qso_data::dummy_qso();
 }
 
 // Copy the sleected QSOs MY_RIG etc to the supplied qso record

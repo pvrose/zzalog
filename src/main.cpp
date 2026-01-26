@@ -770,13 +770,6 @@ void recent_files() {
 
 // read in the prefix and adif reference data
 void add_data() {
-	// Add the Station details database
-	if (!closing_) {
-		stn_data_ = new stn_data;
-		stn_window_ = new stn_window();
-		stn_window_->hide();
-		stn_data_->load_data();
-	}
 	// Note closing can get set during any of the below actions.
 	if (!closing_) {
 		// add ADIF specification data.
@@ -798,6 +791,13 @@ void add_data() {
 		if (!club_handler_) club_handler_ = new club_handler;
 		// Get pfx_data
 		cty_data_ = new cty_data;
+	}
+	// Add the Station details database - needs spec_data_ and cty_data_
+	if (!closing_) {
+		stn_data_ = new stn_data;
+		stn_window_ = new stn_window();
+		stn_window_->hide();
+		stn_data_->load_data();
 	}
 	// Add intl dialog
 	if (!closing_) {

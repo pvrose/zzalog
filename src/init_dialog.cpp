@@ -59,10 +59,10 @@ void init_dialog::create_form() {
 	ip_club_->tooltip("Input the club name");
 
 	cy += HBUTTON + GAP;
-	ip_location_ = new Fl_Input(cx, cy, WSMEDIT, HBUTTON, "Location");
+	ip_location_ = new Fl_Input(cx, cy, WSMEDIT, HBUTTON, "Station ID");
 	ip_location_->align(FL_ALIGN_LEFT);
-	ip_location_->tooltip("Enter the default location");
-	ip_location_->value("Main station");
+	ip_location_->tooltip("Enter the default station identifier (eg \"Main Station\"");
+	ip_location_->value("Main Station");
 
 	cy += HBUTTON;
 	ip_name_ = new Fl_Input(cx, cy, WSMEDIT, HBUTTON, "Operator");
@@ -150,7 +150,7 @@ void init_dialog::cb_accept(Fl_Widget* w, void* v) {
 		stn_data_->set_defaults(defaults);
 		stn_dialog* dlg = zc::ancestor_view<stn_dialog>(that);
 		dlg->enable_widgets();
-		dlg->set_tab(stn_dialog::DEFAULTS, "", "Please supply callsign and location (and club name if relevant).");
+		dlg->set_tab(stn_dialog::DEFAULTS, "", "Please supply callsign and station ID (and club name if relevant).");
 	}
 }
 

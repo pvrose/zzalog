@@ -120,7 +120,7 @@ public:
 	void enable_widgets();
 
 	//! Create a dummy QSO
-	record* dummy_qso();
+	static record* dummy_qso();
 	//! Start a new QSO
 	void start_qso(qso_init_t mode);
 	//! End QSO

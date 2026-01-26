@@ -1781,25 +1781,25 @@ record* qso_data::dummy_qso() {
 	record* dummy = new record;
 	std::string timestamp = zc::now(false, "%Y%m%d%H%M%S");
 	// Get current date and time in UTC
-	dummy->item("QSO_DATE", timestamp.substr(0, 8));
+	dummy->item("QSO_DATE", timestamp.substr(0, 8), false, false);
 	// Time as HHMMSS - always log seconds.
-	dummy->item("TIME_ON", timestamp.substr(8));
-	dummy->item("QSO_DATE_OFF", std::string(""));
-	dummy->item("TIME_OFF", std::string(""));
-	dummy->item("CALL", std::string(""));
+	dummy->item("TIME_ON", timestamp.substr(8), false, false);
+	dummy->item("QSO_DATE_OFF", std::string(""), false, false);
+	dummy->item("TIME_OFF", std::string(""), false, false);
+	dummy->item("CALL", std::string(""), false, false);
 	// otherwise leave blank so that we enter it manually later.
-	dummy->item("FREQ", std::string(""));
-	dummy->item("FREQ_RX", std::string(""));
-	dummy->item("MODE", std::string(""));
-	dummy->item("SUBMODE", std::string(""));
-	dummy->item("TX_PWR", std::string(""));
+	dummy->item("FREQ", std::string(""), false, false);
+	dummy->item("FREQ_RX", std::string(""), false, false);
+	dummy->item("MODE", std::string(""), false, false);
+	dummy->item("SUBMODE", std::string(""), false, false);
+	dummy->item("TX_PWR", std::string(""), false, false);
 	// initialise fields
-	dummy->item("RX_PWR", std::string(""));
-	dummy->item("RST_SENT", std::string(""));
-	dummy->item("RST_RCVD", std::string(""));
-	dummy->item("NAME", std::string(""));
-	dummy->item("QTH", std::string(""));
-	dummy->item("GRIDSQUARE", std::string(""));
+	dummy->item("RX_PWR", std::string(""), false, false);
+	dummy->item("RST_SENT", std::string(""), false, false);
+	dummy->item("RST_RCVD", std::string(""), false, false);
+	dummy->item("NAME", std::string(""), false, false);
+	dummy->item("QTH", std::string(""), false, false);
+	dummy->item("GRIDSQUARE", std::string(""), false, false);
 
 	return dummy;
 }

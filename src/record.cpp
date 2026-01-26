@@ -107,7 +107,7 @@ void record::item(const std::string& field, const std::string& value, bool forma
 	// Otherwise if writing to "", erase the item
 	if (!value.length()) {
 		// SEt dirty flag if contents are changing
-		if (dirty) {
+		if (dirty && book_) {
 			std::string orig_value;
 			if (find(field) != end()) {
 				orig_value = at(field);
@@ -273,7 +273,7 @@ void record::item(const std::string& field, const std::string& value, bool forma
 		formatted_value = upper_value;
 	}
 	// SEt dirty flag if contents are changing
-	if (dirty) {
+	if (dirty && book_) {
 		std::string orig_value;
 		if (find(field) != end()) {
 			orig_value = at(field);

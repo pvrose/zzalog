@@ -410,21 +410,22 @@ void stn_qth_dlg::enable_widgets() {
 		ch_call_->activate();
 
 	}
-	if (qso_manager_) {
-		ch_call_->activate();
-		bn_update_->activate();
-	}
-	else {
-		ch_call_->deactivate();
-		bn_update_->deactivate();
-	}
+	// TODO Why was this code here?
+	//if (qso_manager_) {
+	//	ch_call_->activate();
+	//	bn_update_->activate();
+	//}
+	//else {
+	//	ch_call_->deactivate();
+	//	bn_update_->deactivate();
+	//}
 	load_data();
 }
 
 
 //! Updatefrom call
 void stn_qth_dlg::update_from_call() {
-	record* dummy_qso = qso_manager_->dummy_qso();
+	record* dummy_qso = qso_manager::dummy_qso();
 	dummy_qso->item("CALL", std::string(ch_call_->value()));
 	cty_data_->update_qso(dummy_qso, true);
 	for (auto& it : QTH_ADIF_MAP) {
@@ -451,6 +452,7 @@ void stn_qth_dlg::populate_calls() {
 	for (auto& it : *calls) {
 		ch_call_->add(zc::escape_menu(it.first).c_str());
 	}
+	if (ch_call_->menubutton()->size()) ch_call_->value(0);
 }
 
 // ! Populate locations
