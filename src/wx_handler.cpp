@@ -1,5 +1,6 @@
 #include "wx_handler.h"
 
+#include "cty_data.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "main.h"   
@@ -57,7 +58,7 @@ std::string wx_handler::beaufort(float speed) {
     return "Hurricane";
 }
 
-// Deserialise from JSON to wx+report
+// Deserialise from JSON to wx_report
 static void from_json(const json& j, wx_report& s) {
     json jcoord = j.at("coord");
     jcoord.at("lon").get_to(s.city_location.longitude);
@@ -136,17 +137,30 @@ bool wx_handler::update() {
     record* dummy = qso_manager_->dummy_qso();
     std::string qth_id = qso_manager_->get_default(qso_manager::QTH);
     zc::lat_long_t location = { nan(""), nan("") };
+	int dxcc_id;
     if (qth_id.length()) {
         const qth_info_t* info = stn_data_->get_qth(qth_id);
         if (info != nullptr && info->data.find(LOCATOR) != info->data.end()) {
             dummy->item("MY_GRIDSQUARE", info->data.at(LOCATOR));
         }
+		if (info != nullptr && info->data.find(DXCC_ID) != info->data.end()) {
+			dummy->item("MY_DXCC", info->data.at(DXCC_ID));
+			dxcc_id = std::stoi(info->data.at(DXCC_ID));
+		}
     }
     location = dummy->location(true);
-    if (std::isnan(location.latitude) || std::isnan(location.longitude)) {
-        report_ = wx_report();
-        report_.city_name = "Not known";
-        return false;
+    if (location.is_nan()) {
+		// TODO Neither using openweather to find coordinates or using DXCC centre is satisfactory.
+		// Using openweather needs to know ISO country the city is in.
+		// E.g. Livingston on its own returns 5 cities in USA. I cannot find a suitable
+		// list of DXCC entities to ISO country code.
+		// DXCC centre is too vague and may result in weather report that is too way off.
+//		location = cty_data_->location(dxcc_id);
+		if (location.is_nan()) {
+			report_ = wx_report();
+			report_.city_name = "Not known";
+			return false;
+		}
     }
     char url[1024];
     std::stringstream ss;
@@ -298,6 +312,7 @@ Fl_Image* wx_handler::fetch_icon(std::string name) {
         return nullptr;
     }
 }
+
 
 
 

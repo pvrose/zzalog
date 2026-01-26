@@ -33,7 +33,10 @@ public:
     //! Set the values into the inputs
     void enable_widgets();
 
-    //! Callback - entering value into an input
+	//! Return location valid
+//	bool location_valid();
+
+	//! Callback - entering value into an input
 
     //! \param w widget that raised the callback
     //! \param v qth_value_t 
@@ -42,6 +45,9 @@ public:
 protected:
     //! Instantiate the component widgets
     void create_form();
+
+	//! Location data valid
+	bool location_valid_;
 
     // Widgets
     Fl_Input* ip_descr_;         //!< Description
@@ -116,6 +122,9 @@ public:
 
     //! Get location
     std::string get_location();
+
+	//! Returns location valid (meets certain criteria: \see location_valid_)
+//	bool location_valid();
     
     //! Callback from "Add" button
     static void cb_add(Fl_Widget* w, void* v);
@@ -170,6 +179,8 @@ protected:
     stn_qth_cntnr* table_;           //!< Table displaying QTH details
 
     bool selected_new_ = false;      //!< A new location has been enetered (for Add or REname)
+
+	bool location_valid_ = false;    //!< Location is valid, either City or Gridsquare is set.
 
     std::string new_location_;       //!< New location entered
     std::string location_;           //!< Current selected location

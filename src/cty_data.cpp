@@ -204,6 +204,16 @@ zc::lat_long_t cty_data::location(record* qso) {
 	else return { nan(""), nan("") };
 }
 
+// Get location for DXCC
+zc::lat_long_t cty_data::location(int dxcc_id) {
+	if (data_->entities.find(dxcc_id) == data_->entities.end()) {
+		printf("No data for entity %d\n", dxcc_id);
+		return { nan(""), nan("") };
+	}
+	cty_entity* entity = data_->entities.at(dxcc_id);
+	return entity->coordinates_;
+}
+
 // Get geography
 std::string cty_data::geography(record* qso) {
 	std::string result;

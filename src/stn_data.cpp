@@ -161,34 +161,40 @@ bool stn_data::load_json() {
 		is >> jall;
 		
 		json  j = jall["Station"];
-		auto temp = j.at("Locations").get<std::vector<std::map<std::string, json>>>();
-		for (auto& it : temp) {
-			for (auto& ita : it) {
-				if (ita.second.is_null()) {
-					qths_[ita.first] = new qth_info_t;;
+		if (j.find("Locations") != j.end() && !j.at("Locations").is_null()) {
+			auto temp = j.at("Locations").get<std::vector<std::map<std::string, json>>>();
+			for (auto& it : temp) {
+				for (auto& ita : it) {
+					if (ita.second.is_null()) {
+						qths_[ita.first] = new qth_info_t;;
+					}
+					else {
+						qth_info_t* qi = new qth_info_t(ita.second.template get<qth_info_t>());
+						qths_[ita.first] = qi;
+					}
 				}
-				else {
-					qth_info_t* qi = new qth_info_t(ita.second.template get<qth_info_t>());
-					qths_[ita.first] = qi;
-				}
-			}
 
+			}
 		}
-		temp = j.at("Operators").get<std::vector<std::map<std::string, json>>>();
-		for (auto& it : temp) {
-			for (auto& ita : it) {
-				if (ita.second.is_null()) {
-					opers_[ita.first] = new oper_info_t;
-				}
-				else {
-					oper_info_t* oi = new oper_info_t(ita.second.template get<oper_info_t>());
-					opers_[ita.first] = oi;
+		if (j.find("Operators") != j.end() && !j.at("Operators").is_null()) {
+			auto temp = j.at("Operators").get<std::vector<std::map<std::string, json>>>();
+			for (auto& it : temp) {
+				for (auto& ita : it) {
+					if (ita.second.is_null()) {
+						opers_[ita.first] = new oper_info_t;
+					}
+					else {
+						oper_info_t* oi = new oper_info_t(ita.second.template get<oper_info_t>());
+						opers_[ita.first] = oi;
+					}
 				}
 			}
 		}
-		auto temp2 = j.at("Station callsigns").get<std::map<std::string, std::string>>();
-		for (auto& it : temp2) {
-			calls_[it.first] = it.second;
+		if (j.find("Station callsigns") != j.end() && !j.at("Station callsigns").is_null()) {
+			auto temp2 = j.at("Station callsigns").get<std::map<std::string, std::string>>();
+			for (auto& it : temp2) {
+				calls_[it.first] = it.second;
+			}
 		}
 		if (j.find("Defaults") != j.end()) {
 			j.at("Defaults").get_to(defaults_);
@@ -227,14 +233,16 @@ bool stn_data::store_json() {
 				jall["Locations"].push_back(jq);
 			}
 		}
+		json jopers;
 		for (auto& it : opers_) {
 			if (it.first.length()) {
 				json jo;
 				if (it.second) jo[it.first] = *it.second;
 				else jo[it.first];
-				jall["Operators"].push_back(jo);
+				jopers.push_back(jo);
 			}
 		}
+		jall["Operators"] = jopers;
 		json jc;
 		for (auto& it : calls_) {
 			if (it.first.length()) {

@@ -101,6 +101,7 @@ void stn_qth_widget::enable_widgets() {
 	else {
 		ip_descr_->value("");
 	}
+	location_valid_ = false;
 	// data items
 	for (qth_value_t it = (qth_value_t)0; it != DESCRIPTION; it = (qth_value_t)(it + 1)) {
 		if (data->data.find(it) != data->data.end()) {
@@ -109,6 +110,19 @@ void stn_qth_widget::enable_widgets() {
 		else {
 			ip_data_[it]->value("");
 		}
+		if (it == CITY || it == LOCATOR) {
+			if (data->data.find(it) != data->data.end() && data->data.at(it).length() != 0) {
+				location_valid_ = true;
+			}
+		}
+	}
+	if (location_valid_) {
+		ip_data_[CITY]->labelcolor(FL_FOREGROUND_COLOR);
+		ip_data_[LOCATOR]->labelcolor(FL_FOREGROUND_COLOR);
+	}
+	else {
+		ip_data_[CITY]->labelcolor(FL_RED);
+		ip_data_[LOCATOR]->labelcolor(FL_RED);
 	}
 	redraw();
 }
