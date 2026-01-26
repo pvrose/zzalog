@@ -123,7 +123,7 @@ void wx_handler::do_thread(wx_handler* that) {
     if (DEBUG_THREADS) printf("WX THREAD: staring to fetch\n");
     that->wx_fetch_.store(false);
 	if (!that->update()) {
-		status_->misc_status(ST_ERROR, "WX_HANDLER: Unable to determine station location for weather report");
+		Fl::awake(cb_fetch_error, "WX_HANDLER: Unable to determine station location for weather report");
 	}
     if (DEBUG_THREADS) printf("WX THREAD: fetching complete\n");
 	Fl::awake(cb_fetch_done, (void*)that);

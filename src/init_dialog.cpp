@@ -167,6 +167,8 @@ void init_dialog::cb_type(Fl_Widget* w, void* v) {
 //! SAvevalues for club use
 void init_dialog::enable_widgets() {
 	stn_default defaults = stn_data_->defaults();
+	// Set default station ID.
+	if (defaults.location.length() == 0) defaults.location = "Main station";
 	switch (defaults.type) {
 	case NOT_USED:
 		bn_club_->value(false);
