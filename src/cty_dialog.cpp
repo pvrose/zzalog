@@ -24,7 +24,9 @@
 std::map< cty_data::cty_type_t, std::chrono::hours > OLD_AGE = {
 	{ cty_data::CLUBLOG, std::chrono::hours(7 * 24) },
 	{ cty_data::COUNTRY_FILES, std::chrono::hours(7 * 24) },
-	{ cty_data::DXATLAS, std::chrono::hours(365 * 24) } };
+	{ cty_data::DXATLAS, std::chrono::hours(365 * 24) },
+	{ cty_data::ISO_CODES, std::chrono::hours(365 * 24) }
+};
 
 
 cty_dialog::cty_dialog(int W, int H, const char* L) :
@@ -126,6 +128,24 @@ void cty_dialog::create_form() {
 	Fl_Button* bn_update3 = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Update");
 	bn_update3->callback(cb_update, (void*)(intptr_t)cty_data::DXATLAS);
 	bn_update3->tooltip("Update latest data from DxAtlas.com");
+
+	curr_y += HBUTTON;
+	curr_x = GAP;
+	Fl_Box* b6 = new Fl_Box(curr_x, curr_y, WLABEL, HBUTTON, "iso.csv");
+	b6->box(FL_FLAT_BOX);
+
+	curr_x += WLABEL;
+	Fl_Output* o7 = new Fl_Output(curr_x, curr_y, WSMEDIT, HBUTTON);
+	w_timestamps_[cty_data::ISO_CODES] = o7;
+
+	curr_x += WSMEDIT;
+	Fl_Output* o8 = new Fl_Output(curr_x, curr_y, WSMEDIT, HBUTTON);
+	w_versions_[cty_data::ISO_CODES] = o8;
+
+	curr_x += WSMEDIT;
+	Fl_Button* bn_update4 = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Update");
+	bn_update4->callback(cb_update, (void*)(intptr_t)cty_data::ISO_CODES);
+	bn_update4->tooltip("Update latest iso.csv file");
 
 	curr_y += HBUTTON + GAP;
 	curr_x = bn_update->x() - WBUTTON - WBUTTON;

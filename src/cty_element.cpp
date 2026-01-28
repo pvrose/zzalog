@@ -3,9 +3,11 @@
 
 #include <nlohmann/json.hpp>
 
+#include <algorithm>
 #include <cmath>
 #include <ostream>
 #include <string>
+#include <vector>
 
 using json = nlohmann::json;
 
@@ -21,7 +23,7 @@ cty_element::error_t cty_element::merge(cty_element* elem) {
 		cq_zone_ = elem->cq_zone_;
 	}
 	else {
-		if (elem->cq_zone_ > 0) {
+		if (elem->cq_zone_ > 0 && elem->cq_zone_ != cq_zone_) {
 			result |= CE_CQ_CLASH;
 		}
 	}
@@ -29,7 +31,7 @@ cty_element::error_t cty_element::merge(cty_element* elem) {
 		itu_zone_ = elem->itu_zone_;
 	}
 	else {
-		if (elem->itu_zone_ > 0) {
+		if (elem->itu_zone_ > 0 && elem->itu_zone_ != itu_zone_) {
 			result |= CE_ITU_CLASH;
 		}
 	}
@@ -37,7 +39,7 @@ cty_element::error_t cty_element::merge(cty_element* elem) {
 		continent_ = elem->continent_;
 	}
 	else {
-		if (elem->continent_ != "") {
+		if (elem->continent_ != "" && elem->continent_ != continent_) {
 			result |= CE_CONT_CLASH;
 		}
 	}
@@ -45,7 +47,7 @@ cty_element::error_t cty_element::merge(cty_element* elem) {
 		coordinates_ = elem->coordinates_;
 	}
 	else {
-		if (!elem->coordinates_.is_nan()) {
+		if (!elem->coordinates_.is_nan() && !(elem->coordinates_ == coordinates_)) {
 			result |= CE_COORD_CLASH;
 		}
 	}
@@ -53,13 +55,48 @@ cty_element::error_t cty_element::merge(cty_element* elem) {
 		name_ = elem->name_;
 	}
 	else {
-		if (elem->name_ != "") {
+		if (elem->name_ != "" && expand_name(elem->name_) != expand_name(name_)) {
 			result |= CE_NAME_CLASH;
 		}
 	}
-	if (deleted_ != elem->deleted_) {
-		result |= CE_DEL_CLASH;
+	deleted_ |= elem->deleted_;
+	if (time_validity_.start == "*") {
+		time_validity_.start = elem->time_validity_.start;
 	}
+	else {
+		if (elem->time_validity_.start != "*") {
+			time_validity_.start = std::min(time_validity_.start, elem->time_validity_.start);
+		}
+	}
+	if (time_validity_.finish == "*") {
+		time_validity_.finish = elem->time_validity_.finish;
+	}
+	else {
+		if (elem->time_validity_.finish != "*") {
+			time_validity_.finish = std::max(time_validity_.finish, elem->time_validity_.finish);
+		}
+	}
+	return result;
+}
+
+// Expand abbreviations in name to full text
+std::string cty_element::expand_name(const std::string& name) {
+	std::string up_name = zc::to_upper(name);
+	std::vector < std::string > words;
+	zc::split_line(up_name, words, ' ');
+	for (auto& w : words) {
+		if (w == "REP.") w = "REPUBLIC";
+		else if (w == "DEM.") w = "DEMOCRATIC";
+		else if (w == "IS") w = "ISLANDS";
+		else if (w == "IS.") w = "ISLANDS";
+		else if (w == "I.") w = "ISLAND";
+		else if (w == "ST") w = "SAINT";
+		else if (w == "ST.") w = "SAINT";
+		else if (w == "&") w = "AND";
+		else if (w == "UK") w = "UNITED KINGDOM";
+		else if (w == "NZ") w = "NEW ZEALAND";
+	}
+	std::string result = zc::join_line(words, ' ');
 	return result;
 }
 
@@ -123,8 +160,8 @@ cty_element::error_t cty_entity::merge(cty_element* elem) {
 		nickname_ = entry->nickname_;
 	}
 	else {
-		if (entry->nickname_ != "") {
-			result |= CE_OTHER_CLASH;
+		if (entry->nickname_ != "" && entry->nickname_ != nickname_) {
+			result |= CE_NICKNAME_CLASH;
 		}
 	}
 	if (filters_.size() == 0) {
@@ -132,7 +169,7 @@ cty_element::error_t cty_entity::merge(cty_element* elem) {
 	}
 	else {
 		if (entry->filters_.size()) {
-			result |= CE_OTHER_CLASH;
+			result |= CE_FILTER_CLASH;
 		}
 	}
 	return result;
@@ -267,12 +304,18 @@ void from_json(const json& j, cty_element& e) {
 void to_json(json& j, const cty_entity& e) {
 	j = json((cty_element&)e);
 	if (e.nickname_.length()) j["Nickname"] = e.nickname_;
+	if (e.iso_cc_.length()) j["ISO-2"] = e.iso_cc_;
+	if (e.sovereign_state_.length()) j["Sovereign State"] = e.sovereign_state_;
 }
 // JSON Serialisation to cty_entity
 void from_json(const json& j, cty_entity& e) {
 	from_json(j, (cty_element&)e);
 	if (j.find("Nickname") != j.end()) j.at("Nickname").get_to(e.nickname_);
 	else e.nickname_ = "";
+	if (j.find("ISO-2") != j.end()) j.at("ISO-2").get_to(e.iso_cc_);
+	else e.iso_cc_ = "";
+	if (j.find("Sovereign State") != j.end()) j.at("Sovereign State").get_to(e.sovereign_state_);
+	else e.sovereign_state_ = "";
 }
 // JSON Serialisation of cty_prefix
 void to_json(json& j, const cty_prefix& e) {

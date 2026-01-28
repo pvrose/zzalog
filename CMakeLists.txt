@@ -60,6 +60,7 @@ set(CPPFILES
   ${ZZALOG_SRC_DIR}/cty1_reader.cpp
   ${ZZALOG_SRC_DIR}/cty2_reader.cpp
   ${ZZALOG_SRC_DIR}/cty3_reader.cpp
+  ${ZZALOG_SRC_DIR}/cty4_reader.cpp
   ${ZZALOG_SRC_DIR}/cty_data.cpp
   ${ZZALOG_SRC_DIR}/cty_dialog.cpp
   ${ZZALOG_SRC_DIR}/cty_element.cpp
@@ -167,6 +168,7 @@ set( HPPFILES
   ${ZZALOG_INCLUDE_DIR}/cty1_reader.h
   ${ZZALOG_INCLUDE_DIR}/cty2_reader.h
   ${ZZALOG_INCLUDE_DIR}/cty3_reader.h
+  ${ZZALOG_INCLUDE_DIR}/cty4_reader.h
   ${ZZALOG_INCLUDE_DIR}/cty_data.h
   ${ZZALOG_INCLUDE_DIR}/cty_dialog.h
   ${ZZALOG_INCLUDE_DIR}/cty_element.h
@@ -371,6 +373,7 @@ set(DATAFILES
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/cty.csv
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/cty.xml
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/Prefix.lst
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/iso.csv
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/intl_chars.txt
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/google-maps.png
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/pdf.png

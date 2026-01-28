@@ -64,7 +64,8 @@ bool cty2_reader::load_entity(cty_entity* entry, std::istream& in, int& dxcc) {
 		entry->continent_ = items[3];
 		entry->cq_zone_ = std::stoi(items[4]);
 		entry->itu_zone_ = std::stoi(items[5]);
-		entry->coordinates_ = { std::stod(items[6]), std::stod(items[7]) };
+		// The longitude appears to be positive for West in this file
+		entry->coordinates_ = { std::stod(items[6]), -std::stod(items[7]) };
 		//entry->timezone = std::stod(items[8]);
 		// Now parse patterns
 		std::vector<std::string> patts;

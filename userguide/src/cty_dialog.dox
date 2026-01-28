@@ -45,4 +45,9 @@ open a directory viewer at the correct location.
 This data file is not updated frequenctly and requires some editing to enable it to 
 be used with ZZALOG. As such, updates will be included in each update of ZZALOG.
 
+\section dl_iso Updating ISO.csv
+
+The data file ISO.csv is not updated frequently. Updates will be 
+included in each release of ZZALOG if neccesary.
+
 */

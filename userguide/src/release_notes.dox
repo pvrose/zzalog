@@ -3,7 +3,8 @@
 \section rev_3-6-13 Revision 3.6.13 [Unreleased]
 
 - Functional changes
-  - None.
+  - Added iso.csv: ISO 3166-1 alpha-2 country codes and names for locating
+  QTH information.
 - Cosmetic and non-functional changes.
   - Standardising app identification across ZZACOMMON apps.
   - Change names and namespaces for ZZACOMMON classes and stand-alone methods.

@@ -5,13 +5,14 @@
 #include "cty1_reader.h"
 #include "cty2_reader.h"
 #include "cty3_reader.h"
-#include "zc_file_holder.h"
+#include "cty4_reader.h"
 #include "main.h"
 #include "objects.h"
 #include "record.h"
 #include "spec_data.h"
-#include "zc_status.h"
 
+#include "zc_file_holder.h"
+#include "zc_status.h"
 #include "zc_utils.h"
 
 #include <nlohmann/json.hpp>
@@ -47,7 +48,8 @@ std::map < cty_data::cty_type_t, std::string> TYPE_MAP = {
 	{ cty_data::ADIF, "ADIF" },
 	{ cty_data::CLUBLOG, "Clublog.org" },
 	{ cty_data::COUNTRY_FILES, "Countryfiles.com" },
-	{ cty_data::DXATLAS, "DxAtlas" }
+	{ cty_data::DXATLAS, "DxAtlas" },
+	{ cty_data::ISO_CODES, "ISO Codes" }
 };
 
 cty_data::cty_data(bool reload) {
@@ -84,6 +86,13 @@ void cty_data::load_sources() {
 	else timestamps_[type_] = std::chrono::system_clock::from_time_t(-1);
 	check_timestamp(type_, 7);
 	type_ = DXATLAS;
+	loaded = load_data(&filename);
+	merge_data();
+	delete_data(import_);
+	if (loaded) timestamps_[type_] = get_timestamp(filename);
+	else timestamps_[type_] = std::chrono::system_clock::from_time_t(-1);
+	check_timestamp(type_, 365);
+	type_ = ISO_CODES;
 	loaded = load_data(&filename);
 	merge_data();
 	delete_data(import_);
@@ -388,6 +397,15 @@ bool cty_data::load_data(std::string* filename) {
 		cty3_reader* reader = new cty3_reader;
 		import_ = new all_data;
 		status_->misc_status(ST_NOTE, "CTY DATA: Loading data supplied by dxatlas.com");
+		if (ok) ok = reader->load_data(this, in, version);
+		break;
+	}
+	case ISO_CODES: {
+		std::ifstream in;
+		ok = file_holder_->get_file(FILE_COUNTRY_ISO, in, *filename);
+		cty4_reader* reader = new cty4_reader;
+		import_ = new all_data;
+		status_->misc_status(ST_NOTE, "CTY DATA: Loading ISO codes data");
 		if (ok) ok = reader->load_data(this, in, version);
 		break;
 	}
@@ -767,7 +785,9 @@ void cty_data::merge_data() {
 			*(data_->entities[it.first]) = *it.second;
 		} else {
 			cty_element::error_t error = data_->entities.at(it.first)->merge(it.second);
-			if (error != cty_element::CE_OK) {
+			if (error & ~(cty_element::CE_VALID_CLASHES)) {
+				status_->misc_status(ST_WARNING, "CTY DATA: Merging entity %d(%s) data caused conflicts - %x",
+					it.first, it.second->name_.c_str(), error);
 			}
 		}
 	}
@@ -1087,6 +1107,9 @@ void cty_data::store_json() {
 		case DXATLAS:
 			jsources["DxAtlas"]["Timestamp"] = zc::convert_iso_datetime(tst);
 			break;
+		case ISO_CODES:
+			jsources["ISO-2 Codes"]["Timestamp"] = zc::convert_iso_datetime(tst);
+			break;
 		}
 	}
 	for (auto& vs : versions_) {
@@ -1102,6 +1125,9 @@ void cty_data::store_json() {
 			break;
 		case DXATLAS:
 			jsources["DxAtlas"]["Version"] = vs.second;
+			break;
+		case ISO_CODES:
+			jsources["ISO-2 Codes"]["Version"] = vs.second;
 			break;
 		}
 
@@ -1174,6 +1200,12 @@ bool cty_data::load_json() {
 				jd.at("Timestamp").get_to(sts);
 				timestamps_[DXATLAS] = std::chrono::system_clock::from_time_t(zc::convert_iso_datetime(sts));
 				jd.at("Version").get_to(versions_[DXATLAS]);
+			}
+			if (js.find("ISO-2 Codes") != js.end()) {
+				json jd = js.at("ISO-2 Codes");
+				jd.at("Timestamp").get_to(sts);
+				timestamps_[ISO_CODES] = std::chrono::system_clock::from_time_t(zc::convert_iso_datetime(sts));
+				jd.at("Version").get_to(versions_[ISO_CODES]);
 			}
 		}
 		if (j.find("Data") != j.end()) {

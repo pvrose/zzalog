@@ -34,7 +34,7 @@ public:
 		std::string finish = "*";    //!< End of validity of data.
 	};
 	//! Merge error response
-	typedef uint8_t error_t; 
+	typedef uint16_t error_t; 
 	//! No issues
 	const static error_t CE_OK = 0;
 	//! CQ Zones clash
@@ -47,10 +47,13 @@ public:
 	const static error_t CE_COORD_CLASH = 1 << 3;
 	//! Name clash
 	const static error_t CE_NAME_CLASH = 1 << 4;
-	//! Deleted clash
-	const static error_t CE_DEL_CLASH = 1 << 5;
-	//! Non element class
-	const static error_t CE_OTHER_CLASH = 1 << 7;
+	//! Nickname clash
+	const static error_t CE_NICKNAME_CLASH = 1 << 8;
+	//! Filter clash
+	const static error_t CE_FILTER_CLASH = 1 << 9;
+	//! Clashes that are considered valid
+	const static error_t CE_VALID_CLASHES = CE_CQ_CLASH | CE_ITU_CLASH | 
+		CE_COORD_CLASH | CE_NAME_CLASH | CE_NICKNAME_CLASH;
 
 	//! Constructor.
 	cty_element();
@@ -89,6 +92,9 @@ public:
 	//! Return true if supplied time (\p when) is within this validity.
 	bool time_contains(std::string when) const;
 
+	//! Expand abbreviations in \p name to full text.
+	static std::string expand_name(const std::string& name);
+
 };
 
 //! Output streaming operator "<<" for a cty_element.
@@ -114,6 +120,10 @@ public:
 	// Additional fields
 	//! Entitiy nickname - usually the primary prefix (eg GM for Scotland).
 	std::string nickname_ = "";
+	//! ISO Country Code - two letter code (eg GB for United Kingdom).
+	std::string iso_cc_ = "";
+	//! Sovereign state (eg United Kingdom).
+	std::string sovereign_state_ = "";
 
 };
 

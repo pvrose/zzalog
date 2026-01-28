@@ -28,7 +28,8 @@ public:
 		ADIF = 0,          //!< Data from ADIF Specification.
 		CLUBLOG,           //!< Data from Clublog.org.
 		COUNTRY_FILES,     //!< Data from country-files.com.
-		DXATLAS            //!< Data from dxatlas.com.
+		DXATLAS,           //!< Data from dxatlas.com.
+		ISO_CODES          //!< Data from iso.csv.
 	};
 
 
@@ -119,6 +120,9 @@ public:
 	bool fetch_data(cty_type_t type);
 	//! Returns the version of the data source by \p type.
 	std::string version(cty_type_t type);
+
+	//! Returns the set of all data.
+	all_data* data() { return data_; };
 
 protected:
 
