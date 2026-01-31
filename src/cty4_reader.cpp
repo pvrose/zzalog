@@ -51,7 +51,7 @@ bool cty4_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 			return false;
 		}
 		// Fields: ISO-2, Sovereign State, Entity Name
-		std::string& entity = cty_element::expand_name(fields[2]);
+		std::string entity = cty_element::expand_name(fields[2]);
 		iso_record rec = { fields[0], fields[1] };
 		if (iso_map_.find(entity) != iso_map_.end()) {
 			status_->misc_status(
