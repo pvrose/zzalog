@@ -1,7 +1,11 @@
 /** \page qso_wx Weather Report
 
 This pane displays the latest weather report from openweather.com. The report is
-read when ZZALOG is launched and every 30 minutes thereafter.
+read when ZZALOG is launched and every 30 minutes thereafter. 
+\note If the user has provided a grid locator in the location details, this is used to 
+fetch the weather report. Otherwise, an attempt is made to find out the latitude and longitude 
+using the supplied town or city name and the country (not DXCC entity) decoded from the callsign. 
+For example, Livingston, Scotland will be looked up as Livingston GB. 
 
 \image html qso_wx_1.png "Weather display"
 \image latex qso_wx_1.png "Weather display" width=5cm
