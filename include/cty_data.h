@@ -66,7 +66,7 @@ public:
 	virtual ~cty_data();
 
 	// Return various fields of entity
-	std::string nickname(record* qso);  //!< Returns the nickname for the entity in the \p QSO. 
+	std::string nickname(record* qso);  //!< Returns the nickname for the entity in the \p QSO.
 	std::string name(record* qso);      //!< Returns the name of the entity in the \p QSO.
 	std::string continent(record* qso); //!< Returns the continent of the entity in the \p QSO.
 	int cq_zone(record* qso);      //!< Returns the CQ Zone of the callsign in the \p QSO.
@@ -74,6 +74,9 @@ public:
 	// Get location
 	zc::lat_long_t location(record* qso); //!< Returns the longitude and latitude of the station in the \p QSO.
 	zc::lat_long_t location(int dxcc_id); //!< Returns the longitude and latitude of  the DXCC.
+	// Get ISO country code for the callsign
+	std::string iso_cc(std::string callsign);  //!< Returns country code for \p callsign
+
 	
 	//! Update record based on parsing
 	

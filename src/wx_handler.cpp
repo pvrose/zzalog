@@ -138,7 +138,9 @@ bool wx_handler::update() {
     std::string qth_id = qso_manager_->get_default(qso_manager::QTH);
     zc::lat_long_t location = { nan(""), nan("") };
 	int dxcc_id;
-    if (qth_id.length()) {
+	char url[1024];
+	std::stringstream ss;
+	if (qth_id.length()) {
         const qth_info_t* info = stn_data_->get_qth(qth_id);
         if (info != nullptr && info->data.find(LOCATOR) != info->data.end()) {
             dummy->item("MY_GRIDSQUARE", info->data.at(LOCATOR));
@@ -156,14 +158,43 @@ bool wx_handler::update() {
 		// list of DXCC entities to ISO country code.
 		// DXCC centre is too vague and may result in weather report that is too way off.
 //		location = cty_data_->location(dxcc_id);
+		std::string cc = cty_data_->iso_cc(qso_manager_->get_default(qso_manager::CALLSIGN));
+		snprintf(url, sizeof(url), "http://api.openweathermap.org/geo/1.0/direct?q=%s,,%s&limit=5&sppid=%s&mode=json",
+			qth_id,
+			cc.c_str(),
+			key_
+		);
+		if (url_handler_->read_url(std::string(url), &ss)) {
+			ss.seekg(std::ios::beg);
+			try {
+				json j;
+				ss >> j;
+				auto jall = j.get<std::vector<json>>();
+				for (auto& jcity : jall) {
+					std::string city;
+					jcity["name"].get_to(city);
+					if (city == qth_id) {
+						jcity["lat"].get_to(location.latitude);
+						jcity["lon"].get_to(location.longitude);
+						break;
+					}
+				}
+			}
+			catch (const json::exception& e) {
+				printf("WX THREAD: Failed to decode geofetch: %d (%s)\n",
+					e.id, e.what());
+
+			}
+		}
+		else {
+			printf("WX THREAD: FAiled to fetch geocoding for %s,%s", qth_id.c_str(), cc.c_str());
+		}
 		if (location.is_nan()) {
 			report_ = wx_report();
 			report_.city_name = "Not known";
 			return false;
 		}
     }
-    char url[1024];
-    std::stringstream ss;
     snprintf(url, sizeof(url), "https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s&mode=json",
         location.latitude,
         location.longitude,

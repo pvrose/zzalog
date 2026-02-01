@@ -223,6 +223,23 @@ zc::lat_long_t cty_data::location(int dxcc_id) {
 	return entity->coordinates_;
 }
 
+// Get ISO country code for callsign
+std::string cty_data::iso_cc(std::string callsign) {
+	if (!data_) return "";
+	std::string now = zc::now(false, "%Y%m%d%H%M");
+	cty_element* element = match_prefix(callsign, now);
+	if (element) {
+		int dxcc_id = element->dxcc_id_;
+		if (data_->entities.find(dxcc_id) != data_->entities.end()) {
+			cty_entity* entity = data_->entities[dxcc_id];
+			if (entity) return entity->iso_cc_;
+			else return "";
+		}
+		else return "";
+	}
+	else return "";
+}
+
 // Get geography
 std::string cty_data::geography(record* qso) {
 	std::string result;
@@ -442,7 +459,7 @@ void cty_data::parse(record* qso) {
 		// else 
 		current_qso_ = qso;
 		current_call_ = qso->item("CALL");
-		std::string when = qso->item("QSO_DATE") + qso->item("TIME_ON").substr(0,4);
+		std::string when = qso->item("QSO_DATE") + qso->item("TIME_ON").substr(0, 4);
 		int dxcc_id;
 		qso->item("DXCC", dxcc_id);
 		if (DEBUG_PARSE) printf("%s: QSO has DXCC %d\n", current_call_.c_str(), dxcc_id);
