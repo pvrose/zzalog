@@ -117,23 +117,23 @@ void stn_data::load_data() {
 		stn_window_->set_tab(stn_dialog::DEFAULTS, "", "No station data loaded, set default values.");
 		while (stn_window_->visible()) Fl::check();
 	}
-	else if (qths_.find(defaults_.location) == qths_.end()) {
+	if (qths_.find(defaults_.location) == qths_.end()) {
 		// Create a set of initial values from input defaults.
 		stn_window_->set_tab(stn_dialog::QTH, defaults_.location, "QTH not known, please enter details.");
 		while (stn_window_->visible()) Fl::check();
 	}
-	else if (defaults_.type == INDIVIDUAL &&
+	if (defaults_.type == INDIVIDUAL &&
 		opers_.find(defaults_.name) == opers_.end()) {
 		// Create a set of initial values from input defaults.
 		stn_window_->set_tab(stn_dialog::OPERATOR, defaults_.name, "Operator not known, please enter details.");
 		while (stn_window_->visible()) Fl::check();
 	}
-	else if (defaults_.type == CLUB) {
+	if (defaults_.type == CLUB) {
 		// Create a set of initial values from input defaults.
 		stn_window_->set_tab(stn_dialog::OPERATOR, previous_oper_, "Club station, please specify operator");
 		while (stn_window_->visible()) Fl::check();
 	}
-	else if (calls_.find(defaults_.callsign) == calls_.end()) {
+	if (calls_.find(defaults_.callsign) == calls_.end()) {
 		// Create a set of initial values from input defaults.
 		stn_window_->set_tab(stn_dialog::CALLSIGN, defaults_.callsign, "Station callsign not known, please enter details.");
 		while (stn_window_->visible()) Fl::check();
