@@ -139,7 +139,10 @@ This copies the executable <i>zzalog</i> to /usr/local/bin and the reference dat
 
 The first time ZZALOG is run, a dialog opens asking for station details. 
 The selection can be either for a club station or an individual station.
-Select one or the other, then fill in the form.
+Select one or the other, then fill in the form. 
+\note For individual stations, callsign, operator name and location identifier
+must be entered. For club stations, callsign, club name and location identifier
+must be entered.
 
 \image html init_1.png "New installaton"
 \image latex init_1.png "New installaton" width=8cm

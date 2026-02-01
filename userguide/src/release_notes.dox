@@ -8,6 +8,8 @@
 - Cosmetic and non-functional changes.
   - Standardising app identification across ZZACOMMON apps.
   - Change names and namespaces for ZZACOMMON classes and stand-alone methods.
+  - Move QSL configuration file to standard location, and only prompt for
+  QSL Cards directory when needed.
 - Perfomance changes.
   - ZZALOG used 200% CPU when idling. 
 - Bug fixes:
@@ -15,7 +17,7 @@
   - Problems with cold-start with minimal user input during configuration.
     - Exception from WX handler with no user location.
     - Open user station dialog before any other dialog.
-    - Force user to supply some data during configuration.
+    - Force user to supply location and name during configuration.
 
 \section rev_3-6-12 Revision 3.6.12
 
