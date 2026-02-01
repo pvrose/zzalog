@@ -4,6 +4,7 @@
 #include <qsl_data.h>
 #include "qsl_dataset.h"
 #include "record.h"
+#include "zc_settings.h"
 #include "zc_status.h"
 
 #include <algorithm>
@@ -13,10 +14,11 @@
 #include <string>
 
 #include <FL/Enumerations.H>
+#include <FL/Fl_BMP_Image.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Image.H>
 #include <FL/Fl_JPEG_Image.H>
-#include <FL/Fl_BMP_Image.H>
+#include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_PNG_Image.H>
 
 // Dynamically drawn QSL card label
@@ -568,7 +570,18 @@ void qsl_display::get_size(int& w, int& h) {
 
 // Prepend filename with pathname
 bool qsl_display::absolute_filename(std::string& filename) {
-	std::string path = qsl_dataset_->get_path();
+	std::string path;
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
+	if (!behav_settings.get<std::string>("QSL Cards", path, "")) {
+		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
+		chooser->title("Select QSL Card directory - cancel to ignore");
+		if (chooser->show() == 0) {
+			path = chooser->filename();
+		}
+		behav_settings.set("QSL Cards", path);
+		delete chooser;
+	}
 	filename = path + "/" + filename;
 	return true;
 }
