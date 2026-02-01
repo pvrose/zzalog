@@ -227,7 +227,8 @@ zc::lat_long_t cty_data::location(int dxcc_id) {
 std::string cty_data::iso_cc(std::string callsign) {
 	if (!data_) return "";
 	std::string now = zc::now(false, "%Y%m%d%H%M");
-	cty_element* element = match_prefix(callsign, now);
+	std::string dummy;
+	cty_element* element = match_pattern(callsign, now, dummy);
 	if (element) {
 		int dxcc_id = element->dxcc_id_;
 		if (data_->entities.find(dxcc_id) != data_->entities.end()) {
