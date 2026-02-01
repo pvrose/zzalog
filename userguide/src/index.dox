@@ -8,6 +8,7 @@ that provides the following functionality:
 	searched.
 - Allows real-time and
 	off-line entry of QSO records.
+- Obtains real-time data (frequency, mode, power) from connected transceivers.
 - Allows the user to monitor
 	"worked-before" status in real-time.
 - Exchanges data with QSL
