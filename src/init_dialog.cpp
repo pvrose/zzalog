@@ -124,19 +124,27 @@ void init_dialog::cb_accept(Fl_Widget* w, void* v) {
 	defaults.location = that->ip_location_->value();
 	defaults.name = that->ip_name_->value();
 	defaults.club_name = that->ip_club_->value();
+	std::string message;
 	switch(defaults.type) {
 	case CLUB:
         if (defaults.callsign.length() &&
 		    defaults.club_name.length() &&
 		    defaults.location.length())
 		    that->valid_data_ = true;
-		else that->valid_data_ = false;
+		else {
+			that->valid_data_ = false;
+			message = "Please supply club callsign, club name and location identifier";
+		}
 		break;
 	case INDIVIDUAL:
-        if (defaults.callsign.length() &&
+		if (defaults.callsign.length() &&
+			defaults.name.length() &&
 		    defaults.location.length())
 		    that->valid_data_ = true;
-		else that->valid_data_ = false;
+		else {
+			that->valid_data_ = false;
+			message = "Please supply callsign, operator name and location identifier";
+		}
 		break;
 	}
 	if (that->valid_data_) {
@@ -150,7 +158,7 @@ void init_dialog::cb_accept(Fl_Widget* w, void* v) {
 		stn_data_->set_defaults(defaults);
 		stn_dialog* dlg = zc::ancestor_view<stn_dialog>(that);
 		dlg->enable_widgets();
-		dlg->set_tab(stn_dialog::DEFAULTS, "", "Please supply callsign and station ID (and club name if relevant).");
+		dlg->set_tab(stn_dialog::DEFAULTS, "", message);
 	}
 }
 
