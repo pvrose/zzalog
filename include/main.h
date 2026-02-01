@@ -129,6 +129,7 @@ const uint16_t DEBUG_RESET_CTY1 = 1 << 11;    //!< Reset cty.xml
 const uint16_t DEBUG_RESET_CTY2 = 1 << 12;    //!< Reset cty.csv
 const uint16_t DEBUG_RESET_CTY3 = 1 << 13;    //!< Reset prefix.lst
 const uint16_t DEBUG_RESET_CTY4 = 1 << 14;    //!< Reset iso.csv
+const uint16_t DEBUG_RESET_QSL = 1 << 15;     //!< Reset qsl.json
 const uint16_t DEBUG_RESET_ALL = 0xffff;    //!< Reset all
 const uint16_t DEBUG_RESET_CALL =
 	DEBUG_RESET_CTY |
@@ -156,6 +157,7 @@ enum file_types : uint8_t {
 	FILE_CONTEST,                           //!< Contests configuration file
 	FILE_SOLAR,                             //!< Solar data (read every hour at most frequent
 	FILE_STATION,                           //!< Station configuration file
+	FILE_QSL,                               //!< QSL configuration file
 };
 
 //! \cond

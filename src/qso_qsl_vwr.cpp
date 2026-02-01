@@ -91,14 +91,12 @@ void qso_qsl_vwr::load_values() {
 	zc_settings top_settings;
 	zc_settings behav_settings(&top_settings, "Behaviour");
 	if (!behav_settings.get<std::string>("QSL Cards", qsl_directory_, "")) {
-		//Fl_File_Chooser* chooser = new Fl_File_Chooser("", nullptr, Fl_File_Chooser::DIRECTORY,
-		//	"Select QSL card directory");
 		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
-		chooser->title("Select QSL Card directory");
+		chooser->title("Select QSL Card directory - cancel to ignore");
 		if (chooser->show() == 0) {
 			qsl_directory_ = chooser->filename();
 		}
-		behav_settings.set("QSLs", qsl_directory_);
+		behav_settings.set("QSL Cards", qsl_directory_);
 		delete chooser;
 	}
 }

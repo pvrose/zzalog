@@ -397,20 +397,7 @@ void qsl_dataset::load_data() {
 }
 
 std::string qsl_dataset::json_file() {
-	zc_settings top_settings;
-	zc_settings behav_settings(&top_settings, "Behaviour");
-	behav_settings.get<std::string>("QSL Cards", qsl_path_, "");
-	if (qsl_path_.length() == 0) {
-		status_->misc_status(ST_WARNING, "QSL: No directory in settings - please search");
-		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
-		chooser->title("Select QSL Directory");
-		if (chooser->show() == 0) {
-			qsl_path_ = chooser->filename();
-		}
-		delete chooser;
-	}
-	std::string filename = qsl_path_ + "/config.json";
-	behav_settings.set<std::string>("QSL Cards", qsl_path_);
+	std::string filename = file_holder_->get_filename(FILE_QSL);
 	return filename;
 }
 

@@ -157,7 +157,8 @@ const std::map < uint8_t, file_control_t > FILE_CONTROL = {
 	{ FILE_SOLAR, { "solar.xml", false, false, 0}},
 	{ FILE_STATUS, { "status.txt", false, false, 0}},
 	{ FILE_STATION, { "station.json", false, false, DEBUG_RESET_STN }},
-	{ FILE_ICON_ZZA, { "rose.png", true, true, 0}}
+	{ FILE_ICON_ZZA, { "rose.png", true, true, 0}},
+	{ FILE_QSL, { "qsl.json", false, false, DEBUG_RESET_QSL }}
 };
 
 
@@ -634,6 +635,9 @@ int cb_args(int argc, char** argv, int& i) {
 			if (strcmp("station", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_STN;
 			}
+			if (strcmp("qsl", argv[i]) == 0) {
+				DEBUG_RESET_CONFIG |= DEBUG_RESET_QSL;
+			}
 			if (strcmp("all", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG = DEBUG_RESET_ALL;
 			}
@@ -703,6 +707,7 @@ void show_help() {
 	"\t\tfields\tFields data (fields.json)\n"
 	"\t\ticons\tToolbar icons (various)\n"
 	"\t\tintl\tInternational character set (intl_chars.txt)\n"
+	"\t\tqsl\tQSL Server configuration and image design (qsl.json)\n"
 	"\t\trigs\tRig configuration data (rigs.json)\n"
 	"\t\tsettings\tZZALOG configuration (ZZALOG.json)\n"
 	"\t\tstation\tOperator/QTH/Callsign configuration (station.json)\n"

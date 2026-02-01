@@ -17,6 +17,7 @@
 
 #include <FL/fl_utf8.h>
 #include <FL/Fl_Image.H>
+#include <FL/Fl_Native_File_Chooser.H>
 #include <FL/fl_types.h>
 
 png_writer::png_writer() {
@@ -45,6 +46,16 @@ std::string png_writer::png_filename(record* qso) {
 	zc_settings behav_settings(&top_settings, "Behaviour");
 	std::string dir;
 	behav_settings.get<std::string>("QSL Cards", dir, "");
+	// If the directory name is not defined, open a chooser to get it.
+	if (!dir.length()) {
+		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
+		chooser->title("Select QSL Card directory");
+		chooser->preset_file(dir.c_str());
+		while (chooser->show()) {}
+		dir = chooser->filename();
+		behav_settings.set("QSL Cards", dir);
+		delete chooser;
+	}
 
 	char result[256];
 	snprintf(result, sizeof(result), "%s/%s/png/%s_%s.png",
