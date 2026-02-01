@@ -36,6 +36,7 @@ endif()
 
 # generate documents - add switches for conditional build.
 option(ZZALOG_DOX "Generate Documentation" OFF)
+option(ZZALOG_PDF "Generate PDF Document" OFF)
 
 # All the source .cpp files
 set(CPPFILES 
@@ -433,8 +434,10 @@ if(ZZALOG_DOX)
   message(STATUS "ZZALOG: Adding userguide")
   add_subdirectory(userguide)
   add_dependencies(${TARGET} ug_html)
-  message(STATUS "ZZALOG: Adding userguide PDF")
-  add_dependencies(${TARGET} pdf)
+  if (ZZALOG_PDF)
+      message(STATUS "ZZALOG: Adding userguide PDF")
+      add_dependencies(${TARGET} pdf)
+  endif()
   message(STATUS "ZZALOG: Adding API documentation")
   add_subdirectory(api)
   add_dependencies(${TARGET} api_html)

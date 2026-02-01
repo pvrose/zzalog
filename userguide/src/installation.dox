@@ -55,7 +55,7 @@ To build ZZALOG open the ZZALOG folder within Visual Studio: File->Open->Folder 
 select zzalog. This should now automatically run the CMake configuration step.
 Select Build->Build ALL and the executable and documentation will get built. By default
 the documents will not be build. To add documents, under CMake setting set the CMake
-command arguments to "-DZZALOG_DOX=ON".
+command arguments to "-DZZALOG_DOX=ON". to further add PDF version, add "-DZZALOG_PDF=ON".
 
 \par Installing ZZALOG
 To install select Build->Install ZZALOG.
@@ -107,12 +107,14 @@ The following CMake flag is available:
 \par ZZALOG_DOX
 Default: <b>OFF</b>. Generates HTML versions of Userguide and API Documenation and the PDF
 version of the Userguide.
+\par ZZALOG_PDF
+Default: <b>OFF</b>, Generates PDF version of Userguide (requires ZZALOG_DOX=ON)
 
-To build ZZALOG with documentation:
+To build ZZALOG with documentation (HTML & PDF):
 
 \code
 cd [zzalog]\n
-cmake -B build -DZZALOG_DOX=ON\n
+cmake -B build -DZZALOG_DOX=ON -DZZALOG_PDF=ON\n
 cmake --build build\n
 \endcode
 
