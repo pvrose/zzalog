@@ -42,7 +42,7 @@ bool keyring::load_data() {
 				return false;
 			}
 			jall.at("Seed").get_to(seed_);
-			auto& tags = jall.at("Keys").get<std::map<std::string, std::string> >();
+			auto tags = jall.at("Keys").get<std::map<std::string, std::string> >();
 			for (auto& tag : tags) {
 				keys_[tag.first] = zc::xor_crypt(zc::hex_to_string(tag.second), seed_, 0);
 			}

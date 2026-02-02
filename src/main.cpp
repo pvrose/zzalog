@@ -53,6 +53,7 @@ main.cpp - application entry point
 #include "zc_symbols.h"
 #include "zc_ticker.h"
 #include "zc_utils.h"
+#include "zzacommon.h"
 
 // C/C++ header files
 #include <algorithm>
