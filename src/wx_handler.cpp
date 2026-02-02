@@ -151,12 +151,6 @@ bool wx_handler::update() {
     }
     location = dummy->location(true);
     if (location.is_nan()) {
-		// TODO Neither using openweather to find coordinates or using DXCC centre is satisfactory.
-		// Using openweather needs to know ISO country the city is in.
-		// E.g. Livingston on its own returns 5 cities in USA. I cannot find a suitable
-		// list of DXCC entities to ISO country code.
-		// DXCC centre is too vague and may result in weather report that is too way off.
-//		location = cty_data_->location(dxcc_id);
 		const qth_info_t* info = stn_data_->get_qth(qth_id);
 		std::string city = info->data.at(CITY);
 		std::string cc = cty_data_->iso_cc(qso_manager_->get_default(qso_manager::CALLSIGN));

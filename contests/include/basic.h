@@ -6,6 +6,7 @@
 #include <set>
 #include <string>
 
+//! Provides the individual contest algorithms, allowing them to have simple names.
 namespace contests {
 
     //! Implementation of contest_algorithm for a basic context exchange.
