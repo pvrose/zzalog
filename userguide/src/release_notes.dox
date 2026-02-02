@@ -10,6 +10,7 @@
   - Change names and namespaces for ZZACOMMON classes and stand-alone methods.
   - Move QSL configuration file to standard location, and only prompt for
   QSL Cards directory when needed.
+  - Move non-user API keys to keys.json. 
 - Perfomance changes.
   - ZZALOG used 200% CPU when idling. 
 - Bug fixes:

@@ -42,8 +42,6 @@ struct wx_report {
 };
 
 //! This class decodes a weather report receved from openweathermap.org as an JSON file
-
-//! \todo Shut the stable door after the horse has bolted! Keys en-clair.
 class wx_handler {
 
 public:
