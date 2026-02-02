@@ -9,14 +9,9 @@ main.cpp - application entry point
 // local header files
 #include "main.h"
 
-
-#include "zc_drawing.h"
-#include "zc_utils.h"
-
 #include "about_dialog.h"
 #include "band_data.h"
 #include "band_window.h"
-#include "zc_banner.h"
 #include "book.h"
 #include "club_handler.h"
 #include "config.h"
@@ -25,11 +20,11 @@ main.cpp - application entry point
 #include "eqsl_handler.h"
 #include "extract_data.h"
 #include "fields.h"
-#include "zc_file_holder.h"
 #include "fldigi_handler.h"
 #include "ident.h"
 #include "import_data.h"
 #include "intl_dialog.h"
+#include "keyring.h"
 #include "lotw_handler.h"
 #include "main_window.h"
 #include "menu_bar.h"
@@ -38,22 +33,26 @@ main.cpp - application entry point
 #include "qso_manager.h"
 #include "record.h"
 #include "rig_data.h"
-#include "zc_settings.h"
 #include "spec_data.h"
 #include "spec_tree.h"
-#include "zc_status.h"
 #include "stn_data.h"
 #include "stn_dialog.h"
-#include "zc_symbols.h"
 #include "tabbed_forms.h"
-#include "zc_ticker.h"
 #include "toolbar.h"
 #include "url_handler.h"
 #include "wsjtx_handler.h"
 #include "wx_handler.h"
-#include "zzacommon.h"
 
 #include "hamlib/rig.h"
+
+#include "zc_banner.h"
+#include "zc_drawing.h"
+#include "zc_file_holder.h"
+#include "zc_settings.h"
+#include "zc_status.h"
+#include "zc_symbols.h"
+#include "zc_ticker.h"
+#include "zc_utils.h"
 
 // C/C++ header files
 #include <algorithm>
@@ -158,7 +157,8 @@ const std::map < uint8_t, file_control_t > FILE_CONTROL = {
 	{ FILE_STATUS, { "status.txt", false, false, 0}},
 	{ FILE_STATION, { "station.json", false, false, DEBUG_RESET_STN }},
 	{ FILE_ICON_ZZA, { "rose.png", true, true, 0}},
-	{ FILE_QSL, { "qsl.json", false, false, DEBUG_RESET_QSL }}
+	{ FILE_QSL, { "qsl.json", false, false, DEBUG_RESET_QSL }},
+	{ FILE_KEYS, { "keys.json", true, false, 0}}
 };
 
 
@@ -182,6 +182,7 @@ fields* fields_ = nullptr;
 fldigi_handler* fldigi_handler_ = nullptr;
 import_data* import_data_ = nullptr;
 intl_dialog* intl_dialog_ = nullptr;
+keyring* keyring_ = nullptr;
 lotw_handler* lotw_handler_ = nullptr;
 main_window* main_window_ = nullptr;
 menu_bar* menu_bar_ = nullptr;
@@ -678,46 +679,46 @@ void show_help() {
 	"\t\t\tnoe|noerrors\n"
 	"\t\th=N|hamlib=N\tSet hamlib debug level (default ERRORS)\n"
 	"\t\tk|socket\tPrint socket traffic\n"
-	"\t\tm|mods\tPrint messages when make QSOs dirty or clean\n"
-	"\t\tp|pretty\tDisplay formated status message (Needs terminal support)\n"
-	"\t\tnop|nopretty\n"
-	"\t\tq|quick\tShorten long timeout and polling intervals\n"
-	"\t\tr|rig\tPrint rig diagnostics\n"
-	"\t\tt|threads\tProvide debug tracing on thread use\n"
-	"\t\t\tnot|nothreads\n"
-	"\t-e|--new\tCreate new file\n"
-	"\t-g|--generate\tGenerate header file from ADIF data\n"
-	"\t-h|--help\tPrint this\n"
-	"\t-k|--dark\tDark mode (sticky)\n"
-	"\t-l|--light\tLight mode (sticky)\n"
-	"\t-m|--resume\tResume the previous session\n"
-	"\t-n|--noisy\tDo publish QSOs to online sites (sticky)\n"
-	"\t-p|--private\tDo not update recent files list\n"
-	"\t-q|--quiet\tDo not publish QSOs to online sites (sticky)\n"
-	"\t-r|--read_only\tOpen file in read only mode\n"
-	"\t-t|--test\tTest mode: infers -q -w\n"
-	"\t-u|--usual\tNormal mode: infers -a -n\n"
-	"\t-w|--wait_save\tDo not automatically save each change (sticky)\n"
-	"\t-x|--reset [data]...\tReset configuration data (more than 1 allowed\n"
-	"\t\tadif\tADIF specification file (all.json)\n"
-	"\t\tapps\tApps configuration file (apps.json)\n"
-	"\t\tbandplan\tBand-plan data (band_plan.json)\n"
-	"\t\tcontest\tContest data (contests.json)\n"
-	"\t\tcountry\tCountry data (cty.xml, cty.csv, prefix.lst)\n"
-	"\t\tfields\tFields data (fields.json)\n"
-	"\t\ticons\tToolbar icons (various)\n"
-	"\t\tintl\tInternational character set (intl_chars.txt)\n"
-	"\t\tqsl\tQSL Server configuration and image design (qsl.json)\n"
-	"\t\trigs\tRig configuration data (rigs.json)\n"
-	"\t\tsettings\tZZALOG configuration (ZZALOG.json)\n"
-	"\t\tstation\tOperator/QTH/Callsign configuration (station.json)\n"
-	"\t\tall\tAll files\n"
-	"\n";
+		"\t\tm|mods\tPrint messages when make QSOs dirty or clean\n"
+		"\t\tp|pretty\tDisplay formated status message (Needs terminal support)\n"
+		"\t\tnop|nopretty\n"
+		"\t\tq|quick\tShorten long timeout and polling intervals\n"
+		"\t\tr|rig\tPrint rig diagnostics\n"
+		"\t\tt|threads\tProvide debug tracing on thread use\n"
+		"\t\t\tnot|nothreads\n"
+		"\t-e|--new\tCreate new file\n"
+		"\t-g|--generate\tGenerate header file from ADIF data\n"
+		"\t-h|--help\tPrint this\n"
+		"\t-k|--dark\tDark mode (sticky)\n"
+		"\t-l|--light\tLight mode (sticky)\n"
+		"\t-m|--resume\tResume the previous session\n"
+		"\t-n|--noisy\tDo publish QSOs to online sites (sticky)\n"
+		"\t-p|--private\tDo not update recent files list\n"
+		"\t-q|--quiet\tDo not publish QSOs to online sites (sticky)\n"
+		"\t-r|--read_only\tOpen file in read only mode\n"
+		"\t-t|--test\tTest mode: infers -q -w\n"
+		"\t-u|--usual\tNormal mode: infers -a -n\n"
+		"\t-w|--wait_save\tDo not automatically save each change (sticky)\n"
+		"\t-x|--reset [data]...\tReset configuration data (more than 1 allowed\n"
+		"\t\tadif\tADIF specification file (all.json)\n"
+		"\t\tapps\tApps configuration file (apps.json)\n"
+		"\t\tbandplan\tBand-plan data (band_plan.json)\n"
+		"\t\tcontest\tContest data (contests.json)\n"
+		"\t\tcountry\tCountry data (cty.xml, cty.csv, prefix.lst)\n"
+		"\t\tfields\tFields data (fields.json)\n"
+		"\t\ticons\tToolbar icons (various)\n"
+		"\t\tintl\tInternational character set (intl_chars.txt)\n"
+		"\t\tqsl\tQSL Server configuration and image design (qsl.json)\n"
+		"\t\trigs\tRig configuration data (rigs.json)\n"
+		"\t\tsettings\tZZALOG configuration (ZZALOG.json)\n"
+		"\t\tstation\tOperator/QTH/Callsign configuration (station.json)\n"
+		"\t\tall\tAll files\n"
+		"\n";
 	printf(text);
 }
 
 // Use supplied argument, or read the latest file from settings or open file chooser if that's an empty std::string
-std::string get_file(char * arg_filename) {
+std::string get_file(char* arg_filename) {
 	std::string result = "";
 	if (!arg_filename || !(*arg_filename)) {
 		std::string filename = "";
@@ -777,6 +778,9 @@ void recent_files() {
 // read in the prefix and adif reference data
 void add_data() {
 	// Note closing can get set during any of the below actions.
+	if (!closing_) {
+		keyring_ = new keyring;
+	}
 	if (!closing_) {
 		// add ADIF specification data.
 		spec_data_ = new spec_data;
@@ -1037,6 +1041,7 @@ void tidy() {
 	// This will be used in toolbar_
 	intl_dialog_ = nullptr;
 	delete spec_data_;
+	delete keyring_;
 	delete cty_data_;
 	delete tabbed_forms_;
 	delete toolbar_;

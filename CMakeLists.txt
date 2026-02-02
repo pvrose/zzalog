@@ -80,6 +80,7 @@ set(CPPFILES
   ${ZZALOG_SRC_DIR}/init_dialog.cpp
   ${ZZALOG_SRC_DIR}/intl_dialog.cpp
   ${ZZALOG_SRC_DIR}/intl_widgets.cpp
+  ${ZZALOG_SRC_DIR}/keyring.cpp
   ${ZZALOG_SRC_DIR}/log_table.cpp
   ${ZZALOG_SRC_DIR}/lotw_handler.cpp
   ${ZZALOG_SRC_DIR}/main.cpp
@@ -189,6 +190,7 @@ set( HPPFILES
   ${ZZALOG_INCLUDE_DIR}/init_dialog.h
   ${ZZALOG_INCLUDE_DIR}/intl_dialog.h
   ${ZZALOG_INCLUDE_DIR}/intl_widgets.h
+  ${ZZALOG_INCLUDE_DIR}/keyring.h
   ${ZZALOG_INCLUDE_DIR}/log_table.h
   ${ZZALOG_INCLUDE_DIR}/lotw_handler.h
   ${ZZALOG_INCLUDE_DIR}/main.h
@@ -380,6 +382,7 @@ set(DATAFILES
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/pdf.png
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/qrz_1.jpg
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/rose.png
+  ${CMAKE_CURRENT_SOURCE_DIR}/reference/keys.json
 )
 
 # Define the zzalog executable

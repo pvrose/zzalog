@@ -2,15 +2,16 @@
 
 #include "book.h"
 #include "adi_writer.h"
-#include "cty_data.h"
 #include "fields.h"
-#include "zc_file_holder.h"
+#include "keyring.h"
 #include "main.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "zc_status.h"
 #include "url_handler.h"
+
+#include "zc_file_holder.h"
+#include "zc_status.h"
 #include <zc_utils.h>
 
 #include <chrono>
@@ -37,6 +38,7 @@ club_handler::club_handler() {
 	// Initialise thread interface
 	run_threads_ = true;
 	upload_response_ = 0;
+	key_ = keyring_->key("Clublog");
 	if (DEBUG_THREADS) printf("CLUBLOG MAIN: Starting std::thread\n");
 	th_upload_ = new std::thread(thread_run, this);
 
@@ -122,7 +124,7 @@ void club_handler::generate_form(std::vector<url_handler::field_pair>& fields, r
 		fields.push_back({ "file", "", "clublog.adi", "application/octet-stream" });
 	}
 	// Hard-coded API Key for this application
-	fields.push_back({ "api", api_key_, "", "" });
+	fields.push_back({ "api", key_, "", "" });
 }
 
 // Download the exception file
@@ -131,7 +133,7 @@ bool club_handler::download_exception(std::string filename) {
 	status_->misc_status(ST_NOTE, "CLUBLOG: Starting to download exception file");
 	std::string zip_filename = filename + ".gz";
 	std::ofstream os(zip_filename, std::ios::trunc | std::ios::out | std::ios::binary);
-	std::string url = "https://cdn.clublog.org/cty.php?api=" + std::string(api_key_);
+	std::string url = "https://cdn.clublog.org/cty.php?api=" + key_;
 	if (url_handler_->read_url(url, &os)) {
 		os.close();
 		status_->misc_status(ST_NOTE, "CLUBLOG: Exception file downloaded successfully - unzipping it");

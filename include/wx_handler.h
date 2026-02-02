@@ -52,10 +52,11 @@ public:
     //! Destructor.
     ~wx_handler();
 
-    //! \cond
-    // openweathermap.org key
-    const char* key_ = "0b2145b6b923a9561f4b4831f5d6d66f";
+    
+    //! openweathermap.org key
+	std::string key_;
     //! \endcond
+	
     
     //! Update weather report - forecd
     bool update();

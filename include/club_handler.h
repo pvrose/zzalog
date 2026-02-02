@@ -4,11 +4,12 @@
 #include "url_handler.h"
 #include "fields.h"
 
-#include <vector>
-#include <queue>
-#include <thread>
 #include <atomic>
 #include <mutex>
+#include <queue>
+#include <string>
+#include <thread>
+#include <vector>
 
 class record;
 class book;
@@ -45,10 +46,8 @@ typedef size_t qso_num_t;
 	class club_handler
 	{
 	private:
-		//! \cond
 		// ClubLog API developers key for gm3zza@btinternet.com
-		const char* api_key_ = "ca1445fb25fef92b03c65f2484ef4d77e903e6f4";
-		//! \endcond
+		std::string key_;
 	public:
 		//! Constructor.
 		club_handler();

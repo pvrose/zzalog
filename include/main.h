@@ -33,6 +33,7 @@ class fields;
 class fldigi_handler;
 class import_data;
 class intl_dialog;
+class keyring;
 class lotw_handler;
 class main_window;
 class menu_bar;
@@ -158,6 +159,7 @@ enum file_types : uint8_t {
 	FILE_SOLAR,                             //!< Solar data (read every hour at most frequent
 	FILE_STATION,                           //!< Station configuration file
 	FILE_QSL,                               //!< QSL configuration file
+	FILE_KEYS,                              //!< On-line API keys (non-user)
 };
 
 //! \cond
@@ -176,6 +178,7 @@ extern fields* fields_;
 extern fldigi_handler* fldigi_handler_;
 extern import_data* import_data_;
 extern intl_dialog* intl_dialog_;
+extern keyring* keyring_;
 extern lotw_handler* lotw_handler_;
 extern main_window* main_window_;
 extern menu_bar* menu_bar_;

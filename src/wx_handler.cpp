@@ -1,14 +1,15 @@
 #include "wx_handler.h"
 
 #include "cty_data.h"
+#include "keyring.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "main.h"   
-#include "zc_status.h"
 #include "stn_data.h"
-#include "zc_ticker.h"
 #include "url_handler.h"
 
+#include "zc_status.h"
+#include "zc_ticker.h"
 #include "zc_utils.h"
 
 #include "nlohmann/json.hpp"
@@ -100,6 +101,7 @@ wx_handler::wx_handler() :
     error_code_(0)
 {
     report_.icon = nullptr;
+	key_ = keyring_->key("Weather");
     // Start thread
     wx_fetch_.store(false);
     wx_valid_.store(false);
@@ -157,7 +159,7 @@ bool wx_handler::update() {
 		snprintf(url, sizeof(url), "http://api.openweathermap.org/geo/1.0/direct?q=%s,,%s&limit=5&appid=%s&mode=json",
 			city.c_str(),
 			cc.c_str(),
-			key_
+			key_.c_str()
 		);
 		std::stringstream ss_city;
 		if (url_handler_->read_url(std::string(url), &ss_city)) {
@@ -194,7 +196,7 @@ bool wx_handler::update() {
     snprintf(url, sizeof(url), "https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s&mode=json",
         location.latitude,
         location.longitude,
-        key_);
+        key_.c_str());
 	std::stringstream ss;
     if (url_handler_->read_url(std::string(url), &ss)) {
         ss.seekg(std::ios::beg);
@@ -340,6 +342,7 @@ Fl_Image* wx_handler::fetch_icon(std::string name) {
         return nullptr;
     }
 }
+
 
 
 
