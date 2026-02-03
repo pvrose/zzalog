@@ -420,7 +420,7 @@ void qso_rig::create_auto(int curr_x, int curr_y) {
 	bn_autoconn_ = new Fl_Check_Button(curr_x, curr_y, HBUTTON, HBUTTON, "Connect");
 	bn_autoconn_->align(FL_ALIGN_RIGHT);
 	bn_autoconn_->callback(cb_bn_autoconn, nullptr);
-	bn_autoconn_->tooltip("Automatically start the CAT interface application");
+	bn_autoconn_->tooltip("Automatically connect the CAT interface application");
 
 	curr_x += WBUTTON;
 	v_connect_delay_ = new Fl_Value_Slider(curr_x, curr_y, WBUTTON * 3 / 2, HBUTTON, "Delay");
