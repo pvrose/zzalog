@@ -811,7 +811,7 @@ void qso_apps::add_servers(app_data_t* data) {
     } 
     else if (data->name == WSJTX && wsjtx_handler_) {
     }
-    else if (data->server) {
+    else if (data->server && initialised_) {
         char msg[128];
         snprintf(msg, sizeof(msg), "APPS: Don't know how to serve %s", data->name.c_str());
         status_->misc_status(ST_WARNING, msg);
