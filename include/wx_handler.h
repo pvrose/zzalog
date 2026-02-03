@@ -53,8 +53,6 @@ public:
     
     //! openweathermap.org key
 	std::string key_;
-    //! \endcond
-	
     
     //! Update weather report - forecd
     bool update();
