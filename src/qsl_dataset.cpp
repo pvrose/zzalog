@@ -392,7 +392,7 @@ qsl_call_data* qsl_dataset::get_qrz_api(std::string callsign) {
 void qsl_dataset::load_data() {
 	data_.clear();
 	if (!load_json()) {
-		status_->misc_status(ST_ERROR, "QSL: No QSl data loaded");
+		status_->misc_status(ST_ERROR, "QSL: No QSL data loaded");
 	}
 }
 
@@ -434,7 +434,7 @@ bool qsl_dataset::load_json() {
 					server_data_[it.first] = sd;
 				}
 			}
-			if (jall.find("No QSLs") != jall.end()) {
+			if (jall.find("No QSLs") != jall.end() && jall.at("No QSLs").is_array()) {
 				auto noqs = jall.at("No QSLs").get < std::set<json> >();
 				for (auto& it : noqs) {
 					std::string call;

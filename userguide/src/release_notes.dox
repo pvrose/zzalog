@@ -19,6 +19,7 @@
     - Exception from WX handler with no user location.
     - Open user station dialog before any other dialog.
     - Force user to supply location and name during configuration.
+  - False error when reading "No QSL" list.
 
 \section rev_3-6-12 Revision 3.6.12
 
