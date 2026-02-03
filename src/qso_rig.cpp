@@ -427,7 +427,7 @@ void qso_rig::create_auto(int curr_x, int curr_y) {
 	v_connect_delay_->align(FL_ALIGN_TOP);
 	v_connect_delay_->type(FL_HOR_SLIDER);
 	v_connect_delay_->callback(cb_connect_delay, nullptr);
-	v_connect_delay_->bounds(0.0, 10.0);
+	v_connect_delay_->bounds(0.0, 15.0);
 	v_connect_delay_->step(0.5);
 	v_connect_delay_->tooltip("Specify the delay between starting the app and trying to connect");
 
