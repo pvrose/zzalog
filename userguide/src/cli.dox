@@ -79,10 +79,12 @@ Does not automatically save each change (sticky).
   - <B>fields</B> Fields data (fields.json)
   - <B>icons</B> Toolbar icons (various)
   - <B>intl</B> International character set (intl_chars.txt)
+  - <B>keys</B> Reference data API keys (keys.json)
   - <B>rigs</B> Rig configuration data (rigs.json)
   - <B>settings</B>ZZALOG configuration (ZZALOG.json)
   - <B>station</B> Operator/QTH/Callsign configuration (station.json)
   - <B>all</B> All files
+  - <B>reference</B> Reference data (&equiv; adif bandplan country icons intl keys)
 
 
 */

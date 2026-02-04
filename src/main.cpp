@@ -159,7 +159,7 @@ const std::map < uint8_t, file_control_t > FILE_CONTROL = {
 	{ FILE_STATION, { "station.json", false, false, DEBUG_RESET_STN }},
 	{ FILE_ICON_ZZA, { "rose.png", true, true, 0}},
 	{ FILE_QSL, { "qsl.json", false, false, DEBUG_RESET_QSL }},
-	{ FILE_KEYS, { "keys.json", true, false, 0}}
+	{ FILE_KEYS, { "keys.json", true, false, DEBUG_RESET_KEYS }}
 };
 
 
@@ -628,6 +628,9 @@ int cb_args(int argc, char** argv, int& i) {
 			if (strcmp("intl", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_INTL;
 			}
+			if (strcmp("keys", argv[i]) == 0) {
+				DEBUG_RESET_CONFIG |= DEBUG_RESET_KEYS;
+			}
 			if (strcmp("rigs", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_RIGS;
 			}
@@ -642,6 +645,9 @@ int cb_args(int argc, char** argv, int& i) {
 			}
 			if (strcmp("all", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG = DEBUG_RESET_ALL;
+			}
+			if (strcmp("reference", argv[i]) == 0) {
+				DEBUG_RESET_CONFIG = DEBUG_RESET_REFS;
 			}
 			i += 1;
 		}
@@ -709,7 +715,9 @@ void show_help() {
 		"\t\tfields\tFields data (fields.json)\n"
 		"\t\ticons\tToolbar icons (various)\n"
 		"\t\tintl\tInternational character set (intl_chars.txt)\n"
+		"\t\tkeys\tReference data API keys (keys.json)\n"
 		"\t\tqsl\tQSL Server configuration and image design (qsl.json)\n"
+		"\t\treference\tReference data (adif bandplan coungtry icons intl keys)\n"
 		"\t\trigs\tRig configuration data (rigs.json)\n"
 		"\t\tsettings\tZZALOG configuration (ZZALOG.json)\n"
 		"\t\tstation\tOperator/QTH/Callsign configuration (station.json)\n"

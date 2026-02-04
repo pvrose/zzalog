@@ -135,7 +135,7 @@ cd [zzalog]\n
 cmake --install build
 \endcode
 
-This copies the executable <i>zzalog</i> to /usr/local/bin and the reference data to /etc/GM3ZZA/ZZALOG.
+This copies the executable <i>zzalog</i> to /usr/local/bin and the reference data to /usr/local/etc/zzalog.
 
 \section initial_run First-time Run (Cold-start)
 
