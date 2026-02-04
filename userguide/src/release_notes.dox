@@ -11,6 +11,7 @@
   - Move QSL configuration file to standard location, and only prompt for
   QSL Cards directory when needed.
   - Move non-user API keys to keys.json. 
+  - Move installation directory for reference data to allow user-only installation.
 - Perfomance changes.
   - ZZALOG used 200% CPU when idling. 
 - Bug fixes:

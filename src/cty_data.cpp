@@ -57,6 +57,7 @@ cty_data::cty_data(bool reload) {
 	if (!reload && load_json()) {
 		return;
 	}
+	status_->misc_status(ST_NOTE, "CTY DATA: Reloading from sources");
 	load_sources();
 }
 
@@ -1240,7 +1241,7 @@ bool cty_data::load_json() {
 	}
 	else {
 		snprintf(msg, sizeof(msg), "CTY DATA: Failed to open %s", filename.c_str());
-		status_->misc_status(ST_ERROR, msg);
+		status_->misc_status(ST_WARNING, msg);
 		status_->progress("Read failed", OT_PREFIX);
 		return false;
 	}

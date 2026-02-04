@@ -50,6 +50,7 @@ ZZALOG uses the following items from third parties:
   - Libcurl (https://curl.se/libcurl/c/libcurl.html) HTTP support library.
   - JSON (https://json.nlohmann.me/nlohmann/json) JSON support library.
   - pugixml (https://pugixml.org) XML support library.
+  - Boost (https://www.boost.org) Miscellaneous utilities library.
 - Reference data:
   - Clublog.org (https://clublog.org) Country data.
   - Country-files.com (https://www.country-files.com) Country data.

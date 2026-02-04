@@ -27,7 +27,7 @@ git clone https://github.com/fltk/fltk
 cmake -B build
 cmake --build build
 \endcode
-\par Installing libcurl.
+\par Installing libcurl and boost.
 Fetch and install VCPKG
 \code
 git clone https://github.com/microsoft/vcpkg.git
@@ -35,9 +35,10 @@ cd vcpkg
 .\bootstrap-vcpkg.bat 
 .\vcpkg.exe integrate install 
 \endcode
-Use VCPKG to install libcurl 
+Use VCPKG to install libcurl and boost.
 \code 
 .\vcpkg.exe install curl 
+,\vcpkg.exe install boost
 \endcode 
 \par Fetch JSON and Pthread include files
 \code 
@@ -85,6 +86,8 @@ or a source tarball at https://hamlib.sourceforge.net/snapshots/. As support of 
 is a continual process, using versions availables from distros is not advised.
 
 Libcurl is available in most distros.
+
+Boost is available in most distros.
 
 Nlohmann/json is available in most distros.
 
@@ -135,8 +138,18 @@ cd [zzalog]\n
 cmake --install build
 \endcode
 
-This copies the executable <i>zzalog</i> to /usr/local/bin and the reference data to /usr/local/etc/zzalog.
+This copies the executable <i>zzalog</i> to /usr/local/bin and the reference data to 
+/usr/local/etc/zzalog.
+The CMake switch CMAKE_INSTALL_PREFIX may be applied to create the executable and reference data
+in user-specific filestore. For example:
 
+\code
+cmake -B build -DCMAKE_INSTALL_PREFIX=~/.local
+cmake --build build
+cmake --install build
+\endcode
+
+...will install the executable <i>~/.local/bin/zzalog</i> and the reference data in <i>~/.local/etc/zzalog</i>.
 \section initial_run First-time Run (Cold-start)
 
 The first time ZZALOG is run, a dialog opens asking for station details. 
