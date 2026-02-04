@@ -261,11 +261,8 @@ set( HPPFILES
 )
 
 # set directory to install executable, reference data and documents.
-if(MSVC)
-  set(CMAKE_INSTALL_RPATH C:/ProgramData/${APP_VENDOR}/${APP_NAME})
-else()
-  set(CMAKE_INSTALL_RPATH /etc/${APP_VENDOR}/${APP_NAME})
-endif()
+set(CMAKE_INSTALL_RPATH etc/${TARGET})
+message(STATUS "Reference data will be copied to ${CMAKE_INSTALL_RPATH}")
 
 # Set target directory for .dlls and development-mode data
 message(STATUS "ZZALOG_BINARY_DIR = ${ZZALOG_BINARY_DIR}")
@@ -360,6 +357,14 @@ if (NOT HAMLIB_FOUND AND MSVC)
   )
 endif()  
 
+# libboost
+
+find_package(Boost CONFIG REQUIRED COMPONENTS ALL)
+if (Boost_FOUND)
+  message(STATUS "Boost found: ${Boost_VERSION}")
+  message(STATUS "Boost libraries: ${Boost_LIBRARIES}")
+endif()
+
 # Add ZZACOMMON
 set(ZZACOMMON_DOX ${ZZALOG_DOX})
 add_subdirectory(zzacommon)
@@ -399,6 +404,7 @@ target_include_directories(${TARGET} PRIVATE
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}
+  ${Boost_INCLUDE_DIR}
 )
 ## Extra include directories required on MSVC
 if (MSVC)
@@ -417,6 +423,7 @@ target_link_libraries(${TARGET} PRIVATE
   ${FLTK_LIBRARIES}
   ${CURL_LIBRARIES}
   ${HAMLIB_LIBRARY}
+  ${Boost_LIBRARIES}
   zzalog_contests
   pugixml
   zzacommon
