@@ -1261,8 +1261,8 @@ int main(int argc, char** argv)
 		printf("|-With libraries\n  |- hamlib (%s)\n  |- FLTK (%d.%d.%d)\n  |- Curl (%s)\n  |- BOOST (%d.%d.%d)\n  |- zzacommon (%s)\n",
 			rig_version(),
 			FL_MAJOR_VERSION, FL_MINOR_VERSION, FL_PATCH_VERSION,
-			BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100,
 			data->version,
+			BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100,
 		    ZZACOMMON_VERSION.c_str()); 
 #else
 		about_dialog* dlg = new about_dialog;
