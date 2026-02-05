@@ -44,6 +44,7 @@ main.cpp - application entry point
 #include "wx_handler.h"
 
 #include "hamlib/rig.h"
+#include "boost/version.hpp"
 
 #include "zc_banner.h"
 #include "zc_drawing.h"
@@ -1257,9 +1258,10 @@ int main(int argc, char** argv)
 			version.c_str(),
 			APP_TIMESTAMP.c_str());
 		curl_version_info_data* data = curl_version_info(CURLVERSION_LAST);
-		printf("|-With libraries\n  |- hamlib (%s)\n  |- FLTK (%d.%d.%d)\n  |- Curl (%s)\n  |- zzacommon (%s)\n",
+		printf("|-With libraries\n  |- hamlib (%s)\n  |- FLTK (%d.%d.%d)\n  |- Curl (%s)\n  |- BOOST (%d.%d.%d)\n  |- zzacommon (%s)\n",
 			rig_version(),
 			FL_MAJOR_VERSION, FL_MINOR_VERSION, FL_PATCH_VERSION,
+			BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100,
 			data->version,
 		    ZZACOMMON_VERSION.c_str()); 
 #else

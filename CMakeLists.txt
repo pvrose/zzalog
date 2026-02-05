@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 project(ZZALOG VERSION 3.6.13)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
-set(ZZALOG_RC_VALUE "")
+set(ZZALOG_RC_VALUE "-rc2")
 
 ## Set program details
 set(APP_VENDOR "GM3ZZA")
@@ -366,6 +366,7 @@ endif()
 if (Boost_FOUND)
   message(STATUS "Boost found: ${Boost_VERSION}")
   message(STATUS "Boost libraries: ${Boost_LIBRARIES}")
+  message(STATUS "Boost includes: ${Boost_INCLUDE_DIR}")
 endif()
 
 # Add ZZACOMMON
