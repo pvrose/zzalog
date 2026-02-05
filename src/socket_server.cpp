@@ -433,7 +433,7 @@ int socket_server::send_response(std::istream &response)
 	char *buffer = new char[resp_size + 1];
 	memset(buffer, '\0', resp_size + 1);
 	response.read(buffer, resp_size);
-	dump(std::string(buffer));
+	if (DEBUG_SOCKET) dump(std::string(buffer));
 
 	// Send the response packet
 	int result;
