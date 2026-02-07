@@ -1,8 +1,17 @@
 /** \page release_notes Revision History
 
+\section rev_3-6-14 Revision 3.6.14 [Unreleased]
+
+- Functional changes.
+- Cosmetic and non-functional changes.
+- Performance changes.
+- Bug fixes.
+  - Incorrect callsign parsing when time-validity of two allocations start and
+  end at the same date and time.
+
 \section rev_3-6-13 Revision 3.6.13
 
-- Functional changes
+- Functional changes.
   - Added iso.csv: ISO 3166-1 alpha-2 country codes and names for locating
   QTH information.
 - Cosmetic and non-functional changes.
@@ -14,7 +23,7 @@
   - Move installation directory for reference data to allow user-only installation.
 - Perfomance changes.
   - ZZALOG used 200% CPU when idling. 
-- Bug fixes:
+- Bug fixes.
   - Logged frequency and start time not being set correctly from FlDigi.
   - Problems with cold-start with minimal user input during configuration.
     - Exception from WX handler with no user location.
@@ -49,13 +58,13 @@
   - No way to specify where to find ALL.TXT file used by WSJT-X.
   - Switch "-t" ignored when saving a net.
 
-\section rev_3-6-11 Revision 3.6.11
+\section older Older revisions
+
+\subsection rev_3-6-11 Revision 3.6.11
 
 - Revision 3.6.10 unnecessarily renamed executable:
 reverting to zzalog.
 - Move contest specific sources to separate library.
-
-\section older Older revisions
 
 \subsection rev_3-6-10 Revision 3.6.10 [Deprecated]
 
