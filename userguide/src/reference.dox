@@ -6,8 +6,13 @@ ZZALOG uses reference data from a number of sources.
 
 Country Data is used to interpret (or parse) the callsign of the station of interest. 
 See \ref qso_dxcc.
-This is got from three sources as they each provide a subset of the overall data. For
+This is got from five sources as they each provide a subset of the overall data. For
 download instructions see \subpage cty_dialog.
+
+\subsection adif_cty adif.org
+
+In addition to prrovifding reference in its own right (see \ref adif), the ADIF specification 
+supplies the definitive mappping between DXCC Entity numbers and their names.
 
 \subsection clublog Clublog.org
 

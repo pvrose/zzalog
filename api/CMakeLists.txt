@@ -16,6 +16,8 @@ if(DOXYGEN_FOUND)
     ${ZZACOMMON_HPPFILES}
   )
 
+  message(STATUS: "Based on files: ${DOXY_API_FILES}")
+
   # Copy Doxyfile
   configure_file(${DOXY_API_IN} ${DOXY_API_OUT} @ONLY)
  

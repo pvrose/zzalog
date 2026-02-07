@@ -39,7 +39,7 @@ option(ZZALOG_DOX "Generate Documentation" OFF)
 option(ZZALOG_PDF "Generate PDF Document" OFF)
 
 # All the source .cpp files
-set(CPPFILES 
+set(ZZALOG_CPPFILES 
   ${ZZALOG_SRC_DIR}/about_dialog.cpp
   ${ZZALOG_SRC_DIR}/adi_reader.cpp
   ${ZZALOG_SRC_DIR}/adi_writer.cpp
@@ -147,7 +147,7 @@ set(CPPFILES
 )
 
 ## All the header files - required for API documentation.
-set( HPPFILES
+set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/about_dialog.h
   ${ZZALOG_INCLUDE_DIR}/adi_reader.h
   ${ZZALOG_INCLUDE_DIR}/adi_writer.h
@@ -249,7 +249,6 @@ set( HPPFILES
   ${ZZALOG_INCLUDE_DIR}/stn_oper_dlg.h
   ${ZZALOG_INCLUDE_DIR}/stn_qth_dlg.h
   ${ZZALOG_INCLUDE_DIR}/tabbed_forms.h
-  ${ZZALOG_INCLUDE_DIR}/zzacommon.h
   ${ZZALOG_INCLUDE_DIR}/toolbar.h
   ${ZZALOG_INCLUDE_DIR}/url_handler.h
   ${ZZALOG_INCLUDE_DIR}/user_dialog.h
@@ -420,7 +419,7 @@ if (MSVC)
 endif()
 
 ## Define sources to be compiled.
-target_sources(${TARGET} PRIVATE ${CPPFILES})
+target_sources(${TARGET} PRIVATE ${ZZALOG_CPPFILES})
 
 ## Define libraries to be linked in.
 target_link_libraries(${TARGET} PRIVATE 

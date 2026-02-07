@@ -17,7 +17,42 @@
 
 class record;
 
-//! This class provides a wrapper for all the callsign exception data.
+//! \brief This class provides a wrapper for all the callsign exception data.
+//! 
+//! The data is accumulated from 5 sources.
+//! 
+//! \par ADIF specification
+//! This adds the cty_entity records with just DXCC Entity numbers and names.
+//! 
+//! \par Clublog.org - cty1_reader.
+//! This provides more details for the cty_entity records including:
+//! - Nickname (usual prefix)
+//! - Geographic data - CQ zones and approximate latitude and logngitude.
+//! - Timeliness - timeframe the entity is valid on the DXCC list.
+//! 
+//! It adds cty_prefix records which allow the parsing of callsigns. This maps
+//! the initial characters of a callsign to the entity.
+//! 
+//! It adds cty_exception records which record any callsigns that are 
+//! outwith the decodes using cty_prefix records.
+//! 
+//! \par country-files.com - cty2_reader
+//! This provides additional data in addition to the clublog data.
+//! 
+//! It updates the cty_entity records with ITU Zones.
+//!
+//! It updates cty_prefix and cty_exception records with any data that
+//! may be more recent than that above.
+//! 
+//! \par Dxatlas.com - cty3_reader
+//! This adds cty_filter entries to the cty_entity records breaking down the
+//! DXCC entity into geographic sub-divisions and into usages
+//! such as license classes and special event operation.
+//! 
+//! \par ISO country list - cty4_reader
+//! This adds geopolitical countries to the cty_entity records for
+//! use in searches.
+//! 
 class cty_data
 {
 
