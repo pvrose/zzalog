@@ -108,10 +108,10 @@ bool cty_element::time_overlap(cty_element* elem) const {
 	if (lhs.finish == "*") lhs.finish = "99999999";
 	if (rhs.start == "*") rhs.start = "00000000";
 	if (rhs.finish == "*") rhs.finish = "99999999";
-	if (rhs.start >= lhs.start && rhs.start <= lhs.finish) return true;
-	if (rhs.finish >= lhs.start && rhs.finish <= lhs.finish) return true;
-	if (lhs.start >= rhs.start && lhs.start <= rhs.finish) return true;
-	if (lhs.finish >= rhs.start && lhs.finish <= rhs.finish) return true;
+	if (rhs.start >= lhs.start && rhs.start < lhs.finish) return true;
+	if (rhs.finish > lhs.start && rhs.finish <= lhs.finish) return true;
+	if (lhs.start >= rhs.start && lhs.start < rhs.finish) return true;
+	if (lhs.finish > rhs.start && lhs.finish <= rhs.finish) return true;
 	return false;
 }
 
