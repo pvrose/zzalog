@@ -641,13 +641,13 @@ bool rig_if::th_read_values() {
 	std::chrono::milliseconds response = std::chrono::duration_cast<std::chrono::milliseconds>(finish - start);
 	if (rig_data_.slow) {
 		if (response < std::chrono::milliseconds(100)) {
-			snprintf(msg, sizeof(msg), "RIG %s Responding normally %dms", 
+			snprintf(msg, sizeof(msg), "RIG %s Responding normally %d ms", 
 				my_rig_name_.c_str(), (int)response.count());
 			Fl::awake(cb_rig_warning, msg);
 			rig_data_.slow = false;
 		}
 	} else if (response > std::chrono::milliseconds((int)(hamlib_data_->timeout * 1000.0))) {
-			snprintf(msg, sizeof(msg), "RIG %s Responding slowly %dms", 
+			snprintf(msg, sizeof(msg), "RIG %s Responding slowly %d ms", 
 				my_rig_name_.c_str(), (int)response.count());
 			Fl::awake(cb_rig_warning, msg);
 			rig_data_.slow = true;

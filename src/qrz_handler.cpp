@@ -685,15 +685,19 @@ void qrz_handler::upload_done(upload_resp_t* resp) {
 
 // Generate insert request
 bool qrz_handler::insert_request(qsl_call_data* api, std::ostream& request, record* qso) {
+	std::string text;
 	// Key
-	request << "KEY=" << api->key << "&";
+	text = "KEY=" + api->key + "&";
 	// Action insert
-	request << "ACTION=INSERT&";
+	text += "ACTION=INSERT&";
 	// Option Replace
-	request << "OPTION=REPLACE&";
+	text += "OPTION=REPLACE&";
 	// aDIF
-	request << "ADIF=";
-	adi_writer::to_adif(qso, request);
+	text += "ADIF=";
+	std::stringstream ss;
+	adi_writer::to_adif(qso, ss);
+	text += ss.str();
+	request << text;
 	return true;
 }
 
