@@ -153,8 +153,6 @@ protected:
 	static void cb_bn_autoconn(Fl_Widget* w, void* v);
 	//! Callback from "Auto/Delay" slider.
 	static void cb_connect_delay(Fl_Widget* w, void* v);
-	//! Callback from timer started by "Start" button.
-	static void cb_start_timer(void* v);
 
 	//! populate port choice
 	void populate_port_choice();
@@ -272,6 +270,8 @@ protected:
 	rig_state_t rig_state_;
 	//! Flag set when start button pressed and cleared on connect button
 	bool rig_starting_;
+	//! Used to count up the delay between start and connect
+	double count_up_connect_ = 0.0;
 
 	//! Map the hamlib model_id to position in rig choice menu.
 	std::map<int, int> rig_choice_pos_;

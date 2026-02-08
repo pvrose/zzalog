@@ -3,13 +3,17 @@
 \section rev_3-6-14 Revision 3.6.14 [Unreleased]
 
 - Functional changes.
+  - None.
 - Cosmetic and non-functional changes. 
   - Use lighter colours in banner.
+  - Display count-up while waiting to connect rig.
 - Performance changes.
+  - None.
 - Bug fixes.
   - Incorrect callsign parsing when time-validity of two allocations start and
   end at the same date and time.
   - Gibberish displayed when reporting rig connection issues.
+  - Incorrectly sets MY_RIG to previous QSO value instead of picking current rig.
 
 \section rev_3-6-13 Revision 3.6.13
 

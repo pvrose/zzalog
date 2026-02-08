@@ -1,17 +1,19 @@
 #include "qso_rig.h"
 
 #include "band_data.h"
-#include <zc_callback.h>
-#include <zc_drawing.h>
 #include "field_choice.h"
 #include "file_viewer.h"
-#include "zc_filename_input.h"
 #include "main.h"
+#include "objects.h"
 #include "qso_manager.h"
 #include "rig_data.h"
 #include "rig_if.h"
 #include "serial.h"
 #include "spec_data.h"
+
+#include <zc_callback.h>
+#include <zc_drawing.h>
+#include "zc_filename_input.h"
 #include "zc_status.h"
 #include "zc_ticker.h"
 #include <zc_utils.h>
@@ -80,7 +82,7 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 			cb_bn_start(bn_start_, nullptr);
 		}
 	}
-	ticker_->add_ticker(this, cb_ticker, 10);
+	ticker_->add_ticker(this, cb_ticker, 5);
 }
 
 // DEstructor
@@ -1430,8 +1432,8 @@ void qso_rig::cb_bn_connect(Fl_Widget* w, void* v) {
 	} else {
 		that->rig_->open();
 		if (that->rig_->is_good()) {
-			// Cancel timer
-			Fl::remove_timeout(cb_start_timer);
+			//// Cancel timer
+			//Fl::remove_timeout(cb_start_timer);
 			that->rig_ok_ = true;
 			that->modify_hamlib_data();
 		}
@@ -1467,12 +1469,10 @@ void qso_rig::cb_bn_start(Fl_Widget* w, void* v) {
 	char msg[100];
 	if (result == 0) {
 		that->rig_starting_ = true;
+		that->count_up_connect_ = 0.0;
 		snprintf(msg, sizeof(msg), "RIG: Started %s OK", command.c_str());
 		status_->misc_status(ST_OK, msg);
-		// Start the connect delay timer
-		if (cat_data->auto_connect) {
-			Fl::add_timeout(cat_data->connect_delay, cb_start_timer, (Fl_Widget*)that->bn_autoconn_);
-		}
+		status_->progress(cat_data->connect_delay * 1000, OT_RIGS, "Waiting to connect rig", "ms");
 	}
 	else {
 		that->rig_starting_ = false;
@@ -1628,12 +1628,6 @@ void qso_rig::cb_connect_delay(Fl_Widget* w, void* v) {
 	that->cat_data_->connect_delay = value;
 }
 
-// Connect timer delay
-void qso_rig::cb_start_timer(void* v) {
-	// Start connect
-	cb_bn_connect((Fl_Widget*)v, nullptr);
-}
-
 // Connect rig if disconnected and vice-versa
 void qso_rig::switch_rig() {
 	if (rig_) {
@@ -1651,6 +1645,14 @@ void qso_rig::switch_rig() {
 
 // 1 s clock interface - read rig and update status
 void qso_rig::ticker() {
+	if (rig_starting_) {
+		count_up_connect_ += 0.5;
+		status_->progress(count_up_connect_ * 1000, OT_RIGS);
+		if (count_up_connect_ > rig_data_->cat_data(label())->connect_delay) {
+			// We have reached the connect count up value
+			cb_bn_connect(bn_connect_, nullptr);
+		}
+	} 
 	rig_state_t current = rig_state();
 	if (current != rig_state_) {
 		rig_state_ = current;
