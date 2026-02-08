@@ -254,26 +254,26 @@ protected:
 
 
 	//! Add all ports to port choice
-	bool use_all_ports_;
+	bool use_all_ports_ = false;
 	//! Use all baud rates
-	bool use_all_rates_;
+	bool use_all_rates_ = false;
 
 	//! The rig interface.
-	rig_if* rig_;
+	rig_if* rig_ = nullptr;
 	//! CAT data for particular RIG and cat_index_
-	cat_data_t* cat_data_;
+	cat_data_t* cat_data_ = nullptr;
 	//! Rig data
-	rig_data_t* rig_info_;
+	rig_data_t* rig_info_ = nullptr;
 	//! Rig has connected and is responding.
-	bool rig_ok_;
+	bool rig_ok_ = false;
 	//! Current rig state.
-	rig_state_t rig_state_;
+	rig_state_t rig_state_ = NO_RIG;
 	//! Flag set when start button pressed and cleared on connect button
-	bool rig_starting_;
+	bool rig_starting_ = false;
 	//! Used to count up the delay between start and connect
 	double count_up_connect_ = 0.0;
 
 	//! Map the hamlib model_id to position in rig choice menu.
-	std::map<int, int> rig_choice_pos_;
+	std::map<int, int> rig_choice_pos_ = {};
 };
 

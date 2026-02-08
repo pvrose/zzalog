@@ -273,9 +273,10 @@ bool rig_if::open() {
 	thread_ = new std::thread(th_sopen_rig, this);
 	std::chrono::system_clock::time_point wait_start = std::chrono::system_clock::now();
 	int timeout = 40000;
-	snprintf(msg, sizeof(msg), "RIG: Connecting %s/%s - timeout = %d ms",
+	snprintf(msg, sizeof(msg), "RIG: Connecting %s/%s on port %s - timeout = %d ms",
 		hamlib_data_->mfr.c_str(),
 		hamlib_data_->model.c_str(),
+		hamlib_data_->port_name.c_str(),
 		timeout);
 	status_->misc_status(ST_NOTE, msg);
 	while(opening_.load()) {

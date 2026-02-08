@@ -446,15 +446,17 @@ void qso_entry::copy_cat_to_qso(bool clear) {
 					status_->misc_status(ST_WARNING, message);
 					qso_->item("FREQ", freqy);
 				}
-				if (qso_->item("MODE") != mode) {
-					snprintf(message, 128, "DASH: Rig mode changed during QSO, New value %s", mode.c_str());
-					status_->misc_status(ST_WARNING, message);
-					qso_->item("MODE", mode);
-				}
-				if (qso_->item("SUBMODE") != submode) {
-					snprintf(message, 128, "DASH: Rig submode changed during QSO, New value %s", submode.c_str());
-					status_->misc_status(ST_WARNING, message);
-					qso_->item("SUBMODE", submode);
+				if (mode != "DATA U" && mode != "DATA L") {
+					if (qso_->item("MODE") != mode) {
+						snprintf(message, 128, "DASH: Rig mode changed during QSO, New value %s", mode.c_str());
+						status_->misc_status(ST_WARNING, message);
+						qso_->item("MODE", mode);
+					}
+					if (qso_->item("SUBMODE") != submode) {
+						snprintf(message, 128, "DASH: Rig submode changed during QSO, New value %s", submode.c_str());
+						status_->misc_status(ST_WARNING, message);
+						qso_->item("SUBMODE", submode);
+					}
 				}
 				qso_->item("TX_PWR", tx_power);
 				if (std::isnan(tx_power)) tx_power = 0.0;

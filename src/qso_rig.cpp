@@ -1432,10 +1432,10 @@ void qso_rig::cb_bn_connect(Fl_Widget* w, void* v) {
 	} else {
 		that->rig_->open();
 		if (that->rig_->is_good()) {
-			//// Cancel timer
-			//Fl::remove_timeout(cb_start_timer);
 			that->rig_ok_ = true;
 			that->modify_hamlib_data();
+			qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
+			mgr->update_rig();
 		}
 	}
 	that->rig_starting_ = false;
@@ -1648,7 +1648,7 @@ void qso_rig::ticker() {
 	if (rig_starting_) {
 		count_up_connect_ += 0.5;
 		status_->progress(count_up_connect_ * 1000, OT_RIGS);
-		if (count_up_connect_ > rig_data_->cat_data(label())->connect_delay) {
+		if (count_up_connect_ >= rig_data_->cat_data(label())->connect_delay) {
 			// We have reached the connect count up value
 			cb_bn_connect(bn_connect_, nullptr);
 		}
