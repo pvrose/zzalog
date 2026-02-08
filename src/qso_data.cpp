@@ -766,8 +766,10 @@ void qso_data::action_new_qso(record* qso, qso_init_t mode) {
 		// Copy station details and get read rig details for band etc. 
 		// If rig not connected use same as original
 		if (rig && rig->is_good()) {
-			qe->copy_qso_to_qso(qso, qso_entry::CF_RIG_ETC);
-			qe->copy_cat_to_qso();
+			// Get current station configuration
+			update_station_fields(qso);
+			// Get currently accessed rig
+			qe->update_rig();
 		}
 		else {
 			qe->copy_qso_to_qso(qso, qso_entry::CF_RIG_ETC | qso_entry::CF_CAT);

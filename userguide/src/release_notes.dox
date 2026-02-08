@@ -11,6 +11,7 @@
 - Bug fixes.
   - Incorrect callsign parsing when time-validity of two allocations start and
   end at the same date and time.
+  - Incorrectly sets MY_RIG to previous QSO value instead of picking current rig.
 
 \section rev_3-6-13 Revision 3.6.13
 
