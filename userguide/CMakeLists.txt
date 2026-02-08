@@ -63,6 +63,7 @@ if(DOXYGEN_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/src/toolbar.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/user_dialog.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/web_dialog.dox
+    ${CMAKE_CURRENT_SOURCE_DIR}/new_header.tex
   )
 
   # Copy Doxyfile
@@ -73,7 +74,7 @@ if(DOXYGEN_FOUND)
   
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
-    DEPENDS ${DOXY_UG_FILES} ${DOXY_UG_OUT}
+    DEPENDS ${DOXY_UG_FILES} ${DOXY_UG_OUT} 
     COMMAND ${DOXYGEN_EXECUTABLE} ${DOXY_UG_OUT}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMENT "ZZALOG: Generating userguide"
