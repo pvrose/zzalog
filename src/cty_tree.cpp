@@ -7,6 +7,7 @@
 #include "view.h"
 
 #include "zc_settings.h"
+#include "zc_status.h"
 #include "zc_utils.h"
 
 #include <FL/Enumerations.H>
@@ -53,11 +54,17 @@ void cty_tree::update(hint_t hint, qso_num_t record_num_1, qso_num_t record_num_
 
 // Hang all the data
 void cty_tree::hang_all() {
+
 	Fl_Tree_Item* root_item = new Fl_Tree_Item(this);
 	root(root_item);
 	root_item->labelfont(item_labelfont() | FL_BOLD);
 	root_label("Country data");
 	if (cty_data_) {
+		uint32_t count = cty_data_->data()->entities.size() +
+			cty_data_->data()->prefixes.size() +
+			cty_data_->data()->exceptions.size();
+		status_->progress(count, OT_PREFIX, "Building country data view", "records");
+		hang_count_ = 0;
 		hang_point_dxcc_ = add("Entities by DXCC Number");
 		hang_point_dxcc_->labelfont(FL_BOLD | FL_ITALIC);
 		hang_point_nick_ = add("Entities by nickname");
@@ -132,6 +139,7 @@ void cty_tree::hang_entity(const cty_entity* ent) {
 		Fl_Tree_Item* inick = hp_nick->add(prefs(), text);
 		if (ent->deleted_ || ent->time_validity_.finish != "*")
 			inick->labelcolor(FL_RED);
+		status_->progress(++hang_count_, OT_PREFIX);
 	}
 }
 
@@ -154,6 +162,7 @@ void cty_tree::hang_prefix(const std::string& pfx, const std::list<cty_prefix*>&
 		);
 		hp->add(prefs(), text);
 	}
+	status_->progress(++hang_count_, OT_PREFIX);
 }
 
 void cty_tree::hang_exception(const std::string& exc, const std::list<cty_exception*>& exceptions) {
@@ -181,5 +190,5 @@ void cty_tree::hang_exception(const std::string& exc, const std::list<cty_except
 			break;
 		}
 	}
-
+	status_->progress(++hang_count_, OT_PREFIX);
 }

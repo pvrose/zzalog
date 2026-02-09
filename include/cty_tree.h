@@ -62,4 +62,7 @@ protected:
 	//! Display font size
 	Fl_Fontsize fontsize_;
 
+	//! Progress count
+	uint32_t hang_count_;
+
 };

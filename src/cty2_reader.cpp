@@ -97,6 +97,7 @@ cty_element* cty2_reader::load_pattern(std::string patt, std::string& match, boo
 	size_t pos = 0;
 	size_t spos = 0;
 	match = "";
+	bool zone = false;
 	cty_element* result;
 	if (patt[pos] == '=') {
 		result = new cty_exception;
@@ -111,15 +112,19 @@ cty_element* cty2_reader::load_pattern(std::string patt, std::string& match, boo
 		switch (patt[pos]) {
 		case '(':
 			spos = pos + 1;
+			zone = true;
 			break;
 		case ')':
 			result->cq_zone_ = std::stoi(patt.substr(spos, pos - spos));
+			zone = false;
 			break;
 		case '[':
 			spos = pos + 1;
+			zone = true;
 			break;
 		case ']':
 			result->itu_zone_ = std::stoi(patt.substr(spos, pos - spos));
+			zone = false;
 			break;
 		case ';':
 		case '\r':
@@ -127,7 +132,10 @@ cty_element* cty2_reader::load_pattern(std::string patt, std::string& match, boo
 			// ignore 
 			break;
 		default:
-			match += patt[pos];
+			if (!zone) {
+				match += patt[pos];
+			}
+			break;
 		}
 		pos++;
 	}
