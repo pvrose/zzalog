@@ -696,7 +696,7 @@ bool qrz_handler::insert_request(qsl_call_data* api, std::ostream& request, reco
 	text += "ADIF=";
 	std::stringstream ss;
 	adi_writer::to_adif(qso, ss);
-	text += ss.str();
+	text += zc::escape_url(ss.str());
 	request << text;
 	return true;
 }
