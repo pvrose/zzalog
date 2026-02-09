@@ -279,25 +279,6 @@ else()
   add_compile_options(-g)
 endif()
 
-
-# FLTK - 
-# TODO: Should this be an ExternalProject?
-# MSVC work-round as FLTK built in user.
-message(STATUS "FLTK_DIR: ${FLTK_DIR}")
-if (MSVC AND NOT FLTK_DIR)
-  set(FLTK_DIR "${USER_HOME_DIR}\\source\\repos\\fltk\\build")
-endif()
-# Find FLTK.
-set(CMAKE_MODULE_PATH ../ ./)
-find_package(FLTK CONFIG REQUIRED)
-if (FLTK_FOUND)
-  message(STATUS "FLTK found: ${FLTK_VERSION}")
-  message(STATUS "FLTK include dir: ${FLTK_INCLUDE_DIR}")
-  message(STATUS "FLTK libraries: ${FLTK_LIBRARIES}")
-else()
-  message(FATAL_ERROR "FLTK not found")
-endif()
-
 # libcurl
 if (VCPKG_TARGET_TRIPLET)
   set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH};"${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}")
@@ -356,18 +337,6 @@ if (NOT HAMLIB_FOUND AND MSVC)
   )
 endif()  
 
-# libboost
-if (MSVC)
-  find_package(Boost CONFIG REQUIRED COMPONENTS filesystem system)
-else()
-  find_package(Boost CONFIG REQUIRED COMPONENTS ALL)
-endif()
-if (Boost_FOUND)
-  message(STATUS "Boost found: ${Boost_VERSION}")
-  message(STATUS "Boost libraries: ${Boost_LIBRARIES}")
-  message(STATUS "Boost includes: ${Boost_INCLUDE_DIRS}")
-endif()
-
 # Add ZZACOMMON
 set(ZZACOMMON_DOX ${ZZALOG_DOX})
 add_subdirectory(zzacommon)
@@ -407,7 +376,6 @@ target_include_directories(${TARGET} PRIVATE
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
   ${CURL_INCLUDE_DIR}
-  ${Boost_INCLUDE_DIRS}
 )
 ## Extra include directories required on MSVC
 if (MSVC)
@@ -423,13 +391,11 @@ target_sources(${TARGET} PRIVATE ${ZZALOG_CPPFILES})
 
 ## Define libraries to be linked in.
 target_link_libraries(${TARGET} PRIVATE 
-  ${FLTK_LIBRARIES}
   ${CURL_LIBRARIES}
   ${HAMLIB_LIBRARY}
-  ${Boost_LIBRARIES}
   zzalog_contests
   pugixml
-  zzacommon
+  ${ZZACOMMON_LIBRARIES}
 )
 
 # copy reference data
