@@ -73,7 +73,9 @@ bool cty1_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 			xmldt2date(n_exc.child("start").text().as_string());
 		exc->time_validity_.finish =
 			xmldt2date(n_exc.child("end").text().as_string());
-		data->add_exception(call, exc);
+		if (exc->name_ != "INVALID") {
+			data->add_exception(call, exc);
+		}
 	}
 	status_->progress(3, OT_PREFIX);
 
@@ -97,16 +99,18 @@ bool cty1_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 	status_->progress(4, OT_PREFIX);
 
 	// Copy invalid operations
-	pugi::xml_node n_invs = top.child("invalid_operations");
-	for (auto n_inv : n_invs.children()) {
-		std::string call = n_inv.child("call").text().as_string();
-		cty_exception* inv = new cty_exception;
-		inv->exc_type_ = cty_exception::EXC_INVALID;
-		inv->time_validity_.start =
-			xmldt2date(n_inv.child("start").text().as_string());
-		inv->time_validity_.finish =
-			xmldt2date(n_inv.child("end").text().as_string());
-		data->add_exception(call, inv);
+	if(false) {
+		pugi::xml_node n_invs = top.child("invalid_operations");
+		for (auto n_inv : n_invs.children()) {
+			std::string call = n_inv.child("call").text().as_string();
+			cty_exception* inv = new cty_exception;
+			inv->exc_type_ = cty_exception::EXC_INVALID;
+			inv->time_validity_.start =
+				xmldt2date(n_inv.child("start").text().as_string());
+			inv->time_validity_.finish =
+				xmldt2date(n_inv.child("end").text().as_string());
+			data->add_exception(call, inv);
+		}
 	}
 	status_->progress(5, OT_PREFIX);
 
