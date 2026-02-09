@@ -1,5 +1,6 @@
 #include "cty_data.h"
 
+#include "book.h"
 #include "club_handler.h"
 #include "cty_element.h"
 #include "cty1_reader.h"
@@ -10,6 +11,7 @@
 #include "objects.h"
 #include "record.h"
 #include "spec_data.h"
+#include "tabbed_forms.h"
 
 #include "zc_file_holder.h"
 #include "zc_status.h"
@@ -102,6 +104,7 @@ void cty_data::load_sources() {
 	check_timestamp(type_, 365);
 
 	store_json();
+
 }
 
 cty_data::~cty_data() {

@@ -23,6 +23,7 @@ if(DOXYGEN_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/src/contest_dialog.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/contest_scorer.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/cty_dialog.dox
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cty_tree.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dxcc_view.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/fields_dialog.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/index.dox

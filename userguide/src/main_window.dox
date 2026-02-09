@@ -21,6 +21,7 @@ arrangment is configurable.
   - Individual views
     - \subpage log_table
     - \subpage spec_tree
+    - \subpage cty_tree
     - \subpage report_tree
     - \subpage dxcc_view
 

@@ -811,6 +811,7 @@ void add_data() {
 		if (!club_handler_) club_handler_ = new club_handler;
 		// Get pfx_data
 		cty_data_ = new cty_data;
+		tabbed_forms_->update_views(nullptr, HT_NEW_CTY, -1);
 	}
 	// Add the Station details database - needs spec_data_ and cty_data_
 	if (!closing_) {

@@ -2,6 +2,7 @@
 
 #include "book.h"
 #include "config.h"
+#include "cty_tree.h"
 #include "dxcc_view.h"
 #include "extract_data.h"
 #include <fields.h>
@@ -38,6 +39,8 @@ tabbed_forms::tabbed_forms(int X, int Y, int W, int H, const char* label) :
 	add_view<log_table>("Extracted records", FO_EXTRACTLOG, OT_EXTRACT, "Displays the records extracted according to the current criteria");
 	// ADIF reference data
 	add_view<spec_tree>("Specifications", FO_LAST, OT_ADIF, "Displays the ADIF specification data in tree format");
+	// Country data 
+	add_view<cty_tree>("Country data", FO_LAST, OT_PREFIX, "Displays the Country data look-up");
 	// Report view
 	add_view<report_tree>("Log analysis", FO_LAST, OT_REPORT, "Displays an analysis of the log in tree format");
 	// DXCC Status report
@@ -101,6 +104,10 @@ void tabbed_forms::update_views(view* requester, hint_t hint, qso_num_t record_1
 					// Always update these views
 					fx->second.v->update(hint, record_1, record_2);
 					break;
+				case OT_PREFIX:
+					if (hint == HT_NEW_CTY) {
+						fx->second.v->update(hint, record_1, record_2);
+					}
 				default:
 					// Only update a view if it's the current selected one
 					if (fx->second.w == value()) {

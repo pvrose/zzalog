@@ -3,7 +3,7 @@
 \section rev_3-6-14 Revision 3.6.14 [Unreleased]
 
 - Functional changes.
-  - None.
+  - Added country data viewer as part of main window.
 - Cosmetic and non-functional changes. 
   - Use lighter colours in banner.
   - Display count-up while waiting to connect rig.

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.6.13.1)
+project(ZZALOG VERSION 3.6.13.2)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
 set(ZZALOG_RC_VALUE "")
@@ -65,6 +65,7 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/cty_data.cpp
   ${ZZALOG_SRC_DIR}/cty_dialog.cpp
   ${ZZALOG_SRC_DIR}/cty_element.cpp
+  ${ZZALOG_SRC_DIR}/cty_tree.cpp
   ${ZZALOG_SRC_DIR}/dxcc_table.cpp
   ${ZZALOG_SRC_DIR}/dxcc_view.cpp
   ${ZZALOG_SRC_DIR}/eqsl_handler.cpp
@@ -174,6 +175,7 @@ set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/cty_data.h
   ${ZZALOG_INCLUDE_DIR}/cty_dialog.h
   ${ZZALOG_INCLUDE_DIR}/cty_element.h
+  ${ZZALOG_INCLUDE_DIR}/cty_tree.h
   ${ZZALOG_INCLUDE_DIR}/dxcc_table.h
   ${ZZALOG_INCLUDE_DIR}/dxcc_view.h
   ${ZZALOG_INCLUDE_DIR}/eqsl_handler.h

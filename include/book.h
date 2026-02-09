@@ -63,6 +63,7 @@
 		HT_START_CHANGED,         //!< The start date or time has changed.
 		HT_IGNORE,                //!< Ignore the change.
 		HT_INSERTED_NODXA,        //!< As HT_INSERTED but do not update DxAtlas.
+		HT_NEW_CTY,               //!< New country data
 	};
 
 	//! Worked before categories: used when checking any previous contacts.

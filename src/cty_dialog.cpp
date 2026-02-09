@@ -1,6 +1,8 @@
 #include "cty_dialog.h"
 
+#include "book.h"
 #include "cty_data.h"
+#include "tabbed_forms.h"
 #include "zc_file_holder.h"
 #include "main.h"
 
@@ -225,6 +227,7 @@ void cty_dialog::cb_reload(Fl_Widget* w, void* v) {
 	delete cty_data_;
 	cty_data_ = new cty_data(true);
 	that->update_widgets();
+	tabbed_forms_->update_views(nullptr, HT_NEW_CTY, -1);
 }
 
 // Close the dialog

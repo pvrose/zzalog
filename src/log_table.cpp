@@ -439,7 +439,7 @@ void log_table::update(hint_t hint, qso_num_t record_num_1, qso_num_t record_num
 		edit_input_->hide();
 	}
 	// Set the number of rows
-	rows(my_book_->get_count());
+	if (my_book_) rows(my_book_->get_count());
 	switch (hint) {
 	case HT_FORMAT:
 		// format has changed - it may be fields so update them
