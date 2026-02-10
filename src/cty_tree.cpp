@@ -39,7 +39,7 @@ cty_tree::cty_tree(int X, int Y, int W, int H, const char* L, field_app_t app) :
 	tree_settings.get("Font Size", fontsize_, FL_NORMAL_SIZE);
 
 	// Set tree properties
-	sortorder(FL_TREE_SORT_ASCENDING);
+	// sortorder(FL_TREE_SORT_ASCENDING);
 	item_labelfont(font_);
 	item_labelsize(fontsize_);
 
@@ -104,7 +104,6 @@ std::map<cty_filter::filter_t, const char*> FILTER_MAP = {
 void cty_tree::hang_entity(const cty_entity* ent) {
 	static char text[1024];
 	// Generate DXCC string
-	// 278: GM - Scotland (EU): Valid=*-*: CQZ 14: ITUZ 27: 55°N 3°W: 
 	snprintf(text, sizeof(text), "%03d: %s - %s (%s)",
 		ent->dxcc_id_,
 		ent->nickname_.c_str(),
@@ -117,7 +116,6 @@ void cty_tree::hang_entity(const cty_entity* ent) {
 	};
 	hang_info(ent, hp_dxcc);
 	hang_filters(ent->filters_, hp_dxcc);
-	// GM - Scotland (EU): Valid=*-*: CQZ 14: ITUZ 27: 55°N 3°W: 
 	snprintf(text, sizeof(text), "%s %d - %s (%s)",
 		ent->nickname_.c_str(),
 		ent->dxcc_id_,
@@ -217,7 +215,7 @@ void cty_tree::hang_prefix(const std::string& pfx, const std::list<cty_prefix*>&
 	static char text[1024];
 	Fl_Tree_Item* hp = hang_point_pfx_->add(prefs(), pfx.c_str());
 	for (auto p : prefixes) {
-		// GM - Scotland (EU): Valid=*-*: CQZ 14: ITUZ 27: 55°N 3°W: 
+		// GM - Scotland (EU): Valid=*-*: CQZ 14: ITUZ 27: 55ï¿½N 3ï¿½W: 
 		snprintf(text, sizeof(text), "%s(%d) - %s (%s)",
 			cty_data_->data()->entities.at(p->dxcc_id_)->nickname_.c_str(),
 			p->dxcc_id_,
