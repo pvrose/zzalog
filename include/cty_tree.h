@@ -1,19 +1,23 @@
 #pragma once
 
+#include "book.h"
 #include "fields.h"
 #include "view.h"
 
 #include <FL/Enumerations.H>
 #include <FL/Fl_Tree.H>
 
+#include <cstdint>
 #include <list>
 #include <string>
 
 class cty_data;
-class Fl_Tree_Item;
+class cty_element;
 class cty_entity;
-class cty_prefix;
 class cty_exception;
+class cty_filter;
+class cty_prefix;
+class Fl_Tree_Item;
 
 //! This class presents a tree view of the cty_data. 
 //! There are four main branches:
@@ -48,6 +52,15 @@ protected:
 	//! Hang the exceptions
 	void hang_exception(const std::string& exc, const std::list<cty_exception*>& exceptions);
 
+	//! Hang information in \p element at \p item
+	void hang_info(const cty_element* element, Fl_Tree_Item* item);
+
+	//! Hang filter information \p filter at \p item
+	void hang_filter(const cty_filter* filter, Fl_Tree_Item* item);
+
+	//! Hang filters
+	void hang_filters(const std::list<cty_filter*> filters, Fl_Tree_Item* item);
+
 	//! Hng all items
 	void hang_all();
 
@@ -58,11 +71,10 @@ protected:
 	Fl_Tree_Item* hang_point_exc_ = nullptr;         //!< Hang point for exceptions.
 
 	//! Display font
-	Fl_Font font_;
+	Fl_Font font_ = 0;
 	//! Display font size
-	Fl_Fontsize fontsize_;
+	Fl_Fontsize fontsize_ = FL_NORMAL_SIZE;
 
 	//! Progress count
-	uint32_t hang_count_;
-
+	uint32_t hang_count_ = 0;
 };
