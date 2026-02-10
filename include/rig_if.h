@@ -256,6 +256,8 @@
 		int toc_split_;
 		//! Function being performed - for error debug mostly
 		std::string read_item_;
+		//! Warning message
+		std::string warning_message_;
 
 
 };

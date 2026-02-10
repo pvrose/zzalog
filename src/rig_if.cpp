@@ -644,13 +644,15 @@ bool rig_if::th_read_values() {
 		if (response < std::chrono::milliseconds(100)) {
 			snprintf(msg, sizeof(msg), "RIG %s Responding normally %d ms", 
 				my_rig_name_.c_str(), (int)response.count());
-			Fl::awake(cb_rig_warning, msg);
+			warning_message_ = msg;
+			Fl::awake(cb_rig_warning, this);
 			rig_data_.slow = false;
 		}
 	} else if (response > std::chrono::milliseconds((int)(hamlib_data_->timeout * 1000.0))) {
 			snprintf(msg, sizeof(msg), "RIG %s Responding slowly %d ms", 
 				my_rig_name_.c_str(), (int)response.count());
-			Fl::awake(cb_rig_warning, msg);
+			warning_message_ = msg;
+			Fl::awake(cb_rig_warning, this);
 			rig_data_.slow = true;
 	}
 
@@ -706,8 +708,9 @@ void rig_if::cb_rig_error(void* v) {
 }
 
 void rig_if::cb_rig_warning(void* v) {
+	rig_if* that = (rig_if*)v;
 	char msg[128];
-	snprintf(msg, sizeof(msg), "RIG: %s", (char*)v);
+	snprintf(msg, sizeof(msg), "RIG: %s", that->warning_message_.c_str());
 	status_->misc_status(ST_WARNING, msg);
 }
 
