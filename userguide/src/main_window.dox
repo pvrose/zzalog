@@ -9,6 +9,7 @@ and the list of fields that are shown can be configured.
 - <B>Records for Import</B> A tabular view of any records that are waiting to be imported into the logbook. 
 - <B>Extracted Records</B> A tabular view of all records that match the last query ran.
 - <B>Specification</B> A tree view of the ADIF Specification. It provides details of the use of each field.
+- <B>Country Data</B> A tree view of the cty_data database.
 - <B>Log Analysis</B> A tree view of the analysis per DXCC entity, band or mode of stations worked in the logbook. The tree 
 arrangment is configurable.
 - <B>DXCC Status</B> A tabular view of the number of stations worked per DXCC, band and mode. The view is configurable.
