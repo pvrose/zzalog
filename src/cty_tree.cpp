@@ -39,7 +39,7 @@ cty_tree::cty_tree(int X, int Y, int W, int H, const char* L, field_app_t app) :
 	tree_settings.get("Font Size", fontsize_, FL_NORMAL_SIZE);
 
 	// Set tree properties
-	// sortorder(FL_TREE_SORT_ASCENDING);
+	sortorder(FL_TREE_SORT_ASCENDING);
 	item_labelfont(font_);
 	item_labelsize(fontsize_);
 
