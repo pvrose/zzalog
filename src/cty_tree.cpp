@@ -213,7 +213,24 @@ void cty_tree::hang_filters(const std::list<cty_filter*> filters, Fl_Tree_Item* 
 
 void cty_tree::hang_prefix(const std::string& pfx, const std::list<cty_prefix*>& prefixes) {
 	static char text[1024];
-	Fl_Tree_Item* hp = hang_point_pfx_->add(prefs(), pfx.c_str());
+	static char hp_label[128];
+	snprintf(hp_label, sizeof(hp_label), "Prefixes %c", pfx[0]);
+	Fl_Tree_Item* hp1 = hang_point_pfx_->find_child_item(hp_label);
+	Fl_Tree_Item* hp = nullptr;
+	if (hp1 == nullptr) {
+		hp1 = hang_point_pfx_->add(prefs(), hp_label);
+	}
+	if (pfx.length() > 1) {
+		snprintf(hp_label, sizeof(hp_label), "Prefixes %c%c", pfx[0], pfx[1]);
+		Fl_Tree_Item* hp2 = hp1->find_child_item(hp_label);
+		if (hp2 == nullptr) {
+			hp2 = hp1->add(prefs(), hp_label);
+		}
+		hp = hp2->add(prefs(), pfx.c_str());
+	}
+	else {
+		hp = hp1->add(prefs(), pfx.c_str());
+	}
 	for (auto p : prefixes) {
 		// GM - Scotland (EU): Valid=*-*: CQZ 14: ITUZ 27: 55�N 3�W: 
 		snprintf(text, sizeof(text), "%s(%d) - %s (%s)",
@@ -230,7 +247,24 @@ void cty_tree::hang_prefix(const std::string& pfx, const std::list<cty_prefix*>&
 
 void cty_tree::hang_exception(const std::string& exc, const std::list<cty_exception*>& exceptions) {
 	static char text[1024];
-	Fl_Tree_Item* hp = hang_point_exc_->add(prefs(), exc.c_str());
+	static char hp_label[128];
+	snprintf(hp_label, sizeof(hp_label), "Exceptions %c", exc[0]);
+	Fl_Tree_Item* hp1 = hang_point_exc_->find_child_item(hp_label);
+	Fl_Tree_Item* hp = nullptr;
+	if (hp1 == nullptr) {
+		hp1 = hang_point_exc_->add(prefs(), hp_label);
+	}
+	if (exc.length() > 1) {
+		snprintf(hp_label, sizeof(hp_label), "Exceptions %c%c", exc[0], exc[1]);
+		Fl_Tree_Item* hp2 = hp1->find_child_item(hp_label);
+		if (hp2 == nullptr) {
+			hp2 = hp1->add(prefs(), hp_label);
+		}
+		hp = hp2->add(prefs(), exc.c_str());
+	}
+	else {
+		hp = hp1->add(prefs(), exc.c_str());
+	}
 	for (auto& e : exceptions) {
 		switch (e->exc_type_) {
 		case cty_exception::EXC_INVALID:
@@ -249,4 +283,17 @@ void cty_tree::hang_exception(const std::string& exc, const std::list<cty_except
 		}
 	}
 	status_->progress(++hang_count_, OT_PREFIX);
+}
+
+void cty_tree::hang_hierarchy(const std::string& id, const std::string& label, Fl_Tree_Item* tree, int depth) {
+	std::string hp_label = id + label.substr(0, depth);
+	Fl_Tree_Item* hp;
+	if (tree->find_child(hp_label.c_str()) == -1) {
+		hp = tree->add(prefs(), hp_label.c_str());
+	}
+	else {
+
+	}
+
+
 }

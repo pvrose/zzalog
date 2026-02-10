@@ -58,8 +58,11 @@ protected:
 	//! Hang filter information \p filter at \p item
 	void hang_filter(const cty_filter* filter, Fl_Tree_Item* item);
 
-	//! Hang filters
+	//! Hang \p filters at \p item
 	void hang_filters(const std::list<cty_filter*> filters, Fl_Tree_Item* item);
+
+	//! Hangs the \p label at branch \p id on tree \p tree at current \p depth.
+	void hang_hierarchy(const std::string& id, const std::string& label, Fl_Tree_Item* tree, int depth);
 
 	//! Hng all items
 	void hang_all();
