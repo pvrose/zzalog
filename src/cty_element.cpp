@@ -271,7 +271,7 @@ void from_json(const json& j, cty_element& e) {
 	else e.time_validity_.finish = "*";
 	if (j.find("CQ Zone") != j.end()) j.at("CQ Zone").get_to(e.cq_zone_);
 	else e.cq_zone_ = -1;
-	if (j.find("ITU_Zone") != j.end()) j.at("ITU_Zone").get_to(e.itu_zone_);
+	if (j.find("ITU Zone") != j.end()) j.at("ITU Zone").get_to(e.itu_zone_);
 	else e.itu_zone_ = -1;
 	if (j.find("Continent") != j.end()) j.at("Continent").get_to(e.continent_);
 	else e.continent_ = "";
