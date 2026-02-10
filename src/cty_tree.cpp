@@ -105,7 +105,7 @@ std::map<cty_filter::filter_t, const char*> FILTER_MAP = {
 void cty_tree::hang_entity(const cty_entity* ent) {
 	static char text[1024];
 	// Generate DXCC string
-	snprintf(text, sizeof(text), "%03d: %s - %s (%s)",
+	snprintf(text, sizeof(text), "%03d(%s):- %s (%s)",
 		ent->dxcc_id_,
 		ent->nickname_.c_str(),
 		ent->name_.c_str(),
@@ -117,7 +117,7 @@ void cty_tree::hang_entity(const cty_entity* ent) {
 	};
 	hang_info(ent, hp_dxcc);
 	hang_filters(ent->filters_, hp_dxcc);
-	snprintf(text, sizeof(text), "%s %d - %s (%s)",
+	snprintf(text, sizeof(text), "%s(%d):- %s (%s)",
 		ent->nickname_.c_str(),
 		ent->dxcc_id_,
 		ent->name_.c_str(),
@@ -135,23 +135,37 @@ void cty_tree::hang_entity(const cty_entity* ent) {
 void cty_tree::hang_info(const cty_element* element, Fl_Tree_Item* item) {
 	// Create static to avoid memory managemet overhead each time method is called
 	static char text[1024];
-	snprintf(text, sizeof(text), "- Valid from %s to %s",
-		element->time_validity_.start.c_str(),
-		element->time_validity_.finish.c_str()
-	);
+	if (element->time_validity_.start == "*")
+		if (element->time_validity_.finish == "*")
+			strcpy(text, "Valid throughout");
+		else
+			snprintf(text, sizeof(text), "Valid until % s",
+				format_datetime(element->time_validity_.finish).c_str());
+	else
+		if (element->time_validity_.finish == "*")
+			snprintf(text, sizeof(text), "Valid from %s",
+				format_datetime(element->time_validity_.start).c_str());
+		else
+			snprintf(text, sizeof(text), "Valid between %s and %s",
+				format_datetime(element->time_validity_.start).c_str(),
+				format_datetime(element->time_validity_.finish).c_str());
 	Fl_Tree_Item* iv = item->add(prefs(), text);
 	iv->labelfont(item->labelfont());
 	iv->labelcolor(item->labelcolor());
 
-	snprintf(text, sizeof(text), "- CQ Zone %d: ITU Zone %d; %s %s",
+	snprintf(text, sizeof(text), "Location: CQ Zone %d: ITU Zone %d; %s %s",
 		element->cq_zone_,
 		element->itu_zone_,
 		zc::degrees_to_dms(element->coordinates_.latitude, true).c_str(),
 		zc::degrees_to_dms(element->coordinates_.longitude, false).c_str()
 	);
 	Fl_Tree_Item* il = item->add(prefs(), text);
+	snprintf(text, sizeof(text), "Pattern: %s", element->pattern_.c_str());
+	Fl_Tree_Item* ipd = item->add(prefs(), text);
 	il->labelfont(item->labelfont());
 	il->labelcolor(item->labelcolor());
+	ipd->labelfont(item->labelfont());
+	ipd->labelcolor(item->labelcolor());
 }
 
 void cty_tree::hang_filter(const cty_filter* filter, Fl_Tree_Item* item) {
@@ -162,11 +176,7 @@ void cty_tree::hang_filter(const cty_filter* filter, Fl_Tree_Item* item) {
 		filter->name_.c_str()
 	);
 	Fl_Tree_Item* idxcc = item->add(prefs(), text);
-	snprintf(text, sizeof(text), "  %s", filter->pattern_.c_str());
-	Fl_Tree_Item* ipd = idxcc->add(prefs(), text);
 	idxcc->labelcolor(item->labelcolor());
-	ipd->labelcolor(item->labelcolor());
-	ipd->labelfont(FL_ITALIC);
 
 	hang_info(filter, idxcc);
 	
@@ -297,4 +307,13 @@ void cty_tree::hang_hierarchy(const std::string& id, const std::string& label, F
 	}
 
 
+}
+
+std::string cty_tree::format_datetime(const std::string& text) {
+	std::string result = text.substr(0, 4) + "/" +
+		text.substr(4, 2) + "/" +
+		text.substr(6, 2) + "T" +
+		text.substr(8, 2) + ":" +
+		text.substr(10, 2);
+	return result;
 }

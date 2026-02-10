@@ -12,10 +12,11 @@
 - Bug fixes.
   - Incorrect callsign parsing when time-validity of two allocations start and
   end at the same date and time.
-  - Gibberish displayed when reporting rig connection issues.
+  - Gibberish displayed when reporting rig connection timing issues.
   - Incorrectly sets MY_RIG to previous QSO value instead of picking current rig.
   - Needed to escape non-alphanumeric characters when uploading to QRZ.com.
-  - Prefix data incorrectly read from countryfiles.com.
+  - Issues reading country data.
+
 \section rev_3-6-13 Revision 3.6.13
 
 - Functional changes.

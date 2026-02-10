@@ -173,6 +173,7 @@ cty_element* cty3_reader::load_entity(std::string line, bool deleted) {
 	*(cty_element*)entity = *element;
 	entity->deleted_ = deleted;
 	entity->nickname_ = nickname;
+	entity->pattern_ = pattern;
 	data_->add_entity(entity);
 	// Generate all prefix records
 	std::list<std::string> pfx_pattern = expand_mask(pattern);

@@ -67,7 +67,10 @@ protected:
 	//! Hng all items
 	void hang_all();
 
-	// HAng points
+	//! Convert date/time string from YYYYMMDDHHMM to YYYY/MM/SSTHH:MM
+	std::string format_datetime(const std::string& text);
+
+	//! HAng points
 	Fl_Tree_Item* hang_point_dxcc_ = nullptr;        //!< Hang point for entries by DXCC.
 	Fl_Tree_Item* hang_point_nick_ = nullptr;        //!< Hang point for entries by nickname.
 	Fl_Tree_Item* hang_point_pfx_ = nullptr;         //!< Hang point for prefixes.

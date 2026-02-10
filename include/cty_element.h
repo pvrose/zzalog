@@ -51,9 +51,11 @@ public:
 	const static error_t CE_NICKNAME_CLASH = 1 << 8;
 	//! Filter clash
 	const static error_t CE_FILTER_CLASH = 1 << 9;
+	//! Pattern clash
+	const static error_t CE_PATTERN_CLASH = 1 << 10;
 	//! Clashes that are considered valid
 	const static error_t CE_VALID_CLASHES = CE_CQ_CLASH | CE_ITU_CLASH | 
-		CE_COORD_CLASH | CE_NAME_CLASH | CE_NICKNAME_CLASH;
+		CE_COORD_CLASH | CE_NAME_CLASH | CE_NICKNAME_CLASH | CE_PATTERN_CLASH;
 
 	//! Constructor.
 	cty_element();
@@ -79,6 +81,8 @@ public:
 	zc::lat_long_t coordinates_ = { nan(""), nan("") };
 	//! Item is no longer valid, but has been.
 	bool deleted_ = false;
+	//! Filtering patterns.
+	std::string pattern_ = "";
 	//! Filters that can be applied to this item.
 	std::list<cty_filter*> filters_ = {};
 
@@ -196,8 +200,6 @@ public:
 		FT_USAGE                  //!< Filter to a specific usag
 	} filter_type_ = FT_NOT_USED;
 
-	//! Filtering patterns.
-	std::string pattern_ = "";
 	//! Nickname used for filter. 
 	std::string nickname_ = "";
 	//! Reason for filter

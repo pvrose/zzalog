@@ -59,6 +59,13 @@ cty_element::error_t cty_element::merge(cty_element* elem) {
 			result |= CE_NAME_CLASH;
 		}
 	}
+	if (pattern_ == "") {
+		pattern_ = elem->pattern_;
+	} else {
+		if (elem->pattern_ != "" && elem->pattern_ != pattern_) {
+			result |= CE_PATTERN_CLASH;
+		}
+	}
 	deleted_ |= elem->deleted_;
 	if (time_validity_.start == "*") {
 		time_validity_.start = elem->time_validity_.start;
@@ -242,6 +249,7 @@ void to_json(json& j, const cty_element& e) {
 	if (!std::isnan(e.coordinates_.latitude)) j["Latitude"] = e.coordinates_.latitude;
 	if (!std::isnan(e.coordinates_.longitude)) j["Longitude"] = e.coordinates_.longitude;
 	if (e.deleted_) j["Deleted"] = e.deleted_;
+	if (e.pattern_.length()) j["Pattern"] = e.pattern_;
 	if (e.filters_.size()) {
 		json jf;
 		for (auto f : e.filters_) {
@@ -279,8 +287,11 @@ void from_json(const json& j, cty_element& e) {
 	else e.coordinates_.latitude = nan("");
 	if (j.find("Longitude") != j.end()) j.at("Longitude").get_to(e.coordinates_.longitude);
 	else e.coordinates_.longitude = nan("");
+	if (j.find("Pattern") != j.end()) j.at("Pattern").get_to(e.pattern_);
+	else e.pattern_ = "";
 	if (j.find("Deleted") != j.end()) j.at("Deleted").get_to(e.deleted_);
 	else e.deleted_ = false;
+
 	if (j.find("Filters") != j.end()) {
 		for (auto& f : j.at("Filters")) {
 			cty_filter::filter_t t = cty_filter::FT_NOT_USED;
@@ -355,7 +366,6 @@ NLOHMANN_JSON_SERIALIZE_ENUM(cty_filter::filter_t, {
 void to_json(json& j, const cty_filter& e) {
 	j = json((cty_element&)e);
 	j["Filter Type"] = e.filter_type_;
-	if (e.pattern_.length()) j["Pattern"] = e.pattern_;
 	if (e.nickname_.length()) j["Nickname"] = e.nickname_;
 	if (e.reason_.length()) j["Reason"] = e.reason_;
 }
@@ -364,8 +374,6 @@ void from_json(const json& j, cty_filter& e) {
 	from_json(j, (cty_element&)e);
 	if (j.find("Filter Type") != j.end()) j.at("Filter Type").get_to(e.filter_type_);
 	else e.filter_type_ = cty_filter::FT_NOT_USED;
-	if (j.find("Pattern") != j.end()) j.at("Pattern").get_to(e.pattern_);
-	else e.pattern_ = "";
 	if (j.find("Nickname") != j.end()) j.at("Nickname").get_to(e.nickname_);
 	else e.nickname_ = "";
 	if (j.find("Reason") != j.end()) j.at("FReason").get_to(e.reason_);
