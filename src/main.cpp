@@ -134,6 +134,8 @@ bool RESUME_SESSION = false;
 bool DEVELOPMENT_MODE = false;
 //! Generate ADIF header files
 bool GENERATE_HEADERS = false;
+// Start off-air - do not auto-connect rigs
+bool START_OFF_AIR = false;
 
 
 //! File holder customisation - control data
@@ -558,6 +560,11 @@ int cb_args(int argc, char** argv, int& i) {
 		AUTO_UPLOAD_S = true;
 		i += 1;
 	}
+	// Start off air
+	else if (strcmp("-o", argv[i]) == 0 || strcmp("--off-air", argv[i]) == 0) {
+		START_OFF_AIR = true;
+		i += 1;
+	}
 	// Private log - do not update recent files
 	else if (strcmp("-p", argv[i]) == 0 || strcmp("--private", argv[i]) == 0) {
 		PRIVATE = true;
@@ -701,6 +708,7 @@ void show_help() {
 		"\t-l|--light\tLight mode (sticky)\n"
 		"\t-m|--resume\tResume the previous session\n"
 		"\t-n|--noisy\tDo publish QSOs to online sites (sticky)\n"
+		"\t-o|--off-air\tDo not auto-connect rigs\n"
 		"\t-p|--private\tDo not update recent files list\n"
 		"\t-q|--quiet\tDo not publish QSOs to online sites (sticky)\n"
 		"\t-r|--read_only\tOpen file in read only mode\n"
@@ -1100,25 +1108,26 @@ void print_args(int argc, char** argv) {
 	snprintf(message, sizeof(message), "ZZALOG: Compiled %s", APP_TIMESTAMP.c_str());
 	status_->misc_status(ST_NOTE, message);
 
-	if (DEBUG_ERRORS) status_->misc_status(ST_NOTE, "ZZALOG: -d e - Displaying debug error messages");
-	if (DEBUG_THREADS) status_->misc_status(ST_NOTE, "ZZALOG: -d t - Displaying thread debug messages");
+	if (AUTO_SAVE) status_->misc_status(ST_NOTE, "ZZALOG: -a - QSOs being saved automatically");
 	if (DEBUG_CURL) status_->misc_status(ST_NOTE, "ZZALOG: -d c - Displaying more verbosity from libcurl");
-	if (DEBUG_QUICK) status_->misc_status(ST_WARNING, "ZZALOG: -d q - Reducing periods of some reguat events");
+    if (DEBUG_ERRORS) status_->misc_status(ST_NOTE, "ZZALOG: -d e - Displaying debug error messages");
 	snprintf(message, sizeof(message), "ZZALOG: -d h=%d - Hamlib debug level %d", 
 		(int)HAMLIB_DEBUG_LEVEL, (int)HAMLIB_DEBUG_LEVEL);
 	status_->misc_status(ST_NOTE, message);
 	if (DEBUG_MOD_STATUS) status_->misc_status(ST_NOTE, "ZZALOG: -d m - Displaying QSO dirty status");
+	if (DEBUG_QUICK) status_->misc_status(ST_WARNING, "ZZALOG: -d q - Reducing periods of some reguat events");
+	if (DEBUG_THREADS) status_->misc_status(ST_NOTE, "ZZALOG: -d t - Displaying thread debug messages");
 	if (NEW_BOOK && !filename_) status_->misc_status(ST_NOTE, "ZZALOG: -e - Starting with empty file");
 	if (NEW_BOOK && filename_) status_->misc_status(ST_WARNING, "ZZALOG: -e - filename specified, switch ignored");
-	if (AUTO_UPLOAD) status_->misc_status(ST_NOTE, "ZZALOG: -n - QSOs uploaded to QSL sites automatically");
-	else status_->misc_status(ST_WARNING, "ZZALOG: -q - QSOs are not being uploaded to QSL sites");
-	if (AUTO_SAVE) status_->misc_status(ST_NOTE, "ZZALOG: -a - QSOs being saved automatically");
-	else status_->misc_status(ST_WARNING, "ZZALOG: -w - QSOs are not being saved automatically");
-	if (READ_ONLY) status_->misc_status(ST_WARNING, "ZZALOG: -r - File opened read-only");
-	if (RESUME_SESSION) status_->misc_status(ST_NOTE, "ZZALOG: -m - Resuming previous session");
-	if (PRIVATE) status_->misc_status(ST_WARNING, "ZZALOG: -p - This file not being noted on recent files list");
 	if (DARK) status_->misc_status(ST_NOTE, "ZZALOG: -k - Opening in dark mode");
-	else status_->misc_status(ST_NOTE, "ZZALOG: -l - Opening in normal FLTK colours");
+	if (!DARK) status_->misc_status(ST_NOTE, "ZZALOG: -l - Opening in normal FLTK colours");
+	if (RESUME_SESSION) status_->misc_status(ST_NOTE, "ZZALOG: -m - Resuming previous session");
+	if (AUTO_UPLOAD) status_->misc_status(ST_NOTE, "ZZALOG: -n - QSOs uploaded to QSL sites automatically");
+    if (START_OFF_AIR) status_->misc_status(ST_WARNING, "ZZALOG: -o - Not auto-connecting rigs");
+	if (PRIVATE) status_->misc_status(ST_WARNING, "ZZALOG: -p - This file not being noted on recent files list");
+	if (!AUTO_UPLOAD) status_->misc_status(ST_WARNING, "ZZALOG: -q - QSOs are not being uploaded to QSL sites");
+	if (READ_ONLY) status_->misc_status(ST_WARNING, "ZZALOG: -r - File opened read-only");
+	if (!AUTO_SAVE) status_->misc_status(ST_WARNING, "ZZALOG: -w - QSOs are not being saved automatically");
 	snprintf(message, sizeof(message), "ZZALOG: -x (value = %x) - Reset file (bit signficant)",
 		DEBUG_RESET_CONFIG);
 	if (DEBUG_RESET_CONFIG) status_->misc_status(ST_WARNING, message);

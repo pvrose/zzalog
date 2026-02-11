@@ -647,7 +647,7 @@ bool rig_if::th_read_values() {
 			warning_message_ = msg;
 			Fl::awake(cb_rig_warning, this);
 			rig_data_.slow = false;
-		}
+		} 
 	} else if (response > std::chrono::milliseconds((int)(hamlib_data_->timeout * 1000.0))) {
 			snprintf(msg, sizeof(msg), "RIG %s Responding slowly %d ms", 
 				my_rig_name_.c_str(), (int)response.count());

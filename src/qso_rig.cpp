@@ -78,7 +78,7 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 	enable_widgets(DAMAGE_ALL);
 
 	if (!rig_ok_) {
-		if (cat_data_ && cat_data_->auto_start) {
+		if (cat_data_ && cat_data_->auto_start && !START_OFF_AIR) {
 			cb_bn_start(bn_start_, nullptr);
 		}
 	}

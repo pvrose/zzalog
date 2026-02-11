@@ -105,6 +105,8 @@ extern bool RESUME_SESSION;
 extern bool DEVELOPMENT_MODE;
 //! Generate ADIF header files
 extern bool GENERATE_HEADERS;
+//! Start up off-air - do not connect rigs
+extern bool START_OFF_AIR;
 
 //! Access to FLTK global attribute to  default text size throughout ZZALOG.
 extern int FL_NORMAL_SIZE;
