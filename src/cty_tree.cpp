@@ -230,14 +230,14 @@ void cty_tree::hang_filters(const std::list<cty_filter*> filters, Fl_Tree_Item* 
 void cty_tree::hang_prefix(const std::string& pfx, const std::list<cty_prefix*>& prefixes) {
 	static char text[1024];
 	static char hp_label[128];
-	snprintf(hp_label, sizeof(hp_label), "Prefixes %c", pfx[0]);
+	snprintf(hp_label, sizeof(hp_label), "Prefixes %c...", pfx[0]);
 	Fl_Tree_Item* hp1 = hang_point_pfx_->find_child_item(hp_label);
 	Fl_Tree_Item* hp = nullptr;
 	if (hp1 == nullptr) {
 		hp1 = hang_point_pfx_->add(prefs(), hp_label);
 	}
 	if (pfx.length() > 1) {
-		snprintf(hp_label, sizeof(hp_label), "Prefixes %c%c", pfx[0], pfx[1]);
+		snprintf(hp_label, sizeof(hp_label), "Prefixes %c%c...", pfx[0], pfx[1]);
 		Fl_Tree_Item* hp2 = hp1->find_child_item(hp_label);
 		if (hp2 == nullptr) {
 			hp2 = hp1->add(prefs(), hp_label);
@@ -247,7 +247,17 @@ void cty_tree::hang_prefix(const std::string& pfx, const std::list<cty_prefix*>&
 	else {
 		hp = hp1->add(prefs(), pfx.c_str());
 	}
+	int index = 1;
 	for (auto p : prefixes) {
+		Fl_Tree_Item* hpn = nullptr;
+		if (prefixes.size() == 1) hpn = hp;
+		else {
+			snprintf(text, sizeof(text), "%s #%d", 
+				pfx,
+				index++
+			);
+			hpn = hp->add(prefs(), text);
+		}
 		// GM - Scotland (EU): Valid=*-*: CQZ 14: ITUZ 27: 55�N 3�W: 
 		snprintf(text, sizeof(text), "%s(%d) - %s (%s)",
 			cty_data_->data()->entities.at(p->dxcc_id_)->nickname_.c_str(),
@@ -255,8 +265,8 @@ void cty_tree::hang_prefix(const std::string& pfx, const std::list<cty_prefix*>&
 			p->name_.c_str(),
 			p->continent_.c_str()
 		);
-		hp->add(prefs(), text);
-		hang_info(p, hp);
+		hpn->add(prefs(), text);
+		hang_info(p, hpn);
 	}
 	status_->progress(++hang_count_, OT_PREFIX);
 }
@@ -264,14 +274,14 @@ void cty_tree::hang_prefix(const std::string& pfx, const std::list<cty_prefix*>&
 void cty_tree::hang_exception(const std::string& exc, const std::list<cty_exception*>& exceptions) {
 	static char text[1024];
 	static char hp_label[128];
-	snprintf(hp_label, sizeof(hp_label), "Exceptions %c", exc[0]);
+	snprintf(hp_label, sizeof(hp_label), "Exceptions %c...", exc[0]);
 	Fl_Tree_Item* hp1 = hang_point_exc_->find_child_item(hp_label);
 	Fl_Tree_Item* hp = nullptr;
 	if (hp1 == nullptr) {
 		hp1 = hang_point_exc_->add(prefs(), hp_label);
 	}
 	if (exc.length() > 1) {
-		snprintf(hp_label, sizeof(hp_label), "Exceptions %c%c", exc[0], exc[1]);
+		snprintf(hp_label, sizeof(hp_label), "Exceptions %c%c...", exc[0], exc[1]);
 		Fl_Tree_Item* hp2 = hp1->find_child_item(hp_label);
 		if (hp2 == nullptr) {
 			hp2 = hp1->add(prefs(), hp_label);
