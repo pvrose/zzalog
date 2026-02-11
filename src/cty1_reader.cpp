@@ -1,4 +1,4 @@
-	#include "cty1_reader.h"
+#include "cty1_reader.h"
 
 #include "cty_data.h"
 #include <cty_element.h>
@@ -62,7 +62,7 @@ bool cty1_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 	for (auto n_exc : n_excs.children()) {
 		std::string call = n_exc.child("call").text().as_string();
 		cty_exception* exc = new cty_exception;
-		exc->exc_type_ = cty_exception::EXC_OVERRIDE;
+		exc->exc_type_ = cty_exception::EXC_DXCC_OVERRIDE;
 		exc->name_ = n_exc.child("entity").text().as_string();
 		exc->dxcc_id_ = n_exc.child("adif").text().as_int();
 		exc->cq_zone_ = n_exc.child("cqz").text().as_int();
@@ -119,7 +119,7 @@ bool cty1_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 	for (auto n_zex : n_zexs.children()) {
 		std::string call = n_zex.child("call").text().as_string();
 		cty_exception* zex = new cty_exception;
-		zex->exc_type_ = cty_exception::EXC_INVALID;
+		zex->exc_type_ = cty_exception::EXC_CQZ_OVERRIDE;
 		zex->cq_zone_ = n_zex.child("zone").text().as_int();
 		zex->time_validity_.start =
 			xmldt2date(n_zex.child("start").text().as_string());

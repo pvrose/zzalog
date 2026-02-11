@@ -339,7 +339,9 @@ void from_json(const json& j, cty_prefix& e) {
 // JSON Serialisation of cty_exception::exc_type_t
 NLOHMANN_JSON_SERIALIZE_ENUM(cty_exception::exc_type_t, {
 	{ cty_exception::EXC_INVALID, "Invalid Operation"},
-	{ cty_exception::EXC_OVERRIDE, "Override Entity"}
+	{ cty_exception::EXC_DXCC_OVERRIDE, "Override Entity"},
+	{ cty_exception::EXC_CQZ_OVERRIDE, "Override CQ Zone"},
+	{ cty_exception::EXC_ITUZ_OVERRIDE, "Override ITU Zone"}
 	}
 )
 

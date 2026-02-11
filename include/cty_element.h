@@ -170,7 +170,9 @@ public:
 	//! Exception type
 	enum exc_type_t : uint8_t {
 		EXC_INVALID,        //!< Callsign used has not been validly assigned to the station.
-		EXC_OVERRIDE        //!< The default parsing of callsign is overridden by this exception.
+		EXC_DXCC_OVERRIDE,  //!< The default parsing of callsign is overridden by this exception.
+		EXC_CQZ_OVERRIDE,   //!< The default CQ zone for the DXCC is overridden by this exception
+		EXC_ITUZ_OVERRIDE   //!< The default ITU zone for the DXCC is overridden by this exception
 	};
 	//! Exception type in this entry.
 	exc_type_t exc_type_ = EXC_INVALID;

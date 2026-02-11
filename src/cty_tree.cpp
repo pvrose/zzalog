@@ -139,33 +139,38 @@ void cty_tree::hang_info(const cty_element* element, Fl_Tree_Item* item) {
 		if (element->time_validity_.finish == "*")
 			strcpy(text, "Valid throughout");
 		else
-			snprintf(text, sizeof(text), "Valid until % s",
-				format_datetime(element->time_validity_.finish).c_str());
+			snprintf(text, sizeof(text), "Valid until %s",
+				format_datetime(element->time_validity_.finish, false).c_str());
 	else
 		if (element->time_validity_.finish == "*")
 			snprintf(text, sizeof(text), "Valid from %s",
-				format_datetime(element->time_validity_.start).c_str());
+				format_datetime(element->time_validity_.start, true).c_str());
 		else
 			snprintf(text, sizeof(text), "Valid between %s and %s",
-				format_datetime(element->time_validity_.start).c_str(),
-				format_datetime(element->time_validity_.finish).c_str());
+				format_datetime(element->time_validity_.start, true).c_str(),
+				format_datetime(element->time_validity_.finish, false).c_str());
 	Fl_Tree_Item* iv = item->add(prefs(), text);
 	iv->labelfont(item->labelfont());
 	iv->labelcolor(item->labelcolor());
 
-	snprintf(text, sizeof(text), "Location: CQ Zone %d: ITU Zone %d; %s %s",
-		element->cq_zone_,
-		element->itu_zone_,
-		zc::degrees_to_dms(element->coordinates_.latitude, true).c_str(),
-		zc::degrees_to_dms(element->coordinates_.longitude, false).c_str()
-	);
-	Fl_Tree_Item* il = item->add(prefs(), text);
-	snprintf(text, sizeof(text), "Pattern: %s", element->pattern_.c_str());
-	Fl_Tree_Item* ipd = item->add(prefs(), text);
-	il->labelfont(item->labelfont());
-	il->labelcolor(item->labelcolor());
-	ipd->labelfont(item->labelfont());
-	ipd->labelcolor(item->labelcolor());
+	std::string location = "";
+	if (element->cq_zone_ >= 0) location += ": CQ Zone " + std::to_string(element->cq_zone_);
+	if (element->itu_zone_ >= 0) location += ": ITU Zone " + std::to_string(element->itu_zone_);
+	if (!element->coordinates_.is_nan()) location += ": " +
+		zc::degrees_to_dms(element->coordinates_.latitude, true) + " " +
+		zc::degrees_to_dms(element->coordinates_.longitude, false);
+	if (location.length()) {
+		snprintf(text, sizeof(text), "Location%s", location.c_str());
+		Fl_Tree_Item* il = item->add(prefs(), text);
+		il->labelfont(item->labelfont());
+		il->labelcolor(item->labelcolor());
+	}
+	if (element->pattern_.length()) {
+		snprintf(text, sizeof(text), "Pattern: %s", element->pattern_.c_str());
+		Fl_Tree_Item* ipd = item->add(prefs(), text);
+		ipd->labelfont(item->labelfont());
+		ipd->labelcolor(item->labelcolor());
+	}
 }
 
 void cty_tree::hang_filter(const cty_filter* filter, Fl_Tree_Item* item) {
@@ -276,22 +281,35 @@ void cty_tree::hang_exception(const std::string& exc, const std::list<cty_except
 	else {
 		hp = hp1->add(prefs(), exc.c_str());
 	}
+	int index = 1;
 	for (auto& e : exceptions) {
+		Fl_Tree_Item* hpn = nullptr;
+		if (exceptions.size() == 1) hpn = hp;
+		else {
+			snprintf(text, sizeof(text), "Exception #%d", index++);
+			hpn = hp->add(prefs(), text);
+		}
 		switch (e->exc_type_) {
 		case cty_exception::EXC_INVALID:
 			snprintf(text, sizeof(text), "Invalid operation");
-			hp->add(prefs(), text);
-			hang_info(e, hp);
 			break;
-		case cty_exception::EXC_OVERRIDE:
-			snprintf(text, sizeof(text), "DXCC/Zone overridden DXCC=%s(%d)",
+		case cty_exception::EXC_DXCC_OVERRIDE:
+			snprintf(text, sizeof(text), "DXCC overridden: %s (%d: %s)",
 				cty_data_->data()->entities.at(e->dxcc_id_)->nickname_.c_str(),
-				e->dxcc_id_
+				e->dxcc_id_,
+				cty_data_->data()->entities.at(e->dxcc_id_)->name_.c_str()
 			);
-			hp->add(prefs(), text);
-			hang_info(e, hp);
 			break;
+		case cty_exception::EXC_CQZ_OVERRIDE:
+			snprintf(text, sizeof(text), "CQ Zone overridden: %d",
+				e->cq_zone_);
+			break;
+		case cty_exception::EXC_ITUZ_OVERRIDE:
+			snprintf(text, sizeof(text), "ITU Zone overridden: %d",
+				e->itu_zone_);
 		}
+		hpn->add(prefs(), text);
+		hang_info(e, hpn);
 	}
 	status_->progress(++hang_count_, OT_PREFIX);
 }
@@ -309,11 +327,15 @@ void cty_tree::hang_hierarchy(const std::string& id, const std::string& label, F
 
 }
 
-std::string cty_tree::format_datetime(const std::string& text) {
+std::string cty_tree::format_datetime(const std::string& text, bool start) {
 	std::string result = text.substr(0, 4) + "/" +
 		text.substr(4, 2) + "/" +
-		text.substr(6, 2) + "T" +
-		text.substr(8, 2) + ":" +
-		text.substr(10, 2);
+		text.substr(6, 2);
+	if (start && text.substr(8, 4) != "0000" ||
+		!start && text.substr(8, 4) != "2359") {
+		result += "T" +
+			text.substr(8, 2) + ":" +
+			text.substr(10, 2);
+	}
 	return result;
 }

@@ -68,7 +68,7 @@ protected:
 	void hang_all();
 
 	//! Convert date/time string from YYYYMMDDHHMM to YYYY/MM/SSTHH:MM
-	std::string format_datetime(const std::string& text);
+	std::string format_datetime(const std::string& text, bool start);
 
 	//! HAng points
 	Fl_Tree_Item* hang_point_dxcc_ = nullptr;        //!< Hang point for entries by DXCC.
