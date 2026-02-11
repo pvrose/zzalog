@@ -253,7 +253,7 @@ void cty_tree::hang_prefix(const std::string& pfx, const std::list<cty_prefix*>&
 		if (prefixes.size() == 1) hpn = hp;
 		else {
 			snprintf(text, sizeof(text), "%s #%d", 
-				pfx,
+				pfx.c_str(),
 				index++
 			);
 			hpn = hp->add(prefs(), text);
