@@ -111,6 +111,8 @@ public:
 	zc::lat_long_t location(int dxcc_id); //!< Returns the longitude and latitude of  the DXCC.
 	// Get ISO country code for the callsign
 	std::string iso_cc(std::string callsign);  //!< Returns country code for \p callsign
+	//! Get DXCC ID for \p callsign. If \p allow_exception: look up exceptions.
+	int dxcc_id(std::string callsign, bool allow_exception);
 
 	
 	//! Update record based on parsing
@@ -188,7 +190,7 @@ protected:
 	//! \param when Date of QSO.
 	//! \param matched_call Returns the part of the callsign that matches the element.
 	//! \return The matching element: either an exception record or an entity.
-	cty_element* match_pattern(std::string call, std::string when, std::string& matched_call);
+	cty_element* match_pattern(std::string call, std::string when, std::string& matched_call, bool allow_exception);
 	//! Find specific prefix element that matches call.
 	
 	//! \param call Callsign to match.

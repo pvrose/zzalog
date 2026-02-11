@@ -281,8 +281,11 @@ void cty_tree::hang_exception(const std::string& exc, const std::list<cty_except
 	else {
 		hp = hp1->add(prefs(), exc.c_str());
 	}
+	int def_dxcc = cty_data_->dxcc_id(exc, false);
+	cty_entity* def_entity = cty_data_->data()->entities.at(def_dxcc);
 	int index = 1;
 	for (auto& e : exceptions) {
+		cty_entity* entity = cty_data_->data()->entities.at(e->dxcc_id_);
 		Fl_Tree_Item* hpn = nullptr;
 		if (exceptions.size() == 1) hpn = hp;
 		else {
@@ -293,20 +296,29 @@ void cty_tree::hang_exception(const std::string& exc, const std::list<cty_except
 		case cty_exception::EXC_INVALID:
 			snprintf(text, sizeof(text), "Invalid operation");
 			break;
-		case cty_exception::EXC_DXCC_OVERRIDE:
-			snprintf(text, sizeof(text), "DXCC overridden: %s (%d: %s)",
-				cty_data_->data()->entities.at(e->dxcc_id_)->nickname_.c_str(),
+		case cty_exception::EXC_DXCC_OVERRIDE: {
+			int decode_id = cty_data_->dxcc_id(exc, false);
+			snprintf(text, sizeof(text), "DXCC overridden: %s (%d: %s) instead of %s (%d: %s)",
+				entity->nickname_.c_str(),
 				e->dxcc_id_,
-				cty_data_->data()->entities.at(e->dxcc_id_)->name_.c_str()
+				entity->name_.c_str(),
+				def_entity->nickname_.c_str(),
+				decode_id,
+				def_entity->name_.c_str()
 			);
 			break;
+		}
 		case cty_exception::EXC_CQZ_OVERRIDE:
-			snprintf(text, sizeof(text), "CQ Zone overridden: %d",
-				e->cq_zone_);
+			snprintf(text, sizeof(text), "CQ Zone overridden: %d instead if %d",
+				e->cq_zone_,
+				def_entity->cq_zone_
+			);
 			break;
 		case cty_exception::EXC_ITUZ_OVERRIDE:
-			snprintf(text, sizeof(text), "ITU Zone overridden: %d",
-				e->itu_zone_);
+			snprintf(text, sizeof(text), "ITU Zone overridden: %d instead of %d",
+				e->itu_zone_,
+				def_entity->itu_zone_
+			);
 		}
 		hpn->add(prefs(), text);
 		hang_info(e, hpn);

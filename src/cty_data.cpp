@@ -232,7 +232,7 @@ std::string cty_data::iso_cc(std::string callsign) {
 	if (!data_) return "";
 	std::string now = zc::now(false, "%Y%m%d%H%M");
 	std::string dummy;
-	cty_element* element = match_pattern(callsign, now, dummy);
+	cty_element* element = match_pattern(callsign, now, dummy, true);
 	if (element) {
 		int dxcc_id = element->dxcc_id_;
 		if (data_->entities.find(dxcc_id) != data_->entities.end()) {
@@ -243,6 +243,20 @@ std::string cty_data::iso_cc(std::string callsign) {
 		else return "";
 	}
 	else return "";
+}
+
+// Get DXCC ID for callsign
+int cty_data::dxcc_id(std::string callsign, bool allow_exception) {
+	if (!data_) return -1;
+	std::string now = zc::now(false, "%Y%m%d%H%M");
+	std::string dummy;
+	cty_element* element = match_pattern(callsign, now, dummy, allow_exception);
+	if (element) {
+		return element->dxcc_id_;
+	}
+	else {
+		return -1;
+	}
 }
 
 // Get geography
@@ -468,9 +482,10 @@ void cty_data::parse(record* qso) {
 		int dxcc_id;
 		qso->item("DXCC", dxcc_id);
 		if (DEBUG_PARSE) printf("%s: QSO has DXCC %d\n", current_call_.c_str(), dxcc_id);
+
 		std::string matched_call;
-		parse_result_.decode_element = match_pattern(current_call_, when, matched_call);
-		
+		parse_result_.decode_element = match_pattern(current_call_, when, matched_call, true);
+
 		if (parse_result_.decode_element) {
 			int dxcc_id = parse_result_.decode_element->dxcc_id_;
 			if (data_->entities.find(dxcc_id) != data_->entities.end()) {
@@ -478,7 +493,8 @@ void cty_data::parse(record* qso) {
 				if (parse_result_.entity) {
 					parse_result_.geography = (cty_geography*)match_filter(parse_result_.entity, cty_filter::FT_GEOGRAPHY, matched_call, when);
 					parse_result_.usage = match_filter(parse_result_.entity, cty_filter::FT_USAGE, matched_call, when);
-				} else {
+				}
+				else {
 					parse_result_.geography = nullptr;
 					parse_result_.usage = nullptr;
 				}
@@ -494,15 +510,16 @@ void cty_data::parse(record* qso) {
 			parse_result_.geography = nullptr;
 			parse_result_.usage = nullptr;
 		}
+
 	}
 	else {
 		status_->misc_status(ST_WARNING, "No country data is loaded");
 	}
 }
 
-cty_element* cty_data::match_pattern(std::string call, std::string when, std::string& matched_call) {
+cty_element* cty_data::match_pattern(std::string call, std::string when, std::string& matched_call, bool allow_exception) {
 	// Look in exceptions
-	if (data_->exceptions.find(call) != data_->exceptions.end()) {
+	if (allow_exception && data_->exceptions.find(call) != data_->exceptions.end()) {
 		std::list<cty_exception*>& exceptions = data_->exceptions.at(call);
 		for (auto it : exceptions) {
 			if (it->time_contains(when)) {
