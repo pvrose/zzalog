@@ -425,8 +425,8 @@ if(ZZALOG_DOX)
 endif()
 
 ## Temporary work-round until MSVC issues sorted out - do not allow install with MSVC
-if (MSVC)
-else()
+#if (MSVC)
+#else()
     # install executable
     install(TARGETS ${TARGET})
     # install reference data
@@ -450,6 +450,6 @@ else()
         MESSAGE_NEVER
       )
     endif()
-endif(MSVC)
+#endif(MSVC)
 
 

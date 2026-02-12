@@ -189,6 +189,7 @@ protected:
 	//! \param call Callsign to match.
 	//! \param when Date of QSO.
 	//! \param matched_call Returns the part of the callsign that matches the element.
+	//! \param allow_exception If true look in exception data, otherwise use default parsing.
 	//! \return The matching element: either an exception record or an entity.
 	cty_element* match_pattern(std::string call, std::string when, std::string& matched_call, bool allow_exception);
 	//! Find specific prefix element that matches call.
