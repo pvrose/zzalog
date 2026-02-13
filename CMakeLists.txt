@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.6.13.2)
+project(ZZALOG VERSION 3.6.13.3)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
 set(ZZALOG_RC_VALUE "")
@@ -262,7 +262,11 @@ set( ZZALOG_HPPFILES
 )
 
 # set directory to install executable, reference data and documents.
-set(CMAKE_INSTALL_RPATH etc/${TARGET})
+if (MSVC)
+  set(CMAKE_INSTALL_RPATH etc)
+else()
+  set(CMAKE_INSTALL_RPATH etc/${TARGET})
+endif()
 message(STATUS "Reference data will be copied to ${CMAKE_INSTALL_RPATH}")
 
 # Set target directory for .dlls and development-mode data
@@ -314,29 +318,24 @@ if (NOT HAMLIB_FOUND AND MSVC)
   message(STATUS "HAMLIB not found")
 ## Externally set hamlib install directory: find_package(HAMLIB) not part of installation
   if (NOT HAMLIB_INSTALL_DIR)
-    set(HAMLIB_INSTALL_DIR "C:\\Program Files\\hamlib-w64-4.6.5")
+    set(HAMLIB_INSTALL_DIR "C:/Program Files/hamlib-w64-4.6.5")
   endif()
-  set(HAMLIB_INCLUDE_DIR "${HAMLIB_INSTALL_DIR}\\include")
-  set(HAMLIB_LIBRARY "${HAMLIB_INSTALL_DIR}\\lib\\msvc\\libhamlib-4.lib")
+  set(HAMLIB_INCLUDE_DIR "${HAMLIB_INSTALL_DIR}/include")
+  set(HAMLIB_LIBRARY "${HAMLIB_INSTALL_DIR}/lib/msvc/libhamlib-4.lib")
 ## Required DLLs need to be copied directory with executable.
+  set(HAMLIB_DLLS
+    "${HAMLIB_INSTALL_DIR}/bin/libhamlib-4.dll"
+    "${HAMLIB_INSTALL_DIR}/bin/libusb-1.0.dll"
+    "${HAMLIB_INSTALL_DIR}/bin/libwinpthread-1.dll"
+    "${HAMLIB_INSTALL_DIR}/bin/libgcc_s_seh-1.dll"
+  )
   add_custom_target(hamlib_dll ALL)
-  message(STATUS "Using custom HAMLIB settings - copying .dlls to ${ZZALOG_RUN_DIR}")
-  add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libhamlib-4.dll" ${ZZALOG_RUN_DIR}
-  COMMENT "Copying libhamlib-4.dll to ${ZZALOG_RUN_DIR}"
-  )
-  add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libusb-1.0.dll" ${ZZALOG_RUN_DIR}
-  COMMENT "Copying libusb-1.0.dll to ${ZZALOG_RUN_DIR}"
-  )
-  add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libwinpthread-1.dll" ${ZZALOG_RUN_DIR}
-  COMMENT "Copying libwinpthread-1.dll to ${ZZALOG_RUN_DIR}"
-  )
-  add_custom_command(TARGET hamlib_dll POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy "${HAMLIB_INSTALL_DIR}\\bin\\libgcc_s_seh-1.dll" ${ZZALOG_RUN_DIR}
-  COMMENT "Copying libgcc_s_seh-1 to ${ZZALOG_RUN_DIR}"
-  )
+  foreach(F ${HAMLIB_DLLS})
+      add_custom_command(TARGET hamlib_dll POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy ${F} ${ZZALOG_RUN_DIR}
+        COMMENT "Copying ${F} to ${ZZALOG_RUN_DIR}"
+      )
+  endforeach()
 endif()  
 
 # Add ZZACOMMON
@@ -428,10 +427,15 @@ endif()
 #if (MSVC)
 #else()
     # install executable
-    install(TARGETS ${TARGET})
+    install(TARGETS ${TARGET} RUNTIME)
     # install reference data
     install(FILES ${DATAFILES}
         DESTINATION ${CMAKE_INSTALL_RPATH})
+    # install hamlib DLLs
+    if (MSVC)
+      install(FILES ${HAMLIB_DLLS} 
+        DESTINATION bin)
+    endif()
     # install userguide HTML files and PDF
     if(ZZALOG_DOX)
       install(

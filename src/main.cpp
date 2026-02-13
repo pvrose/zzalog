@@ -1299,6 +1299,8 @@ int main(int argc, char** argv)
 		banner_settings.get("Height", bh, bh);
 		status_->get_banner()->size(bw, bh);
 	}
+	// File info
+	file_holder_->display_info();
 	// Now display sticky switch message
 	status_->misc_status(ST_NOTE, sticky_message_.c_str());	
 	print_args(argc, argv);
