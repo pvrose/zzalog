@@ -4,6 +4,7 @@
 
 - Functional changes.
   - Added country data viewer as part of main window.
+  - Added switch -o (-off-air) to inhibit trying to start rigs automatically.
 - Cosmetic and non-functional changes. 
   - Use lighter colours in banner.
   - Display count-up while waiting to connect rig.
