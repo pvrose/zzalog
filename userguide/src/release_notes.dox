@@ -1,6 +1,6 @@
 /** \page release_notes Revision History
 
-\section rev_3-6-14 Revision 3.6.14 [Unreleased]
+\section rev_3-6-14 Revision 3.6.14
 
 - Functional changes.
   - Added country data viewer as part of main window.
@@ -40,7 +40,9 @@
     - Force user to supply location and name during configuration.
   - False error when reading "No QSL" list.
 
-\section rev_3-6-12 Revision 3.6.12
+\section older Older revisions
+
+\subsection rev_3-6-12 Revision 3.6.12
 
 - Functional changes
   - Close banner now closes the application.
@@ -66,8 +68,6 @@
   - Exception when trying to delete a single entry from an active net.
   - No way to specify where to find ALL.TXT file used by WSJT-X.
   - Switch "-t" ignored when saving a net.
-
-\section older Older revisions
 
 \subsection rev_3-6-11 Revision 3.6.11
 
