@@ -740,7 +740,7 @@ void cty_data::split_call(std::string call, std::string& alt, std::string& body)
 // Change the last number of the prefix (if suffix is numeric) or first letter of infix
 void cty_data::mutate_call(std::string& call, char suffix) {
 	auto pos = call.length();
-	while (isalpha(call[--pos]));
+	while (isalpha(call[--pos]) && pos != 0);
 	if (isalpha(suffix)) pos++;
 	call[pos] = suffix;
 }

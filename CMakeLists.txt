@@ -318,7 +318,7 @@ if (NOT HAMLIB_FOUND AND MSVC)
   message(STATUS "HAMLIB not found")
 ## Externally set hamlib install directory: find_package(HAMLIB) not part of installation
   if (NOT HAMLIB_INSTALL_DIR)
-    set(HAMLIB_INSTALL_DIR "C:/Program Files/hamlib-w64-4.6.5")
+    set(HAMLIB_INSTALL_DIR "C:/Program Files/hamlib-w64-4.7.0")
   endif()
   set(HAMLIB_INCLUDE_DIR "${HAMLIB_INSTALL_DIR}/include")
   set(HAMLIB_LIBRARY "${HAMLIB_INSTALL_DIR}/lib/msvc/libhamlib-4.lib")
