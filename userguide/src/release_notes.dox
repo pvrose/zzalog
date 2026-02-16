@@ -18,6 +18,8 @@
   - Needed to escape non-alphanumeric characters when uploading to QRZ.com.
   - Issues reading country data.
 
+Tested with hamlib release 4.7.0.
+
 \section rev_3-6-13 Revision 3.6.13
 
 - Functional changes.
