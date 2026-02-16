@@ -76,7 +76,7 @@ Select Build->Build ALL and the executable and documentation will get built. By 
 the documents will not be build. To add documents, under CMake setting set the CMake 
 command arguments to "-DZZALOG_DOX=ON". to further add PDF version, add "-DZZALOG_PDF=ON".
 
-The CMake flow will default the FLTK build directory. To verride this default add
+\note The FLTK build directory must be passed to CMAKE. To do so add
 "-DFLTK_DIR=<FLTK build directory>" in the CMake command arguments as above.
 
 \par Installing ZZALOG
