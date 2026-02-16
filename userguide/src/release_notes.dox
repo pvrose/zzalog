@@ -17,6 +17,7 @@
   - Incorrectly sets MY_RIG to previous QSO value instead of picking current rig.
   - Needed to escape non-alphanumeric characters when uploading to QRZ.com.
   - Issues reading country data.
+  - Cold start issue: default location needs a city or locator.
 
 Tested with hamlib release 4.7.0.
 
