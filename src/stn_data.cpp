@@ -122,6 +122,13 @@ void stn_data::load_data() {
 		stn_window_->set_tab(stn_dialog::QTH, defaults_.location, "QTH not known, please enter details.");
 		while (stn_window_->visible()) Fl::check();
 	}
+	auto qth = qths_.at(defaults_.location);
+	if (qth->data.find(qth_value_t::CITY) == qth->data.end() ||
+        qth->data.find(qth_value_t::LOCATOR) == qth->data.end()) {
+		// Create a set of initial values from input defaults.
+		stn_window_->set_tab(stn_dialog::QTH, defaults_.location, "QTH not known, please enter details.");
+		while (stn_window_->visible()) Fl::check();
+	}
 	if (defaults_.type == INDIVIDUAL &&
 		opers_.find(defaults_.name) == opers_.end()) {
 		// Create a set of initial values from input defaults.
