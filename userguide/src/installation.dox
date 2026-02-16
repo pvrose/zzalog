@@ -40,9 +40,11 @@ sudo lib /def:libhamlib-4.def /machine:x64
 \par Fetch and build FLTK.
 \code
 git clone https://github.com/fltk/fltk
-cmake -B build
+cmake -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
 cmake --build build
 \endcode
+Alternatively, MSVC may be used to build the FLTK libraries.
+\note In either case take a note of the directory used to build FLTK.
 \par Installing libcurl and boost.
 Fetch and install VCPKG
 \code
@@ -71,8 +73,11 @@ git clone --recursive https://github.com/pvrose/zzalog
 To build ZZALOG open the ZZALOG folder within Visual Studio: File->Open->Folder and
 select zzalog. This should now automatically run the CMake configuration step.
 Select Build->Build ALL and the executable and documentation will get built. By default
-the documents will not be build. To add documents, under CMake setting set the CMake
+the documents will not be build. To add documents, under CMake setting set the CMake 
 command arguments to "-DZZALOG_DOX=ON". to further add PDF version, add "-DZZALOG_PDF=ON".
+
+The CMake flow will default the FLTK build directory. To verride this default add
+"-DFLTK_DIR=<FLTK build directory>" in the CMake command arguments as above.
 
 \par Installing ZZALOG
 To install select Build->Install ZZALOG.
