@@ -1,15 +1,18 @@
 #include "user_dialog.h"
 
 #include "book.h"
-#include "zc_callback.h"
-#include "zc_drawing.h"
 #include "log_table.h"
 #include "main.h"
 #include <page_dialog.h>
 #include "report_tree.h"
-#include "zc_settings.h"
 #include "spec_tree.h"
 #include "tabbed_forms.h"
+
+#include "zc_banner.h"
+#include "zc_callback.h"
+#include "zc_drawing.h"
+#include "zc_settings.h"
+#include "zc_status.h"
 #include <zc_utils.h>
 
 #include <algorithm>
@@ -38,6 +41,13 @@ user_dialog::user_dialog(int X, int Y, int W, int H, const char* label) :
 	session_elapse_ = 30.0;
 	tree_size_ = FL_NORMAL_SIZE;
 	tree_font_ = 0;
+	if (status_) {
+		banner_size_ = status_->get_banner()->fontsize();
+		banner_font_ = status_->get_banner()->font();
+	} else {
+		banner_size_ = FL_NORMAL_SIZE;
+		banner_font_ = FL_COURIER;
+	}
 
 	do_creation(X, Y);
 }
@@ -88,6 +98,10 @@ void user_dialog::load_values() {
 	zc_settings tree_settings(&view_settings, "Log Table");
 	tree_settings.get("Font Name", tree_font_, (Fl_Font)0);
 	tree_settings.get("Font Size", tree_size_, FL_NORMAL_SIZE);
+	// Banner
+	zc_settings banner_settings(&view_settings, "Banner");
+	banner_settings.get("Font Name", banner_font_, banner_font_);
+	banner_settings.get("Font Size", banner_size_, banner_size_);
 }
 
 // Used to create the form
@@ -148,7 +162,6 @@ void user_dialog::create_form(int X, int Y) {
 	pos_x = g2->x() + GAP;
 	pos_y = g2->y() + HTEXT;
 	// Add font browser
-	pos_y += HTEXT;
 	Fl_Hold_Browser* br3 = new Fl_Hold_Browser(pos_x, pos_y, WEDIT, HMLIN, "Font");
 	br3->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	br3->tooltip("Please select the font used in the cells in all tooltips");
@@ -209,6 +222,37 @@ void user_dialog::create_form(int X, int Y) {
 	g4->size(pos_x - g4->x(), pos_y - g4->y());
 	g4->end();
 
+	pos_y = y() + GAP;
+	pos_x = g1->x() + g1->w() + GAP;
+	Fl_Group* g5 = new Fl_Group(pos_x, pos_y, 0, 10, "Status");
+	g5->align(FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE);
+	g5->labelfont(FL_BOLD);
+	g5->labelsize(FL_NORMAL_SIZE + 2);
+	g5->box(FL_BORDER_BOX);
+	// Add font browser
+	pos_x += GAP;
+	pos_y += HTEXT;
+	Fl_Hold_Browser* br9 = new Fl_Hold_Browser(pos_x, pos_y, WEDIT, HMLIN, "Font");
+	br9->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
+	br9->tooltip("Please select the font used in the cells in all tree views");
+	populate_font(br9, &banner_font_);
+	// Add font size browser
+	pos_x += br9->w();
+	Fl_Hold_Browser* br10 = new Fl_Hold_Browser(pos_x, pos_y, WBUTTON, HMLIN, "Size");
+	br10->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
+	br10->callback(cb_br_size, &tree_size_);
+	br10->tooltip("Please select the font size used in the cells in all tree views");
+	br9->callback(cb_br_bannerfont, br8);
+	populate_size(br10, &banner_font_, &banner_size_);
+	// End group - fit to size
+	g5->resizable(nullptr);
+	pos_y = br10->y() + br10->h() + GAP;
+	pos_x = br10->x() + br10->w() + GAP;
+	g5->size(pos_x - g5->x(), pos_y - g5->y());
+	g5->end();
+
+
+
 	end();
 	show();
 }
@@ -240,6 +284,11 @@ void user_dialog::save_values() {
 	//((pfx_tree*)tabbed_forms_->get_view(OT_PREFIX))->set_font(tree_font_, tree_size_);
 	((report_tree*)tabbed_forms_->get_view(OT_REPORT))->set_font(tree_font_, tree_size_);
 	((spec_tree*)tabbed_forms_->get_view(OT_ADIF))->set_font(tree_font_, tree_size_);
+	// Banner
+	zc_settings banner_settings(&view_settings, "Banner");
+	banner_settings.set("Font Name", banner_font_);
+	banner_settings.set("Font Size", banner_size_);
+	status_->get_banner()->font(banner_font_, banner_size_);
 
 	// Now tell all views to update formats
 	book_->selection(-1, HT_FORMAT);
@@ -283,6 +332,15 @@ void user_dialog::cb_br_treefont(Fl_Widget* w, void* v) {
 	Fl_Hold_Browser* font_br = (Fl_Hold_Browser*)w;
 	that->tree_font_ = (Fl_Font)font_br->value() - 1;
 	that->populate_size((Fl_Hold_Browser*)v, &that->tree_font_, &that->tree_size_);
+}
+
+// Callback for banner font browser
+// v is unused
+void user_dialog::cb_br_bannerfont(Fl_Widget* w, void* v) {
+	user_dialog* that = zc::ancestor_view<user_dialog>(w);
+	Fl_Hold_Browser* font_br = (Fl_Hold_Browser*)w;
+	that->banner_font_ = (Fl_Font)font_br->value() - 1;
+	that->populate_size((Fl_Hold_Browser*)v, &that->banner_font_, &that->banner_size_);
 }
 
 // Populate the font browser

@@ -43,6 +43,8 @@ class Fl_Widget;
 		static void cb_br_tipfont(Fl_Widget* w, void* v);
 		//! Callback from font browser for Fl_Tree based widgets
 		static void cb_br_treefont(Fl_Widget* w, void* v);
+		//! Callback from font browser for banner
+		static void cb_br_bannerfont(Fl_Widget* w, void* v);
 		//! Callback for all size browsers.
 		static void cb_br_size(Fl_Widget* w, void* v);
 		//! Populate font browser \p b set \p font as default selection.
@@ -66,6 +68,10 @@ class Fl_Widget;
 		Fl_Font tree_font_;
 		//! Size of font used for Fl_Tree derived views
 		Fl_Fontsize tree_size_;
+		//! Font for banner
+		Fl_Font banner_font_;
+		//! Size of banner font
+		Fl_Fontsize banner_size_;
 	};
 #endif
 
