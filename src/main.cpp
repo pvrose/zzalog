@@ -1165,6 +1165,9 @@ void customise_fltk() {
 	Fl::set_font(FL_COURIER_BOLD, "BCourier New");
 	Fl::set_font(FL_COURIER_ITALIC, "ICourier New");
 	Fl::set_font(FL_COURIER_BOLD_ITALIC, "PCourier New");
+	// Lucida Console is more readable than default Terminal
+	Fl::set_font(FL_SCREEN, " Lucida Console");
+	Fl::set_font(FL_SCREEN_BOLD, "BLucida Console");
 #endif
 	// Add label symbols
 	fl_add_symbol("eyeshut", &draw_eyeshut, true);
