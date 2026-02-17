@@ -1,5 +1,16 @@
 /** \page release_notes Revision History
 
+\section rev_3_6_15 Revision 3.6.15 [Unreleased]
+
+- Functional changes.
+  - Add feature to configure the font in which status messages are displayed.
+- Cosmetic and non-functional changes.
+  - Prevent banner from always appearing on top of dashboard.
+- Performance changes.
+  - None.
+- Bug fixes.
+  - None.
+
 \section rev_3-6-14 Revision 3.6.14
 
 - Functional changes.

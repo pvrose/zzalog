@@ -20,9 +20,14 @@ user can change the font used in tool-tips.
 
 The user can also specify the length of time for which a tool-tip appears.
 
-\section ud_tbles Configuring tree views
+\section ud_tbles Configuring tree views.
 
 The two views labeled "Specifications" and "Log Analysis" are tree views.
 The user can change the font used to display these tree views.
+
+\section ud_banner Configuring banner status display.
+
+The display of status messages can be set to different fonts and sizes.
+
 
 */
