@@ -354,7 +354,7 @@ bool lotw_handler::upload_done(int result) {
 		break;
 	default:
 		status_->misc_status(ST_ERROR, default_message);
-		if (fl_choice("Please say if upload successful or not.", "Yes", "No", nullptr) == 0) {
+		if (fl_choice("LOTW Upload appears to have failed.\nPlease say if upload successful or not.", "Yes", "No", nullptr) == 0) {
 			ok = true;
 		} else {
 			ok = false;
