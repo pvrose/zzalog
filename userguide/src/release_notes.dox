@@ -4,6 +4,8 @@
 
 - Functional changes.
   - Add feature to configure the font in which status messages are displayed.
+  - Improve resilience to FlRig status when launching ZZALOG 
+  with auto-start feature enabled. 
 - Cosmetic and non-functional changes.
   - Prevent banner from always appearing on top of dashboard.
 - Performance changes.
