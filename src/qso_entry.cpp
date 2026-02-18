@@ -406,7 +406,7 @@ void qso_entry::copy_cat_to_qso(bool clear) {
 			qso_->item("TX_PWR", std::string(""));
 		}
 		// Rig can be temporarily missing q
-		if (rig && rig->is_good() && qso_ != nullptr) {
+		if (rig && rig->state() == rig_if::CONNECTED_OK && qso_ != nullptr) {
 			std::string freqy = rig->get_frequency(true);
 			std::string mode;
 			std::string submode;

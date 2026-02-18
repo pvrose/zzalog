@@ -51,9 +51,7 @@
 
 // Constructor
 qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
-	Fl_Group(X, Y, W, H, nullptr),
-	rig_ok_(false),
-	rig_state_(NO_RIG)
+	Fl_Group(X, Y, W, H, nullptr)
 {
 	// If no name is provided then get from qso_manager
 	if (L == nullptr || strlen(L) == 0) copy_label(zc::ancestor_view<qso_manager>(this)->get_default(qso_manager::RIG).c_str());
@@ -64,24 +62,27 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 	labelsize(FL_NORMAL_SIZE + 2);
 	//align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_INSIDE);
 	box(FL_BORDER_BOX);
-	tooltip("Allows the onfiguration of an individual rig connection and displays current status");
+	tooltip("Allows the configuration of an individual rig connection and displays current status");
 	load_values();
-	if (cat_data_) {
-		rig_ = new rig_if(label(), cat_data_->hamlib);
-		if (rig_->is_good()) rig_ok_ = true;
-		if (rig_ok_) modify_hamlib_data();
-	}
-	else {
-		rig_ = nullptr;
-	}
 	create_form(X, Y);
-	enable_widgets(DAMAGE_ALL);
+	if (cat_data_ && cat_data_->auto_start && !START_OFF_AIR) {
+		bool connected = false;
+		if (cat_data_) {
+			rig_ = new rig_if(label(), cat_data_->hamlib);
+			if (rig_->connected()) connected = true;
+			if (connected) modify_hamlib_data();
+		}
+		else {
+			rig_ = nullptr;
+		}
 
-	if (!rig_ok_) {
-		if (cat_data_ && cat_data_->auto_start && !START_OFF_AIR) {
+		if (!connected) {
 			cb_bn_start(bn_start_, nullptr);
 		}
+	} else {
+		rig_ = nullptr;
 	}
+	enable_widgets(DAMAGE_ALL);
 	ticker_->add_ticker(this, cb_ticker, 5);
 }
 
@@ -642,30 +643,17 @@ void qso_rig::create_form(int X, int Y) {
 void qso_rig::save_values() {
 }
 
-// get rig sttaus
-qso_rig::rig_state_t qso_rig::rig_state() {
-	if (!rig_) 
-		if (rig_starting_) return STARTING;
-		else return NO_RIG;
-	else if (rig_->is_opening()) return OPENING;
-	else if (rig_->is_open())
-		if (!rig_->get_powered()) return POWERED_DOWN;
-		else if (rig_->get_slow()) return UNRESPONSIVE;
-		else return OPEN;
-	else if (rig_->has_no_cat()) return NO_CAT;
-	else if (rig_starting_) return STARTING;
-	else return DISCONNECTED;
-}
-
 // Enable CAT Connection widgets
 void qso_rig::enable_widgets(uchar damage) {
 	cat_data_ = rig_data_->cat_data(label());
 	hamlib_data_t* hamlib = cat_data_ ? cat_data_->hamlib : nullptr;
-	rig_state_ = rig_state();
+	rig_if::rig_state_t rig_state = rig_ ? rig_->state() : rig_if::NOT_DEFINED;
 	if (damage & DAMAGE_STATUS) {
 		// CAT access buttons
-		switch (rig_state_) {
-		case NO_RIG: {
+		switch (rig_state) {
+		case rig_if::NOT_CONNECTABLE:
+		case rig_if::DISCONNECTED:
+		{
 			// No rig
 			bn_connect_->deactivate();
 			// bn_connect_->color(FL_BACKGROUND_COLOR);
@@ -681,9 +669,9 @@ void qso_rig::enable_widgets(uchar damage) {
 			else bn_start_->deactivate();
 			break;
 		}
-		case OPEN:
-		case POWERED_DOWN:
-		case UNRESPONSIVE:
+		case rig_if::CONNECTED_OK:
+		case rig_if::CONNECTED_ERROR:
+		case rig_if::CONNECTED_SLOW:
 		{
 			// Rig is connected
 			bn_connect_->activate();
@@ -721,8 +709,8 @@ void qso_rig::enable_widgets(uchar damage) {
 		bn_connect_->labelcolor(fl_contrast(FL_FOREGROUND_COLOR, bn_connect_->color()));
 		bn_select_->labelcolor(fl_contrast(FL_FOREGROUND_COLOR, bn_select_->color()));
 		// Status and frequency/mode
-		switch (rig_state_) {
-		case NO_RIG:
+		switch (rig_state) {
+		case rig_if::NOT_DEFINED:
 		{
 			// No rig - decativate freq/mode
 			op_status_->value("No rig specified");
@@ -732,7 +720,7 @@ void qso_rig::enable_widgets(uchar damage) {
 			op_freq_mode_->label("");
 			break;
 		}
-		case OPENING:
+		case rig_if::CONNECTING:
 		{
 			// Rig is connecting - deactivate freq/mode
 			op_status_->value("Opening rig");
@@ -742,14 +730,14 @@ void qso_rig::enable_widgets(uchar damage) {
 			op_freq_mode_->label("");
 			break;
 		}
-		case POWERED_DOWN:
+		case rig_if::UNPOWERED:
 		{
 			op_status_->value("Powered down");
 			bn_tx_rx_->label("");
 			bn_tx_rx_->color(COLOUR_ORANGE);
 			break;
 		}
-		case UNRESPONSIVE:
+		case rig_if::CONNECTED_SLOW:
 		{
 			// Do no change display
 			op_status_->value("Unresponsive");
@@ -757,11 +745,11 @@ void qso_rig::enable_widgets(uchar damage) {
 			bn_tx_rx_->color(COLOUR_ORANGE);
 			break;
 		}
-		case OPEN:
+		case rig_if::CONNECTED_OK:
 		{
 			break;
 		}
-		case NO_CAT:
+		case rig_if::NOT_CONNECTABLE:
 		{
 			// No rig available - deactivate freq/mode
 			op_status_->value("No CAT Available");
@@ -771,28 +759,17 @@ void qso_rig::enable_widgets(uchar damage) {
 			op_freq_mode_->label("");
 			break;
 		}
-		case DISCONNECTED:
-		default:
+		case rig_if::DISCONNECTED:
 		{
-			if (rig_ok_) {
+			if (rig_) {
 				// Rig has disconnected since last update
 				char msg[128];
-				if (rig_->is_network_error()) {
-					snprintf(msg, sizeof(msg), "RIG: Failed to access network app for %s",
-						label());
-				}
-				else if (rig_->is_rig_error()) {
-					snprintf(msg, sizeof(msg), "Failed to access rig %s", label());
-				}
-				else {
-					strcpy(msg, rig_->error_message(label()).c_str());
-				}
+				snprintf(msg, sizeof(msg), "RIG: Failed to access network app for %s",
+					label());
 				status_->misc_status(ST_WARNING, msg);
 				// Tidy up if rig has disconnected
-				rig_ok_ = false;
 				delete rig_;
 				rig_ = nullptr;
-
 			}
 			// Rig is not connected - deactivate freq/mode
 			op_status_->value("Disconnected");
@@ -802,9 +779,20 @@ void qso_rig::enable_widgets(uchar damage) {
 			op_freq_mode_->label("");
 			break;
 		}
+		case rig_if::CONNECTED_ERROR:
+		{
+			// Rig is not connected - deactivate freq/mode
+			op_status_->value("Connect error");
+			bn_tx_rx_->label("");
+			bn_tx_rx_->color(FL_BLACK);
+			op_freq_mode_->deactivate();
+			op_freq_mode_->label("");
+			break;
+		}
 		}
 		// CAT control widgets - allow only when select button active
-		if (rig_ && rig_->is_open()) {
+		if (rig_ && rig_->connected())
+		{
 			// Rig is open - disable connection configuration controls
 			ch_rig_model_->deactivate();
 			serial_grp_->deactivate();
@@ -1044,12 +1032,13 @@ void qso_rig::enable_widgets(uchar damage) {
 
 	}
 
-	if ((damage & DAMAGE_VALUES) && (rig_state_ == OPEN || rig_state_ == UNRESPONSIVE)) {
+	if ((damage & DAMAGE_VALUES) && rig_ && rig_->connected())
+    {
 		double tx_freq, rx_freq, freq;
 		tx_freq = rig_->get_dfrequency(true);
 		rx_freq = rig_->get_dfrequency(false);
 		freq = rig_->get_ptt() ? tx_freq : rx_freq;
-		if (rig_state_ == OPEN) {
+		if (rig_state == rig_if::CONNECTED_OK) {
 			band_data::band_entry_t* entry = band_data_->get_entry(freq);
 			if (entry) {
 				char l[50];
@@ -1423,16 +1412,13 @@ void qso_rig::cb_bn_connect(Fl_Widget* w, void* v) {
 	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	if (!that->rig_) {
 		that->rig_ = new rig_if(that->label(), that->cat_data_->hamlib);
-		if (that->rig_->is_good()) that->rig_ok_ = true;
 	}
-	else if (that->rig_->is_open()) {
+	else if (that->rig_->connected()) {
 		that->rig_->close();
-		that->rig_ok_ = false;
 
 	} else {
 		that->rig_->open();
-		if (that->rig_->is_good()) {
-			that->rig_ok_ = true;
+		if (that->rig_->connected()) {
 			that->modify_hamlib_data();
 			qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
 			mgr->update_rig();
@@ -1653,7 +1639,7 @@ void qso_rig::ticker() {
 			cb_bn_connect(bn_connect_, nullptr);
 		}
 	} 
-	rig_state_t current = rig_state();
+	rig_if::rig_state_t current = rig_ ? rig_->state() : rig_if::NOT_CONNECTABLE;
 	if (current != rig_state_) {
 		rig_state_ = current;
 		// The rig may have disconnected - update connect/select buttons
@@ -1731,7 +1717,7 @@ std::string qso_rig::antenna() {
 
 // Force disconnect
 void qso_rig::disconnect() {
-	if (rig_ && rig_->is_open()) {
+	if (rig_ && rig_->connected()) {
 		rig_->close();
 	}
 }

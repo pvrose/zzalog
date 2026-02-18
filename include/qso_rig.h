@@ -2,13 +2,12 @@
 
 // #include "rig_if.h"
 
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <map>
 
 #include <FL/Fl_Group.H>
-
-
 
 class field_input;
 class rig_if;
@@ -90,15 +89,11 @@ public:
 protected:
 
 	//! State of the interface. 
-	enum rig_state_t : uchar {
-		NO_RIG,            //!< No rig specified
-		NO_CAT,            //!< No CAT available
-		DISCONNECTED,      //!< Rig not connected
-		OPENING,           //!< Opeining rig
-		OPEN,              //!< rig has been opened and is connected
-		POWERED_DOWN,      //!< Rig has powered down
-		UNRESPONSIVE,      //!< Rig has not responded for a while
-		STARTING,          //!< The app has been invoked but may not be ready to connect
+	enum app_state_t : uint8_t {
+		DIRECT,            //!< Direct connection to rig, no app
+		NOT_RUNNING,       //!< App not running
+		STARTING,          //!< App starting
+		RUNNING,           //!< App running
 	};
 
 	//! Callback from "Rig" choice. 
@@ -179,9 +174,6 @@ protected:
 
 	//! Modify the values returned from the rig according to the modifier attributes.
 	void modify_hamlib_data();
-
-	//! The rig state.
-	rig_state_t rig_state();
 
 	//! Status group
 	Fl_Group* status_grp_;
@@ -264,10 +256,10 @@ protected:
 	cat_data_t* cat_data_ = nullptr;
 	//! Rig data
 	rig_data_t* rig_info_ = nullptr;
-	//! Rig has connected and is responding.
-	bool rig_ok_ = false;
-	//! Current rig state.
-	rig_state_t rig_state_ = NO_RIG;
+	//! Current app state
+	app_state_t app_state_;
+	//! Current rig state
+	uint8_t rig_state_;
 	//! Flag set when start button pressed and cleared on connect button
 	bool rig_starting_ = false;
 	//! Used to count up the delay between start and connect

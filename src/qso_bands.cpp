@@ -134,7 +134,7 @@ void qso_bands::cb_ticker(void* v) {
 	qso_bands* that = (qso_bands*)v;
 	qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
 	rig_if* rig = mgr->rig();
-	if (rig && rig->is_good()) {
+	if (rig && rig->state() == rig_if::CONNECTED_OK) {
 		double tx = rig->get_dfrequency(true);
 		double rx = rig->get_dfrequency(false);
 		that->summary_->value(tx, rx);

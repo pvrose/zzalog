@@ -8,6 +8,7 @@
 #include "hamlib/rig.h"
 
 // C/C++ includes
+#include <cstdint>
 #include <string>
 #include <thread>
 #include <atomic>
@@ -110,6 +111,18 @@
 		//! Destructor.
 		~rig_if();
 
+		//! Rig state
+		enum rig_state_t : uint8_t {
+			NOT_DEFINED,                    //!< Rig is not defined
+			NOT_CONNECTABLE,                //!< Rig cannot be connected
+			DISCONNECTED,                   //!< Rig is not connected
+			CONNECTING,                     //!< Rig is being connected.
+			CONNECTED_OK,                   //!< Rig is connected and responding satisfactorily
+			CONNECTED_SLOW,                 //!< Rig may be connected but not responding
+            CONNECTED_ERROR,                //!< Hamlib has resturned an error response
+			UNPOWERED,                      //!< Rig appears not be powered on
+		};
+
 		//! Values read from rig
 		struct rig_values {
 			std::atomic<double> tx_frequency;  //!< Transmit Frequency (in megahertz)
@@ -122,9 +135,6 @@
 			std::atomic<double> pwr_value;     //!< Smoothed RF power meter reading (in watts)
 			std::atomic<double> pwr_meter;     //!< Immediate power meter reading (in watts)
 			std::atomic<bool> ptt;             //!< If true indicates transmitting otherwise receiving.
-			std::atomic<bool> slow;            //!< Rig is not responding 
-			std::atomic<bool> powered_on;      //!< Rig appears powered on.
-			
 			//! Constrctor.
 			rig_values() {
 				tx_frequency = 0.0;
@@ -137,8 +147,6 @@
 				pwr_value = 0.0;
 				pwr_meter = 0.0;
 				ptt = false;
-				slow = false;
-				powered_on = false;
 			}
 		};
 
@@ -149,23 +157,8 @@
 		//! Returns the most recent error message and adds \p func_name.
 		std::string error_message(const char* func_name);
 
-		//! Returns that the rig connection is not in an error state.
-		bool is_good();
 		//! close rig - may be null for some 
 		void close();
-
-		// Types of error
-		//! Returns true if the last error was a network error.
-		bool is_network_error() const;
-		//! Returns true if the last error was reported by the rig.
-		bool is_rig_error() const;
-
-		//! Returns true if the port was successfully opened
-		bool is_open();
-		//! Returns true if the port is being opened.
-		bool is_opening();
-		//! Returns true if the port has no CAT
-		bool has_no_cat();
 
 		//! Receives \p mode and \p submode.  
 		void get_string_mode(std::string& mode, std::string& submode);
@@ -185,10 +178,8 @@
 		bool get_split();
 		//! Run in thread to get the data from the rig
 		static void th_run_rig(rig_if* that);
-		//! Returns true if the rig is taking over 1 second to access
-		bool get_slow();
-		//! Returns true if thr rig appears powered.
-		bool get_powered();
+		//! Return rig state
+		rig_state_t state();
 		//! Open rig in rig access thread.
 		static void th_sopen_rig(rig_if* that);
 		//! Callback from rig thread if an error is detected.
@@ -198,11 +189,14 @@
 		//! Set frequency (in megahertz)
 		bool set_frequency(double f);
 
+		//! Rig is in a connected state (not necessarily OK)
+		bool connected();
+
 
 		// Protected attributes
 	protected:
 		//! Runs in rig thread to poll values every 1 second.
-		bool th_read_values();
+		void th_read_values();
 		//! Open rig - run in thread
 		void th_open_rig(rig_if* that);
 		//! Handle errors.
@@ -213,10 +207,6 @@
 		//! \param to_count Number of accesses allowed befor further ones are inhibited.
 		//! \return true indicates error prevents further access.
 		bool error_handler(int code, const char* meter, bool* flag, int* to_count);
-		//! Rig opened OK
-		std::atomic<bool> opened_ok_;
-		//! Semaphore to use around opening
-		std::atomic<bool> opening_;
 		//! Full rig name
 		std::string full_rig_name_;
 
@@ -233,6 +223,8 @@
 		int error_code_;
 		//! Values polled from rig.
 		rig_values rig_data_;
+		//! Rig state
+		std::atomic<rig_state_t> state_;
 		//! Timer count down
 		int count_down_;
 		//! Thread in whcih to run rig access.

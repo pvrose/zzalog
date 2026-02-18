@@ -15,11 +15,6 @@
 
 #include <hamlib/rig.h>
 
-// Returns if the rig opened OK
-bool rig_if::is_open() {
-	return opened_ok_.load();
-}
-
 // Convert s-meter reading into display format
 std::string rig_if::get_smeter(bool max) {
 	char text[100];
@@ -161,28 +156,21 @@ bool rig_if::get_split() {
 	return rig_data_.split;
 }
 
-// Get rig access is slow
-bool rig_if::get_slow() {
-	return rig_data_.slow;
-}
-
-// Get current power state
-bool rig_if::get_powered() {
-	return rig_data_.powered_on;
-}
-
 // Constructor
 rig_if::rig_if(const char* name, hamlib_data_t* data) 
 {
-	// Initialise
-	opening_.store( false);
-	opened_ok_.store(false);
 	// Default action
 	rig_ = nullptr;
 	error_code_ = 0;
 	my_rig_name_ = name;
 	hamlib_data_ = data;
 	run_read_ = false;
+	// Set initial state
+	if (hamlib_data_ && hamlib_data_->port_type != RIG_PORT_NONE) {
+		state_.store(DISCONNECTED);
+	} else {
+		state_.store(NOT_CONNECTABLE);
+	}
 	// Last PTT off
 	last_ptt_off_ = std::chrono::system_clock::now();
 	thread_ = nullptr;
@@ -225,7 +213,7 @@ void rig_if::close() {
 
 
 	if (rig_ != nullptr) {
-		if (opened_ok_.load()) {
+		if (state_.load() == CONNECTED_OK || state_.load() == CONNECTED_SLOW) {
 			char msg[128];
 			snprintf(msg, 128, "RIG: Closing connection %s (%s/%s on port %s)",
 				my_rig_name_.c_str(),
@@ -237,14 +225,16 @@ void rig_if::close() {
 		// If we have a connection and it's open, close it and tidy memory used by hamlib
 		// Delete the thread that reads the required rig values
 		run_read_ = false;
-		thread_->join();
-		delete thread_;
-		thread_ = nullptr;
+		if (thread_) {
+			thread_->join();
+			delete thread_;
+			thread_ = nullptr;
+		}
 		rig_close(rig_);
 		rig_cleanup(rig_);
 		rig_ = nullptr;
 	}
-	opened_ok_.store(false);
+	state_.store(DISCONNECTED);
 }
 
 // Opens the connection associated with the rig
@@ -269,7 +259,7 @@ bool rig_if::open() {
 	if (DEBUG_THREADS) printf("RIG MAIN: Starting rig %s/%s access thread\n",
 		hamlib_data_->mfr.c_str(), hamlib_data_->model.c_str());
 	if (rig_ == nullptr) close();
-	opening_.store(true, std::memory_order_seq_cst);
+	state_.store(CONNECTING, std::memory_order_seq_cst);
 	thread_ = new std::thread(th_sopen_rig, this);
 	std::chrono::system_clock::time_point wait_start = std::chrono::system_clock::now();
 	int timeout = 40000;
@@ -279,7 +269,7 @@ bool rig_if::open() {
 		hamlib_data_->port_name.c_str(),
 		timeout);
 	status_->misc_status(ST_NOTE, msg);
-	while(opening_.load()) {
+	while(state_.load() == CONNECTING) {
 		// Allow FLTK scheduler in
 		Fl::check();
 		if (std::chrono::system_clock::now() - wait_start > std::chrono::milliseconds(timeout)) {
@@ -289,14 +279,15 @@ bool rig_if::open() {
 				hamlib_data_->model.c_str(),
 				timeout);
 			status_->misc_status(ST_WARNING, msg);
-			opening_.store(false);
 		}
 	}
-	if (DEBUG_THREADS) printf("RIG MAIN: Finished opening rig failed = %d\n", opened_ok_.load());
+	if (DEBUG_THREADS) printf("RIG MAIN: Finished opening rig failed = %d\n", state_.load());
 	thread_->join();
+	delete thread_;
+	thread_ = nullptr;
 
 		
-	if (opened_ok_.load()) {
+	if (connected()) {
 
 		if (hamlib_data_->port_type == RIG_PORT_SERIAL) {
 			snprintf(msg, 256, "RIG: Connection %s/%s on port %s opened OK",
@@ -313,7 +304,7 @@ bool rig_if::open() {
 		}
 		status_->misc_status(ST_OK, msg);
 
-		if (DEBUG_THREADS) printf("RIG MAIN: Starting reading rig daya\n");
+		if (DEBUG_THREADS) printf("RIG MAIN: Starting reading rig data\n");
 		thread_ = new std::thread(th_run_rig, this);
 
 		return true;
@@ -334,7 +325,6 @@ bool rig_if::open() {
 void rig_if::th_sopen_rig(rig_if* that) {
 	if (DEBUG_THREADS) printf("RIG THREAD: Opening rig\n");
 	that->th_open_rig(that);
-	that->opening_.store(false);
 	if (DEBUG_THREADS) printf("RIG THREAD: Opened (or not) rig\n");
 }
 
@@ -362,17 +352,24 @@ void rig_if::th_open_rig(rig_if* that) {
 	} 
 	// open rig connection over serial port
 	if (DEBUG_RIGS) printf("RIGS: Opening rig %s/%s\n", hamlib_data_->mfr.c_str(), hamlib_data_->model.c_str());
-	error_code_ = rig_open(rig_);
-	if (error_code_ != RIG_OK) {
-		Fl::awake(cb_rig_error, that);
+	error_code_ = abs(rig_open(rig_));
+	switch(error_code_) {
+	case RIG_OK:
+		state_.store(CONNECTED_OK);
+		break;
+	case RIG_EIO:
+		// IO error - including open failed
 		// Not opened, tidy hamlib memory usage and mark it so.
 		rig_cleanup(rig_);
 		rig_ = nullptr;
-		opened_ok_.store(false);
-	}
-	else {
-		// Opened OK
-		opened_ok_.store(true);
+		state_.store(DISCONNECTED);
+		Fl::awake(cb_rig_error, that);
+		break;
+	default:
+		// Other errors probably indicate connected by something is wrong
+		state_.store(CONNECTED_ERROR);
+		Fl::awake(cb_rig_warning, that);
+		break;
 	}
 }
 
@@ -387,35 +384,32 @@ std::string& rig_if::rig_name() {
 void rig_if::th_run_rig(rig_if* that) {
 	if (DEBUG_THREADS) printf("RIG THREAD: Rig access thread started\n");
 	// run_read_ will be cleared when the rig closes or errors.
-	bool ok = that->th_read_values();
-	that->opened_ok_.store(ok);
-	if (ok) {
+	that->th_read_values();
+	if (that->state_.load() == CONNECTED_OK || that->state_.load() == CONNECTED_SLOW) {
 		if (DEBUG_THREADS) printf("RIG THREAD: Reading from rig\n");
-		that->opening_.store(false);
 		that->run_read_ = true;
-		while (that->run_read_ && ok) {
+		while (that->run_read_ && 
+			(that->state_.load() == CONNECTED_OK || that->state_.load() == CONNECTED_SLOW)
+		) {
 			// Read the values from the rig once per second
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-			ok = that->th_read_values();
-			that->opened_ok_.store(ok);
+			that->th_read_values();
 		}
-		if (!ok) {
+		if (that->state_.load() != CONNECTED_OK) {
 			Fl::awake(cb_rig_error, that);
 		}
 	} else {
-		that->opening_.store(false);
 		Fl::awake(cb_rig_error, that);
 	}
 }
 
 // Read the data from the rig
-bool rig_if::th_read_values() {
+void rig_if::th_read_values() {
 	std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 	if (hamlib_data_->port_type == RIG_PORT_NONE) {
-		return false;
+		return;
 	}
 	// Assume powerd-on unless otherwise discover it
-	rig_data_.powered_on = true;
 	// WFView (accessed using rigctl_d doesn't have powered state)
 	if (hamlib_data_->model_id != 2) {
 		read_item_ = "powerstat";
@@ -424,30 +418,29 @@ bool rig_if::th_read_values() {
 		if (DEBUG_RIGS) printf("RIGS: Reading power status\n");
 		error_code_ = rig_get_powerstat(rig_, &power_state);
 		if (error_handler(error_code_, "Power status", nullptr, nullptr)) {
-			return false;
+			state_.store(CONNECTED_ERROR);
+			return;
 		}
 		switch (power_state) {
 		case RIG_POWER_ON:
 		{
 			if (DEBUG_RIGS) printf("RIGS: Power status - ON\n");
-			rig_data_.powered_on = true;
 			break;
 		}
 		case RIG_POWER_STANDBY:
 		{
 			if (DEBUG_RIGS) printf("RIGS: Power status - STANDBY\n");
-			rig_data_.powered_on = true;
 			break;
 		}
 		case RIG_POWER_OFF:
 		{
 			if (DEBUG_RIGS) printf("RIGS: Power status - OFF\n");
-			rig_data_.powered_on = false;
-			return false;
+			state_.store(UNPOWERED);
+			return;
 		}
 		default:
-		if (DEBUG_RIGS) printf("RIGS: Power status - Unknown\n");
-		break;
+			if (DEBUG_RIGS) printf("RIGS: Power status - Unknown\n");
+			break;
 		}
 	}
 	// Split
@@ -460,7 +453,8 @@ bool rig_if::th_read_values() {
 		error_code_ = rig_get_split_vfo(rig_, RIG_VFO_CURR, &split, &TxVFO);
 		if (DEBUG_RIGS) printf("RIGS: Read Split - %d (TX VFO = %d)\n", (int)split, (int)TxVFO);
 		if (error_handler(error_code_, "Split mode", nullptr, &toc_split_)) {
-			return false;
+			state_.store(CONNECTED_ERROR);
+			return;
 		}
 		rig_data_.split = split == split_t::RIG_SPLIT_ON;
 	}
@@ -472,7 +466,8 @@ bool rig_if::th_read_values() {
 	error_code_ = rig_get_ptt(rig_, RIG_VFO_CURR, &ptt);
 	if (DEBUG_RIGS) printf("RIGS: Read PTT - %d\n", (int)ptt);
 	if (error_handler(error_code_, "PTT", nullptr, nullptr)) {
-		return false;
+		state_.store(CONNECTED_ERROR);
+		return;
 	}
 	rig_data_.ptt = (ptt != ptt_t::RIG_PTT_OFF);
 	// If we are releasing PTT record the time
@@ -488,7 +483,8 @@ bool rig_if::th_read_values() {
 		error_code_ = rig_get_freq(rig_, RIG_VFO_TX, &d_temp);
 		if (DEBUG_RIGS) printf("RIGS: Read TX Frequency - %g Hz\n", d_temp);
 		if (error_handler(error_code_, "TX Frequency", nullptr, nullptr)) {
-			return false;
+			state_.store(CONNECTED_ERROR);
+			return;
 		}
 		rig_data_.tx_frequency = d_temp;
 		// Read RX frequency
@@ -497,7 +493,8 @@ bool rig_if::th_read_values() {
 		error_code_ = rig_get_freq(rig_, RIG_VFO_CURR, &d_temp);
 		if (DEBUG_RIGS) printf("RIGS: Read RX Frequency - %g Hz\n", d_temp);
 		if (error_handler(error_code_, "RX Frequency", nullptr, nullptr)) {
-			return false;
+			state_.store(CONNECTED_ERROR);
+			return;
 		}
 		rig_data_.rx_frequency = d_temp;
 	} else {
@@ -508,7 +505,8 @@ bool rig_if::th_read_values() {
 		error_code_ = rig_get_freq(rig_, RIG_VFO_CURR, &d_temp);
 		if (DEBUG_RIGS) printf("RIGS: Read current Frequency - %g Hz\n", d_temp);
 		if (error_handler(error_code_, "Current Frequency", nullptr, nullptr)) {
-			return false;
+			state_.store(CONNECTED_ERROR);
+			return;
 		}
 		// Set RX frequency to current while RX and TX frequency while TX.
 		double previous_freq = rig_data_.rx_frequency;
@@ -527,7 +525,8 @@ bool rig_if::th_read_values() {
 	if (DEBUG_RIGS) printf("RIGS: Reading Mode\n");
 	error_code_ = rig_get_mode(rig_, RIG_VFO_CURR, &mode, &bandwidth);
 	if (error_handler(error_code_, "Mode/Bandwidth", nullptr, nullptr)) {
-		return false;
+		state_.store(CONNECTED_ERROR);
+		return;
 	}
 	// Convert hamlib mode encoding to ZLG encoding
 	rig_data_.mode = GM_INVALID;
@@ -575,7 +574,8 @@ bool rig_if::th_read_values() {
 		error_code_ = rig_get_level(rig_, RIG_VFO_CURR, RIG_LEVEL_RFPOWER, &drive_level);
 		if (DEBUG_RIGS) printf("RIGS: Read TX Drive - %g\n", drive_level.f);
 		if (error_handler(error_code_, "Drive level", &has_drive_, nullptr)) {
-			return false;
+			state_.store(CONNECTED_ERROR);
+			return;
 		}
 		rig_data_.drive = drive_level.f * 100;
 	}
@@ -587,7 +587,8 @@ bool rig_if::th_read_values() {
 		error_code_ = rig_get_level(rig_, RIG_VFO_CURR, RIG_LEVEL_STRENGTH, &meter_value);
 		if (DEBUG_RIGS) printf("RIGS: Read S-meter - %d\n", meter_value.i);
 		if (error_handler(error_code_, "S-meter", &has_smeter_, nullptr)) {
-			return false;
+			state_.store(CONNECTED_ERROR);
+			return;
 		}
 		// TX->RX (or changed RX frequency - use read value
 		if (current_ptt && !rig_data_.ptt) {
@@ -614,7 +615,8 @@ bool rig_if::th_read_values() {
 		error_code_ = rig_get_level(rig_, RIG_VFO_CURR, RIG_LEVEL_RFPOWER_METER_WATTS, &meter_value);
 		if (DEBUG_RIGS) printf("RIGS: Read RF meter - %g\n", meter_value.f);
 		if (error_handler(error_code_, "RF Power", &has_rf_meter_, nullptr)) {
-			return false;
+			state_.store(CONNECTED_ERROR);
+			return;
 		}
 		// RX->TX - reset the power level unless...
 		if (!current_ptt && rig_data_.ptt) {
@@ -640,23 +642,23 @@ bool rig_if::th_read_values() {
 	char msg[128];
 	std::chrono::system_clock::time_point finish = std::chrono::system_clock::now();
 	std::chrono::milliseconds response = std::chrono::duration_cast<std::chrono::milliseconds>(finish - start);
-	if (rig_data_.slow) {
+	if (state_.load() == CONNECTED_SLOW) {
 		if (response < std::chrono::milliseconds(100)) {
 			snprintf(msg, sizeof(msg), "RIG %s Responding normally %d ms", 
 				my_rig_name_.c_str(), (int)response.count());
 			warning_message_ = msg;
+			state_.store(CONNECTED_OK);
 			Fl::awake(cb_rig_warning, this);
-			rig_data_.slow = false;
 		} 
 	} else if (response > std::chrono::milliseconds((int)(hamlib_data_->timeout * 1000.0))) {
 			snprintf(msg, sizeof(msg), "RIG %s Responding slowly %d ms", 
 				my_rig_name_.c_str(), (int)response.count());
 			warning_message_ = msg;
+			state_.store(CONNECTED_SLOW);
 			Fl::awake(cb_rig_warning, this);
-			rig_data_.slow = true;
 	}
 
-	return true;
+	return;
 }
 
 // Handle hamlib responses - 
@@ -700,9 +702,8 @@ bool rig_if::error_handler(int code, const char* meter, bool* flag, int* to_coun
 
 void rig_if::cb_rig_error(void* v) {
 	rig_if* that = (rig_if*)v;
-	that->opened_ok_.store(false);
 	char msg[128];
-	snprintf(msg, sizeof(msg), "RIG: No longer open %s", that->error_message(that->read_item_.c_str()).c_str());
+	snprintf(msg, sizeof(msg), "RIG: Error response %s", that->error_message(that->read_item_.c_str()).c_str());
 	status_->misc_status(ST_ERROR, msg);
 	that->close();
 }
@@ -710,7 +711,7 @@ void rig_if::cb_rig_error(void* v) {
 void rig_if::cb_rig_warning(void* v) {
 	rig_if* that = (rig_if*)v;
 	char msg[128];
-	snprintf(msg, sizeof(msg), "RIG: %s", that->warning_message_.c_str());
+	snprintf(msg, sizeof(msg), "RIG: Warning response %s", that->warning_message_.c_str());
 	status_->misc_status(ST_WARNING, msg);
 }
 
@@ -721,21 +722,6 @@ std::string rig_if::error_message(const char* func_name) {
 		error_text((rig_errcode_e)abs(error_code_)),
 		func_name);
 	return std::string(msg);
-}
-
-// Error Code is OK.
-bool rig_if::is_good() {
-	return opened_ok_.load() && error_code_ == RIG_OK;
-}
-
-// Error code is network error
-bool rig_if::is_network_error() const {
-	return abs(error_code_) == (int)RIG_EIO;
-}
-
-// Error code is rig error
-bool rig_if::is_rig_error() const {
-	return abs(error_code_) == (int)RIG_EPROTO;
 }
 
 // Return the text for the error code.
@@ -782,16 +768,6 @@ const char* rig_if::error_text(rig_errcode_e code) {
 	}
 };
 
-// returns true if the connection is in the process of being opened
-bool rig_if::is_opening() {
-	return opening_.load();
-}
-
-// Returns true if the rig has CAT control
-bool rig_if::has_no_cat() {
-	return (hamlib_data_->port_type == RIG_PORT_NONE);
-}
-
 // Set frequency
 bool rig_if::set_frequency(double f) {
 	error_code_ = rig_set_freq(rig_, RIG_VFO_A, f * 1000000.0);
@@ -799,5 +775,22 @@ bool rig_if::set_frequency(double f) {
 		return false;
 	} else {
 		return true;
+	}
+}
+
+// Get rig state
+rig_if::rig_state_t rig_if::state() {
+	return state_.load();
+}
+
+// Connected
+bool rig_if::connected() {
+	switch(state_.load()) {
+	case CONNECTED_OK:
+	case CONNECTED_ERROR:
+	case CONNECTED_SLOW:
+		return true;
+	default:
+		return false;
 	}
 }
