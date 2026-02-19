@@ -765,9 +765,12 @@ void qso_data::action_new_qso(record* qso, qso_init_t mode) {
 	case QSO_ON_AIR:
 		// Copy station details and get read rig details for band etc. 
 		// If rig not connected use same as original
-		if (rig && rig->state() == rig_if::CONNECTED_OK) {
+		if (rig && 
+			( rig->state() == rig_if::CONNECTED_OK || 
+			  rig->state() == rig_if::CONNECTED_SLOW)
+		) {
 			qe->copy_qso_to_qso(qso, qso_entry::CF_NONE);
-			update_station_fields(qso);
+			update_station_fields(nullptr);
 			// Get currently accessed rig
 			qe->update_rig();
 			qe->copy_cat_to_qso();
