@@ -38,7 +38,7 @@
 		//! \param protocol Create serverfor this protocol.
 		//! \param address Network address for other end of socket.
 		//! \param port_num Port number for other end of socket.
-		socket_server(protocol_t protocol, std::string address, int port_num);
+		socket_server(protocol_t protocol, const std::string& address, int port_num);
 		//! Destructor.
 		~socket_server();
 

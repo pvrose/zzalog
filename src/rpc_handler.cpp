@@ -229,7 +229,7 @@ bool rpc_handler::decode_request(std::istream& request_xml, std::string& method_
 		return false;
 	}
 	// Get method call
-	method_name = n_req.child("methodCall").text().as_string();
+	method_name = n_req.child("methodName").text().as_string();
 	// Get params
 	pugi::xml_node n_params = n_req.child("params");
 	for (auto n_param : n_params) {
@@ -278,7 +278,7 @@ void rpc_handler::read_item(pugi::xml_node& node, rpc_data_item& item) {
 		uint32_t i = n_item.text().as_int();
 		item.set(i);
 	}
-	else if (strcmp(type, "string") == 0) {
+	else if (strcmp(type, "string") == 0 || strlen(type) == 0) {
 		std::string s = n_item.text().as_string();
 		item.set(s, XRT_STRING);
 	}
@@ -325,6 +325,8 @@ int rpc_handler::handle_request(std::stringstream& ss) {
 		int error;
 		// Does method exist
 		if (method_list_.find(method_name) == method_list_.end()) {
+			status_->misc_status(ST_ERROR, "XMLRPC: Unknown method %s", 
+			    method_name.c_str());
 			error = 1;
 		}
 		else {
@@ -332,6 +334,7 @@ int rpc_handler::handle_request(std::stringstream& ss) {
 			auto& meth = method_list_.at(method_name);
 			error = meth.callback(meth.v, params, response);
 		}
+		if (error > 0) return false;
 		// Convert to XML
 		std::stringstream xml;
 		generate_response(error, &response, xml);
@@ -435,12 +438,14 @@ int rpc_handler::method_help(void* v, rpc_data_item::rpc_list& params, rpc_data_
 	rpc_handler* that = (rpc_handler*)v;
 	if (params.size() == 1) {
 		rpc_data_item* item_0 = params.front();
-		std::string method_name = item_0->get_string();
-		if (that->method_list_.find(method_name) != that->method_list_.end()) {
-			std::string help_text = that->method_list_.at(method_name).help_text;
-			response.set(help_text, XRT_STRING);
-			return 0;
-		}
+		if (item_0->type() == XRT_STRING) {
+			std::string method_name = item_0->get_string();
+			if (that->method_list_.find(method_name) != that->method_list_.end()) {
+				std::string help_text = that->method_list_.at(method_name).help_text;
+				response.set(help_text, XRT_STRING);
+				return 0;
+			}
+    	}
 		that->generate_error(-1, "Unknown method name", response);
 		return 1;
 	}

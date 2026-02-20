@@ -12,92 +12,92 @@
 
 #include <sstream>
 
-// Constructor
-fldigi_handler::fldigi_handler() {
-	server_ = nullptr;
-	run_server();
-	connected_ = false;
-}
+// // Constructor
+// fldigi_handler::fldigi_handler() {
+// 	server_ = nullptr;
+// 	run_server();
+// 	connected_ = false;
+// }
 
-fldigi_handler::~fldigi_handler() {
-	close_server();
-}
+// fldigi_handler::~fldigi_handler() {
+// 	close_server();
+// }
 
-//! Returns true if server has been started
-bool fldigi_handler::has_server() {
-	return server_ != nullptr && server_->has_server();
-}
+// //! Returns true if server has been started
+// bool fldigi_handler::has_server() {
+// 	return server_ != nullptr && server_->has_server();
+// }
 
-//! Start server
-void fldigi_handler::run_server() {
-	if (!server_) {
-		std::string address = qso_manager_->apps()->network_address(FLDIGI);
-		int udp_port = qso_manager_->apps()->network_port(FLDIGI);
-		if (address.length()) {
-			server_ = new socket_server(socket_server::UDP, address, udp_port);
-			server_->callback(this, rcv_request);
-		}
-		else return;
-	}
-	if (!server_->has_server()) {
-		status_->misc_status(ST_NOTE, "FLDIGI: Starting socket");
-		server_->run_server();
-	}
-	menu_bar_->update_items();
+// //! Start server
+// void fldigi_handler::run_server() {
+// 	if (!server_) {
+// 		std::string address = qso_manager_->apps()->network_address(FLDIGI);
+// 		int udp_port = qso_manager_->apps()->network_port(FLDIGI);
+// 		if (address.length()) {
+// 			server_ = new socket_server(socket_server::UDP, address, udp_port);
+// 			server_->callback(this, rcv_request);
+// 		}
+// 		else return;
+// 	}
+// 	if (!server_->has_server()) {
+// 		status_->misc_status(ST_NOTE, "FLDIGI: Starting socket");
+// 		server_->run_server();
+// 	}
+// 	menu_bar_->update_items();
 
-}
+// }
 
-//! Close servver
-void fldigi_handler::close_server() {
-	if (server_) {
-		status_->misc_status(ST_NOTE, "FLDIGI: Closing server");
-		server_->close_server(true);
-		delete server_;
-		server_ = nullptr;
-	}
-}
+// //! Close servver
+// void fldigi_handler::close_server() {
+// 	if (server_) {
+// 		status_->misc_status(ST_NOTE, "FLDIGI: Closing server");
+// 		server_->close_server(true);
+// 		delete server_;
+// 		server_ = nullptr;
+// 	}
+// }
 
-//! Callback from server thread: Receive a datagram from FLDIGI
-int fldigi_handler::rcv_request(void* instance, std::stringstream& os) {
-	return ((fldigi_handler*)instance)->rcv_dgram(os);
-}
+// //! Callback from server thread: Receive a datagram from FLDIGI
+// int fldigi_handler::rcv_request(void* instance, std::stringstream& os) {
+// 	return ((fldigi_handler*)instance)->rcv_dgram(os);
+// }
 
-//! Receive a datagram from FLDIGI
-int fldigi_handler::rcv_dgram(std::stringstream& os) {
-	// Set connected
-	if (!connected_) {
-		connected_ = true;
-		qso_manager_->enable_widgets();
-	}
-	// Get ADIF payload
-	adi_reader* reader = new adi_reader();
-	adi_reader::load_result_t dummy;
-	record* dummy_qso = new record;
-	reader->load_record(dummy_qso, os, dummy);
-	record* qso = qso_manager_->start_modem_qso(dummy_qso->item("CALL"), qso_data::QSO_COPY_FLDIGI);
-	for(auto& it : *dummy_qso) {
-		if (qso->item_exists(it.first)) {
-			if (qso->item(it.first) != it.second) {
-				char msg[128];
-				snprintf(msg, sizeof(msg), "FLDIGI: Updating QSO Field %s: was %s now %s",
-			        it.first.c_str(), qso->item(it.first).c_str(), it.second.c_str());
-				status_->misc_status(ST_WARNING, msg);
-			}
-	 	} 
-		qso->item(it.first, it.second);
-	}
-	qso_manager_->update_modem_qso(true);
-	status_->misc_status(ST_NOTE, "FLDIGI: Logged QSO");
-	return 1;
-}
+// //! Receive a datagram from FLDIGI
+// int fldigi_handler::rcv_dgram(std::stringstream& os) {
+// 	// Set connected
+// 	if (!connected_) {
+// 		connected_ = true;
+// 		qso_manager_->enable_widgets();
+// 	}
+// 	// Get ADIF payload
+// 	adi_reader* reader = new adi_reader();
+// 	adi_reader::load_result_t dummy;
+// 	record* dummy_qso = new record;
+// 	reader->load_record(dummy_qso, os, dummy);
+// 	record* qso = qso_manager_->start_modem_qso(dummy_qso->item("CALL"), qso_data::QSO_COPY_FLDIGI);
+// 	for(auto& it : *dummy_qso) {
+// 		if (qso->item_exists(it.first)) {
+// 			if (qso->item(it.first) != it.second) {
+// 				char msg[128];
+// 				snprintf(msg, sizeof(msg), "FLDIGI: Updating QSO Field %s: was %s now %s",
+// 			        it.first.c_str(), qso->item(it.first).c_str(), it.second.c_str());
+// 				status_->misc_status(ST_WARNING, msg);
+// 			}
+// 	 	} 
+// 		qso->item(it.first, it.second);
+// 	}
+// 	qso_manager_->update_modem_qso(true);
+// 	status_->misc_status(ST_NOTE, "FLDIGI: Logged QSO");
+// 	return 1;
+// }
 
-// Received data
-bool fldigi_handler::has_data() const {
-	return connected_;
-}
+// // Received data
+// bool fldigi_handler::has_data() const {
+// 	return connected_;
+// }
 
 
-//#include "fllog_emul.h"
+#include "fldigi_handler.h"
 
 #include "adi_reader.h"
 #include "adi_writer.h"
@@ -109,10 +109,10 @@ bool fldigi_handler::has_data() const {
 #include "qso_manager.h"
 #include "record.h"
 #include "rpc_data_item.h"
-#include <rpc_handler.h>
+#include "rpc_handler.h"
 #include "spec_data.h"
-//#include "status.h"
-//#include <utils.h>
+#include "zc_status.h"
+#include "zc_utils.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -122,7 +122,7 @@ bool fldigi_handler::has_data() const {
 
 
 // Constructor
-fllog_emul::fllog_emul() {
+fldigi_handler::fldigi_handler() {
 	rpc_handler_ = nullptr;
 	current_qso_ = nullptr;
 	putative_qso_ = nullptr;
@@ -130,13 +130,13 @@ fllog_emul::fllog_emul() {
 }
 
 // DEstructor
-fllog_emul::~fllog_emul() {
+fldigi_handler::~fldigi_handler() {
 	// Disconnect port
 	close_server();
 }
 
 // Start and run the RPC Server
-void fllog_emul::run_server() {
+void fldigi_handler::run_server() {
 	status_->misc_status(ST_NOTE, "FLLOG: Creating new socket");
 	if (!rpc_handler_) {
 		std::string address = qso_manager_->apps()->network_address(FLDIGI);
@@ -164,7 +164,7 @@ void fllog_emul::run_server() {
 }
 
 // Close the RPC server
-void fllog_emul::close_server() {
+void fldigi_handler::close_server() {
 	if (rpc_handler_) {
 		status_->misc_status(ST_NOTE, "FLLOG: Closing server");
 		rpc_handler_->close_server();
@@ -174,7 +174,7 @@ void fllog_emul::close_server() {
 }
 
 // Generate an XML-RPC error response
-void fllog_emul::generate_error(int code, std::string message, rpc_data_item& response) {
+void fldigi_handler::generate_error(int code, std::string message, rpc_data_item& response) {
 	rpc_data_item error_code;
 	error_code.set(code, XRT_INT);
 	rpc_data_item error_msg;
@@ -184,8 +184,8 @@ void fllog_emul::generate_error(int code, std::string message, rpc_data_item& re
 }
 
 // Get ADIF std::string for first record with callsign - also displays all matching records in extract window
-int fllog_emul::get_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
-	fllog_emul* that = (fllog_emul*)v;
+int fldigi_handler::get_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
+	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 1) {
 		rpc_data_item* item_0 = params.front();
@@ -228,8 +228,8 @@ int fllog_emul::get_record(void* v, rpc_data_item::rpc_list& params, rpc_data_it
 }
 
 // Check duplicate - replies true (exact match), possible (callsign matches), false (not a match
-int fllog_emul::check_dup(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
-	fllog_emul* that = (fllog_emul*)v;
+int fldigi_handler::check_dup(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
+	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 6) {
 		// Get parametrs
@@ -316,8 +316,8 @@ int fllog_emul::check_dup(void* v, rpc_data_item::rpc_list& params, rpc_data_ite
 }
 
 // Add new record
-int fllog_emul::add_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
-	fllog_emul* that = (fllog_emul*)v;
+int fldigi_handler::add_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
+	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 1) {
 		// Clear down any look up from fldigi
@@ -344,8 +344,8 @@ int fllog_emul::add_record(void* v, rpc_data_item::rpc_list& params, rpc_data_it
 }
 
 // Update fields in current selection
-int fllog_emul::update_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
-	fllog_emul* that = (fllog_emul*)v;
+int fldigi_handler::update_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
+	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 1) {
 		// Convert the adif data into a new record - use existing code from adi_reader
@@ -367,8 +367,8 @@ int fllog_emul::update_record(void* v, rpc_data_item::rpc_list& params, rpc_data
 }
 
 // List methods - std::string returns std::list of methods suppported
-int fllog_emul::list_methods(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
-	fllog_emul* that = (fllog_emul*)v;
+int fldigi_handler::list_methods(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
+	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 0) {
 		// Copied nearly verbatim from fllog
@@ -401,7 +401,7 @@ int fllog_emul::list_methods(void* v, rpc_data_item::rpc_list& params, rpc_data_
 }
 
 // Sets connected flag and redraws dashboard
-void fllog_emul::check_connected() {
+void fldigi_handler::check_connected() {
 	if (!connected_) {
 		connected_ = true;
 		qso_manager_->enable_widgets();
@@ -409,12 +409,12 @@ void fllog_emul::check_connected() {
 }
 
 // Returns connected state
-bool fllog_emul::has_data() const {
+bool fldigi_handler::has_data() const {
 	return connected_;
 }
 
 // server state
-bool fllog_emul::has_server() {
+bool fldigi_handler::has_server() {
 	if (rpc_handler_) {
 		return rpc_handler_->has_server();
 	}

@@ -34,7 +34,7 @@
 #endif
 
 // Constructor
-socket_server::socket_server(protocol_t protocol, std::string address, int port_num) : 
+socket_server::socket_server(protocol_t protocol, const std::string& address, int port_num) : 
 	server_(INVALID_SOCKET),
 	client_(INVALID_SOCKET),
     protocol_(protocol),
