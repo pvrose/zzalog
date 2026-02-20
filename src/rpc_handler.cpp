@@ -60,12 +60,24 @@ bool rpc_handler::do_request(
 	std::stringstream put_response;
 	// Generate XML for the request
 	generate_request(method_name, params, put_request);
+	// Debug display
+	if (DEBUG_XMLRPC) {
+		std::string text = "My request: " + method_name + "\n";
+		for (auto& p : *params) {
+			text += p->print_item();
+		}
+		printf("%s", text.c_str());
+	}
 	// Post the request and get the response
 	if (url_handler_->post_url(host_name_, resource_, &put_request, &put_response)) {
 		// Successful - process response
 		put_response.seekg(0, std::ios::beg);
 		bool rpc_fault;
 		decode_response(put_response, response, rpc_fault);
+		if (DEBUG_XMLRPC) {
+			std::string text = "Their response:\n" + response->print_item();
+			printf("%s", text.c_str());
+		}
 		if (rpc_fault) {
 			return false;
 		}
@@ -322,10 +334,19 @@ int rpc_handler::handle_request(std::stringstream& ss) {
 		rpc_data_item::rpc_list params;
 		rpc_data_item response;
 		decode_request(payload, method_name, &params);
+		// Debug display
+		if (DEBUG_XMLRPC) {
+			std::string text = "Their request: " + method_name + "\n";
+			for (auto& p : params) {
+				text += p->print_item();
+			}
+			printf("%s", text.c_str());
+		}
+
 		int error;
 		// Does method exist
 		if (method_list_.find(method_name) == method_list_.end()) {
-			status_->misc_status(ST_ERROR, "XMLRPC: Unknown method %s", 
+			status_->misc_status(ST_ERROR, "RPC: Unknown method %s", 
 			    method_name.c_str());
 			error = 1;
 		}
@@ -338,6 +359,10 @@ int rpc_handler::handle_request(std::stringstream& ss) {
 		// Convert to XML
 		std::stringstream xml;
 		generate_response(error, &response, xml);
+		if (DEBUG_XMLRPC) {
+			std::string text = "My response:\n" + response.print_item();
+			printf("%s", text.c_str());
+		}
 		// Add header
 		std::stringstream resp;
 		add_header(OK, xml, resp);

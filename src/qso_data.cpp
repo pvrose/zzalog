@@ -1584,18 +1584,20 @@ void qso_data::action_log_modem() {
 	record* qso = current_qso();
 	rig_if* rig = ((qso_manager*)parent())->rig();
 	// Do a sanity check on the rig
-	double modem_freq;
-	qso->item("FREQ", modem_freq);
-	double rig_freq = rig->get_dfrequency(true);
-	if (abs(modem_freq - rig_freq) > 0.010) {
-		fl_message("Check which rig is selected as frequency from rig is different fro that being logged!");
-		fl_beep(FL_BEEP_ERROR);
-	} 
-	int modem_pwr;
-	qso->item("TX_PWR", modem_pwr);
-	if (modem_pwr == 0) {
-		// Get power from rig
-		qso->item("TX_PWR", rig->get_tx_power(true));
+	if (rig) {
+		double modem_freq;
+		qso->item("FREQ", modem_freq);
+		double rig_freq = rig->get_dfrequency(true);
+		if (abs(modem_freq - rig_freq) > 0.010) {
+			fl_message("Check which rig is selected as frequency from rig is different fro that being logged!");
+			fl_beep(FL_BEEP_ERROR);
+		} 
+		int modem_pwr;
+		qso->item("TX_PWR", modem_pwr);
+		if (modem_pwr == 0) {
+			// Get power from rig
+			qso->item("TX_PWR", rig->get_tx_power(true));
+		}
 	}
 	// The QSO is complete
 	action_save(false);

@@ -1,125 +1,28 @@
 #include "fldigi_handler.h"
 
 #include "adi_reader.h"
+#include "adi_writer.h"
+#include "book.h"
 #include "main.h"
 #include "menu_bar.h"
 #include "qso_apps.h"
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "socket_server.h"
-#include "zc_status.h"
-
-#include <sstream>
-
-// // Constructor
-// fldigi_handler::fldigi_handler() {
-// 	server_ = nullptr;
-// 	run_server();
-// 	connected_ = false;
-// }
-
-// fldigi_handler::~fldigi_handler() {
-// 	close_server();
-// }
-
-// //! Returns true if server has been started
-// bool fldigi_handler::has_server() {
-// 	return server_ != nullptr && server_->has_server();
-// }
-
-// //! Start server
-// void fldigi_handler::run_server() {
-// 	if (!server_) {
-// 		std::string address = qso_manager_->apps()->network_address(FLDIGI);
-// 		int udp_port = qso_manager_->apps()->network_port(FLDIGI);
-// 		if (address.length()) {
-// 			server_ = new socket_server(socket_server::UDP, address, udp_port);
-// 			server_->callback(this, rcv_request);
-// 		}
-// 		else return;
-// 	}
-// 	if (!server_->has_server()) {
-// 		status_->misc_status(ST_NOTE, "FLDIGI: Starting socket");
-// 		server_->run_server();
-// 	}
-// 	menu_bar_->update_items();
-
-// }
-
-// //! Close servver
-// void fldigi_handler::close_server() {
-// 	if (server_) {
-// 		status_->misc_status(ST_NOTE, "FLDIGI: Closing server");
-// 		server_->close_server(true);
-// 		delete server_;
-// 		server_ = nullptr;
-// 	}
-// }
-
-// //! Callback from server thread: Receive a datagram from FLDIGI
-// int fldigi_handler::rcv_request(void* instance, std::stringstream& os) {
-// 	return ((fldigi_handler*)instance)->rcv_dgram(os);
-// }
-
-// //! Receive a datagram from FLDIGI
-// int fldigi_handler::rcv_dgram(std::stringstream& os) {
-// 	// Set connected
-// 	if (!connected_) {
-// 		connected_ = true;
-// 		qso_manager_->enable_widgets();
-// 	}
-// 	// Get ADIF payload
-// 	adi_reader* reader = new adi_reader();
-// 	adi_reader::load_result_t dummy;
-// 	record* dummy_qso = new record;
-// 	reader->load_record(dummy_qso, os, dummy);
-// 	record* qso = qso_manager_->start_modem_qso(dummy_qso->item("CALL"), qso_data::QSO_COPY_FLDIGI);
-// 	for(auto& it : *dummy_qso) {
-// 		if (qso->item_exists(it.first)) {
-// 			if (qso->item(it.first) != it.second) {
-// 				char msg[128];
-// 				snprintf(msg, sizeof(msg), "FLDIGI: Updating QSO Field %s: was %s now %s",
-// 			        it.first.c_str(), qso->item(it.first).c_str(), it.second.c_str());
-// 				status_->misc_status(ST_WARNING, msg);
-// 			}
-// 	 	} 
-// 		qso->item(it.first, it.second);
-// 	}
-// 	qso_manager_->update_modem_qso(true);
-// 	status_->misc_status(ST_NOTE, "FLDIGI: Logged QSO");
-// 	return 1;
-// }
-
-// // Received data
-// bool fldigi_handler::has_data() const {
-// 	return connected_;
-// }
-
-
-#include "fldigi_handler.h"
-
-#include "adi_reader.h"
-#include "adi_writer.h"
-#include "book.h"
-#include "extract_data.h"
-#include "main.h"
-#include "qso_apps.h"
-#include "qso_data.h"
-#include "qso_manager.h"
-#include "record.h"
 #include "rpc_data_item.h"
 #include "rpc_handler.h"
+#include "socket_server.h"
 #include "spec_data.h"
 #include "zc_status.h"
 #include "zc_utils.h"
+
+#include <sstream>
 
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
 #include <sstream>
 #include <string>
-
 
 // Constructor
 fldigi_handler::fldigi_handler() {
@@ -137,7 +40,7 @@ fldigi_handler::~fldigi_handler() {
 
 // Start and run the RPC Server
 void fldigi_handler::run_server() {
-	status_->misc_status(ST_NOTE, "FLLOG: Creating new socket");
+	status_->misc_status(ST_NOTE, "FLDIGI: Creating new socket");
 	if (!rpc_handler_) {
 		std::string address = qso_manager_->apps()->network_address(FLDIGI);
 		int port_num = qso_manager_->apps()->network_port(FLDIGI);
@@ -166,7 +69,7 @@ void fldigi_handler::run_server() {
 // Close the RPC server
 void fldigi_handler::close_server() {
 	if (rpc_handler_) {
-		status_->misc_status(ST_NOTE, "FLLOG: Closing server");
+		status_->misc_status(ST_NOTE, "FLDIGI: Closing server");
 		rpc_handler_->close_server();
 		delete rpc_handler_;
 		rpc_handler_ = nullptr;
@@ -183,7 +86,7 @@ void fldigi_handler::generate_error(int code, std::string message, rpc_data_item
 	response.set(&fault_resp);
 }
 
-// Get ADIF std::string for first record with callsign - also displays all matching records in extract window
+// Get ADIF std::string for first record with callsign 
 int fldigi_handler::get_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
 	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
@@ -196,12 +99,14 @@ int fldigi_handler::get_record(void* v, rpc_data_item::rpc_list& params, rpc_dat
 			qso = that->current_qso_;
 		}
 		else {
-			if (extract_records_->size() == 0 || extract_records_->get_record(0, true)->item("CALL") != callsign)
-				extract_records_->extract_call(callsign);
-			if (extract_records_->size()) {
-				qso = extract_records_->get_record(0, true);
-				extract_records_->selection(0, HT_SELECTED);
-				that->current_qso_ = qso;
+			bool found = true;
+			for (qso_num_t ix = 0; !found && ix < book_->size(); ix++) {
+				record* p_qso = book_->get_record(ix, false);
+				if (p_qso->item("CALL") == callsign) {
+					that->current_qso_ = p_qso;
+					qso = p_qso;
+					found = true;
+				}
 			}
 		}
 		if (qso) {
@@ -217,6 +122,7 @@ int fldigi_handler::get_record(void* v, rpc_data_item::rpc_list& params, rpc_dat
 		// Create an entry for this
 		qso = qso_manager_->start_modem_qso(callsign, qso_data::QSO_COPY_FLDIGI);
 		qso->item("CALL", callsign);
+		qso->item("QSO_COMPLETE", std::string("N"));
 		qso_manager_->update_modem_qso(false);
 		that->putative_qso_ = qso;
 		return 0;
@@ -253,54 +159,61 @@ int fldigi_handler::check_dup(void* v, rpc_data_item::rpc_list& params, rpc_data
 		rpc_data_item* i_rst_in = params.front();
 		std::string rst_in = i_rst_in->get_string();
 		// Get all possible matches
-		if (extract_records_->size() == 0 || extract_records_->get_record(0, true)->item("CALL") != callsign)
-			extract_records_->extract_call(callsign);
+		// Scan the book for all records with this callsign
+		std::set<qso_num_t> possibles;
+		std::set<qso_num_t> exacts;
+		that->current_qso_ = nullptr;
 		time_t timestamp = time(nullptr);
-		if (extract_records_->size() && extract_records_->get_record(0, true) != that->current_qso_) {
-			bool found = false;
-			item_num_t item_num;
-			item_num_t found_item;
-			for (item_num = 0; item_num < extract_records_->size() && !found; item_num++) {
-				record* qso = extract_records_->get_record(item_num, false);
-				found = true;
-				found_item = item_num;
-				// Now check for exact match 
-				if (mode != "0" && qso->item("MODE", true) != zc::to_upper(mode)) {
-					// different mode (note this includes submode)
-					found = false;
-				}
-				else if (span > 0 && difftime(timestamp, qso->timestamp(true)) > (span * 60)) {
-					// More that span minutes ago
-					found = false;
-				}
-				else if (freq_MHz > 0) {
-					// Different frequency - need to check if this is exact frequency
-					std::string band = qso->item("BAND");
-					if (spec_data_->band_for_freq(freq_MHz) != band) {
-						found = false;
-					}
-				}
-				else if (state != "0" && qso->item("STATE") != zc::to_upper(state)) {
-					// Different state
-					found = false;
-				}
-				else if (rst_in != "0" && qso->item("RST_RCVD") != zc::to_upper(rst_in)) {
-					// Different RST
-					found = false;
-				}
+		// Size of book may change while we are searching
+		qso_num_t num_qsos = book_->size();
+	    for (qso_num_t ix = 0; ix < num_qsos; ix++) {
+			bool found = true;
+			record* qso = book_->get_record(ix, false);
+			if (qso->item("CALL") != callsign) {
+				found = false;
+			}
+			if (found && qso->item("QSO_COMPLETE") == "N") {
+				found = false;
 			}
 			if (found) {
-				// Exact match - std::set selection
-				printf(" Exact match\n");
-				extract_records_->selection(found_item, HT_SELECTED);
-				response.set("true", XRT_STRING);
+				possibles.insert(ix);
 			}
-			else {
-				// Callsign matches - select the first one
-				printf(" Callsign match\n");
-				extract_records_->selection(0, HT_SELECTED);
-				response.set("possible", XRT_STRING);
+			if (found && mode != "0" && qso->item("MODE", true) != zc::to_upper(mode)) {
+				found = false;
 			}
+			if (found && span > 0 && difftime(timestamp, qso->timestamp(true))) {
+				found = true;
+			}
+			if (found && freq_MHz > 0.0) {
+				// Different frequency - need to check if this is exact frequency
+				std::string band = qso->item("BAND");
+				if (spec_data_->band_for_freq(freq_MHz) != band) {
+					found = false;
+				}
+			}
+			if (found && state != "0" && qso->item("STATE") != zc::to_upper(state)) {
+				found = false;
+			}
+			if (found && rst_in != "0" && qso->item("RST_RCVD") != zc::to_upper(rst_in)) {
+				found = false;
+			}
+			if (found) { 
+				exacts.insert(ix);
+				if (!that->current_qso_) {
+					that->current_qso_ = qso;
+				}
+			}
+		}
+
+		if (!exacts.empty()) {
+			// Exact match - std::set selection
+			printf(" Exact match\n");
+			response.set("true", XRT_STRING);
+		}
+		else if (!possibles.empty()) {
+			// Callsign matches - select the first one
+			printf(" Callsign match\n");
+			response.set("possible", XRT_STRING);
 		}
 		else {
 			// Not a match
@@ -320,8 +233,6 @@ int fldigi_handler::add_record(void* v, rpc_data_item::rpc_list& params, rpc_dat
 	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 1) {
-		// Clear down any look up from fldigi
-		extract_records_->clear_criteria();
 		// Convert the adif data into a new record - use existing code from adi_reader
 		rpc_data_item* item = params.front();
 		std::stringstream ss;
@@ -333,8 +244,9 @@ int fldigi_handler::add_record(void* v, rpc_data_item::rpc_list& params, rpc_dat
 		// Frig - fldigi sets MY_STATE incorrectly, and only uses MODE
 		qso->item("MY_STATE", std::string(""));
 		qso->item("MODE", qso->item("MODE"), true);
+		qso->item("QSO_COMPLETE", std::string(""));
 		qso_manager_->update_modem_qso(true);
-		status_->misc_status(ST_NOTE, "FLLOG: Logged QSO");
+		status_->misc_status(ST_NOTE, "FLDIGI: Logged QSO");
 		return 0;
 	}
 	else {
@@ -371,7 +283,7 @@ int fldigi_handler::list_methods(void* v, rpc_data_item::rpc_list& params, rpc_d
 	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 0) {
-		// Copied nearly verbatim from fllog
+		// Copied nearly verbatim from FLDIGI
 		printf("list_methods\n");
 		rpc_data_item::rpc_array* array = new rpc_data_item::rpc_array;
 		for (auto it = that->method_list_.begin(); it != that->method_list_.end(); it++) {

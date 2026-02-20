@@ -71,8 +71,10 @@ extern bool DEBUG_RIGS;
 extern bool DEBUG_PARSE;
 //! Print record modification messages - by "-d m"
 extern bool DEBUG_MOD_STATUS;
-//! Print socket debug messages - by7 "-d k"
+//! Print socket debug messages - by "-d k"
 extern bool DEBUG_SOCKET;
+//! Print XMLRPC debug messages - by "-d x"
+extern bool DEBUG_XMLRPC;
 //! Set hamlib debugging verbosity level -  by "-d h=<level>"
 extern rig_debug_level_e HAMLIB_DEBUG_LEVEL;
 

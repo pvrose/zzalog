@@ -102,6 +102,8 @@ bool DEBUG_PARSE = false;
 bool DEBUG_MOD_STATUS = false;
 //! Print socket debug messages - by7 "-d k"
 bool DEBUG_SOCKET = false;
+//! Print XMLRPC requests and responses
+bool DEBUG_XMLRPC = false;
 //! Set hamlib debugging verbosity level -  by "-d h=<level>"
 rig_debug_level_e HAMLIB_DEBUG_LEVEL = RIG_DEBUG_ERR;
 
@@ -464,23 +466,7 @@ int cb_args(int argc, char** argv, int& i) {
 		bool debugs = true;
 		while (debugs && i < argc) {
 			int save_i = i;
-			if (strcmp("e", argv[i]) == 0 || strcmp("errors", argv[i]) == 0) {
-				DEBUG_ERRORS = true;
-				i += 1;
-			}
-			else if (strcmp("noe", argv[i]) == 0 || strcmp("noerrors", argv[i]) == 0) {
-				DEBUG_ERRORS = false;
-				i += 1;
-			}
-			else if (strcmp("t", argv[i]) == 0 || strcmp("threads", argv[i]) == 0) {
-				DEBUG_THREADS = true;
-				i += 1;
-			}
-			else if (strcmp("not", argv[i]) == 0 || strcmp("nothreads", argv[i]) == 0) {
-				DEBUG_THREADS = false;
-				i += 1;
-			}
-			else if (strcmp("c", argv[i]) == 0 || strcmp("curl", argv[i]) == 0) {
+			if (strcmp("c", argv[i]) == 0 || strcmp("curl", argv[i]) == 0) {
 				DEBUG_CURL = true;
 				i += 1;
 			}
@@ -488,8 +474,16 @@ int cb_args(int argc, char** argv, int& i) {
 				DEBUG_CURL = false;
 				i += 1;
 			}
-			else if (strcmp("q", argv[i]) == 0 || strcmp("quick", argv[i]) == 0) {
-				DEBUG_QUICK = true;
+			else if (strcmp("d", argv[i]) == 0 || strcmp("decode", argv[i]) == 0) {
+				DEBUG_PARSE = true;
+				i += 1;
+			}
+			else if (strcmp("e", argv[i]) == 0 || strcmp("errors", argv[i]) == 0) {
+				DEBUG_ERRORS = true;
+				i += 1;
+			}
+			else if (strcmp("noe", argv[i]) == 0 || strcmp("noerrors", argv[i]) == 0) {
+				DEBUG_ERRORS = false;
 				i += 1;
 			}
 			else if (strncmp("h=", argv[i], 2) == 0) {
@@ -502,20 +496,32 @@ int cb_args(int argc, char** argv, int& i) {
 				HAMLIB_DEBUG_LEVEL = (rig_debug_level_e)v;
 				i += 1;
 			}
-			else if (strcmp("r", argv[i]) == 0 || strcmp("run", argv[i]) == 0) {
-				DEBUG_RIGS = true;
-				i += 1;
-			}
-			else if (strcmp("d", argv[i]) == 0 || strcmp("decode", argv[i]) == 0) {
-				DEBUG_PARSE = true;
+			else if (strcmp("k", argv[i]) == 0 || strcmp("socket", argv[i]) ==0) {
+				DEBUG_SOCKET = true;
 				i += 1;
 			}
 			else if (strcmp("m", argv[i]) == 0 || strcmp("mod", argv[i]) == 0) {
 				DEBUG_MOD_STATUS = true;
 				i += 1;
 			}
-			else if (strcmp("k", argv[i]) == 0 || strcmp("socket", argv[i]) ==0) {
-				DEBUG_SOCKET = true;
+			else if (strcmp("q", argv[i]) == 0 || strcmp("quick", argv[i]) == 0) {
+				DEBUG_QUICK = true;
+				i += 1;
+			}
+			else if (strcmp("r", argv[i]) == 0 || strcmp("run", argv[i]) == 0) {
+				DEBUG_RIGS = true;
+				i += 1;
+			}
+			else if (strcmp("t", argv[i]) == 0 || strcmp("threads", argv[i]) == 0) {
+				DEBUG_THREADS = true;
+				i += 1;
+			}
+			else if (strcmp("not", argv[i]) == 0 || strcmp("nothreads", argv[i]) == 0) {
+				DEBUG_THREADS = false;
+				i += 1;
+			}
+			else if (strcmp("x", argv[i]) == 0 || strcmp("xmlrpc", argv[i]) ==0) {
+				DEBUG_XMLRPC = true;
 				i += 1;
 			}
 			// Not processed any parameter
@@ -687,13 +693,13 @@ void show_help() {
 	"switches:\n"
 	"\t-a|--auto_save\tDo automatically save each change (sticky)\n"
   	"\t-d|--debug [mode...]\n"
-	"\t\tc|curl\tincrease verbosity from libcurl\n"
-	"\t\t\tnoc|nocurl\n"
-	"\t\td|decode\tShow callsign decoding\n"
-	"\t\te|errors\tprovide more details on errors\n"
-	"\t\t\tnoe|noerrors\n"
-	"\t\th=N|hamlib=N\tSet hamlib debug level (default ERRORS)\n"
-	"\t\tk|socket\tPrint socket traffic\n"
+		"\t\tc|curl\tincrease verbosity from libcurl\n"
+		"\t\t\tnoc|nocurl\n"
+		"\t\td|decode\tShow callsign decoding\n"
+		"\t\te|errors\tprovide more details on errors\n"
+		"\t\t\tnoe|noerrors\n"
+		"\t\th=N|hamlib=N\tSet hamlib debug level (default ERRORS)\n"
+		"\t\tk|socket\tPrint socket traffic\n"
 		"\t\tm|mods\tPrint messages when make QSOs dirty or clean\n"
 		"\t\tp|pretty\tDisplay formated status message (Needs terminal support)\n"
 		"\t\tnop|nopretty\n"
@@ -701,21 +707,22 @@ void show_help() {
 		"\t\tr|rig\tPrint rig diagnostics\n"
 		"\t\tt|threads\tProvide debug tracing on thread use\n"
 		"\t\t\tnot|nothreads\n"
-		"\t-e|--new\tCreate new file\n"
-		"\t-g|--generate\tGenerate header file from ADIF data\n"
-		"\t-h|--help\tPrint this\n"
-		"\t-k|--dark\tDark mode (sticky)\n"
-		"\t-l|--light\tLight mode (sticky)\n"
-		"\t-m|--resume\tResume the previous session\n"
-		"\t-n|--noisy\tDo publish QSOs to online sites (sticky)\n"
-		"\t-o|--off-air\tDo not auto-connect rigs\n"
-		"\t-p|--private\tDo not update recent files list\n"
-		"\t-q|--quiet\tDo not publish QSOs to online sites (sticky)\n"
-		"\t-r|--read_only\tOpen file in read only mode\n"
-		"\t-t|--test\tTest mode: infers -q -w\n"
-		"\t-u|--usual\tNormal mode: infers -a -n\n"
-		"\t-w|--wait_save\tDo not automatically save each change (sticky)\n"
-		"\t-x|--reset [data]...\tReset configuration data (more than 1 allowed\n"
+		"\t\tx|xmlrpc\tPrint XMLRPC requests and responses\n"
+	"\t-e|--new\tCreate new file\n"
+	"\t-g|--generate\tGenerate header file from ADIF data\n"
+	"\t-h|--help\tPrint this\n"
+	"\t-k|--dark\tDark mode (sticky)\n"
+	"\t-l|--light\tLight mode (sticky)\n"
+	"\t-m|--resume\tResume the previous session\n"
+	"\t-n|--noisy\tDo publish QSOs to online sites (sticky)\n"
+	"\t-o|--off-air\tDo not auto-connect rigs\n"
+	"\t-p|--private\tDo not update recent files list\n"
+	"\t-q|--quiet\tDo not publish QSOs to online sites (sticky)\n"
+	"\t-r|--read_only\tOpen file in read only mode\n"
+	"\t-t|--test\tTest mode: infers -q -w\n"
+	"\t-u|--usual\tNormal mode: infers -a -n\n"
+	"\t-w|--wait_save\tDo not automatically save each change (sticky)\n"
+	"\t-x|--reset [data]...\tReset configuration data (more than 1 allowed\n"
 		"\t\tadif\tADIF specification file (all.json)\n"
 		"\t\tapps\tApps configuration file (apps.json)\n"
 		"\t\tbandplan\tBand-plan data (band_plan.json)\n"
@@ -731,7 +738,7 @@ void show_help() {
 		"\t\tsettings\tZZALOG configuration (ZZALOG.json)\n"
 		"\t\tstation\tOperator/QTH/Callsign configuration (station.json)\n"
 		"\t\tall\tAll files\n"
-		"\n";
+	"\n";
 	printf(text);
 }
 
@@ -1114,9 +1121,11 @@ void print_args(int argc, char** argv) {
 	snprintf(message, sizeof(message), "ZZALOG: -d h=%d - Hamlib debug level %d", 
 		(int)HAMLIB_DEBUG_LEVEL, (int)HAMLIB_DEBUG_LEVEL);
 	status_->misc_status(ST_NOTE, message);
+	if (DEBUG_SOCKET) status_->misc_status(ST_NOTE, "ZZALOG: -d k - Displaying socket packets");
 	if (DEBUG_MOD_STATUS) status_->misc_status(ST_NOTE, "ZZALOG: -d m - Displaying QSO dirty status");
 	if (DEBUG_QUICK) status_->misc_status(ST_WARNING, "ZZALOG: -d q - Reducing periods of some reguat events");
 	if (DEBUG_THREADS) status_->misc_status(ST_NOTE, "ZZALOG: -d t - Displaying thread debug messages");
+    if (DEBUG_XMLRPC) status_->misc_status(ST_NOTE, "ZZALOG: -d x - Displaying XMLRPC requests/responses");
 	if (NEW_BOOK && !filename_) status_->misc_status(ST_NOTE, "ZZALOG: -e - Starting with empty file");
 	if (NEW_BOOK && filename_) status_->misc_status(ST_WARNING, "ZZALOG: -e - filename specified, switch ignored");
 	if (DARK) status_->misc_status(ST_NOTE, "ZZALOG: -k - Opening in dark mode");
