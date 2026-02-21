@@ -137,7 +137,7 @@ bool DEVELOPMENT_MODE = false;
 //! Generate ADIF header files
 bool GENERATE_HEADERS = false;
 // Start off-air - do not auto-connect rigs
-bool START_OFF_AIR = false;
+bool START_OFF_AIR = true;
 
 
 //! File holder customisation - control data

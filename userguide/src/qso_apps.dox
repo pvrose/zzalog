@@ -59,8 +59,14 @@ WSJT-X should also be configured to use this port number (see below).
 
 \subsection fldigi Configuring for FlDigi
 
-FlDigi can be configured to send ADIF as UDP datagrams. The defaultt port used is 9876.
-This can be configured in FlDigi but this configuration must be mirrored in ZZALOG.
+ZZALOG can be configured to act as a log server for FlDigi. It emulates the internal
+XMLRPC API for FlLog and should be configured using the port address and number
+configured in FlDigi for FlLog (default 127.0.0.1:8421).
+
+Logging should then be switched on in FlDigi (see below).
+
+\image html web_dialog_8.png "Enabling logging in FlDigi"
+\image latex web_dialog_8.png "Enabling logging in FlDigi"
 
 \section apps_script Using scripts
 

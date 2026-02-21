@@ -162,6 +162,10 @@ protected:
 	//! Callback from "NOTES" input.
 	static void cb_ip_notes(Fl_Widget* w, void* v);
 
+	//! The current focus is within the same window instance as this.
+	//! To be used to prevent the focus being "stolen" from another window.
+	bool focus_in_window();
+
 
 
 protected:

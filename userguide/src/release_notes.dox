@@ -4,6 +4,7 @@
 
 - Functional changes.
   - Add feature to configure the font in which status messages are displayed.
+  - Restore original FlLog emulation (removed in 3.6.12) after bug fixes therewith.
 - Cosmetic and non-functional changes.
   - Prevent banner from always appearing on top of dashboard.
 - Performance changes.

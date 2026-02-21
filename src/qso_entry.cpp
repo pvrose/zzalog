@@ -970,6 +970,7 @@ void qso_entry::cb_ticker(void* v) {
 // Set saved focus
 void qso_entry::set_focus_saved() {
     if (!visible_r()) return;
+	if (!focus_in_window()) return;
 	if (focus_ix_ < fields_in_use_.size()) {
 		Fl_Widget* w0 = Fl::focus();
 		if (w0) {
@@ -989,6 +990,7 @@ void qso_entry::set_focus_saved() {
 // Set focus on CALL input
 void qso_entry::set_focus_call() {
 	if (!visible_r()) return;
+	if (!focus_in_window()) return;
 	int call_ix = 0;
 	bool found = false;
 	// Find the ip_field_ widget that holds CALL and set focus to it. 
@@ -1001,6 +1003,15 @@ void qso_entry::set_focus_call() {
 	}
 	focus_ix_ = call_ix;
 	set_focus_saved();
+}
+
+// Check if the current focus is held by a widget within the
+// same window as this
+bool qso_entry::focus_in_window() {
+	Fl_Window* focus_window = zc::ancestor_view<Fl_Window>(Fl::focus());
+	Fl_Window* this_window = zc::ancestor_view<Fl_Window>(this);
+	if (focus_window == this_window) return true;
+	else return false;
 }
 
 // Save focus - when hiding
