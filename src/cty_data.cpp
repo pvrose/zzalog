@@ -38,6 +38,10 @@
 #include <corecrt.h>
 #include <io.h>
 #include <share.h>
+// Remove min() 
+#ifdef min
+#undef min
+#endif
 #else
 #include <unistd.h>
 #endif
