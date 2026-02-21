@@ -402,12 +402,16 @@ target_link_libraries(${TARGET} PRIVATE
 # copy reference data
 add_custom_target(reference_data ALL)
 message(STATUS "Reference data: ${DATAFILES}")
-foreach(F ${DATAFILES})
-  add_custom_command(TARGET reference_data POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${F} ${ZZALOG_RUN_DIR}
-    COMMENT "Copying ${F} to ${ZZALOG_RUN_DIR}"
+#foreach(F ${DATAFILES})
+  file(COPY ${DATAFILES}
+    DESTINATION ${ZZALOG_RUN_DIR}
+    USE_SOURCE_PERMISSIONS
   )
-endforeach()
+#  add_custom_command(TARGET reference_data POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy ${F} ${ZZALOG_RUN_DIR}
+#    COMMENT "Copying ${F} to ${ZZALOG_RUN_DIR}"
+#  )
+#endforeach()
 
 # Generate documents - generate userguide.
 if(ZZALOG_DOX) 

@@ -145,11 +145,11 @@ const std::map < uint8_t, file_control_t > FILE_CONTROL = {
 	// ID, { filename, reference, read-only
 	{ FILE_ADIF, { "all.json", true, true, DEBUG_RESET_ADIF } },
 	{ FILE_BANDPLAN, { "band_plan.json", true, false, DEBUG_RESET_BAND } },
-	{ FILE_COUNTRY_CLUB, { "cty.xml", true, false, DEBUG_RESET_CTY } },
-	{ FILE_COUNTRY_CFILES, { "cty.csv", true, false, DEBUG_RESET_CTY1 }},
-	{ FILE_COUNTRY_DXATLAS, { "Prefix.lst", true, false, DEBUG_RESET_CTY2 }},
-	{ FILE_COUNTRY_ISO, { "iso.csv", true, false, DEBUG_RESET_CTY3 }},
-	{ FILE_COUNTRY, { "cty.json", false, false, DEBUG_RESET_CALL, false } },
+	{ FILE_COUNTRY_CLUB, { "cty.xml", true, false, DEBUG_RESET_CTY1 } },
+	{ FILE_COUNTRY_CFILES, { "cty.csv", true, false, DEBUG_RESET_CTY2 }},
+	{ FILE_COUNTRY_DXATLAS, { "Prefix.lst", true, false, DEBUG_RESET_CTY3 }},
+	{ FILE_COUNTRY_ISO, { "iso.csv", true, false, DEBUG_RESET_CTY4 }},
+	{ FILE_COUNTRY, { "cty.json", false, false, DEBUG_RESET_CTY, false } },
 	{ FILE_INTLCHARS, { "intl_chars.txt", true, false, DEBUG_RESET_INTL }},
 	{ FILE_ICON_GMAPS, { "google-maps.png", true, true, DEBUG_RESET_ICON }},
 	{ FILE_ICON_PDF, { "pdf.png", true, true, DEBUG_RESET_ICON}},
@@ -631,6 +631,9 @@ int cb_args(int argc, char** argv, int& i) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_TEST;
 			}
 			if (strcmp("country", argv[i]) == 0) {
+				DEBUG_RESET_CONFIG |= DEBUG_RESET_CTY;
+			}
+			if (strcmp("cty_all", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_CALL;
 			}
 			if (strcmp("fields", argv[i]) == 0) {
@@ -727,7 +730,8 @@ void show_help() {
 		"\t\tapps\tApps configuration file (apps.json)\n"
 		"\t\tbandplan\tBand-plan data (band_plan.json)\n"
 		"\t\tcontest\tContest data (contests.json)\n"
-		"\t\tcountry\tCountry data (cty.xml, cty.csv, prefix.lst)\n"
+		"\t\tcountry\tCountry data (cty.json)\n"
+		"\t\tcty_all\tCountry data (all files)\n"
 		"\t\tfields\tFields data (fields.json)\n"
 		"\t\ticons\tToolbar icons (various)\n"
 		"\t\tintl\tInternational character set (intl_chars.txt)\n"
