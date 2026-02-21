@@ -248,12 +248,18 @@ void cty_dialog::cb_browser(Fl_Widget* w, void* v) {
 // Release and reload
 void cty_dialog::cb_release(Fl_Widget* w, void* v) {
 	cty_dialog* that = zc::ancestor_view<cty_dialog>(w);
-	// Copy working copies back to source - will fail if not DEVELOPMENT_MODE
+	// Copy working copies back to source and then to git - will fail if not DEVELOPMENT_MODE
 	file_holder_->copy_working_to_source(FILE_COUNTRY_CLUB);
 	file_holder_->copy_working_to_source(FILE_COUNTRY_CFILES);
 	file_holder_->copy_working_to_source(FILE_COUNTRY_DXATLAS);
+	file_holder_->copy_working_to_source(FILE_COUNTRY_ISO);
+
+	file_holder_->copy_source_to_git(FILE_COUNTRY_CLUB);
+	file_holder_->copy_source_to_git(FILE_COUNTRY_CFILES);
+	file_holder_->copy_source_to_git(FILE_COUNTRY_DXATLAS);
+	file_holder_->copy_source_to_git(FILE_COUNTRY_ISO);
 	// Force reload from source files
-	DEBUG_RESET_CONFIG |= DEBUG_RESET_CALL;
+	DEBUG_RESET_CONFIG |= DEBUG_RESET_CTY;
 	delete cty_data_;
 	cty_data_ = new cty_data(true);
 	// Redraw dialog

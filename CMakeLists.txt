@@ -5,11 +5,12 @@ set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
 set(ZZALOG_RC_VALUE "")
 
-## Set program details
+## Set program details - used by zzacommon
 set(APP_VENDOR "GM3ZZA")
 set(APP_NAME "ZZALOG")
 string(TIMESTAMP APP_TIMESTAMP UTC)
 set(APP_VERSION "${ZZALOG_VERSION}${ZZALOG_RC_VALUE}")
+set(APP_SOURCE_DIR ${ZZALOG_SOURCE_DIR})
 configure_file(
   ${ZZALOG_SOURCE_DIR}/src/ident.cpp.in
   ${ZZALOG_SOURCE_DIR}/src/ident.cpp

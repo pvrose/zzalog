@@ -25,6 +25,7 @@ keyring::~keyring() {
 	save_data();
 	if (DEVELOPMENT_MODE) {
 		file_holder_->copy_working_to_source(FILE_KEYS);
+		file_holder_->copy_source_to_git(FILE_KEYS);
 	}
 }
 

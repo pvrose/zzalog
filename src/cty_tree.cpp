@@ -66,6 +66,7 @@ void cty_tree::update(hint_t hint, qso_num_t record_num_1, qso_num_t record_num_
 // Hang all the data
 void cty_tree::hang_all() {
 
+	clear();
 	Fl_Tree_Item* root_item = new Fl_Tree_Item(this);
 	root(root_item);
 	root_item->labelfont(item_labelfont() | FL_BOLD);
