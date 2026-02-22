@@ -128,6 +128,10 @@ class Fl_Window;
 		unsigned int edit_col_;
 		//! Font used.
 		static Fl_Font font_;
+		//! Alternate font used for non-QSO records.
+		static Fl_Font alternate_font_;
+		//! Row header font
+		static Fl_Font row_header_font_;
 		//! Font size used.
 		static Fl_Fontsize fontsize_;
 		//! Tooltip window for explaining field contents.
