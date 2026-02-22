@@ -667,8 +667,6 @@ void menu_bar::cb_mi_reparse_qso(Fl_Widget* w, void* v) {
 // Log ->Parse Log - parse all records in selected book
 // v is not used
 void menu_bar::cb_mi_parse_log(Fl_Widget* w, void* v) {
-	// display hourglass while we validate the log
-	fl_cursor(FL_CURSOR_WAIT);
 	// Get parse mode
 	int num_items = navigation_book_->size();
 	book_->enable_save(false, "Starting parsing log");
@@ -698,7 +696,6 @@ void menu_bar::cb_mi_parse_log(Fl_Widget* w, void* v) {
 		navigation_book_->selection(item_number, HT_CHANGED);
 	}
 	book_->enable_save(true, "Ended parsing log");
-	fl_cursor(FL_CURSOR_DEFAULT);
 }
 
 // Log->Validate QSO - validate selected record
@@ -720,7 +717,6 @@ void menu_bar::cb_mi_valid8_qso(Fl_Widget* w, void* v) {
 // Log->Validate Log - validate all records in selected log
 // v is not used
 void menu_bar::cb_mi_valid8_log(Fl_Widget* w, void* v) {
-	fl_cursor(FL_CURSOR_WAIT);
 		// Command validation is enabled
 	int record_num = -1;
 	int item_number = 0;
@@ -747,7 +743,6 @@ void menu_bar::cb_mi_valid8_log(Fl_Widget* w, void* v) {
 		navigation_book_->selection(item_number, HT_MINOR_CHANGE);
 	}
 	book_->enable_save(true, "Ended validate log");
-	fl_cursor(FL_CURSOR_DEFAULT);
 }
 
 // Log->New - start a new record
@@ -815,7 +810,6 @@ void menu_bar::cb_mi_log_bulk(Fl_Widget* w, void* v) {
 			std::string new_field_name = "";
 			std::string new_text = "";
 			int num_changed = 0;
-			fl_cursor(FL_CURSOR_WAIT);
 			// get action
 			dialog->get_data(action, old_field_name, new_field_name, new_text);
 			status_->progress(navigation_book_->size(), navigation_book_->book_type(), "Changing data in bulk", "records");
@@ -873,7 +867,6 @@ void menu_bar::cb_mi_log_bulk(Fl_Widget* w, void* v) {
 			status_->misc_status(ST_OK, message);
 			// Get all views to update
 			book_->selection(book_->selection(), HT_ALL);
-			fl_cursor(FL_CURSOR_DEFAULT);
 		}
 		// If OK or CANCEL we close the dialog
 		if (result != BN_SPARE) {

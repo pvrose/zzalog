@@ -56,7 +56,6 @@ club_handler::~club_handler() {
 // Upload the saved log to ClubLog using putlogs.php interface
 bool club_handler::upload_log(book* book) {
 	if (book->size()) {
-		fl_cursor(FL_CURSOR_WAIT);
 		status_->misc_status(ST_NOTE, "CLUBLOG: Starting upload");
 		// Get the book data and write it to the stream
 		std::stringstream ss;
@@ -92,7 +91,6 @@ bool club_handler::upload_log(book* book) {
 			book_->selection(book_->size() - 1, HT_SELECTED);
 			book_->enable_save(true, "Updated Clublog status");
 		}
-		fl_cursor(FL_CURSOR_DEFAULT);
 		return ok;
 	}
 	else {
@@ -336,7 +334,6 @@ void club_handler::set_adif_fields() {
 
 // Download the OQRS list of QSL requests
 bool club_handler::download_oqrs(std::stringstream* adif) {
-	fl_cursor(FL_CURSOR_WAIT);
 	status_->misc_status(ST_NOTE, "CLUBLOG: Starting download OQRS");
 	std::stringstream request;
 	generate_oqrs(request);

@@ -261,8 +261,6 @@ bool adi_reader::load_book(book* book, std::istream& in) {
 	expecting_header_ = true;
 	// Save book for load_record tp use if it updates the record
 	my_book_ = book;
-	// This will take a while so display the timer cursor
-	fl_cursor(FL_CURSOR_WAIT);
 	// Initialise Known apps 
 	known_app_fields.clear();
 	if (new_file_) {
@@ -306,8 +304,6 @@ bool adi_reader::load_book(book* book, std::istream& in) {
 			delete in_record;
 		}
 	}
-	// Restore normal cursor
-	fl_cursor(FL_CURSOR_DEFAULT);
 	// Update progress bar with complete or failed.
 	if (!in.eof()) {
 		status_->progress("Load failed", book->book_type());

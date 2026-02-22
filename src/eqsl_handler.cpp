@@ -551,17 +551,13 @@ bool eqsl_handler::user_details(
 // Download the eQSL inbox - ADIF is an internal stringstream that is later loaded into import_data_ in ADIF format
 bool eqsl_handler::download_eqsl_log(std::stringstream* adif) {
 	std::string filename;
-	// Takes time as it's online
-	fl_cursor(FL_CURSOR_WAIT);
 	// get eQSL.cc filename
 	if (adif_filename(filename) == ER_OK) {
 		// Download inbox from eQSL.cc if it looks like a valid 
 		if (download_adif(filename, adif) == ER_OK) {
-			fl_cursor(FL_CURSOR_DEFAULT);
 			return true;
 		}
 	}
-	fl_cursor(FL_CURSOR_DEFAULT);
 	return false;
 }
 
@@ -741,8 +737,6 @@ bool eqsl_handler::upload_eqsl_log(book* book) {
 		delete[] message;
 		return false;
 	}
-	// Takes time - show timer cursor
-	fl_cursor(FL_CURSOR_WAIT);
 	// For book - use STATION_CALLSIGN of first QSO
 	record* this_record = book->get_record(0, false);
 	std::string station = this_record->item("STATION_CALLSIGN", true);
@@ -907,7 +901,6 @@ bool eqsl_handler::upload_eqsl_log(book* book) {
 		}
 
 	}
-	fl_cursor(FL_CURSOR_DEFAULT);
 	return status == ER_OK;
 }
 

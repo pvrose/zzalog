@@ -971,7 +971,6 @@ bool extract_data::comp_records(record* lhs, record* rhs, std::string field, boo
 // Sort records according to field_name
 void extract_data::sort_records(std::string field_name, bool reversed) {
 
-	fl_cursor(FL_CURSOR_WAIT);
 	item_num_t count = size();
 	char message[100];
 	snprintf(message, 100, "EXTRACT: Starting sorting %zu records on %s", size(), field_name.c_str());
@@ -1022,7 +1021,6 @@ void extract_data::sort_records(std::string field_name, bool reversed) {
 		snprintf(msg, sizeof(msg), "DEBUG: Wrong number picked from tree %d picked, %zd hung\n", copied, count);
 		status_->misc_status(ST_ERROR, msg);
 	}
-	fl_cursor(FL_CURSOR_DEFAULT);
 }
 
 // Place the node and all those beneath it in the extracted list
@@ -1050,35 +1048,6 @@ int extract_data::pick_node(sort_node* n) {
 // Undo the above sort 
 void extract_data::correct_record_order() {
 	sort_records("", false);
-	//fl_cursor(FL_CURSOR_WAIT);
-	//item_num_t count = size();
-	//int num_scans = 0;
-	//char message[100];
-	//snprintf(message, 100, "EXTRACT: Starting sorting %zu records on date/time", size());
-	//status_->misc_status(ST_NOTE, message);
-	//status_->progress(size(), book_type(), "Undoing custom sort", "Sorting passes");
-	//// Repeat until we no longer swap anything
-	//// NB: We may have to implement more efficient sort algorithm, if size() increases much.
-	//// Current 2K+ records takes a couple of seconds
-	//while (count > 0) {
-	//	count = 0;
-	//	// Compare each record with its immediate follower - swap if it's larger
-	//	for (item_num_t ix = 0; ix < size() - 1; ix++) {
-	//		if (*at(ix) > *at(ix + 1)) {
-	//			swap_records(ix, ix + 1);
-	//			count++;
-	//		}
-	//	}
-	//	num_scans++;
-	//	status_->progress(num_scans, book_type());
-	//}
-	//snprintf(message, 100, "EXTRACT: Done - %d passes required", num_scans);
-	//status_->misc_status(ST_OK, message);
-	//// Note may have taken fewer passes than primed progress bar with - stop progress if it has
-	//if (num_scans < (signed)size()) {
-	//	status_->progress("Taken fewer passes", book_type());
-	//}
-	//fl_cursor(FL_CURSOR_DEFAULT);
 }
 
 // Return whether an existing upload is in progress

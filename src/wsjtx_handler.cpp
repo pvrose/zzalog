@@ -823,8 +823,6 @@ bool wsjtx_handler::match_all_txt(record* qso, bool update_qso) {
 		snprintf(msg, sizeof(msg), "WSJTX: Fail to open %s", filename.c_str());
 		status_->misc_status(ST_ERROR, msg);
 	}
-	// This will take a while so display the timer cursor
-	fl_cursor(FL_CURSOR_WAIT);
 	// calculate the file size and initialise the progress bar
 	std::streampos startpos = all_file->tellg();
 	all_file->seekg(0, std::ios::end);
@@ -908,14 +906,12 @@ bool wsjtx_handler::match_all_txt(record* qso, bool update_qso) {
 		if (qso->item("QSO_COMPLETE") != "N" && qso->item("QSO_COMPLETE") != "?") {
 			all_file->close();
 		}
-		fl_cursor(FL_CURSOR_DEFAULT);
 		return true;
 	}
 	else {
 		all_file->close();
 		snprintf(msg, 100, "WSJTX: Cannot find contact with %s in ALL.TXT", their_call.c_str());
 		status_->misc_status(ST_WARNING, msg);
-		fl_cursor(FL_CURSOR_DEFAULT);
 		return false;
 	}
 

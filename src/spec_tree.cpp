@@ -102,8 +102,6 @@ void spec_tree::delete_tree() {
 
 // Populate the tree control with the data from the selected prefixes
 void spec_tree::populate_tree(bool activate) {
-	// Lengthy operation - so put the timer cursor on
-	fl_cursor(FL_CURSOR_WAIT);
 	// Add the root
 	// now build the tree
 	clear();
@@ -140,8 +138,6 @@ void spec_tree::populate_tree(bool activate) {
 	show();
 	redraw();
 	status_->misc_status(ST_OK, "ADIF SPEC: Specification displayed");
-	// Restore cursor
-	fl_cursor(FL_CURSOR_DEFAULT);
 	// Tell tabbed view to activate this view
 	if (activate) {
 		tabbed_forms_->activate_pane(OT_ADIF, true);

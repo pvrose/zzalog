@@ -52,7 +52,6 @@ lotw_handler::~lotw_handler()
 // Export extracted records, sign them and upload to LotW
 bool lotw_handler::upload_lotw_log(book* book, bool mine) {
 	status_->misc_status(ST_DEBUG, "LOTW: uploading extracted data");
-	fl_cursor(FL_CURSOR_WAIT);
 	// Get LotW settings
 	server_data_t* lotw_data = qsl_dataset_->get_server_data("LotW");
 	std::string filename = lotw_data->export_file;
@@ -131,7 +130,6 @@ bool lotw_handler::upload_lotw_log(book* book, bool mine) {
 
 	}
 	delete chooser;
-	fl_cursor(FL_CURSOR_DEFAULT);
 	return ok;
 }
 
@@ -142,7 +140,6 @@ bool lotw_handler::download_lotw_log(std::stringstream* adif) {
 	std::string password;
 	std::string last_done;
 	bool ok = false;
-	fl_cursor(FL_CURSOR_WAIT);
 	if (!user_details(&username, &password, &last_done)) {
 		status_->misc_status(ST_ERROR, "LOTW: Access requires username and password!");
 		return false;
@@ -195,7 +192,6 @@ bool lotw_handler::download_lotw_log(std::stringstream* adif) {
 		server_data_t* lotw_data = qsl_dataset_->get_server_data("LotW");
 		lotw_data->last_downloaded = zc::now(false, "%Y%m%d");
 	}
-	fl_cursor(FL_CURSOR_DEFAULT);
 	return ok;
 }
 

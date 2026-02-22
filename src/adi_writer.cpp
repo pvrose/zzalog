@@ -35,8 +35,6 @@ adi_writer::~adi_writer()
 
 // write book to output stream. If fields is not null then only the specified fields
 bool adi_writer::store_book(book* out_book, std::ostream& out, bool clean, field_list* fields /* = nullptr */) {
-	// Takes a finite time so put the timer cursor up.
-	fl_cursor(FL_CURSOR_WAIT);
 	bool result = true;
 	clean_records_ = clean;
 	out_book_ = out_book;
@@ -76,8 +74,6 @@ bool adi_writer::store_book(book* out_book, std::ostream& out, bool clean, field
 		status_->progress("Write failed", out_book->book_type());
 	}
 	clean_records_ = false;
-	// restore the cursor
-	fl_cursor(FL_CURSOR_DEFAULT);
 	return result;
 }
 

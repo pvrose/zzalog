@@ -696,7 +696,6 @@ void report_tree::delete_map(report_map_entry_t* entry) {
 
 // redraw the tree control
 void report_tree::populate_tree(bool activate) {
-	fl_cursor(FL_CURSOR_WAIT);
 	// Only if there's a reference table set up.
 	// Delete existing data, clear the tree control and recreate the data
 	delete_all();
@@ -793,7 +792,6 @@ void report_tree::populate_tree(bool activate) {
 	redraw();
 	// Update the status pane if this is the active view
 	update_status();
-	fl_cursor(FL_CURSOR_DEFAULT);
 
 }
 

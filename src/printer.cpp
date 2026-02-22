@@ -82,7 +82,6 @@ int printer::print_book() {
 		return 1;
 	}
 
-	fl_cursor(FL_CURSOR_WAIT);
 	// calculate basic properies - row height etc.
 	calculate_properties();
 	// Initialise progress - switch to display device and back again
@@ -130,7 +129,6 @@ int printer::print_book() {
 	end_job();
 	// Final progress
 	status_->progress(std::min<int>(to_page + 1 - from_page, number_pages_), type_);
-	fl_cursor(FL_CURSOR_DEFAULT);
 	if (error) {
 		status_->misc_status(ST_ERROR, "PRINTER: Failed!");
 		status_->progress("Failed", type_);
@@ -280,7 +278,6 @@ int printer::print_cards() {
 		return 1;
 	}
 
-	fl_cursor(FL_CURSOR_WAIT);
 	// calculate basic properies - row height etc.
 	// Initialise progress - switch to display device and back again
 	status_->progress(std::min<int>(to_page + 1 - from_page, number_pages_), type_, "Printing QSL labels", "pages");
@@ -300,7 +297,6 @@ int printer::print_cards() {
 	end_job();
 	// Final progress
 	status_->progress(std::min<int>(to_page + 1 - from_page, number_pages_), type_);
-	fl_cursor(FL_CURSOR_DEFAULT);
 	if (error) {
 		status_->misc_status(ST_ERROR, "PRINTER: Failed!");
 	}
