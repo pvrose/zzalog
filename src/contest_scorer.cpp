@@ -42,6 +42,7 @@ contest_scorer::contest_scorer(int X, int Y, int W, int H, const char* L) :
 	, d_qso_points_(0)
 	, d_multiplier_(0)
 	, algorithm_(nullptr)
+	, active_(false)
 {
 	load_data();
 	create_form();
