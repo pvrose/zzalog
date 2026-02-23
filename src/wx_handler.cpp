@@ -343,6 +343,47 @@ Fl_Image* wx_handler::fetch_icon(std::string name) {
     }
 }
 
+// Return the location of the city in the supplied QSO
+zc::lat_long_t wx_handler::get_city_location(record* qso) const {
+	std::string city = qso->item("QTH");
+	if (city.length() == 0) {
+		return { nan(""), nan("") };
+	}
+	zc::lat_long_t location = { nan(""), nan("") };
+	char url[256];
+	std::string call = qso->item("CALL");
+	std::string cc = cty_data_->iso_cc(call);
+	snprintf(url, sizeof(url), "http://api.openweathermap.org/geo/1.0/direct?q=%s,,%s&limit=5&appid=%s&mode=json",
+		city.c_str(),
+		cc.c_str(),
+		key_.c_str()
+	);
+	std::stringstream ss_city;
+	if (url_handler_->read_url(std::string(url), &ss_city)) {
+		ss_city.seekg(std::ios::beg);
+		try {
+			json j;
+			ss_city >> j;
+			auto jall = j.get<std::vector<json>>();
+			for (auto& jcity : jall) {
+				std::string scity;
+				jcity["name"].get_to(scity);
+				if (scity == city) {
+					jcity["lat"].get_to(location.latitude);
+					jcity["lon"].get_to(location.longitude);
+					break;
+				}
+			}
+		}
+		catch (const json::exception& e) {
+			printf("WX THREAD: Failed to decode geofetch: %d (%s)\n",
+				e.id, e.what());
+
+		}
+	}
+	return location;
+}
+
 
 
 

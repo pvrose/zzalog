@@ -235,22 +235,25 @@ void qso_dxcc::enable_widgets() {
 		if (location_.is_nan()) {
 			op_coords_->value("");
 		} else {
-			char ls[10];
+			char ls[20];
 			switch(loc_source_) {
 				case LOC_PREFIX:
-					strcpy(ls, "(PFX)");
+					strcpy(ls, name_.c_str());
 					break;
 				case LOC_NONE:
-					strcpy(ls, "(N/A)");
+					strcpy(ls, "Not available");
 					break;
 				case LOC_LATLONG:
-					strcpy(ls, "(QSO)");
+					strcpy(ls, "From record");
+					break;
+				case LOC_CITY:
+					strcpy(ls, city_.c_str());
 					break;
 				default:
-					strcpy(ls, "(GRID)");
+					strcpy(ls, locator_.c_str());
 					break;
 			}
-			snprintf(text, sizeof(text), "Loc: %.0f\302\260%c %.0f\302\260%c %s",
+			snprintf(text, sizeof(text), "Loc: %.0f\302\260%c %.0f\302\260%c (%s)",
 				fabs(location_.latitude), location_.latitude > 0 ? 'N' : 'S',
 				fabs(location_.longitude), location_.longitude > 0 ? 'E' : 'W',
 				ls);
@@ -263,8 +266,14 @@ void qso_dxcc::enable_widgets() {
 			double distance;
 			// Calculate bearing and distance
 			zc::great_circle(my_location_, location_, bearing, distance);
-			snprintf(text, sizeof(text), "Distance %0.fkm, Bearing %0.f\302\260",
-				distance, bearing);
+			if (distance < 100.0) {
+				// Error in calculated distance of the same order as distance itself.
+				strncpy(text, "Distance <100 km", sizeof(text));
+			}
+			else {
+				snprintf(text, sizeof(text), "Distance %0.fkm, Bearing %0.f\302\260",
+					distance, bearing);
+			}
 		}
 		op_dist_bear_->value(text);
 	} else {
@@ -293,6 +302,8 @@ void qso_dxcc::set_data(record* qso) {
 		cq_zone_ = cty_data_->cq_zone(qso_);
 		itu_zone_ = cty_data_->itu_zone(qso_);
 		location_ = qso_->location(false, loc_source_);
+		city_ = qso_->item("QTH");
+		locator_ = qso_->item("GRIDSQUARE");
 		dxcc_ = cty_data_->entity(qso_);
 		my_location_ = qso_->location(true);
 		continent_ = cty_data_->continent(qso_);

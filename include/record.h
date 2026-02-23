@@ -48,7 +48,8 @@ record.h - Individual record data item: header file
 		LOC_GRID2,       //!< 2-letter gridsquare
 		LOC_GRID4,       //!< 4-character gridsquare
 		LOC_GRID6,       //!< 6-character 
-		LOC_GRID8        //!< 8-character
+		LOC_GRID8,       //!< 8-character
+		LOC_CITY         //!< Look up city
 	};
 
 	// forward declaration

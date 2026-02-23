@@ -125,6 +125,10 @@ protected:
     int itu_zone_;
     //! The DXCC number per ADIF.
     int dxcc_;
+	//! The City name in the QSO
+	std::string city_;
+	//! The Locator in the QSO
+	std::string locator_;
     //! The latitude and longitude of the DXCC centre
     zc::lat_long_t location_;
     //! The source of geographic coordinates.

@@ -11,8 +11,9 @@ record.cpp - Individual record data item: implementation file
 #include "cty_data.h"
 #include "main.h"
 #include "spec_data.h"
-#include "zc_status.h"
+#include "wx_handler.h"
 
+#include "zc_status.h"
 #include "zc_utils.h"
 
 #include <algorithm>
@@ -555,9 +556,16 @@ zc::lat_long_t record::location(bool my_station, location_t& source) {
 				lat_long.longitude += (side / 2.0);
 			}
 			else {
-				lat_long = cty_data_->location(this);
-				source = LOC_PREFIX;
-				return lat_long;
+				lat_long = wx_handler_->get_city_location(this);
+				if (!lat_long.is_nan()) {
+					source = LOC_CITY;
+					return lat_long;
+				}
+				else {
+					lat_long = cty_data_->location(this);
+					source = LOC_PREFIX;
+					return lat_long;
+				}
 			}
 		}
 		switch (value_1.length()) {

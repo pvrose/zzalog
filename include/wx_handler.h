@@ -10,6 +10,7 @@
 
 
 class Fl_Image;
+class record;
 
 //! The data received in a weather reports
 struct wx_report {
@@ -104,6 +105,11 @@ public:
     static std::string wind_cardinal(int dirn);
     //! Returns beaufort wind description
     static std::string beaufort(float speed);
+
+	//! \brief Return the location of the QTH in the \p qso.
+	//! This is not strictly a function of weather but the 
+	//! information is provided by openweather.
+	zc::lat_long_t get_city_location(record* qso) const;
 
 
 protected:
