@@ -12,6 +12,12 @@ and is a special event callsign. The DXCC has been directly decoded from the cal
 geographic information: continent, CQ zone and longitude and latitude. The third line
 shows approximate distance and bearing.
 
+Longitude and latitude is calulated in the following priority:
+- If LAT and LON fields present in QSO record use these.
+- If GRIDSQUARE field is present use this.
+- If QTH field is present, look up QTH in openweathermap.org; use this if found.
+- Otherwise, use centre of prefix area.
+
 The information shows the worked-before status of that DXCC entity for the current 
 station callsign. It shows that Italy, CQ zone 15, ITU zone 28 and Europe have all been worked before,
 but not on the current band (2m).
