@@ -344,7 +344,7 @@ Fl_Image* wx_handler::fetch_icon(std::string name) {
 }
 
 // Return the location of the city in the supplied QSO
-zc::lat_long_t wx_handler::get_city_location(record* qso) const {
+zc::lat_long_t wx_handler::get_city_location(const record* qso) const {
 	std::string city = qso->item("QTH");
 	if (city.length() == 0) {
 		return { nan(""), nan("") };

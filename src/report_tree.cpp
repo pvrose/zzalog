@@ -274,7 +274,7 @@ void report_tree::add_record(item_num_t record_num, report_map_entry_t* entry) {
 			break;
 		case RC_MODE:
 			// Get the mode from the record
-			map_key = record->item("MODE", true);
+			map_key = record->formatted_item("MODE");
 			break;
 		case RC_CALL:
 			map_key = record->item("CALL");
@@ -553,7 +553,7 @@ void report_tree::copy_records_to_tree(record_list_t* record_list, Fl_Tree_Item*
 				record->item("QSO_DATE").c_str(),
 				record->item("TIME_ON").c_str(),
 				record->item("BAND").c_str(),
-				record->item("MODE", true).c_str(),
+				record->formatted_item("MODE").c_str(),
 				confirmed.c_str(), eqsl_text.c_str(), lotw_text.c_str(), card_text.c_str(), qrz_text.c_str());
 			// Hang the text on the tree in sorted order
 			Fl_Tree_Item* record_item = item->add(prefs(), text);
@@ -629,7 +629,7 @@ void report_tree::create_map() {
 	}
 
 	if (selection != nullptr) {
-		selector_name = selection->item(field_name, true);
+		selector_name = selection->formatted_item(field_name);
 	}
 	else {
 		selector_name = "";
@@ -638,7 +638,7 @@ void report_tree::create_map() {
 	for (size_t i = 0; i < get_book()->size(); i++) {
 		record* record = get_book()->get_record(i, false);
 		if (!station_only || record->item("STATION_CALLSIGN") == station_call_) {
-			if (filter_ != RF_SELECTED || record->item(field_name, true) == selector_name) {
+			if (filter_ != RF_SELECTED || record->formatted_item(field_name) == selector_name) {
 				// If it is in the domain of the analysis - add it to the map
 				add_record(i, &map_);
 			}

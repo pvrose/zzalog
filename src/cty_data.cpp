@@ -158,25 +158,25 @@ cty_prefix* cty_data::prefix() const {
 }
 
 // Return various fields of entity
-std::string cty_data::nickname(record* qso) {
+std::string cty_data::nickname(const record* qso) {
 	parse(qso);
 	if (parse_result_.entity) return parse_result_.entity->nickname_;
 	return "";
 }
 
-std::string cty_data::name(record* qso) {
+std::string cty_data::name(const record* qso) {
 	parse(qso);
 	if (parse_result_.entity) return parse_result_.entity->name_;
 	else return "";
 }
 
-std::string cty_data::continent(record* qso) {
+std::string cty_data::continent(const record* qso) {
 	parse(qso);
 	if (parse_result_.entity) return parse_result_.entity->continent_;
 	else return "";
 }
 
-int cty_data::cq_zone(record* qso) {
+int cty_data::cq_zone(const record* qso) {
 	parse(qso);
 	// Check exception
 	cty_exception* except = exception();
@@ -194,7 +194,7 @@ int cty_data::cq_zone(record* qso) {
 	return -1;
 }
 
-int cty_data::itu_zone(record* qso) {
+int cty_data::itu_zone(const record* qso) {
 	parse(qso);
 	// Check exception
 	cty_exception* except = exception();
@@ -212,7 +212,7 @@ int cty_data::itu_zone(record* qso) {
 }
 
 // Get location
-zc::lat_long_t cty_data::location(record* qso) {
+zc::lat_long_t cty_data::location(const record* qso) {
 	parse(qso);
 	// Check exception
 	cty_exception* except = exception();
@@ -233,7 +233,7 @@ zc::lat_long_t cty_data::location(int dxcc_id) {
 }
 
 // Get ISO country code for callsign
-std::string cty_data::iso_cc(std::string callsign) {
+std::string cty_data::iso_cc(const std::string& callsign) {
 	if (!data_) return "";
 	std::string now = zc::now(false, "%Y%m%d%H%M");
 	std::string dummy;
@@ -251,7 +251,7 @@ std::string cty_data::iso_cc(std::string callsign) {
 }
 
 // Get DXCC ID for callsign
-int cty_data::dxcc_id(std::string callsign, bool allow_exception) {
+int cty_data::dxcc_id(const std::string& callsign, bool allow_exception) {
 	if (!data_) return -1;
 	std::string now = zc::now(false, "%Y%m%d%H%M");
 	std::string dummy;
@@ -265,7 +265,7 @@ int cty_data::dxcc_id(std::string callsign, bool allow_exception) {
 }
 
 // Get geography
-std::string cty_data::geography(record* qso) {
+std::string cty_data::geography(const record* qso) {
 	std::string result;
 	parse(qso);
 	if (parse_result_.geography) {
@@ -278,7 +278,7 @@ std::string cty_data::geography(record* qso) {
 }
 
 // Get geography nickname
-std::string cty_data::geo_nick(record* qso) {
+std::string cty_data::geo_nick(const record* qso) {
 	std::string result;
 	parse(qso);
 	if (parse_result_.geography) {
@@ -291,7 +291,7 @@ std::string cty_data::geo_nick(record* qso) {
 }
 
 // Get usage
-std::string cty_data::usage(record* qso) {
+std::string cty_data::usage(const record* qso) {
 	std::string result;
 	parse(qso);
 	if (parse_result_.usage) {
@@ -327,7 +327,7 @@ bool cty_data::update_qso(record* qso, bool my_call) {
 }
 
 // Get location details
-std::string cty_data::get_tip(record* qso) {
+std::string cty_data::get_tip(const record* qso) {
 	parse(qso);
 	std::string message;
 	char text[160];
@@ -354,7 +354,7 @@ std::string cty_data::get_tip(record* qso) {
 }
 
 // Parsing source
-cty_data::parse_source_t cty_data::get_source(record* qso) {
+cty_data::parse_source_t cty_data::get_source(const record* qso) {
 	parse(qso);
 	// If no parse result
 	if (parse_result_.entity == nullptr) return NO_DECODE;
@@ -379,7 +379,7 @@ cty_data::parse_source_t cty_data::get_source(record* qso) {
 }
 
 // Return entity 
-int cty_data::entity(record* qso) {
+int cty_data::entity(const record* qso) {
 	parse(qso);
 	// We should have the entity descriptor but may not
 	if (parse_result_.entity) return parse_result_.entity->dxcc_id_;
@@ -388,7 +388,7 @@ int cty_data::entity(record* qso) {
 }
 
 // Get entity for nickname and vice-versa
-int cty_data::entity(std::string nickname) {
+int cty_data::entity(const std::string& nickname) {
 	if (data_) {
 		for (auto it : data_->entities) {
 			if (it.second->nickname_ == nickname) {
@@ -535,7 +535,7 @@ void cty_data::parse(record* qso) {
 	}
 }
 
-cty_element* cty_data::match_pattern(std::string call, std::string when, std::string& matched_call, bool allow_exception) {
+cty_element* cty_data::match_pattern(const std::string& call, const std::string& when, std::string& matched_call, bool allow_exception) {
 	// Look in exceptions
 	if (allow_exception && data_->exceptions.find(call) != data_->exceptions.end()) {
 		std::list<cty_exception*>& exceptions = data_->exceptions.at(call);
@@ -562,7 +562,7 @@ cty_element* cty_data::match_pattern(std::string call, std::string when, std::st
 	return match_prefix(body, when);
 }
 
-cty_element* cty_data::match_prefix(std::string call, std::string when) {
+cty_element* cty_data::match_prefix(const std::string& call, const std::string& when) {
 	// Start matching prefixes - from full length of call down
 	std::string test = call;
 	while (test.length() > 0) {
@@ -580,7 +580,7 @@ cty_element* cty_data::match_prefix(std::string call, std::string when) {
 	return nullptr;
 }
 
-cty_filter* cty_data::match_filter(cty_element* element, cty_filter::filter_t type, std::string call, std::string when) {
+cty_filter* cty_data::match_filter(const cty_element* element, cty_filter::filter_t type, const std::string& call, const std::string& when) {
 	if (DEBUG_PARSE) printf("DEBUG: Match call %s: \n", call.c_str());
 	for (auto it : element->filters_) {
 		// Check filter type
@@ -695,7 +695,7 @@ cty_filter* cty_data::match_filter(cty_element* element, cty_filter::filter_t ty
 	return nullptr;
 }
 
-void cty_data::split_call(std::string call, std::string& alt, std::string& body) {
+void cty_data::split_call(const std::string& call, std::string& alt, std::string& body) {
 	// Split the callsign into its various components
 	std::vector<std::string> words;
 	zc::split_line(call, words, '/');
@@ -775,7 +775,7 @@ void cty_data::add_entity(cty_entity* entry) {
 }
 
 // Add a prefix
-void cty_data::add_prefix(std::string pattern, cty_prefix* entry) {
+void cty_data::add_prefix(const std::string& pattern, cty_prefix* entry) {
 	if (import_->prefixes.find(pattern) == import_->prefixes.end()) {
 		import_->prefixes[pattern] = { entry };
 	}
@@ -795,7 +795,7 @@ void cty_data::add_prefix(std::string pattern, cty_prefix* entry) {
 }
 
 // Add an exception
-void cty_data::add_exception(std::string pattern, cty_exception* entry) {
+void cty_data::add_exception(const std::string& pattern, cty_exception* entry) {
 	if (import_->exceptions.find(pattern) == import_->exceptions.end()) {
 		import_->exceptions[pattern] = { entry };
 	}

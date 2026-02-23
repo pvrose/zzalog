@@ -294,90 +294,90 @@ void record::item(const std::string& field, const std::string& value, bool forma
 		set_timestamp();
 }
 
-// Get an item - as string
-std::string record::item(const std::string& field, bool formatted/* = false*/) {
+std::string record::formatted_item(const std::string& field) const {
 	std::string result;
-	if (formatted) {
-		// Return the display format for the field
-		std::string unformatted_value = item(field);
-		// Convert empty string to empty string
-		if (unformatted_value == "") {
-			result = unformatted_value;
-		}
-		else {
-
-			// Get the type indicator of the field
-			char type_indicator = spec_data_->datatype_indicator(field);
-			double as_d = 0.0;
-			char as_c[15];
-			switch (type_indicator) {
-			case 'N':
-			case ' ':
-			case 'S':
-			case 'I':
-			case 'M':
-			case 'G':
-			case 'B':
-				if (field == "GRIDSQUARE" || field == "MY_GRIDSQUARE") {
-					// Concatenate base and extension fields
-					if (unformatted_value.length() <= 8) {
-						result = unformatted_value;
-					} 
-					else if (item_exists(field + "_EXT")) {
-						result = unformatted_value + item(field + "_EXT", formatted);
-					}
-				}
-				else {
-					// No formatting
-					result = unformatted_value;
-				}
-				break;
-			case 'E':
-				// Special case for MODE - use SUBMODE if it exists
-				if (field == "MODE" && item_exists("SUBMODE")) {
-					result = item("SUBMODE", formatted);
-				}
-				// No other formatting
-				else {
-					result = unformatted_value;
-				}
-				break;
-			case 'L':
-				// LAT/LON value return signed decimal degree
-				as_d = std::stod(unformatted_value.substr(1, 3));
-				as_d += (std::stod(unformatted_value.substr(5)) / 60.0);
-				switch (unformatted_value[0]) {
-				case 'W':
-				case 'S':
-					as_d = -as_d;
-				}
-				snprintf(as_c, 15, "%g", as_d);
-				result = std::string(as_c);
-				break;
-			default:
-				// If any other data indicator gets returned - it shouldn't
-				result = unformatted_value;
-				break;
-			}
-		}
+	// Return the display format for the field
+	std::string unformatted_value = item(field);
+	// Convert empty string to empty string
+	if (unformatted_value == "") {
+		result = unformatted_value;
 	}
 	else {
-		// Use the field directly
-		auto it = find(field);
-		if (it == end()) {
-			// Field not present return empty string
-			result = "";
+
+		// Get the type indicator of the field
+		char type_indicator = spec_data_->datatype_indicator(field);
+		double as_d = 0.0;
+		char as_c[15];
+		switch (type_indicator) {
+		case 'N':
+		case ' ':
+		case 'S':
+		case 'I':
+		case 'M':
+		case 'G':
+		case 'B':
+			if (field == "GRIDSQUARE" || field == "MY_GRIDSQUARE") {
+				// Concatenate base and extension fields
+				if (unformatted_value.length() <= 8) {
+					result = unformatted_value;
+				}
+				else if (item_exists(field + "_EXT")) {
+					result = unformatted_value + formatted_item(field + "_EXT");
+				}
+			}
+			else {
+				// No formatting
+				result = unformatted_value;
+			}
+			break;
+		case 'E':
+			// Special case for MODE - use SUBMODE if it exists
+			if (field == "MODE" && item_exists("SUBMODE")) {
+				result = formatted_item("SUBMODE");
+			}
+			// No other formatting
+			else {
+				result = unformatted_value;
+			}
+			break;
+		case 'L':
+			// LAT/LON value return signed decimal degree
+			as_d = std::stod(unformatted_value.substr(1, 3));
+			as_d += (std::stod(unformatted_value.substr(5)) / 60.0);
+			switch (unformatted_value[0]) {
+			case 'W':
+			case 'S':
+				as_d = -as_d;
+			}
+			snprintf(as_c, 15, "%g", as_d);
+			result = std::string(as_c);
+			break;
+		default:
+			// If any other data indicator gets returned - it shouldn't
+			result = unformatted_value;
+			break;
 		}
-		else {
-			// Return field value
-			result = it->second;
-		}
+	}
+	return result;
+}
+// Get an item - as string
+std::string record::item(const std::string& field) const {
+	std::string result;
+	// Use the field directly
+	auto it = find(field);
+	if (it == end()) {
+		// Field not present return empty string
+		result = "";
+	}
+	else {
+		// Return field value
+		result = it->second;
 	}
 	return result;
 }
 
 // get an item - as an integer, default 0
-void record::item(const std::string& field, int& value) {
+void record::item(const std::string& field, int& value) const {
 	if (item_exists(field)) {
 		try {
 			// Return integer value
@@ -395,7 +395,7 @@ void record::item(const std::string& field, int& value) {
 }
 
 // get an item - as an unsigned long long, default 0
-void record::item(const std::string& field, unsigned long long& value) {
+void record::item(const std::string& field, unsigned long long& value) const {
 	if (item_exists(field)) {
 		try {
 			// Return integer value
@@ -413,7 +413,7 @@ void record::item(const std::string& field, unsigned long long& value) {
 }
 
 // get an item - as a double, default "not-a-number"
-void record::item(const std::string& field, double& value) {
+void record::item(const std::string& field, double& value) const {
 	if (item_exists(field)) {
 		try {
 			// return double value
@@ -423,7 +423,7 @@ void record::item(const std::string& field, double& value) {
 			// If it's not a valid decimal it may be in LAT/LON format
 			if (field == "LAT" || field == "LON" || field == "MY_LAT" || field == "MY_LON") {
 				// Get formatted version
-				std::string item_value = item(field, true);
+				std::string item_value = formatted_item(field);
 				try {
 					value = std::stod(item_value);
 				}
@@ -458,7 +458,7 @@ bool record::is_valid() {
 }
 
 // does the item exist - in the map and not return an empty string
-bool record::item_exists(const std::string& field) {
+bool record::item_exists(const std::string& field) const {
 	return find(field) != end() && at(field) != "";
 }
 
@@ -501,13 +501,13 @@ void record::unparse() {
 }
 
 // Return longitude and latitude
-zc::lat_long_t record::location(bool my_station) {
+zc::lat_long_t record::location(bool my_station) const {
 	location_t dummy;
 	return location(my_station, dummy);
 }
 
 // Return longitude and latitude from the record
-zc::lat_long_t record::location(bool my_station, location_t& source) {
+zc::lat_long_t record::location(bool my_station, location_t& source) const {
 	// Set a bad coordinate
 	zc::lat_long_t lat_long = { nan(""), nan("") };
 
@@ -527,7 +527,7 @@ zc::lat_long_t record::location(bool my_station, location_t& source) {
 	if (std::isnan(lat_long.latitude) || std::isnan(lat_long.longitude)) {
 		// Use either Gridsquare or prefix centre if that is more accurate
 		if (my_station) {
-			value_1 = item("MY_GRIDSQUARE", false);
+			value_1 = item("MY_GRIDSQUARE");
 			// No gridsquare for user. 
 			if (value_1.length() == 0) {
 				source = LOC_NONE;
@@ -1180,16 +1180,19 @@ std::string record::item_merge(std::string data, bool indirect /*=false*/) {
 	// while we still have an unprocessed <> pair
 	while (left != result.npos && right != result.npos) {
 		std::string field_name = result.substr(left + 1, right - 1);
+		std::string field_value;
+		if (indirect) field_value = formatted_item(field_name);
+		else field_value = item(field_name);
 		if (result[left + right] == ':') {
 			size_t close = result.substr(left + right + 1).find('>');
 			int len = 0;
 			if (close != result.npos) {
 				len = atoi(result.substr(left + right + 1, close).c_str());
 			}
-			result.replace(left, right + close + 2, item(field_name, indirect).substr(0, len));
+			result.replace(left, right + close + 2, field_value.substr(0, len));
 		}
 		else {
-			result.replace(left, right + 1, item(field_name, indirect));
+			result.replace(left, right + 1, field_value);
 		}
 		left = result.find('<');
 		if (left != result.npos) right = result.substr(left).find_first_of(":>");

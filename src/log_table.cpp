@@ -611,8 +611,8 @@ void log_table::draw_cell(TableContext context, int R, int C, int X, int Y, int 
 					fl_color(fl_contrast(FL_FOREGROUND_COLOR, bg_colour));
 				}
 				// get the formatted data from the field of the record
-				std::string direct = this_record->item((*log_fields_)[C].field, true);
-				text = this_record->item((*log_fields_)[C].field, true);
+				std::string direct = this_record->formatted_item((*log_fields_)[C].field);
+				text = this_record->formatted_item((*log_fields_)[C].field);
 				Fl_Font font = font_;
 				if (direct == text) font = font;
 				else font = alternate_font_;
@@ -662,7 +662,7 @@ void log_table::edit_cell(int row, int col) {
 	item_num_t item_number = (order_ == LAST_TO_FIRST) ? my_book_->size() - 1 - row : row;
 	record* record = my_book_->get_record(item_number, true);
 	field_info_t field_info = (*log_fields_)[col];
-	std::string text = record->item(field_info.field, true);
+	std::string text = record->formatted_item(field_info.field);
 	//intl_input* input = (intl_input*)edit_input_;
 	edit_row_ = row;
 	edit_col_ = col;

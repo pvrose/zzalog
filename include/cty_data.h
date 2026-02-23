@@ -101,18 +101,18 @@ public:
 	virtual ~cty_data();
 
 	// Return various fields of entity
-	std::string nickname(record* qso);  //!< Returns the nickname for the entity in the \p QSO.
-	std::string name(record* qso);      //!< Returns the name of the entity in the \p QSO.
-	std::string continent(record* qso); //!< Returns the continent of the entity in the \p QSO.
-	int cq_zone(record* qso);      //!< Returns the CQ Zone of the callsign in the \p QSO.
-	int itu_zone(record* qso);     //!< Returns the ITU Zone of the callsign in the \p QSO.
+	std::string nickname(const record* qso);  //!< Returns the nickname for the entity in the \p QSO.
+	std::string name(const record* qso);      //!< Returns the name of the entity in the \p QSO.
+	std::string continent(const record* qso); //!< Returns the continent of the entity in the \p QSO.
+	int cq_zone(const record* qso);      //!< Returns the CQ Zone of the callsign in the \p QSO.
+	int itu_zone(const record* qso);     //!< Returns the ITU Zone of the callsign in the \p QSO.
 	// Get location
-	zc::lat_long_t location(record* qso); //!< Returns the longitude and latitude of the station in the \p QSO.
+	zc::lat_long_t location(const record* qso); //!< Returns the longitude and latitude of the station in the \p QSO.
 	zc::lat_long_t location(int dxcc_id); //!< Returns the longitude and latitude of  the DXCC.
 	// Get ISO country code for the callsign
-	std::string iso_cc(std::string callsign);  //!< Returns country code for \p callsign
+	std::string iso_cc(const std::string& callsign);  //!< Returns country code for \p callsign
 	//! Get DXCC ID for \p callsign. If \p allow_exception: look up exceptions.
-	int dxcc_id(std::string callsign, bool allow_exception);
+	int dxcc_id(const std::string& callsign, bool allow_exception);
 
 	
 	//! Update record based on parsing
@@ -125,32 +125,32 @@ public:
 	
 	//! \param qso QSO record to parse.
 	//! \return text information about parsing for displaying in a tooltip.
-	std::string get_tip(record* qso);
+	std::string get_tip(const record* qso);
 	//! Parsing source
 	
 	//! \param qso QSO to parse.
 	//! \return indicates how the callsign was parsed. 
-	parse_source_t get_source(record* qso);
+	parse_source_t get_source(const record* qso);
 	//! Returns the DXCC identifier of the entity worked in \p qso. 
-	int entity(record* qso);
+	int entity(const record* qso);
 	//! Returns geography information relating to the callsign worked in \p qso.
-	std::string geography(record* qso);
+	std::string geography(const record* qso);
 	//! Returns usage information relating to the callsign worked in \p qso.
-	std::string usage(record* qso);
+	std::string usage(const record* qso);
 	//! Retunrs geography sub-division nickname
-	std::string geo_nick(record* qso);
+	std::string geo_nick(const record* qso);
 
 	//! Returns the DXCC identifier for the entity with \p nickname.
-	int entity(std::string nickname);
+	int entity(const std::string& nickname);
 	//! Returns the entity nickname for the entity with DXCC identifier \p adif_id.
 	std::string nickname(int adif_id);
 
 	//! Add the entity \p entry to the database.
 	void add_entity(cty_entity* entry);
 	//! Add the prefix \p entry mapped by \p pattern to the database.
-	void add_prefix(std::string pattern, cty_prefix* entry);
+	void add_prefix(const std::string& pattern, cty_prefix* entry);
 	//! Add the exception \p entry mapped by \p pattern to the database.
-	void add_exception(std::string pattern, cty_exception* entry);
+	void add_exception(const std::string& pattern, cty_exception* entry);
 	//! Add the filter \p entry to the specified \p element in the database. 
 	void add_filter(cty_element* element, cty_filter* entry);
 
@@ -178,6 +178,9 @@ protected:
 	void load_adif_data();
 	//! Find the entity, pattern and sub-patterns for the supplied QSO: updates internal attributes.
 	void parse(record* qso);
+	void parse(const record* qso) {
+		parse((record*)qso);
+	}
 	//! Use the attached \p suffix to "mutate" the \p call to parse eg W1ABC/2 type calls.
 	void mutate_call(std::string& call, char suffix);
 	//! Store json
@@ -193,13 +196,13 @@ protected:
 	//! \param matched_call Returns the part of the callsign that matches the element.
 	//! \param allow_exception If true look in exception data, otherwise use default parsing.
 	//! \return The matching element: either an exception record or an entity.
-	cty_element* match_pattern(std::string call, std::string when, std::string& matched_call, bool allow_exception);
+	cty_element* match_pattern(const std::string& call, const std::string& when, std::string& matched_call, bool allow_exception);
 	//! Find specific prefix element that matches call.
 	
 	//! \param call Callsign to match.
 	//! \param when Date of QSO.
 	//! \return The matching prefix record.
-	cty_element* match_prefix(std::string call, std::string when);
+	cty_element* match_prefix(const std::string& call, const std::string& when);
 	//! Find specific secondary filter that matches the call and type.
 	
 	//! \param element The starting point of the match search - usually an entity element or
@@ -207,10 +210,10 @@ protected:
 	//! \param type Either FT_GEOGRAPHY or FT_USAGE.
 	//! \param call The callsign to match.
 	//! \param when The date of the QSO.
-	cty_filter* match_filter(cty_element* element, cty_filter::filter_t type, std::string call, std::string when);
+	cty_filter* match_filter(const cty_element* element, cty_filter::filter_t type, const std::string& call, const std::string& when);
 
 	//! Split \p call into call \p body and \p alt (alternate).
-	void split_call(std::string call, std::string& alt, std::string& body);
+	void split_call(const std::string& call, std::string& alt, std::string& body);
 
 	//! Returns Exception record for current parse result, nullptr if not an exception
 	cty_exception* exception() const;

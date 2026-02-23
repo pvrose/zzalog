@@ -79,33 +79,38 @@ record.h - Individual record data item: header file
 		//! \param field Field name.
 		//! \param value Field value.
 		//! \param formatted if true the displayed format is converted to ADIF format.
-		//! \param dirty if true ther record is marked dirty if the contents change.
+		//! \param dirty if true the record is marked dirty if the contents change.
 		void item(const std::string& field, const std::string& value, bool formatted = false, bool dirty = true);
 		//! Returns the item
 		
 		//! \param field Field name.
-		//! \param formatted if true converts data to the displayed format.
 		//! \return Field value.
-		std::string item(const std::string& field, bool formatted = false);
+		std::string item(const std::string& field) const;
+
+		//! \brief Returns the formatted item.
+		//! \param field Field name
+		//! \return Formatted item
+		std::string formatted_item(const std::string& field) const;
+
 		//! Gets an integer item
 		
 		//! \param field Field name
 		//! \param value Receives field value converted to an integer, 0 if it cannot be.
-		void item(const std::string& field, int& value);
+		void item(const std::string& field, int& value) const;
 		//! Gets a double-precision value
 		
 		//! \param field Field name
 		//! \param value Receives field value converted to a double-precision, NAN if it cannot be.
-		void item(const std::string& field, double& value);
+		void item(const std::string& field, double& value) const;
 		//! Gets a long long item
 		
 		//! \param field Field name
 		//! \param value Receives field value converted to an unsigned 64-bit integer, 0 if it cannot be.
-		void item(const std::string& field, unsigned long long& value);
+		void item(const std::string& field, unsigned long long& value) const;
 		//! Returns true if the QSO is valid - has a minimum subset of fields
 		bool is_valid();
 		//! Returns true if the item named \p field exists and is not an empty string.
-		bool item_exists(const std::string& field);
+		bool item_exists(const std::string& field) const;
 		//! Set the header information
 		void header(std::string comment);
 		//! Returns the header information
@@ -120,11 +125,11 @@ record.h - Individual record data item: header file
 		
 		//! \param my_station if true returns the user's coordinates, otherwise of the contacted station.
 		//! \param source Receives an indication of how the coordinates were calculated.
-		zc::lat_long_t location(bool my_station, location_t& source);
+		zc::lat_long_t location(bool my_station, location_t& source) const;
 		//! Get the latitude and longuitude without specifying a source.
 		
 		//! \param my_station if true returns the user's coordinates, otherwise of the contacted station.
-		zc::lat_long_t location(bool my_station);
+		zc::lat_long_t location(bool my_station) const;
 		//! update BAND from FREQ. If \p force is false do not overwrite an existing BAND field.
 		bool update_band(bool force = false);
 		//! combine records - update result with hint to use in subsequent update.

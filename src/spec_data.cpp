@@ -1565,7 +1565,7 @@ void spec_data::handle_error(valn_error_t error_code, const std::string&  data, 
 		field_corrected_ = false;
 		// Only handle the error if we are not reporting it
 		// Get the display version of the data
-		std::string display_item = record_->item(field, true);
+		std::string display_item = record_->formatted_item(field);
 		status_t status = ST_ERROR;
 		// Implement
 		// Report errors and try to correct, default to ask the user if not able to.
@@ -1630,7 +1630,7 @@ void spec_data::report_error(valn_error_t error_code, const std::string&  data, 
 	case VE_FIELD_UNSUPPORTED:
 		// Data type unsupported
 		if (datatype == "Primary_Administrative_Subdivision" || datatype == "Secondary_Administrative_Subdivision") {
-			output_line += "Field is not specified for DXCC " + record_->item("DXCC", true) + ". These are not checked.";
+			output_line += "Field is not specified for DXCC " + record_->formatted_item("DXCC") + ". These are not checked.";
 			error_level = ST_NOTE;
 		}
 		else {
@@ -1696,11 +1696,11 @@ void spec_data::report_error(valn_error_t error_code, const std::string&  data, 
 		else if (field == "TIME_OFF") {
 			incompat_field = "TIME_ON";
 		}
-		other_value = record_->item(incompat_field, true);
+		other_value = record_->formatted_item(incompat_field);
 		// Different report for the two cases
 		if (error_code == VE_VALUE_INCOMPATIBLE) {
 			output_line += "Value is incompatible with field " + incompat_field + "=" +
-				record_->item(incompat_field, true);
+				record_->formatted_item(incompat_field);
 			error_level = ST_ERROR;
 		}
 		else {
@@ -1817,7 +1817,7 @@ bool spec_data::auto_correction(valn_error_t error_code, const std::string&  dat
 		// Replace CR/LF intelligently
 		record_->item(field, convert_ml_string(data));
 		correction_message_ = field + "=" + display_item + " auto-corrected to " +
-			field + "=" + record_->item(field, true) + ".";
+			field + "=" + record_->formatted_item(field) + ".";
 		return true;
 		break;
 	case VE_VALUE_INTL: 
@@ -1982,7 +1982,7 @@ bool spec_data::auto_correction(valn_error_t error_code, const std::string&  dat
 			record_->item("BAND", std::string(""));
 			record_->update_band();
 			correction_message_ = field + "=" + display_item + " auto-corrected to " +
-				field + "=" + record_->item(field, true) + ".";
+				field + "=" + record_->formatted_item(field) + ".";
 			return true;
 		}
 		else if (field == "CQZ" || field == "ITUZ" || field == "CONT" || field == "COUNTRY" ||
@@ -1992,7 +1992,7 @@ bool spec_data::auto_correction(valn_error_t error_code, const std::string&  dat
 				record_->item(field, std::string(""));
 				cty_data_->update_qso(record_);
 				correction_message_ = field + "=" + display_item + " auto-corrected to " +
-					field + "=" + record_->item(field, true) + ".";
+					field + "=" + record_->formatted_item(field) + ".";
 				return true;
 			}
 			else {
@@ -2014,7 +2014,7 @@ bool spec_data::auto_correction(valn_error_t error_code, const std::string&  dat
 				strftime(temp, sizeof(temp), "%H%M%S", gmtime(&new_off));
 				record_->item("TIME_OFF", std::string(temp));
 				correction_message_ = field + "=" + display_item + "auto-corrected to " +
-					field + "=" + record_->item(field, true) + ".";
+					field + "=" + record_->formatted_item(field) + ".";
 				return true;
 			}
 			else {

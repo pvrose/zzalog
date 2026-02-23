@@ -739,7 +739,7 @@ bool eqsl_handler::upload_eqsl_log(book* book) {
 	}
 	// For book - use STATION_CALLSIGN of first QSO
 	record* this_record = book->get_record(0, false);
-	std::string station = this_record->item("STATION_CALLSIGN", true);
+	std::string station = this_record->formatted_item("STATION_CALLSIGN");
 	if (station.length() && station != zc::to_upper(username_)) {
 		char message[100];
 		snprintf(message, 100, "EQSL: Uploading %s instead of username %s", station.c_str(), username_.c_str());
@@ -981,7 +981,7 @@ bool eqsl_handler::upload_single_qso(qso_num_t record_num) {
 			return false;
 		}
 		// For single QSO - use STATION_CALLSIGN
-		std::string station = this_record->item("STATION_CALLSIGN", true);
+		std::string station = this_record->formatted_item("STATION_CALLSIGN");
 		if (station.length() && station != zc::to_upper(username)) {
 			char message[200];
 			snprintf(message, 200, "EQSL: %s:%s %s: Station call %s differs from username %s",

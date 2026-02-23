@@ -109,7 +109,7 @@ public:
 	//! \brief Return the location of the QTH in the \p qso.
 	//! This is not strictly a function of weather but the 
 	//! information is provided by openweather.
-	zc::lat_long_t get_city_location(record* qso) const;
+	zc::lat_long_t get_city_location(const record* qso) const;
 
 
 protected:

@@ -178,7 +178,7 @@ int fldigi_handler::check_dup(void* v, rpc_data_item::rpc_list& params, rpc_data
 			if (found) {
 				possibles.insert(ix);
 			}
-			if (found && mode != "0" && qso->item("MODE", true) != zc::to_upper(mode)) {
+			if (found && mode != "0" && qso->formatted_item("MODE") != zc::to_upper(mode)) {
 				found = false;
 			}
 			if (found && span > 0 && difftime(timestamp, qso->timestamp(true))) {
