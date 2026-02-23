@@ -199,8 +199,10 @@ void qso_dxcc::enable_widgets() {
 				break;
 		}
 		op_prefix_->value(text);
-		op_geography_->value(geography_.c_str());
-		op_usage_->value(usage_.c_str());
+		if (geography_.length()) op_geography_->value(geography_.c_str());
+		else op_geography_->value("Geography N/A");
+		if (usage_.length()) op_usage_->value(usage_.c_str());
+		else op_usage_->value("Usage N/A");
 		switch (source_) {
 		case cty_data::INVALID:
 			op_source_->value("Invalid Operation");
@@ -238,7 +240,8 @@ void qso_dxcc::enable_widgets() {
 			char ls[20];
 			switch(loc_source_) {
 				case LOC_PREFIX:
-					strcpy(ls, name_.c_str());
+					if (geo_nick_.length() == 0) strcpy(ls, nickname_.c_str());
+					else strcpy(ls, geo_nick_.c_str());
 					break;
 				case LOC_NONE:
 					strcpy(ls, "Not available");
@@ -253,7 +256,7 @@ void qso_dxcc::enable_widgets() {
 					strcpy(ls, locator_.c_str());
 					break;
 			}
-			snprintf(text, sizeof(text), "Loc: %.0f\302\260%c %.0f\302\260%c (%s)",
+			snprintf(text, sizeof(text), "Loc: %.1f\302\260%c %.1f\302\260%c (%s)",
 				fabs(location_.latitude), location_.latitude > 0 ? 'N' : 'S',
 				fabs(location_.longitude), location_.longitude > 0 ? 'E' : 'W',
 				ls);
@@ -308,6 +311,7 @@ void qso_dxcc::set_data(record* qso) {
 		my_location_ = qso_->location(true);
 		continent_ = cty_data_->continent(qso_);
 		geography_ = cty_data_->geography(qso_);
+		geo_nick_ = cty_data_->geo_nick(qso_);
 		usage_ = cty_data_->usage(qso_);
 		g_wb4_->set_data();
 	}

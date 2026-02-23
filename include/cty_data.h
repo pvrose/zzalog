@@ -137,6 +137,8 @@ public:
 	std::string geography(record* qso);
 	//! Returns usage information relating to the callsign worked in \p qso.
 	std::string usage(record* qso);
+	//! Retunrs geography sub-division nickname
+	std::string geo_nick(record* qso);
 
 	//! Returns the DXCC identifier for the entity with \p nickname.
 	int entity(std::string nickname);

@@ -139,6 +139,8 @@ protected:
     cty_data::parse_source_t source_;
     //! Current geographic subdivision.
     std::string geography_;
+	//! Current geographic subdivision nickname
+	std::string geo_nick_;
     //! Current usage
     std::string usage_;
     //! Current record

@@ -217,6 +217,7 @@ zc::lat_long_t cty_data::location(record* qso) {
 	// Check exception
 	cty_exception* except = exception();
 	if (except && !(except->coordinates_.is_nan())) return except->coordinates_;
+	if (parse_result_.geography) return parse_result_.geography->coordinates_;
 	if (parse_result_.entity) return parse_result_.entity->coordinates_;
 	else return { nan(""), nan("") };
 }
@@ -271,7 +272,20 @@ std::string cty_data::geography(record* qso) {
 		result = parse_result_.geography->nickname_ + ": " + parse_result_.geography->name_;
 	}
 	else {
-		result = "Geography N/A";
+		result = "";
+	}
+	return result;
+}
+
+// Get geography nickname
+std::string cty_data::geo_nick(record* qso) {
+	std::string result;
+	parse(qso);
+	if (parse_result_.geography) {
+		result = parse_result_.geography->nickname_;
+	}
+	else {
+		result = "";
 	}
 	return result;
 }
@@ -284,7 +298,7 @@ std::string cty_data::usage(record* qso) {
 		result = parse_result_.usage->nickname_ + ": " + parse_result_.usage->name_;
 	}
 	else {
-		result = "Usage N/A";
+		result = "";
 	}
 	return result;
 }
