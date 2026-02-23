@@ -269,9 +269,13 @@ void qso_dxcc::enable_widgets() {
 			double distance;
 			// Calculate bearing and distance
 			zc::great_circle(my_location_, location_, bearing, distance);
-			if (distance < 100.0) {
-				// Error in calculated distance of the same order as distance itself.
+			if (loc_source_ == LOC_PREFIX && distance < 100.0) {
+				// In same prefix: error likely ~100 km.
 				strncpy(text, "Distance <100 km", sizeof(text));
+			}
+			else if (distance < 10.0) {
+				// Probably in same town or gridsquare: error ~ 10 km.
+				strncpy(text, "Distance <10 km",sizeof(text));
 			}
 			else {
 				snprintf(text, sizeof(text), "Distance %0.fkm, Bearing %0.f\302\260",
