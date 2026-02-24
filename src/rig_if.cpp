@@ -213,7 +213,9 @@ void rig_if::close() {
 
 
 	if (rig_ != nullptr) {
-		if (state_.load() == CONNECTED_OK || state_.load() == CONNECTED_SLOW) {
+		if (state_.load() == CONNECTED_OK || state_.load() == CONNECTED_SLOW || state_.load() == CONNECTED_ERROR) {
+		// If we have a connection and it's open, close it and tidy memory used by hamlib
+		// Delete the thread that reads the required rig values
 			char msg[128];
 			snprintf(msg, 128, "RIG: Closing connection %s (%s/%s on port %s)",
 				my_rig_name_.c_str(),
@@ -221,18 +223,17 @@ void rig_if::close() {
 				hamlib_data_->model.c_str(),
 				hamlib_data_->port_name.c_str());
 			status_->misc_status(ST_NOTE, msg);
+
+			run_read_ = false;
+			if (thread_) {
+				thread_->join();
+				delete thread_;
+				thread_ = nullptr;
+			}
+			rig_close(rig_);
+			rig_cleanup(rig_);
+			rig_ = nullptr;
 		}
-		// If we have a connection and it's open, close it and tidy memory used by hamlib
-		// Delete the thread that reads the required rig values
-		run_read_ = false;
-		if (thread_) {
-			thread_->join();
-			delete thread_;
-			thread_ = nullptr;
-		}
-		rig_close(rig_);
-		rig_cleanup(rig_);
-		rig_ = nullptr;
 	}
 	state_.store(DISCONNECTED);
 }
@@ -256,8 +257,8 @@ bool rig_if::open() {
 		return false;
 
 	}
-	if (DEBUG_THREADS) printf("RIG MAIN: Starting rig %s/%s access thread\n",
-		hamlib_data_->mfr.c_str(), hamlib_data_->model.c_str());
+	if (DEBUG_THREADS) printf("RIG MAIN: Starting rig %s/%s port %s access thread\n",
+		hamlib_data_->mfr.c_str(), hamlib_data_->model.c_str(), hamlib_data_->port_name.c_str());
 	if (rig_ == nullptr) close();
 	state_.store(CONNECTING, std::memory_order_seq_cst);
 	thread_ = new std::thread(th_sopen_rig, this);
@@ -281,7 +282,7 @@ bool rig_if::open() {
 			status_->misc_status(ST_WARNING, msg);
 		}
 	}
-	if (DEBUG_THREADS) printf("RIG MAIN: Finished opening rig failed = %d\n", state_.load());
+	if (DEBUG_THREADS) printf("RIG MAIN: Finished opening rig (state = %s)\n", STATE_MAP.at(state_.load()).c_str());
 	thread_->join();
 	delete thread_;
 	thread_ = nullptr;

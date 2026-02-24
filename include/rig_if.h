@@ -8,12 +8,13 @@
 #include "hamlib/rig.h"
 
 // C/C++ includes
+#include <atomic>
+#include <chrono>
 #include <cstdint>
+#include <map>
+#include <mutex>
 #include <string>
 #include <thread>
-#include <atomic>
-#include <mutex>
-#include <chrono>
 #include <vector>
 
 
@@ -121,6 +122,18 @@
 			CONNECTED_SLOW,                 //!< Rig may be connected but not responding
             CONNECTED_ERROR,                //!< Hamlib has resturned an error response
 			UNPOWERED,                      //!< Rig appears not be powered on
+		};
+
+		//! Rig state string
+		const std::map<rig_state_t, std::string> STATE_MAP = {
+			{ NOT_DEFINED, "Not defined"},
+			{ NOT_CONNECTABLE, "CAT not supported"},
+			{ DISCONNECTED, "Disconnected"},
+			{ CONNECTING, "Connecting"},
+			{ CONNECTED_OK, "Connected OK"},
+			{ CONNECTED_SLOW, "Connected, slow to respond"},
+			{ CONNECTED_ERROR, "Connected, error response"},
+			{ UNPOWERED, "Appears not to be powered"}
 		};
 
 		//! Values read from rig
