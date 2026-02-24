@@ -18,6 +18,7 @@
   with auto-start feature enabled. 
   - Country data file timestamps not recorded correctly.
   - Spurious updates to QSO records with non-critical data.
+  - Callsign decode partly left displayed when QSO not selected.
 
 \section rev_3-6-14 Revision 3.6.14
 
