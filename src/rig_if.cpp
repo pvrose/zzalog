@@ -358,14 +358,14 @@ void rig_if::th_open_rig(rig_if* that) {
 	case RIG_OK:
 		state_.store(CONNECTED_OK);
 		break;
-	// case RIG_EIO:
-	// 	// IO error - including open failed
-	// 	// Not opened, tidy hamlib memory usage and mark it so.
-	// 	rig_cleanup(rig_);
-	// 	rig_ = nullptr;
-	// 	state_.store(DISCONNECTED);
-	// 	Fl::awake(cb_rig_error, that);
-	// 	break;
+	case RIG_EIO:
+		// IO error - including open failed
+		// Not opened, tidy hamlib memory usage and mark it so.
+		// rig_cleanup(rig_);
+		// rig_ = nullptr;
+		state_.store(DISCONNECTED);
+		Fl::awake(cb_rig_error, that);
+		break;
 	default:
 		// Other errors probably indicate connected by something is wrong
 		state_.store(CONNECTED_ERROR);

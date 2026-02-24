@@ -652,12 +652,28 @@ void qso_rig::enable_widgets(uchar damage) {
 		// CAT access buttons
 		switch (rig_state) {
 		case rig_if::NOT_CONNECTABLE:
-		case rig_if::DISCONNECTED:
 		{
 			// No rig
 			bn_connect_->deactivate();
 			// bn_connect_->color(FL_BACKGROUND_COLOR);
 			bn_connect_->label("");
+			bn_select_->activate();
+			if (bn_select_->value()) {
+				bn_select_->label("Use");
+			}
+			else {
+				bn_select_->label("Select");
+			}
+			if (cat_data_ && cat_data_->use_cat_app) bn_start_->activate();
+			else bn_start_->deactivate();
+			break;
+		}
+		case rig_if::DISCONNECTED:
+		{
+			// No rig
+			bn_connect_->activate();
+			// bn_connect_->color(FL_BACKGROUND_COLOR);
+			bn_connect_->label("Connect");
 			bn_select_->activate();
 			if (bn_select_->value()) {
 				bn_select_->label("Use");
