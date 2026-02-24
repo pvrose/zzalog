@@ -6,6 +6,7 @@
 #include "cty_dialog.h"
 #include "main.h"
 #include "qso_data.h"
+#include "qso_manager.h"
 #include "record.h"
 #include "spec_data.h"
 
@@ -286,6 +287,8 @@ void qso_dxcc::enable_widgets() {
 	} else {
 		op_call_->value("No contact");
 		op_prefix_->value("Prefix N/A");
+		op_geography_->value("Geography N/A");
+		op_usage_->value("Usage N/A");
 		op_source_->value("Decode N/A");
 		op_zones_->value("Zones N/A");
 		op_coords_->value("Coords N/A");
@@ -318,8 +321,26 @@ void qso_dxcc::set_data(record* qso) {
 		geo_nick_ = cty_data_->geo_nick(qso_);
 		usage_ = cty_data_->usage(qso_);
 		g_wb4_->set_data();
+	} else {
+		qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
+		callsign_ = "";
+		station_ = mgr->get_default(qso_manager::CALLSIGN);
+		nickname_ = "";
+		name_ = "";
+		source_ = cty_data::NO_DECODE;
+		cq_zone_ = -1;
+		itu_zone_ = -1;
+		location_ = { nan(""), nan("") };
+		loc_source_ = LOC_NONE;
+		city_ = "";
+		locator_ = "";
+		dxcc_ = -1;
+		my_location_ = { nan(""), nan("") };
+		continent_ = "";
+		geography_ = "";
+		geo_nick_ = "";
+		usage_ = "";
 	}
-
 }
 
 // QRZ.com button clicked
