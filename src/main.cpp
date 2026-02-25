@@ -1364,8 +1364,6 @@ int main(int argc, char** argv)
 		menu_bar_->add_windows_items();
 		menu_bar_->enable(true);
 		menu_bar_->redraw();
-		// Only do this if we haven't tried to close
-		fldigi_handler_->run_server();
 		// enable menu
 		// now show the window
 		main_window_->show(argc, argv);

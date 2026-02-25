@@ -80,8 +80,6 @@ void qso_tabbed_rigs::create_form(int X, int Y) {
 	// For each currently salient rig...
 	for (auto ix = label_map_.begin(); ix != label_map_.end(); ix++) {
 		char msg[128];
-		snprintf(msg, sizeof(msg), "RIG: Creating rig interface for \"%s\"", (*ix).first.c_str());
-		status_->misc_status(ST_NOTE, msg);
 		// Create a version of qso_rig 
 		qso_rig* w = new qso_rig(rx, ry, rw, rh, (*ix).first.c_str());
 		// TODO The following code relies on a later version of FLTK 1.4

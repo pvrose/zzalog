@@ -68,11 +68,19 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 	if (cat_data_ && cat_data_->auto_start && !START_OFF_AIR) {
 		bool connected = false;
 		if (cat_data_) {
+			status_->misc_status(ST_NOTE, "RIG: Connecting %s", label());
 			rig_ = new rig_if(label(), cat_data_->hamlib);
 			if (rig_->connected()) connected = true;
-			if (connected) modify_hamlib_data();
+			if (connected) {
+				status_->misc_status(ST_OK, "RIG: Connected %s", label());
+				modify_hamlib_data();
+			}
+			else {
+				status_->misc_status(ST_WARNING, "RIG: Failed to connect %s", label());
+			}
 		}
 		else {
+			status_->misc_status(ST_WARNING, "RIG: No CAT defined for %s", label());
 			rig_ = nullptr;
 		}
 
@@ -1467,6 +1475,7 @@ void qso_rig::cb_bn_start(Fl_Widget* w, void* v) {
 #else
 	std::string command = cat_data->app + "&";
 #endif
+	status_->misc_status(ST_NOTE, "RIG: Starting %s for %s", command.c_str(), that->label());
 	int result = system(command.c_str());
 	char msg[100];
 	if (result == 0) {

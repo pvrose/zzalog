@@ -218,7 +218,7 @@ bool wx_handler::update() {
 void wx_handler::ticker() {
     wx_valid_.store(false);
     if (DEBUG_THREADS) printf("WX MAIN: Starting WX fetch\n");
-	status_->misc_status(ST_NOTE, "WX_HANDLER: Fetching weather data...");
+	status_->misc_status(ST_NOTE, "WX_HANDLER: Downloading weather data");
 	wx_fetch_.store(true);
 }
 
@@ -231,7 +231,7 @@ void wx_handler::cb_ticker(void* v) {
 void wx_handler::cb_fetch_done(void* v) {
     wx_handler* that = (wx_handler*)v;
     that->wx_fetch_.store(false);
-    status_->misc_status(ST_OK, "WX_HANDLER: Weather read OK: %s %0.0f\302\260C %0.0fMPH %s %0.0f hPa. %0.0f%% cloud",
+    status_->misc_status(ST_OK, "WX_HANDLER: Downloaded OK: %s %0.0f\302\260C %0.0fMPH %s %0.0f hPa. %0.0f%% cloud",
         that->description().c_str(), 
         that->temperature(), 
         that->wind_speed(), 

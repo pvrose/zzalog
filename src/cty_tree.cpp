@@ -72,6 +72,7 @@ void cty_tree::hang_all() {
 	root_item->labelfont(item_labelfont() | FL_BOLD);
 	root_label("Country data");
 	if (cty_data_) {
+		status_->misc_status(ST_NOTE, "CTY_DATA: Displaying country data");
 		uint32_t count = cty_data_->data()->entities.size() +
 			cty_data_->data()->prefixes.size() +
 			cty_data_->data()->exceptions.size();
@@ -94,6 +95,7 @@ void cty_tree::hang_all() {
 		for (auto& exc : cty_data_->data()->exceptions) {
 			hang_exception(exc.first, exc.second);
 		}
+		status_->misc_status(ST_OK, "CTY_DATAL Country data displayed");
 	}
 }
 

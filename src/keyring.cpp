@@ -34,6 +34,7 @@ bool keyring::load_data() {
 	std::ifstream is;
 	std::string filename;
 	if (file_holder_->get_file(FILE_KEYS, is, filename)) {
+		status_->misc_status(ST_NOTE, "KEYS: Loading API keys");
 		json jall;
 		try {
 			is >> jall;
