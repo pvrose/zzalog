@@ -524,6 +524,10 @@ int cb_args(int argc, char** argv, int& i) {
 				DEBUG_XMLRPC = true;
 				i += 1;
 			}
+			else {
+				printf("Unexpected debug argument %s - ignored\n", argv[i]);
+				i += 1;
+			}
 			// Not processed any parameter
 			if (i == save_i) debugs = false;
 		}
