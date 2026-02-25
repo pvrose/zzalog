@@ -622,53 +622,73 @@ int cb_args(int argc, char** argv, int& i) {
 	else if (strcmp("-x", argv[i]) == 0 || strcmp("--reset", argv[i]) == 0) {
 		i += 1;
 		while (argv[i] && argv[i][0] != '-') {
+			bool valid = false;
 			if (strcmp("adif", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_ADIF;
+				valid = true;
 			}
 			if (strcmp("apps", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_APPS;
+				valid = true;
 			}
 			if (strcmp("bandplan", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_BAND;
+				valid = true;
 			}
 			if (strcmp("contest", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_TEST;
+				valid = true;
 			}
 			if (strcmp("country", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_CTY;
+				valid = true;
 			}
 			if (strcmp("cty_all", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_CALL;
+				valid = true;
 			}
 			if (strcmp("fields", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_FLDS;
+				valid = true;
 			}
 			if (strcmp("icons", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_ICON;
+				valid = true;
 			}
 			if (strcmp("intl", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_INTL;
+				valid = true;
 			}
 			if (strcmp("keys", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_KEYS;
+				valid = true;
 			}
 			if (strcmp("rigs", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_RIGS;
+				valid = true;
 			}
 			if (strcmp("settings", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_SETT;
+				valid = true;
 			}
 			if (strcmp("station", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_STN;
+				valid = true;
 			}
 			if (strcmp("qsl", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_QSL;
+				valid = true;
 			}
 			if (strcmp("all", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG = DEBUG_RESET_ALL;
+				valid = true;
 			}
 			if (strcmp("reference", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG = DEBUG_RESET_REFS;
+				valid = true;
+			}
+			if (!valid) {
+				printf("Unexpected reset argument %s - ignored\n", argv[i]);
 			}
 			i += 1;
 		}
