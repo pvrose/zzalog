@@ -56,7 +56,7 @@ club_handler::~club_handler() {
 // Upload the saved log to ClubLog using putlogs.php interface
 bool club_handler::upload_log(book* book) {
 	if (book->size()) {
-		status_->misc_status(ST_NOTE, "CLUBLOG: Starting upload");
+		status_->misc_status(ST_NOTE, "CLUBLOG: Uploading log to clublog.org");
 		// Get the book data and write it to the stream
 		std::stringstream ss;
 		adi_writer* writer = new adi_writer;
@@ -128,13 +128,13 @@ void club_handler::generate_form(std::vector<url_handler::field_pair>& fields, r
 // Download the exception file
 bool club_handler::download_exception(std::string filename) {
 	// Start downloading exception file
-	status_->misc_status(ST_NOTE, "CLUBLOG: Starting to download exception file");
+	status_->misc_status(ST_NOTE, "CLUBLOG: Downloading exception file");
 	std::string zip_filename = filename + ".gz";
 	std::ofstream os(zip_filename, std::ios::trunc | std::ios::out | std::ios::binary);
 	std::string url = "https://cdn.clublog.org/cty.php?api=" + key_;
 	if (url_handler_->read_url(url, &os)) {
 		os.close();
-		status_->misc_status(ST_NOTE, "CLUBLOG: Exception file downloaded successfully - unzipping it");
+		status_->misc_status(ST_OK, "CLUBLOG: Downloaded OK");
 		return unzip_exception(zip_filename);
 	} else {
 		os.close();
@@ -155,7 +155,7 @@ bool club_handler::unzip_exception(std::string filename) {
 #endif
 
 	char msg[128];
-	snprintf(msg, sizeof(msg), "CLUBLOG: Unzipping started: %s", cmd);
+	snprintf(msg, sizeof(msg), "CLUBLOG: Unzipping exception file: %s", cmd);
 	status_->misc_status(ST_NOTE, msg);
 	int result = system(cmd);
 #ifdef _WIN32
@@ -166,7 +166,7 @@ bool club_handler::unzip_exception(std::string filename) {
 	// This assumes 7z is the executble
 	switch (result) {
 	case 0:
-		status_->misc_status(ST_OK, "CLUBLOG: Unzipping successful");
+		status_->misc_status(ST_OK, "CLUBLOG: Unzipping OK");
 		return true;
 	case 1:
 		status_->misc_status(ST_WARNING, "CLUBLOG: Unzipping incurred a warning");
@@ -190,7 +190,7 @@ bool club_handler::unzip_exception(std::string filename) {
 		status_->misc_status(ST_ERROR, "CLUBLOG: Unzipping failed");
 		return false;
 	} else {
-		status_->misc_status(ST_OK, "CLUBLOG: Unzipping successful");
+		status_->misc_status(ST_OK, "CLUBLOG: Unzipping OK");
 		return true;
 	}
 #endif
@@ -334,7 +334,7 @@ void club_handler::set_adif_fields() {
 
 // Download the OQRS list of QSL requests
 bool club_handler::download_oqrs(std::stringstream* adif) {
-	status_->misc_status(ST_NOTE, "CLUBLOG: Starting download OQRS");
+	status_->misc_status(ST_NOTE, "CLUBLOG: Downloading OQRS");
 	std::stringstream request;
 	generate_oqrs(request);
 	if (!url_handler_->post_url("https://clublog.org/getadif.php", "", &request, adif)) {

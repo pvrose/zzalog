@@ -416,6 +416,7 @@ bool cty_data::load_data(std::string* filename) {
 	bool ok;
 	switch (type_) {
 	case ADIF: {
+		status_->misc_status(ST_NOTE, "CTY DATA: Loading data supplied by adif.org");
 		load_adif_data();
 		version = spec_data_->adif_version();
 		ok = true;
@@ -964,7 +965,9 @@ bool cty_data::fetch_data(cty_type_t type) {
 	case COUNTRY_FILES:
 	{
 		std::string url;
-		if (get_cfile_url(url) > 0) return false;
+		int result = get_cfile_url(url);
+		if (result > 0) return false;
+		if (result < 0) return true;
 		if (!download_cfile_zip(url, filename)) return false;
 		if (!unzip_cfile(filename)) return false;
 		return true;
@@ -1026,7 +1029,7 @@ int cty_data::get_cfile_url(std::string& url) {
 		return 1;
 	}
 	if (sversion == version(COUNTRY_FILES)) {
-		snprintf(msg, sizeof(msg), "CTY DATA: Version of big-cty unchanged \"%s\"", sversion.c_str());
+		snprintf(msg, sizeof(msg), "CTY DATA: Version of big-cty unchanged \"%s\": Not downloading", sversion.c_str());
 		status_->misc_status(ST_WARNING, msg);
 		return -1;
 	}
@@ -1042,6 +1045,7 @@ int cty_data::get_cfile_url(std::string& url) {
 //! \brief Download the big-cty zip file from \param url.
 //! \return true f successfuk
 bool cty_data::download_cfile_zip(const std::string& url, std::string& local_filename) {
+	status_->misc_status(ST_NOTE, "CTY DATA: Downloading big-cty data from www.country-files.com");
 	std::string local_directory = file_holder_->get_directory(DATA_WORKING);
 	local_filename = local_directory + zc::terminal(url);
 	std::ofstream os(local_filename, std::ios::trunc | std::ios::out | std::ios::binary);
