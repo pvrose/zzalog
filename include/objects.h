@@ -19,6 +19,7 @@ enum object_t : uint8_t {
 	OT_CARD,             //!< Used for printing QSL card labels
 	OT_WSJTX,            //!< Import from WSJT-X
 	OT_RIGS,             //!< Reading Rig data XML file
+	OT_RIG,              //!< Connecting a rig
 	OT_QSLS,             //!< Redaing QSL data XML file
 	OT_STN,              //!< Reading Station data XML file
 	OT_CONTEST,          //!< Processing contest data
@@ -40,6 +41,7 @@ const object_data_map OBJECT_DATA = {
 	{ OT_CARD, { "QSL CARD", fl_color_average(FL_BLUE, FL_WHITE, 0.25) } },
 	{ OT_WSJTX, { "WSJT-X", COLOUR_NAVY } },
 	{ OT_RIGS, { "RIG DATA", COLOUR_PINK } },
+	{ OT_RIG, { "RIG", fl_lighter(COLOUR_PINK)}},
 	{ OT_QSLS, { "QSL", COLOUR_MAUVE } },
 	{ OT_STN, { "STATION DATA", COLOUR_APPLE } },
 	{ OT_CONTEST, { "CONTEST", COLOUR_ORANGE } },

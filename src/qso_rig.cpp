@@ -68,19 +68,15 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 	if (cat_data_ && cat_data_->auto_start && !START_OFF_AIR) {
 		bool connected = false;
 		if (cat_data_) {
-			status_->misc_status(ST_NOTE, "RIG: Connecting %s", label());
 			rig_ = new rig_if(label(), cat_data_->hamlib);
 			if (rig_->connected()) connected = true;
 			if (connected) {
-				status_->misc_status(ST_OK, "RIG: Connected %s", label());
 				modify_hamlib_data();
 			}
 			else {
-				status_->misc_status(ST_WARNING, "RIG: Failed to connect %s", label());
 			}
 		}
 		else {
-			status_->misc_status(ST_WARNING, "RIG: No CAT defined for %s", label());
 			rig_ = nullptr;
 		}
 
@@ -1483,7 +1479,7 @@ void qso_rig::cb_bn_start(Fl_Widget* w, void* v) {
 		that->count_up_connect_ = 0.0;
 		snprintf(msg, sizeof(msg), "RIG: Started %s OK", command.c_str());
 		status_->misc_status(ST_OK, msg);
-		status_->progress(cat_data->connect_delay * 1000, OT_RIGS, "Waiting to connect rig", "ms");
+		status_->progress(cat_data->connect_delay * 1000, OT_RIG, "Waiting to connect rig", "ms");
 	}
 	else {
 		that->rig_starting_ = false;
@@ -1658,7 +1654,7 @@ void qso_rig::switch_rig() {
 void qso_rig::ticker() {
 	if (rig_starting_) {
 		count_up_connect_ += 0.5;
-		status_->progress(count_up_connect_ * 1000, OT_RIGS);
+		status_->progress(count_up_connect_ * 1000, OT_RIG);
 		if (count_up_connect_ >= rig_data_->cat_data(label())->connect_delay) {
 			// We have reached the connect count up value
 			cb_bn_connect(bn_connect_, nullptr);
