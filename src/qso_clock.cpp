@@ -115,20 +115,23 @@ void qso_clock::enable_widgets() {
 			bn_date_->copy_label(result);
 		}
 	}
-	parent()->redraw();
 }
 
 // Clock
 void qso_clock::cb_ticker(void* v) {
-	((qso_clock*)v)->enable_widgets();
+	qso_clock* that = (qso_clock*)v;
+	that->enable_widgets();
+	that->redraw();
 }
 
-// Click date or ime
+// Click date or time
 void qso_clock::cb_clock(Fl_Widget* w, void* v) {
 	qso_clock* that= zc::ancestor_view<qso_clock>(w);
 	that->display_local_ = !that->display_local_;
 	qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
-	mgr->enable_widgets();
+	that->enable_widgets();
+	that->redraw();
+
 }
 
 // Set local
