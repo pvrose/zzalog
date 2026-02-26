@@ -1268,7 +1268,6 @@ bool cty_data::load_json() {
 		if (j.find("Data") != j.end()) {
 			data_ = new all_data;
 			j.at("Data").get_to(*data_);
-			status_->progress(2, OT_PREFIX);
 		}
 		else {
 			snprintf(msg, sizeof(msg), "CTY DATA: File %s dows not contain data", filename.c_str());
@@ -1283,14 +1282,14 @@ bool cty_data::load_json() {
 		status_->progress("Read failed", OT_PREFIX);
 		return false;
 	}
-	snprintf(msg, sizeof(msg), "CTY DATA: File %s loaded OK", filename.c_str());
-	status_->misc_status(ST_OK, msg);
 	now_ = std::chrono::system_clock::now();
 	check_timestamp(ADIF, 365);
 	check_timestamp(CLUBLOG, 7);
 	check_timestamp(COUNTRY_FILES, 7);
 	check_timestamp(DXATLAS, 365);
 	status_->progress(2, OT_PREFIX);
+	snprintf(msg, sizeof(msg), "CTY DATA: File %s loaded OK", filename.c_str());
+	status_->misc_status(ST_OK, msg);
 	return true;
 }
 
