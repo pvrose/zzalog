@@ -342,6 +342,7 @@ void app_grp::enable_widgets() {
     if (app_data_->admin) {
         bn_admin_->value(true);
         ip_passw_->activate();
+        ip_passw_->redraw();
     } else {
         bn_admin_->value(false);
         ip_passw_->value("");
@@ -708,7 +709,7 @@ void qso_apps::create_form() {
     adjust_size();
     end();
 
-    show();
+    redraw();
 }
 
 // Adjust size to fit the tabs
@@ -796,14 +797,12 @@ void qso_apps::cb_ip_new(Fl_Widget* w, void* v) {
     qso_apps* that = zc::ancestor_view<qso_apps>(w);
     zc::cb_value<Fl_Input, std::string>(w, v);
     that->enable_widgets(); 
-	that->redraw();
 }
 
 // Switch tab
 void qso_apps::cb_tabs(Fl_Widget* w, void* v) {
     qso_apps* that = zc::ancestor_view<qso_apps>(w);
     that->enable_widgets();
-	that->redraw();
 }
 
 // Add the server links
