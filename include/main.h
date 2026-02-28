@@ -1,3 +1,20 @@
+/*
+	Copyright 2025-2026, Philip Rose, GM3ZZA
+	
+    This file is part of ZZALOG. Amateur Radio Logging Software.
+
+    ZZALOG is free software: you can redistribute it and/or modify it under the
+	terms of the Lesser GNU General Public License as published by the Free Software
+	Foundation, either version 3 of the License, or (at your option) any later version.
+
+    ZZALOG is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+	without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+	PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with ZZALOG. 
+	If not, see <https://www.gnu.org/licenses/>. 
+
+*/
 #pragma once
 //! \mainpage ZZALOG API Documentation
 //! 
@@ -10,7 +27,7 @@
 //! \section ack Acknowledgements
 //! See <A class="e1" HREF=file:../../userguide/html/ack.html>Acknowledgements</A>
 //!
-//! \copyright Philip Rose GM3ZZA 2018-2025. All rights reserved.
+//! \copyright Philip Rose GM3ZZA 2025-2026.
 //!
 //! ZZALOG is based in part on the work of the FLTK project <A HREF=https://www.fltk.org>https://www.fltk.org</A>.
 #include "zc_file_holder.h"

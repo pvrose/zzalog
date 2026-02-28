@@ -39,7 +39,21 @@ any time from the menu or the toolbar:
 For help on any specific window or panel, click on it and press F1.
 
 
-\copyright Philip Rose GM3ZZA 2018-2026. All rights reserved.
+\copyright Philip Rose GM3ZZA 2018-2026. /*
+	
+ZZALOG is free software: you can redistribute it and/or modify it under the
+terms of the Lesser GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+
+ZZALOG is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with ZZALOG. 
+If not, see <https://www.gnu.org/licenses/>. 
+
+*/
+
 
 \page ack Acknowledgments.
 

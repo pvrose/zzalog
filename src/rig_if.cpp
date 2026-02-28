@@ -1,4 +1,21 @@
-﻿#include "rig_if.h"
+﻿/*
+	Copyright 2025-2026, Philip Rose, GM3ZZA
+	
+    This file is part of ZZALOG. Amateur Radio Logging Software.
+
+    ZZALOG is free software: you can redistribute it and/or modify it under the
+	terms of the Lesser GNU General Public License as published by the Free Software
+	Foundation, either version 3 of the License, or (at your option) any later version.
+
+    ZZALOG is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+	without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+	PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with ZZALOG. 
+	If not, see <https://www.gnu.org/licenses/>. 
+
+*/
+#include "rig_if.h"
 
 #include "main.h"
 #include "zc_status.h"
@@ -703,6 +720,7 @@ bool rig_if::error_handler(int code, const char* meter, bool* flag, int* to_coun
 
 void rig_if::cb_rig_error(void* v) {
 	rig_if* that = (rig_if*)v;
+	printf("DEBUG: Rig error in %p\n", that);
 	char msg[128];
 	snprintf(msg, sizeof(msg), "RIG: Error response %s", that->error_message(that->read_item_.c_str()).c_str());
 	status_->misc_status(ST_ERROR, msg);
