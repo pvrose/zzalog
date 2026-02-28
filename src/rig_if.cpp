@@ -381,6 +381,7 @@ void rig_if::th_open_rig(rig_if* that) {
 		// rig_cleanup(rig_);
 		// rig_ = nullptr;
 		state_.store(DISCONNECTED);
+		that->read_item_ = "Connecting";
 		Fl::awake(cb_rig_error, that);
 		break;
 	default:
@@ -403,7 +404,7 @@ void rig_if::th_run_rig(rig_if* that) {
 	if (DEBUG_THREADS) printf("RIG THREAD: Rig access thread started\n");
 	// run_read_ will be cleared when the rig closes or errors.
 	that->th_read_values();
-	if (that->state_.load() == CONNECTED_OK || that->state_.load() == CONNECTED_SLOW) {
+ 	if (that->state_.load() == CONNECTED_OK || that->state_.load() == CONNECTED_SLOW) {
 		if (DEBUG_THREADS) printf("RIG THREAD: Reading from rig\n");
 		that->run_read_ = true;
 		while (that->run_read_ && 
@@ -417,6 +418,7 @@ void rig_if::th_run_rig(rig_if* that) {
 			Fl::awake(cb_rig_error, that);
 		}
 	} else {
+		that->read_item_ = "Disconnected in read loop";
 		Fl::awake(cb_rig_error, that);
 	}
 }
@@ -720,7 +722,6 @@ bool rig_if::error_handler(int code, const char* meter, bool* flag, int* to_coun
 
 void rig_if::cb_rig_error(void* v) {
 	rig_if* that = (rig_if*)v;
-	printf("DEBUG: Rig error in %p\n", that);
 	char msg[128];
 	snprintf(msg, sizeof(msg), "RIG: Error response %s", that->error_message(that->read_item_.c_str()).c_str());
 	status_->misc_status(ST_ERROR, msg);
