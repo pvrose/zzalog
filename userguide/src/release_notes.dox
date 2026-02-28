@@ -11,6 +11,7 @@
   - Remove cursor manipulation.
   - Allow terminal-style monospace font for log tables.
   - Change presentation in qso_dxcc pane: describe source of latitude and longitude more clearly.
+  - Add LGPL licence.
 - Performance changes.
   - None.
 - Bug fixes.
@@ -19,6 +20,7 @@
   - Country data file timestamps not recorded correctly.
   - Spurious updates to QSO records with non-critical data.
   - Callsign decode partly left displayed when QSO not selected.
+  - Exception connecting to missing rig.
 
 \section rev_3-6-14 Revision 3.6.14
 
