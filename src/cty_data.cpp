@@ -1063,7 +1063,7 @@ int cty_data::get_cfile_url(std::string& url) {
 //! \return true f successfuk
 bool cty_data::download_cfile_zip(const std::string& url, std::string& local_filename) {
 	status_->misc_status(ST_NOTE, "CTY DATA: Downloading big-cty data from www.country-files.com");
-	std::string local_directory = file_holder_->get_directory(DATA_WORKING);
+	std::string local_directory = file_holder_->get_directory(FDD_REF_WORKING);
 	local_filename = local_directory + zc::terminal(url);
 	std::ofstream os(local_filename, std::ios::trunc | std::ios::out | std::ios::binary);
 	char msg[128];
@@ -1083,7 +1083,7 @@ bool cty_data::download_cfile_zip(const std::string& url, std::string& local_fil
 
 //! \brief Unzip the big-cty cty.csv file.
 bool cty_data::unzip_cfile(const std::string& zip_file) {
-	std::string unzip_diry = file_holder_->get_directory(DATA_WORKING) + "bigcty";
+	std::string unzip_diry = file_holder_->get_directory(FDD_REF_WORKING) + "bigcty";
 #ifdef _WIN32
 	unzip_diry += "\\";
 #else
