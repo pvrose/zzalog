@@ -253,9 +253,6 @@ std::string development_directory_;
 //! Default location for auto-generated compile fodder
 std::string default_code_directory_ = "";
 
-//! This run is a new installation
-bool new_installation_ = false;
-
 // Get the backup filename
 std::string backup_filename(std::string source) {
 	zc_settings top_settings;
@@ -388,7 +385,7 @@ void cb_bn_close(Fl_Widget* w, void*v) {
 		}
 
 		// Check the book needs saving
-		if (book_ && (book_->is_dirty() || new_installation_)) {
+		if (book_ && (book_->is_dirty())) {
 			fl_beep(FL_BEEP_QUESTION);
 			switch (fl_choice("Book has been modified. Do you want to save and exit, exit or cancel exit?", "Exit", "Save && Exit", "Cancel Exit")) {
 			case 0:
