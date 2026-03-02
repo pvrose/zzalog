@@ -1464,13 +1464,13 @@ void set_recent_file(std::string filename) {
 
 void open_html(const char* file) {
 	// OS dependent code to open a document
-	std::string full_filename = file_holder_->get_directory(DATA_HTML) +
+	std::string full_filename = file_holder_->get_directory(FDD_DOCUMENTS) +
 		"userguide/html/" + std::string(file);
 	open_doc(full_filename);
 }
 
 void open_pdf() {
-	std::string full_filename = file_holder_->get_directory(DATA_HTML) +
+	std::string full_filename = file_holder_->get_directory(FDD_DOCUMENTS) +
 		"userguide/ZZALOG.pdf";
 	open_doc(full_filename);
 }

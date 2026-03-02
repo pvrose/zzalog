@@ -163,7 +163,7 @@ bool club_handler::download_exception(std::string filename) {
 // Unzip the downloaded  exceptions file
 bool club_handler::unzip_exception(std::string filename) {
 	// Read the settings that define user's access 
-	std::string ref_dir = file_holder_->get_directory(DATA_WORKING);
+	std::string ref_dir = file_holder_->get_directory(FDD_REF_WORKING);
 	char cmd[256];
 #ifdef _WIN32
 	snprintf(cmd, sizeof(cmd), "\"%s\" e %s -o%s -y", "C:/Program Files/7-Zip/7z", filename.c_str(), ref_dir.c_str());
