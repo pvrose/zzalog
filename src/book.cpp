@@ -19,7 +19,6 @@
 
 #include "adi_reader.h"
 #include "adi_writer.h"
-#include "adx_handler.h"
 #include "band.h"
 #include "club_handler.h"
 #include "cty_data.h"
@@ -84,7 +83,6 @@ book::book(object_t type)
 	, save_level_(0)
 	, adi_reader_(nullptr)
 	, adi_writer_(nullptr)
-	, adx_handler_(nullptr)
 	, upload_allowed_(true)
 	, deleted_record_(false)
 {
@@ -143,124 +141,48 @@ bool book::load_data(std::string filename)
 				// Update status bar
 				snprintf(message, sizeof(message), "LOG: Loading log-book %s", filename_.c_str());
 				status_->misc_status(ST_NOTE, message);
-				// Get the filetype suffix from the filename to know which reader to use
-				std::string filetype;
-				size_t last_period = filename.find_last_of('.');
-				if (last_period != std::string::npos) {
-					filetype = zc::to_lower(filename.substr(last_period));
-				}
-				// Check for .adi or .adif format
-				if (filetype == ".adi" || filetype == ".adif") {
-					// Use ADI reader to read from an input stream connected to thefile
-					adi_reader_ = new adi_reader;
-					input_.open(filename.c_str(), std::fstream::in);
-					// Load the book
-					if (book_type_ == OT_MAIN) {
-						main_loading_ = true;
-					}
-					if (!adi_reader_->load_book(this, input_)) {
-						// Error while reading book
-						sprintf(message, "LOG: Failed to load %s", filename.c_str());
-						status_->misc_status(closing_ ? ST_WARNING : ST_ERROR, message);
-						if (book_type_ == OT_MAIN) {
-							snprintf(message, sizeof(message), "%s [load failed]", filename.c_str());
-							// Display message in main window title and update views that there's no or partial data
-							main_window_label(message);
-							selection(0, HT_NO_DATA);
-							//Fl::wait();
-						}
-						delete adi_reader_;
-						adi_reader_ = nullptr;
-						ok = false;
-					}
-					else {
-						char msg[128];
-						snprintf(msg, sizeof(msg), "LOG: File %s loaded OK", filename.c_str());
-						status_->misc_status(ST_OK, msg);
-						if (book_type_ == OT_MAIN) {
-							main_loading_ = false;
-							// Display filename in title bar and update views there's new data
-							if (READ_ONLY) {
-								main_window_label(filename + " [read-only]");
-							}
-							else {
-								main_window_label(filename);
-								if (header_) header_->item("APP_ZZA_NUMRECORDS", std::to_string(size()));
-							}
-						}
-						delete adi_reader_;
-						adi_reader_ = nullptr;
-						ok = true;
-					}
-					input_.close();
-					if (format_ == FT_ADX) {
-						// We have already loaded ADX data 
-						status_->misc_status(ST_WARNING, "LOG: Loading .adi format when .adx already loaded, validation will be compromised");
-						format_ = FT_MIXED;
-					}
-					else {
-						// Set the format to ADI - this affects validation
-						format_ = FT_ADI;
-					}
-				}
-				// Check for .adx format
-				else if (filetype == ".adx") {
-					// Use ADX reader to load the data from the file through an input stream
-					adx_handler_ = new adx_handler;
-					// Opening in text mode appears to do some behind-the-scenes processing
-					// when seeking backwards passed NL.
-					input_.open(filename.c_str(), std::fstream::in | std::fstream::binary);
+				// Use ADI reader to read from an input stream connected to thefile
+				adi_reader_ = new adi_reader;
+				input_.open(filename.c_str(), std::fstream::in);
+				// Load the book
+				if (book_type_ == OT_MAIN) {
 					main_loading_ = true;
-					if (!input_.good() || !adx_handler_->load_book(this, input_)) {
-						// Failed to complete the load
-						sprintf(message, "LOG: Failed to open %s.", filename.c_str());
-						status_->misc_status(closing_ ? ST_WARNING : ST_ERROR, message);
-						clear();
-						if (book_type_ == OT_MAIN) {
-							// Update title bar and tell views
-							main_window_label("[load failed]");
-							selection(0, HT_NO_DATA);
-							//Fl::wait();
-						}
-						delete adx_handler_;
-						adx_handler_ = nullptr;
-						ok = false;
-					}
-					else {
-						if (book_type_ == OT_MAIN) {
-							// Update title bar and tell views
-							main_loading_ = false;
-							if (READ_ONLY) {
-								main_window_label(filename + " [read-only]");
-							}
-							else {
-								main_window_label(filename);
-							}
-						}
-						delete adx_handler_;
-						adx_handler_ = nullptr;
-						ok = true;
-					}
-					input_.close();
-					if (format_ == FT_ADI) {
-						// Mixed source
-						status_->misc_status(ST_WARNING, "LOG: Loading .adi format when .adx already loaded, validation will be compromised");
-						format_ = FT_MIXED;
-					}
-					else {
-						// Remeber ADX for validation
-						format_ = FT_ADX;
-					}
-
 				}
-				// neither .adi nor .adx 
-				else {
-					char* message = new char[filename.length() + 100];
-					sprintf(message, "LOG: Unknown file format. '%s' ignored", filename.c_str());
-					status_->misc_status(ST_ERROR, message);
-					delete[] message;
+				if (!adi_reader_->load_book(this, input_)) {
+					// Error while reading book
+					sprintf(message, "LOG: Failed to load %s", filename.c_str());
+					status_->misc_status(closing_ ? ST_WARNING : ST_ERROR, message);
+					if (book_type_ == OT_MAIN) {
+						snprintf(message, sizeof(message), "%s [load failed]", filename.c_str());
+						// Display message in main window title and update views that there's no or partial data
+						main_window_label(message);
+						selection(0, HT_NO_DATA);
+						//Fl::wait();
+					}
+					delete adi_reader_;
+					adi_reader_ = nullptr;
 					ok = false;
 				}
+				else {
+					char msg[128];
+					snprintf(msg, sizeof(msg), "LOG: File %s loaded OK", filename.c_str());
+					status_->misc_status(ST_OK, msg);
+					if (book_type_ == OT_MAIN) {
+						main_loading_ = false;
+						// Display filename in title bar and update views there's new data
+						if (READ_ONLY) {
+							main_window_label(filename + " [read-only]");
+						}
+						else {
+							main_window_label(filename);
+							if (header_) header_->item("APP_ZZA_NUMRECORDS", std::to_string(size()));
+						}
+					}
+					delete adi_reader_;
+					adi_reader_ = nullptr;
+					ok = true;
+				}
+				input_.close();
 				if (ok) {
 					char* message = new char[filename.length() + 100];
 					size_t num_records = size();
@@ -371,64 +293,24 @@ bool book::store_data(std::string filename, bool force, field_list* fields) {
 
 				// Output stream
 				std::ofstream file;
-				// Get file type suffix
-				std::string filetype = "";
-				size_t last_period = filename_.find_last_of('.');
-				if (last_period != std::string::npos) {
-					// Get file type
-					filetype = zc::to_lower(filename_.substr(last_period));
+				// Connect file to output stream and get ADI writer to write it
+				if (book_type_ == OT_MAIN) {
 				}
-				// Check for .adi format
-				if (filetype == ".adi" || filetype == ".adif") {
-					// Connect file to output stream and get ADI writer to write it
-					if (book_type_ == OT_MAIN) {
-					}
-					file.open(filename_.c_str(), std::fstream::out);
-					adi_writer_ = new adi_writer;
-					if (!adi_writer_->store_book(this, file, book_type_ == OT_MAIN ? true : false, fields)) {
-						// Store failed
-						char* message = new char[filename_.length() + 100];
-						sprintf(message, "LOG: Failed to open %s", filename_.c_str());
-						delete[] message;
-						file.close();
-						ok = false;
-					}
-					else {
-						ok = true;
-					}
-					delete adi_writer_;
-					adi_writer_ = nullptr;
-				}
-				// check for .adx format
-				else if (filetype == ".adx") {
-					// Connect file to output stream and store data
-					if (book_type_ == OT_MAIN) {
-					}
-					file.open(filename_.c_str(), std::fstream::out);
-					adx_handler_ = new adx_handler;
-					if (!adx_handler_->store_book(this, file, book_type_ == OT_MAIN ? true: false)) {
-						// Store failed
-						char * message = new char[filename_.length() + 100];
-						sprintf(message, "LOG: Failed to open %s", filename_.c_str());
-						status_->misc_status(ST_ERROR, message);
-						delete[] message;
-						file.close();
-						ok = false;
-					}
-					else {
-						ok = true;
-					}
-					delete adx_handler_;
-					adx_handler_ = nullptr;
-				}
-				else {
-					// Unknown file type
-					char * message = new char[filename_.length() + 100];
-					sprintf(message, "LOG: Unknown file format. %s ignored", filename_.c_str());
-					status_->misc_status(ST_WARNING, message);
+				file.open(filename_.c_str(), std::fstream::out);
+				adi_writer_ = new adi_writer;
+				if (!adi_writer_->store_book(this, file, book_type_ == OT_MAIN ? true : false, fields)) {
+					// Store failed
+					char* message = new char[filename_.length() + 100];
+					sprintf(message, "LOG: Failed to open %s", filename_.c_str());
 					delete[] message;
+					file.close();
 					ok = false;
 				}
+				else {
+					ok = true;
+				}
+				delete adi_writer_;
+				adi_writer_ = nullptr;
 				if (ok) {
 					deleted_record_ = false;
 					char* message = new char[filename_.length() + 100];
@@ -1624,18 +1506,17 @@ void book::set_session_start() {
 double book::get_complete() {
 	if (adi_reader_) return adi_reader_->progress();
 	else if (adi_writer_) return adi_writer_->progress();
-	else if (adx_handler_) return adx_handler_->progress();
 	else return 0.0;
 }
 
 // The book is being loaded (one of the readers is active)
 bool book::loading() {
-	return (adi_reader_ != nullptr || (adx_handler_ && adx_handler_->loading()));
+	return (adi_reader_ != nullptr);
 }
 
 // The book is being stored (on of the writers is active)
 bool book::storing() {
-	return (adi_writer_ != nullptr || (adx_handler_ && adx_handler_->storing()));
+	return (adi_writer_ != nullptr);
 }
 
 // Used to temporarily disable the upload of QSLs
