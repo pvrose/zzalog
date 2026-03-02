@@ -391,6 +391,3 @@ extern std::string sticky_message_;
 
 //! Common seed to use in password encryption - maintaned with sessions.
 extern uint32_t seed_;
-
-//! This run is a new installation
-extern bool new_installation_;

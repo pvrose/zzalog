@@ -159,27 +159,19 @@ bool book::load_data(std::string filename)
 						main_loading_ = true;
 					}
 					if (!adi_reader_->load_book(this, input_)) {
-						if (new_installation_) {
-							snprintf(message, sizeof(message), "LOG: New logbook %s", filename.c_str());
-							status_->misc_status(ST_NOTE, message);
-							main_window_label(filename.c_str());
-							ok = true;
+						// Error while reading book
+						sprintf(message, "LOG: Failed to load %s", filename.c_str());
+						status_->misc_status(closing_ ? ST_WARNING : ST_ERROR, message);
+						if (book_type_ == OT_MAIN) {
+							snprintf(message, sizeof(message), "%s [load failed]", filename.c_str());
+							// Display message in main window title and update views that there's no or partial data
+							main_window_label(message);
+							selection(0, HT_NO_DATA);
+							//Fl::wait();
 						}
-						else {
-							// Error while reading book
-							sprintf(message, "LOG: Failed to load %s", filename.c_str());
-							status_->misc_status(closing_ ? ST_WARNING : ST_ERROR, message);
-							if (book_type_ == OT_MAIN) {
-								snprintf(message, sizeof(message), "%s [load failed]", filename.c_str());
-								// Display message in main window title and update views that there's no or partial data
-								main_window_label(message);
-								selection(0, HT_NO_DATA);
-								//Fl::wait();
-							}
-							delete adi_reader_;
-							adi_reader_ = nullptr;
-							ok = false;
-						}
+						delete adi_reader_;
+						adi_reader_ = nullptr;
+						ok = false;
 					}
 					else {
 						char msg[128];
@@ -220,27 +212,19 @@ bool book::load_data(std::string filename)
 					input_.open(filename.c_str(), std::fstream::in | std::fstream::binary);
 					main_loading_ = true;
 					if (!input_.good() || !adx_handler_->load_book(this, input_)) {
-						if (new_installation_) {
-							snprintf(message, sizeof(message), "LOG: New logbook %s", filename.c_str());
-							status_->misc_status(ST_NOTE, message);
-							main_window_label(filename.c_str());
-							ok = true;
+						// Failed to complete the load
+						sprintf(message, "LOG: Failed to open %s.", filename.c_str());
+						status_->misc_status(closing_ ? ST_WARNING : ST_ERROR, message);
+						clear();
+						if (book_type_ == OT_MAIN) {
+							// Update title bar and tell views
+							main_window_label("[load failed]");
+							selection(0, HT_NO_DATA);
+							//Fl::wait();
 						}
-						else {
-							// Failed to complete the load
-							sprintf(message, "LOG: Failed to open %s.", filename.c_str());
-							status_->misc_status(closing_ ? ST_WARNING : ST_ERROR, message);
-							clear();
-							if (book_type_ == OT_MAIN) {
-								// Update title bar and tell views
-								main_window_label("[load failed]");
-								selection(0, HT_NO_DATA);
-								//Fl::wait();
-							}
-							delete adx_handler_;
-							adx_handler_ = nullptr;
-							ok = false;
-						}
+						delete adx_handler_;
+						adx_handler_ = nullptr;
+						ok = false;
 					}
 					else {
 						if (book_type_ == OT_MAIN) {
@@ -347,7 +331,7 @@ bool book::store_data(std::string filename, bool force, field_list* fields) {
 			}
 
 			// First parse and validate if necessary
-			if (is_dirty() == true || force || new_installation_) {
+			if (is_dirty() == true || force) {
 				// Only write out if modified or force is set
 				if (!header_) {
 					// No header then create one.
