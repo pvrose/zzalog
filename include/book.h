@@ -31,7 +31,6 @@
 
 	class view;
 	class adi_reader;
-	class adx_handler;
 	class adi_writer;
 	class record;
 	class band_set;
@@ -577,7 +576,6 @@
 		// Readers and writer
 		adi_reader* adi_reader_;  //!< Component used to read a .adi format file.
 		adi_writer* adi_writer_;  //!< Component used to write a .adi format file.
-		adx_handler* adx_handler_; //!< Component useed to read and write an ADX format file.
 		//! Flag set when uploads to QSL sites is allowed.
 		bool upload_allowed_;
 		//! The set of QSO records that have been declared "dirty". 

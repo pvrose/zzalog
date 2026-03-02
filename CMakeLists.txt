@@ -44,7 +44,6 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/about_dialog.cpp
   ${ZZALOG_SRC_DIR}/adi_reader.cpp
   ${ZZALOG_SRC_DIR}/adi_writer.cpp
-  ${ZZALOG_SRC_DIR}/adx_handler.cpp
   ${ZZALOG_SRC_DIR}/band_data.cpp
   ${ZZALOG_SRC_DIR}/band_editor.cpp
   ${ZZALOG_SRC_DIR}/band_widget.cpp
@@ -153,7 +152,6 @@ set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/about_dialog.h
   ${ZZALOG_INCLUDE_DIR}/adi_reader.h
   ${ZZALOG_INCLUDE_DIR}/adi_writer.h
-  ${ZZALOG_INCLUDE_DIR}/adx_handler.h
   ${ZZALOG_INCLUDE_DIR}/band_data.h
   ${ZZALOG_INCLUDE_DIR}/band_editor.h
   ${ZZALOG_INCLUDE_DIR}/band.h
