@@ -343,7 +343,8 @@ void mirror_file() {
 		boost::filesystem::path p_source(source);
 		std::string mirror_file = mirror + "/" + zc::terminal(source);
 		boost::filesystem::path p_mirror(mirror_file);
-		boost::filesystem::copy(p_source, p_mirror, ec);
+		boost::filesystem::copy(p_source, p_mirror, 
+			boost::filesystem::copy_options::overwrite_existing, ec);
 		if (ec) {
 			status_->misc_status(ST_WARNING, "ZZALOG: Error copying mirror %s - %s", mirror.c_str(), ec.what().c_str());
 		}
