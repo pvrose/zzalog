@@ -95,6 +95,11 @@
 #endif
 #include <FL/Fl_Window.H>
 
+#include <boost/filesystem.hpp>
+#define BOOST_NO_CXX11_SCOPED_ENUMS
+#include <boost/dll/runtime_symbol_info.hpp>
+#undef BOOST_NO_CXX11_SCOPED_ENUMS
+
 // Debug switches
 //! Print errors -  by "-d e"
 bool DEBUG_ERRORS = true;
@@ -253,14 +258,21 @@ std::string development_directory_;
 //! Default location for auto-generated compile fodder
 std::string default_code_directory_ = "";
 
+//! Using the mirror rather than the log
+bool using_mirror_ = false;
+
+//! Known mirror status
+bool known_mirror_ = true;
+
 // Get the backup filename
-std::string backup_filename(std::string source) {
+std::string backup_filename(std::string source, int& max_depth) {
 	zc_settings top_settings;
 	zc_settings behav_settings(&top_settings, "Behaviour");
 	zc_settings backup_settings(&behav_settings, "Backup");
 	// Get back-up directory
 	std::string backup;
 	backup_settings.get<std::string>("Path", backup, "");
+	backup_settings.get("Depth", max_depth, -1);
 	while (backup.length() == 0) {
 		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
 		chooser->title("Select directory for backup");
@@ -269,30 +281,15 @@ std::string backup_filename(std::string source) {
 		}
 		delete chooser;
 	}
+	// Now get the depth.
+	if (max_depth == -1) {
+		const char* text = fl_input("Please specify the maximum number of backups - default 8.", "");
+		max_depth = atoi(text);
+	}
 	// Save the result of the chooser
 	backup_settings.set<std::string>("Path", backup);
-
-	// ensure the correct delimiiter is appendded
-	if (backup.back() != '/' && backup.back() != '\\') {
-#ifdef _WIN32
-		backup += '\\';
-#else
-		backup += '/';
-#endif
-	}
-	// Create backup filename - use back-up directory and current file-name plus timestamp
-	size_t last_period = source.find_last_of('.');
-	size_t last_slash = source.find_last_of("/\\");
-	std::string suffix = source.substr(last_period);
-	std::string base_name;
-	if (last_slash == std::string::npos) {
-		base_name = source.substr(0, last_period);
-	}
-	else {
-		base_name = source.substr(last_slash + 1, last_period - last_slash - 1);
-	}
-	std::string timestamp = zc::now(false, "%Y%m%d_%H%MZ");
-	backup += base_name + "_" + timestamp + suffix;
+	backup_settings.set("Depth", max_depth);
+	backup += "/" + zc::terminal(source);
 	return backup;
 }
 
@@ -310,6 +307,50 @@ void restore_backup() {
 	// Get backup data
 	READ_ONLY = true;
 	book_->load_data(backup);
+}
+
+// Mirror file
+void mirror_file() {
+	zc_settings settings;
+	zc_settings behav_settings(&settings, "Behaviour");
+	zc_settings mirror_settings(&behav_settings, "Mirror");
+	std::string mirror;
+	mirror_settings.get("Path", mirror, std::string(""));
+	bool enabled;
+	mirror_settings.get("Enabled", enabled, false);
+	if ((!known_mirror_ || enabled && mirror.length() == 0) && file_holder_->on_different_drive(book_->filename())) {
+		// We do not have a mirror set up and the log file is being held remotely
+		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
+		chooser->title("Select directory for mirror - cancel for no mirroring");
+		if (chooser->show() == 0) {
+			mirror = chooser->filename();
+		}
+		delete chooser;
+		if (mirror.length()) {
+			mirror_settings.set("Path", mirror);
+			mirror_settings.set("Enabled", true);
+			mirror_settings.set("Dirty", false);
+		}
+		else {
+			mirror_settings.set("Enabled", false);
+		}
+	}
+	mirror_settings.get("Enabled", enabled, false);
+	mirror_settings.get("Path", mirror, std::string(""));
+	if (enabled) {
+		std::string source = book_->filename();
+		boost::system::error_code ec;
+		boost::filesystem::path p_source(source);
+		std::string mirror_file = mirror + "/" + zc::terminal(source);
+		boost::filesystem::path p_mirror(mirror_file);
+		boost::filesystem::copy(p_source, p_mirror, ec);
+		if (ec) {
+			status_->misc_status(ST_WARNING, "ZZALOG: Error copying mirror %s - %s", mirror.c_str(), ec.what().c_str());
+		}
+		else {
+			status_->misc_status(ST_NOTE, "ZZALOG: File %s mirrored to %s", source.c_str(), mirror.c_str());
+		}
+	}
 }
 
 // This callback intercepts the close command and performs checks and tidies up
@@ -412,19 +453,22 @@ void cb_bn_close(Fl_Widget* w, void*v) {
 			}
 		}
 
-		// Back up the book
+		// Saving any mirror
 		if (book_ && book_->been_modified()) {
-			if (using_backup_) {
-				status_->misc_status(ST_WARNING, "ZZALOG: Data saved to backup, not to last file");
+			zc_settings settings;
+			zc_settings behav_settings(&settings, "Behaviour");
+			zc_settings mirror_settings(&behav_settings, "Mirror");
+			if (using_mirror_) {
+				// We cannot mirror as already only written to mirro
+				mirror_settings.set("Dirty", true);
+				status_->misc_status(ST_WARNING, "ZZALOG: Data saved in mirror, NOT in logfile");
 			}
-			else if (book_->filename().length()) {
-				backup_file();
-			} else {
-				status_->misc_status(ST_WARNING, "ZZALOG: No filename: any changes will not be backed up");
-			}
+			else {
+				mirror_file();
+			}	
 		}
 		else {
-			status_->misc_status(ST_NOTE, "ZZALOG: Book has not been modified, skipping backup");
+			status_->misc_status(ST_NOTE, "ZZALOG: Book has not been modified, skipping mirror");
 		}
 
 		// Save the window position
@@ -904,51 +948,83 @@ void add_book(char* arg) {
 			// Get filename and load the data
 			std::string log_file = get_file(arg);
 
-
-			if (!book_->load_data(log_file)) {
-				if (!NEW_BOOK) {
-					zc_settings top_settings;
-					zc_settings behav_settings(&top_settings, "Behaviour");
-					zc_settings backup_settings(&behav_settings, "Backup");
-					std::string backup;
-					backup_settings.get<std::string>("Last Backup", backup, "");
-					// Cannot access book - try backup
-					if (!closing_ && fl_choice("Load %s failed - load from backup %s", "Yes", "No", nullptr, log_file.c_str(), backup.c_str()) == 0) {
-						char msg[100];
-						snprintf(msg, sizeof(msg), "ZZALOG: Load %s failed, trying backup %s", log_file.c_str(), backup.c_str());
-						status_->misc_status(ST_WARNING, msg);
-						if (book_->load_data(backup)) {
-							using_backup_ = true;
-							status_->misc_status(ST_OK, "ZZALOG: Load backup successful");
-						} else {
-							status_->misc_status(ST_ERROR, "ZZALOG: Load backup failed");
-						}
-					} else {
-						char msg[100];
-						snprintf(msg, sizeof(msg), "ZZALOG: Load %s failed, no backup loaded - assume a new logbook", log_file.c_str());
-						status_->misc_status(ST_WARNING, msg);
-						set_recent_file(log_file);
-						book_->set_filename(log_file, true);
-
-					}
-				} else {
-					char msg[100];
-					snprintf(msg, sizeof(msg), "ZZALOG: Load %s failed, no backup loaded - assume a new logbook", log_file.c_str());
-					status_->misc_status(ST_WARNING, msg);
-					set_recent_file(log_file);
-					book_->set_filename(log_file, true);
-
-				}
-			} else {
-				// Move this file to the top of the recent file list
+			// get_file() sets NEW_BOOK
+			if (NEW_BOOK) {
+				status_->misc_status(ST_WARNING, "ZZALOG: Creating a new logbook %s",
+					log_file.c_str());
 				set_recent_file(log_file);
-				char msg[128];
-				if (new_file_) {
-					if (!book_->store_data(log_file, true)) {
-						snprintf(msg, sizeof(msg), "ZZALOG: Failed to create %s", log_file.c_str());
-						status_->misc_status(ST_ERROR, msg);
+				book_->set_filename(log_file, true);
+				if (!book_->store_data(log_file, true)) {
+					status_->misc_status(ST_ERROR, "ZZALOG: Failed to create %s", log_file.c_str());
+				}
+				return;
+			}
+			// Not a new book so try and load the existing one.
+			// But first get some information.
+			bool has_mirror = false;          // There's a local mirror of the file.
+			std::string mirror_path = "";     // The path thereto
+			bool mirror_dirty = false;        // The mirror has data not in the real file.
+			// File is not on local drive.
+			bool is_remote = file_holder_->on_different_drive(log_file);
+			std::string mirror = mirror_path + "/" + zc::terminal(log_file);
+			zc_settings settings;
+			zc_settings behav_settings(&settings, "Behaviour");
+			zc_settings mirror_settings(&behav_settings, "Mirror");
+			known_mirror_ = mirror_settings.get("Enabled", has_mirror, false);
+			if (has_mirror) {
+				mirror_settings.get("Path", mirror_path, std::string(""));
+				mirror_settings.get("Dirty", mirror_dirty, false);
+			}
+			if (!is_remote && has_mirror) {
+				status_->misc_status(ST_WARNING, "ZZALOG: Local file %s has a mirror copy", log_file.c_str());
+			}
+			// Now try and load the file
+			if (!book_->load_data(log_file)) {
+				// If we have a mirror copy, try that
+				if (has_mirror) {
+					if (book_->load_data(mirror)) {
+						// Successfully loaded mirror file
+						mirror_settings.set("Dirty", mirror_dirty);
+						book_->set_filename(mirror, false);
+						using_mirror_ = true;
+						status_->misc_status(ST_WARNING, "ZZALOG: Loaded mirror log file %s", mirror.c_str());
+					}
+					else {
+						status_->misc_status(ST_ERROR, "ZZALOG: Failed to load log from its mirror %s", mirror.c_str());
+						return;
 					}
 				}
+				else {
+					status_->misc_status(ST_ERROR, "ZZALOG: Failed to load log %s (no mirror)", log_file.c_str());
+					return;
+				}
+			}
+			else {
+				status_->misc_status(ST_OK, "ZZALOG: Loaded %s", log_file.c_str());
+				// Now check if we need to merge from a dirty mirror
+				if (has_mirror && mirror_dirty) {
+					status_->misc_status(ST_NOTE, "ZZALOG: Merging mirror %s", mirror.c_str());
+					// Load mirror data
+					import_data* mirror_log;
+					if (mirror_log->load_data(mirror, import_data::FILE_UPDATE)) {
+						// and merge it.
+						mirror_log->merge_data();
+						status_->misc_status(ST_OK, "ZZALOG: Mirror successfully merged");
+					}
+					else {
+						status_->misc_status(ST_WARNING, "ZZALOG: Failed to open mirror log %s", mirror.c_str());
+					}
+				}
+			}
+			// Now push file onto backup stack
+			if (!using_mirror_) {
+				backup_file();
+				set_recent_file(log_file);
+			}
+		}
+		if (NEW_BOOK) {
+			if (!book_->store_data(filename_, true)) {
+				status_->misc_status(ST_ERROR, "ZZALOG: Failed to create %s", filename_);
 			}
 		}
 	}
@@ -1407,32 +1483,41 @@ int main(int argc, char** argv)
 	return code;
 }
 
-// Copy existing data to back up file. force = true used by menu command, 
+// Copy existing data to back up file.
 void backup_file() {
+	int num_backups;
 	std::string source = book_->filename();
-	std::string backup = backup_filename(source);
-	char message[256];
-	snprintf(message, sizeof(message), "BACKUP: Writing %s", backup.c_str());
-	status_->misc_status(ST_NOTE, message);
-
-		// Copy source to working
-#ifdef _WIN32
-	std::string command = "copy \"" + source + "\" \"" + backup + "\"";
-#else
-	std::string command = "cp \"" + source + "\" \"" + backup + "\"";
-#endif
-	int result = system(command.c_str());
-	if (result != 0) {
-		// Report error
-		snprintf(message, sizeof(message), "BACKUP: failed to copy to %s: %d", 
-			backup.c_str(), result);
-		status_->misc_status(ST_ERROR, message);
-	} else {
-		status_->misc_status(ST_OK, "BACKUP: Done");
-		zc_settings top_settings;
-		zc_settings behav_settings(&top_settings, "Behaviour");
-		zc_settings backup_settings(&behav_settings, "Backup");
-		backup_settings.set("Last Backup", backup);
+	std::string backup = backup_filename(source, num_backups);
+	status_->misc_status(ST_NOTE, "BACKUP: Saving %d backups %s", num_backups, backup.c_str());
+	// Renaming backups N-1 => N
+	int id = num_backups;
+	std::string bu_dest = backup + "." + std::to_string(id--);
+	boost::system::error_code ec;
+	while (id > 1) {
+		boost::filesystem::path p_dest(bu_dest);
+		std::string bu_src = backup + "." + std::to_string(id--);
+		boost::filesystem::path p_src(bu_src);
+		boost::filesystem::rename(p_src, p_dest, ec);
+		if (ec) {
+			status_->misc_status(ST_WARNING, "BACKUP: Error renaming %s - %s", bu_src.c_str(), ec.what().c_str());
+		}
+		bu_dest = bu_src;
+	}
+	// Rename backup to backup.1
+	boost::filesystem::path p_dest(bu_dest);
+	boost::filesystem::path p_src(backup);
+	boost::filesystem::rename(p_src, p_dest, ec);
+	if (ec) {
+		status_->misc_status(ST_WARNING, "BACKUP: Error renaming %s - %s", backup.c_str(), ec.what().c_str());
+	}
+	// Copy source to backup
+	boost::filesystem::path p_origin(source);
+	boost::filesystem::copy(p_origin, p_src, ec);
+	if (ec) {
+		status_->misc_status(ST_WARNING, "BACKUP: Error copying - %s", source.c_str(), ec.what().c_str());
+	}
+	else {
+		status_->misc_status(ST_OK, "BACKUP: %s Backed up %s", source.c_str(), backup.c_str());
 	}
 }
 

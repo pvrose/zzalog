@@ -756,6 +756,8 @@ void qso_entry::cb_ch_field(Fl_Widget* w, void* v) {
 void qso_entry::cb_ip_field(Fl_Widget* w, void* v) {
 	qso_entry* that = zc::ancestor_view<qso_entry>(w);
 	qso_manager* mgr = zc::ancestor_view<qso_manager>(that->qso_data_);
+	// We have no QSO to process - empty file?
+	if (that->qso_ == nullptr) return;
 	field_input* ip = (field_input*)w;
 	field_input::exit_reason_t reason = ip->reason();
 	// Index number of field_input
