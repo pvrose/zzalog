@@ -231,8 +231,10 @@ extern std::list<std::string> recent_files_;
 
 // Forward declarations
 //! Get the backup filename.
+//! \param source Logfile name
+//! \param max_depth Number of backups kept.
 //! \return filename.
-std::string backup_filename(std::string source);
+std::string backup_filename(std::string source, int& max_depth);
 //! Restores file from backup location.
 void restore_backup();
 
@@ -364,6 +366,9 @@ void open_pdf();
 
 //! Get \n th recent file
 std::string recent_file(int n);
+
+//! Copy log to a local mirror if necessary
+void mirror_file();
 
 //! Flag to prevent more than one closure process at the same time.
 extern bool closing_;
