@@ -615,9 +615,9 @@
 		bool been_modified_;
 
 		//! Flag to indicate loading
-		bool loading_;
+		bool loading_ = false;
 		//! Flag to indicate storing
-		bool storing_;
+		bool storing_ = false;
 
 	};
 
