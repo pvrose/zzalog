@@ -141,8 +141,6 @@ typedef size_t qso_num_t;
 		
 		//! Reporting is inhibited if \p inhibit_report is true.
 		valn_error_t validate(const std::string&  field_name, const std::string& data, bool inhibit_report = false);
-		//! Sets the loaded filename
-		void loaded_filename(std::string value);
 		//! Returns the tip message for \p field as used in QSO \p record.
 		std::string get_tip(const std::string& field, record* record);
 		//! Returns the generic tip message.
@@ -250,8 +248,6 @@ typedef size_t qso_num_t;
 		bool record_corrected_;
 		//! Inhibit report
 		bool inhibit_error_report_;
-		//! Loaded filename
-		std::string loaded_filename_;
 		//! Validation abandoned by user. 
 		bool abandon_validation_;
 		//! List of bands in frequency order

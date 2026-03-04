@@ -258,12 +258,6 @@ std::string development_directory_;
 //! Default location for auto-generated compile fodder
 std::string default_code_directory_ = "";
 
-//! Using the mirror rather than the log
-bool using_mirror_ = false;
-
-//! Known mirror status
-bool known_mirror_ = true;
-
 // Get the backup filename
 std::string backup_filename(std::string source, int& max_depth) {
 	zc_settings top_settings;
@@ -295,64 +289,20 @@ std::string backup_filename(std::string source, int& max_depth) {
 
 // Restore from last backup
 void restore_backup() {
-	std::string filename = book_->filename();
-	// Remove existing book
-	status_->misc_status(ST_WARNING, "LOG: Closing current book!");
-	menu_bar::cb_mi_file_new(nullptr, nullptr);
-	zc_settings top_settings;
-	zc_settings behav_settings(&top_settings, "Behaviour");
-	zc_settings backup_settings(&behav_settings, "Backup");
-	std::string backup;
-	backup_settings.get<std::string>("Last Backup", backup, "");
-	// Get backup data
-	READ_ONLY = true;
-	book_->load_data(backup);
+	//std::string filename = book_->filename();
+	//// Remove existing book
+	//status_->misc_status(ST_WARNING, "LOG: Closing current book!");
+	//menu_bar::cb_mi_file_new(nullptr, nullptr);
+	//zc_settings top_settings;
+	//zc_settings behav_settings(&top_settings, "Behaviour");
+	//zc_settings backup_settings(&behav_settings, "Backup");
+	//std::string backup;
+	//backup_settings.get<std::string>("Last Backup", backup, "");
+	//// Get backup data
+	//READ_ONLY = true;
+	//book_->load_data(backup);
 }
 
-// Mirror file
-void mirror_file() {
-	zc_settings settings;
-	zc_settings behav_settings(&settings, "Behaviour");
-	zc_settings mirror_settings(&behav_settings, "Mirror");
-	std::string mirror;
-	mirror_settings.get("Path", mirror, std::string(""));
-	bool enabled;
-	mirror_settings.get("Enabled", enabled, false);
-	if ((!known_mirror_ || enabled && mirror.length() == 0) && file_holder_->on_different_drive(book_->filename())) {
-		// We do not have a mirror set up and the log file is being held remotely
-		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
-		chooser->title("Select directory for mirror - cancel for no mirroring");
-		if (chooser->show() == 0) {
-			mirror = chooser->filename();
-		}
-		delete chooser;
-		if (mirror.length()) {
-			mirror_settings.set("Path", mirror);
-			mirror_settings.set("Enabled", true);
-			mirror_settings.set("Dirty", false);
-		}
-		else {
-			mirror_settings.set("Enabled", false);
-		}
-	}
-	mirror_settings.get("Enabled", enabled, false);
-	mirror_settings.get("Path", mirror, std::string(""));
-	if (enabled) {
-		std::string source = book_->filename();
-		boost::system::error_code ec;
-		boost::filesystem::path p_source(source);
-		std::string mirror_file = mirror + "/" + zc::terminal(source);
-		boost::filesystem::path p_mirror(mirror_file);
-		boost::filesystem::copy(p_source, p_mirror, 
-			boost::filesystem::copy_options::overwrite_existing, ec);
-		if (ec) {
-			status_->misc_status(ST_WARNING, "ZZALOG: Error copying mirror %s - %s", mirror.c_str(), ec.what().c_str());
-		}
-		else {
-			status_->misc_status(ST_NOTE, "ZZALOG: File %s mirrored to %s", source.c_str(), mirror.c_str());
-		}
-	}
-}
 
 // This callback intercepts the close command and performs checks and tidies up
 // Updates recent files settings
@@ -454,23 +404,8 @@ void cb_bn_close(Fl_Widget* w, void*v) {
 			}
 		}
 
-		// Saving any mirror
-		if (book_ && book_->been_modified()) {
-			zc_settings settings;
-			zc_settings behav_settings(&settings, "Behaviour");
-			zc_settings mirror_settings(&behav_settings, "Mirror");
-			if (using_mirror_) {
-				// We cannot mirror as already only written to mirro
-				mirror_settings.set("Dirty", true);
-				status_->misc_status(ST_WARNING, "ZZALOG: Data saved in mirror, NOT in logfile");
-			}
-			else {
-				mirror_file();
-			}	
-		}
-		else {
-			status_->misc_status(ST_NOTE, "ZZALOG: Book has not been modified, skipping mirror");
-		}
+		// Flush the mirror/real versions
+		book_->flush_data();
 
 		// Save the window position
 		zc_settings top_settings;
@@ -954,74 +889,18 @@ void add_book(char* arg) {
 				status_->misc_status(ST_WARNING, "ZZALOG: Creating a new logbook %s",
 					log_file.c_str());
 				set_recent_file(log_file);
-				book_->set_filename(log_file, true);
 				if (!book_->store_data(log_file, true)) {
 					status_->misc_status(ST_ERROR, "ZZALOG: Failed to create %s", log_file.c_str());
 				}
 				return;
 			}
-			// Not a new book so try and load the existing one.
-			// But first get some information.
-			bool has_mirror = false;          // There's a local mirror of the file.
-			std::string mirror_path = "";     // The path thereto
-			bool mirror_dirty = false;        // The mirror has data not in the real file.
-			// File is not on local drive.
-			bool is_remote = file_holder_->on_different_drive(log_file);
-			std::string mirror = mirror_path + "/" + zc::terminal(log_file);
-			zc_settings settings;
-			zc_settings behav_settings(&settings, "Behaviour");
-			zc_settings mirror_settings(&behav_settings, "Mirror");
-			known_mirror_ = mirror_settings.get("Enabled", has_mirror, false);
-			if (has_mirror) {
-				mirror_settings.get("Path", mirror_path, std::string(""));
-				mirror_settings.get("Dirty", mirror_dirty, false);
-			}
-			if (!is_remote && has_mirror) {
-				status_->misc_status(ST_WARNING, "ZZALOG: Local file %s has a mirror copy", log_file.c_str());
-			}
 			// Now try and load the file
 			if (!book_->load_data(log_file)) {
-				// If we have a mirror copy, try that
-				if (has_mirror) {
-					if (book_->load_data(mirror)) {
-						// Successfully loaded mirror file
-						mirror_settings.set("Dirty", mirror_dirty);
-						book_->set_filename(mirror, false);
-						using_mirror_ = true;
-						status_->misc_status(ST_WARNING, "ZZALOG: Loaded mirror log file %s", mirror.c_str());
-					}
-					else {
-						status_->misc_status(ST_ERROR, "ZZALOG: Failed to load log from its mirror %s", mirror.c_str());
-						return;
-					}
-				}
-				else {
-					status_->misc_status(ST_ERROR, "ZZALOG: Failed to load log %s (no mirror)", log_file.c_str());
-					return;
-				}
+				status_->misc_status(ST_ERROR, "ZZALOG: Failed to load log %s", log_file.c_str());
+				return;
 			}
-			else {
-				status_->misc_status(ST_OK, "ZZALOG: Loaded %s", log_file.c_str());
-				// Now check if we need to merge from a dirty mirror
-				if (has_mirror && mirror_dirty) {
-					status_->misc_status(ST_NOTE, "ZZALOG: Merging mirror %s", mirror.c_str());
-					// Load mirror data
-					import_data* mirror_log = new import_data;
-					if (mirror_log->load_data(mirror, import_data::FILE_UPDATE)) {
-						// and merge it.
-						mirror_log->merge_data();
-						status_->misc_status(ST_OK, "ZZALOG: Mirror successfully merged");
-					}
-					else {
-						status_->misc_status(ST_WARNING, "ZZALOG: Failed to open mirror log %s", mirror.c_str());
-					}
-				}
-			}
-			// Now push file onto backup stack
-			if (!using_mirror_) {
-				backup_file();
-				set_recent_file(log_file);
-			}
+			backup_file();
+			set_recent_file(log_file);
 		}
 		if (NEW_BOOK) {
 			if (!book_->store_data(filename_, true)) {
@@ -1487,7 +1366,7 @@ int main(int argc, char** argv)
 // Copy existing data to back up file.
 void backup_file() {
 	int num_backups;
-	std::string source = book_->filename();
+	std::string source = book_->get_filename();
 	std::string backup = backup_filename(source, num_backups);
 	status_->misc_status(ST_NOTE, "BACKUP: Saving %d backups %s", num_backups, backup.c_str());
 	// Renaming backups N-1 => N

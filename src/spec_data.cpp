@@ -81,7 +81,6 @@ spec_data::spec_data()
 	, error_message_("")
 	, saved_record_(nullptr)
 	, inhibit_error_report_(false)
-	, loaded_filename_("")
 	, bands_(nullptr)
 {
 	// get data and load it
@@ -2161,11 +2160,6 @@ std::string spec_data::report_timestamp(std::string field, std::string data) {
 		record_->item("CALL") + ": Field " +
 		field + " (" + data + ") ";
 	return timestamp;
-}
-
-// Set the loaded file name and write a header to the report
-void spec_data::loaded_filename(std::string value) {
-	loaded_filename_ = value;
 }
 
 // Provide tip for the field and data

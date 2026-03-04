@@ -30,8 +30,6 @@
 
 
 	class view;
-	class adi_reader;
-	class adi_writer;
 	class record;
 	class band_set;
 	struct search_criteria_t;
@@ -99,7 +97,10 @@
 	//! This class is the container for the ADIF records. 
 
 	//! These are held in chronological order.
-	//! As well as standing alone it is used as a base class for extract_data and import_data
+	//! As well as standing alone it is used as a base class for extract_data and import_data.
+	//! This class supports the use of a mirror copy of the log file. A mirror
+	//! is used if the target (or real) copy of the file is in a network location
+	//! and may not be available or its use would slow down operation.
 	class book : public std::vector<record*>
 	{
 	// Constructors and destructors
@@ -124,6 +125,12 @@
 		//! \param force store data even if it is unchanged. Defaults to false.
 		//! \param fields store only the specified fields. Defalts to all fields.
 		bool store_data(std::string filename = "", bool force = false, field_list* fields = nullptr);
+
+		//! \brief Flush data.
+		//! Make mirror and real versions of the file the same.
+		//! \return True if successful
+		bool flush_data();
+
 		//! Get the current selected record
 		record* get_record();
 		//! Get the numbered record and optionally select it.
@@ -200,12 +207,16 @@
 		//! \param pos_record the index at which to insert the record.
 		//! \param record the QSO record to be inserted.
 		void insert_record_at(item_num_t pos_record, record* record);
-		//! Get filename
+		////! Get filename
 	
-		//! \param full returns the filename including the full path (as stored),
-		//! otherwise returns only the filename within the directory.
-		//! \return filename as requested by /p full.
-		std::string filename(bool full = true);
+		////! \param full returns the filename including the full path (as stored),
+		////! otherwise returns only the filename within the directory.
+		////! \return filename as requested by /p full.
+		//std::string filename(bool full = true);
+
+		//! \brief Return file details for use in labels
+		std::string file_title();
+
 		//! Match record.
 		
 		//! Returns whether a record matches search criteria.
@@ -437,10 +448,6 @@
 		//! Finds the position in the logbook where there is a gap in operating greater than
 		//! a preset period. Sets the global session_start_ to the timestamp of this QSO record.
 		void set_session_start();
-		//! Get fraction comple of load or save.
-		
-		//! \return the fraction of bytes read (for load) or records written (for save).
-		double get_complete();
 		//! Get loading.
 		
 		//! \return true if the logbook is being loaded from filestore, false if it is not.
@@ -455,13 +462,7 @@
 		//! Remove no longer supported ZZALOG application specific ADIF fields, used
 		//! as macros by ZZALOG.
 		void deprecate_macros(record* use_record);
-		//! Set the filename.
-		
-		//! \param filename if the logbook is empty set this as the new filename and
-		//! \param new_file new file is being created that needs saving.
-		//! propagate to other components of ZZALOG.
-		void set_filename(std::string filename, bool new_file);
-
+	
 		//! Get filename
 		std::string get_filename();
 
@@ -493,6 +494,14 @@
 		//! \return true if the "dirty" list is not empty, false if it is.
 		bool is_dirty();
 
+	protected:
+		//! \brief Read the mirroring settings
+		void load_mirror_settings();
+		//! \brief Store the mirroring settings
+		void store_mirror_settings();
+		//! \brief Ask user for mirror details
+		void get_mirror_details();
+
 		// Protected attributes
 	protected:
 		//! Index of the current selected QSO in this set of QSO records.
@@ -505,8 +514,28 @@
 		object_t book_type_;
 		//! Save in progress: used to inhibit further saves.
 		bool save_in_progress_;
-		//! Current filename.
-		std::string filename_;
+		//! Real filename - where the file is intended to be.
+		std::string real_filename_;
+		//! Mirror directory - location of a mirror copy in local filestore.
+		std::string mirror_directory_;
+		//! Mirror filename
+		std::string mirror_filename_;
+		//! How the mirror is being used
+		enum mirror_t {
+			MU_UNKNOWN,                 //!< Mirror use is not known
+			MU_REAL_ONLY,               //!< Only real file is used.
+			                            //!< This is normal behaviour for local files.
+			MU_MIRROR_ONLY,             //!< Only the mirror file is being used.
+			                            //!< This is the behaviour if the network file is not available.
+			MU_REAL_PRIME,              //!< Both are used: real is continually updated and copied to mirror at close.
+			                            //!< This is normal behaviour for network files.
+			MU_MIRROR_PRIME,            //!< Both are used: mirror is continually updated and copied to real at close.
+			                            //!< This is the behaviour if accessing the network file slows operation.
+		} mirror_use_;
+		//! Mirror enabled in settings.
+		bool mirror_enabled_;
+		//! Mirror left dirty last use.
+		bool mirror_dirty_;
 		//! Current input filestream.
 		std::ifstream input_;
 		//! File format.
@@ -573,9 +602,6 @@
 		//! This is incremented every time enable_save(false) is called and
 		//! decremented every time enable_save(true) is called.
 		int save_level_;
-		// Readers and writer
-		adi_reader* adi_reader_;  //!< Component used to read a .adi format file.
-		adi_writer* adi_writer_;  //!< Component used to write a .adi format file.
 		//! Flag set when uploads to QSL sites is allowed.
 		bool upload_allowed_;
 		//! The set of QSO records that have been declared "dirty". 
@@ -587,6 +613,11 @@
 		bool deleted_record_;
 		//! Flag to indicate that the book has been modified and so needs backing up.
 		bool been_modified_;
+
+		//! Flag to indicate loading
+		bool loading_;
+		//! Flag to indicate storing
+		bool storing_;
 
 	};
 

@@ -404,7 +404,7 @@ void menu_bar::cb_mi_file_save(Fl_Widget* w, void* v) {
 	}
 	else {
 		// If we have a file loaded then save it
-		if (book_->filename().length()) {
+		if (book_->get_filename().length()) {
 			book_->store_data();
 			READ_ONLY = false;
 		}
@@ -418,7 +418,7 @@ void menu_bar::cb_mi_file_save(Fl_Widget* w, void* v) {
 // File->SaveAs 
 // v is set to the enum object_t. OT_MAIN = save main book, OT_EXTRACT = save extracted records
 void menu_bar::cb_mi_file_saveas(Fl_Widget* w, void* v) {
-	std::string filename = book_->filename();
+	std::string filename = book_->get_filename();
 	Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
 	chooser->title("Select file name to save");
 	chooser->filter("ADI Files\t*.adi\nADX Files\t*.adx\nTSV Files\t*.{tsv,tab}");
