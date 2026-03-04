@@ -1006,7 +1006,7 @@ void add_book(char* arg) {
 				if (has_mirror && mirror_dirty) {
 					status_->misc_status(ST_NOTE, "ZZALOG: Merging mirror %s", mirror.c_str());
 					// Load mirror data
-					import_data* mirror_log;
+					import_data* mirror_log = new import_data;
 					if (mirror_log->load_data(mirror, import_data::FILE_UPDATE)) {
 						// and merge it.
 						mirror_log->merge_data();
