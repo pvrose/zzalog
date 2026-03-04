@@ -584,7 +584,8 @@ void book::delete_contents(bool new_book) {
 	clear();
 	// Set it unmodified
 	dirty_qsos_.clear();
-	filename_ = "";
+	real_filename_ = "";
+	mirror_filename_ = "";
 	format_ = FT_NONE;
 	delete header_;
 	header_ = nullptr;
