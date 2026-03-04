@@ -367,9 +367,6 @@ void open_pdf();
 //! Get \n th recent file
 std::string recent_file(int n);
 
-//! Copy log to a local mirror if necessary
-void mirror_file();
-
 //! Flag to prevent more than one closure process at the same time.
 extern bool closing_;
 
