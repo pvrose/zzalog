@@ -896,7 +896,6 @@ void add_book(char* arg) {
 			}
 			// Now try and load the file
 			if (!book_->load_data(log_file)) {
-				status_->misc_status(ST_ERROR, "ZZALOG: Failed to load log %s", log_file.c_str());
 				return;
 			}
 			backup_file();

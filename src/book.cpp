@@ -229,6 +229,7 @@ bool book::load_data(std::string filename)
 						// Check how to handle the mirror
 						if (mirror_enabled_) {
 							input_.close();
+							status_->misc_status(ST_NOTE, "LOG: Loading mirror %s", mirror_filename_.c_str()	);
 							input_.open(mirror_filename_.c_str(), std::fstream::in);
 							if (!reader->load_book(this, input_)) {
 								// Cannot load mirror either
