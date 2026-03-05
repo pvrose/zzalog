@@ -886,11 +886,11 @@ void add_book(char* arg) {
 
 			// get_file() sets NEW_BOOK
 			if (NEW_BOOK) {
-				status_->misc_status(ST_WARNING, "ZZALOG: Creating a new logbook %s",
+				status_->misc_status(ST_WARNING, "LOG: Creating a new logbook %s",
 					log_file.c_str());
 				set_recent_file(log_file);
 				if (!book_->store_data(log_file, true)) {
-					status_->misc_status(ST_ERROR, "ZZALOG: Failed to create %s", log_file.c_str());
+					status_->misc_status(ST_ERROR, "LOG: Failed to create %s", log_file.c_str());
 				}
 				return;
 			}
@@ -898,12 +898,13 @@ void add_book(char* arg) {
 			if (!book_->load_data(log_file)) {
 				return;
 			}
+			status_->misc_status(ST_OK, "LOG: Loaded logbook (%s)", book_->get_mirror_use().c_str());
 			backup_file();
 			set_recent_file(log_file);
 		}
 		if (NEW_BOOK) {
 			if (!book_->store_data(filename_, true)) {
-				status_->misc_status(ST_ERROR, "ZZALOG: Failed to create %s", filename_);
+				status_->misc_status(ST_ERROR, "LOG: Failed to create %s", filename_);
 			}
 		}
 	}

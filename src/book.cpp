@@ -238,6 +238,7 @@ bool book::load_data(std::string filename)
 							else {
 								// Using mirror and cannot use target version
 								mirror_use_ = MU_MIRROR_ONLY;
+								ok = true;
 							}
 						}
 					}
