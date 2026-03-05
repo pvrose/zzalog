@@ -10,7 +10,7 @@ Please follow instructions to install this. ZZALOG will be installed in
 "C:\Program Files\GM3ZZA\ZZALOG\". 
 Data used by ZZALOG will be installed in "C:\ProgramData\GM3ZZA\ZZALOG". 
 
-The source may be cloned from https://github.com/pvrose/zzatools. 
+The source may be cloned from https://github.com/pvrose/zzalog. 
 However this has dependencies on the following libraries: 
 FLTK, HAMLIB and LIBCURL. 
 The documentation also requires the use of Doxygen and LateX.
@@ -23,7 +23,7 @@ Linux Installation
 ------------------
 
 ZZALOG is available in source form. It may be cloned from 
-"https://github.com/pvrose/zzatools". 
+"https://github.com/pvrose/zzalog". 
 It has dependencies on the external libraries: fltk, hamlib, libcurl and 
 nlohmann/json. To date this has only been developed on Debian bookworm.
 

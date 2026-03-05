@@ -621,11 +621,6 @@
 		//! Flag to indicate that the book has been modified and so needs backing up.
 		bool been_modified_;
 
-		//! Flag to indicate loading
-		bool loading_;
-		//! Flag to indicate storing
-		bool storing_;
-
 	};
 
 #endif

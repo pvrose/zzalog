@@ -1944,6 +1944,7 @@ record* qso_data::current_qso() {
 	case QRZ_COPY:
 		return g_query_->qso();
 	case NET_STARTED:
+	case NET_ADDING:
 	case NET_EDIT:
 		return g_net_entry_->qso();
 	case MANUAL_ENTRY:
