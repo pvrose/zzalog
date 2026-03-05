@@ -621,6 +621,11 @@
 		//! Flag to indicate that the book has been modified and so needs backing up.
 		bool been_modified_;
 
+		//! Flag to indicate that the book is being loaded from filestore.
+		bool loading_ = false;
+		//! Flag to indicate that the book is being stored to filestore.
+		bool storing_ = false;
+
 	};
 
 #endif
