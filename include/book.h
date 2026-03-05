@@ -99,7 +99,7 @@
 	//! These are held in chronological order.
 	//! As well as standing alone it is used as a base class for extract_data and import_data.
 	//! This class supports the use of a mirror copy of the log file. A mirror
-	//! is used if the target (or real) copy of the file is in a network location
+	//! is used if the target (or target) copy of the file is in a network location
 	//! and may not be available or its use would slow down operation.
 	class book : public std::vector<record*>
 	{
@@ -127,7 +127,7 @@
 		bool store_data(std::string filename = "", bool force = false, field_list* fields = nullptr);
 
 		//! \brief Flush data.
-		//! Make mirror and real versions of the file the same.
+		//! Make mirror and target versions of the file the same.
 		//! \return True if successful
 		bool flush_data();
 
@@ -466,8 +466,8 @@
 		//! Get filename
 		std::string get_filename();
 
-		//! Get real filename
-		std::string get_real_filename();
+		//! Get target filename
+		std::string get_target_filename();
 
 		//! Get mirror use description
 		std::string get_mirror_use();
@@ -521,8 +521,8 @@
 		object_t book_type_;
 		//! Save in progress: used to inhibit further saves.
 		bool save_in_progress_;
-		//! Real filename - where the file is intended to be.
-		std::string real_filename_;
+		//! Target filename - where the file is intended to be.
+		std::string target_filename_;
 		//! Mirror directory - location of a mirror copy in local filestore.
 		std::string mirror_directory_;
 		//! Mirror filename
@@ -530,13 +530,13 @@
 		//! How the mirror is being used
 		enum mirror_t {
 			MU_UNKNOWN,                 //!< Mirror use is not known
-			MU_REAL_ONLY,               //!< Only real file is used.
+			MU_TARGET_ONLY,               //!< Only target file is used.
 			                            //!< This is normal behaviour for local files.
 			MU_MIRROR_ONLY,             //!< Only the mirror file is being used.
 			                            //!< This is the behaviour if the network file is not available.
-			MU_REAL_PRIME,              //!< Both are used: real is continually updated and copied to mirror at close.
+			MU_TARGET_PRIME,              //!< Both are used: target is continually updated and copied to mirror at close.
 			                            //!< This is normal behaviour for network files.
-			MU_MIRROR_PRIME,            //!< Both are used: mirror is continually updated and copied to real at close.
+			MU_MIRROR_PRIME,            //!< Both are used: mirror is continually updated and copied to target at close.
 			                            //!< This is the behaviour if accessing the network file slows operation.
 		} mirror_use_;
 		//! Mirror enabled in settings.

@@ -66,7 +66,7 @@ public:
 
 	Fl_Output* op_mirror_use_;         //!< Displays mirror use.
 	Fl_Output* op_logname_;            //!< Displays current log filename.
-	Fl_Output* op_realname_;           //!< Displays real (target) log filename.
+	Fl_Output* op_targetname_;           //!< Displays target (target) log filename.
 	// widgets - backup configuration
 	Fl_Group* grp_backup_;             //!< Widgets controlling backup behaviour.
 	zc_filename_input* ip_bu_path_;    //!< Backup directory path.
@@ -78,8 +78,5 @@ public:
 	zc_filename_input* ip_mr_path_;    //!< Mirror directory path.
 	Fl_Check_Button* bn_mr_working_;   //!< Use the mirror file as working data.
 
-	// Settings
-	zc_settings* mirror_settings_;
-	zc_settings* backup_settings_;
 
 };

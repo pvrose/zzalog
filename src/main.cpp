@@ -404,7 +404,7 @@ void cb_bn_close(Fl_Widget* w, void*v) {
 			}
 		}
 
-		// Flush the mirror/real versions
+		// Flush the mirror/target versions
 		book_->flush_data();
 
 		// Save the window position

@@ -81,7 +81,7 @@ book::book(object_t type)
 	, header_(nullptr)
 	, inhibit_view_update_(false)
 	, current_item_(0)
-	, real_filename_("")
+	, target_filename_("")
 	, mirror_directory_("")
     , format_(FT_ADI)
 	, criteria_(nullptr)
@@ -120,7 +120,7 @@ book::~book()
 void book::load_mirror_settings() {
 	if (book_type_ != OT_MAIN) {
 		mirror_enabled_ = false;
-		mirror_use_ = MU_REAL_ONLY;
+		mirror_use_ = MU_TARGET_ONLY;
 		return;
 	}
 	zc_settings settings;
@@ -134,14 +134,15 @@ void book::load_mirror_settings() {
 #endif
 	if (use_known && mirror_enabled_) {
 		mir_settings.get("Path", mirror_directory_, std::string(""));
+		mirror_filename_ = mirror_directory_ + "/" + zc::terminal(target_filename_);	
 		mir_settings.get("Dirty", mirror_dirty_, false);
 		mir_settings.get("Writeback", writeback, writeback);
 	}
 	// Set the default mirror use.
 	if (!use_known) mirror_use_ = MU_UNKNOWN;
 	else if (mirror_enabled_ && writeback) mirror_use_ = MU_MIRROR_PRIME;
-	else if (mirror_enabled_ && !writeback) mirror_use_ = MU_REAL_PRIME;
-	else mirror_use_ = MU_REAL_ONLY;
+	else if (mirror_enabled_ && !writeback) mirror_use_ = MU_TARGET_PRIME;
+	else mirror_use_ = MU_TARGET_ONLY;
 }
 
 // Stor mirror settings
@@ -197,32 +198,32 @@ bool book::load_data(std::string filename)
 				}
 				char message[128];
 				// remember filename 
-				real_filename_ = filename;
+				target_filename_ = filename;
 				// Get mirror filename
 				switch (mirror_use_) {
 				case MU_UNKNOWN:
-				case MU_REAL_ONLY:
+				case MU_TARGET_ONLY:
 					mirror_filename_ = "";
 					break;
 				case MU_MIRROR_ONLY:
-				case MU_REAL_PRIME:
+				case MU_TARGET_PRIME:
 				case MU_MIRROR_PRIME:
-					mirror_filename_ = mirror_directory_ + "/" + zc::terminal(real_filename_);
+					mirror_filename_ = mirror_directory_ + "/" + zc::terminal(target_filename_);
 					break;
 				}
 				// Update status bar
-				snprintf(message, sizeof(message), "LOG: Loading log-book %s", real_filename_.c_str());
+				snprintf(message, sizeof(message), "LOG: Loading log-book %s", target_filename_.c_str());
 				status_->misc_status(ST_NOTE, message);
 				// Use ADI reader to read from an input stream connected to thefile
 				adi_reader* reader = new adi_reader;
-				input_.open(real_filename_.c_str(), std::fstream::in);
+				input_.open(target_filename_.c_str(), std::fstream::in);
 				// Load the book
 				if (book_type_ == OT_MAIN) {
 					main_loading_ = true;
 				}
 				if (!reader->load_book(this, input_)) {
 					// Error while reading book
-					sprintf(message, "LOG: Failed to load %s", real_filename_.c_str());
+					sprintf(message, "LOG: Failed to load %s", target_filename_.c_str());
 					status_->misc_status(closing_ ? ST_WARNING : ST_ERROR, message);
 					if (book_type_ == OT_MAIN && !closing_) {
 						// Check how to handle the mirror
@@ -234,7 +235,7 @@ bool book::load_data(std::string filename)
 								status_->misc_status(ST_ERROR, "LOG: Failed to load mirror %s", mirror_filename_.c_str());
 							}
 							else {
-								// Using mirror and cannot use real version
+								// Using mirror and cannot use target version
 								mirror_use_ = MU_MIRROR_ONLY;
 							}
 						}
@@ -375,10 +376,10 @@ bool book::store_data(std::string filename, bool force, field_list* fields) {
 					// Uses where we regularly save the mirror
 					save_filename = mirror_filename_;
 					break;
-				case MU_REAL_ONLY:
-				case MU_REAL_PRIME:
-					// Uses where we regularly save the real version
-					save_filename = real_filename_;
+				case MU_TARGET_ONLY:
+				case MU_TARGET_PRIME:
+					// Uses where we regularly save the target version
+					save_filename = target_filename_;
 					break;
 				case MU_UNKNOWN:
 					// Should never try to do this.
@@ -584,7 +585,7 @@ void book::delete_contents(bool new_book) {
 	clear();
 	// Set it unmodified
 	dirty_qsos_.clear();
-	real_filename_ = "";
+	target_filename_ = "";
 	mirror_filename_ = "";
 	format_ = FT_NONE;
 	delete header_;
@@ -1663,9 +1664,9 @@ bool book::is_dirty_record(record* qso) {
 std::string book::get_filename() {
 	switch (mirror_use_) {
 	case MU_UNKNOWN:
-	case MU_REAL_ONLY:
-	case MU_REAL_PRIME:
-		return real_filename_;
+	case MU_TARGET_ONLY:
+	case MU_TARGET_PRIME:
+		return target_filename_;
 	case MU_MIRROR_ONLY:
 	case MU_MIRROR_PRIME:
 		return mirror_filename_;
@@ -1673,9 +1674,9 @@ std::string book::get_filename() {
 	return "";
 }
 
-// Get real filename
-std::string book::get_real_filename() {
-	return real_filename_;
+// Get target filename
+std::string book::get_target_filename() {
+	return target_filename_;
 }
 
 // Get mirroe use description
@@ -1683,12 +1684,12 @@ std::string book::get_mirror_use() {
 	switch (mirror_use_) {
 	case MU_UNKNOWN:
 		return "Unknown";
-	case MU_REAL_ONLY:
-		return "Mirror not used - real file only";
-	case MU_REAL_PRIME:
-		return "Mirror being used - working on real file";
+	case MU_TARGET_ONLY:
+		return "Mirror not used - target file only";
+	case MU_TARGET_PRIME:
+		return "Mirror being used - working on target file";
 	case MU_MIRROR_ONLY:
-		return "Mirror being used - real file not available";
+		return "Mirror being used - target file not available";
 	case MU_MIRROR_PRIME:
 		return "Mirror being used - working on mirror file";
 	default:
@@ -1700,12 +1701,12 @@ std::string book::get_mirror_use() {
 std::string book::file_title() {
 	switch (mirror_use_) {
 	case MU_UNKNOWN:
-	case MU_REAL_ONLY:
-		return real_filename_;
-	case MU_REAL_PRIME:
-		return real_filename_ + " - Mirrored";
+	case MU_TARGET_ONLY:
+		return target_filename_;
+	case MU_TARGET_PRIME:
+		return target_filename_ + " - Mirrored";
 	case MU_MIRROR_ONLY:
-		return mirror_filename_ + " - Real N/A";
+		return mirror_filename_ + " - Target N/A";
 	case MU_MIRROR_PRIME:
 		return mirror_filename_ + " (Mirror)";
 	}
@@ -1715,17 +1716,17 @@ std::string book::file_title() {
 // Flush data
 bool book::flush_data() {
 	boost::system::error_code ec;
-	boost::filesystem::path p_real(real_filename_);
+	boost::filesystem::path p_target(target_filename_);
 	boost::filesystem::path p_mirror(mirror_filename_);
 	switch(mirror_use_) {
 	case MU_MIRROR_PRIME:
-		boost::filesystem::copy(p_mirror, p_real,
+		boost::filesystem::copy(p_mirror, p_target,
 			boost::filesystem::copy_options::overwrite_existing, ec);
 		if (ec) {
 			status_->misc_status(
 				ST_WARNING, 
 				"LOG: Error restoring source %s - %s", 
-				real_filename_.c_str(), 
+				target_filename_.c_str(), 
 				ec.what().c_str());
 			return false;
 		}
@@ -1733,13 +1734,13 @@ bool book::flush_data() {
 			status_->misc_status(
 				ST_NOTE, 
 				"LOG: File %s restored from %s", 
-				real_filename_.c_str(), 
+				target_filename_.c_str(), 
 				mirror_filename_.c_str());
 			return true;
 		}
 		break;
-	case MU_REAL_PRIME:
-		boost::filesystem::copy(p_real, p_mirror,
+	case MU_TARGET_PRIME:
+		boost::filesystem::copy(p_target, p_mirror,
 			boost::filesystem::copy_options::overwrite_existing, ec);
 		if (ec) {
 			status_->misc_status(
@@ -1753,7 +1754,7 @@ bool book::flush_data() {
 			status_->misc_status(
 				ST_NOTE, 
 				"LOG: File %s mirrored to %s", 
-				real_filename_.c_str(), 
+				target_filename_.c_str(), 
 				mirror_filename_.c_str());
 			return true;
 		}
@@ -1777,12 +1778,12 @@ void book::get_mirror_details() {
 #ifdef _WIN32
 		mirror_use_ = MU_MIRROR_PRIME;
 #else
-		mirror_use_ = MU_REAL_PRIME;
+		mirror_use_ = MU_TARGET_PRIME;
 #endif
 	}
 	else {
 		mirror_enabled_ = false;
-		mirror_use_ = MU_REAL_ONLY;
+		mirror_use_ = MU_TARGET_ONLY;
 	}
 
 }

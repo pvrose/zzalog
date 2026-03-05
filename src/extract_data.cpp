@@ -56,7 +56,7 @@ extract_data::~extract_data()
 	// Same as book::delete_contents without deleting the records - these are wanted
 	clear();
 	dirty_qsos_.clear();
-	real_filename_ = "";
+	target_filename_ = "";
 	format_ = FT_NONE;
 	delete header_;
 	header_ = nullptr;
