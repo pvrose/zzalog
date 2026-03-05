@@ -49,6 +49,7 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/band_widget.cpp
   ${ZZALOG_SRC_DIR}/band_window.cpp
   ${ZZALOG_SRC_DIR}/book.cpp
+  ${ZZALOG_SRC_DIR}/bumr_dialog.cpp
   ${ZZALOG_SRC_DIR}/change_dialog.cpp
   ${ZZALOG_SRC_DIR}/club_handler.cpp
   ${ZZALOG_SRC_DIR}/condx_view.cpp
@@ -158,6 +159,7 @@ set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/band_widget.h
   ${ZZALOG_INCLUDE_DIR}/band_window.h
   ${ZZALOG_INCLUDE_DIR}/book.h
+  ${ZZALOG_INCLUDE_DIR}/bumr_dialog.h
   ${ZZALOG_INCLUDE_DIR}/change_dialog.h
   ${ZZALOG_INCLUDE_DIR}/club_handler.h
   ${ZZALOG_INCLUDE_DIR}/condx_view.h

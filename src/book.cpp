@@ -1673,6 +1673,28 @@ std::string book::get_filename() {
 	return "";
 }
 
+// Get real filename
+std::string book::get_real_filename() {
+	return real_filename_;
+}
+
+// Get mirroe use description
+std::string book::get_mirror_use() {
+	switch (mirror_use_) {
+	case MU_UNKNOWN:
+		return "Unknown";
+	case MU_REAL_ONLY:
+		return "Mirror not used - real file only";
+	case MU_REAL_PRIME:
+		return "Mirror being used - working on real file";
+	case MU_MIRROR_ONLY:
+		return "Mirror being used - real file not available";
+	case MU_MIRROR_PRIME:
+		return "Mirror being used - working on mirror file";
+	default:
+		return "Invalid mirror use value";
+	}
+}
 
 // get file title
 std::string book::file_title() {

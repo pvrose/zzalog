@@ -47,6 +47,7 @@ const int HCONFIG = 500;
 			DLG_COLUMN,     //!< Columns (aka fields) format dialog.
 			DLG_USER,       //!< User formatting configuration dialog.
 			DLG_QSLE,       //!< QSL Editor.
+			DLG_BUMR,       //!< Backup and mirror dialog.
 			DLG_CONTEST,    //!< Contest setup dialog.
 			DLG_X           //!< Marks end of enumeration.
 		};

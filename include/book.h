@@ -466,6 +466,12 @@
 		//! Get filename
 		std::string get_filename();
 
+		//! Get real filename
+		std::string get_real_filename();
+
+		//! Get mirror use description
+		std::string get_mirror_use();
+
 		//! Is this record in the book?
 		
 		//! \param qso QSO record to check in the log.
@@ -494,9 +500,10 @@
 		//! \return true if the "dirty" list is not empty, false if it is.
 		bool is_dirty();
 
-	protected:
 		//! \brief Read the mirroring settings
 		void load_mirror_settings();
+
+	protected:
 		//! \brief Store the mirroring settings
 		void store_mirror_settings();
 		//! \brief Ask user for mirror details

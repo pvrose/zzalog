@@ -17,6 +17,7 @@
 */
 #include "config.h"
 
+#include "bumr_dialog.h"
 #include "contest_dialog.h"
 #include "fields_dialog.h"
 #include "ident.h"
@@ -93,6 +94,12 @@ config::config(int W, int H, const char* label) :
 	qsle->tooltip("Allows the creation of QSL designs");
 	children_ids_.push_back(DLG_QSLE);
 	updatable_views_.insert(qsle);
+	// Backup and mirror
+	bumr_dialog* bumr = new bumr_dialog(rx, ry, rw, rh, "Backup and mirror");
+	bumr->labelfont(FL_BOLD);
+	bumr->labelsize(FL_NORMAL_SIZE + 2);
+	bumr->tooltip("Allows the configuration of backup and mirror behaviour");
+	children_ids_.push_back(DLG_BUMR);
 	// Contest definition
 	contest_dialog* ctdlg = new contest_dialog(rx, ry, rw, rh, "Contests");
 	ctdlg->labelfont(FL_BOLD);
@@ -235,6 +242,9 @@ void config::set_label(config::cfg_dialog_t active) {
 		break;
 	case DLG_CONTEST:
 		label("Configuration: Define Contest - dates, exchanges and scoring");
+		break;
+	case DLG_BUMR:
+		label("Configuration: Define backup and mirror configuration");
 		break;
 	case DLG_X:
 		label("Configuration: *** UNKNOWN ***");
