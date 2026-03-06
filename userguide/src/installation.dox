@@ -207,7 +207,9 @@ The other tabs can then be used to provide further information on the station.
 \image html init_6.png "Specifying callsign details"
 \image latex init_6.png "Specifying callsign details" width=8cm
 
-Close this window to proceed.
+Close this window to proceed. 
+\note At least either the town/city or 6-letter grid-square must be provided for the location.
+
 
 Dialogs then open to select:
 - A file to store the logbook. The name of the file will default to the 
