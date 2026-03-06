@@ -458,6 +458,12 @@ endif()
         DESTINATION ${CMAKE_INSTALL_RPATH}/api
         MESSAGE_NEVER
       )
+      # install ZZACOMMON API documentation HTML files
+      install(
+        DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/zzacommon/api/html
+        DESTINATION ${CMAKE_INSTALL_RPATH}/zzacommon/api
+        MESSAGE_NEVER
+      )
     endif()
 #endif(MSVC)
 
