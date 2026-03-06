@@ -7,12 +7,14 @@
   - Restore original FlLog emulation (removed in 3.6.12) after bug fixes therewith.
   - Add QTH in QSO record as source of location data, looking up in openweather.org.
   - Add mirroring of logbook file to support use of network files.
+  - Cold start: require minimum amount of user data.
 - Cosmetic and non-functional changes.
   - Prevent banner from always appearing on top of dashboard.
   - Remove cursor manipulation.
   - Allow terminal-style monospace font for log tables.
   - Change presentation in qso_dxcc pane: describe source of latitude and longitude more clearly.
   - Add LGPL licence.
+  - Separate API documentation for ZZALOG and ZZACOMMON.
 - Performance changes.
   - None.
 - Bug fixes.
@@ -21,6 +23,7 @@
   - Country data file timestamps not recorded correctly.
   - Spurious updates to QSO records with non-critical data.
   - Callsign decode partly left displayed when QSO not selected.
+  - Correct or remove misleading messages.
 
 \section rev_3-6-14 Revision 3.6.14
 
