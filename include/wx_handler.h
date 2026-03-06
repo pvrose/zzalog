@@ -23,6 +23,7 @@
 #include <list>
 #include <thread>
 #include <atomic>
+#include <mutex>
 
 
 
@@ -83,6 +84,9 @@ public:
     //! Callback from fetch thread on error.
     static void cb_fetch_error(void* v);
 
+	//! Weaather report is valid
+	bool wx_valid();
+
     // Get the various weather items - 
     //! Returns icon
     Fl_Image* icon() const;
@@ -135,10 +139,10 @@ protected:
     static void do_thread(wx_handler* that);
     //! The fetch thread
     std::thread* wx_thread_;
-    //! True when data has been received from weather server
-    std::atomic<bool> wx_valid_;
-    //! True start fetching data from weather server.
-    std::atomic<bool> wx_fetch_;
+	//! Enable weather fetch
+	std::atomic<bool> enable_fetch_;
+	//! Do one fetch
+	std::atomic<bool> do_fetch_;
 
     //! Current weather report
     wx_report report_;
@@ -146,9 +150,9 @@ protected:
     std::string element_data_;
     //! Unit value
     std::string unit_;
-    //! Error code
-    int error_code_;
     //! Error message
     std::string error_message_;
+	//! WX report is valid
+	bool wx_valid_;
 
 };

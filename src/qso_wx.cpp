@@ -140,7 +140,6 @@ void qso_wx::create_form(int X, int Y) {
 	
 	// Button that displays the received weather icon
 	bn_wx_icon_ = new Fl_Button(curr_x, curr_y, WICON, WICON);
-	bn_wx_icon_->color(COLOUR_GREY);
 	bn_wx_icon_->box(FL_FLAT_BOX);
 	bn_wx_icon_->callback(cb_bn_icon, nullptr);
 
@@ -228,55 +227,56 @@ void qso_wx::create_form(int X, int Y) {
 
 // Enable/disab;e widgets
 void qso_wx::enable_widgets() {
-	// Get the data from the WX Handler object
-	time_t sunrise = wx_handler_ ? wx_handler_->sun_rise() : 0;
-	time_t sunset = wx_handler_ ? wx_handler_->sun_set() : 0;
-	std::string wx_descr = wx_handler_ ? wx_handler_->description() : "";
-	float temperature = wx_handler_ ? wx_handler_->temperature() : 0.0; 
-	float wind_speed = wx_handler_ ? wx_handler_->wind_speed() : 0.0;
-	std::string wind_descr = wx_handler_ ? wx_handler_->wind_name() : "";
-	std::string wind_dirn = wx_handler_ ? wx_handler_->wind_direction() : "";
-	unsigned int wind_degree = wx_handler_ ? wx_handler_->wind_degrees() : 0;
-	float pressure = wx_handler_ ? wx_handler_->pressure() : 0.0;
-	float cloud_cover = wx_handler_ ? wx_handler_->cloud() : 0.0;
-	std::string cloud_descr = wx_handler_ ? wx_handler_->cloud_name() : "";
-	Fl_Image* icon = wx_handler_ ? wx_handler_->icon() : nullptr;
-	time_t updated = wx_handler_ ? wx_handler_->last_updated() : 0;
-	std::string wx_location = wx_handler_ ? wx_handler_->location() : "";
-	std::string wx_latlong = wx_handler_ ? wx_handler_->latlong() : "";
+	if (wx_handler_ && wx_handler_->wx_valid()) {
+		// Get the data from the WX Handler object
+		time_t sunrise = wx_handler_ ? wx_handler_->sun_rise() : 0;
+		time_t sunset = wx_handler_ ? wx_handler_->sun_set() : 0;
+		std::string wx_descr = wx_handler_ ? wx_handler_->description() : "";
+		float temperature = wx_handler_ ? wx_handler_->temperature() : 0.0;
+		float wind_speed = wx_handler_ ? wx_handler_->wind_speed() : 0.0;
+		std::string wind_descr = wx_handler_ ? wx_handler_->wind_name() : "";
+		std::string wind_dirn = wx_handler_ ? wx_handler_->wind_direction() : "";
+		unsigned int wind_degree = wx_handler_ ? wx_handler_->wind_degrees() : 0;
+		float pressure = wx_handler_ ? wx_handler_->pressure() : 0.0;
+		float cloud_cover = wx_handler_ ? wx_handler_->cloud() : 0.0;
+		std::string cloud_descr = wx_handler_ ? wx_handler_->cloud_name() : "";
+		Fl_Image* icon = wx_handler_ ? wx_handler_->icon() : nullptr;
+		time_t updated = wx_handler_ ? wx_handler_->last_updated() : 0;
+		std::string wx_location = wx_handler_ ? wx_handler_->location() : "";
+		std::string wx_latlong = wx_handler_ ? wx_handler_->latlong() : "";
 
-	bool local = zc::ancestor_view<qso_clocks>(this)->is_local();
+		bool local = zc::ancestor_view<qso_clocks>(this)->is_local();
 
-	tm sunup_time;
-	tm sundown_time;
-	tm updated_time;
-	// Sunrise and sunset
-	if (local) {
-		sunup_time = *localtime(&sunrise);
-		sundown_time = *localtime(&sunset);
-		updated_time = *localtime(&updated);
-	}
-	else {
-		sunup_time = *gmtime(&sunrise);
-		sundown_time = *gmtime(&sunset);
-		updated_time = *gmtime(&updated);
-	}
-	// Latitude and Longitude 
-	bn_location_->copy_label(wx_location.c_str());
-	bn_latlong_->copy_label(wx_latlong.c_str());
-	// Set the weather description
-	char label[128];
-	memset(label, '\0', sizeof(label));
-	if (wx_descr != cloud_descr) {
-		strcat(label, wx_descr.c_str());
+		tm sunup_time;
+		tm sundown_time;
+		tm updated_time;
+		// Sunrise and sunset
+		if (local) {
+			sunup_time = *localtime(&sunrise);
+			sundown_time = *localtime(&sunset);
+			updated_time = *localtime(&updated);
+		}
+		else {
+			sunup_time = *gmtime(&sunrise);
+			sundown_time = *gmtime(&sunset);
+			updated_time = *gmtime(&updated);
+		}
+		// Latitude and Longitude 
+		bn_location_->copy_label(wx_location.c_str());
+		bn_latlong_->copy_label(wx_latlong.c_str());
+		// Set the weather description
+		char label[128];
+		memset(label, '\0', sizeof(label));
+		if (wx_descr != cloud_descr) {
+			strcat(label, wx_descr.c_str());
+			strcat(label, "\n");
+		}
+		strcat(label, zc::to_lower(wind_descr).c_str());
 		strcat(label, "\n");
-	}
-	strcat(label, zc::to_lower(wind_descr).c_str());
-	strcat(label, "\n");
-	strcat(label, cloud_descr.c_str());
-	bn_wx_description_->copy_label(label);
-	// Set temperature
-	switch(display_temperature_) {
+		strcat(label, cloud_descr.c_str());
+		bn_wx_description_->copy_label(label);
+		// Set temperature
+		switch (display_temperature_) {
 		case CELSIUS: {
 			snprintf(label, sizeof(label), "%0.0f\n\302\260C", temperature);
 			break;
@@ -288,20 +288,20 @@ void qso_wx::enable_widgets() {
 		default:
 			strcpy(label, "");
 			break;
-	}
-	bn_temperature_->copy_label(label);
-	// Set wind-speed
-	switch(display_speed_) {
+		}
+		bn_temperature_->copy_label(label);
+		// Set wind-speed
+		switch (display_speed_) {
 		case MILE_PER_HOUR: {
 			snprintf(label, sizeof(label), "%0.0f\nMPH", wind_speed);
 			break;
 		}
 		case METRE_PER_SECOND: {
-			snprintf(label, sizeof(label), "%0.0f\nm s\342\201\273\302\271", wind_speed * 1760 * 36 *25.4 / 3600000);
+			snprintf(label, sizeof(label), "%0.0f\nm s\342\201\273\302\271", wind_speed * 1760 * 36 * 25.4 / 3600000);
 			break;
 		}
 		case KM_PER_HOUR: {
-			snprintf(label, sizeof(label), "%0.0f\nkm/h", wind_speed * 1760 * 36 *25.4 / 1000000);
+			snprintf(label, sizeof(label), "%0.0f\nkm/h", wind_speed * 1760 * 36 * 25.4 / 1000000);
 			break;
 		}
 		case KNOTS: {
@@ -312,20 +312,20 @@ void qso_wx::enable_widgets() {
 			strcpy(label, "");
 			break;
 
-	}
-	bn_speed_->copy_label(label);
+		}
+		bn_speed_->copy_label(label);
 
-	// Set wind direction - either text or an image
-	bn_direction_->label(nullptr);
-	bn_direction_->image(nullptr);
-	switch(display_direction_) {
+		// Set wind direction - either text or an image
+		bn_direction_->label(nullptr);
+		bn_direction_->image(nullptr);
+		switch (display_direction_) {
 		case CARDINAL: {
 			snprintf(label, sizeof(label), "%s", wind_dirn.c_str());
 			bn_direction_->copy_label(label);
 			break;
 		}
 		case DEGREES: {
-			if (wind_degree == -1) strcpy(label, "---"); 
+			if (wind_degree == -1) strcpy(label, "---");
 			else snprintf(label, sizeof(label), "%3d\302\260", wind_degree);
 			bn_direction_->copy_label(label);
 			break;
@@ -336,9 +336,9 @@ void qso_wx::enable_widgets() {
 		}
 		default:
 			break;
-	}
-	// Set air pressure
-	switch(display_pressure_) {
+		}
+		// Set air pressure
+		switch (display_pressure_) {
 		case HECTOPASCAL: {
 			snprintf(label, sizeof(label), "%0.0f\nhPa", pressure);
 			break;
@@ -358,16 +358,16 @@ void qso_wx::enable_widgets() {
 		default:
 			strcpy(label, "");
 			break;
-	}
-	bn_pressure_->copy_label(label);
-	// Set cloud cover - either text or an image
-	unsigned int okta;
-	if (cloud_cover == 0.0) okta = 0;
-	else if (cloud_cover == 1.0) okta = 8;
-	else okta = floor(cloud_cover * 7.0) + 1;
-	bn_cloud_->label(nullptr);
-	bn_cloud_->image(nullptr);
-	switch(display_cloud_) {
+		}
+		bn_pressure_->copy_label(label);
+		// Set cloud cover - either text or an image
+		unsigned int okta;
+		if (cloud_cover == 0.0) okta = 0;
+		else if (cloud_cover == 1.0) okta = 8;
+		else okta = floor(cloud_cover * 7.0) + 1;
+		bn_cloud_->label(nullptr);
+		bn_cloud_->image(nullptr);
+		switch (display_cloud_) {
 		case PERCENT: {
 			snprintf(label, sizeof(label), "%d%%\ncloud", (int)(cloud_cover * 100));
 			bn_cloud_->copy_label(label);
@@ -382,22 +382,42 @@ void qso_wx::enable_widgets() {
 			draw_cloud_okta(bn_cloud_, okta);
 			break;
 		}
-	}
+		}
 
-	char sunup[16];
-	char sundown[16];
-	// Set sunrise and sunset times and last updated time (local)
-	strftime(sunup, sizeof(sunup), "%H:%M", &sunup_time);
-	strftime(sundown, sizeof(sundown), "%H:%M", &sundown_time);
-	snprintf(label, sizeof(label), "Sunrise %s", sunup);
-	bn_sunrise_->copy_label(label);
-	snprintf(label, sizeof(label), "Sunset %s", sundown);
-	bn_sunset_->copy_label(label);
-	strftime(label, sizeof(label), "Updated %H:%M:%S %Z", &updated_time);
-	bn_updated_->copy_label(label);
-	bn_wx_icon_->image(icon);
-	bn_wx_icon_->deimage(icon);
-	bn_wx_icon_->redraw();
+		char sunup[16];
+		char sundown[16];
+		// Set sunrise and sunset times and last updated time (local)
+		strftime(sunup, sizeof(sunup), "%H:%M", &sunup_time);
+		strftime(sundown, sizeof(sundown), "%H:%M", &sundown_time);
+		snprintf(label, sizeof(label), "Sunrise %s", sunup);
+		bn_sunrise_->copy_label(label);
+		snprintf(label, sizeof(label), "Sunset %s", sundown);
+		bn_sunset_->copy_label(label);
+		strftime(label, sizeof(label), "Updated %H:%M:%S %Z", &updated_time);
+		bn_updated_->copy_label(label);
+		bn_wx_icon_->color(COLOUR_GREY);
+		bn_wx_icon_->image(icon);
+		bn_wx_icon_->deimage(icon);
+		bn_wx_icon_->redraw();
+	} else {
+		 bn_location_->label("No report");
+		 bn_latlong_->label("");
+		 bn_wx_description_->label("");
+		 bn_temperature_->label("");
+		 bn_speed_->label("");
+		 bn_direction_->label("");
+		 bn_direction_->image(nullptr);
+		 bn_pressure_->label("");
+		 bn_cloud_->label("");
+		 bn_cloud_->image(nullptr);
+		 bn_sunrise_->label("");
+		 bn_sunset_->label("");
+		 bn_wx_icon_->color(FL_BACKGROUND_COLOR);
+		 bn_wx_icon_->image(nullptr);
+		 bn_wx_icon_->deimage(nullptr);
+		 redraw();
+
+	}
 }
 
 // save value

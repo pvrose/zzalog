@@ -115,23 +115,24 @@ static void from_json(const json& j, wx_report& s) {
 // Constructor
 wx_handler::wx_handler() :
     wx_thread_(nullptr),
-    error_code_(0)
+    wx_valid_(false)
 {
-    report_.icon = nullptr;
+	enable_fetch_.store(true);
+	do_fetch_.store(false);
+	report_.icon = nullptr;
 	key_ = keyring_->key("Weather");
     // Start thread
-    wx_fetch_.store(false);
-    wx_valid_.store(false);
     wx_thread_ = new std::thread(do_thread, this);
-    wx_fetch_.store(true);
     // Start ticker - 30 minutes
     ticker_->add_ticker(this, cb_ticker, DEBUG_QUICK ? SHORT_DELAY : LONG_DELAY);
+
 
 };
 
 // Destructor   
 wx_handler::~wx_handler() {
     ticker_->remove_ticker(this);
+	enable_fetch_.store(false);
     // Close the thread down cleanly
     if (wx_thread_) wx_thread_->join();
 };
@@ -139,15 +140,18 @@ wx_handler::~wx_handler() {
 // Do thread - when told to by wx_fetch_ fetch the WX data.
 // Abandon when run_thread_ is deasserted
 void wx_handler::do_thread(wx_handler* that) {
-    while(!that->wx_fetch_.load());
-    if (DEBUG_THREADS) printf("WX THREAD: staring to fetch\n");
-    that->wx_fetch_.store(false);
-	if (!that->update()) {
-		Fl::awake(cb_fetch_error, (void*)"WX_HANDLER: Unable to determine station location for weather report");
+	while (that->enable_fetch_.load()) {
+		while (!that->do_fetch_.load() && that->enable_fetch_.load()) std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		if (DEBUG_THREADS) printf("WX THREAD: staring to fetch\n");
+		if (!that->update()) {
+			Fl::awake(cb_fetch_error, (void*)that);
+		}
+		else {
+			Fl::awake(cb_fetch_done, (void*)that);
+		}
+		if (DEBUG_THREADS) printf("WX THREAD: fetching complete\n");
+		that->do_fetch_.store(false);
 	}
-    if (DEBUG_THREADS) printf("WX THREAD: fetching complete\n");
-	Fl::awake(cb_fetch_done, (void*)that);
-    that->wx_valid_.store(true);
 }
 
 // Update weather report - forecd
@@ -227,16 +231,20 @@ bool wx_handler::update() {
 			    e.id, e.what());
             
 		}
-    }
+	}
+	else {
+		return false;
+	}
 	return true;
 }
 
 // Timer - called every 30 minutes
 void wx_handler::ticker() {
-    wx_valid_.store(false);
-    if (DEBUG_THREADS) printf("WX MAIN: Starting WX fetch\n");
 	status_->misc_status(ST_NOTE, "WX_HANDLER: Downloading weather data");
-	wx_fetch_.store(true);
+	if (DEBUG_THREADS) printf("WX MAIN: Starting WX fetch\n");
+	// Momentarily allow thread to fetch WX report.
+	do_fetch_.store(true);
+	std::this_thread::yield();
 }
 
 // Static
@@ -247,7 +255,6 @@ void wx_handler::cb_ticker(void* v) {
 // Static call back: WX fetch complete
 void wx_handler::cb_fetch_done(void* v) {
     wx_handler* that = (wx_handler*)v;
-    that->wx_fetch_.store(false);
     status_->misc_status(ST_OK, "WX_HANDLER: Downloaded OK: %s %0.0f\302\260C %0.0fMPH %s %0.0f hPa. %0.0f%% cloud",
         that->description().c_str(), 
         that->temperature(), 
@@ -255,12 +262,15 @@ void wx_handler::cb_fetch_done(void* v) {
         that->wind_direction().c_str(), 
         that->pressure(), 
         that->cloud() * 100);
+	that->wx_valid_ = true;
     qso_manager_->enable_widgets();
 }
 
 // Static call back: WX fetch complete
 void wx_handler::cb_fetch_error(void* v) {
-    status_->misc_status(ST_ERROR, (char*)v);
+	wx_handler* that = (wx_handler*)v;
+	status_->misc_status(ST_ERROR, "WX_HANDLER: Error downloading weather report");
+	that->wx_valid_ = false;
     qso_manager_->enable_widgets();
 }
 
@@ -399,6 +409,10 @@ zc::lat_long_t wx_handler::get_city_location(const record* qso) const {
 		}
 	}
 	return location;
+}
+
+bool wx_handler::wx_valid() {
+	return wx_valid_;
 }
 
 
