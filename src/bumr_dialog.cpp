@@ -89,6 +89,8 @@ void bumr_dialog::create_form(int X, int Y) {
 	grp_mirror_ = new Fl_Group(cx, cy, WGRP, HMRG, "Mirror configuration");
 	grp_mirror_->box(FL_BORDER_BOX);
 	grp_mirror_->align(FL_ALIGN_TOP | FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
+	grp_mirror_->labelfont(FL_BOLD);
+	grp_mirror_->labelsize(FL_NORMAL_SIZE + 2);
 	
 	cx += GAP + WLABEL;
 	cy += HTEXT;
@@ -140,6 +142,8 @@ void bumr_dialog::create_form(int X, int Y) {
 	grp_backup_ = new Fl_Group(cx, cy, WGRP, HBUG, "Backup configuration");
 	grp_backup_->align(FL_ALIGN_TOP | FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
 	grp_backup_->box(FL_BORDER_BOX);
+	grp_backup_->labelfont(FL_BOLD);
+	grp_backup_->labelsize(FL_NORMAL_SIZE + 2);
 	cy += HTEXT;
 	cx += GAP + WLABEL;
 	// Backup path
