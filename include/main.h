@@ -21,6 +21,9 @@
 //! This document describes the code interfaces between the constituent parts
 //! of ZZALOG. For the user interface see <A class="el" HREF=file:../../userguide/html/index.html>Userguide.</A>
 //! 
+//! ZZALOG uses the common library ZZACOMMON, whose API is described at
+//! <A class="el" HREF=file:../../zzacommon/api/html/index.html>ZZACOMMON API</A>
+//! 
 //! \section revision Release History
 //! See <A class="e1" HREF=file:../../userguide/html/release_notes.html>Release Notes.</A>
 //!
