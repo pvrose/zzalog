@@ -237,15 +237,6 @@ void qso_manager::enable_widgets() {
 void qso_manager::cb_close(Fl_Widget* w, void* v) {
 	// It is the window that raised this callback
 	qso_manager* that = (qso_manager*)w;
-	// If we are editing does the user want to save or cancel?
-	if (that->editing()) {
-		if (fl_choice("Modifying a record - save or cancel?", "Cancel", "Save", nullptr) == 1) {
-			qso_buttons::cb_save(that->data_group_, v);
-		}
-		else {
-			qso_buttons::cb_cancel(that->data_group_, v);
-		}
-	}
 	// Call the main window callback to close the app.
 	that->close_by_dash_ = true;
 	main_window_->do_callback();
@@ -253,7 +244,7 @@ void qso_manager::cb_close(Fl_Widget* w, void* v) {
 
 // Return that we are currently editing or creating ot QSO or net
 bool qso_manager::editing() {
-	return data_group_->has_dirty_records();
+	return !data_group_->inactive();
 }
 
 // The QSO number being selected is outwith that being edited

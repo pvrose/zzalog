@@ -284,9 +284,6 @@ public:
 	//! Returns true if we can navigate the net
 	bool can_navigate(navigate_t target);
 
-	//! Return true if any records are dirty
-	bool has_dirty_records();
-
 	//! Set do not send QSL into \p qso
 	void set_decline_qsl(record* qso);
 

@@ -1873,7 +1873,7 @@ void qso_data::start_qso(qso_init_t mode) {
 void qso_data::end_qso() {
 	switch (logging_state_) {
 	case qso_data::QSO_INACTIVE:
-		status_->misc_status(ST_ERROR, "DASH: Cannot end a QSO that hasn't been started");
+		// Note we CAN get here as we now use dirty record as an indication of needing saving.
 		break;
 	case qso_data::QSO_PENDING:
 		action_start(previous_mode_);
@@ -2153,24 +2153,6 @@ void qso_data::update_station_fields(record* qso) {
 // Update the choices available for station information
 void qso_data::update_station_choices() {
 	g_station_->update_details();
-}
-
-// Returns true if ay records are dirty
-bool qso_data::has_dirty_records() {
-	switch (logging_state_) {
-	case NET_ADDING:
-	case NET_EDIT:
-	case NET_STARTED:
-		return g_net_entry_->any_dirty();
-	default:
-		record* qso = current_qso();
-		if (qso) {
-			return book_->is_dirty_record(qso);
-		}
-		else {
-			return false;
-		}
-	}
 }
 
 // Sets the various do not send QSL
