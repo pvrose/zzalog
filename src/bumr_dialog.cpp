@@ -86,7 +86,7 @@ void bumr_dialog::create_form(int X, int Y) {
 	bool b_value;
 
 	const int HMRG = HTEXT + HBUTTON * 6 + GAP;
-	grp_mirror_ = new Fl_Group(cx, cy, WGRP, HMRG, "Mirror configuration");
+	grp_mirror_ = new Fl_Group(cx, cy, WGRP, HMRG, "Mirroring configuration");
 	grp_mirror_->box(FL_BORDER_BOX);
 	grp_mirror_->align(FL_ALIGN_TOP | FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
 	grp_mirror_->labelfont(FL_BOLD);
@@ -99,7 +99,7 @@ void bumr_dialog::create_form(int X, int Y) {
 	op_mirror_use_->align(FL_ALIGN_LEFT);
 	op_mirror_use_->box(FL_FLAT_BOX);
 	op_mirror_use_->textfont(FL_BOLD);
-	op_mirror_use_->tooltip("Whether the mirror file is being used as the working data.");
+	op_mirror_use_->tooltip("Displays the mitrroring state");
 	op_mirror_use_->color(FL_BACKGROUND_COLOR);
 	cy += op_mirror_use_->h();
 	// Mirror enable

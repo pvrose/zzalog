@@ -95,7 +95,7 @@ config::config(int W, int H, const char* label) :
 	children_ids_.push_back(DLG_QSLE);
 	updatable_views_.insert(qsle);
 	// Backup and mirror
-	bumr_dialog* bumr = new bumr_dialog(rx, ry, rw, rh, "Backup && mirror");
+	bumr_dialog* bumr = new bumr_dialog(rx, ry, rw, rh, "Backup && Mirroring");
 	bumr->labelfont(FL_BOLD);
 	bumr->labelsize(FL_NORMAL_SIZE + 2);
 	bumr->tooltip("Allows the configuration of backup and mirror behaviour");

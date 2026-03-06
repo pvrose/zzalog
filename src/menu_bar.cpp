@@ -102,7 +102,7 @@
 		{ "&Fields", 0, menu_bar::cb_mi_settings, (void*)config::DLG_COLUMN },
 		{ "&User config", 0, menu_bar::cb_mi_settings, (void*)config::DLG_USER },
 		{ "&QSL design", 0, menu_bar::cb_mi_settings, (void*)config::DLG_QSLE },
-		{ "&Backup && mirror", 0, menu_bar::cb_mi_settings, (void*)config::DLG_BUMR },
+		{ "&Backup && Mirroring", 0, menu_bar::cb_mi_settings, (void*)config::DLG_BUMR },
 		{ "&Contests", 0, menu_bar::cb_mi_settings, (void*)config::DLG_CONTEST },
 		{ 0 },
 

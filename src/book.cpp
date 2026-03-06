@@ -1697,15 +1697,15 @@ std::string book::get_mirror_use() {
 	case MU_UNKNOWN:
 		return "Unknown";
 	case MU_TARGET_ONLY:
-		return "Mirror not used - target file only";
+		return "Mirroring not used - target file only";
 	case MU_TARGET_PRIME:
-		return "Mirror being used - working on target file";
+		return "Mirroring being used - working on target file";
 	case MU_MIRROR_ONLY:
-		return "Mirror being used - target file not available";
+		return "Mirroring being used - target file not available";
 	case MU_MIRROR_PRIME:
-		return "Mirror being used - working on mirror file";
+		return "Mirroring being used - working on mirror file";
 	default:
-		return "Invalid mirror use value";
+		return "Invalid mirroring value";
 	}
 }
 
