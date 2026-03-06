@@ -210,9 +210,18 @@ The other tabs can then be used to provide further information on the station.
 Close this window to proceed.
 
 Dialogs then open to select:
-- a directory to store QSL card images.
-- a file to store the logbook. The name of the file will default to the 
-staion callsign.
+- A file to store the logbook. The name of the file will default to the 
+station callsign.
+- If the logbook file appears to be on a network drive, a dialog will open to allow
+the user to select a local directory on which to store a local copy ("mirror")
+of the logbook. If the dialog is cancelled without selecting a directory,
+the mirroring feature is disabled.
+- A directory to store backups of the logbook. This is required. 
+- The number of backup files to keep. This is required but defaults to 8.
+- A directory to store QSL card images.
+
+The backup and mirroring configuration may be changed later in the settings dialog. See 
+\ref bumr_dialog.
 
 \subsection warm_start Warm-start
 

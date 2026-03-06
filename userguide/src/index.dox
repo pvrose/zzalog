@@ -20,6 +20,8 @@ that provides the following functionality:
 	weather report; propagation forecast and band plan view.
 - Interfaces with the
 	modem applications: WSJT-X and FlDigi.
+- Supports the use of network files for the logbook,
+    with local mirroring and backup of the logbook file.
 
 This document can be opened at
 any time from the menu or the toolbar:
