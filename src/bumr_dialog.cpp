@@ -85,28 +85,57 @@ void bumr_dialog::create_form(int X, int Y) {
 	const int WGRP = GAP + WLABEL + WFILE + GAP;
 	bool b_value;
 
+	const int HMRG = HTEXT + HBUTTON * 6 + GAP;
+	grp_mirror_ = new Fl_Group(cx, cy, WGRP, HMRG, "Mirror configuration");
+	grp_mirror_->box(FL_BORDER_BOX);
+	grp_mirror_->align(FL_ALIGN_TOP | FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
+	
+	cx += GAP + WLABEL;
+	cy += HTEXT;
 	// Mirror use
-	op_mirror_use_ = new Fl_Output(cx + GAP + WLABEL, cy, WFILE, HBUTTON);
+	op_mirror_use_ = new Fl_Output(cx, cy, WFILE, HBUTTON);
 	op_mirror_use_->align(FL_ALIGN_LEFT);
 	op_mirror_use_->box(FL_FLAT_BOX);
+	op_mirror_use_->textfont(FL_BOLD);
 	op_mirror_use_->tooltip("Whether the mirror file is being used as the working data.");
 	op_mirror_use_->color(FL_BACKGROUND_COLOR);
 	cy += op_mirror_use_->h();
+	// Mirror enable
+	bn_mr_enable_ = new Fl_Check_Button(cx, cy, HBUTTON, HBUTTON, "Enable");
+	bn_mr_enable_->align(FL_ALIGN_LEFT);
+	bn_mr_enable_->tooltip("Enable or disable mirroring");
+	// Mirror path
+	cy += bn_mr_enable_->h();
+	ip_mr_path_ = new zc_filename_input(cx, cy, WFILE, HBUTTON, "Path");
+	ip_mr_path_->align(FL_ALIGN_LEFT);
+	ip_mr_path_->tooltip("Directory in which mirror files will be stored");
+	ip_mr_path_->type(zc_filename_input::DIRECTORY);
+	// Using mirror copy as woorking data.
+	cy += ip_mr_path_->h();
+	bn_mr_working_ = new Fl_Check_Button(cx, cy, HBUTTON, HBUTTON, "Working?");
+	bn_mr_working_->align(FL_ALIGN_LEFT);
+	bn_mr_working_->tooltip("Use the mirror copy as the working data (changes will be written back to the target file at close");
+
+	cy += bn_mr_working_->h();
 	// Log filename
-	op_logname_ = new Fl_Output(cx + GAP + WLABEL, cy, WFILE, HBUTTON, "Working file");
+	op_logname_ = new Fl_Output(cx, cy, WFILE, HBUTTON, "Working file");
 	op_logname_->align(FL_ALIGN_LEFT);
 	op_logname_->box(FL_FLAT_BOX);
 	op_logname_->tooltip("The current log file as being used.");
 	op_logname_->color(FL_BACKGROUND_COLOR);
 	cy += op_logname_->h();
 	// Target filename
-	op_targetname_ = new Fl_Output(cx + GAP + WLABEL, cy, WFILE, HBUTTON, "Target file");
+	op_targetname_ = new Fl_Output(cx, cy, WFILE, HBUTTON, "Target file");
 	op_targetname_->align(FL_ALIGN_LEFT);
 	op_targetname_->box(FL_FLAT_BOX);
 	op_targetname_->tooltip("The target log file of which the working file is a copy.");
 	op_targetname_->color(FL_BACKGROUND_COLOR);
-	cy += op_targetname_->h() + GAP;
+	cy += op_targetname_->h();
+	grp_mirror_->end();
 	// Backup configuration
+	cx = X + GAP;
+	cy = grp_mirror_->y() + grp_mirror_->h() + GAP;
+
 	const int HBUG = HTEXT + HBUTTON * 2 + GAP;
 	grp_backup_ = new Fl_Group(cx, cy, WGRP, HBUG, "Backup configuration");
 	grp_backup_->align(FL_ALIGN_TOP | FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
@@ -128,28 +157,6 @@ void bumr_dialog::create_form(int X, int Y) {
 	// Mirror configuration
 	cx = X + GAP;
 	cy = grp_backup_->y() + grp_backup_->h() + GAP;
-	const int HMRG = HTEXT + HBUTTON * 3 + GAP;
-	grp_mirror_ = new Fl_Group(cx, cy, WGRP, HMRG, "Mirror configuration");
-	grp_mirror_->box(FL_BORDER_BOX);
-	grp_mirror_->align(FL_ALIGN_TOP | FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
-	cx += GAP + WLABEL;
-	cy += HTEXT;
-	// Mirror enable
-	bn_mr_enable_ = new Fl_Check_Button(cx, cy, HBUTTON, HBUTTON, "Enable");
-	bn_mr_enable_->align(FL_ALIGN_LEFT);
-	bn_mr_enable_->tooltip("Enable or disable mirroring");
-	// Mirror path
-	cy += bn_mr_enable_->h();
-	ip_mr_path_ = new zc_filename_input(cx, cy, WFILE, HBUTTON, "Path");
-	ip_mr_path_->align(FL_ALIGN_LEFT);
-	ip_mr_path_->tooltip("Directory in which mirror files will be stored");
-	ip_mr_path_->type(zc_filename_input::DIRECTORY);
-	// Using mirror copy as woorking data.
-	cy += ip_mr_path_->h();
-	bn_mr_working_ = new Fl_Check_Button(cx, cy, HBUTTON, HBUTTON, "Use as\nworking");
-	bn_mr_working_->align(FL_ALIGN_LEFT);
-	bn_mr_working_->tooltip("Use the mirror copy as the working data (changes will be written back to the target file at close");
-	grp_mirror_->end();
 
 	end();
 	show();

@@ -238,7 +238,7 @@ time_t session_start_ = (time_t)0;
 double prev_freq_ = 0.0;
 
 //! Filename in arguments.
-char* filename_ = nullptr;
+char* arg_filename_ = nullptr;
 
 //! File is new (neither in argument or settings.
 bool new_file_ = false;
@@ -269,7 +269,8 @@ std::string backup_filename(std::string source, int& max_depth) {
 	backup_settings.get("Depth", max_depth, -1);
 	while (backup.length() == 0) {
 		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
-		chooser->title("Select directory for backup");
+		chooser->title("Operation requires a backup location.\n"
+			"Select directory for backup");
 		if (chooser->show() == 0) {
 			backup = chooser->filename();
 		}
@@ -277,7 +278,7 @@ std::string backup_filename(std::string source, int& max_depth) {
 	}
 	// Now get the depth.
 	if (max_depth == -1) {
-		const char* text = fl_input("Please specify the maximum number of backups - default 8.", "");
+		const char* text = fl_input("Please specify the maximum number of backups - default 8.", "8");
 		max_depth = atoi(text);
 	}
 	// Save the result of the chooser
@@ -690,7 +691,7 @@ int cb_args(int argc, char** argv, int& i) {
 			}
 			return i;
 		} else {
-			filename_ = argv[i];
+			arg_filename_ = argv[i];
 			i += 1;
 			return i;
 		}
@@ -880,7 +881,7 @@ void add_book(char* arg) {
 		// Tell the views that a book now exists
 		tabbed_forms_->books();
 
-		if (!NEW_BOOK || filename_) {
+		if (!NEW_BOOK || arg_filename_) {
 			// Get filename and load the data
 			std::string log_file = get_file(arg);
 
@@ -891,6 +892,9 @@ void add_book(char* arg) {
 				set_recent_file(log_file);
 				if (!book_->store_data(log_file, true)) {
 					status_->misc_status(ST_ERROR, "LOG: Failed to create %s", log_file.c_str());
+				}
+				else {
+					backup_file();
 				}
 				return;
 			}
@@ -903,8 +907,8 @@ void add_book(char* arg) {
 			set_recent_file(log_file);
 		}
 		if (NEW_BOOK) {
-			if (!book_->store_data(filename_, true)) {
-				status_->misc_status(ST_ERROR, "LOG: Failed to create %s", filename_);
+			if (!book_->store_data(arg_filename_, true)) {
+				status_->misc_status(ST_ERROR, "LOG: Failed to create %s", arg_filename_);
 			}
 		}
 	}
@@ -1117,8 +1121,8 @@ void print_args(int argc, char** argv) {
 	if (DEBUG_QUICK) status_->misc_status(ST_WARNING, "ZZALOG: -d q - Reducing periods of some reguat events");
 	if (DEBUG_THREADS) status_->misc_status(ST_NOTE, "ZZALOG: -d t - Displaying thread debug messages");
     if (DEBUG_XMLRPC) status_->misc_status(ST_NOTE, "ZZALOG: -d x - Displaying XMLRPC requests/responses");
-	if (NEW_BOOK && !filename_) status_->misc_status(ST_NOTE, "ZZALOG: -e - Starting with empty file");
-	if (NEW_BOOK && filename_) status_->misc_status(ST_WARNING, "ZZALOG: -e - filename specified, switch ignored");
+	if (NEW_BOOK && !arg_filename_) status_->misc_status(ST_NOTE, "ZZALOG: -e - Starting with empty file");
+	if (NEW_BOOK && arg_filename_) status_->misc_status(ST_WARNING, "ZZALOG: -e - filename specified, switch ignored");
 	if (DARK) status_->misc_status(ST_NOTE, "ZZALOG: -k - Opening in dark mode");
 	if (!DARK) status_->misc_status(ST_NOTE, "ZZALOG: -l - Opening in normal FLTK colours");
 	if (RESUME_SESSION) status_->misc_status(ST_NOTE, "ZZALOG: -m - Resuming previous session");
@@ -1328,7 +1332,7 @@ int main(int argc, char** argv)
 	if (GENERATE_HEADERS) closing_ = true;
 	Fl::check();
 	// Read in log book data - uses progress - use supplied argument for filename
-	add_book(filename_);
+	add_book(arg_filename_);
 	printf("%s\n", main_window_->label());
 	Fl::check();
 	// Connect to the rig - load all hamlib backends once only here

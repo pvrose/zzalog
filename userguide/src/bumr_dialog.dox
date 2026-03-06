@@ -1,0 +1,56 @@
+/** \page bumr_dialog Configuring backup and mirroring
+
+This dialog displays how backups and mirroring are configured. This
+configuration will be set up when the user first runs ZZALOG, 
+but this dialog allows the user to check that the configuration is correct 
+and change it if necessary.
+
+\image html bumr_dialog_1.png "Tab showing backup and mirroring configuration"
+\image latex bumr_dialog_1.png "Tab showing backup and mirroring configuration"
+
+\section bumr_mirror_summary Mirror summary
+
+The top of the dialog shows a summary of the mirroring currently in place.
+
+The first line summarises the mirroring configuration. It will say one of the following:
+- <B>Unknown</B> The mirroring configuration cannot be determined. This should
+only happen before the user has set up mirroring as part of a cold-start.
+- <B>Mirror not used - target file only</B> Mirroring is not being used. 
+The log is being written to the target file.
+- <B>Mirror being used - working on target file</B> Mirroring is being used and the
+log is being written to the target file. The mirror file will be 
+updated when ZZALOG is closed.
+- <B>Mirror being used - working on mirror file</B> Mirroring is being used
+and the log is being written to the mirror file. The target file will be
+updated when ZZALOG is closed.
+- <B>Mirror being used - target file not available</B> Mirroring is being used
+but the target file is not available. The log is being written to the mirror file. 
+The target file will be updated when ZZALOG is next opened when the target file
+is accessible.
+
+This configuration allows the user to specify whether to use mirroring and if so,
+where the mirror file is located, and whether the mirror file or the target file 
+is used as the working file. The working file is the file that is currently being written to.
+Unless accessing the target file impacts the performance of ZZALOG, 
+the target file should be used as the working file.
+
+\section bumr_backup Backup
+
+A backup us a copy of the log file that is taken when ZZALOG is started.
+This is a safety measure to ensure that if the log file is corrupted, 
+the user can recover most of their data from the backup. 
+The backup should be stored in a different location to the log file.
+
+The number of backups to keep is also specified in the <B>Depth</B> field. 
+If this number is zero, then no backups will be kept. 
+If this number is greater than zero, then the specified number of backups will be kept. 
+The backup files will be named <i>[logfile].adi.[N]</i> where [logfile] is the name of the log file and 
+[N] is a number from 1 to the specified depth.
+The latest backup will be named <i>[logfile].adi.1</i> and the earlier
+backups will be renumbered upto the depth. The eldest backup will
+be deleted.
+
+This dialog allows the user to specify the location of the backup files 
+and the number of backups to keep.
+
+*/

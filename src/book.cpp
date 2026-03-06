@@ -345,6 +345,16 @@ bool book::store_data(std::string filename, bool force, field_list* fields) {
 
 			// First parse and validate if necessary
 			if (is_dirty() == true || force) {
+				// If force then it is likely to be a new file
+				if (force) {
+					target_filename_ = filename;
+					if (book_type_ == OT_MAIN && file_holder_->on_different_drive(filename)) {
+						// We need to check mirror status
+						if (mirror_use_ == MU_UNKNOWN) {
+							get_mirror_details();
+						}
+					}
+				}
 				// Only write out if modified or force is set
 				if (!header_) {
 					// No header then create one.
@@ -414,7 +424,7 @@ bool book::store_data(std::string filename, bool force, field_list* fields) {
 					// File was closed in the fail paths
 					file.close();
 					// Update file name on window label
-					if (changed_file) main_window_label(filename_);
+					if (changed_file) main_window_label(get_filename());
 				}
 			}
 			else {
@@ -1769,7 +1779,8 @@ bool book::flush_data() {
 void book::get_mirror_details() {
 	// We have not specified whether or not we will have a mirror
 	Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
-	chooser->title("Select directory for mirror - cancel for no mirroring");
+	chooser->title("Target log file appears to be on a network drive.\n"
+		"Select directory for mirror - cancel for no mirroring");
 	if (chooser->show() == 0) {
 		mirror_directory_ = chooser->filename();
 	}
@@ -1777,6 +1788,7 @@ void book::get_mirror_details() {
 	if (mirror_directory_.length()) {
 		mirror_enabled_ = true;
 		mirror_dirty_ = false;
+		mirror_filename_ = mirror_directory_ + "/" + zc::terminal(target_filename_);
 #ifdef _WIN32
 		mirror_use_ = MU_MIRROR_PRIME;
 #else
@@ -1787,5 +1799,5 @@ void book::get_mirror_details() {
 		mirror_enabled_ = false;
 		mirror_use_ = MU_TARGET_ONLY;
 	}
-
+	store_mirror_settings();
 }

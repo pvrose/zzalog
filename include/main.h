@@ -379,9 +379,6 @@ extern time_t session_start_;
 //! Previous frequency.
 extern double prev_freq_;
 
-//! Filename in arguments.
-extern char* filename_;
-
 //! File is new (neither in argument or settings.
 extern bool new_file_;
 

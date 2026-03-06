@@ -16,6 +16,7 @@ if(DOXYGEN_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/src/banner.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/basic1.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/basic2.dox
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/bumr_dialog.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/change_dialog.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/cli.dox
     ${CMAKE_CURRENT_SOURCE_DIR}/src/condx_view.dox
@@ -67,6 +68,219 @@ if(DOXYGEN_FOUND)
     ${CMAKE_CURRENT_SOURCE_DIR}/new_header.tex
   )
 
+  set(DOXY_UG_IMAGES 
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/adding_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/adding_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/adding_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/adding_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/analysis_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/analysis_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/analysis_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/analysis_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/analysis_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/banner_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/banner_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/banner_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/banner_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/banner_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/basic1_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/basic1_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/basic1_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/basic1_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/basic2_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/basic2_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/basic2_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/bumr_dialog_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/change_dialog_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/cli_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/condx_view_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/condx_view_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/condx_view_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/condx_view_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/condx_view_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/config_tree_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/contest_dialog_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/contest_scorer_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/contest_scorer_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/cty_dialog_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/cty_dialog_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/cty_dialog_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/cty_tree_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/dxcc_view_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/dxcc_view_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/dxcc_view_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/fields_dialog_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/index_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/init_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/init_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/init_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/init_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/init_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/init_6.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/intl_dialog_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/log_table_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/log_table_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/log_table_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/log_table_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/log_table_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/log_table_6.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/main_window_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/menu_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_apps_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_apps_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_apps_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_apps_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_10.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_11.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_12.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_6.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_7.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_8.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/new_rig_9.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsl_editor_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsl_editor_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsl_editor_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsl_editor_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsl_editor_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsls_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsls_10.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsls_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsls_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsls_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsls_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsls_6.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsls_7.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsls_8.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qsls_9.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_apps_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_apps_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_apps_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_apps_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_apps_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_apps_6.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_apps_7.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_apps_8.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_bands_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_bands_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_bands_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_bands_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_buttons_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_clocks_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_details_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_details_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_dxcc_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_dxcc_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_dxcc_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_entry_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_entry_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_entry_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_entry_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_entry_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_log_info_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_log_info_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_manager_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_net_entry_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_operation_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_operation_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_operation_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_operation_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_6.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_7.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_vwr_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_vwr_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_vwr_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_vwr_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_qsl_vwr_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_query_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_query_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_query_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_query_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_query_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_rig_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_rig_10.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_rig_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_rig_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_rig_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_rig_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_rig_6.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_rig_7.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_rig_8.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_rig_9.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/qso_wx_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/quick_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/report_tree_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/report_tree_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/report_tree_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/search_dialog_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/search_dialog_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/search_dialog_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/search_dialog_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/searching_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/searching_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/searching_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/searching_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/searching_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/searching_6.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/searching_7.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/searching_8.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/searching_9.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/spec_tree_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/spec_tree_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/spec_tree_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/stn_dialog_0.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/stn_dialog_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/stn_dialog_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/stn_dialog_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/toolbar_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/toolbar_set1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/toolbar_set2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/toolbar_set3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/toolbar_set4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/toolbar_set5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/toolbar_set6.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/user_dialog_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_2a85bca3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_414f707a.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_4a79518e.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_557fd7e5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_5e16a7e3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_ab32828.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_m112f565d.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_m26e6c1cd.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_m4911387.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_m49d19ab4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_m4c6cfb94.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_m6ae6db20.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_m75dc8f06.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_mba730c9.jpg
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/UserGuide_html_me4bb4f5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/warm_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/warm_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/warm_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/warm_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/web_dialog_1.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/web_dialog_2.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/web_dialog_3.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/web_dialog_4.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/web_dialog_5.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/web_dialog_6.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/web_dialog_7.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/web_dialog_8.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/images/web_dialog_9.png
+  )
+
+
+
   # Copy Doxyfile
   configure_file(${DOXY_UG_IN} ${DOXY_UG_OUT} @ONLY)
  
@@ -75,7 +289,7 @@ if(DOXYGEN_FOUND)
   
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
-    DEPENDS ${DOXY_UG_FILES} ${DOXY_UG_OUT} 
+    DEPENDS ${DOXY_UG_FILES} ${DOXY_UG_OUT} ${DOXY_UG_IMAGES}
     COMMAND ${DOXYGEN_EXECUTABLE} ${DOXY_UG_OUT}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMENT "ZZALOG: Generating userguide"
