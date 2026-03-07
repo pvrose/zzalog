@@ -1,6 +1,6 @@
 /** \page release_notes Revision History
 
-\section rev_3_6_15 Revision 3.6.15 [Unreleased]
+\section rev_3_6_15 Revision 3.6.15
 
 - Functional changes.
   - Add feature to configure the font in which status messages are displayed.
@@ -23,7 +23,9 @@
   - Country data file timestamps not recorded correctly.
   - Spurious updates to QSO records with non-critical data.
   - Callsign decode partly left displayed when QSO not selected.
-  - Correct or remove misleading messages.
+  - Correct or remove misleading messages: 
+    - Unable to access weather data.
+    - Unsaved changes when closing application.
 
 \section rev_3-6-14 Revision 3.6.14
 
@@ -46,7 +48,9 @@
 
 Tested with hamlib release 4.7.0.
 
-\section rev_3-6-13 Revision 3.6.13
+\section older Older revisions
+
+\subsection rev_3-6-13 Revision 3.6.13
 
 - Functional changes.
   - Added iso.csv: ISO 3166-1 alpha-2 country codes and names for locating
@@ -67,8 +71,6 @@ Tested with hamlib release 4.7.0.
     - Open user station dialog before any other dialog.
     - Force user to supply location and name during configuration.
   - False error when reading "No QSL" list.
-
-\section older Older revisions
 
 \subsection rev_3-6-12 Revision 3.6.12
 
