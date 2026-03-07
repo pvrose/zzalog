@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.6.14.3)
+project(ZZALOG VERSION 3.6.15)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
-set(ZZALOG_RC_VALUE "")
+set(ZZALOG_RC_VALUE "-rc1")
 
 ## Set program details - used by zzacommon
 set(APP_VENDOR "GM3ZZA")
