@@ -225,7 +225,7 @@ rig_if::~rig_if()
 	close(false);
 }
 
-// Clsoe the connection
+// Close the connection
 void rig_if::close(bool powerdown) {
 	if (rig_ != nullptr) {
 		if (state_.load() == CONNECTED_OK || state_.load() == CONNECTED_SLOW || state_.load() == CONNECTED_ERROR) {
@@ -235,7 +235,15 @@ void rig_if::close(bool powerdown) {
 					hamlib_data_->mfr.c_str(),
 					hamlib_data_->model.c_str(),
 					hamlib_data_->port_name.c_str());
-				rig_set_powerstat(rig_, RIG_POWER_OFF);
+				error_code_ = rig_set_powerstat(rig_, RIG_POWER_OFF);
+				if (error_code_ == -RIG_ENAVAIL) {
+					status_->misc_status(ST_WARNING, "RIG: Power down not supported for %s/%s on port %s",
+						my_rig_name_.c_str(),
+						hamlib_data_->mfr.c_str(),
+						hamlib_data_->model.c_str(),
+						hamlib_data_->port_name.c_str());
+				}
+				else error_handler(error_code_, "rig_set_powerstat", nullptr, nullptr);
 			}
 			// If we have a connection and it's open, close it and tidy memory used by hamlib
 			// Delete the thread that reads the required rig values

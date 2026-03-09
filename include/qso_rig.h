@@ -203,6 +203,9 @@ protected:
 	//! Modify the values returned from the rig according to the modifier attributes.
 	void modify_hamlib_data();
 
+	//! Update cat data to be compatible with the current rig and model.
+	void update_cat_data();
+	
 	//! Status group
 	Fl_Group* status_grp_;
 	//! Output: Rig status text

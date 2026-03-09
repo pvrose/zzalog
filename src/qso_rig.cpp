@@ -104,6 +104,7 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 				app_running_ = true;
 			}
 			modify_hamlib_data();
+			update_cat_data();
 		}
 	}
 	if (!rig_ || rig_->connected()) {
@@ -729,7 +730,12 @@ void qso_rig::enable_cat_access() {
 		// Rig is connected
 		bn_connect_->activate();
 		// bn_connect_->color(fl_lighter(FL_RED));
-		bn_connect_->label("Disconnect");
+		if (cat_data_ && cat_data_->auto_pdown) {
+			bn_connect_->label("Power down");
+		}
+		else {
+			bn_connect_->label("Disconnect");
+		}
 		bn_select_->deactivate();
 		bn_select_->label("");
 		bn_select_->value(false);
@@ -1461,6 +1467,7 @@ void qso_rig::cb_ch_model(Fl_Widget* w, void* v) {
 		hamlib->model_id = id;
 		hamlib->port_type = capabilities->port_type;
 		that->modify_hamlib_data();
+		that->update_cat_data();
 	}
 	else {
 		char message[128];
@@ -1526,6 +1533,7 @@ void qso_rig::cb_bn_connect(Fl_Widget* w, void* v) {
 		that->rig_->open();
 		if (that->rig_->connected()) {
 			that->modify_hamlib_data();
+			that->update_cat_data();
 			qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
 			mgr->update_rig();
 		}
@@ -1742,6 +1750,7 @@ void qso_rig::switch_rig() {
 	if (cat_data_) {
 		rig_ = new rig_if(label(), cat_data_->hamlib);
 		modify_hamlib_data();
+		update_cat_data();
 		zc::ancestor_view<qso_manager>(this)->update_rig();
 	}
 	enable_widgets(DAMAGE_ALL);
@@ -1828,6 +1837,16 @@ void qso_rig::modify_hamlib_data() {
 	}
 }
 
+// Modify cat_data according to the rig capabilities
+void qso_rig::update_cat_data() {
+	hamlib_data_t* hamlib = cat_data_->hamlib;
+	const rig_caps* capabilities = rig_get_caps(hamlib->model_id);
+	// The rig does not support power stat - disable auto power down as it won't work
+	if (capabilities && !capabilities->set_powerstat) {
+		cat_data_->auto_pdown = false;
+	}
+}
+    
 // Return the preferred antenna
 std::string qso_rig::antenna() {
 	return rig_info_->antenna;
