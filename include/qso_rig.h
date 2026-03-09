@@ -165,6 +165,8 @@ protected:
 	static void cb_bn_autoconn(Fl_Widget* w, void* v);
 	//! Callback from "Auto/Delay" slider.
 	static void cb_connect_delay(Fl_Widget* w, void* v);
+	//! Callback from "Auto/Stop" check.
+	static void cb_bn_autopdown(Fl_Widget* w, void* v);
 
 	//! populate port choice
 	void populate_port_choice();
@@ -188,6 +190,15 @@ protected:
 	void create_accessory(int X, int Y);    //!< Create "Accessories" tab.
 	void create_timeout(int X, int Y);      //!< Create "Timeout etc" tab.
 	void create_auto(int X, int Y);         //!< Create "Auto" tab.
+
+	// Enable the various groups
+	void enable_cat_access();      //!< Enable CAT access widgets.
+	void enable_status();          //!< Enable status widgets.
+	void enable_tabs();            //!< Enable config tabs.
+	void enable_accessory();       //!< Enable accessory tab.
+	void enable_auto();            //!< Enable auto tab.
+	void enable_connect();         //!< Enable connection tab.
+	void enable_values();          //!< Enable values read from rig.
 
 	//! Modify the values returned from the rig according to the modifier attributes.
 	void modify_hamlib_data();
@@ -260,7 +271,7 @@ protected:
 	Fl_Check_Button* bn_autostart_;  //!< Check: "Start" Rig access command is called automatically on ZZALOG start-up. 
 	Fl_Check_Button* bn_autoconn_;   //!< Check: "Connect" ZZALOG attempts to connect to the rig shortly after the access script is launched.
 	Fl_Value_Slider* v_connect_delay_;//!< Slider: "Delay" the delay (in seconds) between starting the access script and connecting to the rig.
-
+	Fl_Check_Button* bn_autopdown_;  //!< Check: "Power down" ZZALOG sends a power down command to the rig when ZZALOG is closed.
 
 	//! Add all ports to port choice
 	bool use_all_ports_ = false;
@@ -279,10 +290,15 @@ protected:
 	uint8_t rig_state_;
 	//! Flag set when start button pressed and cleared on connect button
 	bool rig_starting_ = false;
+	//! Flag set when disconnecting or closing
+	bool rig_stopping_ = false;
 	//! Used to count up the delay between start and connect
 	double count_up_connect_ = 0.0;
 
 	//! Map the hamlib model_id to position in rig choice menu.
 	std::map<int, int> rig_choice_pos_ = {};
+
+	//! Flag to indicate that the app is running.
+	bool app_running_ = false;
 };
 

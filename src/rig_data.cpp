@@ -71,7 +71,8 @@ void to_json(json& j, const cat_data_t& s) {
         { "Frequency mode", s.hamlib->freq_mode},
         { "Override hamlib", s.override_hamlib },
         { "Start automatically", s.auto_start },
-        { "Connect automatically", s.auto_connect }
+        { "Connect automatically", s.auto_connect },
+        { "Powerdown automatically", s.auto_pdown }
     };
     if (s.hamlib->accessory & AMPLIFIER) {
         json jamp = json{
@@ -113,6 +114,12 @@ void from_json(const json& j, cat_data_t& s) {
     j.at("Override hamlib").get_to(s.override_hamlib);
     j.at("Start automatically").get_to(s.auto_start);
     j.at("Connect automatically").get_to(s.auto_connect);
+	if (j.find("Powerdown automatically") != j.end()) {
+		j.at("Powerdown automatically").get_to(s.auto_pdown);
+	}
+	else {
+		s.auto_pdown = false;
+	}
     // Accessories
     s.hamlib->accessory = BAREBACK;
     if (j.find("Amplifier") != j.end()) {

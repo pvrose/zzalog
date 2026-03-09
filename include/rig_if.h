@@ -188,7 +188,8 @@
 		std::string error_message(const char* func_name);
 
 		//! close rig - may be null for some 
-		void close();
+		//! \param powerdown If true, powers down the rig when closing.
+		void close(bool powerdown);
 
 		//! Receives \p mode and \p submode.  
 		void get_string_mode(std::string& mode, std::string& submode);

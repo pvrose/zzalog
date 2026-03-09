@@ -36,6 +36,7 @@ struct cat_data_t {
     std::string nickname = "";         //!< Short form of the name used in CAT menu.
     bool auto_start = false;           //!< Automatically start app when ZZALOG starts.
     bool auto_connect = false;         //!< Automatically connect to app after starting it.
+	bool auto_pdown = false;           //!< Automatically power down rig when disconnecting.
     double connect_delay = 1.0;        //!< Delay between starting app and connecting (in seconds).
 };
 

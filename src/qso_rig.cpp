@@ -82,29 +82,39 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 	tooltip("Allows the configuration of an individual rig connection and displays current status");
 	load_values();
 	create_form(X, Y);
-	if (cat_data_ && cat_data_->auto_start && !START_OFF_AIR) {
-		bool connected = false;
-		if (cat_data_) {
-			rig_ = new rig_if(label(), cat_data_->hamlib);
-			if (rig_->connected()) connected = true;
-			if (connected) {
-				modify_hamlib_data();
+	ticker_->add_ticker(this, cb_ticker, 5);
+	// If we do not have any CAT defined then quit now
+	if (!cat_data_) {
+		status_->misc_status(ST_WARNING, "RIG: No CAT data defined for rig %s", label());
+		enable_widgets(DAMAGE_ALL);
+		return;
+	}
+	// If we have CLI switch START_OFF_AIR then do not attempt to connect to rig or start app,
+	// even if configured to do so.
+	if (START_OFF_AIR) {
+		status_->misc_status(ST_NOTE, "RIG: Automatic rig behaviour inhibited by switch");
+		enable_widgets(DAMAGE_ALL);
+		return;
+	}
+	// Try and connect to the rig if configured to auto-connect
+	if (cat_data_->auto_connect) {
+		rig_ = new rig_if(label(), cat_data_->hamlib);
+		if (rig_->connected()) {
+			if (cat_data_->use_cat_app) {
+				app_running_ = true;
 			}
-			else {
-			}
+			modify_hamlib_data();
 		}
-		else {
-			rig_ = nullptr;
-		}
-
-		if (!connected) {
-			cb_bn_start(bn_start_, nullptr);
-		}
-	} else {
-		rig_ = nullptr;
+	}
+	if (!rig_ || rig_->connected()) {
+		// Either cannot or need not attempt to start app.
+		return;
+	}
+	// We have not connected automatically so try and start app if configured to do so.
+	if (cat_data_->use_cat_app && cat_data_->auto_start) {
+		cb_bn_start(bn_start_, nullptr);
 	}
 	enable_widgets(DAMAGE_ALL);
-	ticker_->add_ticker(this, cb_ticker, 5);
 }
 
 // DEstructor
@@ -455,11 +465,19 @@ void qso_rig::create_auto(int curr_x, int curr_y) {
 	v_connect_delay_->step(0.5);
 	v_connect_delay_->tooltip("Specify the delay between starting the app and trying to connect");
 
-	curr_x += v_connect_delay_->w();
+	int save_x = curr_x + v_connect_delay_->w();
+	curr_x = auto_tab_->x() + GAP;
+	curr_y += HBUTTON;
+
+	bn_autopdown_ = new Fl_Check_Button(curr_x, curr_y, HBUTTON, HBUTTON, "Stop");
+	bn_autopdown_->align(FL_ALIGN_RIGHT);
+	bn_autopdown_->callback(cb_bn_autopdown, nullptr);
+	bn_autopdown_->tooltip("Automatically stop the CAT interface application when closing ZZALOG");
+
 	curr_y += HBUTTON + GAP;
 
 	auto_tab_->resizable(nullptr);
-	auto_tab_->size(curr_x - auto_tab_->x(), curr_y - auto_tab_->y());
+	auto_tab_->size(save_x - auto_tab_->x(), curr_y - auto_tab_->y());
 
 	auto_tab_->end();
 
@@ -664,533 +682,582 @@ void qso_rig::create_form(int X, int Y) {
 void qso_rig::save_values() {
 }
 
+// Enable CAT access widgets
+void qso_rig::enable_cat_access() {
+	hamlib_data_t* hamlib = cat_data_ ? cat_data_->hamlib : nullptr;
+	rig_if::rig_state_t rig_state = rig_ ? rig_->state() : rig_if::NOT_DEFINED;
+	// CAT access buttons
+	switch (rig_state) {
+	case rig_if::NOT_CONNECTABLE:
+	{
+		// No rig
+		bn_connect_->deactivate();
+		// bn_connect_->color(FL_BACKGROUND_COLOR);
+		bn_connect_->label("");
+		bn_select_->activate();
+		if (bn_select_->value()) {
+			bn_select_->label("Use");
+		}
+		else {
+			bn_select_->label("Select");
+		}
+		if (cat_data_ && cat_data_->use_cat_app) bn_start_->activate();
+		else bn_start_->deactivate();
+		break;
+	}
+	case rig_if::DISCONNECTED:
+	{
+		// No rig
+		bn_connect_->activate();
+		// bn_connect_->color(FL_BACKGROUND_COLOR);
+		bn_connect_->label("Connect");
+		bn_select_->activate();
+		if (bn_select_->value()) {
+			bn_select_->label("Use");
+		}
+		else {
+			bn_select_->label("Select");
+		}
+		if (cat_data_ && cat_data_->use_cat_app) bn_start_->activate();
+		else bn_start_->deactivate();
+		break;
+	}
+	case rig_if::CONNECTED_OK:
+	case rig_if::CONNECTED_ERROR:
+	case rig_if::CONNECTED_SLOW:
+	{
+		// Rig is connected
+		bn_connect_->activate();
+		// bn_connect_->color(fl_lighter(FL_RED));
+		bn_connect_->label("Disconnect");
+		bn_select_->deactivate();
+		bn_select_->label("");
+		bn_select_->value(false);
+		bn_start_->deactivate();
+		break;
+	}
+	default:
+	{
+		// Rig is not connected
+		if (hamlib && hamlib->port_type != RIG_PORT_NONE) {
+			bn_connect_->activate();
+		}
+		else {
+			bn_connect_->deactivate();
+		}
+		// bn_connect_->color(fl_lighter(FL_GREEN));
+		bn_connect_->label("Connect");
+		bn_select_->activate();
+		if (bn_select_->value()) {
+			bn_select_->label("Use");
+		}
+		else {
+			bn_select_->label("Select");
+		}
+		if (cat_data_ && cat_data_->use_cat_app) bn_start_->activate();
+		else bn_start_->deactivate();
+		break;
+	}
+	}
+	bn_connect_->labelcolor(fl_contrast(FL_FOREGROUND_COLOR, bn_connect_->color()));
+	bn_select_->labelcolor(fl_contrast(FL_FOREGROUND_COLOR, bn_select_->color()));
+	// Label the CAT method selection with the CAT method
+	//char l[5];
+	//snprintf(l, sizeof(l), "CAT%d", cat_index_ + 1);
+	if (rig_info_->default_app >= 0 && rig_info_->default_app < rig_info_->cat_data.size()) {
+		bn_index_->copy_label(cat_data_->nickname.c_str());
+	}
+	else {
+		bn_index_->label("CAT");
+	}
+}
+
+// Enable CAT status widgets
+void qso_rig::enable_status() {
+	rig_if::rig_state_t rig_state = rig_ ? rig_->state() : rig_if::NOT_DEFINED;
+	// Status and frequency/mode
+	switch (rig_state) {
+	case rig_if::NOT_DEFINED:
+	{
+		// No rig - decativate freq/mode
+		op_status_->value("No rig specified");
+		bn_tx_rx_->label("");
+		bn_tx_rx_->color(FL_BLACK);
+		op_freq_mode_->deactivate();
+		op_freq_mode_->label("");
+		break;
+	}
+	case rig_if::CONNECTING:
+	{
+		// Rig is connecting - deactivate freq/mode
+		op_status_->value("Opening rig");
+		bn_tx_rx_->label("");
+		bn_tx_rx_->color(FL_YELLOW);
+		op_freq_mode_->deactivate();
+		op_freq_mode_->label("");
+		break;
+	}
+	case rig_if::UNPOWERED:
+	{
+		op_status_->value("Powered down");
+		bn_tx_rx_->label("");
+		bn_tx_rx_->color(COLOUR_ORANGE);
+		break;
+	}
+	case rig_if::CONNECTED_SLOW:
+	{
+		// Do no change display
+		op_status_->value("Unresponsive");
+		bn_tx_rx_->label("");
+		bn_tx_rx_->color(COLOUR_ORANGE);
+		break;
+	}
+	case rig_if::CONNECTED_OK:
+	{
+		break;
+	}
+	case rig_if::NOT_CONNECTABLE:
+	{
+		// No rig available - deactivate freq/mode
+		op_status_->value("No CAT Available");
+		bn_tx_rx_->label("");
+		bn_tx_rx_->color(COLOUR_GREY);
+		op_freq_mode_->deactivate();
+		op_freq_mode_->label("");
+		break;
+	}
+	case rig_if::DISCONNECTED:
+	{
+		if (rig_ && !rig_starting_ && !rig_stopping_) {
+			// Rig has disconnected since last update
+			char msg[128];
+			snprintf(msg, sizeof(msg), "RIG: Failed to access network app for %s",
+				label());
+			status_->misc_status(ST_WARNING, msg);
+			// Tidy up if rig has disconnected
+			delete rig_;
+			rig_ = nullptr;
+		}
+		// Rig is not connected - deactivate freq/mode
+		op_status_->value("Disconnected");
+		bn_tx_rx_->label("");
+		bn_tx_rx_->color(FL_BLACK);
+		op_freq_mode_->deactivate();
+		op_freq_mode_->label("");
+		break;
+	}
+	case rig_if::CONNECTED_ERROR:
+	{
+		// Rig is not connected - deactivate freq/mode
+		op_status_->value("Connect error");
+		bn_tx_rx_->label("");
+		bn_tx_rx_->color(FL_BLACK);
+		op_freq_mode_->deactivate();
+		op_freq_mode_->label("");
+		break;
+	}
+	}
+	// CAT control widgets - allow only when select button active
+	if (rig_ && rig_->connected())
+	{
+		// Rig is open - disable connection configuration controls
+		ch_rig_model_->deactivate();
+		serial_grp_->deactivate();
+		network_grp_->deactivate();
+	}
+	else {
+		// Rig is not open - allow it to be configured
+		ch_rig_model_->activate();
+		serial_grp_->activate();
+		network_grp_->activate();
+		if (bn_select_->value()) {
+			// Set configuration widgets to accept input
+			serial_grp_->clear_output();
+			network_grp_->clear_output();
+		}
+		else {
+			// Set configuration widgets to inhibit input
+			serial_grp_->set_output();
+			network_grp_->set_output();
+		}
+	}
+}
+
+// Enable CAT connection tab.
+void qso_rig::enable_connect() {
+	hamlib_data_t* hamlib = cat_data_ ? cat_data_->hamlib : nullptr;
+	rig_if::rig_state_t rig_state = rig_ ? rig_->state() : rig_if::NOT_DEFINED;
+	if (cat_data_) {
+		switch (cat_data_->hamlib->port_type) {
+		case RIG_PORT_SERIAL:
+			// Serial port - show serial configuration, hide network
+			if (visible_r()) serial_grp_->show();
+			network_grp_->hide();
+			if (!bn_select_->value()) {
+				serial_grp_->deactivate();
+			}
+			else {
+				serial_grp_->activate();
+			}
+			break;
+		case RIG_PORT_NETWORK:
+		case RIG_PORT_USB:
+			// Network or USB port - show network, hide serial
+			serial_grp_->hide();
+			if (visible_r()) network_grp_->show();
+			if (!bn_select_->value()) {
+				ip_port_->value(hamlib->port_name.c_str());
+				ip_port_->user_data(&hamlib->port_name);
+				network_grp_->deactivate();
+			}
+			else {
+				network_grp_->activate();
+			}
+			bn_use_app_->value(cat_data_->use_cat_app);
+			// Chaneg the user data for "use app" button
+			bn_use_app_->user_data(&cat_data_->use_cat_app);
+			ip_app_name_->value(cat_data_->app.c_str());
+			// The hamlib model has an associated application (eg flrig or wfview)
+			if (cat_data_->use_cat_app) {
+				ip_app_name_->activate();
+				ip_app_name_->user_data(&cat_data_->app);
+			}
+			else {
+				ip_app_name_->deactivate();
+			}
+			break;
+		case RIG_PORT_NONE:
+			// Hide both sets of configuration
+			serial_grp_->hide();
+			network_grp_->hide();
+			break;
+		default:
+			break;
+		}
+	}
+	else {
+		// Hide both sets of configuration
+		serial_grp_->hide();
+		network_grp_->hide();
+	}
+	// Set the rig name into the choice
+	if (hamlib && hamlib->model_id != -1) {
+		int pos = rig_choice_pos_.at(hamlib->model_id);
+		ch_rig_model_->value(pos);
+	}
+	else {
+		ch_rig_model_->value(0);
+	}
+}
+
+// Enable CAT accessory widgets
+void qso_rig::enable_accessory() {
+	hamlib_data_t* hamlib = cat_data_ ? cat_data_->hamlib : nullptr;
+	if (hamlib) {
+		// Only update these when not called by ticker
+		// Power defaults
+		bn_override_->value(cat_data_->override_hamlib);
+		bn_override_->user_data(&cat_data_->override_hamlib);
+		if (cat_data_->override_hamlib) {
+			op_pwr_type_->hide();
+			ch_pwr_type_->show();
+			ch_pwr_type_->value(hamlib->power_mode);
+			ch_pwr_type_->user_data(&hamlib->power_mode);
+			switch (hamlib->power_mode) {
+			case DRIVE_LEVEL:
+			case MAX_POWER:
+				ip_max_pwr_->activate();
+				break;
+			default:
+				ip_max_pwr_->deactivate();
+				break;
+			}
+		}
+		else {
+			op_pwr_type_->show();
+			ch_pwr_type_->hide();
+			switch (hamlib->power_mode) {
+			case RF_METER:
+				op_pwr_type_->value("RF Meter");
+				ip_max_pwr_->deactivate();
+				break;
+			case DRIVE_LEVEL:
+				op_pwr_type_->value("Drive");
+				ip_max_pwr_->activate();
+				break;
+			case MAX_POWER:
+				op_pwr_type_->value("Specify");
+				ip_max_pwr_->activate();
+				break;
+			default:
+				op_pwr_type_->value("None");
+				ip_max_pwr_->deactivate();
+				break;
+			}
+		}
+		char text[25];
+		snprintf(text, sizeof(text), "%g", hamlib->max_power);
+		ip_max_pwr_->value(text);
+		ip_max_pwr_->user_data(&hamlib->max_power);
+
+		// Fequency defaults
+		op_freq_type_->activate();
+		switch (hamlib->freq_mode) {
+		case NO_FREQ:
+			op_freq_type_->value("Enter in QSO");
+			ip_xtal_->deactivate();
+			break;
+		case VFO:
+			op_freq_type_->value("VFO");
+			ip_xtal_->deactivate();
+			break;
+		case XTAL:
+			op_freq_type_->value("Fixed");
+			ip_xtal_->activate();
+			break;
+		default:
+			op_freq_type_->value("");
+			ip_xtal_->deactivate();
+			break;
+		}
+		snprintf(text, sizeof(text), "%0.6f", hamlib->frequency);
+		ip_xtal_->value(text);
+		ip_xtal_->user_data(&hamlib->frequency);
+
+		bn_amplifier_->activate();
+		bn_amplifier_->value((hamlib->accessory & AMPLIFIER) == AMPLIFIER);
+		bn_amplifier_->user_data(&hamlib->accessory);
+
+		ip_gain_->activate();
+		if (hamlib->accessory & AMPLIFIER) {
+			ip_gain_->activate();
+			snprintf(text, sizeof(text), "%d", hamlib->gain);
+			ip_gain_->value(text);
+			ip_gain_->user_data(&hamlib->gain);
+		}
+		else {
+			ip_gain_->deactivate();
+			ip_gain_->value("");
+		}
+
+		bn_transverter_->activate();
+		bn_transverter_->value((hamlib->accessory & TRANSVERTER) == TRANSVERTER);
+		bn_transverter_->user_data(&hamlib->accessory);
+		if (hamlib->accessory & TRANSVERTER) {
+			ip_offset_->activate();
+			snprintf(text, sizeof(text), "%0.6f", hamlib->freq_offset);
+			ip_offset_->value(text);
+			ip_offset_->user_data(&hamlib->freq_offset);
+			ip_tvtr_pwr_->activate();
+			snprintf(text, sizeof(text), "%g", hamlib->tvtr_power);
+			ip_tvtr_pwr_->value(text);
+			ip_tvtr_pwr_->user_data(&hamlib->tvtr_power);
+		}
+		else {
+			ip_offset_->deactivate();
+			ip_offset_->value("");
+			ip_tvtr_pwr_->deactivate();
+			ip_tvtr_pwr_->value("");
+		}
+
+		// Timeout and S-meter tracking values
+		v_timeout_->activate();
+		v_timeout_->value(hamlib->timeout);
+		v_smeters_->activate();
+		v_smeters_->value(hamlib->num_smeters);
+		v_to_count_->activate();
+		v_to_count_->value(hamlib->max_to_count);
+	}
+	else {
+		op_pwr_type_->activate();
+		ip_max_pwr_->activate();
+		op_pwr_type_->value("Specify");
+		op_freq_type_->activate();
+		op_freq_type_->value("Enter in QSO");
+		ip_xtal_->deactivate();
+		bn_amplifier_->deactivate();
+		ip_gain_->deactivate();
+		bn_transverter_->deactivate();
+		ip_offset_->deactivate();
+		ip_tvtr_pwr_->deactivate();
+		v_timeout_->deactivate();
+		v_smeters_->deactivate();
+		v_to_count_->deactivate();
+	}
+}
+
+// Enable CAT value widgets
+void qso_rig::enable_values() {
+	hamlib_data_t* hamlib = cat_data_ ? cat_data_->hamlib : nullptr;
+	rig_if::rig_state_t rig_state = rig_ ? rig_->state() : rig_if::NOT_DEFINED;
+	double tx_freq, rx_freq, freq;
+	tx_freq = rig_->get_dfrequency(true);
+	rx_freq = rig_->get_dfrequency(false);
+	freq = rig_->get_ptt() ? tx_freq : rx_freq;
+	if (rig_state == rig_if::CONNECTED_OK) {
+		band_data::band_entry_t* entry = band_data_->get_entry(freq);
+		if (entry) {
+			char l[50];
+			if (rig_->get_split()) {
+				snprintf(l, sizeof(l), "SPLIT %s/%s",
+					spec_data_->band_for_freq(tx_freq).c_str(),
+					spec_data_->band_for_freq(rx_freq).c_str());
+			}
+			else {
+				strcpy(l, spec_data_->band_for_freq(freq).c_str());
+				for (auto it = entry->modes.begin(); it != entry->modes.end(); it++) {
+					strcat(l, " ");
+					strcat(l, (*it).c_str());
+				}
+			}
+			op_status_->value(l);
+			if (rig_->get_ptt()) {
+				bn_tx_rx_->label("TX");
+				bn_tx_rx_->color(FL_RED);
+			}
+			else {
+				bn_tx_rx_->label("RX");
+				bn_tx_rx_->color(FL_GREEN);
+			}
+		}
+		else {
+			op_status_->value("Out of band!");
+			if (rig_->get_ptt()) {
+				bn_tx_rx_->label("TX");
+				bn_tx_rx_->color(FL_DARK_RED);
+			}
+			else {
+				bn_tx_rx_->label("RX");
+				bn_tx_rx_->color(FL_DARK_GREEN);
+			}
+		}
+		bn_tx_rx_->labelcolor(fl_contrast(FL_FOREGROUND_COLOR, bn_tx_rx_->color()));
+	}
+	op_freq_mode_->activate();
+	op_freq_mode_->color(FL_BLACK, FL_BLACK);
+	op_freq_mode_->labelcolor(FL_YELLOW);
+
+	char msg[200];
+	std::string rig_mode;
+	std::string submode;
+	rig_->get_string_mode(rig_mode, submode);
+	bool ptt = rig_->get_ptt();
+	char bullet[] = "\342\200\243";
+	if (tx_freq == rx_freq) {
+		if (rig_info_->use_instant_values) {
+			// Set Freq/Mode to Frequency (MHz with kHz seperator), mode, power (W)
+			snprintf(msg, sizeof(msg), "%0.6f MHz\n%s %sW %s",
+				tx_freq,
+				submode.length() ? submode.c_str() : rig_mode.c_str(),
+				rig_->get_tx_power(false).c_str(),
+				rig_->get_smeter(false).c_str()
+			);
+		}
+		else {
+			// Set Freq/Mode to Frequency (MHz with kHz seperator), mode, power (W)
+			snprintf(msg, sizeof(msg), "%0.6f MHz\n%s %sW %s",
+				tx_freq,
+				submode.length() ? submode.c_str() : rig_mode.c_str(),
+				rig_->get_tx_power(true).c_str(),
+				rig_->get_smeter(true).c_str()
+			);
+		}
+	}
+	else if (rig_info_->use_instant_values) {
+		// Set Freq/Mode to Frequency (MHz with kHz seperator), mode, power (W)
+		snprintf(msg, sizeof(msg), "%s %0.6f MHz\n%s %0.6f MHz\n%s %sW %s",
+			ptt ? bullet : " ", tx_freq, ptt ? " " : bullet, rx_freq,
+			submode.length() ? submode.c_str() : rig_mode.c_str(),
+			rig_->get_tx_power(false).c_str(),
+			rig_->get_smeter(false).c_str()
+		);
+	}
+	else {
+		// Set Freq/Mode to Frequency (MHz with kHz seperator), mode, power (W)
+		snprintf(msg, sizeof(msg), "%s %0.6f MHz\n%s %0.6f MHz\n%s %sW %s",
+			ptt ? bullet : " ", tx_freq, ptt ? " " : bullet, rx_freq,
+			submode.length() ? submode.c_str() : rig_mode.c_str(),
+			rig_->get_tx_power(true).c_str(),
+			rig_->get_smeter(true).c_str()
+		);
+	}
+	op_freq_mode_->copy_label(msg);
+	int size = FL_NORMAL_SIZE + 10;
+	fl_font(0, size);
+	int w = 0, h;
+	fl_measure(msg, w, h);
+	while (w > op_freq_mode_->w() || h > op_freq_mode_->h()) {
+		size--;
+		fl_font(0, size);
+		fl_measure(msg, w, h);
+	}
+	op_freq_mode_->labelsize(size);
+}
+
+// Enable auto start and auto connect widgets
+void qso_rig::enable_auto() {
+	if (cat_data_) {
+		bn_autostart_->value(cat_data_->auto_start);
+		bn_autostart_->activate();
+		bn_autoconn_->value(cat_data_->auto_connect);
+		bn_autoconn_->activate();
+		bn_autopdown_->value(cat_data_->auto_pdown);
+		bn_autopdown_->activate();
+		v_connect_delay_->value(cat_data_->connect_delay);
+		if (cat_data_->auto_connect) {
+			v_connect_delay_->activate();
+		} else {
+			v_connect_delay_->deactivate();
+		}
+	}
+	else {
+		bn_autostart_->deactivate();
+		bn_autoconn_->deactivate();
+		bn_autopdown_->deactivate();
+		v_connect_delay_->deactivate();
+	}
+}
+
+// Enable tabs
+void qso_rig::enable_tabs() {
+	// Now use standard TAB highlighting
+	for (int ix = 0; ix < config_tabs_->children(); ix++) {
+		Fl_Widget* wx = config_tabs_->child(ix);
+		if (wx == config_tabs_->value()) {
+			wx->labelfont((wx->labelfont() | FL_BOLD) & (~FL_ITALIC));
+			wx->labelcolor(FL_FOREGROUND_COLOR);
+		}
+		else {
+			wx->labelfont((wx->labelfont() & (~FL_BOLD)) | FL_ITALIC);
+			wx->labelcolor(FL_FOREGROUND_COLOR);
+		}
+	}
+}
+
 // Enable CAT Connection widgets
 void qso_rig::enable_widgets(uchar damage) {
 	cat_data_ = rig_data_->cat_data(label());
 	hamlib_data_t* hamlib = cat_data_ ? cat_data_->hamlib : nullptr;
 	rig_if::rig_state_t rig_state = rig_ ? rig_->state() : rig_if::NOT_DEFINED;
 	if (damage & DAMAGE_STATUS) {
-		// CAT access buttons
-		switch (rig_state) {
-		case rig_if::NOT_CONNECTABLE:
-		{
-			// No rig
-			bn_connect_->deactivate();
-			// bn_connect_->color(FL_BACKGROUND_COLOR);
-			bn_connect_->label("");
-			bn_select_->activate();
-			if (bn_select_->value()) {
-				bn_select_->label("Use");
-			}
-			else {
-				bn_select_->label("Select");
-			}
-			if (cat_data_ && cat_data_->use_cat_app) bn_start_->activate();
-			else bn_start_->deactivate();
-			break;
-		}
-		case rig_if::DISCONNECTED:
-		{
-			// No rig
-			bn_connect_->activate();
-			// bn_connect_->color(FL_BACKGROUND_COLOR);
-			bn_connect_->label("Connect");
-			bn_select_->activate();
-			if (bn_select_->value()) {
-				bn_select_->label("Use");
-			}
-			else {
-				bn_select_->label("Select");
-			}
-			if (cat_data_ && cat_data_->use_cat_app) bn_start_->activate();
-			else bn_start_->deactivate();
-			break;
-		}
-		case rig_if::CONNECTED_OK:
-		case rig_if::CONNECTED_ERROR:
-		case rig_if::CONNECTED_SLOW:
-		{
-			// Rig is connected
-			bn_connect_->activate();
-			// bn_connect_->color(fl_lighter(FL_RED));
-			bn_connect_->label("Disconnect");
-			bn_select_->deactivate();
-			bn_select_->label("");
-			bn_select_->value(false);
-			bn_start_->deactivate();
-			break;
-		}
-		default:
-		{
-			// Rig is not connected
-			if (hamlib && hamlib->port_type != RIG_PORT_NONE) {
-				bn_connect_->activate();
-			}
-			else {
-				bn_connect_->deactivate();
-			}
-			// bn_connect_->color(fl_lighter(FL_GREEN));
-			bn_connect_->label("Connect");
-			bn_select_->activate();
-			if (bn_select_->value()) {
-				bn_select_->label("Use");
-			}
-			else {
-				bn_select_->label("Select");
-			}
-			if (cat_data_ && cat_data_->use_cat_app) bn_start_->activate();
-			else bn_start_->deactivate();
-			break;
-		}
-		}
-		bn_connect_->labelcolor(fl_contrast(FL_FOREGROUND_COLOR, bn_connect_->color()));
-		bn_select_->labelcolor(fl_contrast(FL_FOREGROUND_COLOR, bn_select_->color()));
-		// Status and frequency/mode
-		switch (rig_state) {
-		case rig_if::NOT_DEFINED:
-		{
-			// No rig - decativate freq/mode
-			op_status_->value("No rig specified");
-			bn_tx_rx_->label("");
-			bn_tx_rx_->color(FL_BLACK);
-			op_freq_mode_->deactivate();
-			op_freq_mode_->label("");
-			break;
-		}
-		case rig_if::CONNECTING:
-		{
-			// Rig is connecting - deactivate freq/mode
-			op_status_->value("Opening rig");
-			bn_tx_rx_->label("");
-			bn_tx_rx_->color(FL_YELLOW);
-			op_freq_mode_->deactivate();
-			op_freq_mode_->label("");
-			break;
-		}
-		case rig_if::UNPOWERED:
-		{
-			op_status_->value("Powered down");
-			bn_tx_rx_->label("");
-			bn_tx_rx_->color(COLOUR_ORANGE);
-			break;
-		}
-		case rig_if::CONNECTED_SLOW:
-		{
-			// Do no change display
-			op_status_->value("Unresponsive");
-			bn_tx_rx_->label("");
-			bn_tx_rx_->color(COLOUR_ORANGE);
-			break;
-		}
-		case rig_if::CONNECTED_OK:
-		{
-			break;
-		}
-		case rig_if::NOT_CONNECTABLE:
-		{
-			// No rig available - deactivate freq/mode
-			op_status_->value("No CAT Available");
-			bn_tx_rx_->label("");
-			bn_tx_rx_->color(COLOUR_GREY);
-			op_freq_mode_->deactivate();
-			op_freq_mode_->label("");
-			break;
-		}
-		case rig_if::DISCONNECTED:
-		{
-			if (rig_) {
-				// Rig has disconnected since last update
-				char msg[128];
-				snprintf(msg, sizeof(msg), "RIG: Failed to access network app for %s",
-					label());
-				status_->misc_status(ST_WARNING, msg);
-				// Tidy up if rig has disconnected
-				delete rig_;
-				rig_ = nullptr;
-			}
-			// Rig is not connected - deactivate freq/mode
-			op_status_->value("Disconnected");
-			bn_tx_rx_->label("");
-			bn_tx_rx_->color(FL_BLACK);
-			op_freq_mode_->deactivate();
-			op_freq_mode_->label("");
-			break;
-		}
-		case rig_if::CONNECTED_ERROR:
-		{
-			// Rig is not connected - deactivate freq/mode
-			op_status_->value("Connect error");
-			bn_tx_rx_->label("");
-			bn_tx_rx_->color(FL_BLACK);
-			op_freq_mode_->deactivate();
-			op_freq_mode_->label("");
-			break;
-		}
-		}
-		// CAT control widgets - allow only when select button active
-		if (rig_ && rig_->connected())
-		{
-			// Rig is open - disable connection configuration controls
-			ch_rig_model_->deactivate();
-			serial_grp_->deactivate();
-			network_grp_->deactivate();
-		}
-		else {
-			// Rig is not open - allow it to be configured
-			ch_rig_model_->activate();
-			serial_grp_->activate();
-			network_grp_->activate();
-			if (bn_select_->value()) {
-				// Set configuration widgets to accept input
-				serial_grp_->clear_output();
-				network_grp_->clear_output();
-			}
-			else {
-				// Set configuration widgets to inhibit input
-				serial_grp_->set_output();
-				network_grp_->set_output();
-			}
-		}
-		if (cat_data_) {
-			switch (cat_data_->hamlib->port_type) {
-			case RIG_PORT_SERIAL:
-				// Serial port - show serial configuration, hide network
-				if (visible_r()) serial_grp_->show();
-				network_grp_->hide();
-				if (!bn_select_->value()) {
-					serial_grp_->deactivate();
-				}
-				else {
-					serial_grp_->activate();
-				}
-				break;
-			case RIG_PORT_NETWORK:
-			case RIG_PORT_USB:
-				// Network or USB port - show network, hide serial
-				serial_grp_->hide();
-				if (visible_r()) network_grp_->show();
-				if (!bn_select_->value()) {
-					ip_port_->value(hamlib->port_name.c_str());
-					ip_port_->user_data(&hamlib->port_name);
-					network_grp_->deactivate();
-				}
-				else {
-					network_grp_->activate();
-				}
-				bn_use_app_->value(cat_data_->use_cat_app);
-				// Chaneg the user data for "use app" button
-				bn_use_app_->user_data(&cat_data_->use_cat_app);
-				ip_app_name_->value(cat_data_->app.c_str());
-				// The hamlib model has an associated application (eg flrig or wfview)
-				if (cat_data_->use_cat_app) {
-					ip_app_name_->activate();
-					ip_app_name_->user_data(&cat_data_->app);
-				}
-				else {
-					ip_app_name_->deactivate();
-				}
-				break;
-			case RIG_PORT_NONE:
-				// Hide both sets of configuration
-				serial_grp_->hide();
-				network_grp_->hide();
-				break;
-			default:
-				break;
-			}
-		} else {
-			// Hide both sets of configuration
-			serial_grp_->hide();
-			network_grp_->hide();
-		}
-		// Set the rig name into the choice
-		if (hamlib && hamlib->model_id != -1) {
-			int pos = rig_choice_pos_.at(hamlib->model_id);
-			ch_rig_model_->value(pos);
-		} else {
-			ch_rig_model_->value(0);
-		}
-		// Now use standard TAB highlighting
-		for (int ix = 0; ix < config_tabs_->children(); ix++) {
-			Fl_Widget* wx = config_tabs_->child(ix);
-			if (wx == config_tabs_->value()) {
-				wx->labelfont((wx->labelfont() | FL_BOLD) & (~FL_ITALIC));
-				wx->labelcolor(FL_FOREGROUND_COLOR);
-			}
-			else {
-				wx->labelfont((wx->labelfont() & (~FL_BOLD)) | FL_ITALIC);
-				wx->labelcolor(FL_FOREGROUND_COLOR);
-			}
-		}
-		// Label the CAT method selection with the CAT method
-		//char l[5];
-		//snprintf(l, sizeof(l), "CAT%d", cat_index_ + 1);
-		if (rig_info_->default_app >= 0 && rig_info_->default_app < rig_info_->cat_data.size()) {
-			bn_index_->copy_label(cat_data_->nickname.c_str());
-		}
-		else {
-			bn_index_->label("CAT");
-		}
-
-
+		enable_cat_access();
+		enable_status();
+		enable_connect();
 	}
 	if (damage & DAMAGE_ADDONS) {
-
-		if (hamlib) {
-			// Only update these when not called by ticker
-			// Power defaults
-			bn_override_->value(cat_data_->override_hamlib);
-			bn_override_->user_data(&cat_data_->override_hamlib);
-			if (cat_data_->override_hamlib) {
-				op_pwr_type_->hide();
-				ch_pwr_type_->show();
-				ch_pwr_type_->value(hamlib->power_mode);
-				ch_pwr_type_->user_data(&hamlib->power_mode);
-				switch(hamlib->power_mode) {
-					case DRIVE_LEVEL:
-					case MAX_POWER:
-						ip_max_pwr_->activate();
-						break;
-					default:
-						ip_max_pwr_->deactivate();
-						break;
-				}
-			} else {
-				op_pwr_type_->show();
-				ch_pwr_type_->hide();
-				switch (hamlib->power_mode) {
-				case RF_METER:
-					op_pwr_type_->value("RF Meter");
-					ip_max_pwr_->deactivate();
-					break;
-				case DRIVE_LEVEL:
-					op_pwr_type_->value("Drive");
-					ip_max_pwr_->activate();
-					break;
-				case MAX_POWER:
-					op_pwr_type_->value("Specify");
-					ip_max_pwr_->activate();
-					break;
-				default:
-					op_pwr_type_->value("None");
-					ip_max_pwr_->deactivate();
-					break;
-				}
-			}
-			char text[25];
-			snprintf(text, sizeof(text), "%g", hamlib->max_power);
-			ip_max_pwr_->value(text);
-			ip_max_pwr_->user_data(&hamlib->max_power);
-
-			// Fequency defaults
-			op_freq_type_->activate();
-			switch (hamlib->freq_mode) {
-			case NO_FREQ:
-				op_freq_type_->value("Enter in QSO");
-				ip_xtal_->deactivate();
-				break;
-			case VFO:
-				op_freq_type_->value("VFO");
-				ip_xtal_->deactivate();
-				break;
-			case XTAL:
-				op_freq_type_->value("Fixed");
-				ip_xtal_->activate();
-				break;
-			default:
-				op_freq_type_->value("");
-				ip_xtal_->deactivate();
-				break;
-			}
-			snprintf(text, sizeof(text), "%0.6f", hamlib->frequency);
-			ip_xtal_->value(text);
-			ip_xtal_->user_data(&hamlib->frequency);
-
-			bn_amplifier_->activate();
-			bn_amplifier_->value((hamlib->accessory & AMPLIFIER) == AMPLIFIER);
-			bn_amplifier_->user_data(&hamlib->accessory);
-
-			ip_gain_->activate();
-			if (hamlib->accessory & AMPLIFIER) {
-				ip_gain_->activate();
-				snprintf(text, sizeof(text), "%d", hamlib->gain);
-				ip_gain_->value(text);
-				ip_gain_->user_data(&hamlib->gain);
-			}
-			else {
-				ip_gain_->deactivate();
-				ip_gain_->value("");
-			}
-
-			bn_transverter_->activate();
-			bn_transverter_->value((hamlib->accessory & TRANSVERTER) == TRANSVERTER);
-			bn_transverter_->user_data(&hamlib->accessory);
-			if (hamlib->accessory & TRANSVERTER) {
-				ip_offset_->activate();
-				snprintf(text, sizeof(text), "%0.6f", hamlib->freq_offset);
-				ip_offset_->value(text);
-				ip_offset_->user_data(&hamlib->freq_offset);
-				ip_tvtr_pwr_->activate();
-				snprintf(text, sizeof(text), "%g", hamlib->tvtr_power);
-				ip_tvtr_pwr_->value(text);
-				ip_tvtr_pwr_->user_data(&hamlib->tvtr_power);
-			}
-			else {
-				ip_offset_->deactivate();
-				ip_offset_->value("");
-				ip_tvtr_pwr_->deactivate();
-				ip_tvtr_pwr_->value("");
-			}
-
-			// Timeout and S-meter tracking values
-			v_timeout_->activate();
-			v_timeout_->value(hamlib->timeout);
-			v_smeters_->activate();
-			v_smeters_->value(hamlib->num_smeters);
-			v_to_count_->activate();
-			v_to_count_->value(hamlib->max_to_count);
-		}
-		else {
-			op_pwr_type_->activate();
-			ip_max_pwr_->activate();
-			op_pwr_type_->value("Specify");
-			op_freq_type_->activate();
-			op_freq_type_->value("Enter in QSO");
-			ip_xtal_->deactivate();
-			bn_amplifier_->deactivate();
-			ip_gain_->deactivate();
-			bn_transverter_->deactivate();
-			ip_offset_->deactivate();
-			ip_tvtr_pwr_->deactivate();
-			v_timeout_->deactivate();
-			v_smeters_->deactivate();
-			v_to_count_->deactivate();
-		}
-
+		enable_accessory();
 	}
 
 	if ((damage & DAMAGE_VALUES) && rig_ && rig_->connected())
     {
-		double tx_freq, rx_freq, freq;
-		tx_freq = rig_->get_dfrequency(true);
-		rx_freq = rig_->get_dfrequency(false);
-		freq = rig_->get_ptt() ? tx_freq : rx_freq;
-		if (rig_state == rig_if::CONNECTED_OK) {
-			band_data::band_entry_t* entry = band_data_->get_entry(freq);
-			if (entry) {
-				char l[50];
-				if (rig_->get_split()) {
-					snprintf(l, sizeof(l), "SPLIT %s/%s",
-					spec_data_->band_for_freq(tx_freq).c_str(),
-					spec_data_->band_for_freq(rx_freq).c_str());
-				} else {
-					strcpy(l, spec_data_->band_for_freq(freq).c_str());
-					for (auto it = entry->modes.begin(); it != entry->modes.end(); it++) {
-						strcat(l, " ");
-						strcat(l, (*it).c_str());
-					}
-				}
-				op_status_->value(l);
-				if (rig_->get_ptt()) {
-					bn_tx_rx_->label("TX");
-					bn_tx_rx_->color(FL_RED);
-				}
-				else {
-					bn_tx_rx_->label("RX");
-					bn_tx_rx_->color(FL_GREEN);
-				}
-			}
-			else {
-				op_status_->value("Out of band!");
-				if (rig_->get_ptt()) {
-					bn_tx_rx_->label("TX");
-					bn_tx_rx_->color(FL_DARK_RED);
-				}
-				else {
-					bn_tx_rx_->label("RX");
-					bn_tx_rx_->color(FL_DARK_GREEN);
-				}
-			}
-			bn_tx_rx_->labelcolor(fl_contrast(FL_FOREGROUND_COLOR, bn_tx_rx_->color()));
-		}
-		op_freq_mode_->activate();
-		op_freq_mode_->color(FL_BLACK, FL_BLACK);
-		op_freq_mode_->labelcolor(FL_YELLOW);
-
-		char msg[200];
-		std::string rig_mode;
-		std::string submode;
-		rig_->get_string_mode(rig_mode, submode);
-		bool ptt = rig_->get_ptt();
-		char bullet[] = "\342\200\243";
-		if (tx_freq == rx_freq) {
-			if (rig_info_->use_instant_values) {
-				// Set Freq/Mode to Frequency (MHz with kHz seperator), mode, power (W)
-				snprintf(msg, sizeof(msg), "%0.6f MHz\n%s %sW %s",
-					tx_freq,
-					submode.length() ? submode.c_str() : rig_mode.c_str(),
-					rig_->get_tx_power(false).c_str(),
-					rig_->get_smeter(false).c_str()
-				);
-			} else {
-				// Set Freq/Mode to Frequency (MHz with kHz seperator), mode, power (W)
-				snprintf(msg, sizeof(msg), "%0.6f MHz\n%s %sW %s",
-					tx_freq,
-					submode.length() ? submode.c_str() : rig_mode.c_str(),
-					rig_->get_tx_power(true).c_str(),
-					rig_->get_smeter(true).c_str()
-				);
-			}
-		}
-		else if (rig_info_->use_instant_values) {
-			// Set Freq/Mode to Frequency (MHz with kHz seperator), mode, power (W)
-			snprintf(msg, sizeof(msg), "%s %0.6f MHz\n%s %0.6f MHz\n%s %sW %s",
-				ptt ? bullet : " ", tx_freq, ptt ? " " : bullet, rx_freq,
-				submode.length() ? submode.c_str() : rig_mode.c_str(),
-				rig_->get_tx_power(false).c_str(),
-				rig_->get_smeter(false).c_str()
-			);
-		} else {
-			// Set Freq/Mode to Frequency (MHz with kHz seperator), mode, power (W)
-			snprintf(msg, sizeof(msg), "%s %0.6f MHz\n%s %0.6f MHz\n%s %sW %s",
-				ptt ? bullet : " ", tx_freq, ptt ? " " : bullet, rx_freq,
-				submode.length() ? submode.c_str() : rig_mode.c_str(),
-				rig_->get_tx_power(true).c_str(),
-				rig_->get_smeter(true).c_str()
-			);
-		}
-		op_freq_mode_->copy_label(msg);
-		int size = FL_NORMAL_SIZE + 10;
-		fl_font(0, size);
-		int w = 0, h;
-		fl_measure(msg, w, h);
-		while (w > op_freq_mode_->w() || h > op_freq_mode_->h()) {
-			size--;
-			fl_font(0, size);
-			fl_measure(msg, w, h);
-		}
-		op_freq_mode_->labelsize(size);
-
+		enable_values();
 	}
 
 	if (damage & DAMAGE_AUTOS) {
-		if (cat_data_) {
-			bn_autostart_->value(cat_data_->auto_start);
-			bn_autostart_->activate();
-			bn_autoconn_->value(cat_data_->auto_connect);
-			bn_autoconn_->activate();
-			v_connect_delay_->value(cat_data_->connect_delay);
-			if (cat_data_->auto_connect) {
-				v_connect_delay_->activate();
-			} else {
-				v_connect_delay_->deactivate();
-			}
-		} else {
-			bn_autostart_->deactivate();
-			bn_autoconn_->deactivate();
-			v_connect_delay_->deactivate();
-		}
+		enable_auto();
 	}
+
+	enable_tabs();
 
 	redraw();
 }
@@ -1451,7 +1518,9 @@ void qso_rig::cb_bn_connect(Fl_Widget* w, void* v) {
 		that->rig_ = new rig_if(that->label(), that->cat_data_->hamlib);
 	}
 	else if (that->rig_->connected()) {
-		that->rig_->close();
+		that->rig_stopping_ = true;
+		bool powerdown = that->cat_data_ && that->cat_data_->auto_pdown;
+		that->rig_->close(powerdown);
 
 	} else {
 		that->rig_->open();
@@ -1462,6 +1531,7 @@ void qso_rig::cb_bn_connect(Fl_Widget* w, void* v) {
 		}
 	}
 	that->rig_starting_ = false;
+	that->rig_stopping_ = false;
 	that->enable_widgets(DAMAGE_ALL);
 }
 
@@ -1497,6 +1567,7 @@ void qso_rig::cb_bn_start(Fl_Widget* w, void* v) {
 		snprintf(msg, sizeof(msg), "RIG: Started %s OK", command.c_str());
 		status_->misc_status(ST_OK, msg);
 		status_->progress(cat_data->connect_delay * 1000, OT_RIG, "Waiting to connect rig", "ms");
+		that->app_running_ = true;
 	}
 	else {
 		that->rig_starting_ = false;
@@ -1652,6 +1723,15 @@ void qso_rig::cb_connect_delay(Fl_Widget* w, void* v) {
 	that->cat_data_->connect_delay = value;
 }
 
+// Auto stop (aka auto power down)
+void qso_rig::cb_bn_autopdown(Fl_Widget* w, void* v) {
+	bool value;
+	zc::cb_value<Fl_Check_Button, bool>(w, &value);
+	qso_rig* that = zc::ancestor_view<qso_rig>(w);
+	that->cat_data_->auto_pdown = value;
+	that->enable_widgets(DAMAGE_AUTOS);
+}
+
 // Connect rig if disconnected and vice-versa
 void qso_rig::switch_rig() {
 	if (rig_) {
@@ -1756,7 +1836,8 @@ std::string qso_rig::antenna() {
 // Force disconnect
 void qso_rig::disconnect() {
 	if (rig_ && rig_->connected()) {
-		rig_->close();
+		bool powerdown = cat_data_ && cat_data_->auto_pdown;
+		rig_->close(powerdown);
 	}
 }
 

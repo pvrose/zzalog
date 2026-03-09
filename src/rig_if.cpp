@@ -222,17 +222,23 @@ rig_if::rig_if(const char* name, hamlib_data_t* data)
 rig_if::~rig_if()
 {
 	// close the connection
-	close();
+	close(false);
 }
 
 // Clsoe the connection
-void rig_if::close() {
-
-
+void rig_if::close(bool powerdown) {
 	if (rig_ != nullptr) {
 		if (state_.load() == CONNECTED_OK || state_.load() == CONNECTED_SLOW || state_.load() == CONNECTED_ERROR) {
-		// If we have a connection and it's open, close it and tidy memory used by hamlib
-		// Delete the thread that reads the required rig values
+			if (powerdown) {
+				status_->misc_status(ST_NOTE, "RIG: Powering down %s/%s on port %s",
+					my_rig_name_.c_str(),
+					hamlib_data_->mfr.c_str(),
+					hamlib_data_->model.c_str(),
+					hamlib_data_->port_name.c_str());
+				rig_set_powerstat(rig_, RIG_POWER_OFF);
+			}
+			// If we have a connection and it's open, close it and tidy memory used by hamlib
+			// Delete the thread that reads the required rig values
 			char msg[128];
 			snprintf(msg, 128, "RIG: Closing connection %s (%s/%s on port %s)",
 				my_rig_name_.c_str(),
@@ -276,7 +282,7 @@ bool rig_if::open() {
 	}
 	if (DEBUG_THREADS) printf("RIG MAIN: Starting rig %s/%s port %s access thread\n",
 		hamlib_data_->mfr.c_str(), hamlib_data_->model.c_str(), hamlib_data_->port_name.c_str());
-	if (rig_ == nullptr) close();
+	if (rig_ == nullptr) close(false);
 	state_.store(CONNECTING, std::memory_order_seq_cst);
 	thread_ = new std::thread(th_sopen_rig, this);
 	std::chrono::system_clock::time_point wait_start = std::chrono::system_clock::now();
@@ -334,7 +340,7 @@ bool rig_if::open() {
 			hamlib_data_->port_name.c_str()
 		);
 		status_->misc_status(ST_WARNING, error_message(msg).c_str());
-		close();
+		close(false);
 		return false;
 	}
 }
@@ -690,7 +696,7 @@ bool rig_if::error_handler(int code, const char* meter, bool* flag, int* to_coun
 		return false;
 	case RIG_ENAVAIL:
 		if (flag) {
-			snprintf(msg, sizeof(msg), "RIG: Access is %s is not available - turn off future access", meter);
+			snprintf(msg, sizeof(msg), "RIG: Access to %s is not available - turn off future access", meter);
 			Fl::awake(cb_rig_warning, msg);
 			*flag = false;
 			ok = false;
@@ -725,7 +731,6 @@ void rig_if::cb_rig_error(void* v) {
 	char msg[128];
 	snprintf(msg, sizeof(msg), "RIG: Error response %s", that->error_message(that->read_item_.c_str()).c_str());
 	status_->misc_status(ST_ERROR, msg);
-	that->close();
 }
 
 void rig_if::cb_rig_warning(void* v) {
