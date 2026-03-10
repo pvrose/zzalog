@@ -8,6 +8,7 @@
   - Add QTH in QSO record as source of location data, looking up in openweather.org.
   - Add mirroring of logbook file to support use of network files.
   - Cold start: require minimum amount of user data.
+  - Add feature to power the rigs down.
 - Cosmetic and non-functional changes.
   - Prevent banner from always appearing on top of dashboard.
   - Remove cursor manipulation.

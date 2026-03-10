@@ -282,6 +282,9 @@
 		//! Warning message
 		std::string warning_message_;
 
+		//! Semaphore to only allow accesses when rig power state is known.
+		std::atomic<bool> allow_access_;
+
 
 };
 #endif

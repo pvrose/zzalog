@@ -70,7 +70,6 @@ void to_json(json& j, const cat_data_t& s) {
         { "Maximum power", s.hamlib->max_power },
         { "Frequency mode", s.hamlib->freq_mode},
         { "Override hamlib", s.override_hamlib },
-        { "Start automatically", s.auto_start },
         { "Connect automatically", s.auto_connect },
         { "Powerdown automatically", s.auto_pdown }
     };
@@ -88,7 +87,10 @@ void to_json(json& j, const cat_data_t& s) {
         je["Transverter"] = jtvr;
     }
     // Conditional settings
-    if (s.use_cat_app) je["Command"] = s.app;
+    if (s.use_cat_app) {
+		je["Command"] = s.app;
+		je["Start automatically"] = s.auto_start;
+	}
     if (s.hamlib->freq_mode == XTAL) je["Fixed Frequency"] = s.hamlib->frequency;
     if (s.auto_connect) je["Connect delay"] = s.connect_delay;
     j[s.nickname] = je;
@@ -112,7 +114,6 @@ void from_json(const json& j, cat_data_t& s) {
     j.at("Maximum power").get_to(s.hamlib->max_power);
     j.at("Frequency mode").get_to(s.hamlib->freq_mode);
     j.at("Override hamlib").get_to(s.override_hamlib);
-    j.at("Start automatically").get_to(s.auto_start);
     j.at("Connect automatically").get_to(s.auto_connect);
 	if (j.find("Powerdown automatically") != j.end()) {
 		j.at("Powerdown automatically").get_to(s.auto_pdown);
@@ -135,9 +136,11 @@ void from_json(const json& j, cat_data_t& s) {
     if (j.find("Command") != j.end()) {
         s.use_cat_app = true;
         j.at("Command").get_to(s.app);
-    }
+ 		j.at("Start automatically").get_to(s.auto_start);
+   }
     else {
         s.use_cat_app = false;
+		s.auto_start = false;
     }
     // Conditional
     if (s.hamlib->freq_mode == XTAL) {

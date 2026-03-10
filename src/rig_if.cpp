@@ -182,6 +182,8 @@ rig_if::rig_if(const char* name, hamlib_data_t* data)
 	my_rig_name_ = name;
 	hamlib_data_ = data;
 	run_read_ = false;
+	// Set the initial power_on state
+	allow_access_.store(false);
 	// Set initial state
 	if (hamlib_data_ && hamlib_data_->port_type != RIG_PORT_NONE) {
 		state_.store(DISCONNECTED);
@@ -228,6 +230,8 @@ rig_if::~rig_if()
 // Close the connection
 void rig_if::close(bool powerdown) {
 	if (rig_ != nullptr) {
+		// Inhibit any accesses while this is ongoing.
+		allow_access_.store(false);
 		if (state_.load() == CONNECTED_OK || state_.load() == CONNECTED_SLOW || state_.load() == CONNECTED_ERROR) {
 			if (powerdown) {
 				status_->misc_status(ST_NOTE, "RIG: Powering down %s/%s on port %s",
@@ -404,7 +408,12 @@ void rig_if::th_open_rig(rig_if* that) {
 		Fl::awake(cb_rig_warning, that);
 		break;
 	}
+	if (connected()) {
+		// Allow accesses to the rig
+		that->allow_access_.store(true);
+	}
 }
+
 
 // Return rig name
 std::string& rig_if::rig_name() {
@@ -450,6 +459,7 @@ void rig_if::th_read_values() {
 		// Check powered on
 		powerstat_t power_state;
 		if (DEBUG_RIGS) printf("RIGS: Reading power status\n");
+		if (!allow_access_.load()) return;
 		error_code_ = rig_get_powerstat(rig_, &power_state);
 		if (error_handler(error_code_, "Power status", nullptr, nullptr)) {
 			state_.store(CONNECTED_ERROR);
@@ -484,6 +494,7 @@ void rig_if::th_read_values() {
 		vfo_t TxVFO;
 		split_t split;
 		if (DEBUG_RIGS) printf("RIGS: Reading Split mode\n");
+		if (!allow_access_.load()) return;
 		error_code_ = rig_get_split_vfo(rig_, RIG_VFO_CURR, &split, &TxVFO);
 		if (DEBUG_RIGS) printf("RIGS: Read Split - %d (TX VFO = %d)\n", (int)split, (int)TxVFO);
 		if (error_handler(error_code_, "Split mode", nullptr, &toc_split_)) {
@@ -497,6 +508,7 @@ void rig_if::th_read_values() {
 	ptt_t ptt;
 	bool current_ptt = rig_data_.ptt;
 	if (DEBUG_RIGS) printf("RIGS: Reading PTT\n");
+	if (!allow_access_.load()) return;
 	error_code_ = rig_get_ptt(rig_, RIG_VFO_CURR, &ptt);
 	if (DEBUG_RIGS) printf("RIGS: Read PTT - %d\n", (int)ptt);
 	if (error_handler(error_code_, "PTT", nullptr, nullptr)) {
@@ -514,6 +526,7 @@ void rig_if::th_read_values() {
 		// Read TX and RX frequencies per split VFO_TX and VFO_CURR
 		read_item_ = "TX Frequency";
 		if (DEBUG_RIGS) printf("RIGS: Reading TX Frequency\n");
+		if (!allow_access_.load()) return;
 		error_code_ = rig_get_freq(rig_, RIG_VFO_TX, &d_temp);
 		if (DEBUG_RIGS) printf("RIGS: Read TX Frequency - %g Hz\n", d_temp);
 		if (error_handler(error_code_, "TX Frequency", nullptr, nullptr)) {
@@ -524,7 +537,7 @@ void rig_if::th_read_values() {
 		// Read RX frequency
 		read_item_ = "RX Frequency";
 		if (DEBUG_RIGS) printf("RIGS: Reading RX Frequency\n");
-		error_code_ = rig_get_freq(rig_, RIG_VFO_CURR, &d_temp);
+		if (!allow_access_.load()) return;
 		if (DEBUG_RIGS) printf("RIGS: Read RX Frequency - %g Hz\n", d_temp);
 		if (error_handler(error_code_, "RX Frequency", nullptr, nullptr)) {
 			state_.store(CONNECTED_ERROR);
@@ -536,6 +549,7 @@ void rig_if::th_read_values() {
 		// flrig does not support repeater shift and offset yet. 
 		read_item_ = "Current Frequency";
 		if (DEBUG_RIGS) printf("RIGS: Reading current Frequency\n");
+		if (!allow_access_.load()) return;
 		error_code_ = rig_get_freq(rig_, RIG_VFO_CURR, &d_temp);
 		if (DEBUG_RIGS) printf("RIGS: Read current Frequency - %g Hz\n", d_temp);
 		if (error_handler(error_code_, "Current Frequency", nullptr, nullptr)) {
@@ -557,6 +571,7 @@ void rig_if::th_read_values() {
 	rmode_t mode;
 	shortfreq_t bandwidth;
 	if (DEBUG_RIGS) printf("RIGS: Reading Mode\n");
+	if (!allow_access_.load()) return;
 	error_code_ = rig_get_mode(rig_, RIG_VFO_CURR, &mode, &bandwidth);
 	if (error_handler(error_code_, "Mode/Bandwidth", nullptr, nullptr)) {
 		state_.store(CONNECTED_ERROR);
@@ -605,6 +620,7 @@ void rig_if::th_read_values() {
 		// Read drive level
 		value_t drive_level;
 		if (DEBUG_RIGS) printf("RIGS: Reading TX Drive\n");
+		if (!allow_access_.load()) return;
 		error_code_ = rig_get_level(rig_, RIG_VFO_CURR, RIG_LEVEL_RFPOWER, &drive_level);
 		if (DEBUG_RIGS) printf("RIGS: Read TX Drive - %g\n", drive_level.f);
 		if (error_handler(error_code_, "Drive level", &has_drive_, nullptr)) {
@@ -618,6 +634,7 @@ void rig_if::th_read_values() {
 		read_item_ = "S-meter";
 		// S-meter - set to max value during RX and last RX value during TX
 		if (DEBUG_RIGS) printf("RIGS: Reading S-meter\n");
+		if (!allow_access_.load()) return;
 		error_code_ = rig_get_level(rig_, RIG_VFO_CURR, RIG_LEVEL_STRENGTH, &meter_value);
 		if (DEBUG_RIGS) printf("RIGS: Read S-meter - %d\n", meter_value.i);
 		if (error_handler(error_code_, "S-meter", &has_smeter_, nullptr)) {
@@ -646,6 +663,7 @@ void rig_if::th_read_values() {
 		read_item_ = "RF meter";
 		// Power meter
 		if (DEBUG_RIGS) printf("RIGS: Reading RF meter\n");
+		if (!allow_access_.load()) return;
 		error_code_ = rig_get_level(rig_, RIG_VFO_CURR, RIG_LEVEL_RFPOWER_METER_WATTS, &meter_value);
 		if (DEBUG_RIGS) printf("RIGS: Read RF meter - %g\n", meter_value.f);
 		if (error_handler(error_code_, "RF Power", &has_rf_meter_, nullptr)) {

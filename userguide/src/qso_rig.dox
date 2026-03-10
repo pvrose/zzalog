@@ -54,14 +54,21 @@ the case below a script is available as indicated by the indicated "Use" button 
 \image html qso_rig_5.png "Selecting a network connection"
 \image latex qso_rig_5.png "Selecting a network connection" width=5cm
 
-\subsection rig_auto Starting and connecting automatically
+\subsection rig_auto Automatic behaviour
 
-The "Auto" pane allows the control of automatically starting the other application and then
-connecting to the rig. In the image below, because the button is unchecked the 
-application is not started automatically
-when ZZALOG starts, but ZZALOG will then attempt to connect after a delay of 2.5 seconds after
-the application has been started. The value for this delay is obtained through a process of "trial and
-error" to see when the application will accept the first command after being started.
+The "Auto" pane allows the automatic control of the rig interface.
+
+There are three controls:
+
+- <B>Start</B> This is available if the rig access is through another
+application and if enabled will automatically launch that application.
+- <B>Connect</B> This will attempt to connect to the rig, either
+through the application or directly. If connection is made through 
+an application then a delay can be specified to wait for the 
+application to become ready to accept the connect request.
+- <B>Stop</B> This allows the rig to be powered down, or if through another
+application close the application. This will happen either
+by clicking the "Disconnect" button or when ZZALOG is closed.
 
 \image html qso_rig_6.png "Specifying connect delay"
 \image latex qso_rig_6.png "Specifying connect delay" width=5cm

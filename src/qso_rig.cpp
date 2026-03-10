@@ -121,6 +121,8 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 // DEstructor
 qso_rig::~qso_rig() {
 	save_values();
+	bool powerdown = cat_data_ && cat_data_->auto_pdown;
+	if (rig_) rig_->close(powerdown);
 	delete rig_;
 	ticker_->remove_ticker(this);
 }
@@ -1203,8 +1205,12 @@ void qso_rig::enable_values() {
 // Enable auto start and auto connect widgets
 void qso_rig::enable_auto() {
 	if (cat_data_) {
-		bn_autostart_->value(cat_data_->auto_start);
-		bn_autostart_->activate();
+		if (cat_data_->use_cat_app) {
+			bn_autostart_->value(cat_data_->auto_start);
+			bn_autostart_->activate();
+		} else {
+			bn_autostart_->deactivate();
+		}
 		bn_autoconn_->value(cat_data_->auto_connect);
 		bn_autoconn_->activate();
 		bn_autopdown_->value(cat_data_->auto_pdown);
