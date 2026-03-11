@@ -112,7 +112,7 @@ void cty_tree::hang_all() {
 		for (auto& exc : cty_data_->data()->exceptions) {
 			hang_exception(exc.first, exc.second);
 		}
-		status_->misc_status(ST_OK, "CTY_DATAL Country data displayed");
+		status_->misc_status(ST_OK, "CTY_DATA: Country data displayed");
 	}
 }
 

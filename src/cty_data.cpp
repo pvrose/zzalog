@@ -1110,7 +1110,7 @@ bool cty_data::unzip_cfile(const std::string& zip_file) {
 	// This assumes 7z is the executble
 	switch (result) {
 	case 0:
-		status_->misc_status(ST_OK, "CTY DATA: Unzipping successful");
+		status_->misc_status(ST_OK, "CTY DATA: Unzipped successful");
 		break;
 	case 1:
 		status_->misc_status(ST_WARNING, "CTY DATA: Unzipping incurred a warning");
@@ -1134,7 +1134,7 @@ bool cty_data::unzip_cfile(const std::string& zip_file) {
 		return false;
 	}
 	else {
-		status_->misc_status(ST_OK, "CTY DATA: Unzipping successful");
+		status_->misc_status(ST_OK, "CTY DATA: Unzipped successful");
 	}
 #endif
 

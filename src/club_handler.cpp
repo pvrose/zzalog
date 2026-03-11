@@ -183,7 +183,7 @@ bool club_handler::unzip_exception(std::string filename) {
 	// This assumes 7z is the executble
 	switch (result) {
 	case 0:
-		status_->misc_status(ST_OK, "CLUBLOG: Unzipping OK");
+		status_->misc_status(ST_OK, "CLUBLOG: Unzipped OK");
 		return true;
 	case 1:
 		status_->misc_status(ST_WARNING, "CLUBLOG: Unzipping incurred a warning");
@@ -207,7 +207,7 @@ bool club_handler::unzip_exception(std::string filename) {
 		status_->misc_status(ST_ERROR, "CLUBLOG: Unzipping failed");
 		return false;
 	} else {
-		status_->misc_status(ST_OK, "CLUBLOG: Unzipping OK");
+		status_->misc_status(ST_OK, "CLUBLOG: Unzipped OK");
 		return true;
 	}
 #endif
