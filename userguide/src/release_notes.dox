@@ -3,12 +3,14 @@
 \section rev_3_6_16 Revision 3.6.16 [Unreleased]
 
 - Functional changes.
+  - Add command line option to open HTML or PDF userguide.
 - Cosmetic and non-functional changes.
-   - Typos in status messages.
+  - Typos and unhelpful information in status messages.
 - Performance changes.
 - Bug fixes.
   - When starting another app in Windows, the batch script window is not closed.
   - Double-clicking on QSL download buttons may cause lock up.
+  - Occasional exception when closing ZZALOG: probable race hazard while closing ticker.
 
 \section rev_3_6_15 Revision 3.6.15
 

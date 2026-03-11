@@ -153,6 +153,10 @@ bool DEVELOPMENT_MODE = false;
 bool GENERATE_HEADERS = false;
 // Start off-air - do not auto-connect rigs
 bool START_OFF_AIR = false;
+// Open userguide instead of running ZZALOG -  by "-h html"
+bool HELP_HTML = false;
+// Open PDF userguide instead of running ZZALOG -  by "-h pdf"
+bool HELP_PDF = false;
 
 
 //! File holder customisation - control data
@@ -532,8 +536,23 @@ int cb_args(int argc, char** argv, int& i) {
 	}
 	// Help
 	else if (strcmp("-h", argv[i]) == 0 || strcmp("--help", argv[i]) == 0) {
-		HELP = true;
 		i += 1;
+		if (i < argc) {
+			if (strcmp("html", argv[i]) == 0) {
+				HELP_HTML = true;
+				i += 1;
+			}
+			else if (strcmp("pdf", argv[i]) == 0) {
+				HELP_PDF = true;
+				i += 1;
+			}
+			else {
+				HELP = true;
+			}
+		}
+		else {
+			HELP = true;
+		}
 	}
 	// Dark
 	else if (strcmp("-k", argv[i]) == 0 || strcmp("--dark", argv[i]) == 0) {
@@ -725,7 +744,10 @@ void show_help() {
 		"\t\tx|xmlrpc\tPrint XMLRPC requests and responses\n"
 	"\t-e|--new\tCreate new file\n"
 	"\t-g|--generate\tGenerate header file from ADIF data\n"
-	"\t-h|--help\tPrint this\n"
+	"\t-h|--help\tshow this help message\n"
+	"\t-h|--help [format]\tOpen user guide in specified format\n"
+		"\t\thtml\tOpen the user guide in HTML format\n"
+		"\t\tpdf\tOpen the user guide in PDF format\n"
 	"\t-k|--dark\tDark mode (sticky)\n"
 	"\t-l|--light\tLight mode (sticky)\n"
 	"\t-m|--resume\tResume the previous session\n"
@@ -1291,6 +1313,16 @@ int main(int argc, char** argv)
 	if (HELP) {
 		// Help requested - display help text and exit
 		show_help();
+		return 0;
+	}
+	if (HELP_HTML) {
+		printf("ZZALOG: Opening HTML user guide\n");
+		open_html("index.html");
+		return 0;
+	}
+	if (HELP_PDF) {
+		printf("ZZALOG: Opening PDF user guide\n");
+		open_pdf();
 		return 0;
 	}
 

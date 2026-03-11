@@ -129,6 +129,10 @@ extern bool DEVELOPMENT_MODE;
 extern bool GENERATE_HEADERS;
 //! Start up off-air - do not connect rigs
 extern bool START_OFF_AIR;
+//! Open userguide instead of running ZZALOG -  by "-h html"
+extern bool HELP_HTML;
+//! Open PDF userguide instead of running ZZALOG -  by "-h pdf"
+extern bool HELP_PDF;
 
 //! Access to FLTK global attribute to  default text size throughout ZZALOG.
 extern int FL_NORMAL_SIZE;

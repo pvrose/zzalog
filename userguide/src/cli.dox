@@ -50,6 +50,8 @@ Creates a new file
 Sets development mode and is ued to define the development reference data.
 - <B>-h|--help</B>
 Displays the help message and quits.
+- <B>-h|--help [html|pdf]</B>
+Opens the userguide as HTML or PDF.
 - <B>-k|--dark</B>
 Runs the app in dark mode with daek background and light text and icons (sticky).
 - <B>-l|--light</B>
