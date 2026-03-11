@@ -1568,7 +1568,7 @@ void qso_rig::cb_bn_start(Fl_Widget* w, void* v) {
 	qso_rig* that = zc::ancestor_view<qso_rig>(w);
 	cat_data_t* cat_data = that->cat_data_;
 #ifdef _WIN32
-	std::string command = "start /min " + cat_data->app;
+	std::string command = "start \"\" CMD /c " + cat_data->app;
 #else
 	std::string command = cat_data->app + "&";
 #endif

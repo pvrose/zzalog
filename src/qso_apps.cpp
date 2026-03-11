@@ -428,7 +428,7 @@ void app_grp::cb_bn_connect(Fl_Widget* w, void* v) {
         snprintf(msg, sizeof(msg), "DASH: Starting app: %s", app.c_str());
         status_->misc_status(ST_NOTE, msg);
 #ifdef _WIN32
-        std::string cmd = "start /min " + app;
+        std::string cmd = "start \"\" CMD /c " + app;
         system(cmd.c_str());
 #else
         if (that->app_data_->admin) {

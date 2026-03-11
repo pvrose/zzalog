@@ -7,6 +7,7 @@
    - Typos in status messages.
 - Performance changes.
 - Bug fixes.
+  - When starting another app in Windows, the batch script window is not closed.
 
 \section rev_3_6_15 Revision 3.6.15
 
