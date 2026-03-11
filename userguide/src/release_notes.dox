@@ -8,6 +8,7 @@
 - Performance changes.
 - Bug fixes.
   - When starting another app in Windows, the batch script window is not closed.
+  - Occasional exception when closing ZZALOG: probable race hazard while closing ticker.
 
 \section rev_3_6_15 Revision 3.6.15
 
