@@ -119,6 +119,8 @@ protected:
     float tkr_value_;
     //! Extract in progress - update gets called while it is
     bool extract_in_progress_;
+	//! Download in progress.
+	bool download_in_progress_;
     //! Upload only selected QSL
     bool single_qso_;
     //! Enumeration value for QSL_SENT_VIA update when "Done" is clicked.

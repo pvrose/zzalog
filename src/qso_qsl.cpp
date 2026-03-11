@@ -333,7 +333,11 @@ void qso_qsl::enable_widgets() {
 		bn_single_qso_->deactivate();
 	}
 	// Disable download and extract buttons if not is the correct state
-	if (mgr->data()->inactive() && os_eqsl_dnld_ == 0 && !extract_in_progress_ && !single_qso_) {
+	if (mgr->data()->inactive() && 
+	    os_eqsl_dnld_ == 0 && 
+		!extract_in_progress_ && 
+		!download_in_progress_ &&
+		!single_qso_) {
 		bn_down_eqsl_->activate();
 		bn_down_lotw_->activate();
 		bn_down_qrz_->activate();
@@ -528,7 +532,10 @@ void qso_qsl::cb_single(Fl_Widget* w, void* v) {
 void qso_qsl::qsl_download(import_data::update_mode_t server) {
 	qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 	if (mgr->data()->inactive()) {
+		download_in_progress_ = true;
+		enable_widgets();
 		import_data_->download_data(server);
+		download_in_progress_ = false;
 		enable_widgets();
 	} else {
 		status_->misc_status(ST_ERROR, "Not ready to download - finish operating");

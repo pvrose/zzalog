@@ -8,6 +8,7 @@
 - Performance changes.
 - Bug fixes.
   - When starting another app in Windows, the batch script window is not closed.
+  - Double-clicking on QSL download buttons may cause lock up.
 
 \section rev_3_6_15 Revision 3.6.15
 
