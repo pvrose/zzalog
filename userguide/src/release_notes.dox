@@ -4,7 +4,7 @@
 
 - Functional changes.
 - Cosmetic and non-functional changes.
-   - Typos in status messages.
+   - Typos and unhelpful information in status messages.
 - Performance changes.
 - Bug fixes.
   - When starting another app in Windows, the batch script window is not closed.

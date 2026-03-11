@@ -325,7 +325,8 @@ bool rig_if::open() {
 		
 	if (connected()) {
 
-		if (hamlib_data_->port_type == RIG_PORT_SERIAL) {
+		const char* rig_info = rig_get_info(rig_);
+		if (hamlib_data_->port_type == RIG_PORT_SERIAL || rig_info == nullptr || strlen(rig_info) == 0) {
 			snprintf(msg, 256, "RIG: Connection %s/%s on port %s opened OK",
 				hamlib_data_->mfr.c_str(),
 				hamlib_data_->model.c_str(),
@@ -336,7 +337,7 @@ bool rig_if::open() {
 				hamlib_data_->mfr.c_str(),
 				hamlib_data_->model.c_str(),
 				hamlib_data_->port_name.c_str(),
-				rig_get_info(rig_));
+				rig_info);
 		}
 		status_->misc_status(ST_OK, msg);
 
