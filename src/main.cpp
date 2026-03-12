@@ -736,6 +736,7 @@ void show_help() {
 		"\t\tm|mods\tPrint messages when make QSOs dirty or clean\n"
 		"\t\tq|quick\tShorten long timeout and polling intervals\n"
 		"\t\tr|rig\tPrint rig diagnostics\n"
+		"\t\ts|status\tCopy status messages to the terminal\n"
 		"\t\tt|threads\tProvide debug tracing on thread use\n"
 		"\t\t\tnot|nothreads\n"
 		"\t\tx|xmlrpc\tPrint XMLRPC requests and responses\n"
