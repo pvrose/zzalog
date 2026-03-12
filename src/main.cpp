@@ -670,6 +670,14 @@ int cb_args(int argc, char** argv, int& i) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_KEYS;
 				valid = true;
 			}
+			if (strcmp("qsl", argv[i]) == 0) {
+				DEBUG_RESET_CONFIG |= DEBUG_RESET_QSL;
+				valid = true;
+			}
+			if (strcmp("reference", argv[i]) == 0) {
+				DEBUG_RESET_CONFIG = DEBUG_RESET_REFS;
+				valid = true;
+			}
 			if (strcmp("rigs", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_RIGS;
 				valid = true;
@@ -682,16 +690,8 @@ int cb_args(int argc, char** argv, int& i) {
 				DEBUG_RESET_CONFIG |= DEBUG_RESET_STN;
 				valid = true;
 			}
-			if (strcmp("qsl", argv[i]) == 0) {
-				DEBUG_RESET_CONFIG |= DEBUG_RESET_QSL;
-				valid = true;
-			}
 			if (strcmp("all", argv[i]) == 0) {
 				DEBUG_RESET_CONFIG = DEBUG_RESET_ALL;
-				valid = true;
-			}
-			if (strcmp("reference", argv[i]) == 0) {
-				DEBUG_RESET_CONFIG = DEBUG_RESET_REFS;
 				valid = true;
 			}
 			if (!valid) {
@@ -735,8 +735,6 @@ void show_help() {
 		"\t\th=N|hamlib=N\tSet hamlib debug level (default ERRORS)\n"
 		"\t\tk|socket\tPrint socket traffic\n"
 		"\t\tm|mods\tPrint messages when make QSOs dirty or clean\n"
-		"\t\tp|pretty\tDisplay formated status message (Needs terminal support)\n"
-		"\t\tnop|nopretty\n"
 		"\t\tq|quick\tShorten long timeout and polling intervals\n"
 		"\t\tr|rig\tPrint rig diagnostics\n"
 		"\t\tt|threads\tProvide debug tracing on thread use\n"
@@ -758,6 +756,7 @@ void show_help() {
 	"\t-r|--read_only\tOpen file in read only mode\n"
 	"\t-t|--test\tTest mode: infers -q -w\n"
 	"\t-u|--usual\tNormal mode: infers -a -n\n"
+	"\t-v|--version\tDisplay version details\n"
 	"\t-w|--wait_save\tDo not automatically save each change (sticky)\n"
 	"\t-x|--reset [data]...\tReset configuration data (more than 1 allowed\n"
 		"\t\tadif\tADIF specification file (all.json)\n"
