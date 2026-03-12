@@ -121,6 +121,8 @@ bool DEBUG_SOCKET = false;
 bool DEBUG_XMLRPC = false;
 //! Set hamlib debugging verbosity level -  by "-d h=<level>"
 rig_debug_level_e HAMLIB_DEBUG_LEVEL = RIG_DEBUG_ERR;
+//! Copy status messages to the terminal - by "-d s"
+bool DEBUG_STATUS = false;
 
 // Operation switches - _S versions used to override sticky switch
 //! Automatically upload QSOs to QSL sites -  by "-n"
@@ -149,8 +151,6 @@ bool READ_ONLY = false;
 bool RESUME_SESSION = false;
 //! Development flag: used to enable/disable features only in development mode ("-g")
 bool DEVELOPMENT_MODE = false;
-//! Generate ADIF header files
-bool GENERATE_HEADERS = false;
 // Start off-air - do not auto-connect rigs
 bool START_OFF_AIR = false;
 // Open userguide instead of running ZZALOG -  by "-h html"
@@ -504,6 +504,10 @@ int cb_args(int argc, char** argv, int& i) {
 				DEBUG_RIGS = true;
 				i += 1;
 			}
+			else if (strcmp("s", argv[i]) == 0 || strcmp("status", argv[i]) == 0) {
+				DEBUG_STATUS = true;
+				i += 1;
+			}
 			else if (strcmp("t", argv[i]) == 0 || strcmp("threads", argv[i]) == 0) {
 				DEBUG_THREADS = true;
 				i += 1;
@@ -527,11 +531,6 @@ int cb_args(int argc, char** argv, int& i) {
 	// New file
 	else if (strcmp("-e", argv[i]) == 0 || strcmp("--new", argv[i]) == 0) {
 		NEW_BOOK = true;
-		i += 1;
-	}
-	// Generate header files
-	else if (strcmp("-g", argv[i]) == 0 || strcmp("--generate", argv[i]) == 0) {
-		GENERATE_HEADERS = true;
 		i += 1;
 	}
 	// Help
@@ -741,7 +740,6 @@ void show_help() {
 		"\t\t\tnot|nothreads\n"
 		"\t\tx|xmlrpc\tPrint XMLRPC requests and responses\n"
 	"\t-e|--new\tCreate new file\n"
-	"\t-g|--generate\tGenerate header file from ADIF data\n"
 	"\t-h|--help\tshow this help message\n"
 	"\t-h|--help [format]\tOpen user guide in specified format\n"
 		"\t\thtml\tOpen the user guide in HTML format\n"
@@ -1326,7 +1324,9 @@ int main(int argc, char** argv)
 	}
 
 	// Ctreate status to handle status messages
-	status_ = new zc_status(zc_status::HAS_BANNER | zc_status::HAS_LOGFILE, OBJECT_DATA);
+	auto status_mode = zc_status::HAS_BANNER | zc_status::HAS_LOGFILE;
+	if (DEBUG_STATUS) status_mode |= zc_status::HAS_CONSOLE;
+	status_ = new zc_status(status_mode, OBJECT_DATA);
 	{
 		zc_settings top_settings;
 		zc_settings view_settings(&top_settings, "Views");
@@ -1359,8 +1359,6 @@ int main(int argc, char** argv)
 	resize_window();
 	// Read in reference data - uses progress
 	add_data();
-	// If generate files - go to close
-	if (GENERATE_HEADERS) closing_ = true;
 	Fl::check();
 	// Read in log book data - uses progress - use supplied argument for filename
 	add_book(arg_filename_);

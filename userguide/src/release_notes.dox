@@ -3,9 +3,12 @@
 \section rev_3_6_16 Revision 3.6.16 [Unreleased]
 
 - Functional changes.
-  - Add command line option to open HTML or PDF userguide.
+  - Add command line option -h [html|pdf] to open HTML or PDF userguide.
+  - Add command line debug switch -d s to display status messages on terminal.
+  - Inhibit auto power-down with -o switch.
 - Cosmetic and non-functional changes.
   - Typos and unhelpful information in status messages.
+  - Remove -g switch as no longer does anything.
 - Performance changes.
 - Bug fixes.
   - When starting another app in Windows, the batch script window is not closed.

@@ -97,7 +97,8 @@ extern bool DEBUG_SOCKET;
 extern bool DEBUG_XMLRPC;
 //! Set hamlib debugging verbosity level -  by "-d h=<level>"
 extern rig_debug_level_e HAMLIB_DEBUG_LEVEL;
-
+//! Copy status messages to the terminal - by "-d s"
+extern bool DEBUG_STATUS;
 // Operation switches - _S versions used to override sticky switch
 //! Automatically upload QSOs to QSL sites -  by "-n"
 extern bool AUTO_UPLOAD;
@@ -125,8 +126,6 @@ extern bool READ_ONLY;
 extern bool RESUME_SESSION;
 //! Development flag: used to enable/disable features only in development mode ("-g")
 extern bool DEVELOPMENT_MODE;
-//! Generate ADIF header files
-extern bool GENERATE_HEADERS;
 //! Start up off-air - do not connect rigs
 extern bool START_OFF_AIR;
 //! Open userguide instead of running ZZALOG -  by "-h html"

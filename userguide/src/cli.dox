@@ -32,22 +32,17 @@ Sets the hamlib debug level (default ERRORS). <I>N</I> values as below:
     - <B>6</B> Report cache behaviour
   - <B>k|socket</B> Display socket traffic.
   - <B>m|mod</B> Display dirty QSO messages.
-  - <B>p|pretty</B>  
-Sets the terminal to display formated status message (Needs terminal support).
-  - <B>nop|nopretty</B>
-Sets the terminal to display unformatted status messages.
   - <B>q|quick</B>  
 Shortens long timeout and polling intervals.
   - <B>r|rig</B>  
 Prints rig diagnostics
+  - <B>s|status</B> Additionally print status messages on terminal.
   - <B>t|threads</B>	
 Provides debug tracing on thread use.
   - <B>not|nothreads</B>
 Removes debug tracing on threads.
 - <B>-e|--new</B>
 Creates a new file
-- <B>-g|--userguide</B>
-Sets development mode and is ued to define the development reference data.
 - <B>-h|--help</B>
 Displays the help message and quits.
 - <B>-h|--help [html|pdf]</B>
@@ -61,7 +56,7 @@ Starts ZZALOG and resumes the previous session.
 - <B>-n|--noisy</B>
 Uploads QSO records to the on-line QSL servers.
 - <B>-o|--off-air</B>
-Inhibits any automatic starting of CAT connections.
+Inhibits any automatic starting and powering down of CAT connections.
 - <B>-p|--private</B>
 Does not update the recent files list.
 - <B>-q|--quiet</B>
