@@ -91,8 +91,8 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 	}
 	// If we have CLI switch START_OFF_AIR then do not attempt to connect to rig or start app,
 	// even if configured to do so.
-	if (START_OFF_AIR) {
-		status_->misc_status(ST_NOTE, "RIG: Automatic rig behaviour inhibited by switch");
+	if (START_OFF_AIR && (cat_data_->auto_connect || cat_data_->auto_start)) {
+		status_->misc_status(ST_WARNING, "RIG: Automatic start-up of %s inhibited by switch.", label());
 		enable_widgets(DAMAGE_ALL);
 		return;
 	}
@@ -121,7 +121,15 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 // DEstructor
 qso_rig::~qso_rig() {
 	save_values();
+	// If we have set auto power-down and not inhibiting it with switch -o
+	// then power down rig when closing.
 	bool powerdown = cat_data_ && cat_data_->auto_pdown;
+	if (powerdown) {
+		if (START_OFF_AIR) {
+			status_->misc_status(ST_WARNING, "RIG: Automatic power-down of rig %s inhibited by switch.", label());
+			powerdown = false;
+		}
+	}
 	if (rig_) rig_->close(powerdown);
 	delete rig_;
 	ticker_->remove_ticker(this);
