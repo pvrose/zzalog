@@ -20,9 +20,10 @@
 #include "ident.h"
 #include "main.h"
 #include "socket_server.h"
-#include "zc_status.h"
 #include "url_handler.h"
 
+#include "zc_app.h"
+#include "zc_status.h"
 #include "zc_utils.h"
 
 #include "pugixml.hpp"
@@ -34,6 +35,8 @@
 #include <rpc_data_item.h>
 #include <cstdint>
 #include <vector>
+
+extern debug_flag DEBUG_XMLRPC;
 
 // Constructor
 rpc_handler::rpc_handler(std::string address, int port_number, std::string resource_name)
@@ -78,7 +81,7 @@ bool rpc_handler::do_request(
 	// Generate XML for the request
 	generate_request(method_name, params, put_request);
 	// Debug display
-	if (DEBUG_XMLRPC) {
+	if (zc_app::debug(DEBUG_XMLRPC)) {
 		std::string text = "My request: " + method_name + "\n";
 		for (auto& p : *params) {
 			text += p->print_item();
@@ -91,7 +94,7 @@ bool rpc_handler::do_request(
 		put_response.seekg(0, std::ios::beg);
 		bool rpc_fault;
 		decode_response(put_response, response, rpc_fault);
-		if (DEBUG_XMLRPC) {
+		if (zc_app::debug(DEBUG_XMLRPC)) {
 			std::string text = "Their response:\n" + response->print_item();
 			printf("%s", text.c_str());
 		}
@@ -352,7 +355,7 @@ int rpc_handler::handle_request(std::stringstream& ss) {
 		rpc_data_item response;
 		decode_request(payload, method_name, &params);
 		// Debug display
-		if (DEBUG_XMLRPC) {
+		if (zc_app::debug(DEBUG_XMLRPC)) {
 			std::string text = "Their request: " + method_name + "\n";
 			for (auto& p : params) {
 				text += p->print_item();
@@ -376,7 +379,7 @@ int rpc_handler::handle_request(std::stringstream& ss) {
 		// Convert to XML
 		std::stringstream xml;
 		generate_response(error, &response, xml);
-		if (DEBUG_XMLRPC) {
+		if (zc_app::debug(DEBUG_XMLRPC)) {
 			std::string text = "My response:\n" + response.print_item();
 			printf("%s", text.c_str());
 		}

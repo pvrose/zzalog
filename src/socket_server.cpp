@@ -18,6 +18,8 @@
 #include "socket_server.h"
 
 #include "main.h"
+
+#include "zc_app.h"
 #include "zc_status.h"
 
 #include <stdio.h>
@@ -49,6 +51,9 @@
 #else
 #define LEN_SOCKET_ADDR unsigned int
 #endif
+
+extern debug_flag DEBUG_THREADS;
+extern debug_flag DEBUG_SOCKET;
 
 // Constructor
 socket_server::socket_server(protocol_t protocol, const std::string& address, int port_num) : 
@@ -90,7 +95,7 @@ void socket_server::run_server()
 		}
 	}
 	// Start listening for packets - will set a timer to the listen after that
-	if (DEBUG_THREADS) {
+	if (zc_app::debug(DEBUG_THREADS)) {
 		printf("SOCKET MAIN: Starting thread for %s\n", protocol_ == UDP ? "UDP" : "HTTP");
 	}
 	th_socket_ = new std::thread(thread_run, this);
@@ -393,7 +398,7 @@ int socket_server::rcv_packet()
 		}
 		if (bytes_rcvd > 0)
 		{
-			if (buffer && DEBUG_SOCKET) dump(std::string(buffer, bytes_rcvd));
+			if (buffer && zc_app::debug(DEBUG_SOCKET)) dump(std::string(buffer, bytes_rcvd));
 			mu_packet_.lock();
 			std::string s = std::string(buffer, bytes_rcvd);
 			q_packet_.push(s);
@@ -450,7 +455,7 @@ int socket_server::send_response(std::istream &response)
 	char *buffer = new char[resp_size + 1];
 	memset(buffer, '\0', resp_size + 1);
 	response.read(buffer, resp_size);
-	if (DEBUG_SOCKET) dump(std::string(buffer));
+	if (zc_app::debug(DEBUG_SOCKET)) dump(std::string(buffer));
 
 	// Send the response packet
 	int result;
@@ -575,7 +580,7 @@ void socket_server::cb_th_packet(void *v)
 // Thread runner
 void socket_server::thread_run(socket_server *that)
 {
-	if (DEBUG_THREADS) {
+	if (zc_app::debug(DEBUG_THREADS)) {
 		printf("SOCKET THREAD: Listening for packets\n");
 	}
 	that->rcv_packet();

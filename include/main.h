@@ -77,28 +77,6 @@ class Fl_Widget;
 enum rig_debug_level_e;
 
 // Debug switches
-//! Print errors -  by "-d e"
-extern bool DEBUG_ERRORS;
-//! Print thread debugging messages -  by "-d t"
-extern bool DEBUG_THREADS;
-//! Print libcurl debugging messages -  by "-d c"
-extern bool DEBUG_CURL;
-//! Reduce long duration tiemouts and waits -  by "-d q"
-extern bool DEBUG_QUICK;
-//! Print rig access debugging messages -  by "-d r"
-extern bool DEBUG_RIGS;
-//! Print callsign parsing messages -  by "-d d"
-extern bool DEBUG_PARSE;
-//! Print record modification messages - by "-d m"
-extern bool DEBUG_MOD_STATUS;
-//! Print socket debug messages - by "-d k"
-extern bool DEBUG_SOCKET;
-//! Print XMLRPC debug messages - by "-d x"
-extern bool DEBUG_XMLRPC;
-//! Set hamlib debugging verbosity level -  by "-d h=<level>"
-extern rig_debug_level_e HAMLIB_DEBUG_LEVEL;
-//! Copy status messages to the terminal - by "-d s"
-extern bool DEBUG_STATUS;
 // Operation switches - _S versions used to override sticky switch
 //! Automatically upload QSOs to QSL sites -  by "-n"
 extern bool AUTO_UPLOAD;

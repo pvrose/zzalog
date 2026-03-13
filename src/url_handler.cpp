@@ -18,6 +18,8 @@
 #include "url_handler.h"
 
 #include "ident.h"
+
+#include "zc_app.h"
 #include "zc_utils.h"
 
 #include <cstdio>
@@ -30,7 +32,7 @@
 #include <curl/curl.h>
 #include <curl/easy.h>
 
-extern bool DEBUG_CURL;
+extern debug_flag DEBUG_CURL;
 std::string USER_AGENT = APP_NAME + '/' + APP_VERSION;
 
 // Make sure only one HTML transfer happens at once
@@ -111,7 +113,7 @@ bool url_handler::read_url(std::string url, std::ostream* os) {
 	char* error_msg = new char[CURL_ERROR_SIZE];
 	curl_easy_setopt(curl_, CURLOPT_ERRORBUFFER, error_msg);
 
-	if (DEBUG_CURL) {
+	if (zc_app::debug(DEBUG_CURL)) {
 		// Add extra verbosity
 		curl_easy_setopt(curl_, CURLOPT_DEBUGFUNCTION, cb_debug);
 		curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1);
@@ -179,7 +181,7 @@ bool url_handler::post_url(std::string url, std::string resource, std::istream* 
 	char* error_msg = new char[CURL_ERROR_SIZE];
 	curl_easy_setopt(curl_, CURLOPT_ERRORBUFFER, error_msg);
 
-	if (DEBUG_CURL) {
+	if (zc_app::debug(DEBUG_CURL)) {
 		// Add extra verbosity
 		curl_easy_setopt(curl_, CURLOPT_DEBUGFUNCTION, cb_debug);
 		curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1);
@@ -259,7 +261,7 @@ bool url_handler::post_form(std::string url, std::vector<field_pair> fields, std
 	}
 	// Add the form to the post
 	curl_easy_setopt(curl_, CURLOPT_MIMEPOST, form);
-	if (DEBUG_CURL) {
+	if (zc_app::debug(DEBUG_CURL)) {
 		// Add extra verbosity
 		curl_easy_setopt(curl_, CURLOPT_DEBUGFUNCTION, cb_debug);
 		curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1);
@@ -311,7 +313,7 @@ bool url_handler::send_email(std::string url, std::string user, std::string pass
 		return false;
 	}
 
-	if (DEBUG_CURL) {
+	if (zc_app::debug(DEBUG_CURL)) {
 		// Add extra verbosity
 		curl_easy_setopt(curl_, CURLOPT_DEBUGFUNCTION, cb_debug);
 		curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1);

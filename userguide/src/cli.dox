@@ -18,9 +18,6 @@ although some changes are aggregated by ZZALOG to prevent unnecessary updates (s
   Restores normal verbosity from libcurl.
   - <B>d|decode</B>
   Show callsign decoding
-  - <B>e|errors</B>
-  Provides more details on errors.
-  - <B>noe|noerrors</B> Restores normal error reporting.
   - <B>h=<I>N</I>|hamlib=<I>N</I></B>	  
 Sets the hamlib debug level (default ERRORS). <I>N</I> values as below:
     - <B>0</B> No debug reporting

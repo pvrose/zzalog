@@ -27,6 +27,7 @@
 #include "record.h"
 #include "url_handler.h"
 
+#include "zc_app.h"
 #include "zc_file_holder.h"
 #include "zc_status.h"
 #include <zc_utils.h>
@@ -48,6 +49,8 @@
 #include <FL/fl_ask.H>
 #include <FL/fl_draw.H>
 
+extern debug_flag DEBUG_THREADS;
+
 // Constructor 
 club_handler::club_handler() {
 	// Create the URL handler if it hasn't already been done
@@ -56,7 +59,7 @@ club_handler::club_handler() {
 	run_threads_ = true;
 	upload_response_ = 0;
 	key_ = keyring_->key("Clublog");
-	if (DEBUG_THREADS) printf("CLUBLOG MAIN: Starting std::thread\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("CLUBLOG MAIN: Starting std::thread\n");
 	th_upload_ = new std::thread(thread_run, this);
 
 	set_adif_fields();
@@ -231,7 +234,7 @@ bool club_handler::upload_single_qso(qso_num_t record_num) {
 		// Suspend saving
 		book_->enable_save(false, "Uploading to Clublog");
 		record* this_record = book_->get_record(record_num, false);
-		if (DEBUG_THREADS) printf("CLUBLOG MAIN: Queueing request %s\n", this_record->item("CALL").c_str());
+		if (zc_app::debug(DEBUG_THREADS)) printf("CLUBLOG MAIN: Queueing request %s\n", this_record->item("CALL").c_str());
 		upload_lock_.lock();
 		upload_queue_.push(this_record);
 		upload_done_queue_.push(this_record);
@@ -260,7 +263,7 @@ void club_handler::th_upload(record* this_record) {
 
 	}
 	upload_response_ = ok;
-	if (DEBUG_THREADS) printf("CLUBLOG THREAD: Calling std::thread callback result = %d(%s)\n",
+	if (zc_app::debug(DEBUG_THREADS)) printf("CLUBLOG THREAD: Calling std::thread callback result = %d(%s)\n",
 	    ok, upload_error_.c_str());
 	Fl::awake(cb_upload_done, (void*)this);
 	std::this_thread::yield();
@@ -302,14 +305,14 @@ bool club_handler::upload_done(bool response) {
 
 // Static interface between upload thread and main thread to handle upload complete
 void club_handler::cb_upload_done(void* v) {
-	if (DEBUG_THREADS) printf("CLUBLOG MAIN: Entered std::thread callback handler\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("CLUBLOG MAIN: Entered std::thread callback handler\n");
 	club_handler* that = (club_handler*)v;
 	that->upload_done(that->upload_response_);
 }
 
 // Start and progress the thread that handles uploads without stalling main thread
 void club_handler::thread_run(club_handler* that) {
-	if (DEBUG_THREADS) printf("CLUBLOG THREAD: Thread started\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("CLUBLOG THREAD: Thread started\n");
 	while (that->run_threads_) {
 		// Wait until qso placed on interface
 		while (that->run_threads_ && that->upload_queue_.empty()) {
@@ -320,7 +323,7 @@ void club_handler::thread_run(club_handler* that) {
 		if (!that->upload_queue_.empty()) {
 			record* qso = that->upload_queue_.front();
 			that->upload_queue_.pop();
-			if (DEBUG_THREADS) printf("CLUBLOG THREAD: Received request %s\n", qso->item("CALL").c_str());
+			if (zc_app::debug(DEBUG_THREADS)) printf("CLUBLOG THREAD: Received request %s\n", qso->item("CALL").c_str());
 			that->upload_lock_.unlock();
 			that->th_upload(qso);
 		}

@@ -25,6 +25,7 @@
 #include "stn_data.h"
 #include "url_handler.h"
 
+#include "zc_app.h"
 #include "zc_status.h"
 #include "zc_ticker.h"
 #include "zc_utils.h"
@@ -48,6 +49,9 @@ const double MPH2MPS = 1.0 / 3600.0 * (1760.0 * 36.0) * 25.4 / 1000.0;
 
 const double LONG_DELAY = 30. * 60. * 10.;
 const double SHORT_DELAY = 3. * 60. * 10.;
+
+extern debug_flag DEBUG_THREADS;
+extern debug_flag DEBUG_QUICK;
 
 std::string wx_handler::wind_cardinal(int dirn) {
     int temp = dirn * 32 / 360;
@@ -124,7 +128,7 @@ wx_handler::wx_handler() :
     // Start thread
     wx_thread_ = new std::thread(do_thread, this);
     // Start ticker - 30 minutes
-    ticker_->add_ticker(this, cb_ticker, DEBUG_QUICK ? SHORT_DELAY : LONG_DELAY);
+    ticker_->add_ticker(this, cb_ticker, zc_app::debug(DEBUG_QUICK) ? SHORT_DELAY : LONG_DELAY);
 
 
 };
@@ -142,14 +146,14 @@ wx_handler::~wx_handler() {
 void wx_handler::do_thread(wx_handler* that) {
 	while (that->enable_fetch_.load()) {
 		while (!that->do_fetch_.load() && that->enable_fetch_.load()) std::this_thread::sleep_for(std::chrono::milliseconds(100));
-		if (DEBUG_THREADS) printf("WX THREAD: staring to fetch\n");
+		if (zc_app::debug(DEBUG_THREADS)) printf("WX THREAD: staring to fetch\n");
 		if (!that->update()) {
 			Fl::awake(cb_fetch_error, (void*)that);
 		}
 		else {
 			Fl::awake(cb_fetch_done, (void*)that);
 		}
-		if (DEBUG_THREADS) printf("WX THREAD: fetching complete\n");
+		if (zc_app::debug(DEBUG_THREADS)) printf("WX THREAD: fetching complete\n");
 		that->do_fetch_.store(false);
 	}
 }
@@ -241,7 +245,7 @@ bool wx_handler::update() {
 // Timer - called every 30 minutes
 void wx_handler::ticker() {
 	status_->misc_status(ST_NOTE, "WX_HANDLER: Downloading weather data");
-	if (DEBUG_THREADS) printf("WX MAIN: Starting WX fetch\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("WX MAIN: Starting WX fetch\n");
 	// Momentarily allow thread to fetch WX report.
 	do_fetch_.store(true);
 	std::this_thread::yield();

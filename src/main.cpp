@@ -56,6 +56,7 @@
 #include "hamlib/rig.h"
 #include "boost/version.hpp"
 
+#include "zc_app.h"
 #include "zc_banner.h"
 #include "zc_drawing.h"
 #include "zc_file_holder.h"
@@ -101,28 +102,23 @@
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 
 // Debug switches
-//! Print errors -  by "-d e"
-bool DEBUG_ERRORS = true;
-//! Print thread debugging messages -  by "-d t"
-bool DEBUG_THREADS = false;
-//! Print libcurl debugging messages -  by "-d c"
-bool DEBUG_CURL = false;
-//! Reduce long duration tiemouts and waits -  by "-d q"
-bool DEBUG_QUICK = false;
-//! Print rig access debugging messages -  by "-d r"
-bool DEBUG_RIGS = false;
+extern debug_flag DEBUG_NEXT;
+extern debug_flag DEBUG_QUICK;   //!< Print quick debugging messages -  by "-d q"
+debug_flag DEBUG_THREADS = DEBUG_NEXT << 1;  //!< Print thread debugging messages -  by "-d t"
+debug_flag DEBUG_CURL = DEBUG_NEXT << 2;     //!< Print libcurl debugging messages -  by "-d c"
+debug_flag DEBUG_RIGS = DEBUG_NEXT << 3;    //!< Print file reset messages -  by "-d r"
 //! Print callsign parsing messages -  by "-d d"
-bool DEBUG_PARSE = false;
+debug_flag DEBUG_PARSE = DEBUG_NEXT << 4;
 //! Print QSO modification status - by "-d m"
-bool DEBUG_MOD_STATUS = false;
+debug_flag DEBUG_MOD_STATUS = DEBUG_NEXT << 5;
 //! Print socket debug messages - by7 "-d k"
-bool DEBUG_SOCKET = false;
+debug_flag DEBUG_SOCKET = DEBUG_NEXT << 6;
 //! Print XMLRPC requests and responses
-bool DEBUG_XMLRPC = false;
+debug_flag DEBUG_XMLRPC = DEBUG_NEXT << 7;
+//! Copy status messages to the terminal - by "-d s"
+debug_flag DEBUG_STATUS = DEBUG_NEXT << 8;
 //! Set hamlib debugging verbosity level -  by "-d h=<level>"
 rig_debug_level_e HAMLIB_DEBUG_LEVEL = RIG_DEBUG_ERR;
-//! Copy status messages to the terminal - by "-d s"
-bool DEBUG_STATUS = false;
 
 // Operation switches - _S versions used to override sticky switch
 //! Automatically upload QSOs to QSL sites -  by "-n"
@@ -459,23 +455,15 @@ int cb_args(int argc, char** argv, int& i) {
 		while (debugs && i < argc) {
 			int save_i = i;
 			if (strcmp("c", argv[i]) == 0 || strcmp("curl", argv[i]) == 0) {
-				DEBUG_CURL = true;
+				zc_app::set_debug(DEBUG_CURL);
 				i += 1;
 			}
 			else if (strcmp("noc", argv[i]) == 0 || strcmp("nocurl", argv[i]) == 0) {
-				DEBUG_CURL = false;
+				zc_app::clear_debug(DEBUG_CURL);
 				i += 1;
 			}
 			else if (strcmp("d", argv[i]) == 0 || strcmp("decode", argv[i]) == 0) {
-				DEBUG_PARSE = true;
-				i += 1;
-			}
-			else if (strcmp("e", argv[i]) == 0 || strcmp("errors", argv[i]) == 0) {
-				DEBUG_ERRORS = true;
-				i += 1;
-			}
-			else if (strcmp("noe", argv[i]) == 0 || strcmp("noerrors", argv[i]) == 0) {
-				DEBUG_ERRORS = false;
+				zc_app::set_debug(DEBUG_PARSE);
 				i += 1;
 			}
 			else if (strncmp("h=", argv[i], 2) == 0) {
@@ -489,35 +477,35 @@ int cb_args(int argc, char** argv, int& i) {
 				i += 1;
 			}
 			else if (strcmp("k", argv[i]) == 0 || strcmp("socket", argv[i]) ==0) {
-				DEBUG_SOCKET = true;
+				zc_app::set_debug(DEBUG_SOCKET);
 				i += 1;
 			}
 			else if (strcmp("m", argv[i]) == 0 || strcmp("mod", argv[i]) == 0) {
-				DEBUG_MOD_STATUS = true;
+				zc_app::set_debug(DEBUG_MOD_STATUS);
 				i += 1;
 			}
 			else if (strcmp("q", argv[i]) == 0 || strcmp("quick", argv[i]) == 0) {
-				DEBUG_QUICK = true;
+				zc_app::set_debug(DEBUG_QUICK);
 				i += 1;
 			}
 			else if (strcmp("r", argv[i]) == 0 || strcmp("run", argv[i]) == 0) {
-				DEBUG_RIGS = true;
+				zc_app::set_debug(DEBUG_RIGS);
 				i += 1;
 			}
 			else if (strcmp("s", argv[i]) == 0 || strcmp("status", argv[i]) == 0) {
-				DEBUG_STATUS = true;
+				zc_app::set_debug(DEBUG_STATUS);
 				i += 1;
 			}
 			else if (strcmp("t", argv[i]) == 0 || strcmp("threads", argv[i]) == 0) {
-				DEBUG_THREADS = true;
+				zc_app::set_debug(DEBUG_THREADS);
 				i += 1;
 			}
 			else if (strcmp("not", argv[i]) == 0 || strcmp("nothreads", argv[i]) == 0) {
-				DEBUG_THREADS = false;
+				zc_app::clear_debug(DEBUG_THREADS);
 				i += 1;
 			}
 			else if (strcmp("x", argv[i]) == 0 || strcmp("xmlrpc", argv[i]) ==0) {
-				DEBUG_XMLRPC = true;
+				zc_app::set_debug(DEBUG_XMLRPC);
 				i += 1;
 			}
 			else {
@@ -729,8 +717,6 @@ void show_help() {
 		"\t\tc|curl\tincrease verbosity from libcurl\n"
 		"\t\t\tnoc|nocurl\n"
 		"\t\td|decode\tShow callsign decoding\n"
-		"\t\te|errors\tprovide more details on errors\n"
-		"\t\t\tnoe|noerrors\n"
 		"\t\th=N|hamlib=N\tSet hamlib debug level (default ERRORS)\n"
 		"\t\tk|socket\tPrint socket traffic\n"
 		"\t\tm|mods\tPrint messages when make QSOs dirty or clean\n"
@@ -1131,16 +1117,15 @@ void print_args(int argc, char** argv) {
 	status_->misc_status(ST_NOTE, message);
 
 	if (AUTO_SAVE) status_->misc_status(ST_NOTE, "ZZALOG: -a - QSOs being saved automatically");
-	if (DEBUG_CURL) status_->misc_status(ST_NOTE, "ZZALOG: -d c - Displaying more verbosity from libcurl");
-    if (DEBUG_ERRORS) status_->misc_status(ST_NOTE, "ZZALOG: -d e - Displaying debug error messages");
+	if (zc_app::debug(DEBUG_CURL)) status_->misc_status(ST_NOTE, "ZZALOG: -d c - Displaying more verbosity from libcurl");
 	snprintf(message, sizeof(message), "ZZALOG: -d h=%d - Hamlib debug level %d", 
 		(int)HAMLIB_DEBUG_LEVEL, (int)HAMLIB_DEBUG_LEVEL);
 	status_->misc_status(ST_NOTE, message);
-	if (DEBUG_SOCKET) status_->misc_status(ST_NOTE, "ZZALOG: -d k - Displaying socket packets");
-	if (DEBUG_MOD_STATUS) status_->misc_status(ST_NOTE, "ZZALOG: -d m - Displaying QSO dirty status");
-	if (DEBUG_QUICK) status_->misc_status(ST_WARNING, "ZZALOG: -d q - Reducing periods of some reguat events");
-	if (DEBUG_THREADS) status_->misc_status(ST_NOTE, "ZZALOG: -d t - Displaying thread debug messages");
-    if (DEBUG_XMLRPC) status_->misc_status(ST_NOTE, "ZZALOG: -d x - Displaying XMLRPC requests/responses");
+	if (zc_app::debug(DEBUG_SOCKET)) status_->misc_status(ST_NOTE, "ZZALOG: -d k - Displaying socket packets");
+	if (zc_app::debug(DEBUG_MOD_STATUS)) status_->misc_status(ST_NOTE, "ZZALOG: -d m - Displaying QSO dirty status");
+	if (zc_app::debug(DEBUG_QUICK)) status_->misc_status(ST_WARNING, "ZZALOG: -d q - Reducing periods of some reguat events");
+	if (zc_app::debug(DEBUG_THREADS)) status_->misc_status(ST_NOTE, "ZZALOG: -d t - Displaying thread debug messages");
+    if (zc_app::debug(DEBUG_XMLRPC)) status_->misc_status(ST_NOTE, "ZZALOG: -d x - Displaying XMLRPC requests/responses");
 	if (NEW_BOOK && !arg_filename_) status_->misc_status(ST_NOTE, "ZZALOG: -e - Starting with empty file");
 	if (NEW_BOOK && arg_filename_) status_->misc_status(ST_WARNING, "ZZALOG: -e - filename specified, switch ignored");
 	if (DARK) status_->misc_status(ST_NOTE, "ZZALOG: -k - Opening in dark mode");

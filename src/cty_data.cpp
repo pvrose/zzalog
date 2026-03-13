@@ -30,6 +30,7 @@
 #include "spec_data.h"
 #include "tabbed_forms.h"
 
+#include "zc_app.h"
 #include "zc_file_holder.h"
 #include "zc_status.h"
 #include "zc_utils.h"
@@ -63,9 +64,8 @@
 #include <unistd.h>
 #endif
 
-
-
 using json = nlohmann::json;
+extern debug_flag DEBUG_PARSE;
 
 std::map < cty_data::cty_type_t, std::string> TYPE_MAP = {
 	{ cty_data::ADIF, "ADIF" },
@@ -517,7 +517,7 @@ void cty_data::parse(record* qso) {
 		std::string when = qso->item("QSO_DATE") + qso->item("TIME_ON").substr(0, 4);
 		int dxcc_id;
 		qso->item("DXCC", dxcc_id);
-		if (DEBUG_PARSE) printf("%s: QSO has DXCC %d\n", current_call_.c_str(), dxcc_id);
+		if (zc_app::debug(DEBUG_PARSE)) printf("%s: QSO has DXCC %d\n", current_call_.c_str(), dxcc_id);
 
 		std::string matched_call;
 		parse_result_.decode_element = match_pattern(current_call_, when, matched_call, true);
@@ -559,7 +559,7 @@ cty_element* cty_data::match_pattern(const std::string& call, const std::string&
 		std::list<cty_exception*>& exceptions = data_->exceptions.at(call);
 		for (auto it : exceptions) {
 			if (it->time_contains(when)) {
-				if (DEBUG_PARSE) {
+				if (zc_app::debug(DEBUG_PARSE)) {
 					printf("%s - Exception %s CQ%d ITU%d\n", call.c_str(), it->name_.c_str(), it->cq_zone_, it->itu_zone_);
 				}
 				return it;
@@ -599,11 +599,11 @@ cty_element* cty_data::match_prefix(const std::string& call, const std::string& 
 }
 
 cty_filter* cty_data::match_filter(const cty_element* element, cty_filter::filter_t type, const std::string& call, const std::string& when) {
-	if (DEBUG_PARSE) printf("DEBUG: Match call %s: \n", call.c_str());
+	if (zc_app::debug(DEBUG_PARSE)) printf("DEBUG: Match call %s: \n", call.c_str());
 	for (auto it : element->filters_) {
 		// Check filter type
 		if (it->pattern_.length()) {
-			if (DEBUG_PARSE) printf("DEBUG: Against pattern %s (%s:%s) for type %d\n", 
+			if (zc_app::debug(DEBUG_PARSE)) printf("DEBUG: Against pattern %s (%s:%s) for type %d\n", 
 				it->pattern_.c_str(), 
 				it->nickname_.c_str(),
 				it->name_.c_str(),
@@ -693,7 +693,7 @@ cty_filter* cty_data::match_filter(const cty_element* element, cty_filter::filte
 						}
 						break;
 					}
-					if (DEBUG_PARSE) printf("%s vs %s - %s %s\n",
+					if (zc_app::debug(DEBUG_PARSE)) printf("%s vs %s - %s %s\n",
 						it->pattern_.substr(0, ix + 1).c_str(),
 						call.substr(0, pos_c).c_str(),
 						brace_match ? "Brace match" : "",
@@ -701,12 +701,12 @@ cty_filter* cty_data::match_filter(const cty_element* element, cty_filter::filte
 				}
 			}
 			if (match) {
-				if (DEBUG_PARSE) printf(" - matched\n");
+				if (zc_app::debug(DEBUG_PARSE)) printf(" - matched\n");
 				cty_filter* subfilter = match_filter(it, type, call, when);
 				if (subfilter) return subfilter;
 				else if (it->filter_type_ == type)	return it;
 			} else {
-				if (DEBUG_PARSE) printf("\n");
+				if (zc_app::debug(DEBUG_PARSE)) printf("\n");
 			}
 		}
 	}
@@ -738,12 +738,12 @@ void cty_data::split_call(const std::string& call, std::string& alt, std::string
 				alt = words[0];
 				mutate_call(alt, suffix[0]);
 				body = "";
-				if (DEBUG_PARSE) printf("""Mutated"" %s to %s\n", words[0].c_str(), alt.c_str());
+				if (zc_app::debug(DEBUG_PARSE)) printf("""Mutated"" %s to %s\n", words[0].c_str(), alt.c_str());
 			}
 			else {
 				body = words[0];
 				alt = "";
-				if (DEBUG_PARSE) printf("Ignoring /%s", suffix.c_str());
+				if (zc_app::debug(DEBUG_PARSE)) printf("Ignoring /%s", suffix.c_str());
 			}
 			suffix = "";
 		}

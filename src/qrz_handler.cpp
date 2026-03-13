@@ -23,8 +23,10 @@
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "zc_status.h"
 #include "url_handler.h"
+
+#include "zc_app.h"
+#include "zc_status.h"
 #include <zc_utils.h>
 
 #include "pugixml.hpp"
@@ -41,6 +43,8 @@
 #include <FL/fl_ask.H>
 #include <FL/filename.H>
 
+extern debug_flag DEBUG_THREADS;
+
 // Constructor
 qrz_handler::qrz_handler() :
 	username_("")
@@ -51,7 +55,7 @@ qrz_handler::qrz_handler() :
 {
 
 	run_threads_ = true;
-	if (DEBUG_THREADS) printf("QRZ MAIN: Starting thread\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("QRZ MAIN: Starting thread\n");
 	th_upload_ = new std::thread(thread_run, this);
 
 	// Got no log-in details - raise a warning for now.
@@ -593,7 +597,7 @@ bool qrz_handler::upload_single_qso(qso_num_t qso_number) {
 	book_->enable_save(false, "Uploading to QRZ.com");
 	// Now send to upload thread to process
 	upload_lock_.lock();
-	if (DEBUG_THREADS) printf("EQSL MAIN: Enqueueing eQSL request %s\n", qso->item("CALL").c_str());
+	if (zc_app::debug(DEBUG_THREADS)) printf("EQSL MAIN: Enqueueing eQSL request %s\n", qso->item("CALL").c_str());
 	upload_queue_.push(qso);
 	upload_lock_.unlock();
 	return true;
@@ -612,7 +616,7 @@ bool qrz_handler::upload_log(book* log) {
 
 // Upload thread - sit in a loop waiting for upload requests
 void qrz_handler::thread_run(qrz_handler* that) {
-	if (DEBUG_THREADS) printf("QRZ THREAD: Thread started\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("QRZ THREAD: Thread started\n");
 	while (that->run_threads_) {
 		// Wait until qso placed on interface
 		while (that->run_threads_ && that->upload_queue_.empty()) {
@@ -623,7 +627,7 @@ void qrz_handler::thread_run(qrz_handler* that) {
 		if (!that->upload_queue_.empty()) {
 			record* qso = that->upload_queue_.front();
 			that->upload_queue_.pop();
-			if (DEBUG_THREADS) printf("QRZ THREAD: Received request %s\n", qso->item("CALL").c_str());
+			if (zc_app::debug(DEBUG_THREADS)) printf("QRZ THREAD: Received request %s\n", qso->item("CALL").c_str());
 			that->upload_lock_.unlock();
 			that->th_upload_qso(qso);
 		}
@@ -649,14 +653,14 @@ void qrz_handler::th_upload_qso(record* qso) {
 	resp->qso = qso;
 	// Send response back to 
 	upload_resp_ = resp;
-	if (DEBUG_THREADS) printf("QRZ THREAD: Calling thread callback\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("QRZ THREAD: Calling thread callback\n");
 	Fl::awake(cb_upload_done, (void*)this);
 	std::this_thread::yield();
 }
 
 // Upload done: wrapper
 void qrz_handler::cb_upload_done(void* v) {
-	if (DEBUG_THREADS) printf("QRZ MAIN: Entered thread callback handler\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("QRZ MAIN: Entered thread callback handler\n");
 	qrz_handler* that = (qrz_handler*)v;
 	that->upload_done(that->upload_resp_);
 }

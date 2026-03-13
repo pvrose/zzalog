@@ -26,6 +26,7 @@
 #include "zc_status.h"
 #include "url_handler.h"
 
+#include "zc_app.h"
 #include "zc_utils.h"
 
 #include <chrono>
@@ -44,13 +45,15 @@
 #include <FL/Fl_Text_Buffer.H>
 #include <FL/Fl_Text_Display.H>
 
+extern debug_flag DEBUG_THREADS;
+
 // Constructor
 lotw_handler::lotw_handler()
 {
 	// Initialise thread interface
 	run_threads_ = true;
 	upload_response_ = 0;	
-	if (DEBUG_THREADS) printf("LOTW MAIN: Starting std::thread\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("LOTW MAIN: Starting std::thread\n");
 	th_upload_ = new std::thread(thread_run, this);
 
 	set_adif_fields();
@@ -119,7 +122,7 @@ bool lotw_handler::upload_lotw_log(book* book, bool mine) {
 				snprintf(command, 256, "\"%s\" -x -u -d %s -c %s", tqsl_executable.c_str(), new_filename.c_str(), callsign.c_str());
 				status_->misc_status(ST_NOTE, "LOTW: Signing and uploading QSLs to LotW");
 				status_->misc_status(ST_LOG, command);
-				if (DEBUG_THREADS) printf("LOTW MAIN: Uploading QSOs to LotW\n");
+				if (zc_app::debug(DEBUG_THREADS)) printf("LOTW MAIN: Uploading QSOs to LotW\n");
 				book_->enable_save(false, "Uploading to LotW");
 				upload_lock_.lock();
 				upload_done_szq_.push(book->size());
@@ -394,7 +397,7 @@ bool lotw_handler::upload_done(int result) {
 
 // Run tne thread to handle the LotW interface
 void lotw_handler::thread_run(lotw_handler* that) {
-	if (DEBUG_THREADS) printf("LOTW THREAD: Thread started\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("LOTW THREAD: Thread started\n");
 	while (that->run_threads_) {
 		// Wait until qso placed on interface
 		while (that->run_threads_ && that->upload_queue_.empty()) {
@@ -405,7 +408,7 @@ void lotw_handler::thread_run(lotw_handler* that) {
 		if (!that->upload_queue_.empty()) {
 			const char* command = that->upload_queue_.front();
 			that->upload_queue_.pop();
-			if (DEBUG_THREADS) printf("LOTW THREAD: Received request %s\n", command);
+			if (zc_app::debug(DEBUG_THREADS)) printf("LOTW THREAD: Received request %s\n", command);
 			that->upload_lock_.unlock();
 			that->th_upload(command);
 		}
@@ -422,14 +425,14 @@ void lotw_handler::th_upload(const char* command) {
 	int result = system(command);
 	// 
 	upload_response_ = result;
-	if (DEBUG_THREADS) printf("LOTW THREAD: Calling std::thread callback result = %d\n", result);
+	if (zc_app::debug(DEBUG_THREADS)) printf("LOTW THREAD: Calling std::thread callback result = %d\n", result);
 	Fl::awake(cb_upload_done, (void*)this);
 	std::this_thread::yield();
 }
 
 // Callback in main thread after upload complete
 void lotw_handler::cb_upload_done(void* v) {
-	if (DEBUG_THREADS) printf("LOTW MAIN: Entered std::thread callback handler\n");
+	if (zc_app::debug(DEBUG_THREADS)) printf("LOTW MAIN: Entered std::thread callback handler\n");
 	lotw_handler* that = (lotw_handler*)v;
 	that->upload_done(that->upload_response_);
 }
