@@ -567,7 +567,7 @@ zc::lat_long_t record::location(bool my_station, location_t& source) const {
 				lat_long.longitude += (side / 2.0);
 			}
 			else {
-				lat_long = wx_handler_->get_city_location(this);
+				if (wx_handler_) lat_long = wx_handler_->get_city_location(this);
 				if (!lat_long.is_nan()) {
 					source = LOC_CITY;
 					return lat_long;
