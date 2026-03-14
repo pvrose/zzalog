@@ -9,12 +9,14 @@
 - Cosmetic and non-functional changes.
   - Typos and unhelpful information in status messages.
   - Remove -g switch as no longer does anything.
+  - Moved non-ZZALOG code to ZZACOMMON.
 - Performance changes.
 - Bug fixes.
   - When starting another app in Windows, the batch script window is not closed.
   - Double-clicking on QSL download buttons may cause lock up.
   - Occasional exception when closing ZZALOG: probable race hazard while closing ticker.
-
+  - Switches after debug switches wrongly regarded as bad debug switches.
+  
 \section rev_3_6_15 Revision 3.6.15
 
 - Functional changes.

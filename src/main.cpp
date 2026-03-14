@@ -513,7 +513,12 @@ int cb_args(int argc, char** argv, int& i) {
 				zc_app::set_debug(DEBUG_XMLRPC);
 				i += 1;
 			}
-			else {
+			else if (argv[i] && argv[i][0] == '-') {
+				// Next switch - stop processing debug arguments
+				debugs = false;
+			}
+			else
+			{
 				printf("Unexpected debug argument %s - ignored\n", argv[i]);
 				i += 1;
 			}
