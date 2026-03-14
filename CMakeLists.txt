@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.6.15.1)
+project(ZZALOG VERSION 3.6.15.2)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
 set(ZZALOG_RC_VALUE "")
@@ -349,7 +349,7 @@ set(DATAFILES
 # Define the zzalog executable
 add_executable(${TARGET} WIN32)
 # Ensure external projects are built before linking zzalog
-add_dependencies(${TARGET} zzacommon)
+add_dependencies(${TARGET} zzacommon ${ZC_APP_LIBRARY})
 add_dependencies(zzalog_contests zzacommon)
 
 ## Set header include directoies.
@@ -380,6 +380,7 @@ target_link_libraries(${TARGET} PRIVATE
   zzalog_contests
   pugixml
   ${ZZACOMMON_LIBRARIES}
+  ${ZC_APP_LIBRARY}
 )
 
 # copy reference data
