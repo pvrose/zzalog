@@ -21,6 +21,7 @@
 #include "spec_data.h"
 #include "win_dialog.h"
 
+#include "zc_app.h"
 #include "zc_drawing.h"
 #include "zc_file_holder.h"
 #include "zc_utils.h"
@@ -39,13 +40,13 @@
 #include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Widget.H>
 
-extern bool DEVELOPMENT_MODE;
 extern std::string APP_NAME;
 extern std::string APP_VERSION;
 extern std::string APP_TIMESTAMP;
 extern std::string CONTACT;
 extern std::string COPYRIGHT;
 extern std::string ZZACOMMON_VERSION;
+extern debug_flag DEBUG_DEVELOPMENT;
 
 // Creates the about box dialog and displays it.
 about_dialog::about_dialog() :
@@ -131,7 +132,7 @@ about_dialog::about_dialog() :
 	Fl_Box* bx_vers = new Fl_Box(C1, YVERS, WICON, HBUTTON);
 
 	std::string version = APP_VERSION;
-	if (DEVELOPMENT_MODE) version += " DEVT";
+	if (zc_app::debug(DEBUG_DEVELOPMENT)) version += " DEVT";
 	bx_vers->copy_label(version.c_str());
 	bx_vers->labelfont(FL_BOLD);
 	bx_vers->labelsize(FL_NORMAL_SIZE + 4);

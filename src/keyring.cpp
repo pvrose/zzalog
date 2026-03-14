@@ -18,6 +18,8 @@
 #include "keyring.h"
 
 #include "main.h"
+
+#include "zc_app.h"
 #include "zc_file_holder.h"
 #include "zc_status.h"
 #include "zc_utils.h"
@@ -32,6 +34,8 @@ using json = nlohmann::json;
 
 #include <FL/fl_ask.H>
 
+extern debug_flag DEBUG_DEVELOPMENT;
+
 //! Constructor
 keyring::keyring() {
 	load_data();
@@ -40,7 +44,7 @@ keyring::keyring() {
 //! Destructor
 keyring::~keyring() {
 	save_data();
-	if (DEVELOPMENT_MODE) {
+	if (zc_app::debug(DEBUG_DEVELOPMENT)) {
 		file_holder_->copy_working_to_source(FILE_KEYS);
 		file_holder_->copy_source_to_git(FILE_KEYS);
 	}

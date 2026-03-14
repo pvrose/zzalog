@@ -115,6 +115,7 @@ extern debug_flag DEBUG_THREADS;  //!< Print thread debugging messages -  by "-d
 extern debug_flag DEBUG_CURL;
 extern debug_flag DEBUG_SOCKET;
 extern debug_flag DEBUG_XMLRPC;
+extern debug_flag DEBUG_DEVELOPMENT; 
 debug_flag DEBUG_RIGS = DEBUG_NEXT << 1;    //!< Print file reset messages -  by "-d r"
 //! Print callsign parsing messages -  by "-d d"
 debug_flag DEBUG_PARSE = DEBUG_NEXT << 2;
@@ -150,8 +151,6 @@ bool PRIVATE = false;
 bool READ_ONLY = false;
 //! Resum logging including previous session -  by "-m"
 bool RESUME_SESSION = false;
-//! Development flag: used to enable/disable features only in development mode ("-g")
-bool DEVELOPMENT_MODE = false;
 // Start off-air - do not auto-connect rigs
 bool START_OFF_AIR = false;
 // Open userguide instead of running ZZALOG -  by "-h html"
@@ -960,7 +959,7 @@ void add_dashboard() {
 		if (!qso_manager_) {
 			char l[128];
 			std::string version = APP_VERSION;
-			if (DEVELOPMENT_MODE) version += " DEVT";
+			if (zc_app::debug(DEBUG_DEVELOPMENT)) version += " DEVT";
 			snprintf(l, sizeof(l), "%s %s: Operating Dashboard", APP_NAME.c_str(), version.c_str());
 			qso_manager_ = new qso_manager(10, 10);
 			qso_manager_->copy_label(l);
@@ -974,7 +973,7 @@ void add_dashboard() {
 void main_window_label(std::string text) {
 	// e.g. ZZALOG 3.0.0: <filename> - APP_VERSION includes (Debug) if compiled under _DEBUG
 	std::string label = APP_NAME + " " + APP_VERSION;
-	if (DEVELOPMENT_MODE) label += " DEVT";
+	if (zc_app::debug(DEBUG_DEVELOPMENT)) label += " DEVT";
 	label += ": " + text;
 	main_window_->copy_label(label.c_str());
 }
@@ -1120,7 +1119,7 @@ void print_args(int argc, char** argv) {
 	snprintf(message, sizeof(message), "ZZALOG: %s %s", 
 		APP_NAME.c_str(), APP_VERSION.c_str());
 	status_->misc_status(ST_NOTE, message);
-	if (DEVELOPMENT_MODE) {
+	if (zc_app::debug(DEBUG_DEVELOPMENT)) {
 		status_->misc_status(ST_WARNING, "ZZALOG: Development mode");
 	}
 	snprintf(message, sizeof(message), "ZZALOG: Compiled %s", APP_TIMESTAMP.c_str());
@@ -1285,7 +1284,7 @@ int main(int argc, char** argv)
 	if (DISPLAY_VERSION) {
 #ifndef WIN32
 		std::string version = APP_VERSION;
-		if (DEVELOPMENT_MODE) version += " DEVT";
+		if (zc_app::debug(DEBUG_DEVELOPMENT)) version += " DEVT";
 		// Display version
 		printf("%s Version %s Compiled %s\n", 
 			APP_NAME.c_str(), 

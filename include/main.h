@@ -102,8 +102,6 @@ extern bool PRIVATE;
 extern bool READ_ONLY;
 //! Resum logging including previous session -  by "-m"
 extern bool RESUME_SESSION;
-//! Development flag: used to enable/disable features only in development mode ("-g")
-extern bool DEVELOPMENT_MODE;
 //! Start up off-air - do not connect rigs
 extern bool START_OFF_AIR;
 //! Open userguide instead of running ZZALOG -  by "-h html"

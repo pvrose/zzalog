@@ -19,6 +19,8 @@
 
 #include "band_data.h"
 #include "main.h"
+
+#include "zc_app.h"
 #include "zc_status.h"
 
 #include "zc_drawing.h"
@@ -48,6 +50,7 @@
 using band_entry_t = band_data::band_entry_t;
 
 const int ROW_WIDTH = 1000;
+extern debug_flag DEBUG_DEVELOPMENT;
 
 band_table::band_table(int X, int Y, int W, int H, const char* L) :
     Fl_Scroll(X, Y, W, H, L)
@@ -309,7 +312,7 @@ void band_row::enable_widgets() {
         w_description_->deactivate();
         break;
     case band_data::BAND:
-        if (DEVELOPMENT_MODE) {
+        if (zc_app::debug(DEBUG_DEVELOPMENT)) {
             w_type_->activate();
             w_lower_->activate();
             w_upper_->activate();

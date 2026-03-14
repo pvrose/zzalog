@@ -23,6 +23,7 @@
 #include "zc_file_holder.h"
 #include "main.h"
 
+#include "zc_app.h"
 #include "zc_drawing.h"
 #include "zc_utils.h"
 
@@ -38,6 +39,8 @@
 #include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Widget.H>
+
+extern debug_flag DEBUG_DEVELOPMENT;
 
 // Check age button clicked
 std::map< cty_data::cty_type_t, std::chrono::hours > OLD_AGE = {
@@ -169,7 +172,7 @@ void cty_dialog::create_form() {
 	curr_y += HBUTTON + GAP;
 	curr_x = bn_update->x() - WBUTTON - WBUTTON;
 
-	if (DEVELOPMENT_MODE) {
+	if (zc_app::debug(DEBUG_DEVELOPMENT)) {
 		curr_x -= WBUTTON;
 		Fl_Button* bn_release = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Release");
 		bn_release->callback(cb_release);
@@ -265,7 +268,7 @@ void cty_dialog::cb_browser(Fl_Widget* w, void* v) {
 // Release and reload
 void cty_dialog::cb_release(Fl_Widget* w, void* v) {
 	cty_dialog* that = zc::ancestor_view<cty_dialog>(w);
-	// Copy working copies back to source and then to git - will fail if not DEVELOPMENT_MODE
+	// Copy working copies back to source and then to git - will fail if not zc_app::debug(DEBUG_DEVELOPMENT)
 	file_holder_->copy_working_to_source(FILE_COUNTRY_CLUB);
 	file_holder_->copy_working_to_source(FILE_COUNTRY_CFILES);
 	file_holder_->copy_working_to_source(FILE_COUNTRY_DXATLAS);

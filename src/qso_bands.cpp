@@ -26,6 +26,7 @@
 #include "zc_settings.h"
 #include "zc_ticker.h"
 
+#include "zc_app.h"
 #include "zc_drawing.h"
 #include "zc_utils.h"
 
@@ -39,6 +40,7 @@
 
 extern std::string APP_NAME;
 extern std::string APP_VERSION;
+extern debug_flag DEBUG_DEVELOPMENT;
 
 qso_bands::qso_bands(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L)
@@ -99,7 +101,7 @@ void qso_bands::create_form() {
 	Fl_Group::current(nullptr);
 	char l[128];
 	std::string version = APP_VERSION;
-	if (DEVELOPMENT_MODE) version += " DEVT";
+	if (zc_app::debug(DEBUG_DEVELOPMENT)) version += " DEVT";
 	snprintf(l,sizeof(l), "%s %s: Bandplan", APP_NAME.c_str(), version.c_str());
 	full_window_ = new band_window(left_, top_, width_, height_);
 	full_window_->copy_label(l);
