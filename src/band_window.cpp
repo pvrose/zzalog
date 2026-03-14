@@ -19,7 +19,6 @@
 
 #include "band_editor.h"
 #include "band_widget.h"
-#include "ident.h"
 #include "qso_manager.h"
 #include "rig_if.h"
 #include "zc_status.h"
@@ -37,6 +36,9 @@
 #include <FL/Fl_Double_Window.H>
 #include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
+
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
 
 band_window::band_window(int X, int Y, int W, int H, const char* L) :
 	Fl_Double_Window(X, Y, W, H, L)

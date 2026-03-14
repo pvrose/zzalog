@@ -17,8 +17,6 @@
 */
 #include "url_handler.h"
 
-#include "ident.h"
-
 #include "zc_app.h"
 #include "zc_utils.h"
 
@@ -33,6 +31,8 @@
 #include <curl/easy.h>
 
 extern debug_flag DEBUG_CURL;
+extern std::string APP_NAME;
+extern std::string APP_VERSION;
 std::string USER_AGENT = APP_NAME + '/' + APP_VERSION;
 
 // Make sure only one HTML transfer happens at once

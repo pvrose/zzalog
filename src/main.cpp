@@ -31,7 +31,6 @@
 #include "extract_data.h"
 #include "fields.h"
 #include "fldigi_handler.h"
-#include "ident.h"
 #include "import_data.h"
 #include "intl_dialog.h"
 #include "keyring.h"
@@ -65,7 +64,6 @@
 #include "zc_symbols.h"
 #include "zc_ticker.h"
 #include "zc_utils.h"
-#include "zzacommon.h"
 
 // C/C++ header files
 #include <algorithm>
@@ -100,6 +98,13 @@
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/dll/runtime_symbol_info.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
+
+// Application details - created by CMake.
+extern std::string APP_NAME;
+extern std::string APP_VERSION;
+extern std::string APP_TIMESTAMP;
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
 
 // Debug switches
 extern debug_flag DEBUG_NEXT;

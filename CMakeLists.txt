@@ -11,11 +11,6 @@ set(APP_NAME "ZZALOG")
 string(TIMESTAMP APP_TIMESTAMP UTC)
 set(APP_VERSION "${ZZALOG_VERSION}${ZZALOG_RC_VALUE}")
 set(APP_SOURCE_DIR ${ZZALOG_SOURCE_DIR})
-configure_file(
-  ${ZZALOG_SOURCE_DIR}/src/ident.cpp.in
-  ${ZZALOG_SOURCE_DIR}/src/ident.cpp
-  @ONLY
-)
 
 ## Set target executable
 set(TARGET zzalog)
@@ -77,7 +72,6 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/file_viewer.cpp
   ${ZZALOG_SRC_DIR}/fldigi_handler.cpp
   ${ZZALOG_SRC_DIR}/font_dialog.cpp
-  ${ZZALOG_SRC_DIR}/ident.cpp
   ${ZZALOG_SRC_DIR}/import_data.cpp
   ${ZZALOG_SRC_DIR}/init_dialog.cpp
   ${ZZALOG_SRC_DIR}/intl_dialog.cpp
@@ -188,7 +182,6 @@ set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/fldigi_handler.h
   ${ZZALOG_INCLUDE_DIR}/font_dialog.h
   ${ZZALOG_INCLUDE_DIR}/icons.h
-  ${ZZALOG_INCLUDE_DIR}/ident.h
   ${ZZALOG_INCLUDE_DIR}/import_data.h
   ${ZZALOG_INCLUDE_DIR}/init_dialog.h
   ${ZZALOG_INCLUDE_DIR}/intl_dialog.h
@@ -342,6 +335,7 @@ endif()
 # Add ZZACOMMON
 set(ZZACOMMON_DOX ${ZZALOG_DOX})
 add_subdirectory(zzacommon)
+message(STATUS "ZZACOMMON found: ${ZZACOMMON_VERSION}")
 
 ## Subdirectories as part of ZZALOG
 add_subdirectory(contests)

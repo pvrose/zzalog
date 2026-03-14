@@ -17,15 +17,14 @@
 */
 #include "intl_dialog.h"
 
-#include <zc_drawing.h>
-#include "zc_file_holder.h"
-#include "ident.h"
 #include "main.h"
 #include "menu_bar.h"
-#include "zc_status.h"
-#include <win_dialog.h>
+#include "win_dialog.h"
 
 #include "zc_callback.h"
+#include "zc_drawing.h"
+#include "zc_file_holder.h"
+#include "zc_status.h"
 #include "zc_utils.h"
 
 #include <fstream>
@@ -42,6 +41,8 @@
 
 // Majo
 std::string DEFAULT_INTL = "";
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
 
 // Constructs a window 
 intl_dialog::intl_dialog() :

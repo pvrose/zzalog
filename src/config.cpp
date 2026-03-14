@@ -20,15 +20,14 @@
 #include "bumr_dialog.h"
 #include "contest_dialog.h"
 #include "fields_dialog.h"
-#include "ident.h"
 #include "page_dialog.h"
 #include "qsl_editor.h"
-#include "zc_settings.h"
 #include "user_dialog.h"
 #include "web_dialog.h"
 
-#include "zc_utils.h"
 #include "zc_drawing.h"
+#include "zc_settings.h"
+#include "zc_utils.h"
 
 #include <string>
 
@@ -39,6 +38,9 @@
 #include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
+
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
 
 // Constructor
 config::config(int W, int H, const char* label) :

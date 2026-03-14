@@ -23,7 +23,6 @@
 #include "cty_data.h"
 #include <zc_drawing.h>
 #include "field_choice.h"
-#include "ident.h"
 #include <search.h>
 #include "zc_settings.h"
 #include "spec_data.h"
@@ -45,6 +44,9 @@
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Radio_Round_Button.H>
 #include <FL/Fl_Widget.H>
+
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
 
 // Constructor
 search_dialog::search_dialog() :

@@ -19,7 +19,6 @@
 
 #include "adi_writer.h"
 #include "book.h"
-#include "ident.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -44,6 +43,9 @@
 #include <FL/filename.H>
 
 extern debug_flag DEBUG_THREADS;
+extern std::string APP_NAME;
+extern std::string APP_VERSION;
+extern std::string APP_TIMESTAMP;
 
 // Constructor
 qrz_handler::qrz_handler() :

@@ -20,7 +20,6 @@
 #include "book.h"
 #include <zc_drawing.h>
 #include "extract_data.h"
-#include "ident.h"
 #include "import_data.h"
 #include "main.h"
 #include "main_window.h"
@@ -46,6 +45,9 @@
 #include <FL/Fl_Group.H>
 #include <FL/fl_types.h>
 #include <FL/Fl_Widget.H>
+
+extern std::string COPYRIGHT;
+extern std::string CONTACT;
 
 // The main dialog constructor
 qso_manager::qso_manager(int W, int H, const char* label) :

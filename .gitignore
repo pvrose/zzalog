@@ -292,8 +292,4 @@ __pycache__/
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.12-rc1.msi
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.12-rc2.msi
 *.msi
-/include/timestamp.h
-/src/ident.cpp
-/src/ident.cpp
-/zzacommon/src/ident.cpp
 /ZZALOG.back(23.3).aip

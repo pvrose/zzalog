@@ -19,8 +19,6 @@
 
 #include "adi_reader.h"
 #include "book.h"
-#include <zc_drawing.h>
-#include "ident.h"
 #include "menu_bar.h"
 #include "qso_apps.h"
 #include "qso_data.h"
@@ -48,6 +46,9 @@
 #include <FL/fl_ask.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Native_File_Chooser.H>
+
+extern std::string APP_NAME;
+extern std::string APP_VERSION;
 
 // Constructor: 
 wsjtx_handler::wsjtx_handler()

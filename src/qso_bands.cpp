@@ -19,7 +19,6 @@
 
 #include "band_widget.h"
 #include "band_window.h"
-#include "ident.h"
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -37,6 +36,9 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Widget.H>
+
+extern std::string APP_NAME;
+extern std::string APP_VERSION;
 
 qso_bands::qso_bands(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L)

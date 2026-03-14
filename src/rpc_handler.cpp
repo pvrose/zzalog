@@ -17,7 +17,6 @@
 */
 #include "rpc_handler.h"
 
-#include "ident.h"
 #include "main.h"
 #include "socket_server.h"
 #include "url_handler.h"
@@ -37,6 +36,8 @@
 #include <vector>
 
 extern debug_flag DEBUG_XMLRPC;
+extern std::string APP_NAME;
+extern std::string APP_VERSION;
 
 // Constructor
 rpc_handler::rpc_handler(std::string address, int port_number, std::string resource_name)

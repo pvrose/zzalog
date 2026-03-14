@@ -19,7 +19,6 @@
 
 #include "book.h"
 #include "fields.h"
-#include "ident.h"
 #include "record.h"
 #include "spec_data.h"
 #include "zc_status.h"
@@ -36,6 +35,8 @@
 #include <FL/fl_draw.H>
 #include <FL/fl_utf8.h>
 
+extern std::string APP_NAME;
+extern std::string DATA_COPYRIGHT;
 
 // Default constructor
 adi_writer::adi_writer()

@@ -17,15 +17,13 @@
 */
 #include "about_dialog.h"
 
-#include "zc_file_holder.h"
-#include "ident.h"
 #include "main.h"
 #include "spec_data.h"
 #include "win_dialog.h"
 
 #include "zc_drawing.h"
+#include "zc_file_holder.h"
 #include "zc_utils.h"
-#include "zzacommon.h"
 
 #include <string>
 
@@ -42,6 +40,12 @@
 #include <FL/Fl_Widget.H>
 
 extern bool DEVELOPMENT_MODE;
+extern std::string APP_NAME;
+extern std::string APP_VERSION;
+extern std::string APP_TIMESTAMP;
+extern std::string CONTACT;
+extern std::string COPYRIGHT;
+extern std::string ZZACOMMON_VERSION;
 
 // Creates the about box dialog and displays it.
 about_dialog::about_dialog() :
