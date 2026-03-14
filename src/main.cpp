@@ -105,6 +105,7 @@ extern std::string APP_VERSION;
 extern std::string APP_TIMESTAMP;
 extern std::string CONTACT;
 extern std::string COPYRIGHT;
+extern std::string ZZACOMMON_VERSION;
 
 // Debug switches
 extern debug_flag DEBUG_NEXT;
