@@ -26,9 +26,9 @@
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "rpc_data_item.h"
-#include "rpc_handler.h"
-#include "socket_server.h"
+#include "zc_rpc_data_item.h"
+#include "zc_rpc_handler.h"
+#include "zc_socket_server.h"
 #include "spec_data.h"
 #include "zc_status.h"
 #include "zc_utils.h"
@@ -43,7 +43,7 @@
 
 // Constructor
 fldigi_handler::fldigi_handler() {
-	rpc_handler_ = nullptr;
+	zc_rpc_handler_ = nullptr;
 	current_qso_ = nullptr;
 	putative_qso_ = nullptr;
 	connected_ = false;
@@ -58,11 +58,11 @@ fldigi_handler::~fldigi_handler() {
 // Start and run the RPC Server
 void fldigi_handler::run_server() {
 	status_->misc_status(ST_NOTE, "FLDIGI: Creating new socket");
-	if (!rpc_handler_) {
+	if (!zc_rpc_handler_) {
 		std::string address = qso_manager_->apps()->network_address(FLDIGI);
 		int port_num = qso_manager_->apps()->network_port(FLDIGI);
 		if (address.length()) {
-			rpc_handler_ = new rpc_handler(address, port_num, "/RPC2");
+			zc_rpc_handler_ = new zc_rpc_handler(address, port_num, "/RPC2");
 		}
 		else {
 			return;
@@ -70,45 +70,45 @@ void fldigi_handler::run_server() {
 	}
 	// Set up callbacks to handle these
 	method_list_.push_back({ "log.add_record", "s:s", "adds new ADIF-RECORD" });
-	rpc_handler_->add_method(this, method_list_.back(), add_record);
+	zc_rpc_handler_->add_method(this, method_list_.back(), add_record);
 	method_list_.push_back({ "log.get_record",    "s:s", "returns ADIF-RECORD for CALL" });
-	rpc_handler_->add_method(this, method_list_.back(), get_record);
+	zc_rpc_handler_->add_method(this, method_list_.back(), get_record);
 	method_list_.push_back({ "log.update_record", "s:s", "updates current record with specified ADIF-RECORD" });
-	rpc_handler_->add_method(this, method_list_.back(), update_record);
+	zc_rpc_handler_->add_method(this, method_list_.back(), update_record);
 	method_list_.push_back({ "log.check_dup",     "s:s", "return true/false/possible for ADIF record" });
-	rpc_handler_->add_method(this, method_list_.back(), check_dup);
+	zc_rpc_handler_->add_method(this, method_list_.back(), check_dup);
 	method_list_.push_back({ "log.list_methods",  "s:s", "return this std::list" });
-	rpc_handler_->add_method(this, method_list_.back(), list_methods);
+	zc_rpc_handler_->add_method(this, method_list_.back(), list_methods);
 
-	rpc_handler_->run_server();
+	zc_rpc_handler_->run_server();
 }
 
 // Close the RPC server
 void fldigi_handler::close_server() {
-	if (rpc_handler_) {
+	if (zc_rpc_handler_) {
 		status_->misc_status(ST_NOTE, "FLDIGI: Closing server");
-		rpc_handler_->close_server();
-		delete rpc_handler_;
-		rpc_handler_ = nullptr;
+		zc_rpc_handler_->close_server();
+		delete zc_rpc_handler_;
+		zc_rpc_handler_ = nullptr;
 	}
 }
 
 // Generate an XML-RPC error response
-void fldigi_handler::generate_error(int code, std::string message, rpc_data_item& response) {
-	rpc_data_item error_code;
+void fldigi_handler::generate_error(int code, std::string message, zc_rpc_data_item& response) {
+	zc_rpc_data_item error_code;
 	error_code.set(code, XRT_INT);
-	rpc_data_item error_msg;
+	zc_rpc_data_item error_msg;
 	error_msg.set(message, XRT_STRING);
-	rpc_data_item::rpc_struct fault_resp = { { "code", &error_code }, { "message", &error_msg } };
+	zc_rpc_data_item::rpc_struct fault_resp = { { "code", &error_code }, { "message", &error_msg } };
 	response.set(&fault_resp);
 }
 
 // Get ADIF std::string for first record with callsign 
-int fldigi_handler::get_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
+int fldigi_handler::get_record(void* v, zc_rpc_data_item::rpc_list& params, zc_rpc_data_item& response) {
 	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 1) {
-		rpc_data_item* item_0 = params.front();
+		zc_rpc_data_item* item_0 = params.front();
 		std::string callsign = item_0->get_string();
 		record* qso = nullptr;
 		if (that->current_qso_ && that->current_qso_->item("CALL") == callsign) {
@@ -151,29 +151,29 @@ int fldigi_handler::get_record(void* v, rpc_data_item::rpc_list& params, rpc_dat
 }
 
 // Check duplicate - replies true (exact match), possible (callsign matches), false (not a match
-int fldigi_handler::check_dup(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
+int fldigi_handler::check_dup(void* v, zc_rpc_data_item::rpc_list& params, zc_rpc_data_item& response) {
 	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 6) {
 		// Get parametrs
-		rpc_data_item* i_call = params.front();
+		zc_rpc_data_item* i_call = params.front();
 		std::string callsign = i_call->get_string();
 		params.pop_front();
-		rpc_data_item* i_mode = params.front();
+		zc_rpc_data_item* i_mode = params.front();
 		std::string mode = i_mode->get_string();
 		params.pop_front();
-		rpc_data_item* i_span = params.front();
+		zc_rpc_data_item* i_span = params.front();
 		long span = atol(i_span->get_string().c_str());
 		params.pop_front();
 		// Frequency received in kHz
-		rpc_data_item* i_freq = params.front();
+		zc_rpc_data_item* i_freq = params.front();
 		long freq_kHz = atol(i_freq->get_string().c_str());
 		double freq_MHz = (double)freq_kHz / 1000.0;
 		params.pop_front();
-		rpc_data_item* i_state = params.front();
+		zc_rpc_data_item* i_state = params.front();
 		std::string state = i_state->get_string();
 		params.pop_front();
-		rpc_data_item* i_rst_in = params.front();
+		zc_rpc_data_item* i_rst_in = params.front();
 		std::string rst_in = i_rst_in->get_string();
 		// Get all possible matches
 		// Scan the book for all records with this callsign
@@ -246,12 +246,12 @@ int fldigi_handler::check_dup(void* v, rpc_data_item::rpc_list& params, rpc_data
 }
 
 // Add new record
-int fldigi_handler::add_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
+int fldigi_handler::add_record(void* v, zc_rpc_data_item::rpc_list& params, zc_rpc_data_item& response) {
 	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 1) {
 		// Convert the adif data into a new record - use existing code from adi_reader
-		rpc_data_item* item = params.front();
+		zc_rpc_data_item* item = params.front();
 		std::stringstream ss;
 		ss.str(item->get_string());
 		adi_reader* reader = new adi_reader();
@@ -273,12 +273,12 @@ int fldigi_handler::add_record(void* v, rpc_data_item::rpc_list& params, rpc_dat
 }
 
 // Update fields in current selection
-int fldigi_handler::update_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
+int fldigi_handler::update_record(void* v, zc_rpc_data_item::rpc_list& params, zc_rpc_data_item& response) {
 	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 1) {
 		// Convert the adif data into a new record - use existing code from adi_reader
-		rpc_data_item* item = params.front();
+		zc_rpc_data_item* item = params.front();
 		std::stringstream ss;
 		ss.str(item->get_string());
 		adi_reader* reader = new adi_reader();
@@ -296,26 +296,26 @@ int fldigi_handler::update_record(void* v, rpc_data_item::rpc_list& params, rpc_
 }
 
 // List methods - std::string returns std::list of methods suppported
-int fldigi_handler::list_methods(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response) {
+int fldigi_handler::list_methods(void* v, zc_rpc_data_item::rpc_list& params, zc_rpc_data_item& response) {
 	fldigi_handler* that = (fldigi_handler*)v;
 	that->check_connected();
 	if (params.size() == 0) {
 		// Copied nearly verbatim from FLDIGI
 		printf("list_methods\n");
-		rpc_data_item::rpc_array* array = new rpc_data_item::rpc_array;
+		zc_rpc_data_item::rpc_array* array = new zc_rpc_data_item::rpc_array;
 		for (auto it = that->method_list_.begin(); it != that->method_list_.end(); it++) {
-			rpc_data_item::rpc_struct* method_data = new rpc_data_item::rpc_struct;
+			zc_rpc_data_item::rpc_struct* method_data = new zc_rpc_data_item::rpc_struct;
 			method_data->clear();
-			rpc_data_item* name = new rpc_data_item;
+			zc_rpc_data_item* name = new zc_rpc_data_item;
 			name->set(it->name, XRT_STRING);
 			(*method_data)["name"] = name;
-			rpc_data_item* sig = new rpc_data_item;
+			zc_rpc_data_item* sig = new zc_rpc_data_item;
 			sig->set(it->signature, XRT_STRING);
 			(*method_data)["signature"] = sig;
-			rpc_data_item* help = new rpc_data_item;
+			zc_rpc_data_item* help = new zc_rpc_data_item;
 			help->set(it->help_text, XRT_STRING);
 			(*method_data)["help"] = help;
-			rpc_data_item* method_obj = new rpc_data_item;
+			zc_rpc_data_item* method_obj = new zc_rpc_data_item;
 			method_obj->set(method_data);
 			array->push_back(method_obj);
 		}
@@ -344,8 +344,8 @@ bool fldigi_handler::has_data() const {
 
 // server state
 bool fldigi_handler::has_server() {
-	if (rpc_handler_) {
-		return rpc_handler_->has_server();
+	if (zc_rpc_handler_) {
+		return zc_rpc_handler_->has_server();
 	}
 	else {
 		return false;

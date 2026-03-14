@@ -25,7 +25,7 @@
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "url_handler.h"
+#include "zc_url_handler.h"
 
 #include "zc_app.h"
 #include "zc_file_holder.h"
@@ -54,7 +54,7 @@ extern debug_flag DEBUG_THREADS;
 // Constructor 
 club_handler::club_handler() {
 	// Create the URL handler if it hasn't already been done
-	if (!url_handler_) url_handler_ = new url_handler;
+	if (!zc_url_handler_) zc_url_handler_ = new zc_url_handler;
 	// Initialise thread interface
 	run_threads_ = true;
 	upload_response_ = 0;
@@ -85,12 +85,12 @@ bool club_handler::upload_log(book* book) {
 		// Get back to start of stream
 		ss.seekg(ss.beg);
 		// Get the parameters and make available for the HTTP POST FORM
-		std::vector<url_handler::field_pair> fields;
+		std::vector<zc_url_handler::field_pair> fields;
 		generate_form(fields, nullptr);
 		std::stringstream resp;
 		// Post the form
 		bool ok;
-		if (!url_handler_->post_form("https://clublog.org/putlogs.php", fields, &ss, &resp)) {
+		if (!zc_url_handler_->post_form("https://clublog.org/putlogs.php", fields, &ss, &resp)) {
 			// Display error message received from post
 			char* message = new char[resp.str().length() + 30];
 			sprintf(message, "CLUBLOG: Upload failed - %s", resp.str().c_str());
@@ -120,7 +120,7 @@ bool club_handler::upload_log(book* book) {
 }
 
 // Generate the fields in the form
-void club_handler::generate_form(std::vector<url_handler::field_pair>& fields, record* the_qso) {
+void club_handler::generate_form(std::vector<zc_url_handler::field_pair>& fields, record* the_qso) {
 	// Read the settings that define user's access 
 	server_data_t* club_data = qsl_dataset_->get_server_data("Club");
 	std::string email = club_data->user;
@@ -152,7 +152,7 @@ bool club_handler::download_exception(std::string filename) {
 	std::string zip_filename = filename + ".gz";
 	std::ofstream os(zip_filename, std::ios::trunc | std::ios::out | std::ios::binary);
 	std::string url = "https://cdn.clublog.org/cty.php?api=" + key_;
-	if (url_handler_->read_url(url, &os)) {
+	if (zc_url_handler_->read_url(url, &os)) {
 		os.close();
 		status_->misc_status(ST_OK, "CLUBLOG: Downloaded OK");
 		return unzip_exception(zip_filename);
@@ -248,12 +248,12 @@ void club_handler::th_upload(record* this_record) {
 	std::set<std::string> adif_fields;
 	single_qso_ = to_adif(this_record, adif_fields_);
 	// Get the parameters and make available for the HTTP POST FORM
-	std::vector<url_handler::field_pair> fields;
+	std::vector<zc_url_handler::field_pair> fields;
 	generate_form(fields, this_record);
 	std::stringstream resp;
 	// Post the form
 	bool ok;
-	if (!url_handler_->post_form("https://clublog.org/realtime.php", fields, nullptr, (std::ostream*)&resp)) {
+	if (!zc_url_handler_->post_form("https://clublog.org/realtime.php", fields, nullptr, (std::ostream*)&resp)) {
 		ok = false;
 		upload_error_ = resp.str();
 	}
@@ -357,7 +357,7 @@ bool club_handler::download_oqrs(std::stringstream* adif) {
 	status_->misc_status(ST_NOTE, "CLUBLOG: Downloading OQRS");
 	std::stringstream request;
 	generate_oqrs(request);
-	if (!url_handler_->post_url("https://clublog.org/getadif.php", "", &request, adif)) {
+	if (!zc_url_handler_->post_url("https://clublog.org/getadif.php", "", &request, adif)) {
 		status_->misc_status(ST_ERROR, "CLUBLOG: Download OQRS failed");
 		return false;
 	}

@@ -18,7 +18,7 @@
 #ifndef __EQSL_HANDLER__
 #define __EQSL_HANDLER__
 
-#include "url_handler.h"
+#include "zc_url_handler.h"
 #include "fields.h"
 
 #include <deque>
@@ -197,7 +197,7 @@ typedef size_t qso_num_t;
 		//! Generate list of adif fields for sending to eQSL.cc.
 		void set_adif_fields();
 		//! Generate data for POST FORM fields.
-		void form_fields(std::vector<url_handler::field_pair>&);
+		void form_fields(std::vector<zc_url_handler::field_pair>&);
 		//! Parse the warning message for user readable format.
 		std::map<std::string, std::string> parse_warning(std::string text);
 		//! Callback from request thread.

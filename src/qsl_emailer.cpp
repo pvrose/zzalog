@@ -22,7 +22,7 @@
 #include "qsl_dataset.h"
 #include "record.h"
 #include "zc_status.h"
-#include "url_handler.h"
+#include "zc_url_handler.h"
 
 #include <string>
 #include <cstdio>
@@ -102,7 +102,7 @@ bool qsl_emailer::generate_email(record* qso) {
 
 // Send the e-mail
 bool qsl_emailer::send_email() {
-	if (url_handler_->send_email(
+	if (zc_url_handler_->send_email(
 		email_url_,         // e-mail server
 		email_user_,        // e-mailuser
 		email_password_,    // password

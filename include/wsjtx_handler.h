@@ -31,7 +31,7 @@
 
 
 class record;
-class socket_server;
+class zc_socket_server;
 
 	//! This class provides the interface to handle UDP datagrams as a server to the WSJT-X client(s)
 	class wsjtx_handler
@@ -240,7 +240,7 @@ class socket_server;
 		bool parse_all_txt(record* match, std::string line);
 
 		//! Socket server
-		socket_server* server_;
+		zc_socket_server* server_;
 
 		//! Received magic number
 		uint32_t magic_number_;

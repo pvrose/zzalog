@@ -48,7 +48,7 @@
 #include "stn_dialog.h"
 #include "tabbed_forms.h"
 #include "toolbar.h"
-#include "url_handler.h"
+#include "zc_url_handler.h"
 #include "wsjtx_handler.h"
 #include "wx_handler.h"
 
@@ -108,21 +108,20 @@ extern std::string COPYRIGHT;
 extern std::string ZZACOMMON_VERSION;
 
 // Debug switches
+debug_flag DEBUG_ALL = 0xFFFFFFFF; 
 extern debug_flag DEBUG_NEXT;
 extern debug_flag DEBUG_QUICK;   //!< Print quick debugging messages -  by "-d q"
-debug_flag DEBUG_THREADS = DEBUG_NEXT << 1;  //!< Print thread debugging messages -  by "-d t"
-debug_flag DEBUG_CURL = DEBUG_NEXT << 2;     //!< Print libcurl debugging messages -  by "-d c"
-debug_flag DEBUG_RIGS = DEBUG_NEXT << 3;    //!< Print file reset messages -  by "-d r"
+extern debug_flag DEBUG_THREADS;  //!< Print thread debugging messages -  by "-d t"
+extern debug_flag DEBUG_CURL;
+extern debug_flag DEBUG_SOCKET;
+extern debug_flag DEBUG_XMLRPC;
+debug_flag DEBUG_RIGS = DEBUG_NEXT << 1;    //!< Print file reset messages -  by "-d r"
 //! Print callsign parsing messages -  by "-d d"
-debug_flag DEBUG_PARSE = DEBUG_NEXT << 4;
+debug_flag DEBUG_PARSE = DEBUG_NEXT << 2;
 //! Print QSO modification status - by "-d m"
-debug_flag DEBUG_MOD_STATUS = DEBUG_NEXT << 5;
-//! Print socket debug messages - by7 "-d k"
-debug_flag DEBUG_SOCKET = DEBUG_NEXT << 6;
-//! Print XMLRPC requests and responses
-debug_flag DEBUG_XMLRPC = DEBUG_NEXT << 7;
+debug_flag DEBUG_MOD_STATUS = DEBUG_NEXT << 3;
 //! Copy status messages to the terminal - by "-d s"
-debug_flag DEBUG_STATUS = DEBUG_NEXT << 8;
+debug_flag DEBUG_STATUS = DEBUG_NEXT << 4;
 //! Set hamlib debugging verbosity level -  by "-d h=<level>"
 rig_debug_level_e HAMLIB_DEBUG_LEVEL = RIG_DEBUG_ERR;
 
@@ -224,7 +223,7 @@ stn_window* stn_window_ = nullptr;
 tabbed_forms* tabbed_forms_ = nullptr;
 zc_ticker* ticker_ = nullptr;
 toolbar* toolbar_ = nullptr;
-url_handler* url_handler_ = nullptr;
+zc_url_handler* zc_url_handler_ = nullptr;
 wsjtx_handler* wsjtx_handler_ = nullptr;
 wx_handler* wx_handler_ = nullptr;
 
@@ -930,7 +929,7 @@ void add_book(char* arg) {
 void add_qsl_handlers() {
 	if (!closing_) {
 		// URL handler - basic HTML POST and GET
-		if (url_handler_ == nullptr) url_handler_ = new url_handler;
+		if (zc_url_handler_ == nullptr) zc_url_handler_ = new zc_url_handler;
 		// eQSL - accesses the appropriate URLs to upload and download eQSL data
 		if (eqsl_handler_ == nullptr) eqsl_handler_ = new eqsl_handler;
 		// LotW - accesses the appropriate URL to download data, TQSL to sign and upload data
@@ -1061,7 +1060,7 @@ void tidy() {
 	delete qrz_handler_;
 	delete lotw_handler_;
 	delete eqsl_handler_;
-	delete url_handler_;
+	delete zc_url_handler_;
 	delete fldigi_handler_;
 	delete extract_records_;
 	delete import_data_;
@@ -1265,6 +1264,8 @@ int main(int argc, char** argv)
 	printf("%s %s: Loading...\n", APP_NAME.c_str(), APP_VERSION.c_str());
 	// Parse command-line arguments - accept FLTK standard arguments and custom ones (in cb_args)
 	int i = 1;
+	// Clear all debug flags - they are set by the command line arguments
+	zc_app::clear_debug(DEBUG_ALL);
 	Fl::args(argc, argv, i, cb_args);
 	// Set the default data directories
 	bool development = false;
@@ -1317,7 +1318,7 @@ int main(int argc, char** argv)
 
 	// Ctreate status to handle status messages
 	auto status_mode = zc_status::HAS_BANNER | zc_status::HAS_LOGFILE;
-	if (DEBUG_STATUS) status_mode |= zc_status::HAS_CONSOLE;
+	if (zc_app::debug(DEBUG_STATUS)) status_mode |= zc_status::HAS_CONSOLE;
 	status_ = new zc_status(status_mode, OBJECT_DATA);
 	{
 		zc_settings top_settings;

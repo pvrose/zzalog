@@ -24,7 +24,7 @@
 #include "zc_settings.h"
 #include "zc_status.h"
 #include "zc_ticker.h"
-#include "url_handler.h"
+#include "zc_url_handler.h"
 
 #include "zc_drawing.h"
 #include "pugixml.hpp"
@@ -418,7 +418,7 @@ void condx_view::enable_widgets() {
 //! Fetch new data (greater than 1 hour old)
 bool condx_view::fetch_data(std::stringstream& ss) {
 	// Fetch the solar data
-	if (!url_handler_->read_url("https://www.hamqsl.com/solarxml.php", &ss)) {
+	if (!zc_url_handler_->read_url("https://www.hamqsl.com/solarxml.php", &ss)) {
 		status_->misc_status(ST_ERROR, "SOLAR: Unable to download data");
 		return false;
 	}
@@ -432,7 +432,7 @@ bool condx_view::load_image() {
 	if (solar_image_) delete solar_image_;
 	// Fetch the image
 	std::stringstream ss;
-	if (!url_handler_->read_url("https://www.hamqsl.com/mdi.gif", &ss)) {
+	if (!zc_url_handler_->read_url("https://www.hamqsl.com/mdi.gif", &ss)) {
 		status_->misc_status(ST_WARNING, "SOLAR: Unable to download solar image");
 		solar_image_ = nullptr;
 		return false;

@@ -17,7 +17,7 @@
 */#ifndef __CLUBLOG_HANDLER__
 #define __CLUBLOG_HANDLER__
 
-#include "url_handler.h"
+#include "zc_url_handler.h"
 #include "fields.h"
 
 #include <atomic>
@@ -29,7 +29,7 @@
 
 class record;
 class book;
-class url_handler;
+class zc_url_handler;
 typedef size_t qso_num_t;
 
 	//! Default fields for exporting to Clublog.org 
@@ -91,12 +91,12 @@ typedef size_t qso_num_t;
 		bool download_oqrs(std::stringstream* adif);
 
 	protected:
-		//! Generate the data for url_handler for uploading QSO data.
+		//! Generate the data for zc_url_handler for uploading QSO data.
 		
 		//! \param fields the form data for HTTP POST.
 		//! \param the_qso if nullptr generate data for a file upload, otherwise for a single QSO record 
 		//! with the ADIF for the QSO as in-line text.
-		void generate_form(std::vector<url_handler::field_pair>& fields, record* the_qso);
+		void generate_form(std::vector<zc_url_handler::field_pair>& fields, record* the_qso);
 		//! Generate the data for url_hamdler for fetching OQRS requests.
 		
 		//! \param req output stream to send the fetch request information.

@@ -17,13 +17,13 @@
 */
 #pragma once
 
-#include "rpc_data_item.h"
-#include "rpc_handler.h"
+#include "zc_rpc_data_item.h"
+#include "zc_rpc_handler.h"
 
 #include <sstream>
 
 class record;
-class socket_server;
+class zc_socket_server;
 
 class fldigi_handler {
 
@@ -49,42 +49,42 @@ protected:
 	//! \param params Request.
 	//! \param response Returned response.
 	//! \return true if request fails, otherwise false.
-	static int get_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response);
+	static int get_record(void* v, zc_rpc_data_item::rpc_list& params, zc_rpc_data_item& response);
 	//! Check duplicate - replies true (exact match), possible (callsign matches), false (not a match.
 
 	//! \param v Pointer to this instance.
 	//! \param params Request.
 	//! \param response Returned response.
 	//! \return true if request fails, otherwise false.
-	static int check_dup(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response);
+	static int check_dup(void* v, zc_rpc_data_item::rpc_list& params, zc_rpc_data_item& response);
 	//! Add new record
 
 	//! \param v Pointer to this instance.
 	//! \param params Request.
 	//! \param response Returned response.
 	//! \return true if request fails, otherwise false.
-	static int add_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response);
+	static int add_record(void* v, zc_rpc_data_item::rpc_list& params, zc_rpc_data_item& response);
 	//! Update fileds in current selection
 
 	//! \param v Pointer to this instance.
 	//! \param params Request.
 	//! \param response Returned response.
 	//! \return true if request fails, otherwise false.
-	static int update_record(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response);
+	static int update_record(void* v, zc_rpc_data_item::rpc_list& params, zc_rpc_data_item& response);
 	//! List methods - std::string responds with a std::list of methods suppported
 
 	//! \param v Pointer to this instance.
 	//! \param params Request.
 	//! \param response Returned response.
 	//! \return true if request fails, otherwise false.
-	static int list_methods(void* v, rpc_data_item::rpc_list& params, rpc_data_item& response);
+	static int list_methods(void* v, zc_rpc_data_item::rpc_list& params, zc_rpc_data_item& response);
 
 	//! Generate error response
 
 	//! \param code Error code.
 	//! \param message Error message
 	//! \param response Formatted response for sending to client.
-	void generate_error(int code, std::string message, rpc_data_item& response);
+	void generate_error(int code, std::string message, zc_rpc_data_item& response);
 
 	//! Check FlDigi isconnected
 	void check_connected();
@@ -94,9 +94,9 @@ protected:
 	//! The record possibly being created.
 	record* putative_qso_;
 	//! XMK-RPC handler.
-	rpc_handler* rpc_handler_;
+	zc_rpc_handler* zc_rpc_handler_;
 	//! The std::list of methods supported by the RPC interface
-	std::list<rpc_handler::method_entry> method_list_;
+	std::list<zc_rpc_handler::method_entry> method_list_;
 
 	//! Connected
 	bool connected_;

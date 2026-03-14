@@ -25,13 +25,14 @@
 #include "qso_manager.h"
 #include "rig_data.h"
 #include "rig_if.h"
-#include "serial.h"
 #include "spec_data.h"
 
 #include <zc_callback.h>
 #include <zc_drawing.h>
 #include "zc_filename_input.h"
+#include "zc_serial.h"
 #include "zc_status.h"
+#include "zc_tabs_nonav.h"
 #include "zc_ticker.h"
 #include <zc_utils.h>
 
@@ -59,7 +60,6 @@
 #include <FL/Fl_Menu_Item.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Slider.H>
-#include "zc_tabs_nonav.h"
 #include <FL/fl_types.h>
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Widget.H>
@@ -1365,7 +1365,7 @@ void qso_rig::populate_port_choice() {
 		ch_port_name_->value(0);
 		int num_ports = 1;
 		std::string* existing_ports = new std::string[1];
-		serial serial;
+		zc_serial serial;
 		// Get the list of all ports or available (not in use) ports
 		while (!serial.available_ports(num_ports, existing_ports, use_all_ports_, num_ports)) {
 			delete[] existing_ports;

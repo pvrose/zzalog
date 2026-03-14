@@ -26,7 +26,7 @@
 #include "record.h"
 #include "regices.h"
 #include "zc_settings.h"
-#include "socket_server.h"
+#include "zc_socket_server.h"
 #include "spec_data.h"
 #include "zc_status.h"
 #include "zc_ticker.h"
@@ -403,7 +403,7 @@ void wsjtx_handler::run_server() {
 		std::string address = qso_manager_->apps()->network_address(WSJTX);
 		int udp_port = qso_manager_->apps()->network_port(WSJTX);
 		if (address.length()) {
-			server_ = new socket_server(socket_server::UDP, address, udp_port);
+			server_ = new zc_socket_server(zc_socket_server::UDP, address, udp_port);
 			server_->callback(this, rcv_request);
 		}
 		else return;

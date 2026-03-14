@@ -69,7 +69,7 @@ class stn_window;
 class tabbed_forms;
 class zc_ticker;
 class toolbar;
-class url_handler;
+class zc_url_handler;
 class wsjtx_handler;
 class wx_handler;
 class Fl_PNG_Image;
@@ -205,7 +205,7 @@ extern stn_window* stn_window_;
 extern tabbed_forms* tabbed_forms_;
 extern zc_ticker* ticker_;
 extern toolbar* toolbar_;
-extern url_handler* url_handler_;
+extern zc_url_handler* zc_url_handler_;
 extern wsjtx_handler* wsjtx_handler_;
 extern wx_handler* wx_handler_;
 

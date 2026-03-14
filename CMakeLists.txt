@@ -118,11 +118,7 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/report_tree.cpp
   ${ZZALOG_SRC_DIR}/rig_data.cpp
   ${ZZALOG_SRC_DIR}/rig_if.cpp
-  ${ZZALOG_SRC_DIR}/rpc_data_item.cpp
-  ${ZZALOG_SRC_DIR}/rpc_handler.cpp
   ${ZZALOG_SRC_DIR}/search_dialog.cpp
-  ${ZZALOG_SRC_DIR}/serial.cpp
-  ${ZZALOG_SRC_DIR}/socket_server.cpp
   ${ZZALOG_SRC_DIR}/spec_data.cpp
   ${ZZALOG_SRC_DIR}/spec_tree.cpp
   ${ZZALOG_SRC_DIR}/stn_call_dlg.cpp
@@ -132,7 +128,6 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/stn_qth_dlg.cpp
   ${ZZALOG_SRC_DIR}/tabbed_forms.cpp
   ${ZZALOG_SRC_DIR}/toolbar.cpp
-  ${ZZALOG_SRC_DIR}/url_handler.cpp
   ${ZZALOG_SRC_DIR}/user_dialog.cpp
   ${ZZALOG_SRC_DIR}/view.cpp
   ${ZZALOG_SRC_DIR}/web_dialog.cpp
@@ -231,12 +226,8 @@ set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/report_tree.h
   ${ZZALOG_INCLUDE_DIR}/rig_data.h
   ${ZZALOG_INCLUDE_DIR}/rig_if.h
-  ${ZZALOG_INCLUDE_DIR}/rpc_data_item.h
-  ${ZZALOG_INCLUDE_DIR}/rpc_handler.h
   ${ZZALOG_INCLUDE_DIR}/search_dialog.h
   ${ZZALOG_INCLUDE_DIR}/search.h
-  ${ZZALOG_INCLUDE_DIR}/serial.h
-  ${ZZALOG_INCLUDE_DIR}/socket_server.h
   ${ZZALOG_INCLUDE_DIR}/spec_data.h
   ${ZZALOG_INCLUDE_DIR}/spec_tree.h
   ${ZZALOG_INCLUDE_DIR}/stn_call_dlg.h
@@ -246,7 +237,6 @@ set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/stn_qth_dlg.h
   ${ZZALOG_INCLUDE_DIR}/tabbed_forms.h
   ${ZZALOG_INCLUDE_DIR}/toolbar.h
-  ${ZZALOG_INCLUDE_DIR}/url_handler.h
   ${ZZALOG_INCLUDE_DIR}/user_dialog.h
   ${ZZALOG_INCLUDE_DIR}/view.h
   ${ZZALOG_INCLUDE_DIR}/web_dialog.h
@@ -339,8 +329,6 @@ message(STATUS "ZZACOMMON found: ${ZZACOMMON_VERSION}")
 
 ## Subdirectories as part of ZZALOG
 add_subdirectory(contests)
-# TODO Make External Project?
-add_subdirectory(pugixml)
 
 ## Reference data
 set(DATAFILES

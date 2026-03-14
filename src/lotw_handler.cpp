@@ -24,7 +24,7 @@
 #include "qsl_dataset.h"
 #include "record.h"
 #include "zc_status.h"
-#include "url_handler.h"
+#include "zc_url_handler.h"
 
 #include "zc_app.h"
 #include "zc_utils.h"
@@ -241,7 +241,7 @@ bool lotw_handler::user_details(std::string* username, std::string* password, st
 bool lotw_handler::download_adif(const char* url, std::stringstream* adif) {
 	status_->misc_status(ST_NOTE, "LOTW: Downloading log...");
 	// Fetch the ADIF file
-	if (url_handler_->read_url(url, adif)) {
+	if (zc_url_handler_->read_url(url, adif)) {
 		status_->misc_status(ST_OK, "LOTW: Log downloaded");
 		return true;
 	}
