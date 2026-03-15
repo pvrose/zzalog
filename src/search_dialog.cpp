@@ -47,6 +47,7 @@
 
 extern std::string CONTACT;
 extern std::string COPYRIGHT;
+extern void open_html(const char* topic);
 
 // Constructor
 search_dialog::search_dialog() :

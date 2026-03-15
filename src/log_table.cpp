@@ -24,7 +24,6 @@
 #include "extract_data.h"
 #include "field_choice.h"
 #include "fields.h"
-#include "main.h"
 #include "main_window.h"
 #include "menu_bar.h"
 #include "qso_manager.h"
@@ -54,6 +53,9 @@ Fl_Font log_table::font_;
 Fl_Font log_table::alternate_font_;
 Fl_Font log_table::row_header_font_;
 Fl_Fontsize log_table::fontsize_;
+extern bool DARK;
+extern void open_html(const char* filename);
+extern bool in_current_session(record* qso);
 
 // constructor - passes parameters  to the two base classes
 log_table::log_table(int X, int Y, int W, int H, const char* label, field_app_t app) :

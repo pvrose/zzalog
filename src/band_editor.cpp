@@ -18,7 +18,6 @@
 #include "band_editor.h"
 
 #include "band_data.h"
-#include "main.h"
 
 #include "zc_app.h"
 #include "zc_status.h"

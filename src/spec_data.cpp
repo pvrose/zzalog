@@ -23,7 +23,7 @@
 #include "cty_data.h"
 #include <zc_drawing.h>
 #include "zc_file_holder.h"
-#include "main.h"
+#include "file_types.h"
 #include "record.h"
 #include "regices.h"
 #include "zc_status.h"
@@ -49,6 +49,7 @@
 #include <vector>
 
 using json = nlohmann::json;
+spec_data* spec_data_ = nullptr;
 
 // JSON Deserialisation from JSON object to spec_dataset
 static void from_json(const json& j, spec_dataset& s) {

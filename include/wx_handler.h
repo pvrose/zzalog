@@ -156,3 +156,5 @@ protected:
 	bool wx_valid_;
 
 };
+
+extern wx_handler* wx_handler_;

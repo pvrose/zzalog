@@ -17,7 +17,7 @@
 */
 #include "keyring.h"
 
-#include "main.h"
+#include "file_types.h"
 
 #include "zc_app.h"
 #include "zc_file_holder.h"
@@ -35,6 +35,7 @@ using json = nlohmann::json;
 #include <FL/fl_ask.H>
 
 extern debug_flag DEBUG_DEVELOPMENT;
+keyring* keyring_ = nullptr;
 
 //! Constructor
 keyring::keyring() {

@@ -22,7 +22,6 @@
 #include "contest_data.h"
 #include "cty_data.h"
 #include "extract_data.h"
-#include "main.h"
 #include "qso_data.h"
 #include "record.h"
 #include "zc_settings.h"
@@ -45,6 +44,8 @@
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Widget.H>
 #include <zc_drawing.h>
+
+extern void open_html(const char* topic);
 
 contest_scorer::contest_scorer(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L)

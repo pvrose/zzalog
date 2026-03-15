@@ -18,7 +18,6 @@
 #include "main_window.h"
 
 #include "import_data.h"
-#include "main.h"
 #include "menu_bar.h"
 
 #include <sstream>
@@ -27,6 +26,8 @@
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
 #include <FL/Fl_Double_Window.H>
+
+main_window* main_window_ = nullptr;
 
 // Create the window
 main_window::main_window(int W, int H, const char* label) :

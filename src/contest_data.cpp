@@ -18,7 +18,7 @@
 #include "contest_data.h"
 
 #include "zc_file_holder.h"
-#include "main.h"
+#include "file_types.h"
 #include "zc_status.h"
 
 #include "zc_utils.h"
@@ -33,6 +33,8 @@
 #include <string>
 
 #include <nlohmann/json.hpp>
+
+contest_data* contest_data_ = nullptr;
 
 //! Conversion of ct_data_ to JSON
 void to_json(json& j, const ct_data_t& s) {

@@ -25,7 +25,6 @@
 #include <fields.h>
 #include "import_data.h"
 #include "log_table.h"
-#include "main.h"
 #include "objects.h"
 #include "qso_manager.h"
 #include "report_tree.h"
@@ -40,6 +39,10 @@
 #include <FL/Fl_Group.H>
 #include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
+
+tabbed_forms* tabbed_forms_ = nullptr;
+extern void open_html(const char* filename);
+extern bool closing_;
 
 // Constructor
 tabbed_forms::tabbed_forms(int X, int Y, int W, int H, const char* label) :
@@ -166,7 +169,7 @@ void tabbed_forms::activate_pane(object_t pane, bool active) {
 			navigation_book_ = book_;
 			break;
 		case OT_EXTRACT:
-			navigation_book_ = extract_records_;
+			navigation_book_ = extract_data_;
 			break;
 		case OT_IMPORT:
 			navigation_book_ = import_data_;
@@ -205,7 +208,7 @@ void tabbed_forms::books() {
 			v->set_book(book_);
 			break;
 		case OT_EXTRACT:
-			v->set_book(extract_records_);
+			v->set_book(extract_data_);
 			break;
 		case OT_IMPORT:
 			v->set_book(import_data_);
@@ -235,7 +238,7 @@ void tabbed_forms::cb_tab_change(Fl_Widget* w, void* v) {
 			navigation_book_ = book_;
 			break;
 		case OT_EXTRACT:
-			navigation_book_ = extract_records_;
+			navigation_book_ = extract_data_;
 			break;
 		case OT_IMPORT:
 			navigation_book_ = import_data_;

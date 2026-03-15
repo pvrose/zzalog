@@ -21,7 +21,6 @@
 #include "keyring.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "main.h"   
 #include "stn_data.h"
 #include "zc_url_handler.h"
 
@@ -52,6 +51,8 @@ const double SHORT_DELAY = 3. * 60. * 10.;
 
 extern debug_flag DEBUG_THREADS;
 extern debug_flag DEBUG_QUICK;
+
+wx_handler* wx_handler_ = nullptr;
 
 std::string wx_handler::wind_cardinal(int dirn) {
     int temp = dirn * 32 / 360;
@@ -187,7 +188,7 @@ bool wx_handler::update() {
 			key_.c_str()
 		);
 		std::stringstream ss_city;
-		if (zc_url_handler_->read_url(std::string(url), &ss_city)) {
+		if (url_handler_->read_url(std::string(url), &ss_city)) {
 			ss_city.seekg(std::ios::beg);
 			try {
 				json j;
@@ -223,7 +224,7 @@ bool wx_handler::update() {
         location.longitude,
         key_.c_str());
 	std::stringstream ss;
-    if (zc_url_handler_->read_url(std::string(url), &ss)) {
+    if (url_handler_->read_url(std::string(url), &ss)) {
         ss.seekg(std::ios::beg);
         try {
             json j;
@@ -364,7 +365,7 @@ Fl_Image* wx_handler::fetch_icon(std::string name) {
     char url[1024];
     snprintf(url, sizeof(url), "https://openweathermap.org/img/wn/%s.png", name.c_str());
     std::stringstream ss;
-    if (zc_url_handler_->read_url(std::string(url), &ss)) {
+    if (url_handler_->read_url(std::string(url), &ss)) {
         ss.seekg(std::ios::beg);
         Fl_PNG_Image* result = new Fl_PNG_Image(nullptr, (unsigned char*)ss.str().c_str(), ss.str().length());
         return result;
@@ -390,7 +391,7 @@ zc::lat_long_t wx_handler::get_city_location(const record* qso) const {
 		key_.c_str()
 	);
 	std::stringstream ss_city;
-	if (zc_url_handler_->read_url(std::string(url), &ss_city)) {
+	if (url_handler_->read_url(std::string(url), &ss_city)) {
 		ss_city.seekg(std::ios::beg);
 		try {
 			json j;

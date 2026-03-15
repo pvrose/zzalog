@@ -17,7 +17,7 @@
 */
 #include "intl_dialog.h"
 
-#include "main.h"
+#include "file_types.h"
 #include "menu_bar.h"
 #include "win_dialog.h"
 
@@ -43,10 +43,12 @@
 std::string DEFAULT_INTL = "";
 extern std::string CONTACT;
 extern std::string COPYRIGHT;
+intl_dialog* intl_dialog_ = nullptr;
+extern void open_html(const char* topic);
 
 // Constructs a window 
 intl_dialog::intl_dialog() :
-	win_dialog(640, 480, "International character std::set")
+	win_dialog(640, 480, "International character set")
 {
 	editor_ = nullptr;
 	// Load the data

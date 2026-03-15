@@ -19,9 +19,10 @@
 
 #include "book.h"
 #include "cty_data.h"
+#include "debug_flags.h"
+#include "file_types.h"
 #include "tabbed_forms.h"
 #include "zc_file_holder.h"
-#include "main.h"
 
 #include "zc_app.h"
 #include "zc_drawing.h"
@@ -41,6 +42,7 @@
 #include <FL/Fl_Widget.H>
 
 extern debug_flag DEBUG_DEVELOPMENT;
+extern void open_html(const char* filename);
 
 // Check age button clicked
 std::map< cty_data::cty_type_t, std::chrono::hours > OLD_AGE = {

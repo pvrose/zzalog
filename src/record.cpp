@@ -20,7 +20,6 @@
 
 #include "book.h"
 #include "cty_data.h"
-#include "main.h"
 #include "spec_data.h"
 #include "wx_handler.h"
 

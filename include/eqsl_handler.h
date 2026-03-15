@@ -254,4 +254,6 @@ typedef size_t qso_num_t;
 
 	};
 
+	extern eqsl_handler* eqsl_handler_;
+
 #endif

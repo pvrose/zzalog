@@ -20,7 +20,6 @@
 #include "adi_writer.h"
 #include "book.h"
 #include "fields.h"
-#include "main.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "qso_qsl.h"
@@ -60,6 +59,7 @@
 #include <FL/Fl_Window.H>
 
 extern debug_flag DEBUG_THREADS;
+eqsl_handler* eqsl_handler_ = nullptr;
 
 // Constructor
 eqsl_handler::eqsl_handler()
@@ -404,7 +404,7 @@ eqsl_handler::response_t eqsl_handler::card_filename_r(
 	// Stream to receive the data
 	std::stringstream eqsl_ss;
 	// Download page
-	if (zc_url_handler_->read_url(url, &eqsl_ss)) {
+	if (url_handler_->read_url(url, &eqsl_ss)) {
 		// Page fetched OK.
 		// Signatures to look for
 		std::string error_signature = "Error:";
@@ -494,7 +494,7 @@ eqsl_handler::response_t eqsl_handler::download(
 	status_->misc_status(ST_NOTE, message);
 	// Create an output stream to the local filename and fetch the file (handled directly by zc_url_handler)
 	std::ofstream* os = new std::ofstream(local_filename, std::ios_base::out | std::ios_base::binary);
-	if (zc_url_handler_->read_url(url, os)) {
+	if (url_handler_->read_url(url, os)) {
 		os->close();
 		status_->misc_status(ST_OK, "EQSL: Download successful");
 		return ER_OK;
@@ -606,7 +606,7 @@ eqsl_handler::response_t eqsl_handler::adif_filename(std::string& filename) {
 	snprintf(message, sizeof(message), "EQSL: Queryimg in-box for %s", station.c_str());
 	status_->misc_status(ST_NOTE, message);
 	// Fetch first page to get URL of ADIF file with update
-	if (zc_url_handler_->read_url(url, &eqsl_ss)) {
+	if (url_handler_->read_url(url, &eqsl_ss)) {
 		std::string text_line;
 		bool ack_seen = false;
 		bool nak_seen = false;
@@ -701,7 +701,7 @@ eqsl_handler::response_t eqsl_handler::download_adif(std::string& filename, std:
 	status_->misc_status(ST_NOTE, message);
 	// Fetch the ADIF file 
 	std::string url = "http://www.eqsl.cc/qslcard/" + filename;
-	if (zc_url_handler_->read_url(url, adif)) {
+	if (url_handler_->read_url(url, adif)) {
 		// Successful
 		strcpy(message, "EQSL: log download done!");
 		status_->misc_status(ST_OK, message);
@@ -797,7 +797,7 @@ bool eqsl_handler::upload_eqsl_log(book* book) {
 	form_fields(f_fields);
 	std::stringstream response;
 	// Post the form to eQSL.cc with the stream data attached. WE'll get a response to indicate success or not
-	if (zc_url_handler_->post_form("https://www.eqsl.cc/qslcard/ImportADIF.cfm", f_fields, &ss, &response)) {
+	if (url_handler_->post_form("https://www.eqsl.cc/qslcard/ImportADIF.cfm", f_fields, &ss, &response)) {
 		// Successfully uploaded
 		std::string warning_text = "";
 		std::string text_line;
@@ -1093,7 +1093,7 @@ bool eqsl_handler::th_upload_qso(record* this_record) {
 	std::string full_url = url + zc::escape_url(std::string(header_data) + std::string(qsl_data));
 	std::stringstream resp;
 	// Send URL with QSO details and download response
-	if (zc_url_handler_->read_url(full_url, (std::ostream*)&resp)) {
+	if (url_handler_->read_url(full_url, (std::ostream*)&resp)) {
 		// Successfully downloaded
 		printf("THREAD: eQSL responded with response - started parsing\n");
 		std::string warning_text = "";

@@ -25,7 +25,6 @@
 #include "extract_data.h"
 #include "import_data.h"
 #include "lotw_handler.h"
-#include "main.h"
 #include "menu_bar.h"
 #include "png_writer.h"
 #include "printer.h"
@@ -55,6 +54,8 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* file);
 
 // Constructor
 qso_qsl::qso_qsl(int X, int Y, int W, int H, const char* L) :
@@ -361,14 +362,14 @@ void qso_qsl::enable_widgets() {
 		bn_extr_email_->deactivate();
 	}
 	// Cancel button
-	if (!extract_in_progress_ && extract_records_->size()) {
+	if (!extract_in_progress_ && extract_data_->size()) {
 		bn_cancel_->activate();
 	}
 	else {
 		bn_cancel_->deactivate();
 	}
 	// Disable extract and upload buttons if auto-upload enabled
-	if (!extract_in_progress_ && extract_records_->use_mode() == extract_data::EQSL) {
+	if (!extract_in_progress_ && extract_data_->use_mode() == extract_data::EQSL) {
 		bn_upld_eqsl_->activate();
 	}
 	else if (single_qso_) {
@@ -377,7 +378,7 @@ void qso_qsl::enable_widgets() {
 	else {
 		bn_upld_eqsl_->deactivate();
 	}
-	if (!extract_in_progress_ && extract_records_->use_mode() == extract_data::LOTW) {
+	if (!extract_in_progress_ && extract_data_->use_mode() == extract_data::LOTW) {
 		bn_upld_lotw_->activate();
 	}
 	else if (single_qso_) {
@@ -386,7 +387,7 @@ void qso_qsl::enable_widgets() {
 	else {
 		bn_upld_lotw_->deactivate();
 	}
-	if (!extract_in_progress_ && extract_records_->use_mode() == extract_data::CLUBLOG) {
+	if (!extract_in_progress_ && extract_data_->use_mode() == extract_data::CLUBLOG) {
 		bn_upld_club_->activate();
 	}
 	else if (single_qso_) {
@@ -396,7 +397,7 @@ void qso_qsl::enable_widgets() {
 		bn_upld_club_->deactivate();
 	}
 	//
-	if (!extract_in_progress_ && extract_records_->use_mode() == extract_data::QRZCOM) {
+	if (!extract_in_progress_ && extract_data_->use_mode() == extract_data::QRZCOM) {
 		bn_upld_qrz_->activate();
 	}
 	else if (single_qso_) {
@@ -404,14 +405,14 @@ void qso_qsl::enable_widgets() {
 	} else {
 		bn_upld_qrz_->deactivate();
 	}
-	if (!extract_in_progress_ && extract_records_->use_mode() == extract_data::QRZCOM) {
+	if (!extract_in_progress_ && extract_data_->use_mode() == extract_data::QRZCOM) {
 		bn_save_qrz_->activate();
 		bn_qrz_done_->activate();
 	} else {
 		bn_save_qrz_->deactivate();
 		bn_qrz_done_->deactivate();
 	}
-	if (!extract_in_progress_ && extract_records_->use_mode() == extract_data::CARD && !single_qso_) {
+	if (!extract_in_progress_ && extract_data_->use_mode() == extract_data::CARD && !single_qso_) {
 		bn_print_->activate();
 		bn_card_done_->activate();
 	}
@@ -419,7 +420,7 @@ void qso_qsl::enable_widgets() {
 		bn_print_->deactivate();
 		bn_card_done_->deactivate();
 	}
-	if (!extract_in_progress_ && extract_records_->use_mode() == extract_data::EMAIL) {
+	if (!extract_in_progress_ && extract_data_->use_mode() == extract_data::EMAIL) {
 		bn_png_->activate();
 		bn_send_email_->activate();
 		bn_email_done_->activate();
@@ -549,9 +550,9 @@ void qso_qsl::qsl_extract(extract_data::extract_mode_t server) {
 		// Set flag to indicate this is being done - used to disable further attempts
 		extract_in_progress_ = true;
 		enable_widgets();
-		extract_records_->extract_qsl(server);
+		extract_data_->extract_qsl(server);
 		extract_in_progress_ = false;
-		if (extract_records_->size()) {
+		if (extract_data_->size()) {
 			// If there are records to upload then display them
 			tabbed_forms_->activate_pane(OT_EXTRACT, true);
 			navigation_book_->selection(0);
@@ -570,7 +571,7 @@ void qso_qsl::qsl_extract(extract_data::extract_mode_t server) {
 void qso_qsl::qsl_upload() {
 	qso_manager* mgr = zc::ancestor_view<qso_manager>(this);
 	if (mgr->data()->inactive()) {
-		extract_records_->upload();
+		extract_data_->upload();
 		tabbed_forms_->activate_pane(OT_MAIN, true);
 		enable_widgets();
 	} else {
@@ -623,14 +624,14 @@ void qso_qsl::qsl_print() {
 
 // Mark printing done
 void qso_qsl::qsl_mark_done() {
-	if (extract_records_->size() || single_qso_) {
+	if (extract_data_->size() || single_qso_) {
 		char message[200];
 		std::string date_name;
 		std::string sent_name;
 		std::string via_name;
 		std::string today = zc::now(false, "%Y%m%d");
 		bool overwrite = false;
-		extract_data::extract_mode_t mode = extract_records_->use_mode();
+		extract_data::extract_mode_t mode = extract_data_->use_mode();
 		if (single_qso_) {
 			if  (via_code_ == "B") mode = extract_data::extract_mode_t::CARD;
 			else if (via_code_ == "E") mode = extract_data::extract_mode_t::EMAIL;
@@ -664,7 +665,7 @@ void qso_qsl::qsl_mark_done() {
 				qso->item(via_name, via_code_);
 			}
 		}
-		else for (auto it = extract_records_->begin(); it != extract_records_->end(); it++) {
+		else for (auto it = extract_data_->begin(); it != extract_data_->end(); it++) {
 			if (overwrite || (*it)->item(sent_name) == "") {
 				(*it)->item(date_name, today);
 				(*it)->item(sent_name, std::string("Y"));
@@ -680,7 +681,7 @@ void qso_qsl::qsl_mark_done() {
 
 // Cancel uploads
 void qso_qsl::qsl_cancel() {
-	extract_records_->clear_criteria();
+	extract_data_->clear_criteria();
 	enable_widgets();
 }
 
@@ -688,7 +689,7 @@ void qso_qsl::qsl_cancel() {
 void qso_qsl::qsl_generate_png() {
 	status_->misc_status(ST_LOG, "QSL: Starting to generate PNG files");
 	png_writer* png = new png_writer();
-	if (png->write_book(extract_records_)) {
+	if (png->write_book(extract_data_)) {
 		status_->misc_status(ST_OK, "QSL: PNG file generation done!");
 	}
 	else {
@@ -715,7 +716,7 @@ void qso_qsl::qsl_1_generate_png() {
 
 // Send e--mails
 void qso_qsl::qsl_send_email() {
-	for (auto it = extract_records_->begin(); it != extract_records_->end(); it++) {
+	for (auto it = extract_data_->begin(); it != extract_data_->end(); it++) {
 		qsl_1_send_email(*it);
 	}
 }

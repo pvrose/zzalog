@@ -49,6 +49,7 @@
 
 extern std::string APP_NAME;
 extern std::string APP_VERSION;
+wsjtx_handler* wsjtx_handler_ = nullptr;
 
 // Constructor: 
 wsjtx_handler::wsjtx_handler()

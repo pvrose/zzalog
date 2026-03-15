@@ -17,7 +17,6 @@
 */
 #include "qsl_emailer.h"
 
-#include "main.h"
 #include "png_writer.h"
 #include "qsl_dataset.h"
 #include "record.h"
@@ -102,7 +101,7 @@ bool qsl_emailer::generate_email(record* qso) {
 
 // Send the e-mail
 bool qsl_emailer::send_email() {
-	if (zc_url_handler_->send_email(
+	if (url_handler_->send_email(
 		email_url_,         // e-mail server
 		email_user_,        // e-mailuser
 		email_password_,    // password

@@ -140,5 +140,8 @@ class book;
 		record* last_record_loaded_;
 
 	};
+
+	extern import_data* import_data_;
+
 #endif
 

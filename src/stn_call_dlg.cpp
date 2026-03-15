@@ -18,7 +18,6 @@
 #include "stn_call_dlg.h"
 
 #include "cty_data.h"
-#include "main.h"
 #include "qso_manager.h"
 #include "stn_data.h"
 

@@ -21,7 +21,6 @@
 #include "field_choice.h"
 #include "fields.h"
 #include "intl_widgets.h"
-#include "main.h"
 
 #include <page_dialog.h>
 
@@ -44,6 +43,8 @@
 #include <FL/Fl_Table.H>
 #include <FL/Fl_Table_Row.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* topic);
 
 // Constructor
 fields_table::fields_table(int X, int Y, int W, int H, const char* L) :

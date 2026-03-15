@@ -18,7 +18,6 @@
 #include "qso_log_info.h"
 
 #include "book.h"
-#include "main.h"
 #include "zc_ticker.h"
 
 #include "zc_drawing.h"
@@ -33,6 +32,9 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Widget.H>
+
+extern bool AUTO_SAVE;
+extern void open_html(const char* filename);
 
 // Constructor
 qso_log_info::qso_log_info(int X, int Y, int W, int H, const char* l) :

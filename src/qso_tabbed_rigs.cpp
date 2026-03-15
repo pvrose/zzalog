@@ -17,7 +17,6 @@
 */
 #include "qso_tabbed_rigs.h"
 
-#include "main.h"
 #include "qso_rig.h"
 #include "qso_manager.h"
 #include "rig_data.h"

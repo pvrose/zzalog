@@ -17,7 +17,6 @@
 */
 #include "qsl_display.h"
 
-#include "main.h"
 #include <qsl_data.h>
 #include "qsl_dataset.h"
 #include "record.h"

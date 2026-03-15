@@ -19,7 +19,7 @@
 
 #include "config.h"
 #include "zc_file_holder.h"
-#include "main.h"
+#include "file_types.h"
 #include "record.h"
 #include "zc_status.h"
 #include "stn_dialog.h"
@@ -38,6 +38,7 @@
 #include <FL/Fl.H>
 
 using json = nlohmann::json;
+stn_data* stn_data_ = nullptr;
 
 //! Convert qth_info_t to JSON object
 void to_json(json& j, const qth_info_t& s) {

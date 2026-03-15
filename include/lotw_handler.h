@@ -110,4 +110,7 @@ typedef size_t qso_num_t;
 		field_list adif_fields_;
 
 	};
+
+	extern lotw_handler* lotw_handler_;
+
 #endif // !__LOTW_HANDLER__

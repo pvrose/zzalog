@@ -46,6 +46,7 @@ extern debug_flag DEBUG_THREADS;
 extern std::string APP_NAME;
 extern std::string APP_VERSION;
 extern std::string APP_TIMESTAMP;
+qrz_handler* qrz_handler_ = nullptr;
 
 // Constructor
 qrz_handler::qrz_handler() :
@@ -64,8 +65,8 @@ qrz_handler::qrz_handler() :
 	if (!user_details()) {
 		status_->misc_status(ST_WARNING, "QRZ: login details have not been established yet. Do so before first use");
 	}
-	if (!zc_url_handler_) {
-		zc_url_handler_ = new zc_url_handler();
+	if (!url_handler_) {
+		url_handler_ = new zc_url_handler();
 	}
 }
 
@@ -92,7 +93,7 @@ bool qrz_handler::open_session() {
 		std::string uri = generate_session_uri();
 		std::stringstream response;
 		// Send Session requesst to QRZ
-		if (!zc_url_handler_->read_url(uri, &response)) {
+		if (!url_handler_->read_url(uri, &response)) {
 			int length = uri.length() + 50;
 			char* message = new char[length];
 			snprintf(message, length, "QRZ: Failed to access %s", uri.c_str());
@@ -139,7 +140,7 @@ bool qrz_handler::fetch_details(record* qso) {
 	std::string uri = generate_details_uri(qso->item("CALL"));
 	std::stringstream response;
 	// Send Session requesst to QRZ
-	if (!zc_url_handler_->read_url(uri, &response)) {
+	if (!url_handler_->read_url(uri, &response)) {
 		int length = uri.length() + 50;
 		char* message = new char[length];
 		snprintf(message, length, "QRZ: Failed to access %s", uri.c_str());
@@ -417,7 +418,7 @@ bool qrz_handler::download_qrzlog_log(std::stringstream* adif) {
 	std::stringstream request;
 	std::stringstream response;
 	fetch_request(api_data_->at(callsign), request);
-	zc_url_handler_->post_url("https://logbook.qrz.com/api", "", &request, &response);
+	url_handler_->post_url("https://logbook.qrz.com/api", "", &request, &response);
 	response.seekg(0, std::ios::beg);
 	if (!fetch_response(api_data_->at(callsign), response, count, sadif)) {
 		status_->misc_status(ST_WARNING, "QRZ: Fetch data over API has failed");
@@ -648,7 +649,7 @@ void qrz_handler::th_upload_qso(record* qso) {
 	qsl_call_data* call_data = api_data_->at(callsign);
 	std::string fail_message;
 	insert_request(call_data, request, qso);
-	zc_url_handler_->post_url("https://logbook.qrz.com/api", "", &request, &response);
+	url_handler_->post_url("https://logbook.qrz.com/api", "", &request, &response);
 	response.seekg(0, std::ios::beg);
 	upload_resp_t* resp = new upload_resp_t;
 	resp->success = insert_response(call_data, response, resp->message, resp->logid);

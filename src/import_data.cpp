@@ -24,7 +24,6 @@
 #include <zc_drawing.h>
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
-#include "main.h"
 #include "qrz_handler.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -47,6 +46,8 @@
 
 #include <FL/Fl.H>
 #include <FL/fl_types.h>
+
+import_data* import_data_ = nullptr;
 
 // Constructor - this book is used to contain data being imported. It adds functionality to support this
 import_data::import_data() :

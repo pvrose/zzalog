@@ -243,3 +243,5 @@ struct search_criteria_t;
 		bool active_enabled_;
 
 	};
+
+	extern menu_bar* menu_bar_;

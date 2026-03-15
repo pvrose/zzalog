@@ -105,4 +105,6 @@ protected:
 
 };
 
+extern fldigi_handler* fldigi_handler_;
+
 // #endif

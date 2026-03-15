@@ -19,7 +19,6 @@
 
 #include "book.h"
 #include "zc_drawing.h"
-#include <main.h>
 #include "qso_data.h"
 #include "record.h"
 #include "record_table.h"
@@ -32,6 +31,8 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Table.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* filename);
 
 // Constrctor
 qso_query::qso_query(int X, int Y, int W, int H, const char* L) :

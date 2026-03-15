@@ -17,17 +17,18 @@
 */
 #include "condx_view.h"
 
-#include "zc_file_holder.h"
-#include "main.h"
+#include "file_types.h"
 #include "qso_manager.h"
 #include "qso_wx.h"
+
+#include "pugixml.hpp"
+
+#include "zc_drawing.h"
+#include "zc_file_holder.h"
 #include "zc_settings.h"
 #include "zc_status.h"
 #include "zc_ticker.h"
 #include "zc_url_handler.h"
-
-#include "zc_drawing.h"
-#include "pugixml.hpp"
 #include "zc_utils.h"
 
 #include <algorithm>
@@ -52,7 +53,10 @@ Fl_Color COLOUR_BAD = FL_RED;         //!< Use for bad stuff
 Fl_Color COLOUR_FAIR = FL_FOREGROUND_COLOR;
 //!< Use for fair stuff
 Fl_Color COLOUR_GOOD = FL_DARK_GREEN;      //!< Use for good stuff
-Fl_Color COLOYR_NOTE = FL_BLUE;       //!< Use for extra annotation
+Fl_Color COLOUR_NOTE = FL_BLUE;       //!< Use for extra annotation
+
+extern bool DARK;
+extern void open_html(const char* filename);
 
 //! Constructor
 
@@ -418,7 +422,7 @@ void condx_view::enable_widgets() {
 //! Fetch new data (greater than 1 hour old)
 bool condx_view::fetch_data(std::stringstream& ss) {
 	// Fetch the solar data
-	if (!zc_url_handler_->read_url("https://www.hamqsl.com/solarxml.php", &ss)) {
+	if (!url_handler_->read_url("https://www.hamqsl.com/solarxml.php", &ss)) {
 		status_->misc_status(ST_ERROR, "SOLAR: Unable to download data");
 		return false;
 	}
@@ -432,7 +436,7 @@ bool condx_view::load_image() {
 	if (solar_image_) delete solar_image_;
 	// Fetch the image
 	std::stringstream ss;
-	if (!zc_url_handler_->read_url("https://www.hamqsl.com/mdi.gif", &ss)) {
+	if (!url_handler_->read_url("https://www.hamqsl.com/mdi.gif", &ss)) {
 		status_->misc_status(ST_WARNING, "SOLAR: Unable to download solar image");
 		solar_image_ = nullptr;
 		return false;

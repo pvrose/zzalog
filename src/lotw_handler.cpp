@@ -20,7 +20,6 @@
 #include "book.h"
 #include "extract_data.h"
 #include "fields.h"
-#include "main.h"
 #include "qsl_dataset.h"
 #include "record.h"
 #include "zc_status.h"
@@ -46,6 +45,7 @@
 #include <FL/Fl_Text_Display.H>
 
 extern debug_flag DEBUG_THREADS;
+lotw_handler* lotw_handler_ = nullptr;
 
 // Constructor
 lotw_handler::lotw_handler()
@@ -241,7 +241,7 @@ bool lotw_handler::user_details(std::string* username, std::string* password, st
 bool lotw_handler::download_adif(const char* url, std::stringstream* adif) {
 	status_->misc_status(ST_NOTE, "LOTW: Downloading log...");
 	// Fetch the ADIF file
-	if (zc_url_handler_->read_url(url, adif)) {
+	if (url_handler_->read_url(url, adif)) {
 		status_->misc_status(ST_OK, "LOTW: Log downloaded");
 		return true;
 	}

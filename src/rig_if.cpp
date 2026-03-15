@@ -17,8 +17,6 @@
 */
 #include "rig_if.h"
 
-#include "main.h"
-
 #include "zc_app.h"
 #include "zc_status.h"
 #include "zc_utils.h"

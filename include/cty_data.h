@@ -303,3 +303,5 @@ protected:
 void to_json(json& j, const cty_data::all_data& d);
 //! JSON Serialisation to cty_data::all_data
 void from_json(const json& j, cty_data::all_data& d);
+
+extern cty_data* cty_data_;

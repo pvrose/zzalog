@@ -19,7 +19,6 @@
 
 #include "condx_view.h"
 #include <zc_drawing.h>
-#include "main.h"
 #include "qso_clock.h"
 #include "qso_wx.h"
 #include "zc_settings.h"
@@ -32,6 +31,8 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* filename);
 
 // Constructor
 qso_clocks::qso_clocks(int X, int Y, int W, int H, const char* L) :

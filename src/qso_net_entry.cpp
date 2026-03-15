@@ -19,7 +19,6 @@
 
 #include "book.h"
 #include <zc_drawing.h>
-#include "main.h"
 #include "qso_entry.h"
 #include "record.h"
 #include "zc_status.h"

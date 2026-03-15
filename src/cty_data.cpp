@@ -24,7 +24,7 @@
 #include "cty2_reader.h"
 #include "cty3_reader.h"
 #include "cty4_reader.h"
-#include "main.h"
+#include "file_types.h"
 #include "objects.h"
 #include "record.h"
 #include "spec_data.h"
@@ -66,6 +66,7 @@
 
 using json = nlohmann::json;
 extern debug_flag DEBUG_PARSE;
+cty_data* cty_data_ = nullptr;
 
 std::map < cty_data::cty_type_t, std::string> TYPE_MAP = {
 	{ cty_data::ADIF, "ADIF" },
@@ -1009,7 +1010,7 @@ std::string cty_data::version(cty_type_t type) {
 int cty_data::get_cfile_url(std::string& url) {
 	status_->misc_status(ST_NOTE, "CTY DATA: Accessing www.country-files.com");
 	std::stringstream ss;
-	zc_url_handler_->read_url("www.country-files.com", &ss);
+	url_handler_->read_url("www.country-files.com", &ss);
 	bool version_read = false;
 	bool url_read = false;
 	bool bigcty_read = false;
@@ -1067,7 +1068,7 @@ bool cty_data::download_cfile_zip(const std::string& url, std::string& local_fil
 	local_filename = local_directory + zc::terminal(url);
 	std::ofstream os(local_filename, std::ios::trunc | std::ios::out | std::ios::binary);
 	char msg[128];
-	if (zc_url_handler_->read_url(url, &os)) {
+	if (url_handler_->read_url(url, &os)) {
 		os.close();
 		snprintf(msg, sizeof(msg), "CTY DATA: Downloaded %s (big-cty) OK", url.c_str());
 		status_->misc_status(ST_OK, msg);

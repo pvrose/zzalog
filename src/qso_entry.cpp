@@ -24,7 +24,6 @@
 #include "field_choice.h"
 #include "fields.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "qso_net_entry.h"
@@ -49,6 +48,8 @@
 #include <FL/Fl_Input_.H>
 #include <FL/Fl_Widget.H>
 
+extern void open_html(const char* topic);
+extern double prev_freq_;
 int qso_entry::focus_ix_ = 0;
 
 // N rows of NUMBER_PER_ROW

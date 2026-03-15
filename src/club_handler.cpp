@@ -21,7 +21,6 @@
 #include "adi_writer.h"
 #include "fields.h"
 #include "keyring.h"
-#include "main.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -30,6 +29,7 @@
 #include "zc_app.h"
 #include "zc_file_holder.h"
 #include "zc_status.h"
+#include "zc_url_handler.h"
 #include <zc_utils.h>
 
 #include <chrono>
@@ -50,11 +50,12 @@
 #include <FL/fl_draw.H>
 
 extern debug_flag DEBUG_THREADS;
+club_handler* club_handler_ = nullptr;
 
 // Constructor 
 club_handler::club_handler() {
 	// Create the URL handler if it hasn't already been done
-	if (!zc_url_handler_) zc_url_handler_ = new zc_url_handler;
+	if (!url_handler_) url_handler_ = new zc_url_handler;
 	// Initialise thread interface
 	run_threads_ = true;
 	upload_response_ = 0;
@@ -90,7 +91,7 @@ bool club_handler::upload_log(book* book) {
 		std::stringstream resp;
 		// Post the form
 		bool ok;
-		if (!zc_url_handler_->post_form("https://clublog.org/putlogs.php", fields, &ss, &resp)) {
+		if (!url_handler_->post_form("https://clublog.org/putlogs.php", fields, &ss, &resp)) {
 			// Display error message received from post
 			char* message = new char[resp.str().length() + 30];
 			sprintf(message, "CLUBLOG: Upload failed - %s", resp.str().c_str());
@@ -152,7 +153,7 @@ bool club_handler::download_exception(std::string filename) {
 	std::string zip_filename = filename + ".gz";
 	std::ofstream os(zip_filename, std::ios::trunc | std::ios::out | std::ios::binary);
 	std::string url = "https://cdn.clublog.org/cty.php?api=" + key_;
-	if (zc_url_handler_->read_url(url, &os)) {
+	if (url_handler_->read_url(url, &os)) {
 		os.close();
 		status_->misc_status(ST_OK, "CLUBLOG: Downloaded OK");
 		return unzip_exception(zip_filename);
@@ -253,7 +254,7 @@ void club_handler::th_upload(record* this_record) {
 	std::stringstream resp;
 	// Post the form
 	bool ok;
-	if (!zc_url_handler_->post_form("https://clublog.org/realtime.php", fields, nullptr, (std::ostream*)&resp)) {
+	if (!url_handler_->post_form("https://clublog.org/realtime.php", fields, nullptr, (std::ostream*)&resp)) {
 		ok = false;
 		upload_error_ = resp.str();
 	}
@@ -357,7 +358,7 @@ bool club_handler::download_oqrs(std::stringstream* adif) {
 	status_->misc_status(ST_NOTE, "CLUBLOG: Downloading OQRS");
 	std::stringstream request;
 	generate_oqrs(request);
-	if (!zc_url_handler_->post_url("https://clublog.org/getadif.php", "", &request, adif)) {
+	if (!url_handler_->post_url("https://clublog.org/getadif.php", "", &request, adif)) {
 		status_->misc_status(ST_ERROR, "CLUBLOG: Download OQRS failed");
 		return false;
 	}

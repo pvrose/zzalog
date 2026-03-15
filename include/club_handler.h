@@ -154,4 +154,6 @@ typedef size_t qso_num_t;
 		field_list adif_fields_;
 	};
 
+	extern club_handler* club_handler_;
+
 #endif

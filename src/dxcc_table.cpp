@@ -19,7 +19,6 @@
 
 #include <band.h>
 #include "book.h"
-#include "main.h"
 #include "record.h"
 #include "spec_data.h"
 

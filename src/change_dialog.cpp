@@ -19,7 +19,6 @@
 #include "zc_callback.h"
 #include "field_choice.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include "spec_data.h"
 #include <zc_drawing.h>
 #include <zc_utils.h>
@@ -35,6 +34,8 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Radio_Round_Button.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* topic);
 
 // Constructor - calls the dialog constructor with placeholders for size
 change_dialog::change_dialog(const char* label) :

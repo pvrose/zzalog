@@ -140,3 +140,5 @@ protected:
 	std::set<std::string> modes_;
 
 };
+
+extern band_data* band_data_;

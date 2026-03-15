@@ -16,7 +16,6 @@
 
 */
 #include "field_choice.h"
-#include "main.h"
 #include "spec_data.h"
 #include "intl_dialog.h"
 #include "zc_utils.h"

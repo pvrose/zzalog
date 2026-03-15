@@ -19,7 +19,6 @@
 
 #include "qso_clocks.h"
 
-#include "main.h"
 #include "zc_settings.h"
 #include "wx_handler.h"
 
@@ -42,6 +41,8 @@
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Image_Surface.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* filename);
 
 // Weather group - constructor
 qso_wx::qso_wx

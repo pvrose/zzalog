@@ -27,9 +27,11 @@
 #include "config.h"
 #include "contest_data.h"
 #include "cty_data.h"
+#include "debug_flags.h"
 #include "eqsl_handler.h"
 #include "extract_data.h"
 #include "fields.h"
+#include "file_types.h"
 #include "fldigi_handler.h"
 #include "import_data.h"
 #include "intl_dialog.h"
@@ -126,6 +128,11 @@ debug_flag DEBUG_STATUS = DEBUG_NEXT << 4;
 //! Set hamlib debugging verbosity level -  by "-d h=<level>"
 rig_debug_level_e HAMLIB_DEBUG_LEVEL = RIG_DEBUG_ERR;
 
+//! main window width
+unsigned int WIDTH = 1000;
+//! main window height
+unsigned int HEIGHT = 650;
+
 // Operation switches - _S versions used to override sticky switch
 //! Automatically upload QSOs to QSL sites -  by "-n"
 bool AUTO_UPLOAD = true;
@@ -192,38 +199,6 @@ const std::map < uint8_t, file_control_t > FILE_CONTROL = {
 extern int FL_NORMAL_SIZE;
 
 //! \cond
-// Top level data items - these are declared as externals in each .cpp that uses them
-band_data* band_data_ = nullptr;
-band_window* band_window_ = nullptr;
-book* book_ = nullptr;
-book* navigation_book_ = nullptr;
-club_handler* club_handler_ = nullptr;
-config* config_ = nullptr;
-contest_data* contest_data_ = nullptr;
-cty_data* cty_data_ = nullptr;
-eqsl_handler* eqsl_handler_ = nullptr;
-extract_data* extract_records_ = nullptr;
-fields* fields_ = nullptr;
-fldigi_handler* fldigi_handler_ = nullptr;
-import_data* import_data_ = nullptr;
-intl_dialog* intl_dialog_ = nullptr;
-keyring* keyring_ = nullptr;
-lotw_handler* lotw_handler_ = nullptr;
-main_window* main_window_ = nullptr;
-menu_bar* menu_bar_ = nullptr;
-qrz_handler* qrz_handler_ = nullptr;
-qsl_dataset* qsl_dataset_ = nullptr;
-qso_manager* qso_manager_ = nullptr;
-rig_data* rig_data_ = nullptr;
-spec_data* spec_data_ = nullptr;
-stn_data* stn_data_ = nullptr;
-stn_window* stn_window_ = nullptr;
-tabbed_forms* tabbed_forms_ = nullptr;
-zc_ticker* ticker_ = nullptr;
-toolbar* toolbar_ = nullptr;
-zc_url_handler* zc_url_handler_ = nullptr;
-wsjtx_handler* wsjtx_handler_ = nullptr;
-wx_handler* wx_handler_ = nullptr;
 
 //! List of files most recently opened. Maximum: 4 files. 
 std::list<std::string> recent_files_;
@@ -891,7 +866,7 @@ void add_book(char* arg) {
 		book_ = new book;
 		navigation_book_ = book_;
 		import_data_ = new import_data;
-		extract_records_ = new extract_data;
+		extract_data_ = new extract_data;
 		// Tell the views that a book now exists
 		tabbed_forms_->books();
 
@@ -932,7 +907,7 @@ void add_book(char* arg) {
 void add_qsl_handlers() {
 	if (!closing_) {
 		// URL handler - basic HTML POST and GET
-		if (zc_url_handler_ == nullptr) zc_url_handler_ = new zc_url_handler;
+		if (url_handler_ == nullptr) url_handler_ = new zc_url_handler;
 		// eQSL - accesses the appropriate URLs to upload and download eQSL data
 		if (eqsl_handler_ == nullptr) eqsl_handler_ = new eqsl_handler;
 		// LotW - accesses the appropriate URL to download data, TQSL to sign and upload data
@@ -969,7 +944,7 @@ void add_dashboard() {
 }
 
 // Set the text in the main window label
-void main_window_label(std::string text) {
+void main_window_label(const std::string& text) {
 	// e.g. ZZALOG 3.0.0: <filename> - APP_VERSION includes (Debug) if compiled under _DEBUG
 	std::string label = APP_NAME + " " + APP_VERSION;
 	if (zc_app::debug(DEBUG_DEVELOPMENT)) label += " DEVT";
@@ -1063,9 +1038,9 @@ void tidy() {
 	delete qrz_handler_;
 	delete lotw_handler_;
 	delete eqsl_handler_;
-	delete zc_url_handler_;
+	delete url_handler_;
 	delete fldigi_handler_;
-	delete extract_records_;
+	delete extract_data_;
 	delete import_data_;
 	delete book_;
 	delete contest_data_;

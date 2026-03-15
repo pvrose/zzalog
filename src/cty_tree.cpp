@@ -21,7 +21,6 @@
 #include "cty_data.h"
 #include "cty_element.h"
 #include "fields.h"
-#include "main.h"
 #include "objects.h"
 #include "spec_data.h"
 #include "view.h"

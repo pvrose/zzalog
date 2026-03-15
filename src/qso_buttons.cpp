@@ -19,7 +19,6 @@
 
 #include "book.h"
 #include "zc_drawing.h"
-#include "main.h"
 #include "qso_data.h"
 #include "spec_data.h"
 #include <zc_utils.h>
@@ -33,6 +32,8 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* topic);
 
 // Map showing the buttons available in each qso_data logging_state
 std::map<qso_data::logging_state_t, std::list<qso_buttons::button_type> > button_map_ =

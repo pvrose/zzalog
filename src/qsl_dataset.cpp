@@ -17,7 +17,7 @@
 */
 #include "qsl_dataset.h"
 
-#include "main.h"
+#include "file_types.h"
 #include <qsl_data.h>
 #include "zc_settings.h"
 #include "zc_status.h"
@@ -25,6 +25,7 @@
 
 #include "nlohmann/json.hpp"
 
+#include <cstdint>
 #include <cstdio>
 #include <fstream>
 #include <iomanip>
@@ -44,6 +45,8 @@
 using json = nlohmann::json;
 
 std::string qsl_dataset::server_name_ = "";
+qsl_dataset* qsl_dataset_ = nullptr;
+extern uint32_t seed_;
 
 //! Map dim_unit to string for JSON serialisaton
 NLOHMANN_JSON_SERIALIZE_ENUM(qsl_data::dim_unit, {

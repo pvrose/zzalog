@@ -20,7 +20,6 @@
 #include "zc_callback.h"
 #include "zc_drawing.h"
 #include "init_dialog.h"
-#include "main.h"
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "stn_call_dlg.h"
@@ -39,6 +38,9 @@
 #include <FL/Fl_Group.H>
 #include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
+
+stn_window* stn_window_ = nullptr;
+extern void open_html(const char* topic);
 
 stn_dialog::stn_dialog(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L),

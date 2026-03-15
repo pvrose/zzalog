@@ -99,4 +99,7 @@ typedef size_t qso_num_t;
 		//! Last book (switching in/out of different books) for query
 		book* last_book_;
 	};
+
+	extern tabbed_forms* tabbed_forms_;
+
 #endif

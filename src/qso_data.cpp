@@ -25,7 +25,6 @@
 #include "extract_data.h"
 #include <fields.h>
 #include "import_data.h"
-#include "main.h"
 #include "menu_bar.h"
 #include "qrz_handler.h"
 #include "qsl_dataset.h"
@@ -57,6 +56,8 @@
 #include <FL/fl_ask.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Widget.H>
+
+extern bool AUTO_UPLOAD;
 
 // qso_group_
 qso_data::qso_data(int X, int Y, int W, int H, const char* l) :
@@ -956,7 +957,7 @@ bool qso_data::action_save(bool continuing) {
 		set_decline_qsl(qso);
 
 		book_->add_use_data(qso);
-		extract_records_->check_add_record(qso_number);
+		extract_data_->check_add_record(qso_number);
 
 		book_->new_record(false);
 		book_->enable_save(true, "Saving QSO");
@@ -1661,24 +1662,24 @@ void qso_data::action_query_entry() {
 // Execute the query
 void qso_data::action_exec_query() {
 	record* qso = g_qy_entry_->qso();
-	extract_records_->clear_criteria();
+	extract_data_->clear_criteria();
 	qso->update_band();
 	// First search callsign
 	if (qso->item("CALL").length()) {
-		extract_records_->extract_field("CALL", qso->item("CALL"), false);
+		extract_data_->extract_field("CALL", qso->item("CALL"), false);
 	}
 	if (qso->item("BAND").length()) {
-		extract_records_->extract_field("BAND", qso->item("BAND"), true);
+		extract_data_->extract_field("BAND", qso->item("BAND"), true);
 	}
 	if (qso->item("MODE").length()) {
-		extract_records_->extract_field("MODE", qso->item("MODE"), true);
+		extract_data_->extract_field("MODE", qso->item("MODE"), true);
 	}
 	char msg[128];
-	if (extract_records_->size()) {
-		snprintf(msg, sizeof(msg), "DASH: %zu matching records found", extract_records_->size());
+	if (extract_data_->size()) {
+		snprintf(msg, sizeof(msg), "DASH: %zu matching records found", extract_data_->size());
 		status_->misc_status(ST_NOTE, msg);
 		// Display the first record
-		book_->selection(extract_records_->record_number(0), HT_SELECTED);
+		book_->selection(extract_data_->record_number(0), HT_SELECTED);
 		action_edit();
 	}
 	else {

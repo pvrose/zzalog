@@ -19,7 +19,6 @@
 
 #include "dxcc_table.h"
 #include <fields.h>
-#include "main.h"
 #include "zc_settings.h"
 #include <view.h>
 
@@ -32,6 +31,8 @@
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* filename);
 
 dxcc_view::dxcc_view(int X, int Y, int W, int H, const char* L, field_app_t fo) :
 	view(),

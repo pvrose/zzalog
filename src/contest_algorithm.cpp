@@ -18,7 +18,6 @@
 #include "contest_algorithm.h"
 
 #include "contest_scorer.h"
-#include "main.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "spec_data.h"

@@ -17,7 +17,6 @@
 */
 #include "about_dialog.h"
 
-#include "main.h"
 #include "spec_data.h"
 #include "win_dialog.h"
 

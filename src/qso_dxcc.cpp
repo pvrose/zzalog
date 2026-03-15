@@ -21,7 +21,6 @@
 #include "book.h"
 #include "cty_data.h"
 #include "cty_dialog.h"
-#include "main.h"
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -44,6 +43,8 @@
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Table.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* filename);
 
 std::map <std::string, std::string> CONTINENTS = {
 	{ "AF", "Africa" },

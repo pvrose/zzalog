@@ -23,7 +23,6 @@
 #include "zc_filename_input.h"
 #include "font_dialog.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include <page_dialog.h>
 #include <qsl_data.h>
 #include "qsl_dataset.h"
@@ -59,6 +58,7 @@
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
 
+extern void open_html(const char* filename);
 
 // Constructor
 qsl_editor::qsl_editor(int X, int Y, int W, int H, const char* L) :

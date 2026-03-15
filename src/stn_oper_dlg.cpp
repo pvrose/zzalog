@@ -19,7 +19,6 @@
 
 #include "book.h"
 #include "zc_drawing.h"
-#include "main.h"
 #include "zc_status.h"
 #include "stn_data.h"
 #include "zc_utils.h"

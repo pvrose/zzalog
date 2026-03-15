@@ -17,7 +17,6 @@
 */
 #include "qso_operation.h"
 
-#include "main.h"
 #include "record.h"
 #include "zc_status.h"
 #include "stn_data.h"
@@ -36,6 +35,8 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* topic);
 
 qso_operation::qso_operation(int X, int Y, int W, int H, const char *L) : Fl_Group(X, Y, W, H, L),
 																		  current_qth_(""),

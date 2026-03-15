@@ -20,8 +20,6 @@
 #include "adi_reader.h"
 #include "adi_writer.h"
 #include "book.h"
-#include "main.h"
-#include "menu_bar.h"
 #include "qso_apps.h"
 #include "qso_data.h"
 #include "qso_manager.h"
@@ -40,6 +38,8 @@
 #include <ctime>
 #include <sstream>
 #include <string>
+
+fldigi_handler* fldigi_handler_ = nullptr;
 
 // Constructor
 fldigi_handler::fldigi_handler() {

@@ -16,7 +16,6 @@
 
 */
 #include "file_viewer.h"
-#include "main.h"
 #include "zc_status.h"
 
 #include "zc_utils.h"

@@ -21,7 +21,6 @@
 #include <zc_drawing.h>
 #include "extract_data.h"
 #include "import_data.h"
-#include "main.h"
 #include "main_window.h"
 #include "menu_bar.h"
 #include "qso_clocks.h"
@@ -48,6 +47,7 @@
 
 extern std::string COPYRIGHT;
 extern std::string CONTACT;
+qso_manager* qso_manager_ = nullptr;
 
 // The main dialog constructor
 qso_manager::qso_manager(int W, int H, const char* label) :

@@ -264,3 +264,4 @@ protected:
 	std::string previous_oper_;
 };
 
+extern stn_data* stn_data_;

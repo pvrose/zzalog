@@ -164,4 +164,6 @@
 		extract_mode_t use_mode_;
 
 	};
+
+	extern extract_data* extract_data_;
 #endif

@@ -41,6 +41,7 @@
 
 extern std::string CONTACT;
 extern std::string COPYRIGHT;
+config* config_ = nullptr;
 
 // Constructor
 config::config(int W, int H, const char* label) :

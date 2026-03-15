@@ -22,7 +22,6 @@
 #include "contest_algorithm.h"
 #include "contest_data.h"
 #include "field_choice.h"
-#include "main.h"
 #include <page_dialog.h>
 #include "zc_settings.h"
 
@@ -39,6 +38,8 @@
 #include <FL/Fl_Input_.H>
 #include <FL/Fl_Input_Choice.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* topic);
 
 contest_dialog::contest_dialog(int X, int Y, int W, int H, const char* L) :
 	page_dialog(X, Y, W, H, L)

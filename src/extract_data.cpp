@@ -22,7 +22,6 @@
 #include "club_handler.h"
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
-#include "main.h"
 #include "qrz_handler.h"
 #include "qso_manager.h"
 #include "record.h"
@@ -38,6 +37,8 @@
 
 #include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
+
+extract_data* extract_data_ = nullptr;
 
 // Constructor
 extract_data::extract_data() :

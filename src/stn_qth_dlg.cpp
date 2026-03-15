@@ -20,7 +20,6 @@
 #include "book.h"
 #include "cty_data.h"
 #include "zc_drawing.h"
-#include "main.h"
 #include "qso_manager.h"
 #include "record.h"
 #include "zc_status.h"

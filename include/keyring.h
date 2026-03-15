@@ -45,3 +45,5 @@ protected:
 	//! Seed used
 	uint32_t seed_ = 0;
 };
+
+extern keyring* keyring_;

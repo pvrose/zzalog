@@ -105,4 +105,6 @@ const int HCONFIG = 500;
 
 
 	};
+
+	extern config* config_;
 #endif

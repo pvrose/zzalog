@@ -12,6 +12,8 @@
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Output.H>
 
+extern void open_html(const char* topic);
+
 
 // Constructor
 bumr_dialog::bumr_dialog(int X, int Y, int W, int H, const char* L) :

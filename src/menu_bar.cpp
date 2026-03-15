@@ -32,7 +32,6 @@
 #include "extract_data.h"
 #include "import_data.h"
 #include "intl_dialog.h"
-#include "main.h"
 #include "main_window.h"
 #include "printer.h"
 #include "qrz_handler.h"
@@ -78,7 +77,20 @@
 #include <FL/Fl_Tooltip.H>
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
-	// The default menu - set of menu items
+
+menu_bar* menu_bar_ = nullptr;
+extern bool READ_ONLY;
+extern void open_html(const char* topic);
+extern void open_pdf();
+extern void set_recent_file(std::string filename);
+extern std::string recent_file(int n);
+extern void main_window_label(const std::string& label);
+extern void restore_backup();
+extern void backup_file();
+extern time_t session_start_;
+extern std::list<std::string> recent_files_;
+
+// The default menu - set of menu items
 	Fl_Menu_Item menu_bar_items[] = {
 		// File operations
 	{ "&File", 0, 0, 0, FL_SUBMENU },
@@ -323,7 +335,7 @@ void menu_bar::cb_mi_file_new(Fl_Widget* w, void* v) {
 	READ_ONLY = false;
 
 	// Clear any extracted data as there are no records to reference
-	extract_records_->clear_criteria();
+	extract_data_->clear_criteria();
 	set_recent_file("");
 	tabbed_forms_->activate_pane(OT_MAIN, true);
 	book_->navigate(NV_FIRST);
@@ -378,7 +390,7 @@ void menu_bar::cb_mi_file_open(Fl_Widget* w, void* v) {
 	}
 	if (filename.length() > 0) {
 		// Only open a file if it has a name
-		extract_records_->clear_criteria();
+		extract_data_->clear_criteria();
 		// get book to load it.
 		if (book_->load_data(filename)) {
 			tabbed_forms_->activate_pane(OT_MAIN, true);
@@ -445,7 +457,7 @@ void menu_bar::cb_mi_file_saveas(Fl_Widget* w, void* v) {
 				b = book_;
 				break;
 			case OT_EXTRACT:
-				b = extract_records_;
+				b = extract_data_;
 				break;
 			default:
 				break;
@@ -1030,7 +1042,7 @@ void menu_bar::cb_mi_imp_cancel(Fl_Widget* w, void* v) {
 // v is not used
 // clear the criteria and display the log book
 void menu_bar::cb_mi_ext_clr(Fl_Widget* w, void* v) {
-	extract_records_->clear_criteria();
+	extract_data_->clear_criteria();
 	tabbed_forms_->activate_pane(OT_MAIN, true);
 }
 
@@ -1043,7 +1055,7 @@ void menu_bar::cb_mi_ext_crit(Fl_Widget* w, void* v) {
 	while (dialog->display() == BN_OK) {
 		// Extract the records
 		search_criteria_t criteria = *dialog->criteria();
-		if (extract_records_->criteria(criteria)) {
+		if (extract_data_->criteria(criteria)) {
 			// Successful - clear fail message
 			dialog->fail("");
 			tabbed_forms_->activate_pane(OT_EXTRACT, true);
@@ -1060,7 +1072,7 @@ void menu_bar::cb_mi_ext_crit(Fl_Widget* w, void* v) {
 // Extract->redo - repeat the extraction
 // v is not used
 void menu_bar::cb_mi_ext_redo(Fl_Widget* w, void* v) {
-	extract_records_->reextract();
+	extract_data_->reextract();
 	// Display the extraction
 	tabbed_forms_->activate_pane(OT_EXTRACT, true);
 	navigation_book_->selection(0, HT_EXTRACTION);
@@ -1070,8 +1082,8 @@ void menu_bar::cb_mi_ext_redo(Fl_Widget* w, void* v) {
 // v is not used
 void menu_bar::cb_mi_ext_disp(Fl_Widget* w, void* v) {
 	std::string message = "There are no extracted records!\n";
-	if (extract_records_->size()) {
-		message = extract_records_->header()->header();
+	if (extract_data_->size()) {
+		message = extract_data_->header()->header();
 	}
 	// Create a tooltip window at the explain button (in w) X and Y
 	Fl_Window* tip_window = zc::tip_window(message, main_window_->x_root() + w->x(), main_window_->y_root() + w->y());
@@ -1093,7 +1105,7 @@ void menu_bar::cb_mi_ext_qsl(Fl_Widget* w, void* v) {
 void menu_bar::cb_mi_ext_special(Fl_Widget* w, void* v) {
 	// v passes the particular option
 	extract_data::extract_mode_t reason = (extract_data::extract_mode_t)(intptr_t)v;
-	extract_records_->extract_special(reason);
+	extract_data_->extract_special(reason);
 	tabbed_forms_->activate_pane(OT_EXTRACT, true);
 }
 
@@ -1101,7 +1113,7 @@ void menu_bar::cb_mi_ext_special(Fl_Widget* w, void* v) {
 // v is not used 
 void menu_bar::cb_mi_ext_no_image(Fl_Widget* w, void* v) {
 	// v passes the particular option
-	extract_records_->extract_no_image();
+	extract_data_->extract_no_image();
 	tabbed_forms_->activate_pane(OT_EXTRACT, true);
 }
 
@@ -1132,8 +1144,8 @@ void menu_bar::cb_mi_ext_mark(Fl_Widget* w, void* v) {
 // Extract->Download Images
 // v is not used
 void menu_bar::cb_mi_ext_dl_images(Fl_Widget* w, void* v) {
-	for (item_num_t ix = 0; ix < extract_records_->size(); ix++) {
-		qso_num_t qn = extract_records_->record_number(ix);
+	for (item_num_t ix = 0; ix < extract_data_->size(); ix++) {
+		qso_num_t qn = extract_data_->record_number(ix);
 		eqsl_handler_->enqueue_request(qn, true);
 	}
 	eqsl_handler_->enable_fetch(eqsl_handler::EQ_START);
@@ -1735,7 +1747,7 @@ void menu_bar::update_qsl_items() {
 		mode(index_print, mode(index_print) | FL_MENU_INACTIVE);
 	}
 
-	if (extract_records_->upload_in_progress() || !inactive) {
+	if (extract_data_->upload_in_progress() || !inactive) {
 		mode(index_eqsl, mode(index_eqsl) | FL_MENU_INACTIVE);
 		mode(index_lotw, mode(index_lotw) | FL_MENU_INACTIVE);
 		mode(index_clog, mode(index_clog) | FL_MENU_INACTIVE);
@@ -1746,7 +1758,7 @@ void menu_bar::update_qsl_items() {
 		mode(index_clog, mode(index_clog) & ~FL_MENU_INACTIVE);
 	}
 
-	if (extract_records_->upload_in_progress() && inactive) {
+	if (extract_data_->upload_in_progress() && inactive) {
 		mode(index_upload, mode(index_upload) & ~FL_MENU_INACTIVE);
 	} else {
 		mode(index_upload, mode(index_upload) | FL_MENU_INACTIVE);

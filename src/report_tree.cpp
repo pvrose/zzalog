@@ -23,7 +23,6 @@
 #include <zc_drawing.h>
 #include "extract_data.h"
 #include <fields.h>
-#include "main.h"
 #include "menu_bar.h"
 #include "qso_data.h"
 #include "qso_manager.h"
@@ -46,6 +45,11 @@
 #include <FL/Fl_Tree_Item.H>
 #include <FL/Fl_Tree_Prefs.H>
 #include <FL/Fl_Widget.H>
+
+extern bool DARK;
+extern std::string APP_NAME;
+extern std::string APP_VERSION;
+extern void open_html(const char* filename);
 
 // Constructor
 report_tree::report_tree(int X, int Y, int W, int H, const char* label, field_app_t app) :
@@ -602,7 +606,7 @@ void report_tree::create_map() {
 		break;
 	case report_filter_t::RF_EXTRACTED:
 		// Select records from the extracted records list
-		set_book(extract_records_);
+		set_book(extract_data_);
 		break;
 	case report_filter_t::RF_NONE:
 		delete_map(&map_);

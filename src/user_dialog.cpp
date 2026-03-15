@@ -19,7 +19,6 @@
 
 #include "book.h"
 #include "log_table.h"
-#include "main.h"
 #include <page_dialog.h>
 #include "report_tree.h"
 #include "spec_tree.h"
@@ -44,6 +43,8 @@
 #include <FL/Fl_Hold_Browser.H>
 #include <FL/Fl_Tooltip.H>
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* filename);
 
 // constructor
 user_dialog::user_dialog(int X, int Y, int W, int H, const char* label) :

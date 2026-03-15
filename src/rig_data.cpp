@@ -17,8 +17,8 @@
 */
 #include "rig_data.h"
 
+#include "file_types.h"
 #include "zc_file_holder.h"
-#include "main.h"
 #include "rig_if.h"
 #include "zc_status.h"
 
@@ -34,6 +34,7 @@
 #include <vector>
 
 using json = nlohmann::json;
+rig_data* rig_data_ = nullptr;
 
 // power_mode_t serialisation
 NLOHMANN_JSON_SERIALIZE_ENUM(power_mode_t, {

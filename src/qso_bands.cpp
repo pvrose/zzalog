@@ -41,6 +41,7 @@
 extern std::string APP_NAME;
 extern std::string APP_VERSION;
 extern debug_flag DEBUG_DEVELOPMENT;
+extern void open_html(const char* filename);
 
 qso_bands::qso_bands(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L)

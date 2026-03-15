@@ -19,7 +19,8 @@
 #include "book.h"
 #include "zc_drawing.h"
 
-
+extern unsigned int WIDTH;
+extern unsigned int HEIGHT;
 
 // Constructor
 view::view()

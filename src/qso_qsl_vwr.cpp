@@ -18,7 +18,6 @@
 #include "qso_qsl_vwr.h"
 
 #include "book.h"
-#include "main.h"
 #include <qsl_data.h>
 #include "qsl_dataset.h"
 #include "qsl_display.h"
@@ -57,6 +56,8 @@
 #include <FL/fl_utf8.h>
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
+
+extern void open_html(const char* filename);
 
 // Constructor
 qso_qsl_vwr::qso_qsl_vwr(int X, int Y, int W, int H, const char* L) :

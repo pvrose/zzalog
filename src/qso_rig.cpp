@@ -20,7 +20,6 @@
 #include "band_data.h"
 #include "field_choice.h"
 #include "file_viewer.h"
-#include "main.h"
 #include "objects.h"
 #include "qso_manager.h"
 #include "rig_data.h"
@@ -65,6 +64,9 @@
 #include <FL/Fl_Widget.H>
 
 #include <hamlib/rig.h>
+
+extern bool START_OFF_AIR; 
+extern void open_html(const char* filename);
 
 // Constructor
 qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :

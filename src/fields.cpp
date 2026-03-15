@@ -18,7 +18,7 @@
 #include "fields.h"
 
 #include "zc_file_holder.h"
-#include "main.h"
+#include "file_types.h"
 #include "zc_status.h"
 
 #include <cstdio>
@@ -31,6 +31,8 @@
 #include <vector>
 
 #include <nlohmann/json.hpp>
+
+fields* fields_ = nullptr;
 
 //! Convert field_info_t to JSON object
 void to_json(json& j, const field_info_t& s) {

@@ -21,7 +21,6 @@
 #include "zc_callback.h"
 #include <zc_drawing.h>
 #include <fields.h>
-#include "main.h"
 #include "zc_settings.h"
 #include "spec_data.h"
 #include "zc_status.h"
@@ -40,6 +39,9 @@
 #include <FL/Fl_Tree.H>
 #include <FL/Fl_Tree_Item.H>
 #include <FL/Fl_Tree_Prefs.H>
+
+extern void open_html(const char* filename);
+extern bool DARK;
 
 // Constructor
 spec_tree::spec_tree(int X, int Y, int W, int H, const char* label, field_app_t app) :

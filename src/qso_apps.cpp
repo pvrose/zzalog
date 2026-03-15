@@ -21,7 +21,7 @@
 #include "file_viewer.h"
 #include "zc_filename_input.h"
 #include "fldigi_handler.h"
-#include "main.h"
+#include "file_types.h"
 #include "zc_password_input.h"
 #include "qso_manager.h"
 #include "qso_rig.h"
@@ -55,6 +55,8 @@
 #include <FL/Fl_Widget.H>
 
 using json = nlohmann::json;
+extern bool initialised_;
+extern void open_html(const char* topic);
 
 // JSON mapping for app_rig_class_t
 NLOHMANN_JSON_SERIALIZE_ENUM(app_rig_class_t, {

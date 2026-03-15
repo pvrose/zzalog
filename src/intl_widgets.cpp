@@ -18,7 +18,6 @@
 #include "intl_widgets.h"
 
 #include "intl_dialog.h"
-#include "main.h"
 
 #include <FL/Enumerations.H>
 #include <FL/Fl_Input.H>

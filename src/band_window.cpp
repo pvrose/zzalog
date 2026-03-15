@@ -40,6 +40,8 @@
 extern std::string CONTACT;
 extern std::string COPYRIGHT;
 
+band_window* band_window_ = nullptr;
+
 band_window::band_window(int X, int Y, int W, int H, const char* L) :
 	Fl_Double_Window(X, Y, W, H, L)
 {

@@ -18,8 +18,8 @@
 #include "band_data.h"
 
 #include "band.h"
+#include "file_types.h"
 #include "zc_file_holder.h"
-#include "main.h"
 #include "zc_status.h"
 #include "spec_data.h"
 
@@ -35,6 +35,8 @@
 #include <string>
 
 using json = nlohmann::json;
+
+band_data* band_data_ = nullptr;
 
 // MAp band_data::entry_t
 NLOHMANN_JSON_SERIALIZE_ENUM(band_data::entry_t, {

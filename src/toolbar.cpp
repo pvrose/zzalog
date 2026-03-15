@@ -22,11 +22,11 @@
 #include "cty_data.h"
 #include "zc_drawing.h"
 #include "extract_data.h"
+#include "file_types.h"
 #include "zc_file_holder.h"
 #include "icons.h"
 #include "intl_dialog.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include "main_window.h"
 #include "menu_bar.h"
 #include "qso_manager.h"
@@ -49,6 +49,10 @@
 #include <FL/Fl_Tooltip.H>
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
+
+toolbar* toolbar_ = nullptr;
+extern bool DARK;
+extern void open_html(const char* filename);
 
 // Constructor - most buttons invoke a menu item
 toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
@@ -493,7 +497,7 @@ void toolbar::cb_bn_search(Fl_Widget* w, void* v) {
 void toolbar::cb_bn_extract(Fl_Widget* w, void* v) {
 	toolbar* that = zc::ancestor_view<toolbar>(w);
 	zc::cb_value<intl_input, std::string>((Fl_Widget*)that->ip_search_, (void*)& that->search_text_);
-	extract_records_->extract_call(that->search_text_);
+	extract_data_->extract_call(that->search_text_);
 }
 
 // Open a tooltip that displays the parse results for the callsign in the search text box

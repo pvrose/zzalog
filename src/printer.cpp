@@ -19,7 +19,6 @@
 
 #include "book.h"
 #include "log_table.h"
-#include "main.h"
 #include "objects.h"
 #include "qsl_dataset.h"
 #include "qsl_display.h"

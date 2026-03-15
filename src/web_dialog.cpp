@@ -21,7 +21,6 @@
 #include <zc_callback.h>
 #include "zc_drawing.h"
 #include "intl_widgets.h"
-#include "main.h"
 #include <page_dialog.h>
 #include "zc_password_input.h"
 #include "qsl_dataset.h"
@@ -41,6 +40,8 @@
 #include <FL/Fl_Select_Browser.H>
 #include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
+
+extern void open_html(const char* topic);
 
 // Constructor
 web_dialog::web_dialog(int X, int Y, int W, int H, const char* label) :
