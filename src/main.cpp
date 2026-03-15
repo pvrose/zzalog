@@ -216,7 +216,6 @@ qsl_dataset* qsl_dataset_ = nullptr;
 qso_manager* qso_manager_ = nullptr;
 rig_data* rig_data_ = nullptr;
 spec_data* spec_data_ = nullptr;
-zc_status* status_ = nullptr;
 stn_data* stn_data_ = nullptr;
 stn_window* stn_window_ = nullptr;
 tabbed_forms* tabbed_forms_ = nullptr;
