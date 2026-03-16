@@ -291,7 +291,7 @@ if (CURL_FOUND)
   message(STATUS "CURL found: ${CURL_VERSION}")
   message(STATUS "CURL include dir: ${CURL_INCLUDE_DIR}")
   message(STATUS "CURL libraries: ${CURL_LIBRARIES}")
-else()
+ else()
   message(STATUS "CURL not found")
 endif()
 
@@ -423,6 +423,14 @@ endif()
     if (MSVC)
       install(FILES ${HAMLIB_DLLS} 
         DESTINATION bin)
+      install(IMPORTED_RUNTIME_ARTIFACTS CURL::libcurl_shared
+        DESTINATION bin
+      )
+      # The folllwing seems wrong but I can't see how zlib1.dll got copied to release.
+      install(PROGRAMS 
+        ${CMAKE_CURRENT_BINARY_DIR}/zlib1.dll
+        DESTINATION bin
+      )
     endif()
     # install userguide HTML files and PDF
     if(ZZALOG_DOX)
