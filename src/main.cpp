@@ -874,19 +874,6 @@ void add_book(char* arg) {
 			// Get filename and load the data
 			std::string log_file = get_file(arg);
 
-			// get_file() sets NEW_BOOK
-			if (NEW_BOOK) {
-				status_->misc_status(ST_WARNING, "LOG: Creating a new logbook %s",
-					log_file.c_str());
-				set_recent_file(log_file);
-				if (!book_->store_data(log_file, true)) {
-					status_->misc_status(ST_ERROR, "LOG: Failed to create %s", log_file.c_str());
-				}
-				else {
-					backup_file();
-				}
-				return;
-			}
 			// Now try and load the file
 			if (!book_->load_data(log_file)) {
 				return;
