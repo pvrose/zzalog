@@ -411,51 +411,60 @@ if(ZZALOG_DOX)
   add_dependencies(${TARGET} api_html)
 endif()
 
-## Temporary work-round until MSVC issues sorted out - do not allow install with MSVC
-#if (MSVC)
-#else()
-    # install executable
-    install(TARGETS ${TARGET} RUNTIME)
-    # install reference data
-    install(FILES ${DATAFILES}
-        DESTINATION ${CMAKE_INSTALL_RPATH})
-    # install hamlib DLLs
-    if (MSVC)
-      install(FILES ${HAMLIB_DLLS} 
-        DESTINATION bin)
-      install(IMPORTED_RUNTIME_ARTIFACTS CURL::libcurl_shared
-        DESTINATION bin
-      )
-      # The folllwing seems wrong but I can't see how zlib1.dll got copied to release.
-      install(PROGRAMS 
-        ${CMAKE_CURRENT_BINARY_DIR}/zlib1.dll
-        DESTINATION bin
-      )
-    endif()
-    # install userguide HTML files and PDF
-    if(ZZALOG_DOX)
-      install(
-        DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/userguide/html
-        DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
-        MESSAGE_NEVER
-      )
-      install(
-        FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${APP_NAME}.pdf
-        DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
-      )
-      # install API documentation HTML filesn
-      install(
-        DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/api/html
-        DESTINATION ${CMAKE_INSTALL_RPATH}/api
-        MESSAGE_NEVER
-      )
-      # install ZZACOMMON API documentation HTML files
-      install(
-        DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/zzacommon/api/html
-        DESTINATION ${CMAKE_INSTALL_RPATH}/zzacommon/api
-        MESSAGE_NEVER
-      )
-    endif()
-#endif(MSVC)
+# install executable
+install(TARGETS ${TARGET} 
+  RUNTIME
+  COMPONENT applications
+)
+# install reference data
+install(FILES ${DATAFILES}
+  DESTINATION ${CMAKE_INSTALL_RPATH}
+  COMPONENT data
+)
+# install hamlib DLLs
+if (MSVC)
+    install(FILES ${HAMLIB_DLLS} 
+    DESTINATION bin
+    COMPONENT applications
+    )
+    install(IMPORTED_RUNTIME_ARTIFACTS CURL::libcurl_shared
+    DESTINATION bin
+    COMPONENT applications
+    )
+    # The folllwing seems wrong but I can't see how zlib1.dll got copied to release.
+    install(PROGRAMS 
+    ${CMAKE_CURRENT_BINARY_DIR}/zlib1.dll
+    DESTINATION bin
+    COMPONENT applications
+    )
+endif()
+# install userguide HTML files and PDF
+if(ZZALOG_DOX)
+    install(
+    DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/userguide/html
+    DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
+    COMPONENT documentation
+    MESSAGE_NEVER
+    )
+    install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${APP_NAME}.pdf
+    DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
+    COMPONENT documentation
+    )
+    # install API documentation HTML filesn
+    install(
+    DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/api/html
+    DESTINATION ${CMAKE_INSTALL_RPATH}/api
+    COMPONENT documentation
+    MESSAGE_NEVER
+    )
+    # install ZZACOMMON API documentation HTML files
+    install(
+    DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/zzacommon/api/html
+    DESTINATION ${CMAKE_INSTALL_RPATH}/zzacommon/api
+    COMPONENT documentation
+    MESSAGE_NEVER
+    )
+endif()
 
-
+include(InstallRequiredSystemLibraries)

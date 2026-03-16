@@ -4,7 +4,9 @@
     <ROW Property="AI_APP_FILE" Value="[#zzalog.exe]"/>
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
     <ROW Property="AI_PATH_VALIDATION_OPT" Value="2"/>
-    <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_ADMIN_USER"/>
+    <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_ADMIN_USER;AI_DETECTED_VISUALCPP64_VERSION_PROP"/>
+    <ROW Property="AI_REQUIRED_VISUALCPP_DISPLAY_PROP" MultiBuildValue="x64_Release:Microsoft Visual C++ 2022 Redistributable (64-bit, v14.3)" ValueLocId="-"/>
+    <ROW Property="AI_REQUIRED_VISUALCPP_VERSION" MultiBuildValue="x64_Release:14.3" ValueLocId="-"/>
     <ROW Property="AI_RUN_AS_ADMIN" Value="1"/>
     <ROW Property="ALLUSERS" Value="1" MultiBuildValue="x64_Release:2"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
@@ -71,6 +73,13 @@
     <ROW Component="libhamlib4.dll" ComponentId="{D3737AD3-4BC4-4398-A852-20FA34A5350E}" Directory_="bin_Dir" Attributes="256" KeyPath="libhamlib4.dll"/>
     <ROW Component="libusb1.0.dll" ComponentId="{91663760-EA5E-46CF-8B25-B6022DA2401D}" Directory_="bin_Dir" Attributes="256" KeyPath="libusb1.0.dll"/>
     <ROW Component="libwinpthread1.dll" ComponentId="{C2694FEE-46AD-4838-927F-8D0B6CDA4195}" Directory_="bin_Dir" Attributes="256" KeyPath="libwinpthread1.dll"/>
+    <ROW Component="msvcp140.dll" ComponentId="{740A7918-7837-4502-822F-1722E1A3E510}" Directory_="bin_Dir" Attributes="256" KeyPath="msvcp140.dll"/>
+    <ROW Component="msvcp140_1.dll" ComponentId="{31DEAFE2-05C7-4752-9219-AEC013BC11D8}" Directory_="bin_Dir" Attributes="256" KeyPath="msvcp140_1.dll"/>
+    <ROW Component="msvcp140_2.dll" ComponentId="{857CD536-4AA3-459F-BC1E-3F60AF8F96C4}" Directory_="bin_Dir" Attributes="256" KeyPath="msvcp140_2.dll"/>
+    <ROW Component="msvcp140_atomic_wait.dll" ComponentId="{C2BF453F-A9E9-4B10-B1AD-9D477F33230F}" Directory_="bin_Dir" Attributes="256" KeyPath="msvcp140_atomic_wait.dll"/>
+    <ROW Component="msvcp140_codecvt_ids.dll" ComponentId="{60DD2D86-5762-4AFE-8AC8-5830BAE83162}" Directory_="bin_Dir" Attributes="256" KeyPath="msvcp140_codecvt_ids.dll"/>
+    <ROW Component="vcruntime140.dll" ComponentId="{D74E64C6-9764-4578-B60B-0E9E883C9196}" Directory_="bin_Dir" Attributes="256" KeyPath="vcruntime140.dll"/>
+    <ROW Component="vcruntime140_1.dll" ComponentId="{D63E942F-1E8A-4DC7-8A3C-55EE3C5E13C7}" Directory_="bin_Dir" Attributes="256" KeyPath="vcruntime140_1.dll"/>
     <ROW Component="zlib1.dll" ComponentId="{88A855D3-CE94-4055-92F1-F58C5898D356}" Directory_="bin_Dir" Attributes="256" KeyPath="zlib1.dll"/>
     <ROW Component="zzalog.exe" ComponentId="{CA85F5E8-3078-4401-B2FE-247B48AA762C}" Directory_="bin_Dir" Attributes="256" KeyPath="zzalog.exe"/>
   </COMPONENT>
@@ -2131,6 +2140,13 @@
     <ROW File="zc__utils_8h_source.html" Component_="annotated.html" FileName="ZC__UT~2.HTM|zc__utils_8h_source.html" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\etc\zzacommon\api\html\zc__utils_8h_source.html" SelfReg="false"/>
     <ROW File="zzacommon_8h.html" Component_="annotated.html" FileName="ZZACOM~1.HTM|zzacommon_8h.html" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\etc\zzacommon\api\html\zzacommon_8h.html" SelfReg="false"/>
     <ROW File="zzacommon_8h_source.html" Component_="annotated.html" FileName="ZZACOM~2.HTM|zzacommon_8h_source.html" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\etc\zzacommon\api\html\zzacommon_8h_source.html" SelfReg="false"/>
+    <ROW File="msvcp140.dll" Component_="msvcp140.dll" FileName="msvcp140.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\bin\msvcp140.dll" SelfReg="false"/>
+    <ROW File="msvcp140_1.dll" Component_="msvcp140_1.dll" FileName="MSVCP1~1.DLL|msvcp140_1.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\bin\msvcp140_1.dll" SelfReg="false"/>
+    <ROW File="msvcp140_2.dll" Component_="msvcp140_2.dll" FileName="MSVCP1~2.DLL|msvcp140_2.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\bin\msvcp140_2.dll" SelfReg="false"/>
+    <ROW File="msvcp140_atomic_wait.dll" Component_="msvcp140_atomic_wait.dll" FileName="MSVCP1~3.DLL|msvcp140_atomic_wait.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\bin\msvcp140_atomic_wait.dll" SelfReg="false"/>
+    <ROW File="msvcp140_codecvt_ids.dll" Component_="msvcp140_codecvt_ids.dll" FileName="MSVCP1~4.DLL|msvcp140_codecvt_ids.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\bin\msvcp140_codecvt_ids.dll" SelfReg="false"/>
+    <ROW File="vcruntime140.dll" Component_="vcruntime140.dll" FileName="VCRUNT~1.DLL|vcruntime140.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\bin\vcruntime140.dll" SelfReg="false"/>
+    <ROW File="vcruntime140_1.dll" Component_="vcruntime140_1.dll" FileName="VCRUNT~2.DLL|vcruntime140_1.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\bin\vcruntime140_1.dll" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.AiPersistentPropComponent">
     <ROW Property="AI_INSTALLPERUSER" Registry="AI_INSTALLPERUSER" HklmSearch="AI_INSTALLPERUSER" HkcuSearch="AI_INSTALLPERUSER_1" Hklm64Search="AI_INSTALLPERUSER_2" Hkcu64Search="AI_INSTALLPERUSER_3"/>
@@ -2248,6 +2264,13 @@
     <ROW Feature_="MainFeature" Component_="all_0.js_1"/>
     <ROW Feature_="MainFeature" Component_="annotated.html"/>
     <ROW Feature_="MainFeature" Component_="all_0.js_2"/>
+    <ROW Feature_="MainFeature" Component_="msvcp140.dll"/>
+    <ROW Feature_="MainFeature" Component_="msvcp140_1.dll"/>
+    <ROW Feature_="MainFeature" Component_="msvcp140_2.dll"/>
+    <ROW Feature_="MainFeature" Component_="msvcp140_atomic_wait.dll"/>
+    <ROW Feature_="MainFeature" Component_="msvcp140_codecvt_ids.dll"/>
+    <ROW Feature_="MainFeature" Component_="vcruntime140.dll"/>
+    <ROW Feature_="MainFeature" Component_="vcruntime140_1.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
@@ -2275,6 +2298,7 @@
     <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] can not be installed on [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="x64_Release"/>
     <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] can not be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="x64_Release"/>
     <ROW Condition="(VersionNT &lt;&gt; 600)" Description="[ProductName] cannot be installed on [WindowsTypeNT60Display]." DescriptionLocId="AI.LaunchCondition.NoNT60" IsPredefined="true" Builds="x64_Release"/>
+    <ROW Condition="AI_DETECTED_VISUALCPP64_VERSION_PROP &gt;= AI_REQUIRED_VISUALCPP_VERSION" Description="[ProductName] cannot be installed on systems without [AI_REQUIRED_VISUALCPP_DISPLAY_PROP] or a newer compatible version." DescriptionLocId="AI.LaunchCondition.VisualCpp" IsPredefined="true" Builds="x64_Release"/>
     <ROW Condition="VersionNT" Description="[ProductName] can not be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="x64_Release"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
