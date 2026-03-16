@@ -16,6 +16,8 @@
   - Double-clicking on QSL download buttons may cause lock up.
   - Occasional exception when closing ZZALOG: probable race hazard while closing ticker.
   - Switches after debug switches wrongly regarded as bad debug switches.
+  - Cold start deletes an existing file if it is selected.
+  - DLLs missing from Windows release build.
   
 \section rev_3_6_15 Revision 3.6.15
 
