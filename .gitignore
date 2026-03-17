@@ -293,3 +293,5 @@ __pycache__/
 /ZZALOG-x64_Release-SetupFiles/ZZALOG-3.6.12-rc2.msi
 *.msi
 /ZZALOG.back(23.3).aip
+/ZZALOG-cache/part3/disk1.cab
+/ZZALOG-cache/part3/output-info.ini
