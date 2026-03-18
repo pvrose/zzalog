@@ -19,13 +19,6 @@ else()
   set(USER_HOME_DIR $ENV{HOME})
 endif()
 
-# set compiler options
-if (MSVC)
-  add_compile_options(/FS)
-else()
-  add_compile_options(-g)
-endif()
-
 set(ZZALOG_CONTESTS_CPPFILES 
   ${ZZALOG_CONTESTS_SOURCE_DIR}/src/basic.cpp
   ${ZZALOG_CONTESTS_SOURCE_DIR}/src/iaru_hf.cpp

@@ -14,9 +14,7 @@ set(APP_SOURCE_DIR ${ZZALOG_SOURCE_DIR})
 
 ## Set target executable
 set(TARGET zzalog)
-if (NOT MSVC)
-  set(BUILD_SHARED_LIBS OFF)
-endif()
+set(BUILD_SHARED_LIBS OFF)
 
 ## Set C++ requirements.
 set(CMAKE_CXX_STANDARD 17)
@@ -264,36 +262,10 @@ set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR})
 
 # set compiler options
 if (MSVC)
-  add_compile_options(/FS)
 else()
   add_compile_options(-g)
 endif()
 
-# libcurl
-if (VCPKG_TARGET_TRIPLET)
-  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH};"${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}")
-else()
-  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH};"${_VCPKG_INSTALLED_DIR}")
-endif() 
-if(MSVC)
-  message(STATUS "Looking for CURL at ${CURL_DIR}")
-  find_package(CURL CONFIG REQUIRED)
-else()
-  find_package(CURL REQUIRED)
-endif()
-if (CURL_FOUND)
-  # CURL under vcpkg on Windows does not set CURL_INCLUDE_DIR.
-  if (NOT CURL_INCLUDE_DIR) 
-    if (EXISTS "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include/curl")
-      set(CURL_INCLUDE_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include/")
-    endif()
-  endif()
-  message(STATUS "CURL found: ${CURL_VERSION}")
-  message(STATUS "CURL include dir: ${CURL_INCLUDE_DIR}")
-  message(STATUS "CURL libraries: ${CURL_LIBRARIES}")
- else()
-  message(STATUS "CURL not found")
-endif()
 
 # libhamlib
 set(CMAKE_MODULE_PATH ../ ./)
@@ -324,6 +296,7 @@ endif()
 
 # Add ZZACOMMON
 set(ZZACOMMON_DOX ${ZZALOG_DOX})
+set(APP_TARGET ${TARGET})
 add_subdirectory(zzacommon)
 message(STATUS "ZZACOMMON found: ${ZZACOMMON_VERSION}")
 
@@ -359,7 +332,6 @@ target_include_directories(${TARGET} PRIVATE
   ${ZZACOMMON_INCLUDE_DIR}
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
-  ${CURL_INCLUDE_DIR}
 )
 ## Extra include directories required on MSVC
 if (MSVC)
@@ -375,7 +347,6 @@ target_sources(${TARGET} PRIVATE ${ZZALOG_CPPFILES})
 
 ## Define libraries to be linked in.
 target_link_libraries(${TARGET} PRIVATE 
-  ${CURL_LIBRARIES}
   ${HAMLIB_LIBRARY}
   zzalog_contests
   pugixml
@@ -383,19 +354,93 @@ target_link_libraries(${TARGET} PRIVATE
   ${ZC_APP_LIBRARY}
 )
 
+# Runtime DLL analysis code courtesy of CoPilot.
+
+# Copy runtime DLLs to build directory for MSVC
+if (MSVC)
+  # Get the parent project's binary directory
+  set(RUNTIME_OUTPUT_DIR ${CMAKE_BINARY_DIR})
+
+  # Use CMake's automatic runtime DLL detection
+  add_custom_command(TARGET ${TARGET} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+      $<TARGET_RUNTIME_DLLS:${TARGET}>
+      ${RUNTIME_OUTPUT_DIR}
+    COMMAND_EXPAND_LISTS
+    COMMENT "Copying runtime DLLs to ${RUNTIME_OUTPUT_DIR}"
+  )
+
+  # Manual fallback for ZLIB DLL (debug and release versions)
+  # vcpkg stores debug DLLs in debug/bin and release DLLs in bin
+  set(VCPKG_BIN_DIR "")
+  set(VCPKG_DEBUG_BIN_DIR "")
+
+  if(_VCPKG_INSTALLED_DIR AND VCPKG_TARGET_TRIPLET)
+    set(VCPKG_BIN_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
+    set(VCPKG_DEBUG_BIN_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
+  elseif(ZLIB_ROOT)
+    # ZLIB_ROOT is set in CMakePresets.json
+    set(VCPKG_BIN_DIR "${ZLIB_ROOT}/bin")
+    set(VCPKG_DEBUG_BIN_DIR "${ZLIB_ROOT}/debug/bin")
+  elseif(VCPKG_ROOT)
+    # Deduce from VCPKG_ROOT
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+      set(VCPKG_BIN_DIR "${VCPKG_ROOT}/installed/x64-windows/bin")
+      set(VCPKG_DEBUG_BIN_DIR "${VCPKG_ROOT}/installed/x64-windows/debug/bin")
+    else()
+      set(VCPKG_BIN_DIR "${VCPKG_ROOT}/installed/x86-windows/bin")
+      set(VCPKG_DEBUG_BIN_DIR "${VCPKG_ROOT}/installed/x86-windows/debug/bin")
+    endif()
+  endif()
+
+  # Copy ZLIB DLLs from both debug and release directories
+  set(ALL_ZLIB_DLLS "")
+
+  # Check release bin directory
+  if(VCPKG_BIN_DIR AND EXISTS "${VCPKG_BIN_DIR}")
+    message(STATUS "Searching for ZLIB DLLs in: ${VCPKG_BIN_DIR}")
+    file(GLOB RELEASE_ZLIB_DLLS "${VCPKG_BIN_DIR}/zlib*.dll")
+    if(RELEASE_ZLIB_DLLS)
+      list(APPEND ALL_ZLIB_DLLS ${RELEASE_ZLIB_DLLS})
+      message(STATUS "Found release ZLIB DLLs: ${RELEASE_ZLIB_DLLS}")
+    endif()
+  endif()
+
+  # Check debug bin directory
+  if(VCPKG_DEBUG_BIN_DIR AND EXISTS "${VCPKG_DEBUG_BIN_DIR}")
+    message(STATUS "Searching for debug ZLIB DLLs in: ${VCPKG_DEBUG_BIN_DIR}")
+    file(GLOB DEBUG_ZLIB_DLLS "${VCPKG_DEBUG_BIN_DIR}/zlib*.dll")
+    if(DEBUG_ZLIB_DLLS)
+      list(APPEND ALL_ZLIB_DLLS ${DEBUG_ZLIB_DLLS})
+      message(STATUS "Found debug ZLIB DLLs: ${DEBUG_ZLIB_DLLS}")
+    endif()
+  endif()
+
+  # Copy all found ZLIB DLLs
+  if(ALL_ZLIB_DLLS)
+    foreach(ZLIB_DLL ${ALL_ZLIB_DLLS})
+      add_custom_command(TARGET ${TARGET} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          "${ZLIB_DLL}"
+          "${RUNTIME_OUTPUT_DIR}"
+        COMMENT "Copying ZLIB DLL: ${ZLIB_DLL}"
+      )
+    endforeach()
+    message(STATUS "Will copy ZLIB DLLs: ${ALL_ZLIB_DLLS}")
+  else()
+    message(WARNING "No ZLIB DLLs found in ${VCPKG_BIN_DIR} or ${VCPKG_DEBUG_BIN_DIR}")
+  endif()
+endif()
+
+
+
 # copy reference data
 add_custom_target(reference_data ALL)
 message(STATUS "Reference data: ${DATAFILES}")
-#foreach(F ${DATAFILES})
   file(COPY ${DATAFILES}
     DESTINATION ${ZZALOG_RUN_DIR}
     USE_SOURCE_PERMISSIONS
   )
-#  add_custom_command(TARGET reference_data POST_BUILD
-#    COMMAND ${CMAKE_COMMAND} -E copy ${F} ${ZZALOG_RUN_DIR}
-#    COMMENT "Copying ${F} to ${ZZALOG_RUN_DIR}"
-#  )
-#endforeach()
 
 # Generate documents - generate userguide.
 if(ZZALOG_DOX) 
@@ -427,16 +472,55 @@ if (MSVC)
     DESTINATION bin
     COMPONENT applications
     )
-    install(IMPORTED_RUNTIME_ARTIFACTS CURL::libcurl_shared
-    DESTINATION bin
-    COMPONENT applications
-    )
-    # The folllwing seems wrong but I can't see how zlib1.dll got copied to release.
-    install(PROGRAMS 
-    ${CMAKE_CURRENT_BINARY_DIR}/zlib1.dll
-    DESTINATION bin
-    COMPONENT applications
-    )
+
+    # Install vcpkg runtime DLLs (boost, curl, zlib)
+    set(VCPKG_INSTALL_BIN_DIR "")
+    set(VCPKG_INSTALL_DEBUG_BIN_DIR "")
+
+    if(_VCPKG_INSTALLED_DIR AND VCPKG_TARGET_TRIPLET)
+      set(VCPKG_INSTALL_BIN_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
+      set(VCPKG_INSTALL_DEBUG_BIN_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
+    elseif(ZLIB_ROOT)
+      set(VCPKG_INSTALL_BIN_DIR "${ZLIB_ROOT}/bin")
+      set(VCPKG_INSTALL_DEBUG_BIN_DIR "${ZLIB_ROOT}/debug/bin")
+    elseif(VCPKG_ROOT)
+      if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(VCPKG_INSTALL_BIN_DIR "${VCPKG_ROOT}/installed/x64-windows/bin")
+        set(VCPKG_INSTALL_DEBUG_BIN_DIR "${VCPKG_ROOT}/installed/x64-windows/debug/bin")
+      else()
+        set(VCPKG_INSTALL_BIN_DIR "${VCPKG_ROOT}/installed/x86-windows/bin")
+        set(VCPKG_INSTALL_DEBUG_BIN_DIR "${VCPKG_ROOT}/installed/x86-windows/debug/bin")
+      endif()
+    endif()
+
+    # Collect all runtime DLLs from both release and debug directories
+    set(ALL_VCPKG_RUNTIME_DLLS "")
+
+    if(VCPKG_INSTALL_BIN_DIR AND EXISTS "${VCPKG_INSTALL_BIN_DIR}")
+      file(GLOB RELEASE_RUNTIME_DLLS 
+        "${VCPKG_INSTALL_BIN_DIR}/boost_filesystem*.dll"
+        "${VCPKG_INSTALL_BIN_DIR}/libcurl*.dll"
+        "${VCPKG_INSTALL_BIN_DIR}/zlib*.dll"
+      )
+      list(APPEND ALL_VCPKG_RUNTIME_DLLS ${RELEASE_RUNTIME_DLLS})
+    endif()
+
+    if(VCPKG_INSTALL_DEBUG_BIN_DIR AND EXISTS "${VCPKG_INSTALL_DEBUG_BIN_DIR}")
+      file(GLOB DEBUG_RUNTIME_DLLS 
+        "${VCPKG_INSTALL_DEBUG_BIN_DIR}/boost_filesystem*.dll"
+        "${VCPKG_INSTALL_DEBUG_BIN_DIR}/libcurl*.dll"
+        "${VCPKG_INSTALL_DEBUG_BIN_DIR}/zlib*.dll"
+      )
+      list(APPEND ALL_VCPKG_RUNTIME_DLLS ${DEBUG_RUNTIME_DLLS})
+    endif()
+
+    if(ALL_VCPKG_RUNTIME_DLLS)
+      install(FILES ${ALL_VCPKG_RUNTIME_DLLS}
+        DESTINATION bin
+        COMPONENT applications
+      )
+      message(STATUS "Will install vcpkg DLLs: ${ALL_VCPKG_RUNTIME_DLLS}")
+    endif()
 endif()
 # install userguide HTML files and PDF
 if(ZZALOG_DOX)
