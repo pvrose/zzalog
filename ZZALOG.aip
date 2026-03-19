@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="22.8" version="23.4" Modules="simple" RootPath="." Language="en_GB" Id="{023CFA17-61FC-4142-B8CC-CD8CA63951A9}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="22.8" version="23.5.1" Modules="simple" RootPath="." Language="en_GB" Id="{023CFA17-61FC-4142-B8CC-CD8CA63951A9}">
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_APP_FILE" Value="[#zzalog.exe]"/>
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
     <ROW Property="AI_PATH_VALIDATION_OPT" Value="2"/>
-    <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_ADMIN_USER;AI_DETECTED_VISUALCPP64_VERSION_PROP"/>
-    <ROW Property="AI_REQUIRED_VISUALCPP_DISPLAY_PROP" MultiBuildValue="x64_Release:Microsoft Visual C++ 2022 Redistributable (64-bit, v14.3)" ValueLocId="-"/>
-    <ROW Property="AI_REQUIRED_VISUALCPP_VERSION" MultiBuildValue="x64_Release:14.3" ValueLocId="-"/>
+    <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_ADMIN_USER"/>
     <ROW Property="AI_RUN_AS_ADMIN" Value="1"/>
     <ROW Property="ALLUSERS" Value="1" MultiBuildValue="x64_Release:2"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
@@ -67,9 +65,11 @@
     <ROW Component="annotated.html" ComponentId="{BEFB1245-5E45-412F-909C-55E9AB2DFD75}" Directory_="html_2_Dir" Attributes="0" KeyPath="annotated.html_1" Type="0"/>
     <ROW Component="api" ComponentId="{2E6B02D2-8CF4-4E90-A56F-DEF190AC1E0F}" Directory_="api_Dir" Attributes="0"/>
     <ROW Component="api_1" ComponentId="{D1D87710-A697-4EE4-89D5-AFEBF03971F1}" Directory_="api_1_Dir" Attributes="0"/>
+    <ROW Component="boost_filesystemvc144mtgdx641_85.dll" ComponentId="{C368BC25-31D4-4A03-BD30-99CA628645C9}" Directory_="bin_Dir" Attributes="256" KeyPath="boost_filesystemvc144mtgdx641_85.dll"/>
     <ROW Component="boost_filesystemvc144mtx641_85.dll" ComponentId="{5006472F-E164-432A-80B4-877A4769A8C8}" Directory_="bin_Dir" Attributes="256" KeyPath="boost_filesystemvc144mtx641_85.dll"/>
     <ROW Component="concrt140.dll" ComponentId="{1A164E64-576C-4069-B169-3E08830AFBE5}" Directory_="bin_Dir" Attributes="256" KeyPath="concrt140.dll"/>
     <ROW Component="libcurl.dll" ComponentId="{9298AD72-DDD2-46F8-8A61-FF4AC89D4AC8}" Directory_="bin_Dir" Attributes="256" KeyPath="libcurl.dll"/>
+    <ROW Component="libcurld.dll" ComponentId="{AC9B9FF4-8BF0-489E-9B71-DC86872CDF49}" Directory_="bin_Dir" Attributes="256" KeyPath="libcurld.dll"/>
     <ROW Component="libgcc_s_seh1.dll" ComponentId="{4C44A9AB-8886-4BFC-B9F3-1E2DA8C35A5C}" Directory_="bin_Dir" Attributes="256" KeyPath="libgcc_s_seh1.dll"/>
     <ROW Component="libhamlib4.dll" ComponentId="{D3737AD3-4BC4-4398-A852-20FA34A5350E}" Directory_="bin_Dir" Attributes="256" KeyPath="libhamlib4.dll"/>
     <ROW Component="libusb1.0.dll" ComponentId="{91663760-EA5E-46CF-8B25-B6022DA2401D}" Directory_="bin_Dir" Attributes="256" KeyPath="libusb1.0.dll"/>
@@ -82,6 +82,7 @@
     <ROW Component="vcruntime140.dll" ComponentId="{D74E64C6-9764-4578-B60B-0E9E883C9196}" Directory_="bin_Dir" Attributes="256" KeyPath="vcruntime140.dll"/>
     <ROW Component="vcruntime140_1.dll" ComponentId="{D63E942F-1E8A-4DC7-8A3C-55EE3C5E13C7}" Directory_="bin_Dir" Attributes="256" KeyPath="vcruntime140_1.dll"/>
     <ROW Component="zlib1.dll" ComponentId="{88A855D3-CE94-4055-92F1-F58C5898D356}" Directory_="bin_Dir" Attributes="256" KeyPath="zlib1.dll"/>
+    <ROW Component="zlibd1.dll" ComponentId="{01C7F8B0-6926-496E-A64C-FE8FCFCD771B}" Directory_="bin_Dir" Attributes="256" KeyPath="zlibd1.dll"/>
     <ROW Component="zzalog.exe" ComponentId="{CA85F5E8-3078-4401-B2FE-247B48AA762C}" Directory_="bin_Dir" Attributes="256" KeyPath="zzalog.exe"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
@@ -2151,6 +2152,10 @@
     <ROW File="concrt140.dll" Component_="concrt140.dll" FileName="CONCRT~1.DLL|concrt140.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\bin\concrt140.dll" SelfReg="false"/>
     <ROW File="release_notes.js" Component_="adding.html" FileName="RELEAS~1.JS|release_notes.js" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\etc\userguide\html\release_notes.js" SelfReg="false"/>
     <ROW File="rev_3_6.html" Component_="adding.html" FileName="REV_3_~1.HTM|rev_3_6.html" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-Release\etc\userguide\html\rev_3_6.html" SelfReg="false"/>
+    <ROW File="zzalog.pdb" Component_="zzalog.exe" FileName="zzalog.pdb" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\bin\zzalog.pdb" SelfReg="false"/>
+    <ROW File="libcurld.dll" Component_="libcurld.dll" FileName="LIBCUR~1.DLL|libcurl-d.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\bin\libcurl-d.dll" SelfReg="false"/>
+    <ROW File="zlibd1.dll" Component_="zlibd1.dll" FileName="zlibd1.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\bin\zlibd1.dll" SelfReg="false"/>
+    <ROW File="boost_filesystemvc144mtgdx641_85.dll" Component_="boost_filesystemvc144mtgdx641_85.dll" FileName="BOOST_~2.DLL|boost_filesystem-vc144-mt-gd-x64-1_85.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\bin\boost_filesystem-vc144-mt-gd-x64-1_85.dll" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.AiPersistentPropComponent">
     <ROW Property="AI_INSTALLPERUSER" Registry="AI_INSTALLPERUSER" HklmSearch="AI_INSTALLPERUSER" HkcuSearch="AI_INSTALLPERUSER_1" Hklm64Search="AI_INSTALLPERUSER_2" Hkcu64Search="AI_INSTALLPERUSER_3"/>
@@ -2276,6 +2281,9 @@
     <ROW Feature_="MainFeature" Component_="vcruntime140.dll"/>
     <ROW Feature_="MainFeature" Component_="vcruntime140_1.dll"/>
     <ROW Feature_="MainFeature" Component_="concrt140.dll"/>
+    <ROW Feature_="MainFeature" Component_="libcurld.dll"/>
+    <ROW Feature_="MainFeature" Component_="zlibd1.dll"/>
+    <ROW Feature_="MainFeature" Component_="boost_filesystemvc144mtgdx641_85.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
@@ -2303,7 +2311,6 @@
     <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] can not be installed on [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="x64_Release"/>
     <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] can not be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="x64_Release"/>
     <ROW Condition="(VersionNT &lt;&gt; 600)" Description="[ProductName] cannot be installed on [WindowsTypeNT60Display]." DescriptionLocId="AI.LaunchCondition.NoNT60" IsPredefined="true" Builds="x64_Release"/>
-    <ROW Condition="AI_DETECTED_VISUALCPP64_VERSION_PROP &gt;= AI_REQUIRED_VISUALCPP_VERSION" Description="[ProductName] cannot be installed on systems without [AI_REQUIRED_VISUALCPP_DISPLAY_PROP] or a newer compatible version." DescriptionLocId="AI.LaunchCondition.VisualCpp" IsPredefined="true" Builds="x64_Release"/>
     <ROW Condition="VersionNT" Description="[ProductName] can not be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="x64_Release"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">

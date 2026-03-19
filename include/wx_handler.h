@@ -150,8 +150,6 @@ protected:
     std::string element_data_;
     //! Unit value
     std::string unit_;
-    //! Error message
-    std::string error_message_;
 	//! WX report is valid
 	bool wx_valid_;
 

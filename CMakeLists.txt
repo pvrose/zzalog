@@ -243,6 +243,16 @@ set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/wx_handler.h
 )
 
+# Generate PDB files for all configurations on MSVC
+if(MSVC)
+  # For RelWithDebInfo and Release builds
+  string(APPEND CMAKE_CXX_FLAGS_RELWITHDEBINFO " /Zi")
+  string(APPEND CMAKE_CXX_FLAGS_RELEASE " /Zi")
+  string(APPEND CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO " /DEBUG /OPT:REF /OPT:ICF")
+  string(APPEND CMAKE_EXE_LINKER_FLAGS_RELEASE " /DEBUG /OPT:REF /OPT:ICF")
+endif()
+
+
 # set directory to install executable, reference data and documents.
 if (MSVC)
   set(CMAKE_INSTALL_RPATH etc)
@@ -461,6 +471,15 @@ install(TARGETS ${TARGET}
   RUNTIME
   COMPONENT applications
 )
+
+# install PDB file for debugging (MSVC only)
+if(MSVC)
+  install(FILES $<TARGET_PDB_FILE:${TARGET}>
+    DESTINATION bin
+    COMPONENT applications
+    OPTIONAL
+  )
+endif()
 # install reference data
 install(FILES ${DATAFILES}
   DESTINATION ${CMAKE_INSTALL_RPATH}
@@ -552,3 +571,4 @@ if(ZZALOG_DOX)
 endif()
 
 include(InstallRequiredSystemLibraries)
+

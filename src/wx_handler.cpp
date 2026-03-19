@@ -370,7 +370,6 @@ Fl_Image* wx_handler::fetch_icon(std::string name) {
         Fl_PNG_Image* result = new Fl_PNG_Image(nullptr, (unsigned char*)ss.str().c_str(), ss.str().length());
         return result;
     } else {
-        Fl::awake(cb_fetch_error, (void *)"WX_HANDLER: WX icon read failed");
         return nullptr;
     }
 }
