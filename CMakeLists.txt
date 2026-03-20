@@ -49,6 +49,9 @@ endif()
 option(ZZALOG_DOX "Generate Documentation" OFF)
 option(ZZALOG_PDF "Generate PDF Document" OFF)
 
+# Generate MSVC debugging symbols for all configurations
+option(ZZALOG_PDB "Generate PDB files for debugging (MSVC only)" OFF)
+
 # All the source .cpp files
 set(ZZALOG_CPPFILES 
   ${ZZALOG_SRC_DIR}/about_dialog.cpp
@@ -261,7 +264,7 @@ set( ZZALOG_HPPFILES
 )
 
 # Generate PDB files for all configurations on MSVC
-if(MSVC)
+if(MSVC AND ZZALOG_PDB)
   # For RelWithDebInfo and Release builds
   string(APPEND CMAKE_CXX_FLAGS_RELWITHDEBINFO " /Zi")
   string(APPEND CMAKE_CXX_FLAGS_RELEASE " /Zi")
@@ -358,8 +361,6 @@ target_link_libraries(${TARGET} PRIVATE
   ${ZZACOMMON_LIBRARIES}
   ${ZC_APP_LIBRARY}
 )
-
-# Runtime DLL analysis code courtesy of CoPilot.
 
 # Copy runtime DLLs to build directory for MSVC
 if (MSVC)
