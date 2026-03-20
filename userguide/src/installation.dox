@@ -23,8 +23,7 @@ All dependencies are included in the package and no further installation is requ
 
 The source may be cloned from https://github.com/pvrose/zzalog. 
 It will be necessary to clone the database in recursive mode.
-This flow has been checked using Microsoft Visual Studio 2022 and 2026 but only with
-configuration x64-Debug from scratch. 
+This flow has been checked using Microsoft Visual Studio 2022 and 2026. 
 It is recommended to run this flow within Visual Studio. Open Visual Studio and continue without
 code. Open a Powershell terminal: View->Terminal then within that terminal do the following:
 
