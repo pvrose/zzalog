@@ -293,33 +293,11 @@ else()
   add_compile_options(-g)
 endif()
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(vcpkg_helper)
+include(hamlib_helper)
 
-# libhamlib
-set(CMAKE_MODULE_PATH ../ ./)
-find_package(HAMLIB)
-if (NOT HAMLIB_FOUND AND MSVC)
-  message(STATUS "HAMLIB not found")
-## Externally set hamlib install directory: find_package(HAMLIB) not part of installation
-  if (NOT HAMLIB_INSTALL_DIR)
-    set(HAMLIB_INSTALL_DIR "C:/Program Files/hamlib-w64-4.7.0")
-  endif()
-  set(HAMLIB_INCLUDE_DIR "${HAMLIB_INSTALL_DIR}/include")
-  set(HAMLIB_LIBRARY "${HAMLIB_INSTALL_DIR}/lib/msvc/libhamlib-4.lib")
-## Required DLLs need to be copied directory with executable.
-  set(HAMLIB_DLLS
-    "${HAMLIB_INSTALL_DIR}/bin/libhamlib-4.dll"
-    "${HAMLIB_INSTALL_DIR}/bin/libusb-1.0.dll"
-    "${HAMLIB_INSTALL_DIR}/bin/libwinpthread-1.dll"
-    "${HAMLIB_INSTALL_DIR}/bin/libgcc_s_seh-1.dll"
-  )
-  add_custom_target(hamlib_dll ALL)
-  foreach(F ${HAMLIB_DLLS})
-      add_custom_command(TARGET hamlib_dll POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${F} ${ZZALOG_RUN_DIR}
-        COMMENT "Copying ${F} to ${ZZALOG_RUN_DIR}"
-      )
-  endforeach()
-endif()  
+find_hamlib()
 
 # Add ZZACOMMON
 set(ZZACOMMON_DOX ${ZZALOG_DOX})
@@ -396,67 +374,9 @@ if (MSVC)
     COMMAND_EXPAND_LISTS
     COMMENT "Copying runtime DLLs to ${RUNTIME_OUTPUT_DIR}"
   )
+  # The following has been included from zzacommon.
+  copy_zlib_dlls()    
 
-  # Manual fallback for ZLIB DLL (debug and release versions)
-  # vcpkg stores debug DLLs in debug/bin and release DLLs in bin
-  set(VCPKG_BIN_DIR "")
-  set(VCPKG_DEBUG_BIN_DIR "")
-
-  if(_VCPKG_INSTALLED_DIR AND VCPKG_TARGET_TRIPLET)
-    set(VCPKG_BIN_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
-    set(VCPKG_DEBUG_BIN_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
-  elseif(ZLIB_ROOT)
-    # ZLIB_ROOT is set in CMakePresets.json
-    set(VCPKG_BIN_DIR "${ZLIB_ROOT}/bin")
-    set(VCPKG_DEBUG_BIN_DIR "${ZLIB_ROOT}/debug/bin")
-  elseif(VCPKG_ROOT)
-    # Deduce from VCPKG_ROOT
-    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-      set(VCPKG_BIN_DIR "${VCPKG_ROOT}/installed/x64-windows/bin")
-      set(VCPKG_DEBUG_BIN_DIR "${VCPKG_ROOT}/installed/x64-windows/debug/bin")
-    else()
-      set(VCPKG_BIN_DIR "${VCPKG_ROOT}/installed/x86-windows/bin")
-      set(VCPKG_DEBUG_BIN_DIR "${VCPKG_ROOT}/installed/x86-windows/debug/bin")
-    endif()
-  endif()
-
-  # Copy ZLIB DLLs from both debug and release directories
-  set(ALL_ZLIB_DLLS "")
-
-  # Check release bin directory
-  if(VCPKG_BIN_DIR AND EXISTS "${VCPKG_BIN_DIR}")
-    message(STATUS "Searching for ZLIB DLLs in: ${VCPKG_BIN_DIR}")
-    file(GLOB RELEASE_ZLIB_DLLS "${VCPKG_BIN_DIR}/zlib*.dll")
-    if(RELEASE_ZLIB_DLLS)
-      list(APPEND ALL_ZLIB_DLLS ${RELEASE_ZLIB_DLLS})
-      message(STATUS "Found release ZLIB DLLs: ${RELEASE_ZLIB_DLLS}")
-    endif()
-  endif()
-
-  # Check debug bin directory
-  if(VCPKG_DEBUG_BIN_DIR AND EXISTS "${VCPKG_DEBUG_BIN_DIR}")
-    message(STATUS "Searching for debug ZLIB DLLs in: ${VCPKG_DEBUG_BIN_DIR}")
-    file(GLOB DEBUG_ZLIB_DLLS "${VCPKG_DEBUG_BIN_DIR}/zlib*.dll")
-    if(DEBUG_ZLIB_DLLS)
-      list(APPEND ALL_ZLIB_DLLS ${DEBUG_ZLIB_DLLS})
-      message(STATUS "Found debug ZLIB DLLs: ${DEBUG_ZLIB_DLLS}")
-    endif()
-  endif()
-
-  # Copy all found ZLIB DLLs
-  if(ALL_ZLIB_DLLS)
-    foreach(ZLIB_DLL ${ALL_ZLIB_DLLS})
-      add_custom_command(TARGET ${TARGET} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-          "${ZLIB_DLL}"
-          "${RUNTIME_OUTPUT_DIR}"
-        COMMENT "Copying ZLIB DLL: ${ZLIB_DLL}"
-      )
-    endforeach()
-    message(STATUS "Will copy ZLIB DLLs: ${ALL_ZLIB_DLLS}")
-  else()
-    message(WARNING "No ZLIB DLLs found in ${VCPKG_BIN_DIR} or ${VCPKG_DEBUG_BIN_DIR}")
-  endif()
 endif()
 
 
@@ -502,62 +422,12 @@ install(FILES ${DATAFILES}
   DESTINATION ${CMAKE_INSTALL_RPATH}
   COMPONENT data
 )
-# install hamlib DLLs
+# install DLLs
 if (MSVC)
-    install(FILES ${HAMLIB_DLLS} 
-    DESTINATION bin
-    COMPONENT applications
-    )
-
-    # Install vcpkg runtime DLLs (boost, curl, zlib)
-    set(VCPKG_INSTALL_BIN_DIR "")
-    set(VCPKG_INSTALL_DEBUG_BIN_DIR "")
-
-    if(_VCPKG_INSTALLED_DIR AND VCPKG_TARGET_TRIPLET)
-      set(VCPKG_INSTALL_BIN_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
-      set(VCPKG_INSTALL_DEBUG_BIN_DIR "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
-    elseif(ZLIB_ROOT)
-      set(VCPKG_INSTALL_BIN_DIR "${ZLIB_ROOT}/bin")
-      set(VCPKG_INSTALL_DEBUG_BIN_DIR "${ZLIB_ROOT}/debug/bin")
-    elseif(VCPKG_ROOT)
-      if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(VCPKG_INSTALL_BIN_DIR "${VCPKG_ROOT}/installed/x64-windows/bin")
-        set(VCPKG_INSTALL_DEBUG_BIN_DIR "${VCPKG_ROOT}/installed/x64-windows/debug/bin")
-      else()
-        set(VCPKG_INSTALL_BIN_DIR "${VCPKG_ROOT}/installed/x86-windows/bin")
-        set(VCPKG_INSTALL_DEBUG_BIN_DIR "${VCPKG_ROOT}/installed/x86-windows/debug/bin")
-      endif()
-    endif()
-
-    # Collect all runtime DLLs from both release and debug directories
-    set(ALL_VCPKG_RUNTIME_DLLS "")
-
-    if(VCPKG_INSTALL_BIN_DIR AND EXISTS "${VCPKG_INSTALL_BIN_DIR}")
-      file(GLOB RELEASE_RUNTIME_DLLS 
-        "${VCPKG_INSTALL_BIN_DIR}/boost_filesystem*.dll"
-        "${VCPKG_INSTALL_BIN_DIR}/libcurl*.dll"
-        "${VCPKG_INSTALL_BIN_DIR}/zlib*.dll"
-      )
-      list(APPEND ALL_VCPKG_RUNTIME_DLLS ${RELEASE_RUNTIME_DLLS})
-    endif()
-
-    if(VCPKG_INSTALL_DEBUG_BIN_DIR AND EXISTS "${VCPKG_INSTALL_DEBUG_BIN_DIR}")
-      file(GLOB DEBUG_RUNTIME_DLLS 
-        "${VCPKG_INSTALL_DEBUG_BIN_DIR}/boost_filesystem*.dll"
-        "${VCPKG_INSTALL_DEBUG_BIN_DIR}/libcurl*.dll"
-        "${VCPKG_INSTALL_DEBUG_BIN_DIR}/zlib*.dll"
-      )
-      list(APPEND ALL_VCPKG_RUNTIME_DLLS ${DEBUG_RUNTIME_DLLS})
-    endif()
-
-    if(ALL_VCPKG_RUNTIME_DLLS)
-      install(FILES ${ALL_VCPKG_RUNTIME_DLLS}
-        DESTINATION bin
-        COMPONENT applications
-      )
-      message(STATUS "Will install vcpkg DLLs: ${ALL_VCPKG_RUNTIME_DLLS}")
-    endif()
+    install_hamlib_dlls()
+    install_vcpkg_dlls()
 endif()
+
 # install userguide HTML files and PDF
 if(ZZALOG_DOX)
     install(
