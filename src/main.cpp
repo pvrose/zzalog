@@ -245,10 +245,19 @@ std::string backup_filename(std::string source, int& max_depth) {
 	std::string backup;
 	backup_settings.get<std::string>("Path", backup, "");
 	backup_settings.get("Depth", max_depth, -1);
+	bool first = true;
 	while (backup.length() == 0) {
 		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
-		chooser->title("Operation requires a backup location.\n"
-			"Select directory for backup");
+		if (first) {
+			chooser->title("Operation requires a backup location.\n"
+				"Select directory for backup");
+			first = false;
+		}
+		else {
+			chooser->title("Backup location is REQUIRED to continue.\n"
+				"Select directory for backup");
+			fl_beep(FL_BEEP_ERROR);
+		}
 		if (chooser->show() == 0) {
 			backup = chooser->filename();
 		}

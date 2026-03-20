@@ -126,8 +126,13 @@ void stn_qth_widget::enable_widgets() {
 		else {
 			ip_data_[it]->value("");
 		}
-		if (it == CITY || it == LOCATOR) {
+		if (it == CITY) {
 			if (data->data.find(it) != data->data.end() && data->data.at(it).length() != 0) {
+				location_valid_ = true;
+			}
+		}
+		if (it == LOCATOR) {
+			if (data->data.find(it) != data->data.end() && data->data.at(it).length() >= 6) {
 				location_valid_ = true;
 			}
 		}

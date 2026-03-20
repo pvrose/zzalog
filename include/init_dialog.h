@@ -71,9 +71,6 @@ protected:
     //! VAlid data has been entered. 
     bool valid_data_ = false; 
 
-    //! Invalid data has been entered
-    bool invalid_ = false;
-
     // Widgets
     Fl_Radio_Round_Button* bn_club_;        //!< Club station
     Fl_Radio_Round_Button* bn_indiv_;       //!< Individual station
