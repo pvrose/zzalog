@@ -17,6 +17,8 @@ For a single user ZZALOG will be installed in
 data used in
 "C:\Users\pvros\AppData\Local\Programs\GM3ZZA\ZZALOG\etc".
 
+All dependencies are included in the package and no further installation is required.
+
 \subsection win_source Compiling from source
 
 The source may be cloned from https://github.com/pvrose/zzalog. 
@@ -36,18 +38,26 @@ particular version being used).
 cd "C:\Program Files\hamlib-w64-4.7.0\lib\mcvc"
 sudo lib /def:libhamlib-4.def /machine:x64
 \endcode
+\note Remember the directory used to install Hamlib as this will be required later. 
+For example, in the above case it is "C:\Program Files\hamlib-w64-4.7.0".
+
 \note ZZALOG has not yet been tested with Hamlib version 5.
-\par Fetch and build FLTK.
-\code
-git clone https://github.com/fltk/fltk
-cmake -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
-cmake --build build
-\endcode
-Alternatively, MSVC may be used to build the FLTK libraries.
-\note In either case take a note of the directory used to build FLTK.
-\par Installing libcurl and boost.
+\par Fetch and build FLTK. 
+Launch MSVC and select "Clone a repository". Select the FLTK repository at
+https://github/fltk/fltk. The following instructions will assume the default
+directory for the clone is "C:\Users\<user>\source\repos\fltk".
+Once the clone is complete, open the folder in Visual Studio: File->Open->Folder and select
+the FLTK folder. This should automatically run the CMake configuration step.
+Select the "x64-Release" configuration.
+Select Build->Build ALL and the executable will get built. By default the build will be in
+"C:\Users\<user>\source\repos\fltk\out\build".
+Select Build->Install FLTK to install the library. This will install the library in
+"C:\Users\<user>\source\repos\fltk\out\build\install". 
+\note Remember the directory used to build FLTK as this will be required later. 
+\par Installing VCPKG and dependencies.
 Fetch and install VCPKG
 \code
+cd "C:\Users\<user>\source\repos"
 git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
 .\bootstrap-vcpkg.bat 
@@ -58,6 +68,8 @@ Use VCPKG to install libcurl and boost.
 .\vcpkg.exe install curl 
 .\vcpkg.exe install boost
 \endcode 
+This will install the libraries in "C:\Users\<user>\source\repos\vcpkg\installed\x64-windows".
+\note Remember the directory used to install the libraries as this will be required later.
 \par Fetch JSON and Pthread include files
 \code 
 cd ..
@@ -71,13 +83,24 @@ git clone --recursive https://github.com/pvrose/zzalog
 
 \par Building ZZALOG
 To build ZZALOG open the ZZALOG folder within Visual Studio: File->Open->Folder and
-select zzalog. This should now automatically run the CMake configuration step.
-Select Build->Build ALL and the executable and documentation will get built. By default
-the documents will not be build. To add documents, under CMake setting set the CMake 
-command arguments to "-DZZALOG_DOX=ON". to further add PDF version, add "-DZZALOG_PDF=ON".
+select zzalog. The directories for the dependencies must be specified in the CMake settings.
+The file CMakePresets.json contains presets for the dependencies. The presets define a parameter called
+cacheVariables which contains the paths to the dependencies. These should be updated to match the directories used to install the dependencies. 
+Using the example directories given above, the cacheVariables should be updated as follows:
+\code
+"VCPKG_ROOT": "C:/Users/<user>/source/repos/vcpkg",
+"HAMLIB_ROOT": "C:/Program Files/hamlib-w64-4.7.0"
+"FLTK_DIR:": "C:/Users/<user>/source/repos/fltk/out/install/x64-release/CMake",
+\endcode
 
-\note The FLTK build directory must be passed to CMAKE. To do so add
-"-DFLTK_DIR=<FLTK build directory>" in the CMake command arguments as above.
+This should now automatically run the CMake configuration step.
+Select Build->Build ALL and the executable and documentation will get built. By default
+the documents will not be build. To add documents, add the following cache variables to the
+CMakePresets.json file:
+\code
+"ZZALOG_DOX": "ON",
+"ZZALOG_PDF": "ON"
+\endcode
 
 \par Installing ZZALOG
 To install select Build->Install ZZALOG.

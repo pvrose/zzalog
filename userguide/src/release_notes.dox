@@ -1,6 +1,6 @@
 /** \page release_notes Revision History
 
-\section rev_3_6_16 Revision 3.6.16 [Unreleased]
+\section rev_3_6_16 Revision 3.6.16 [Pre-release]
 
 - Functional changes.
   - Add command line option -h [html|pdf] to open HTML or PDF userguide.
@@ -10,6 +10,7 @@
   - Remove or reword typos and unhelpful information in status messages.
   - Remove -g command line switch as no longer does anything.
   - Moved more non-ZZALOG code to ZZACOMMON.
+  - In cold-start dialogs, make the required fields more obvious.
 - Performance changes.
   - None.
 - Bug fixes.
