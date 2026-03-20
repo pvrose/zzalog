@@ -16,6 +16,8 @@
 
 #]=]
 
+# CMake helper function for hamlib integration.
+# It augments find_package(HAMLIB) with additional handling for MSVC.
 function (find_hamlib)
     find_package(HAMLIB)
     if (NOT HAMLIB_FOUND AND MSVC)
@@ -46,6 +48,7 @@ function (find_hamlib)
     set(HAMLIB_DLLS "${HAMLIB_DLLS}" PARENT_SCOPE)
 endfunction()
 
+# Copy hamlib DLLs to the install directory.
 function(install_hamlib_dlls)
    install(FILES ${HAMLIB_DLLS} 
     DESTINATION bin
