@@ -23,17 +23,19 @@ function (find_hamlib)
     if (NOT HAMLIB_FOUND AND MSVC)
       message(STATUS "HAMLIB not found")
     ## Externally set hamlib install directory: find_package(HAMLIB) not part of installation
-      if (NOT HAMLIB_INSTALL_DIR)
-        set(HAMLIB_INSTALL_DIR "C:/Program Files/hamlib-w64-4.7.0")
+      if (NOT HAMLIB_ROOT)
+        message(FATAL_ERROR "HAMLIB_ROOT not set, set it to the hamlib installation directory.")
+      else()
+        message(STATUS "Using HAMLIB_ROOT ${HAMLIB_ROOT}")
       endif()
-      set(HAMLIB_INCLUDE_DIR "${HAMLIB_INSTALL_DIR}/include")
-      set(HAMLIB_LIBRARY "${HAMLIB_INSTALL_DIR}/lib/msvc/libhamlib-4.lib")
+      set(HAMLIB_INCLUDE_DIR "${HAMLIB_ROOT}/include")
+      set(HAMLIB_LIBRARY "${HAMLIB_ROOT}/lib/msvc/libhamlib-4.lib")
     ## Required DLLs need to be copied directory with executable.
       set(HAMLIB_DLLS
-        "${HAMLIB_INSTALL_DIR}/bin/libhamlib-4.dll"
-        "${HAMLIB_INSTALL_DIR}/bin/libusb-1.0.dll"
-        "${HAMLIB_INSTALL_DIR}/bin/libwinpthread-1.dll"
-        "${HAMLIB_INSTALL_DIR}/bin/libgcc_s_seh-1.dll"
+        "${HAMLIB_ROOT}/bin/libhamlib-4.dll"
+        "${HAMLIB_ROOT}/bin/libusb-1.0.dll"
+        "${HAMLIB_ROOT}/bin/libwinpthread-1.dll"
+        "${HAMLIB_ROOT}/bin/libgcc_s_seh-1.dll"
       )
       add_custom_target(hamlib_dll ALL)
       foreach(F ${HAMLIB_DLLS})

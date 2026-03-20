@@ -282,13 +282,7 @@ endif()
 message(STATUS "Reference data will be copied to ${CMAKE_INSTALL_RPATH}")
 
 # Set target directory for .dlls and development-mode data
-message(STATUS "ZZALOG_BINARY_DIR = ${ZZALOG_BINARY_DIR}")
-message(STATUS "VCPKG_TARGET_TRIPLET = ${VCPKG_TARGET_TRIPLET}")
-#if (VCPKG_TARGET_TRIPLET)
-#  set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR}/${VCPKG_TARGET_TRIPLET})
-#else()
 set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR})
-#endif()
 
 # set compiler options
 if (MSVC)
@@ -296,7 +290,10 @@ else()
   add_compile_options(-g)
 endif()
 
+# Set CMake module path to pick up local CMake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+# Set CMake prefix path to pick up vcpkg-installed packages
+list(APPEND CMAKE_PREFIX_PATH "${VCPKG_ROOT}/installed/x64-windows/share")
 include(vcpkg_helper)
 include(hamlib_helper)
 
