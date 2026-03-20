@@ -436,11 +436,13 @@ if(ZZALOG_DOX)
     COMPONENT documentation
     MESSAGE_NEVER
     )
-    install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${APP_NAME}.pdf
-    DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
-    COMPONENT documentation
-    )
+    if (ZZALOG_PDF)
+        install(
+        FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${APP_NAME}.pdf
+        DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
+        COMPONENT documentation
+        )
+    endif(ZZALOG_PDF)
     # install API documentation HTML filesn
     install(
     DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/api/html
