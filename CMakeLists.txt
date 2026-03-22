@@ -294,7 +294,6 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # Set CMake prefix path to pick up vcpkg-installed packages
 list(APPEND CMAKE_PREFIX_PATH "${VCPKG_ROOT}/installed/x64-windows/share")
-include(vcpkg_helper)
 include(hamlib_helper)
 
 find_hamlib()
