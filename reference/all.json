@@ -1,9 +1,9 @@
 {
   "Adif": {
-    "Version": "3.1.6",
+    "Version": "3.1.7",
     "Status": "Released",
-    "Date": "2025-09-15T00:00:00Z",
-    "Created": "2025-09-15T11:13:25Z",
+    "Date": "2026-03-22T00:00:00Z",
+    "Created": "2026-03-22T12:41:31Z",
     "DataTypes": {
       "Header": [
         "Data Type Name",
@@ -5130,17 +5130,17 @@
           "Y": {
             "Enumeration Name": "EQSL_AG",
             "Status": "Y",
-            "Description": "the QSO is confirmed and \u0022Authenticity Guaranteed\u0022 by eQSL"
+            "Description": "The QSO\u0027s callsign holds eQSL.cc\u0027s \u0022Authenticity Guaranteed\u0022 status"
           },
           "N": {
             "Enumeration Name": "EQSL_AG",
             "Status": "N",
-            "Description": "the QSO is confirmed but not \u0022Authenticity Guaranteed\u0022 by eQSL"
+            "Description": "The QSO\u0027s callsign does not hold eQSL.cc\u0027s \u0022Authenticity Guaranteed\u0022 status"
           },
           "U": {
             "Enumeration Name": "EQSL_AG",
             "Status": "U",
-            "Description": "unknown"
+            "Description": "Unspecified (Default)"
           }
         }
       },
@@ -5198,7 +5198,7 @@
           "DYNAMIC": {
             "Enumeration Name": "Mode",
             "Mode": "DYNAMIC",
-            "Submodes": "VARA HF,VARA SATELLITE,VARA FM 1200,VARA FM 9600"
+            "Submodes": "FREEDATA,VARA HF,VARA SATELLITE,VARA FM 1200,VARA FM 9600"
           },
           "FAX": {
             "Enumeration Name": "Mode",
@@ -5259,7 +5259,7 @@
           "MFSK": {
             "Enumeration Name": "Mode",
             "Mode": "MFSK",
-            "Submodes": "FSQCALL,FST4,FST4W,FT4,JS8,JTMS,MFSK4,MFSK8,MFSK11,MFSK16,MFSK22,MFSK31,MFSK32,MFSK64,MFSK64L,MFSK128 MFSK128L,Q65"
+            "Submodes": "FSQCALL,FST4,FST4W,FT2,FT4,JS8,JTMS,MFSK4,MFSK8,MFSK11,MFSK16,MFSK22,MFSK31,MFSK32,MFSK64,MFSK64L,MFSK128 MFSK128L,Q65"
           },
           "MSK144": {
             "Enumeration Name": "Mode",
@@ -5274,6 +5274,12 @@
           "MT63": {
             "Enumeration Name": "Mode",
             "Mode": "MT63"
+          },
+          "OFDM": {
+            "Enumeration Name": "Mode",
+            "Mode": "OFDM",
+            "Submodes": "RIBBIT_PIX,RIBBIT_SMS",
+            "Description": "Orthogonal Frequency-Division Multiplexing including COFDM"
           },
           "OLIVIA": {
             "Enumeration Name": "Mode",
@@ -20673,6 +20679,12 @@
             "Submode": "FMHELL",
             "Mode": "HELL"
           },
+          "FREEDATA": {
+            "Enumeration Name": "Submode",
+            "Submode": "FREEDATA",
+            "Mode": "DYNAMIC",
+            "Description": "Data communications leveraging Codec2 HF modems"
+          },
           "FREEDV": {
             "Enumeration Name": "Submode",
             "Submode": "FREEDV",
@@ -20716,6 +20728,11 @@
             "Submode": "FST4W",
             "Mode": "MFSK",
             "Description": "This is a digital mode supported by the WSJT-X software that is for quasi-beacon transmissions of WSPR-style messages"
+          },
+          "FT2": {
+            "Enumeration Name": "Submode",
+            "Submode": "FT2",
+            "Mode": "MFSK"
           },
           "FT4": {
             "Enumeration Name": "Submode",
@@ -21277,6 +21294,18 @@
             "Submode": "QRA64E",
             "Mode": "QRA64"
           },
+          "RIBBIT_PIX": {
+            "Enumeration Name": "Submode",
+            "Submode": "RIBBIT_PIX",
+            "Mode": "OFDM",
+            "Description": "Images transmitted using Ribbit"
+          },
+          "RIBBIT_SMS": {
+            "Enumeration Name": "Submode",
+            "Submode": "RIBBIT_SMS",
+            "Mode": "OFDM",
+            "Description": "Short text messages transmitted using Ribbit"
+          },
           "ROS-EME": {
             "Enumeration Name": "Submode",
             "Submode": "ROS-EME",
@@ -21476,31 +21505,31 @@
         "ADIF_VER": {
           "Field Name": "ADIF_VER",
           "Data Type": "String",
-          "Description": "identifies the version of ADIF used in this file in the format X.Y.Z where X is an integer designating the ADIF epoch Y is an integer between 0 and 9 designating the major version Z is an integer between 0 and 9 designating the minor version",
+          "Description": "Identifies the version of ADIF used in this file in the format X.Y.Z where ● X is an integer designating the ADIF epoch. ● Y is an integer between 0 and 9 designating the major version. ● Z is an integer between 0 and 9 designating the minor version.",
           "Header Field": "true"
         },
         "CREATED_TIMESTAMP": {
           "Field Name": "CREATED_TIMESTAMP",
           "Data Type": "String",
-          "Description": "identifies the UTC date and time that the file was created in the format of 15 characters YYYYMMDD HHMMSS where YYYYMMDD is a Date data type HHMMSS is a 6 character Time data type",
+          "Description": "Identifies the UTC date and time that the file was created in the format of 15 characters YYYYMMDD HHMMSS where YYYYMMDD is a Date data type. HHMMSS is a 6 character Time data type.",
           "Header Field": "true"
         },
         "PROGRAMID": {
           "Field Name": "PROGRAMID",
           "Data Type": "String",
-          "Description": "identifies the name of the logger, converter, or utility that created or processed this ADIF file To help avoid name clashes, the ADIF PROGRAMID Register provides a voluntary list of PROGRAMID values.",
+          "Description": "Identifies the name of the logger, converter, or utility that created or processed this ADIF content. To help avoid name clashes, the ADIF PROGRAMID Register provides a voluntary list of PROGRAMID values.",
           "Header Field": "true"
         },
         "PROGRAMVERSION": {
           "Field Name": "PROGRAMVERSION",
           "Data Type": "String",
-          "Description": "identifies the version of the logger, converter, or utility that created or processed this ADIF file",
+          "Description": "Identifies the version of the logger, converter, or utility that created or processed this ADIF file.",
           "Header Field": "true"
         },
         "USERDEFn": {
           "Field Name": "USERDEFn",
           "Data Type": "String",
-          "Description": "specifies the name and optional enumeration or range of the nth user-defined field, where n is a positive integer The name of a user-defined field may not be an ADIF Field name contain a comma a colon an open-angle-bracket or close-angle-bracket character an open-curly-bracket or close-curly-bracket character begin or end with a space character",
+          "Description": "Specifies the name and optional enumeration or range of the nth user-defined field, where n is a positive integer. The name of a user-defined field may not ● be an ADIF Field name. ● contain ○ a comma. ○ a colon. ○ an open-angle-bracket or close-angle-bracket character. ○ an open-curly-bracket or close-curly-bracket character. ● begin or end with a space character.",
           "Header Field": "true"
         },
         "ADDRESS": {
@@ -21678,7 +21707,7 @@
         "DARC_DOK": {
           "Field Name": "DARC_DOK",
           "Data Type": "Enumeration",
-          "Description": "the contacted station\u0027s DARC DOK (District Location Code) A DOK comprises letters and numbers, e.g. \u003CDARC_DOK:3\u003EA01"
+          "Description": "the contacted station\u0027s DARC DOK (District Location Code) A DOK comprises letters and numbers, e.g. \u003CDARC_DOK:3\u003EA01 Note that DARC provides two different lists - one for DOKs and one for Special DOKs."
         },
         "DCL_QSLRDATE": {
           "Field Name": "DCL_QSLRDATE",
@@ -21728,7 +21757,7 @@
           "Field Name": "EQSL_AG",
           "Data Type": "Enumeration",
           "Enumeration": "EQSL_AG",
-          "Description": "indicates whether the QSO is known to be \u0022Authenticity Guaranteed\u0022 by eQSL"
+          "Description": "indicates whether the QSO is known to be \u0022Authenticity Guaranteed\u0022 by eQSL Default value: U"
         },
         "EQSL_QSLRDATE": {
           "Field Name": "EQSL_QSLRDATE",
@@ -21978,7 +22007,7 @@
         "MY_DARC_DOK": {
           "Field Name": "MY_DARC_DOK",
           "Data Type": "Enumeration",
-          "Description": "the logging station\u0027s DARC DOK (District Location Code) A DOK comprises letters and numbers, e.g. \u003CMY_DARC_DOK:3\u003EA01"
+          "Description": "the logging station\u0027s DARC DOK (District Location Code) A DOK comprises letters and numbers, e.g. \u003CMY_DARC_DOK:3\u003EA01 Note that DARC provides two different lists - one for DOKs and one for Special DOKs."
         },
         "MY_DXCC": {
           "Field Name": "MY_DXCC",

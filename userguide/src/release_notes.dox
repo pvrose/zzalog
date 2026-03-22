@@ -11,6 +11,7 @@
   - Remove -g command line switch as no longer does anything.
   - Moved more non-ZZALOG code to ZZACOMMON.
   - In cold-start dialogs, make the required fields more obvious.
+  - Include ADIF 3.1.7.
 - Performance changes.
   - None.
 - Bug fixes.
