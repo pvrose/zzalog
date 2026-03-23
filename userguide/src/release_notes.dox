@@ -1,6 +1,6 @@
 /** \page release_notes Revision History
 
-\section rev_3_6_16 Revision 3.6.16 [Pre-release]
+\section rev_3_6_16 Revision 3.6.16
 
 - Functional changes.
   - Add command line option -h [html|pdf] to open HTML or PDF userguide.
