@@ -17,11 +17,7 @@
 */
 #include "qsl_editor.h"
 
-#include <zc_callback.h>
-#include <zc_drawing.h>
 #include "field_choice.h"
-#include "zc_filename_input.h"
-#include "font_dialog.h"
 #include "intl_widgets.h"
 #include <page_dialog.h>
 #include <qsl_data.h>
@@ -31,17 +27,25 @@
 #include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "zc_settings.h"
-#include "zc_status.h"
 #include <win_dialog.h>
 
+// ZZACOMMON classes
+#include "zc_button_dialog.h"
+#include "zc_callback.h"
+#include "zc_drawing.h"
+#include "zc_filename_input.h"
+#include "zc_settings.h"
+#include "zc_status.h"
+#include "zc_text_style.h"
 #include "zc_utils.h"
 
+// C++ standard library
 #include <algorithm>
 #include <cstdio>
 #include <ctime>
 #include <string>
 
+// FLTK classes
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
 #include <FL/Fl_Box.H>
@@ -57,6 +61,9 @@
 #include <FL/Fl_Value_Input.H>
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
+
+// Button opens a dialog to edit a text style.
+typedef zc_button_dialog<zc_text_style_dialog, zc_text_style> text_style_button;
 
 extern void open_html(const char* filename);
 
@@ -395,11 +402,12 @@ void qsl_editor::create_form(int X, int Y) {
     curr_x = x() + GAP;
 
 	int avail_height = Fl_Group::h() - (curr_y - y());
+	int avail_width = Fl_Group::w() - 2 * GAP;
 
 	// There is no Group 3
 
 	// Group 4 - show the drawing item data
-	g_4_ = new Fl_Group(curr_x, curr_y, 10, avail_height, "Design items");
+	g_4_ = new Fl_Group(curr_x, curr_y, avail_width, avail_height, "Design items");
     g_4_->align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_INSIDE);
     g_4_->labelfont(FL_BOLD);
     g_4_->labelsize(FL_NORMAL_SIZE + 2);
@@ -412,7 +420,6 @@ void qsl_editor::create_form(int X, int Y) {
     end();
 
 	resizable(nullptr);
-	resize();
 
 	show();
 }
@@ -447,14 +454,13 @@ void qsl_editor::save_values() {
 	qsl_win_settings.set("Left", win_x_);
 	qsl_dataset_->save_data();
 }
+
 // Create the card data item data widgets
 void qsl_editor::create_items() {
 
 	// Remove all existing widgets - hide them first 
 	g_4_->hide();
 	g_4_->clear();
-	g_4_->show();
-	g_4_->redraw();
 
 	int curr_x = g_4_->x() + GAP;
 	int save_x = curr_x;
@@ -462,9 +468,8 @@ void qsl_editor::create_items() {
 	int max_x = curr_x;
 	
 	Fl_Group* saveg = Fl_Group::current();
-	Fl_Group::current(g_4_);
+	g_4_->begin();
 
-	// Group 4.2 - New item (NB group ordering has changes 4.2 is before 4.1)
 	Fl_Group* g_402 = new Fl_Group(save_x + WLABEL, curr_y, 100, HBUTTON);
 	g_402->box(FL_FLAT_BOX);
 
@@ -491,8 +496,11 @@ void qsl_editor::create_items() {
 	curr_x = g_4_->x() + GAP;
 
 	// Fl_Scroll encapsulates a set of Group 4.1.x
-	Fl_Scroll* gg_401 = new Fl_Scroll(curr_x, curr_y, 100, available_h);
+	int w_scroll = g_4_->x() + g_4_->w() - curr_x - GAP;
+	Fl_Scroll* gg_401 = new Fl_Scroll(curr_x, curr_y, w_scroll, available_h);
 	gg_401->type(Fl_Scroll::VERTICAL);
+
+	int w_available = gg_401->w() - Fl::scrollbar_size() - GAP;
 	
 	// For each item...
 	for (int ix = 0; ix < data_->items.size(); ix++) {
@@ -522,17 +530,17 @@ void qsl_editor::create_items() {
 			switch(item->type) {
 			case qsl_data::FIELD: {
 				// The widgets to edit a field item
-				create_fparams(curr_x, curr_y, &item->field);
+				create_fparams(curr_x, curr_y, w_available, &item->field);
 				break;
 			}
 			case qsl_data::TEXT: {
 				// The widgets to edit a text item
-				create_tparams(curr_x, curr_y, &item->text);
+				create_tparams(curr_x, curr_y, w_available, &item->text);
 				break;
 			}
 			case qsl_data::IMAGE: {
 				// The widgets to edit an image item
-				create_iparams(curr_x, curr_y, &item->image);
+				create_iparams(curr_x, curr_y, w_available, &item->image);
 				break;
 			}
 			default:
@@ -555,6 +563,9 @@ void qsl_editor::create_items() {
 	g_4_->resizable(nullptr);
 	g_4_->size(max_x - g_4_->x(), g_4_->h());
 
+	g_4_->end();
+	g_4_->show();
+
 	Fl_Group::current(saveg);
 
 	redraw();
@@ -563,6 +574,9 @@ void qsl_editor::create_items() {
 // Create the boxes containing column headers
 void qsl_editor::create_labels(int curr_y) {
 	int curr_x = g_4_->x() + GAP + WLABEL / 2;
+	// Create a group to contain the column labels
+	Fl_Group* labels = new Fl_Group(curr_x, curr_y, g_4_->w() - curr_x, HBUTTON);
+
 	Fl_Box* b_type = new Fl_Box(curr_x, curr_y, WBUTTON, HBUTTON, "Type");
 	b_type->tooltip("Select the item type - NONE to ignore");
 	curr_x += b_type->w() + GAP;
@@ -588,11 +602,17 @@ void qsl_editor::create_labels(int curr_y) {
 	curr_x += b_box->w();
 	Fl_Box* b_dn = new Fl_Box(curr_x, curr_y, HBUTTON, HBUTTON, "DE");
 	b_dn->tooltip("Select if the item is to be displayed if null value");
+
+	labels->resizable(nullptr);
+	labels->end();
 }
 
 // Create the widgets to edit field item values
-void qsl_editor::create_fparams(int& curr_x, int& curr_y, qsl_data::field_def* field) {
+void qsl_editor::create_fparams(int& curr_x, int& curr_y, int w, qsl_data::field_def* field) {
 	char temp[100];
+
+	// Create a group to contain the field item data
+	Fl_Group* g_f = new Fl_Group(curr_x, curr_y, w, HBUTTON);
 
 	// Item position (X-coordinate relative to display)
 	Fl_Input* f_dx = new Fl_Input(curr_x, curr_y, WBUTTON / 2, HBUTTON);
@@ -622,17 +642,16 @@ void qsl_editor::create_fparams(int& curr_x, int& curr_y, qsl_data::field_def* f
 
 	// Button opens a font, size and colour dialog for the label
 	// The button's label will be displayed in the selected font, size and colour
-	Fl_Button* f_lstyle = new Fl_Button(curr_x, curr_y, HBUTTON, HBUTTON, "S");
+	text_style_button* f_lstyle = new text_style_button(curr_x, curr_y, HBUTTON, HBUTTON);
 	f_lstyle->align(FL_ALIGN_INSIDE | FL_ALIGN_CENTER | FL_ALIGN_CLIP);
+	f_lstyle->button()->label("S");
 	f_lstyle->callback(cb_bn_style, (void*)&field->l_style);
 	f_lstyle->when(FL_WHEN_RELEASE);
 	f_lstyle->color(FL_WHITE);
-	f_lstyle->labelcolor(field->l_style.colour);
-	f_lstyle->labelfont(field->l_style.font);
-	f_lstyle->labelsize(field->l_style.size);
+	f_lstyle->value(field->l_style);
 	snprintf(temp, sizeof(temp), "%s: %d pt. Click to change", 
-		Fl::get_font_name(Fl_Font(field->l_style.font), nullptr), 
-		field->l_style.size);
+	Fl::get_font_name(Fl_Font(field->l_style.font), nullptr), 
+	field->l_style.size);
 	f_lstyle->copy_tooltip(temp);
 
 	curr_x += f_lstyle->w();
@@ -647,14 +666,13 @@ void qsl_editor::create_fparams(int& curr_x, int& curr_y, qsl_data::field_def* f
 	curr_x += f_field->w();
 	// Button opens a font, size and colour dialog for the value
 	// The button's label will be displayed in the selected font, size and colour
-	Fl_Button* f_tstyle = new Fl_Button(curr_x, curr_y, HBUTTON, HBUTTON, "S");
+	text_style_button* f_tstyle = new text_style_button(curr_x, curr_y, HBUTTON, HBUTTON);
 	f_tstyle->align(FL_ALIGN_INSIDE | FL_ALIGN_CENTER | FL_ALIGN_CLIP);
+	f_tstyle->button()->label("S");
 	f_tstyle->callback(cb_bn_style, (void*)&field->t_style);
 	f_tstyle->when(FL_WHEN_RELEASE);
 	f_tstyle->color(FL_WHITE);
-	f_tstyle->labelcolor(field->t_style.colour);
-	f_tstyle->labelfont(field->t_style.font);
-	f_tstyle->labelsize(field->t_style.size);
+	f_tstyle->value(field->t_style);
 	snprintf(temp, sizeof(temp), "%s: %d pt. Click to change", 
 		Fl::get_font_name(Fl_Font(field->t_style.font), nullptr), 
 		field->t_style.size);
@@ -694,11 +712,17 @@ void qsl_editor::create_fparams(int& curr_x, int& curr_y, qsl_data::field_def* f
 
 	curr_x += f_ignore->w();
 	curr_y += HBUTTON;
+
+	g_f->resizable(nullptr);
+	g_f->end();
 }
 
 // Craete the widgets to edit a text item
-void qsl_editor::create_tparams(int& curr_x, int& curr_y, qsl_data::text_def* text) {
+void qsl_editor::create_tparams(int& curr_x, int& curr_y, int w, qsl_data::text_def* text) {
 	char temp[100];
+
+	// Create a group to contain the text item data
+	Fl_Group* g_t = new Fl_Group(curr_x, curr_y, w, HBUTTON);
 
 	// X-position of the item relative to the display
 	Fl_Input* t_dx = new Fl_Input(curr_x, curr_y, WBUTTON / 2, HBUTTON);
@@ -728,18 +752,17 @@ void qsl_editor::create_tparams(int& curr_x, int& curr_y, qsl_data::text_def* te
 
 	// Button to open a font, size and colour dialog for the text value
 	// The button's label will be displayed in the selected font, size and colour
-	Fl_Button* t_tstyle = new Fl_Button(curr_x, curr_y, HBUTTON, HBUTTON, "S");
+	text_style_button* t_tstyle = new text_style_button(curr_x, curr_y, HBUTTON, HBUTTON, "S");
 	t_tstyle->align(FL_ALIGN_INSIDE | FL_ALIGN_CENTER | FL_ALIGN_CLIP);
+	t_tstyle->button()->label("S");
 	t_tstyle->callback(cb_bn_style, (void*)&text->t_style);
 	t_tstyle->when(FL_WHEN_RELEASE);
 	t_tstyle->color(FL_WHITE);
-	t_tstyle->labelcolor(text->t_style.colour);
-	t_tstyle->labelfont(text->t_style.font);
-	t_tstyle->labelsize(text->t_style.size);
 	snprintf(temp, sizeof(temp), "%s: %d pt. Click to change", 
 		Fl::get_font_name(Fl_Font(text->t_style.font), nullptr), 
 		text->t_style.size);
 	t_tstyle->copy_tooltip(temp);
+	t_tstyle->value(text->t_style);
 
 	curr_x += t_tstyle->w();
 
@@ -752,11 +775,17 @@ void qsl_editor::create_tparams(int& curr_x, int& curr_y, qsl_data::text_def* te
 
 	curr_x += t_vert->w();
 	curr_y += HBUTTON;
+
+	g_t->resizable(nullptr);
+	g_t->end();
 }
 
 // Create the widgets to edit image items
-void qsl_editor::create_iparams(int& curr_x, int& curr_y, qsl_data::image_def* image) {
+void qsl_editor::create_iparams(int& curr_x, int& curr_y, int w, qsl_data::image_def* image) {
 	char temp[100];
+
+	// Create a group to contain the image item data
+	Fl_Group* g_i = new Fl_Group(curr_x, curr_y, w, HBUTTON);
 
 	// X-position of the image relative to the display window
 	Fl_Input* i_dx = new Fl_Input(curr_x, curr_y, WBUTTON / 2, HBUTTON);
@@ -788,6 +817,9 @@ void qsl_editor::create_iparams(int& curr_x, int& curr_y, qsl_data::image_def* i
 
 	curr_x += i_filename->w();
 	curr_y += HBUTTON;
+
+	g_i->resizable(nullptr);
+	g_i->end();
 
 }
 
@@ -914,18 +946,12 @@ void qsl_editor::cb_radio_dim(Fl_Widget* w, void* v) {
 void qsl_editor::cb_bn_style(Fl_Widget* w, void* v) {
 	// Get the current style
    	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
-	qsl_data::style_def* style = (qsl_data::style_def*)v;
-	// Open a font, size and colour dialog
-    font_dialog* d = new font_dialog(style->font, style->size, style->colour, "QSL Editor - text style chooser");
-    button_t result = d->display();
-    if (result == BN_OK) {
-        style->font = d->font();
-        style->size = d->font_size();
-        style->colour = d->colour();
-        that->redraw_display(true);
-		that->create_items();
-    }
-    Fl::delete_widget(d);
+	text_style_button* bn = (text_style_button*)w;
+	zc_text_style* style = (zc_text_style*)v;
+	*style = bn->value();
+	// Update the button label to show the new style
+	bn->value(*style);
+	that->redraw_display(true);
 }
 
 // Want to change a size parameter (widgth or height of label)

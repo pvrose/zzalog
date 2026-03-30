@@ -17,12 +17,16 @@
 */
 #pragma once
 
+#include "zc_text_style.h"
+
 #include <string>
 #include <vector>
 
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
+
+struct zc_text_style;
 
 #include <FL/Fl.H>
 
@@ -37,20 +41,12 @@ struct qsl_data {
         IMAGE,  //!< An Fl_Box displaying an image. 
     };
 
-    //! Specifies the font, size and colour to be used for FIELD and TEXT items
-    // field values, field labels and text values
-    struct style_def {
-        Fl_Font font{ FL_HELVETICA };       //!< Font
-        Fl_Fontsize size{ FL_NORMAL_SIZE }; //!< Size
-        Fl_Color colour{ FL_BLACK };        //!< Colour  
-    };
-
     //! Structure describing the parameters of a field and its label.
     struct field_def {
         std::string field{ "" };        //!< Field name.
         std::string label{ "" };        //!< The label on the QSL (e.g. "To:" for CALL).
-        style_def l_style;         //!< Style of the label.
-        style_def t_style;         //!< Style of the field value.
+        zc_text_style l_style;         //!< Style of the label.
+        zc_text_style t_style;         //!< Style of the field value.
         int dx{ 0 };               //!< X Position of the field value within the QSL card (-1 = juxtaposed the previous)
         int dy{ 0 };               //!< Y position of the field value within the QSL card.
         bool vertical{ false };    //!< If true: label and text are stacked one above the other.
@@ -63,7 +59,7 @@ struct qsl_data {
     //! Structure describing the paarmeters of a text item.
     struct text_def {
         std::string text{ "Text" };     //!< Text value.
-        style_def t_style;         //!< Style of the text.
+        zc_text_style t_style;         //!< Style of the text.
         int dx{ 0 };               //!< X position within QSL card image.
         int dy{ 0 };               //!< Y position within QSL card image.
         bool vertical{ false };    //!< If true the next item is alongside rather than below
@@ -139,7 +135,5 @@ const std::string QSL_TYPES[qsl_data::MAX_TYPE] = {"Label", "File"};
 
 void to_json(json& j, const qsl_data& s);
 void from_json(const json& j, qsl_data& s);
-void to_json(json& j, const qsl_data::style_def& s);
-void from_json(const json& j, qsl_data::style_def& s);
 void to_json(json& j, const qsl_data::item_def& s);
 void from_json(const json& j, qsl_data::item_def& s);

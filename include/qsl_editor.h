@@ -28,6 +28,7 @@ class zc_filename_input;
 class qsl_display;
 class qsl_widget;
 class record;
+struct zc_text_style;
 
 class Fl_Check_Button;
 class Fl_Choice;
@@ -80,11 +81,11 @@ protected:
     //! Create column header at y position \p curr_y.
     void create_labels(int curr_y);
     //! Create the widgets to edit one set of field parameters \p params at (\p x, \p y).
-    void create_fparams(int& x, int& y, qsl_data::field_def* params);
+    void create_fparams(int& x, int& y, int w, qsl_data::field_def* params);
     //! Create the widgets to edit one set of text parameters \p params at (\p x, \p y).
-    void create_tparams(int& x, int& y, qsl_data::text_def* params);
+    void create_tparams(int& x, int& y, int w, qsl_data::text_def* params);
     //! Create the widgets to edit one set of image parameters \p params at (\p x, \p y).
-    void create_iparams(int& x, int& y, qsl_data::image_def* params);
+    void create_iparams(int& x, int& y, int w, qsl_data::image_def* params);
     //! Resize the group after adding or deleting an item
     void resize();
     //! Redraw display: \p dirty indicates that a display needs resizing.

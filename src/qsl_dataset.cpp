@@ -21,6 +21,7 @@
 #include <qsl_data.h>
 #include "zc_settings.h"
 #include "zc_status.h"
+#include "zc_text_style.h"
 #include "zc_utils.h"
 
 #include "nlohmann/json.hpp"
@@ -123,13 +124,6 @@ const std::map<qsl_data::qsl_type, qsl_data> DEFAULT_QSL_DATA = {
 	{ qsl_data::FILE, FILE_QSL_DATA }
 };
 
-void to_json(json& j, const qsl_data::style_def& s) {
-	j = json{
-		{ "Font", s.font },
-		{ "Size", s.size },
-		{ "Colour", (unsigned)s.colour }
-	};
-}
 
 // Convert qsl_data::item_def to JSON object
 void to_json(json& j, const qsl_data::item_def& s) {
@@ -239,13 +233,6 @@ void to_json(json& j, const server_data_t& s) {
 		}
 		j["Logbooks"] = jlog;
 	}
-}
-
-// Convert JSON object to qsl_data::style_def
-void from_json(const json& j, qsl_data::style_def& s) {
-	j.at("Font").get_to(s.font);
-	j.at("Size").get_to(s.size);
-	j.at("Colour").get_to(s.colour);
 }
 
 // Convert JSON object to qsl_data::item_def
