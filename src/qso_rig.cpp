@@ -1367,9 +1367,8 @@ void qso_rig::populate_port_choice() {
 		ch_port_name_->value(0);
 		int num_ports = 1;
 		std::string* existing_ports = new std::string[1];
-		zc_serial serial;
 		// Get the list of all ports or available (not in use) ports
-		while (!serial.available_ports(num_ports, existing_ports, use_all_ports_, num_ports)) {
+		while (!zc_serial::available_ports(num_ports, existing_ports, use_all_ports_, num_ports)) {
 			delete[] existing_ports;
 			existing_ports = new std::string[num_ports];
 		}
