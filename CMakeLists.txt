@@ -87,7 +87,6 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/field_choice.cpp
   ${ZZALOG_SRC_DIR}/fields.cpp
   ${ZZALOG_SRC_DIR}/fields_dialog.cpp
-  ${ZZALOG_SRC_DIR}/file_viewer.cpp
   ${ZZALOG_SRC_DIR}/fldigi_handler.cpp
   ${ZZALOG_SRC_DIR}/import_data.cpp
   ${ZZALOG_SRC_DIR}/init_dialog.cpp
@@ -190,7 +189,6 @@ set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/field_choice.h
   ${ZZALOG_INCLUDE_DIR}/fields_dialog.h
   ${ZZALOG_INCLUDE_DIR}/fields.h
-  ${ZZALOG_INCLUDE_DIR}/file_viewer.h
   ${ZZALOG_INCLUDE_DIR}/fldigi_handler.h
   ${ZZALOG_INCLUDE_DIR}/icons.h
   ${ZZALOG_INCLUDE_DIR}/import_data.h

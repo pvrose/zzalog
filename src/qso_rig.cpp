@@ -19,7 +19,6 @@
 
 #include "band_data.h"
 #include "field_choice.h"
-#include "file_viewer.h"
 #include "objects.h"
 #include "qso_manager.h"
 #include "rig_data.h"
@@ -28,6 +27,7 @@
 
 #include <zc_callback.h>
 #include <zc_drawing.h>
+#include "zc_file_viewer.h"
 #include "zc_filename_input.h"
 #include "zc_serial.h"
 #include "zc_status.h"
@@ -1702,7 +1702,7 @@ void qso_rig::cb_bn_transverter(Fl_Widget* w, void* v) {
 void qso_rig::cb_show_app(Fl_Widget* w, void* v) {
 	zc_filename_input* ip = *(zc_filename_input**)v;
 	if (strlen(ip->value()) > 0) {
-		file_viewer* fwin = new file_viewer(640, 480);
+		zc_file_viewer* fwin = new zc_file_viewer(640, 480);
 		fwin->load_file(ip->value());
 	}
 }

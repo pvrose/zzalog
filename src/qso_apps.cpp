@@ -17,20 +17,20 @@
 */
 #include "qso_apps.h"
 
-#include "zc_file_holder.h"
-#include "file_viewer.h"
-#include "zc_filename_input.h"
 #include "fldigi_handler.h"
 #include "file_types.h"
-#include "zc_password_input.h"
 #include "qso_manager.h"
 #include "qso_rig.h"
-#include "zc_settings.h"
-#include "zc_status.h"
 #include "wsjtx_handler.h"
 
 #include "zc_callback.h"
 #include "zc_drawing.h"
+#include "zc_file_holder.h"
+#include "zc_file_viewer.h"
+#include "zc_filename_input.h"
+#include "zc_password_input.h"
+#include "zc_settings.h"
+#include "zc_status.h"
 #include "zc_utils.h"
 
 #include <algorithm>
@@ -527,7 +527,7 @@ void app_grp::cb_show_script(Fl_Widget* w, void* v) {
     zc_filename_input* ip = *(zc_filename_input**)v;
     std::string fn = ip->value();
     qso_apps* qa = zc::ancestor_view<qso_apps>(that);
-    file_viewer* fwin = qa->viewer();
+    zc_file_viewer* fwin = qa->viewer();
     if (fwin->file() == fn && fwin->visible() && !fwin->is_dirty()) {
         fwin->hide();
     } else if (fn.length() > 0) {
@@ -574,7 +574,7 @@ qso_apps::qso_apps(int X, int Y, int W, int H, const char* L) :
     create_tabs();
     enable_widgets();
     begin();
-    viewer_ = new file_viewer(400, 300);
+    viewer_ = new zc_file_viewer(400, 300);
     end();
 }
 
@@ -847,7 +847,7 @@ void qso_apps::delete_app(app_grp* w) {
     enable_widgets();
 }
 
-file_viewer* qso_apps::viewer() { 
+zc_file_viewer* qso_apps::viewer() { 
     return viewer_;
 }
 

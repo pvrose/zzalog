@@ -32,7 +32,7 @@ class Fl_Radio_Light_Button;
 class Fl_Button;
 class zc_tabs_nonav;
 class zc_filename_input;
-class file_viewer;
+class zc_file_viewer;
 
 const std::string FLDIGI = "FLDigi";
 const std::string WSJTX = "WSJT-X";
@@ -174,7 +174,7 @@ public:
     //! Delete the application: removes data from configuration and removes app_grp \p w.
     void delete_app(app_grp* w);
     //! Returns the file_editor displaying the command script.
-    file_viewer* viewer();
+    zc_file_viewer* viewer();
     //! Returns network address for the app \p app_name.
     std::string network_address(std::string app_name);
     //! Returns network port number for the app \p app_name.
@@ -204,7 +204,7 @@ protected:
     zc_tabs_nonav* tabs_;           //!< Tabs, one for each app.
 
     // File viewer
-    file_viewer* viewer_;     //!< File viewr window.
+    zc_file_viewer* viewer_;     //!< File viewr window.
 
     //! The application data - items mapped by name of app.
     std::map<std::string, app_data_t*> apps_data_; 
