@@ -18,11 +18,17 @@
 #include "qso_details.h"
 
 #include "book.h"
-#include "zc_drawing.h"
+#include "extract_data.h"
+#include "objects.h"
 #include "qso_data.h"
 #include "record.h"
 #include "regices.h"
 #include "spec_data.h"
+#include "tabbed_forms.h"
+
+#include "zc_callback.h"
+#include "zc_drawing.h"
+#include "zc_settings.h"
 #include "zc_status.h"
 #include <zc_utils.h>
 
@@ -34,6 +40,7 @@
 
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
+#include <FL/Fl_Check_Button.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Output.H>
@@ -51,12 +58,15 @@ qso_details::qso_details(int X, int Y, int W, int H, const char* L) :
 	labelsize(FL_NORMAL_SIZE + 2);
 	//align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_INSIDE);
 	tooltip("Displays any previous contacts with this station or similar calls");
+	load_settings();
 	create_form();
 	enable_widgets();
 }
 
 // Destructor
-qso_details::~qso_details() {}
+qso_details::~qso_details() {
+	save_settings();
+}
 
 // Handle
 int qso_details::handle(int event) {
@@ -82,6 +92,13 @@ int qso_details::handle(int event) {
 	return result;
 }
 
+// Load the settings
+void qso_details::load_settings() {
+	zc_settings settings;
+	zc_settings behaviour = zc_settings(&settings, "Behaviour");
+	behaviour.get("Show Previous in Extracted", show_in_extracted_, true);
+};
+
 // Create the widgets
 void qso_details::create_form() {
 	int avail_width = w() - GAP - GAP;
@@ -101,7 +118,15 @@ void qso_details::create_form() {
 	// Add table for the contact's details
 	table_details_ = new table_d(curr_x, curr_y, avail_width, 6 * ROW_HEIGHT);
 
-	curr_y += table_details_->h() + GAP;
+	curr_y += table_details_->h();
+
+	cb_show_in_extracted_ = new Fl_Check_Button(curr_x, curr_y, HBUTTON, HBUTTON, "Show in Log view");
+	cb_show_in_extracted_->callback(zc::cb_value<Fl_Check_Button, bool>, &show_in_extracted_);
+	cb_show_in_extracted_->align(FL_ALIGN_RIGHT);
+	cb_show_in_extracted_->tooltip("Show the previous QSOs with this station in the log view");
+	cb_show_in_extracted_->value(show_in_extracted_);
+
+	curr_y += cb_show_in_extracted_->h();
 
 	// Add the table for the previous QSOs with this callsign
 	table_qsos_ = new table_q(curr_x, curr_y, avail_width, y() + avail_height - curr_y);
@@ -123,6 +148,13 @@ void qso_details::enable_widgets() {
 		get_qsos();
 	}
 }
+
+// Save the settings
+void qso_details::save_settings() {
+	zc_settings settings;
+	zc_settings behaviour = zc_settings(&settings, "Behaviour");
+	behaviour.set("Show Previous in Extracted", show_in_extracted_);
+};
 
 // Get the previous QSOs with this callsign
 void qso_details::get_qsos() {
@@ -222,6 +254,16 @@ void qso_details::get_qsos() {
 	}
 	table_details_->set_data(names, qths, locators, states);
 	table_qsos_->set_data(items, possibles);
+	// Copy to extracted if required
+	if ((items.size() || possibles.size()) && show_in_extracted_) {
+		extract_data_->clear_criteria(false);
+		extract_data_->extract_numbered(items);
+		extract_data_->extract_numbered(possibles);
+		tabbed_forms_->activate_pane(OT_EXTRACT, false);
+	}
+	else {
+		extract_data_->clear_criteria(false);
+	}
 	// Mark with either a tick or cross depending on whether there are any previous
 	if (items.size() == 0) {
 		if (possibles.size() == 0) {

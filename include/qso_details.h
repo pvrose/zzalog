@@ -26,9 +26,8 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Table.H>
 
-
-
 class record;
+class Fl_Check_Button;
 class Fl_Output;
 typedef size_t qso_num_t;
 
@@ -49,11 +48,14 @@ public:
     ~qso_details();
     //! Override Fl_Group::handle() taing focus to allow keyboard F1 to open userguide.
     virtual int handle(int event);
-
+	//! Load settings.
+	void load_settings();
     //! Instantiate component widgets.
     void create_form();
     //! Configure component widgets after data change.
     void enable_widgets();
+	//! Save settings.
+	void save_settings();
 
     //! Set the call from \p qso to display whose details.
     void set_qso(record* qso_);
@@ -161,11 +163,14 @@ protected:
     void get_qsos();
     //! Current QSO
     record* qso_;
+	//! Display the previous QSOs in the extracted data pane.
+	bool show_in_extracted_ = false;
 
     //widgets
     Fl_Output* op_call_;        //! Output showing callsign.
     table_d* table_details_;    //! Table showing callsign's details from previous QSOs.
     table_q* table_qsos_;       //! Table showing std::list of previous QSOs with callsign.
+	Fl_Check_Button* cb_show_in_extracted_; //! Check button to show previous QSOs in extracted data pane.
 
 
 };

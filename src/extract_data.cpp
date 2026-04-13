@@ -18,7 +18,6 @@
 #include "extract_data.h"
 
 #include <book.h>
-#include <zc_drawing.h>
 #include "club_handler.h"
 #include "eqsl_handler.h"
 #include "lotw_handler.h"
@@ -28,11 +27,13 @@
 #include <search.h>
 #include "search_dialog.h"
 #include "spec_data.h"
-#include "zc_status.h"
 #include "tabbed_forms.h"
 #include <view.h>
 
+#include "zc_status.h"
+
 #include <cstdio>
+#include <set>
 #include <string>
 
 #include <FL/Enumerations.H>
@@ -221,7 +222,7 @@ void extract_data::clear_criteria(bool redraw) {
 		tabbed_forms_->activate_pane(OT_MAIN, true);
 		// Cause the views to be redrawn
 		selection(-1, HT_EXTRACTION);
-		qso_manager_->enable_widgets();
+		if (qso_manager_) qso_manager_->enable_widgets();
 	}
 }
 
@@ -818,6 +819,22 @@ void extract_data::extract_special(extract_data::extract_mode_t reason) {
 	}
 }
 
+// Extract specific numbered records.
+void extract_data::extract_numbered(std::set<qso_num_t> record_numbers) {
+	if (record_numbers.size() == 0) {
+		return;
+	}
+	for (auto& item : record_numbers) {
+		// Get the record for this number
+		record* ext_record = book_->get_record(item, false);
+		push_back(ext_record);
+		int ixe = size() - 1;
+		// Add to both ways mappings
+		mapping_.insert(mapping_.begin() + ixe, item);
+		rev_mapping_[item] = ixe;
+	}
+}
+	
 // Upload the extracted data to the appropriate QSL server (eQSL, LotW or ClubLog)
 void extract_data::upload() {
 	switch (use_mode_) {

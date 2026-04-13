@@ -20,6 +20,7 @@
 #include "book.h"
 #include "search.h"
 
+#include <set>
 #include <vector>
 #include <list>
 
@@ -51,6 +52,7 @@
 			LOCATOR,     //!< Special seatch for non-6 or 8 character gridsquare
 			NO_EQSL_CARD,//!< Have eQSL but no card image
 			ALL,         //!< Upload to all sites
+			NUMBERED,    //!< Extract specified records by record number
 			DUMMY        //!< end of enumeration
 		};
 
@@ -91,6 +93,10 @@
 		//! \param start Start date for search.
 		//! \param endd End date for search.
 		void extract_field(std::string field_name, std::string value, bool and_search, std::string start = "", std::string endd = "");
+		//! Extract by record numbers.
+		//! \param record_nums The record numbers in the full log to extract.
+		void extract_numbered(std::set<qso_num_t> record_nums);
+		
 		//! Sort records in chronological order.
 		void correct_record_order();
 		//! Returns true if upload in progress, false if not.
