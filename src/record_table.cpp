@@ -320,6 +320,23 @@ void record_table::assess_fields() {
 		display_fields_.push_back(it->field);
 	}
 
+	// First we add the fields which do not match between the log and query records.
+	if (log_record_ != NULL && query_record_ != NULL) {
+		for (auto it = log_record_->begin(); it != log_record_->end(); it++) {
+			bool found = false;
+			// Compare against each field alteady selected
+			for (unsigned int i = 0; i < display_fields_.size() && !found; i++) {
+				if (display_fields_[i] == it->first) {
+					found = true;
+				}
+			}
+			if (!found && !log_record_->items_match(query_record_, it->first)) {
+				// Add this field to the list of fields to display
+				display_fields_.push_back(it->first);
+			}
+		}
+	}
+
 	// now add all the remaining fields from the log record
 	if (log_record_ != NULL) {
 		// For each field in the log record
