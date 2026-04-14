@@ -23,12 +23,9 @@
 #include "qso_data.h"
 #include "record.h"
 #include "regices.h"
-#include "spec_data.h"
 #include "tabbed_forms.h"
 
-#include "zc_callback.h"
 #include "zc_drawing.h"
-#include "zc_settings.h"
 #include "zc_status.h"
 #include "zc_utils.h"
 
@@ -40,7 +37,7 @@
 
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
-#include <FL/Fl_Check_Button.H>
+#include <FL/Fl_Button.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Output.H>
