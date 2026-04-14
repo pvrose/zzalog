@@ -27,7 +27,7 @@
 #include <FL/Fl_Table.H>
 
 class record;
-class Fl_Check_Button;
+class Fl_Button;
 class Fl_Output;
 typedef size_t qso_num_t;
 
@@ -59,6 +59,9 @@ public:
 
     //! Set the call from \p qso to display whose details.
     void set_qso(record* qso_);
+
+	//! \brief Callback from the "Show in Extracted Data" button.
+	static void cb_show_in_extracted(Fl_Widget* w, void* v);
 
 protected:
     //! This class provides a table to show collected details about the contacted station.
@@ -123,7 +126,7 @@ protected:
     };
 
     //! THis classs provides a table to display the previous QSOs with this contact
-    class table_q : Fl_Table
+    class table_q : public Fl_Table
     {
     public:
         //! Constructor.
@@ -163,14 +166,15 @@ protected:
     void get_qsos();
     //! Current QSO
     record* qso_;
-	//! Display the previous QSOs in the extracted data pane.
-	bool show_in_extracted_ = false;
 
-    //widgets
+	//! The previous QSOs with this contact.
+	std::set<qso_num_t> previous_qsos_;
+
+	//widgets
     Fl_Output* op_call_;        //! Output showing callsign.
     table_d* table_details_;    //! Table showing callsign's details from previous QSOs.
     table_q* table_qsos_;       //! Table showing std::list of previous QSOs with callsign.
-	Fl_Check_Button* cb_show_in_extracted_; //! Check button to show previous QSOs in extracted data pane.
+	Fl_Button* bn_show_in_extracted_; //! Check button to show previous QSOs in extracted data pane.
 
 
 };

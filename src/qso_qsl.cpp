@@ -70,6 +70,7 @@ qso_qsl::qso_qsl(int X, int Y, int W, int H, const char* L) :
 	os_eqsl_dnld_ = 0;
 	tkr_value_ = 0.0;
 	extract_in_progress_ = false;
+	download_in_progress_ = false;
 	single_qso_ = false;
 	via_code_ = "";
 	load_values();
