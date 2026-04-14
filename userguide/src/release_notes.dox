@@ -2,7 +2,8 @@
 
 \section rev_3_6_17 Revision 3.6.17 [Unreleased]
 - Functional changes.
-  - None.
+  - Add feature to display previous QSO records with contact in log table.
+  - When comparing a download, show differing records first after essential fields.
 - Cosmetic and non-functional changes.
   - Moved more non-ZZALOG code to ZZACOMMON.
 - Performance changes.
