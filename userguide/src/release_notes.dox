@@ -4,6 +4,7 @@
 - Functional changes.
   - Add feature to display previous QSO records with contact in log table.
   - When comparing a download, show differing records first after essential fields.
+  - When deleting a record, park it in a deleted records table for possible later recovery.
 - Cosmetic and non-functional changes.
   - Moved more non-ZZALOG code to ZZACOMMON.
 - Performance changes.
