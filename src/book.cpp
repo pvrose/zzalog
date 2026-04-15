@@ -83,6 +83,7 @@ extern bool closing_;
 extern time_t session_start_;
 book* book_ = nullptr;
 book* navigation_book_ = nullptr;
+book* deleted_records_ = nullptr;
 extern void main_window_label(const std::string& label);
 extern void set_recent_file(const std::string filename);
 extern void backup_file();
@@ -797,6 +798,11 @@ void book::go_date(std::string date) {
 
 // delete the selected record - force set if not created the record through book API
 void book::delete_record(bool force) {
+	if (book_type_ == OT_DELETED) {
+		// Cannot delete from the deleted records book
+		status_->misc_status(ST_WARNING, "LOG: Cannot delete from the deleted records list");
+		return;
+	}
 	// Either entering a new record or user allows to delete a saved record
 	if (force || new_record_) {
 		// We cannot delete two records at once as it confuses the value of current_item_
@@ -815,6 +821,8 @@ void book::delete_record(bool force) {
 			menu_bar_->update_items();
 			// Remove the current record from both the book_ and the extract_data_
 			record* del_record = get_record();
+			// Copy the record to the deleted list for possible recovery
+			deleted_records_->insert_record(del_record);
 			delete_dirty_record(del_record);
 			if (book_type_ == OT_EXTRACT) {
 				book_->erase(book_->begin() + record_number(current_item_));
@@ -1654,22 +1662,25 @@ bool book::has_record(record* qso) {
 
 // Add this record to the dirty set
 void book::add_dirty_record(record* qso, std::string reason) {
-	if (has_record(qso)) { 
-		if (!main_loading_ && zc_app::debug(DEBUG_MOD_STATUS))
-			printf("%s Marking %s %s %s dirty - %s\n",
-				OBJECT_DATA.at(book_type_).name,
-				qso->item("QSO_DATE").c_str(),
-				qso->item("TIME_ON").c_str(),
-				qso->item("CALL").c_str(),
-				reason.c_str());
-		dirty_qsos_.insert(qso);
+	// Don't maintain the dirty list for deleted records.
+	if (book_type_ != OT_DELETED) {
+		if (has_record(qso)) {
+			if (!main_loading_ && zc_app::debug(DEBUG_MOD_STATUS))
+				printf("%s Marking %s %s %s dirty - %s\n",
+					OBJECT_DATA.at(book_type_).name,
+					qso->item("QSO_DATE").c_str(),
+					qso->item("TIME_ON").c_str(),
+					qso->item("CALL").c_str(),
+					reason.c_str());
+			dirty_qsos_.insert(qso);
+		}
+		else if (qso == header_) {
+			if (!main_loading_ && zc_app::debug(DEBUG_MOD_STATUS))
+				printf("%s Marking header dirty - %s\n", OBJECT_DATA.at(book_type_).name, reason.c_str());
+			dirty_qsos_.insert(qso);
+		}
+		if (!main_loading_) been_modified_ = true;
 	}
-	else if (qso == header_) {
-		if (!main_loading_ && zc_app::debug(DEBUG_MOD_STATUS))
-			printf("%s Marking header dirty - %s\n", OBJECT_DATA.at(book_type_).name, reason.c_str());
-		dirty_qsos_.insert(qso);
-	}
-	if (!main_loading_) been_modified_ = true;
 }
 
 // Remove this record from the dirty set

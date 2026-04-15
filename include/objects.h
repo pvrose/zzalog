@@ -41,6 +41,7 @@ enum object_t : uint8_t {
 	OT_STN,              //!< Reading Station data XML file
 	OT_CONTEST,          //!< Processing contest data
 	OT_EQSL_IMAGE,       //!< Downloading eQSL iamges
+	OT_DELETED,		     //!< Deleted records (used in undo/redo)
 };
 
 //! \brief Default parameters to use in tab view labels and/or progress clock.
@@ -62,5 +63,6 @@ const object_data_map OBJECT_DATA = {
 	{ OT_QSLS, { "QSL", COLOUR_MAUVE } },
 	{ OT_STN, { "STATION DATA", COLOUR_APPLE } },
 	{ OT_CONTEST, { "CONTEST", COLOUR_ORANGE } },
-	{ OT_EQSL_IMAGE, { "EQSL CARD", fl_darker(FL_YELLOW) } }
+	{ OT_EQSL_IMAGE, { "EQSL CARD", fl_darker(FL_YELLOW) } },
+	{ OT_DELETED, { "DELETED", FL_DARK_RED } }
 };

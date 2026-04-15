@@ -18,9 +18,9 @@
 
 #include "log_table.h"
 
+#include "adi_writer.h"
 #include "book.h"
 #include "cty_data.h"
-#include <zc_drawing.h>
 #include "extract_data.h"
 #include "field_choice.h"
 #include "fields.h"
@@ -28,17 +28,20 @@
 #include "menu_bar.h"
 #include "qso_manager.h"
 #include "record.h"
-#include "zc_settings.h"
 #include "spec_data.h"
-#include "zc_status.h"
 #include "toolbar.h"
+#include "view.h"
+
+#include "zc_drawing.h"
+#include "zc_settings.h"
+#include "zc_status.h"
 #include "zc_utils.h"
-#include <view.h>
 
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
+#include <sstream>
 #include <string>
 
 #include <FL/Enumerations.H>
@@ -413,6 +416,21 @@ int log_table::handle(int event) {
 				// Treat as paste clipboard
 				Fl::paste(*(Fl_Widget*)main_window_, 1);
 				return true;
+			}
+			break;
+		case 'c':
+			// CTRL-C
+			if (Fl::event_key(FL_Control_L) || Fl::event_key(FL_Control_R)) {
+				// We need to copy the current selection to the clipboard as ADIF.
+				record* selected_record = my_book_->get_record(my_book_->selection(), false);
+				if (selected_record) {
+					adi_writer* aw = new adi_writer();
+					std::stringstream ss;
+					aw->to_adif(selected_record, ss);
+					Fl::copy(ss.str().c_str(), ss.str().size(), 1);
+					delete aw;
+					return true;
+				}
 			}
 			break;
 		case FL_F + 1:

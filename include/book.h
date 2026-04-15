@@ -630,5 +630,7 @@
 
 	extern book* book_;
 	extern book* navigation_book_;
+	//! External reference to a book for deleted records.
+	extern book* deleted_records_;
 
 #endif

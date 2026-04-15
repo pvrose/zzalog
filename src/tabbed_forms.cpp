@@ -57,6 +57,8 @@ tabbed_forms::tabbed_forms(int X, int Y, int W, int H, const char* label) :
 	add_view<log_table>("Records for import", FO_IMPORTLOG, OT_IMPORT, "Displays all the records currently being imported");
 	// Extracted data - subset of records for search or exporting
 	add_view<log_table>("Extracted records", FO_EXTRACTLOG, OT_EXTRACT, "Displays the records extracted according to the current criteria");
+	// Deleted records - used for recovery of deleted records.
+	add_view<log_table>("Deleted records", FO_MAINLOG, OT_DELETED, "Displays the records that have been deleted and can be recovered");
 	// ADIF reference data
 	add_view<spec_tree>("Specifications", FO_LAST, OT_ADIF, "Displays the ADIF specification data in tree format");
 	// Country data 
@@ -174,6 +176,9 @@ void tabbed_forms::activate_pane(object_t pane, bool active) {
 		case OT_IMPORT:
 			navigation_book_ = import_data_;
 			break;
+		case OT_DELETED:
+			navigation_book_ = deleted_records_;
+			break;
 		default:
 			break;
 		}
@@ -213,6 +218,9 @@ void tabbed_forms::books() {
 		case OT_IMPORT:
 			v->set_book(import_data_);
 			break;
+		case OT_DELETED:
+			v->set_book(deleted_records_);
+			break;
 		default:
 			break;
 		}
@@ -230,7 +238,7 @@ void tabbed_forms::cb_tab_change(Fl_Widget* w, void* v) {
 	tabbed_forms* that = (tabbed_forms*)w;
 	that->enable_widgets();
 
-	log_table* table = dynamic_cast<log_table*>(that->value());
+	log_table* table = dynamic_cast<log_table*>(((Fl_Group*)that->value())->child(0));
 	if (table) {
 		// The pane is a log book viewer. Change the navigation controls to affect that pane
 		switch (table->get_book()->book_type()) {
@@ -242,6 +250,9 @@ void tabbed_forms::cb_tab_change(Fl_Widget* w, void* v) {
 			break;
 		case OT_IMPORT:
 			navigation_book_ = import_data_;
+			break;
+		case OT_DELETED:
+			navigation_book_ = deleted_records_;
 			break;
 		default:
 			break;

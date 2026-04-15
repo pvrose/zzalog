@@ -876,6 +876,8 @@ void add_book(char* arg) {
 		navigation_book_ = book_;
 		import_data_ = new import_data;
 		extract_data_ = new extract_data;
+		deleted_records_ = new book;
+		deleted_records_->book_type(OT_DELETED);
 		// Tell the views that a book now exists
 		tabbed_forms_->books();
 
