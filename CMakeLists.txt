@@ -38,6 +38,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+## Enable compile_commands.json generation for IntelliSense
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 ## Set home directory per OS.
 if(MSVC)
   set(USER_HOME_DIR $ENV{USERPROFILE})
