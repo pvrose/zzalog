@@ -75,9 +75,11 @@ cd ..
 git clone https://github.com/nlohmann/json
 git clone https://github.com/GetHobbelt/pthread-win32
 \endcode
-\par Fetch ZZALOG and the utilities package ZZACOMMON
+\par Fetch ZZALOG
+From version 3.6.17, the common items used in GM3ZZA's software are now downloaded
+as part of the build process.
 \code
-git clone --recursive https://github.com/pvrose/zzalog
+git clone https://github.com/pvrose/zzalog
 \endcode
 
 \par Building ZZALOG
@@ -141,10 +143,10 @@ and texlive-latex-extra.
 
 \subsection install_proc Installation
 
-Clone the source from github (https://github.com/pvrose/zzalog) including submodules.
+Clone the source from github (https://github.com/pvrose/zzalog).
 
 \code
-git clone --recursive https://github.com/pvrose/zzalog
+git clone https://github.com/pvrose/zzalog.git
 \endcode
 
 The build and install processes use CMake.
