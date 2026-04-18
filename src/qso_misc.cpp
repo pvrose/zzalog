@@ -24,7 +24,7 @@
 #include "qso_qsl_vwr.h"
 #include "record.h"
 #include "zc_settings.h"
-#include <zc_utils.h>
+#include "zc_fltk.h"
 
 #include <FL/Enumerations.H>
 #include "zc_tabs_nonav.h"

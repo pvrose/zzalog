@@ -21,7 +21,7 @@
 #include "qsl_data.h"
 
 #include "zc_callback.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 class field_input;
 class zc_filename_input;

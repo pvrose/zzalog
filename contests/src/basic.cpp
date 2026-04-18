@@ -20,7 +20,7 @@
 #include "contest_algorithm.h"
 #include "record.h"
 #include "stn_data.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <set>
 #include <string>

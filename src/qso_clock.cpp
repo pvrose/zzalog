@@ -20,7 +20,7 @@
 #include "qso_manager.h"
 #include "zc_ticker.h"
 
-#include "zc_utils.h"
+#include "zc_fltk.h"
 #include "zc_drawing.h"
 
 #include <ctime>

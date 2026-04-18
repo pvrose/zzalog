@@ -21,7 +21,7 @@
 #include "intl_widgets.h"
 #include "spec_data.h"
 #include <zc_drawing.h>
-#include <zc_utils.h>
+#include <zc_fltk.h>
 #include <win_dialog.h>
 
 #include <algorithm>

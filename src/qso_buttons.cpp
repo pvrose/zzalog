@@ -21,7 +21,7 @@
 #include "zc_drawing.h"
 #include "qso_data.h"
 #include "spec_data.h"
-#include <zc_utils.h>
+#include "zc_fltk.h"
 
 #include <algorithm>
 #include <list>

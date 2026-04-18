@@ -27,7 +27,7 @@
 #include <vector>
 
 class book;
-enum hint_t : uchar;
+enum hint_t : uint8_t;
 enum object_t : uint8_t;
 typedef size_t qso_num_t;
 

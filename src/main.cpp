@@ -57,7 +57,7 @@
 #include "hamlib/rig.h"
 #include "boost/version.hpp"
 
-#include "zc_app.h"
+#include "zc_debug.h"
 #include "zc_banner.h"
 #include "zc_drawing.h"
 #include "zc_file_holder.h"
@@ -65,7 +65,7 @@
 #include "zc_status.h"
 #include "zc_symbols.h"
 #include "zc_ticker.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 // C/C++ header files
 #include <algorithm>
@@ -1061,7 +1061,7 @@ void tidy() {
 }
 
 // Map argument letter to colour name
-std::map<uchar, std::string> colours = {
+std::map<uint8_t, std::string> colours = {
 	{ 'n', "None" },
 	{ 'r', "Red" },
 	{ 'g', "Green" },

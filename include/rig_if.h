@@ -19,7 +19,7 @@
 #define __RIG_IF__
 
 #include "zc_callback.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 // hamlib icludes
 #include "hamlib/rig.h"
@@ -55,7 +55,7 @@
 	const int FAST_RIG_TIMER = 1;
 
 	//! Method by which power level read from rig is converted to a power reading.
-	enum power_mode_t : uchar {
+	enum power_mode_t : uint8_t {
 		NO_POWER,        //!< No power returnable
 		RF_METER,        //!< Read the RF power out meter directly.
 		DRIVE_LEVEL,     //!< Read the drive level meter and multiply by maximum poer.
@@ -63,14 +63,14 @@
 	};
 
 	//! Method by which frequency is provided.
-	enum freq_mode_t : uchar {
+	enum freq_mode_t : uint8_t {
 		NO_FREQ,         //!< No frequency available
 		VFO,             //!< Read a VFO
 		XTAL             //!< Fixed freqency
 	};
 
 	//! Used to add accessories.
-	enum accessory_t : uchar {
+	enum accessory_t : uint8_t {
 		BAREBACK,        //!< No accessory
 		AMPLIFIER = 1,   //!< Amplifer attached
 		TRANSVERTER = 2, //!< Transverter attached

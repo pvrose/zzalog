@@ -60,6 +60,7 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/about_dialog.cpp
   ${ZZALOG_SRC_DIR}/adi_reader.cpp
   ${ZZALOG_SRC_DIR}/adi_writer.cpp
+  ${ZZALOG_SRC_DIR}/app.cpp
   ${ZZALOG_SRC_DIR}/band_data.cpp
   ${ZZALOG_SRC_DIR}/band_editor.cpp
   ${ZZALOG_SRC_DIR}/band_widget.cpp
@@ -298,10 +299,39 @@ include(hamlib_helper)
 find_hamlib()
 
 # Add ZZACOMMON
-set(ZZACOMMON_DOX ${ZZALOG_DOX})
-set(APP_TARGET ${TARGET})
-add_subdirectory(zzacommon)
-message(STATUS "ZZACOMMON found: ${ZZACOMMON_VERSION}")
+# Try to find zzacommon locally first (sibling directory), fall back to downloading
+if(CMAKE_BUILD_TYPE)
+  # Single-config generator (Unix Makefiles, Ninja): use specific build type
+  string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE_LOWER)
+  list(APPEND CMAKE_PREFIX_PATH 
+    "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/build/x64-${BUILD_TYPE_LOWER}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/install/x64-${BUILD_TYPE_LOWER}"
+  )
+endif()
+# Multi-config generator (Visual Studio) or fallback: include both
+list(APPEND CMAKE_PREFIX_PATH 
+  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/build/x64-debug"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/build/x64-release"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/install/x64-debug"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/install/x64-release"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/build"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/install"
+)
+
+include(FetchContent)
+FetchContent_Declare(
+  zzacommon
+  GIT_REPOSITORY https://github.com/pvrose/zzacommon.git
+  GIT_TAG master
+  FIND_PACKAGE_ARGS NAMES zzacommon COMPONENTS zzaf zzam zzafb zzad zzab zzax
+)
+FetchContent_MakeAvailable(zzacommon)
+
+configure_file(
+  ${ZZALOG_SOURCE_DIR}/src/app.cpp.in
+  ${ZZALOG_SOURCE_DIR}/src/app.cpp
+  @ONLY
+)
 
 ## Subdirectories as part of ZZALOG
 add_subdirectory(contests)
@@ -325,8 +355,15 @@ set(DATAFILES
 # Define the zzalog executable
 add_executable(${TARGET} WIN32)
 # Ensure external projects are built before linking zzalog
-add_dependencies(${TARGET} zzacommon ${ZC_APP_LIBRARY})
-add_dependencies(zzalog_contests zzacommon)
+add_dependencies(${TARGET} 
+  zzacommon::zzaf
+  zzacommon::zzad
+  zzacommon::zzab
+  zzacommon::zzax
+  zzacommon::zzafb
+  zzacommon::zzam
+)
+add_dependencies(zzalog_contests zzacommon::zzam)
 
 ## Set header include directoies.
 target_include_directories(${TARGET} PRIVATE 
@@ -352,10 +389,17 @@ target_sources(${TARGET} PRIVATE ${ZZALOG_CPPFILES})
 target_link_libraries(${TARGET} PRIVATE 
   ${HAMLIB_LIBRARY}
   zzalog_contests
-  pugixml
-  ${ZZACOMMON_LIBRARIES}
-  ${ZC_APP_LIBRARY}
+  zzacommon::zzaf
+  zzacommon::zzad
+  zzacommon::zzab
+  zzacommon::zzax
+  zzacommon::zzafb
+  zzacommon::zzam
 )
+
+  ## Automatically copy zlib1.dll and Boost DLLs to the output directory
+  zzacommon_copy_runtime_dlls(${TARGET})
+
 
 # Copy runtime DLLs to build directory for MSVC
 if (MSVC)
@@ -370,8 +414,7 @@ if (MSVC)
     COMMAND_EXPAND_LISTS
     COMMENT "Copying runtime DLLs to ${RUNTIME_OUTPUT_DIR}"
   )
-  # The following has been included from zzacommon.
-  copy_zlib_dlls()    
+
 
 endif()
 
@@ -397,6 +440,7 @@ if(ZZALOG_DOX)
   message(STATUS "ZZALOG: Adding API documentation")
   add_subdirectory(api)
   add_dependencies(${TARGET} api_html)
+  zzacommon_copy_api_docs(${ZZALOG_API_HTML_DIR}/zzacommon)
 endif()
 
 # install executable
@@ -421,7 +465,7 @@ install(FILES ${DATAFILES}
 # install DLLs
 if (MSVC)
     install_hamlib_dlls()
-    install_vcpkg_dlls()
+    zzacommon_install_runtime_dlls(DESTINATION bin COMPONENT application)
 endif()
 
 # install userguide HTML files and PDF
@@ -443,13 +487,6 @@ if(ZZALOG_DOX)
     install(
     DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/api/html
     DESTINATION ${CMAKE_INSTALL_RPATH}/api
-    COMPONENT documentation
-    MESSAGE_NEVER
-    )
-    # install ZZACOMMON API documentation HTML files
-    install(
-    DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/zzacommon/api/html
-    DESTINATION ${CMAKE_INSTALL_RPATH}/zzacommon/api
     COMPONENT documentation
     MESSAGE_NEVER
     )

@@ -21,6 +21,7 @@
 #include "zc_drawing.h"
 #include "zc_status.h"
 #include "stn_data.h"
+#include "zc_fltk.h"
 #include "zc_utils.h"
 
 #include <cstdio>

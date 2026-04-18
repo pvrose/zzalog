@@ -32,7 +32,7 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "zc_status.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <cstdio>
 #include <string>

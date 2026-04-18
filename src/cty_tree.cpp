@@ -28,7 +28,7 @@
 #include "zc_callback.h"
 #include "zc_settings.h"
 #include "zc_status.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <FL/Enumerations.H>
 #include <FL/Fl_Tree.H>

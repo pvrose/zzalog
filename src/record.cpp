@@ -24,7 +24,7 @@
 #include "wx_handler.h"
 
 #include "zc_status.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <algorithm>
 #include <cctype>

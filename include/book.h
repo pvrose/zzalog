@@ -44,7 +44,7 @@
 	};
 
 	//! Type used in navigation commands.
-	enum navigate_t : uchar {
+	enum navigate_t : uint8_t {
 		NV_FIRST,        //!< Go to the first record.
 		NV_LAST,         //!< Go to the last record.
 		NV_NEXT,         //!< Go to the next record.
@@ -53,7 +53,7 @@
 
 	//! When a record has been updated, this provides the raeson to allow any
 	//! display widget to decide how to redraw itself.
-	enum hint_t : uchar {
+	enum hint_t : uint8_t {
 		HT_ALL,                   //!< Invalidate all records in view - select record if >= 0.
 		HT_CHANGED,               //!< Invalidate only specified record.
 		HT_MINOR_CHANGE,          //!< Invalidate the record, but not location, band or mode.
@@ -80,7 +80,7 @@
 	};
 
 	//! Worked before categories: used when checking any previous contacts.
-	enum worked_t : uchar {
+	enum worked_t : uint8_t {
 		WK_ANY,                   //!< Any QSO.
 		WK_DXCC,                  //!< DXCC.
 		WK_GRID4,                 //!< 4-character gridsquares.

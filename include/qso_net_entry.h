@@ -21,7 +21,7 @@
 
 
 
-enum navigate_t : uchar;
+enum navigate_t : uint8_t;
 typedef size_t qso_num_t;
 class record;
 class qso_entry;

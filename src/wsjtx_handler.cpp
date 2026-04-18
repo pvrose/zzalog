@@ -30,7 +30,7 @@
 #include "spec_data.h"
 #include "zc_status.h"
 #include "zc_ticker.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <cstdint>
 #include <cstdio>

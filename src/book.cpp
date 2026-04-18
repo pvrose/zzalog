@@ -36,12 +36,12 @@
 #include "tabbed_forms.h"
 #include "view.h"
 
-#include "zc_app.h"
+#include "zc_debug.h"
 #include "zc_drawing.h"
 #include "zc_file_holder.h"
 #include "zc_settings.h"
 #include "zc_status.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 // C/C++ header files
 #include <cstdint>

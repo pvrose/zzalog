@@ -19,6 +19,7 @@
 #ifndef __RECORD__
 #define __RECORD__
 
+#include "zc_fltk.h"
 #include "zc_utils.h"
 
 #include <map>
@@ -44,7 +45,7 @@
 	};
 
 	//! Flags used in match_records
-	enum match_flags_t : uchar {
+	enum match_flags_t : uint8_t {
 		MR_NONE,             //!< No special match instructions - default
 		MR_ALLOW_LOC = 1,    //!< ALlow limited location mismatch (used for LOTW)
 		MR_ALLOW_QSLS = 2,   //!< Allow processing of QSL_SENT* (used for OQRS)
@@ -52,7 +53,7 @@
 
 
 	//! Location source
-	enum location_t : uchar {
+	enum location_t : uint8_t {
 		LOC_NONE,        //!< not derived
 		LOC_PREFIX,      //!< Obtained from prefix data
 		LOC_LATLONG,     //!< LAT/LON pair
@@ -64,7 +65,7 @@
 	};
 
 	// forward declaration
-	enum hint_t : uchar;
+	enum hint_t : uint8_t;
 
 	typedef size_t qso_num_t;    // QSO number
 

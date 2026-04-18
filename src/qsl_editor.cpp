@@ -37,7 +37,7 @@
 #include "zc_settings.h"
 #include "zc_status.h"
 #include "zc_text_style.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 // C++ standard library
 #include <algorithm>

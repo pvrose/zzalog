@@ -20,10 +20,10 @@
 #include "spec_data.h"
 #include "win_dialog.h"
 
-#include "zc_app.h"
+#include "zc_debug.h"
 #include "zc_drawing.h"
 #include "zc_file_holder.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <string>
 

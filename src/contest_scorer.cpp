@@ -26,7 +26,7 @@
 #include "record.h"
 #include "zc_settings.h"
 
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <cstdio>
 #include <ctime>

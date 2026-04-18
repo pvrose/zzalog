@@ -25,7 +25,7 @@
 #include "spec_data.h"
 #include "zc_status.h"
 #include "tabbed_forms.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 #include <view.h>
 
 #include <cstdio>

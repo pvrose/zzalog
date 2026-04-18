@@ -26,7 +26,7 @@
 #include <search.h>
 #include "zc_settings.h"
 #include "spec_data.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 #include <win_dialog.h>
 
 #include <algorithm>

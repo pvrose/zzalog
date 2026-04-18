@@ -50,11 +50,11 @@ const int NUMBER_RIG_APPS = 2;
 //! The supported rig access apps.
 const std::string RIG_APP_NAMES[NUMBER_RIG_APPS] = { "FLRig", "WFView" };
 //! Bit-wise flags for redrawing qso_rig
-const uchar DAMAGE_STATUS = 1;     //!< Update status
-const uchar DAMAGE_VALUES = 2;     //!< Update values read from the rig.
-const uchar DAMAGE_ADDONS = 4;     //!< Update the "Accessories" tab.
-const uchar DAMAGE_AUTOS = 8;      //!< Update the "Auto" tab.
-const uchar DAMAGE_ALL = 0xFF;     //!< Update everything.
+const uint8_t DAMAGE_STATUS = 1;     //!< Update status
+const uint8_t DAMAGE_VALUES = 2;     //!< Update values read from the rig.
+const uint8_t DAMAGE_ADDONS = 4;     //!< Update the "Accessories" tab.
+const uint8_t DAMAGE_AUTOS = 8;      //!< Update the "Auto" tab.
+const uint8_t DAMAGE_ALL = 0xFF;     //!< Update everything.
 
 
 //! This class displays and controls the status of a single rig connection.
@@ -83,7 +83,7 @@ public:
 	//! Instantiate component widgets.
 	void create_form(int X, int Y);
 	//! Configure component widgets after data change.
-	void enable_widgets(uchar damage);
+	void enable_widgets(uint8_t damage);
 	//! Save changes back to rig_data.
 	void save_values();
 	//! Connect or disconnect the rig: depends on initial comnection state.

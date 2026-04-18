@@ -18,7 +18,7 @@
 #include "menu_bar.h"
 
 #include "zc_callback.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include "about_dialog.h"
 #include "zc_banner.h"

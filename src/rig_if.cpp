@@ -17,9 +17,9 @@
 */
 #include "rig_if.h"
 
-#include "zc_app.h"
+#include "zc_debug.h"
 #include "zc_status.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <algorithm>
 #include <chrono>

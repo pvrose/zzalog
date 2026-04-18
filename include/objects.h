@@ -16,7 +16,7 @@
 
 */
 #pragma once
-
+#include "zc_drawing.h"
 #include <zc_status.h>
 //! \file
 //! Contains parameters used to present data about various ZZALOG objects

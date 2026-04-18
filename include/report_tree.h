@@ -60,7 +60,7 @@ typedef size_t item_num_t;
 	};
 
 	//! Report category items - maximum 8-bit number
-	enum report_cat_t : uchar {
+	enum report_cat_t : uint8_t {
 		RC_DXCC = 1,                  //!< DXCC
 		RC_PAS = 3,                   //!< DXCC plus primary adminstrative subdivision (State)
 		RC_BAND = 4,                  //!< Band

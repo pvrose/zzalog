@@ -26,7 +26,7 @@
 
 
 	class book;
-	enum hint_t : uchar;
+	enum hint_t : uint8_t;
 	typedef size_t qso_num_t;
 
 	//! This is a base class for use with updating - each view will also inherit indirectly from Fl_Widget.

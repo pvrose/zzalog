@@ -24,10 +24,10 @@
 #include "stn_data.h"
 #include "zc_url_handler.h"
 
-#include "zc_app.h"
+#include "zc_debug.h"
 #include "zc_status.h"
 #include "zc_ticker.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include "nlohmann/json.hpp"
 

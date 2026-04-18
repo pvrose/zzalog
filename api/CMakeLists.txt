@@ -48,4 +48,7 @@ if(DOXYGEN_FOUND)
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
   )
 
+  # Set output directory for API HTML
+  set(ZZALOG_API_HTML_DIR ${CMAKE_CURRENT_BINARY_DIR}/html PARENT_SCOPE)
+
 endif()

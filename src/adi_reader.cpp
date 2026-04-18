@@ -22,7 +22,7 @@
 #include "zc_status.h"
 #include "spec_data.h"
 
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <istream>
 #include <string>

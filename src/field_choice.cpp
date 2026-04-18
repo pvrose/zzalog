@@ -18,7 +18,7 @@
 #include "field_choice.h"
 #include "spec_data.h"
 #include "intl_dialog.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 #include "cty_data.h"
 #include "qso_entry.h"
 
@@ -445,7 +445,7 @@ field_input::exit_reason_t field_input::reason() {
 }
 
 // Type - allows the input_choice to be used as an Fl_Output
-void field_input::type(uchar t) {
+void field_input::type(uint8_t t) {
 	input()->type(t);
 }
 

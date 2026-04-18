@@ -18,7 +18,7 @@
 #include "page_dialog.h"
 #include "zc_callback.h"
 
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Group.H>

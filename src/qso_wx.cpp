@@ -23,7 +23,7 @@
 #include "wx_handler.h"
 
 #include "zc_drawing.h"
-#include "zc_utils.h"
+#include "zc_fltk.h"
 
 #include <algorithm>
 #include <cmath>

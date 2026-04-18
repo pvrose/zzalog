@@ -33,7 +33,7 @@
 #include "zc_status.h"
 #include "zc_tabs_nonav.h"
 #include "zc_ticker.h"
-#include <zc_utils.h>
+#include "zc_fltk.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -1257,7 +1257,7 @@ void qso_rig::enable_tabs() {
 }
 
 // Enable CAT Connection widgets
-void qso_rig::enable_widgets(uchar damage) {
+void qso_rig::enable_widgets(uint8_t damage) {
 	cat_data_ = rig_data_->cat_data(label());
 	hamlib_data_t* hamlib = cat_data_ ? cat_data_->hamlib : nullptr;
 	rig_if::rig_state_t rig_state = rig_ ? rig_->state() : rig_if::NOT_DEFINED;
