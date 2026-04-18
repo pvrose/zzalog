@@ -299,6 +299,10 @@ include(hamlib_helper)
 find_hamlib()
 
 # Add ZZACOMMON
+if (ZZALOG_DOX)
+  # If generating documentation, ensure zzacommon API docs are generated first
+  set(ZZACOMMON_DOX ON CACHE BOOL "Generate documentation for zzacommon" FORCE)
+endif()
 # Try to find zzacommon locally first (sibling directory), fall back to downloading
 if(CMAKE_BUILD_TYPE)
   # Single-config generator (Unix Makefiles, Ninja): use specific build type

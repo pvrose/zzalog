@@ -22,8 +22,10 @@
 #include "cty_data.h"
 #include "qso_entry.h"
 
-#include <cstring>
+#include <cstdint>
 #include <cstdio>
+#include <cstring>
+#include <map>
 #include <string>
 
 #include <FL/Enumerations.H>

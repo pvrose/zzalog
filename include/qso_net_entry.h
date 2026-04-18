@@ -19,7 +19,7 @@
 
 #include <FL/Fl_Group.H>
 
-
+#include <cstdint>
 
 enum navigate_t : uint8_t;
 typedef size_t qso_num_t;

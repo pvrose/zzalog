@@ -21,8 +21,8 @@
 std::string APP_NAME = "ZZALOG";
 std::string APP_VERSION = "3.6.16.2";
 std::string APP_VENDOR = "GM3ZZA";
-std::string APP_TIMESTAMP = "2026-04-18T15:13:38Z";
-std::string APP_SOURCE_DIR = "C:/Users/pvros/source/repos/zzalog";
+std::string APP_TIMESTAMP = "2026-04-18T18:01:35Z";
+std::string APP_SOURCE_DIR = "/home/philip/dev/gm3zza/zzalog";
 //! Program copyright - displayed in all windows.
 std::string COPYRIGHT = "\302\251 Philip Rose GM3ZZA";
 //! Third-party acknowledgments.
