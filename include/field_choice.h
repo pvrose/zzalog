@@ -18,6 +18,7 @@
 #ifndef __FIELD_CHOICE__
 #define __FIELD_CHOICE__
 
+#include <cstdint>
 #include <string>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Input_Choice.H>

@@ -18,6 +18,7 @@
 #ifndef __STN_DIALOG__
 #define __STN_DIALOG__
 
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <map>

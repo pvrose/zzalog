@@ -20,6 +20,7 @@
 
 #include "zc_drawing.h"
 
+#include <cstdint>
 #include <map>
 #include <string>
 
