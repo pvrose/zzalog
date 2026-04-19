@@ -323,6 +323,10 @@ list(APPEND CMAKE_PREFIX_PATH
 )
 
 include(FetchContent)
+
+# Ensure FetchContent fallback builds the same zzacommon components expected by this project.
+set(ZZACOMMON_COMPONENTS "zzaf;zzab;zzax;zzam;zzafb;zzad;zzap")
+
 FetchContent_Declare(
   zzacommon
   GIT_REPOSITORY https://github.com/pvrose/zzacommon.git
