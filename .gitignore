@@ -302,3 +302,4 @@ __pycache__/
 /CMakePresets.json
 /CMakePresets.json
 /src/ident.cpp
+/src/app.cpp

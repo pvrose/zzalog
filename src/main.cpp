@@ -1130,44 +1130,12 @@ bool in_current_session(record* this_record) {
 
 // Customise FLTK feature
 void customise_fltk() {
-	// Set default font size for all widgets
-	FL_NORMAL_SIZE = 10;
-	// FLTK 1.4 default contrast algorithm
-	fl_contrast_mode(FL_CONTRAST_CIELAB);
-#ifndef _WIN32
-	// Set courier font - ensure it's Courier New
-	Fl::set_font(FL_COURIER, "Courier New");
-	Fl::set_font(FL_COURIER_BOLD, "Courier New Bold");
-	Fl::set_font(FL_COURIER_ITALIC, "Courier New Italic");
-	Fl::set_font(FL_COURIER_BOLD_ITALIC, "Courier New Bold Italic");
-	// Use liberation fonts as closest to Windows fonts
-	Fl::set_font(FL_TIMES,            "Liberation Serif");
-	Fl::set_font(FL_TIMES_BOLD,       "Liberation Serif Bold");
-	Fl::set_font(FL_TIMES_ITALIC,     "Liberation Serif Italic");
-	Fl::set_font(FL_TIMES_BOLD_ITALIC,"Liberation Serif Bold Italic");	
-	// Fl::set_font(FL_HELVETICA,            "Liberation Sans");
-	// Fl::set_font(FL_HELVETICA_BOLD,       "Liberation Sans Bold");
-	// Fl::set_font(FL_HELVETICA_ITALIC,     "Liberation Sans Italic");
-	// Fl::set_font(FL_HELVETICA_BOLD_ITALIC,"Liberation Sans Bold Italic");	
-#else 
-	// Set courier font - ensure it's Courier New
-	Fl::set_font(FL_COURIER, " Courier New");
-	Fl::set_font(FL_COURIER_BOLD, "BCourier New");
-	Fl::set_font(FL_COURIER_ITALIC, "ICourier New");
-	Fl::set_font(FL_COURIER_BOLD_ITALIC, "PCourier New");
-	// Lucida Console is more readable than default Terminal
-	Fl::set_font(FL_SCREEN, " Lucida Console");
-	Fl::set_font(FL_SCREEN_BOLD, "BLucida Console");
-#endif
+	zc::customise_fltk();
 	// Add label symbols
 	fl_add_symbol("eyeshut", &draw_eyeshut, true);
 	fl_add_symbol("eyeopen", &draw_eyeopen, true);
 	fl_add_symbol("calendar", &draw_calendar, true);
 	fl_add_symbol("mail", &draw_mail, true);
-	// Default message properties
-	fl_message_size_ = FL_NORMAL_SIZE;
-	fl_message_font_ = 0;
-	fl_message_title_default(APP_NAME.c_str());
 	// Set foreground and background colours
 	if (DARK) {
 		Fl::foreground(240, 240, 240);             // 15/16 White
@@ -1179,8 +1147,6 @@ void customise_fltk() {
 		Fl::background2(240, 240, 240);            // 15/16 white
 		Fl::background(192, 192, 192);             // 3/4 white
 	}
-	// Default scrollbar
-	Fl::scrollbar_size(10);
 }
 
 // Some switches get saved between sessions - so-called sticky switches
