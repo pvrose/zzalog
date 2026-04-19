@@ -325,7 +325,7 @@ list(APPEND CMAKE_PREFIX_PATH
 include(FetchContent)
 
 # Ensure FetchContent fallback builds the same zzacommon components expected by this project.
-set(ZZACOMMON_COMPONENTS "zzaf;zzab;zzax;zzam;zzafb;zzad;zzap")
+set(ZZACOMMON_COMPONENTS "zzaf;zzab;zzax;zzam;zzafb;zzad")
 
 FetchContent_Declare(
   zzacommon
