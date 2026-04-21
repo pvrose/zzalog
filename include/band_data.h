@@ -115,6 +115,9 @@ public:
 	band_entry_t* get_entry(double frequency);
 	//! Get all the band_entry_t items.
 	
+	//! Get the band_entry_t items for the full \a band named
+	band_entry_t* get_entry(std::string band);
+	
 	//! \return all band_entry_t items.
 	std::set<band_entry_t*, ptr_lt>& get_entries();
 	//! Get the bands data

@@ -168,9 +168,9 @@ void qso_bands::cb_ticker(void* v) {
 			qso->item("FREQ", tx);
 			that->summary_->value(tx, 0.0);
 			that->full_window_->set_frequency(tx, 0.0);
-		} else {
-			that->summary_->value(0.0, 0.0);
-			that->full_window_->set_frequency(0.0, 0.0);
+		//} else {
+		//	that->summary_->value(0.0, 0.0);
+		//	that->full_window_->set_frequency(0.0, 0.0);
 		}
 	}
 

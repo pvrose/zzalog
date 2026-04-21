@@ -181,6 +181,16 @@ band_data::band_entry_t* band_data::get_entry(double frequency) {
 	return nullptr;
 }
 
+// Get the band plan data entry for the specified band
+band_data::band_entry_t* band_data::get_entry(std::string band) {
+	for (auto e : entries_) {
+		if (e->summary == band) {
+			return e;
+		}
+	}
+	return nullptr;
+}
+
 // Get the band plan data entries for the frequency range
 std::set<band_data::band_entry_t*, band_data::ptr_lt>& band_data::get_entries() {
 	return entries_;

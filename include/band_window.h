@@ -20,6 +20,7 @@
 class band_editor;
 class band_widget;
 class zc_tabs_nonav;
+class Fl_Choice;
 
 //! A separate window that displays the full bandplan view.
 class band_window :
@@ -58,9 +59,15 @@ public:
     //! Callback from tabs
     static void cb_tabs(Fl_Widget* w, void* v);
 
+	//! Callback from band choice widget
+	static void cb_band_choice(Fl_Widget* w, void* v);
+
 protected:
     //! Enable widgets (redraw tabs)
     void enable_widgets();
+
+	//! Populate the band choice widget with the available bands and select the current band.
+	void populate_band_choice();
 
     //! The tabs container
     zc_tabs_nonav* tabs_;
@@ -68,6 +75,8 @@ protected:
     band_widget* bw_;
     //! The band_editor instance.
     band_editor* be_;
+	//! The choice widget for band selection.
+	Fl_Choice* band_choice_;
 
 };
 

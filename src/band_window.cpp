@@ -17,6 +17,7 @@
 */
 #include "band_window.h"
 
+#include "band_data.h"
 #include "band_editor.h"
 #include "band_widget.h"
 #include "qso_manager.h"
@@ -57,13 +58,24 @@ band_window::band_window(int X, int Y, int W, int H, const char* L) :
 	tabs_->client_area(rx, ry, rw, rh, 0);
 	tabs_->box(FL_FLAT_BOX);
 
-	bw_ = new band_widget(rx, ry, rw, rh, "View");
+	Fl_Group* g_view = new Fl_Group(rx, ry, rw, rh);
+
+	bw_ = new band_widget(rx, ry, rw, rh - HBUTTON, "View");
 	bw_->labelsize(FL_NORMAL_SIZE + 2);
 	bw_->box(FL_BORDER_BOX);
 	bw_->type(band_widget::BAND_FULL | band_widget::ZOOMABLE);
 	bw_->selection_color(selection_color());
 	bw_->callback(cb_widget);
 	bw_->when(FL_WHEN_RELEASE);
+
+	band_choice_ = new Fl_Choice(rx, ry + rh - HBUTTON, WSMEDIT, HBUTTON, "Select band");
+	band_choice_->align(FL_ALIGN_RIGHT);
+	band_choice_->callback(cb_band_choice);
+	band_choice_->tooltip("Select the band to display");
+	populate_band_choice();
+
+	g_view->end();
+	g_view->resizable(bw_);
 
 	be_ = new band_editor(rx, ry, rw, rh, "Editor");
 	be_->labelsize(FL_NORMAL_SIZE + 2);
@@ -79,8 +91,10 @@ band_window::band_window(int X, int Y, int W, int H, const char* L) :
 
 	bw_->show();
 
+
+
 	end();
-	resizable(bw_);
+	resizable(tabs_);
 	show();
 
 	enable_widgets();
@@ -123,6 +137,18 @@ void band_window::cb_tabs(Fl_Widget* w, void* v) {
 	that->enable_widgets();
 }
 
+//! Callback from band choice widget
+void band_window::cb_band_choice(Fl_Widget* w, void* v) {
+	band_window* that = zc::ancestor_view<band_window>(w);
+	Fl_Choice* choice = (Fl_Choice*)w;
+	std::string band = choice->text(choice->value());
+	auto entry = band_data_->get_entry(band);
+	double lower = entry->range.lower;
+	if (!std::isnan(lower)) {
+		that->set_frequency(lower, lower);
+	}
+}
+
 //! Format the tabs
 void band_window::enable_widgets() {
 	// Set standard tab label formats
@@ -138,3 +164,28 @@ void band_window::enable_widgets() {
 		}
 	}
 }
+
+//! Populate the band choice widget with the available bands and select the current band.
+void band_window::populate_band_choice() {
+	band_choice_->clear();
+	auto& entries = band_data_->get_entries();
+	std::string current_band = "";
+	if (qso_manager_ && qso_manager_->rig()) {
+		double current_freq = qso_manager_->rig()->get_dfrequency(true);
+		auto entry = band_data_->get_entry(current_freq);
+		if (entry) {
+			current_band = entry->summary;
+		}
+	}
+	int index = 0;
+	for (const auto& entry : entries) {
+		if (entry->type == band_data::BAND) {
+			band_choice_->add(entry->summary.c_str());
+			if (entry->summary == current_band) {
+				band_choice_->value(index);
+			}
+			index++;
+		}
+	}
+}
+

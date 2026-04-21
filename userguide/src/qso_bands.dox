@@ -28,6 +28,9 @@ modes.
 This window is fully resizable. If it becomes too small, then information is removed 
 as necessary to fit the window.
 
+If no QSO is selected, then it is possible to select a different band by selecting the band
+from the drop-down menu at the bottom of the window.
+
 \image html qso_bands_3.png "Band-plan editor"
 \image latex qso_bands_3.png "Band-plan editor"
 
