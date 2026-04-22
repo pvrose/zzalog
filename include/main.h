@@ -207,3 +207,9 @@ extern std::string sticky_message_;
 
 //! Common seed to use in password encryption - maintaned with sessions.
 extern uint32_t seed_;
+
+//! The widget current set up to receive pastes from the international character dialog,
+//! and other widgets with copy and paste functionality.
+//! This should be set by the widget when it receives focus, and cleared when it loses focus.
+//! Such widgets would usually derive themselves from intl_input or intl_editor.
+extern Fl_Widget* paste_target_;

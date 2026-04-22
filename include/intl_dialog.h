@@ -49,11 +49,6 @@ class Fl_Group;
 		//! TAkes focus to allow keyboard F1 to open userguide.
 		virtual int handle(int event);
 
-		//! Set the widget \p w that receives the paste command.
-		void editor(Fl_Widget* w);
-		//! Returns the widget that recieves the paste command.
-		Fl_Widget* editor();
-
 		//! Callback from "Save" button - calls save_data().
 		static void cb_bn_save(Fl_Widget* w, void* v);
 		//! Callback from "Reload" button - clears existing data and calls load_data().
@@ -81,8 +76,6 @@ class Fl_Group;
 		std::string new_char_;
 		//! The button group.
 		Fl_Group* buttons_;
-		//! The edit widget.
-		Fl_Widget* editor_;
 
 	};
 

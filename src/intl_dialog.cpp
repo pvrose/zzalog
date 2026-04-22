@@ -45,12 +45,12 @@ extern std::string CONTACT;
 extern std::string COPYRIGHT;
 intl_dialog* intl_dialog_ = nullptr;
 extern void open_html(const char* topic);
+extern Fl_Widget* paste_target_;
 
 // Constructs a window 
 intl_dialog::intl_dialog() :
 	win_dialog(640, 480, "International character set")
 {
-	editor_ = nullptr;
 	// Load the data
 	if (load_data()) {
 		// create the dialog
@@ -220,25 +220,15 @@ void intl_dialog::cb_bn_add(Fl_Widget* w, void* v) {
 void intl_dialog::cb_bn_use(Fl_Widget* w, void* v) {
 	const char* utf8 = ((Fl_Button*)w)->label();
 	intl_dialog* that = zc::ancestor_view<intl_dialog>(w);
-	if (that->editor_) {
+	if (paste_target_) {
 		int len = strlen(utf8);
 		// Copy to clipboard
 		Fl::copy(utf8, len);
 		// Paste to currently open editor
-		Fl::paste(*that->editor_);
+		Fl::paste(*paste_target_);
 		// Set focus to that widget
-		Fl::focus(that->editor_);
+		Fl::focus(paste_target_);
 	}
-}
-
-// Set the widget to receive the pasted character
-void intl_dialog::editor(Fl_Widget* w) {
-	editor_ = w;
-}
-
-// Returns the editing widget
-Fl_Widget* intl_dialog::editor() {
-	return editor_;
 }
 
 // Add the characters in the input text to the list of characters displayed

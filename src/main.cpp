@@ -236,6 +236,9 @@ std::string development_directory_;
 //! Default location for auto-generated compile fodder
 std::string default_code_directory_ = "";
 
+//! Widget to receive pastes from dialogs with paste functionality.
+Fl_Widget* paste_target_ = nullptr;
+
 // Get the backup filename
 std::string backup_filename(std::string source, int& max_depth) {
 	zc_settings top_settings;
