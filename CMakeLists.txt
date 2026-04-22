@@ -29,6 +29,13 @@ string(TIMESTAMP APP_TIMESTAMP UTC)
 set(APP_VERSION "${ZZALOG_VERSION}${ZZALOG_RC_VALUE}")
 set(APP_SOURCE_DIR ${ZZALOG_SOURCE_DIR})
 
+## Split version into components for Windows resource file
+string(REPLACE "." ";" VERSION_LIST ${ZZALOG_VERSION})
+list(GET VERSION_LIST 0 ZZALOG_VERSION_MAJOR)
+list(GET VERSION_LIST 1 ZZALOG_VERSION_MINOR)
+list(GET VERSION_LIST 2 ZZALOG_VERSION_PATCH)
+list(GET VERSION_LIST 3 ZZALOG_VERSION_TWEAK)
+
 ## Set target executable
 set(TARGET zzalog)
 set(BUILD_SHARED_LIBS OFF)
@@ -60,7 +67,7 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/about_dialog.cpp
   ${ZZALOG_SRC_DIR}/adi_reader.cpp
   ${ZZALOG_SRC_DIR}/adi_writer.cpp
-  ${ZZALOG_SRC_DIR}/app.cpp
+  ${ZZALOG_BINARY_DIR}/src/app.cpp
   ${ZZALOG_SRC_DIR}/band_data.cpp
   ${ZZALOG_SRC_DIR}/band_editor.cpp
   ${ZZALOG_SRC_DIR}/band_widget.cpp
@@ -337,7 +344,7 @@ FetchContent_MakeAvailable(zzacommon)
 
 configure_file(
   ${ZZALOG_SOURCE_DIR}/src/app.cpp.in
-  ${ZZALOG_SOURCE_DIR}/src/app.cpp
+  ${ZZALOG_BINARY_DIR}/src/app.cpp
   @ONLY
 )
 
@@ -360,8 +367,45 @@ set(DATAFILES
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/keys.json
 )
 
+# Generate Windows icon and resource file
+if (MSVC)
+  # Generate ICO file from PNG logo
+  set(ZZALOG_LOGO_PNG "${CMAKE_CURRENT_SOURCE_DIR}/rose.png")
+  set(ZZALOG_ICO_FILE "${ZZALOG_BINARY_DIR}/zzalog.ico")
+
+  if(EXISTS "${ZZALOG_LOGO_PNG}")
+    message(STATUS "Generating Windows icon from ${ZZALOG_LOGO_PNG}")
+    execute_process(
+      COMMAND ${CMAKE_COMMAND}
+        -DPNG_FILE=${ZZALOG_LOGO_PNG}
+        -DICO_FILE=${ZZALOG_ICO_FILE}
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/convert_png_to_ico.cmake
+      RESULT_VARIABLE ICO_RESULT
+      ERROR_VARIABLE ICO_ERROR
+    )
+    if(NOT ICO_RESULT EQUAL 0)
+      message(WARNING "Failed to generate ICO file: ${ICO_ERROR}")
+    endif()
+  else()
+    message(WARNING "Logo file not found: ${ZZALOG_LOGO_PNG}")
+  endif()
+
+  # Configure Windows resource file with version information
+  set(ZZALOG_RC_FILE "${ZZALOG_BINARY_DIR}/zzalog.rc")
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/zzalog.rc.in
+    ${ZZALOG_RC_FILE}
+    @ONLY
+  )
+  message(STATUS "Generated Windows resource file: ${ZZALOG_RC_FILE}")
+endif()
+
 # Define the zzalog executable
-add_executable(${TARGET} WIN32)
+if (MSVC)
+  add_executable(${TARGET} WIN32 ${ZZALOG_RC_FILE})
+else()
+  add_executable(${TARGET} WIN32)
+endif()
 # Ensure external projects are built before linking zzalog
 add_dependencies(${TARGET} 
   zzacommon::zzaf
