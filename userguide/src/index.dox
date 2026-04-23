@@ -22,6 +22,7 @@ that provides the following functionality:
 	modem applications: WSJT-X and FlDigi.
 - Supports the use of network files for the logbook,
     with local mirroring and backup of the logbook file.
+- Provides a scratchpad to take notes during a QSO and copy to the logbook.
 
 This document can be opened at
 any time from the menu or the toolbar:
