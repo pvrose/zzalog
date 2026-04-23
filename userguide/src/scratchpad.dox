@@ -1,0 +1,40 @@
+/** \page scratchpad Scratchpad
+ * 
+ * \section description_sp Description
+ *
+ * The scratchpad can be used for transcribing notes from an ongoing QSO. Data can be selected
+ * in the editing window and pasted in a number of ways.
+
+ * \subsection paste_clipboard Paste into clipboard
+
+ * \image html scratchpad_1.png "Scratchpad - copy to clipboard"
+ * \image latex scratchpad_1.png "Scratchpad - copy to clipboard" width=10cm
+ *
+ * In this image the selected data can be copied to the clipboard.
+ * \subsection paste_qso Paste into a target widget
+ * \image html scratchpad_2.png "Scratchpad - paste into target widget"
+ * \image latex scratchpad_2.png "Scratchpad - paste into target widget" width=10cm
+ * In this image the selected data can be pasted into a target widget. Some input widgets 
+ * have the ability to automatically receive data that is pasted into them.
+ * This feature is also used by the \ref intl_dialog when pasting non-ASCII characters.
+
+ * \subsection paste_qso_1 Paste into a QSO record
+ * \image html scratchpad_3.png "Scratchpad - paste into QSO record"
+ * \image latex scratchpad_3.png "Scratchpad - paste into QSO record" width=10cm
+ * In this image the selected data can be pasted into a QSO record according to
+ * the data that is selected. Rudimentary parsing is done to determine the most
+ * appropriate field to paste the data into using the following rules:
+ * - If the data is two or three digits, it is pasted as a received report.
+ * - If the data looks like a gridsquare, it is pasted as a QTH locator.
+ * - If the data looks like a callsign, it is pasted as the call of the other station.
+ * - Otherwise, it is pasted as a name or QTH depending on which is empty in the record.
+
+ * \subsection paste_qso_2 Paste into a QSO record with a target field
+ * \image html scratchpad_4.png "Scratchpad - paste into QSO record with target field"
+ * \image latex scratchpad_4.png "Scratchpad - paste into QSO record with target field" width=10cm
+ * In this image the selected data can be pasted into a QSO record according to a field
+ * that is selected in the drop-down menu. In this way the user can paste 
+ * data into any field in the QSO record. In the example, the data is pasted into the FISTS field.
+
+ * 
+ */

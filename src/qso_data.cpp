@@ -21,9 +21,8 @@
 #include "config.h"
 #include "contest_scorer.h"
 #include "cty_data.h"
-#include <zc_drawing.h>
 #include "extract_data.h"
-#include <fields.h>
+#include "fields.h"
 #include "import_data.h"
 #include "menu_bar.h"
 #include "qrz_handler.h"
@@ -38,12 +37,13 @@
 #include "qso_query.h"
 #include "record.h"
 #include "rig_if.h"
-#include "zc_status.h"
+#include "scratchpad.h"
 #include "spec_data.h"
 #include "tabbed_forms.h"
-#include "zc_fltk.h"
 #include "wsjtx_handler.h"
 
+#include "zc_drawing.h"
+#include "zc_status.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -452,6 +452,8 @@ void qso_data::enable_widgets() {
 			break;
 		}
 		g_buttons_->enable_widgets();
+
+		if (scratchpad_) scratchpad_->update_widget_states();
 
 		// Redraw this as some of the above labels may have extended into it.
 		redraw();

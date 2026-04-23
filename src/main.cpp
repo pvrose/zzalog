@@ -44,6 +44,7 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "rig_data.h"
+#include "scratchpad.h"
 #include "spec_data.h"
 #include "spec_tree.h"
 #include "stn_data.h"
@@ -406,11 +407,26 @@ void cb_bn_close(Fl_Widget* w, void*v) {
 		main_settings.set("Top", main_window_->y_root());
 		main_settings.set("Width", main_window_->w());
 		main_settings.set("Height", main_window_->h());
+		// Save the banner size
 		zc_settings banner_settings(&view_settings, "Banner");
 		int bw = status_->get_banner()->w();
 		int bh = status_->get_banner()->h();
 		banner_settings.set("Width", bw);
 		banner_settings.set("Height", bh);
+		// Save the International Characters dialog position
+		zc_settings intl_settings(&view_settings, "International Characters");
+		if (intl_dialog_) {
+			intl_settings.set("Left", intl_dialog_->x_root());
+			intl_settings.set("Top", intl_dialog_->y_root());
+			intl_settings.set<bool>("Open Automatically", intl_dialog_->visible());
+		}
+		// Save the scratchpad position
+		zc_settings scratchpad_settings(&view_settings, "Scratchpad");
+		if (scratchpad_) {
+			scratchpad_settings.set("Left", scratchpad_->x_root());
+			scratchpad_settings.set("Top", scratchpad_->y_root());
+			scratchpad_settings.set<bool>("Open Automatically", scratchpad_->visible());
+		}
 
 		// Save sticky switches
 		save_switches();
@@ -852,11 +868,6 @@ void add_data() {
 		stn_window_->hide();
 		stn_data_->load_data();
 	}
-	// Add intl dialog
-	if (!closing_) {
-		intl_dialog_ = new intl_dialog;
-		// Don't show here - add a menu item to show it.
-	}
 	// And band plan data
 	if (!closing_) {
 		band_data_ = new band_data;
@@ -931,16 +942,29 @@ void add_qsl_handlers() {
 // Add operating qso_manager (AKA "Dashboard")
 void add_dashboard() {
 	if (!closing_) {
+		char l[128];
+		std::string version = APP_VERSION;
+		if (zc_app::debug(DEBUG_DEVELOPMENT)) version += " DEVT";
+#ifdef _DEBUG
+		version += " DEBUG";
+#endif
 		if (!qso_manager_) {
-			char l[128];
-			std::string version = APP_VERSION;
-			if (zc_app::debug(DEBUG_DEVELOPMENT)) version += " DEVT";
 			snprintf(l, sizeof(l), "%s %s: Operating Dashboard", APP_NAME.c_str(), version.c_str());
 			qso_manager_ = new qso_manager(10, 10);
 			qso_manager_->copy_label(l);
 		}
 		status_->misc_status(ST_NOTE, "DASH: Opened");
 		qso_manager_->hide();
+		// Add the scratchpad
+		scratchpad_ = new scratchpad;
+		snprintf(l, sizeof(l), "%s %s: Operating Scratchpad", APP_NAME.c_str(), version.c_str());
+		scratchpad_->copy_label(l);
+
+		// Add intl dialog
+		intl_dialog_ = new intl_dialog;
+		snprintf(l, sizeof(l), "%s %s: International Characters", APP_NAME.c_str(), version.c_str());
+		intl_dialog_->copy_label(l);
+
 	}
 }
 
@@ -949,6 +973,9 @@ void main_window_label(const std::string& text) {
 	// e.g. ZZALOG 3.0.0: <filename> - APP_VERSION includes (Debug) if compiled under _DEBUG
 	std::string label = APP_NAME + " " + APP_VERSION;
 	if (zc_app::debug(DEBUG_DEVELOPMENT)) label += " DEVT";
+#ifdef _DEBUG
+	label += " DEBUG";
+#endif
 	label += ": " + text;
 	main_window_->copy_label(label.c_str());
 }
@@ -1051,6 +1078,7 @@ void tidy() {
 	delete intl_dialog_;
 	// This will be used in toolbar_
 	intl_dialog_ = nullptr;
+	delete scratchpad_;
 	delete spec_data_;
 	delete keyring_;
 	delete cty_data_;
@@ -1443,4 +1471,10 @@ std::string recent_file(int n) {
 			}
 		}
 	}
+}
+
+void update_paste_target(Fl_Widget* widget) {
+	paste_target_ = widget;
+	// Notify any interested parties that the paste target has changed
+	scratchpad_->update_paste_target();
 }

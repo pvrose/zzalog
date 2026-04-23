@@ -18,7 +18,6 @@
 #include "qso_manager.h"
 
 #include "book.h"
-#include <zc_drawing.h>
 #include "extract_data.h"
 #include "import_data.h"
 #include "main_window.h"
@@ -30,8 +29,10 @@
 #include "qso_buttons.h"
 #include "qso_qsl.h"
 #include "record.h"
-#include "zc_settings.h"
 #include "stn_data.h"
+
+#include "zc_drawing.h"
+#include "zc_settings.h"
 
 #include <algorithm>
 #include <string>
@@ -231,7 +232,6 @@ void qso_manager::enable_widgets() {
 	info_group_->enable_widgets();
 	data_group_->enable_widgets();
 	clock_group_->enable_widgets();
-
 }
 
 // Close button clicked - invoke main window close

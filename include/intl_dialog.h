@@ -59,6 +59,10 @@ class Fl_Group;
 		static void cb_bn_use(Fl_Widget* w, void* v);
 
 	protected:
+		//! Load settings
+		void load_settings();
+		//! Save settings
+		void save_settings();
 
 		//! Load data from \p filename_.
 		bool load_data();

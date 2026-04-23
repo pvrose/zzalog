@@ -24,6 +24,7 @@
 #include "zc_callback.h"
 #include "zc_drawing.h"
 #include "zc_file_holder.h"
+#include "zc_settings.h"
 #include "zc_status.h"
 #include "zc_fltk.h"
 
@@ -55,6 +56,7 @@ intl_dialog::intl_dialog() :
 	if (load_data()) {
 		// create the dialog
 		create_form();
+		load_settings();
 	} 
 	end();
 }
@@ -95,6 +97,27 @@ void intl_dialog::create_form() {
 	resizable(nullptr);
 	add_buttons(width);
 }
+
+// Load settings
+void intl_dialog::load_settings() {
+	zc_settings settings;
+	zc_settings views(&settings, "Views");
+	zc_settings intl_dialog_settings(&views, "International Characters");
+	bool open;
+	intl_dialog_settings.get<bool>("Open Automatically", open, false);
+	int top, left;
+	intl_dialog_settings.get<int>("Top", top, 100);
+	intl_dialog_settings.get<int>("Left", left, 100);
+	position(left, top);
+	if (open) {
+		show();
+	}
+}
+
+// Save settings
+void intl_dialog::save_settings() {
+}
+
 
 // Add buttons with all the wanted characters
 void intl_dialog::add_buttons(int width) {
@@ -156,6 +179,7 @@ void intl_dialog::add_buttons(int width) {
 intl_dialog::~intl_dialog()
 {
 	clear();
+	save_settings();
 }
 
 // Handle FL_HIDE and FL_SHOW to get menu to update otself

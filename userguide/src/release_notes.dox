@@ -6,6 +6,7 @@
   - When comparing a download, show differing records first after essential fields.
   - When deleting a record, park it in a deleted records table for possible later recovery.
   - Add feature to select different bands in the band-plan viewer.
+  - Add scratchpad for recording notes and pasting data into QSO records.
 - Cosmetic and non-functional changes.
   - Moved more non-ZZALOG code to ZZACOMMON.
   - Remove requirement for user to interact with ZZACOMMON during build flow.

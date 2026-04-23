@@ -24,7 +24,7 @@
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Text_Editor.H>
 
-extern Fl_Widget* paste_target_;
+void update_paste_target(Fl_Widget* w);
 
 // Constructor
 intl_editor::intl_editor(int X, int Y, int W, int H, const char* label) :
@@ -42,7 +42,7 @@ intl_editor::intl_editor(int X, int Y, int W, int H, const char* label) :
 };
 
 intl_editor::~intl_editor() {
-	paste_target_ = nullptr;
+	update_paste_target(nullptr);
 }
 
 // Event handler - handle event as normal then set the cursor depending on current insert mode
@@ -51,7 +51,7 @@ int intl_editor::handle(int event) {
 	switch (event) {
 	case FL_FOCUS:
 		// Something has tried to give the editor the focus: accept it.
-		paste_target_ = this;
+		update_paste_target(this);
 		return true;
 	default:
 		// Default handling of all events
@@ -75,7 +75,7 @@ intl_input::intl_input(int X, int Y, int W, int H, const char* label) :
 	Fl_Input(X, Y, W, H, label) {};
 
 intl_input::~intl_input() {
-	paste_target_ = nullptr;
+	update_paste_target(nullptr);
 }
 
 // Event handler
@@ -84,7 +84,7 @@ int intl_input::handle(int event) {
 	switch (event) {
 	case FL_FOCUS:
 		if (intl_dialog_) {
-			paste_target_ = this;
+			update_paste_target(this);
 			return true;
 		}
 		break;

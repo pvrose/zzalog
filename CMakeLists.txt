@@ -17,7 +17,7 @@
 #]=]
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.6.16.3)
+project(ZZALOG VERSION 3.6.16.4)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
 set(ZZALOG_RC_VALUE "")
@@ -145,6 +145,7 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/report_tree.cpp
   ${ZZALOG_SRC_DIR}/rig_data.cpp
   ${ZZALOG_SRC_DIR}/rig_if.cpp
+  ${ZZALOG_SRC_DIR}/scratchpad.cpp
   ${ZZALOG_SRC_DIR}/search_dialog.cpp
   ${ZZALOG_SRC_DIR}/spec_data.cpp
   ${ZZALOG_SRC_DIR}/spec_tree.cpp
@@ -251,6 +252,7 @@ set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/report_tree.h
   ${ZZALOG_INCLUDE_DIR}/rig_data.h
   ${ZZALOG_INCLUDE_DIR}/rig_if.h
+  ${ZZALOG_INCLUDE_DIR}/scratchpad.h
   ${ZZALOG_INCLUDE_DIR}/search_dialog.h
   ${ZZALOG_INCLUDE_DIR}/search.h
   ${ZZALOG_INCLUDE_DIR}/spec_data.h

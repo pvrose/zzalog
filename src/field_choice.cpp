@@ -39,7 +39,7 @@
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
 
-extern Fl_Widget* paste_target_;
+void update_paste_target(Fl_Widget* w);
 
 // Lists greater than this will be hierarchic - e.g. "A/ADDRESS" else not so "ADDRESS"
 const int HIERARCHIC_LIMIT = 12;
@@ -144,7 +144,7 @@ field_input::field_input(int X, int Y, int W, int H, const char* label) :
 }
 
 field_input::~field_input() {
-	paste_target_ = nullptr;
+	update_paste_target(nullptr);
 }
 
 // Override a few events
@@ -153,7 +153,7 @@ int field_input::handle(int event) {
 	// Tell international character dialog to paste to this widget
 	switch (event) {
 	case FL_PUSH:
-		paste_target_ = this;
+		update_paste_target(this);
 		// Remove any tip window on this or other field_input
 		if (tip_window_) {
 			// Delete existing tip window
@@ -162,7 +162,7 @@ int field_input::handle(int event) {
 		}
 		return Fl_Input_Choice::handle(event);
 	case FL_FOCUS:
-		paste_target_ = this;
+		update_paste_target(this);
 		if (input()->take_focus()) return true;
 		return Fl_Input_Choice::handle(event);
 	case FL_UNFOCUS:

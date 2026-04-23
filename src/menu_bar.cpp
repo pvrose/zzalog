@@ -39,15 +39,16 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "report_tree.h"
-#include <search.h>
+#include "scratchpad.h"
+#include "search.h"
 #include "search_dialog.h"
 #include "spec_data.h"
 #include "zc_status.h"
 #include "tabbed_forms.h"
 #include "zc_ticker.h"
 #include "toolbar.h"
-#include <view.h>
-#include <win_dialog.h>
+#include "view.h"
+#include "win_dialog.h"
 #include "wsjtx_handler.h"
 
 #include <cstdio>
@@ -1679,8 +1680,8 @@ void menu_bar::add_windows_items() {
 	int index = find_index("&Windows/&Hide All");
 	insert(index, "&Windows/&Main", 0, cb_mi_windows, main_window_, FL_MENU_TOGGLE);
 	insert(index, "&Windows/Das&hboard", 0, cb_mi_windows, qso_manager_, FL_MENU_TOGGLE);
-	// insert(index, "&Windows/S&tatus Viewer", 0, cb_mi_windows, status_->file_viewer(), FL_MENU_TOGGLE);
 	insert(index, "&Windows/&International Chars", 0, cb_mi_windows, intl_dialog_, FL_MENU_TOGGLE);
+	insert(index, "&Windows/&Scratch Pad", 0, cb_mi_windows, scratchpad_, FL_MENU_TOGGLE);
 }
 
 // Update Windows sub-menu
