@@ -483,8 +483,8 @@ void scratchpad::copy_selection() {
 		}
 		break;
 	case FIELD:
-		if (qso_manager_ && qso_manager_->data()->current_qso() && field_choice_->value() >= 0) {
-			std::string field_name = field_choice_->text();
+		if (qso_manager_ && qso_manager_->data()->current_qso() ) {
+			std::string field_name = field_choice_->value();
 			qso_manager_->data()->current_qso()->item(field_name, std::string(selected_text));
 			qso_manager_->update_qso(HT_CHANGED, qso_manager_->data()->current_number(), -1);
 		}
