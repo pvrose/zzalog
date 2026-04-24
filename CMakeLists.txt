@@ -339,7 +339,7 @@ set(ZZACOMMON_COMPONENTS "zzaf;zzab;zzax;zzam;zzafb;zzad")
 FetchContent_Declare(
   zzacommon
   GIT_REPOSITORY https://github.com/pvrose/zzacommon.git
-  GIT_TAG v1.1
+  GIT_TAG v1.1.1
   FIND_PACKAGE_ARGS NAMES zzacommon COMPONENTS zzaf zzam zzafb zzad zzab zzax
 )
 FetchContent_MakeAvailable(zzacommon)
