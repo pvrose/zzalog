@@ -149,17 +149,17 @@ void club_handler::generate_form(std::vector<zc_url_handler::field_pair>& fields
 // Download the exception file
 bool club_handler::download_exception(std::string filename) {
 	// Start downloading exception file
-	status_->misc_status(ST_NOTE, "CLUBLOG: Downloading exception file");
+	status_->misc_status(ST_NOTE, "CTY DATA: Downloading exception file");
 	std::string zip_filename = filename + ".gz";
 	std::ofstream os(zip_filename, std::ios::trunc | std::ios::out | std::ios::binary);
 	std::string url = "https://cdn.clublog.org/cty.php?api=" + key_;
 	if (url_handler_->read_url(url, &os)) {
 		os.close();
-		status_->misc_status(ST_OK, "CLUBLOG: Downloaded OK");
+		status_->misc_status(ST_OK, "CTY DATA: Downloaded OK");
 		return unzip_exception(zip_filename);
 	} else {
 		os.close();
-		status_->misc_status(ST_ERROR, "CLUBLOG: Exception file download failed.");
+		status_->misc_status(ST_ERROR, "CTY DATA: Exception file download failed.");
 		return false;
 	}
 }
@@ -176,42 +176,42 @@ bool club_handler::unzip_exception(std::string filename) {
 #endif
 
 	char msg[128];
-	snprintf(msg, sizeof(msg), "CLUBLOG: Unzipping exception file: %s", cmd);
+	snprintf(msg, sizeof(msg), "CTY DATA: Unzipping exception file: %s", cmd);
 	status_->misc_status(ST_NOTE, msg);
 	int result = system(cmd);
 #ifdef _WIN32
 	if (result < 0) {
-		status_->misc_status(ST_ERROR, "CLUBLOG: Unzipping failed - check if 7z is available");
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed - check if 7z is available");
 		return false;
 	}
 	// This assumes 7z is the executble
 	switch (result) {
 	case 0:
-		status_->misc_status(ST_OK, "CLUBLOG: Unzipped OK");
+		status_->misc_status(ST_OK, "CTY DATA: Unzipped OK");
 		return true;
 	case 1:
-		status_->misc_status(ST_WARNING, "CLUBLOG: Unzipping incurred a warning");
+		status_->misc_status(ST_WARNING, "CTY DATA: Unzipping incurred a warning");
 		return true;
 	case 2:
-		status_->misc_status(ST_ERROR, "CLUBLOG: Unzipping failed - fatal error");
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed - fatal error");
 		return false;
 	case 7:
-		status_->misc_status(ST_ERROR, "CLUBLOG: Unzipping failed - command-line error");
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed - command-line error");
 		return false;
 	case 8:
-		status_->misc_status(ST_ERROR, "CLUBLOG: Unzipping failed - insufficient memory");
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed - insufficient memory");
 		return false;
 	case 255:
-		status_->misc_status(ST_ERROR, "CLUBLOG: Unzipping failed - stopped by user");
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed - stopped by user");
 		return false;
 	}
 	return true;
 #else
 	if (result != 0) {
-		status_->misc_status(ST_ERROR, "CLUBLOG: Unzipping failed");
+		status_->misc_status(ST_ERROR, "CTY DATA: Unzipping failed");
 		return false;
 	} else {
-		status_->misc_status(ST_OK, "CLUBLOG: Unzipped OK");
+		status_->misc_status(ST_OK, "CTY DATA: Unzipped OK");
 		return true;
 	}
 #endif

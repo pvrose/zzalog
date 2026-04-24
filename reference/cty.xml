@@ -1,4 +1,4 @@
-<clublog date='2026-04-14T08:30:08+00:00' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='https://cdn.clublog.org/cty.xsd'>
+<clublog date='2026-04-24T08:30:06+00:00' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='https://cdn.clublog.org/cty.xsd'>
 <entities>
 	<entity>
 		<adif>1</adif>
@@ -6603,8 +6603,8 @@
 		<adif>6</adif>
 		<cqz>1</cqz>
 		<cont>NA</cont>
-		<long>-84.62</long>
-		<lat>34.02</lat>
+		<long>-88.38</long>
+		<lat>44.69</lat>
 		<start>2004-08-17T00:00:00+00:00</start>
 		<end>2005-07-06T23:59:59+00:00</end>
 	</exception>
@@ -18903,16 +18903,6 @@
 		<lat>61.20</lat>
 		<start>2025-09-03T00:00:00+00:00</start>
 	</exception>
-	<exception record='56815'>
-		<call>WB1BR</call>
-		<entity>ALASKA</entity>
-		<adif>6</adif>
-		<cqz>1</cqz>
-		<cont>NA</cont>
-		<long>-68.96</long>
-		<lat>47.52</lat>
-		<start>2025-11-17T00:00:00+00:00</start>
-	</exception>
 	<exception record='56818'>
 		<call>KN4ICW</call>
 		<entity>ALASKA</entity>
@@ -19215,16 +19205,6 @@
 		<lat>61.20</lat>
 		<start>2026-03-26T00:00:00+00:00</start>
 	</exception>
-	<exception record='57232'>
-		<call>KO6KVZ</call>
-		<entity>ALASKA</entity>
-		<adif>6</adif>
-		<cqz>1</cqz>
-		<cont>NA</cont>
-		<long>-150.00</long>
-		<lat>61.20</lat>
-		<start>2026-03-25T00:00:00+00:00</start>
-	</exception>
 	<exception record='57233'>
 		<call>KR4KUD</call>
 		<entity>ALASKA</entity>
@@ -19255,6 +19235,58 @@
 		<long>-150.00</long>
 		<lat>61.20</lat>
 		<start>2026-03-30T00:00:00+00:00</start>
+	</exception>
+	<exception record='57355'>
+		<call>KF7ROC</call>
+		<entity>ALASKA</entity>
+		<adif>6</adif>
+		<cqz>1</cqz>
+		<cont>NA</cont>
+		<long>-150.00</long>
+		<lat>61.20</lat>
+		<start>2026-04-10T00:00:00+00:00</start>
+	</exception>
+	<exception record='57357'>
+		<call>KE8WEQ</call>
+		<entity>ALASKA</entity>
+		<adif>6</adif>
+		<cqz>1</cqz>
+		<cont>NA</cont>
+		<long>-150.00</long>
+		<lat>61.20</lat>
+		<start>2026-04-04T00:00:00+00:00</start>
+	</exception>
+	<exception record='57358'>
+		<call>WB1BR</call>
+		<entity>ALASKA</entity>
+		<adif>6</adif>
+		<cqz>1</cqz>
+		<cont>NA</cont>
+		<long>-68.96</long>
+		<lat>47.52</lat>
+		<start>2025-11-17T00:00:00+00:00</start>
+		<end>2026-04-08T23:59:59+00:00</end>
+	</exception>
+	<exception record='57390'>
+		<call>KI5LTT</call>
+		<entity>ALASKA</entity>
+		<adif>6</adif>
+		<cqz>1</cqz>
+		<cont>NA</cont>
+		<long>-150.00</long>
+		<lat>61.20</lat>
+		<start>2026-04-15T00:00:00+00:00</start>
+	</exception>
+	<exception record='57393'>
+		<call>KO6KVZ</call>
+		<entity>ALASKA</entity>
+		<adif>6</adif>
+		<cqz>1</cqz>
+		<cont>NA</cont>
+		<long>-150.00</long>
+		<lat>61.20</lat>
+		<start>2026-03-25T00:00:00+00:00</start>
+		<end>2026-04-14T23:59:59+00:00</end>
 	</exception>
 	<exception record='4919'>
 		<call>VQ8CB/A</call>
@@ -19733,6 +19765,16 @@
 		<lat>-14.30</lat>
 		<start>2000-04-22T00:00:00+00:00</start>
 		<end>2000-05-24T23:59:59+00:00</end>
+	</exception>
+	<exception record='57350'>
+		<call>WZ9K</call>
+		<entity>AMERICAN SAMOA</entity>
+		<adif>9</adif>
+		<cqz>32</cqz>
+		<cont>OC</cont>
+		<long>-170.80</long>
+		<lat>-14.30</lat>
+		<start>2026-04-07T00:00:00+00:00</start>
 	</exception>
 	<exception record='53391'>
 		<call>FT5ZM</call>
@@ -31908,8 +31950,8 @@
 		<adif>15</adif>
 		<cqz>18</cqz>
 		<cont>AS</cont>
-		<long>20.71</long>
-		<lat>54.73</lat>
+		<long>118.04</long>
+		<lat>50.10</lat>
 		<start>2016-01-15T00:00:00+00:00</start>
 		<end>2016-01-25T23:59:59+00:00</end>
 	</exception>
@@ -32876,8 +32918,8 @@
 		<adif>15</adif>
 		<cqz>17</cqz>
 		<cont>AS</cont>
-		<long>80.29</long>
-		<lat>61.10</lat>
+		<long>0.04</long>
+		<lat>0.02</lat>
 		<start>2016-05-03T00:00:00+00:00</start>
 		<end>2016-05-09T23:59:59+00:00</end>
 	</exception>
@@ -35031,8 +35073,8 @@
 		<adif>15</adif>
 		<cqz>19</cqz>
 		<cont>AS</cont>
-		<long>36.96</long>
-		<lat>55.98</lat>
+		<long>135.04</long>
+		<lat>48.48</lat>
 		<start>2017-02-22T00:00:00+00:00</start>
 		<end>2017-02-27T23:59:59+00:00</end>
 	</exception>
@@ -40198,8 +40240,8 @@
 		<adif>15</adif>
 		<cqz>16</cqz>
 		<cont>AS</cont>
-		<long>56.04</long>
-		<lat>54.81</lat>
+		<long>55.96</long>
+		<lat>54.73</lat>
 		<start>2021-05-02T00:00:00+00:00</start>
 		<end>2021-05-09T14:59:59+00:00</end>
 	</exception>
@@ -44030,10 +44072,10 @@
 		<call>RT25BU</call>
 		<entity>ASIATIC RUSSIA</entity>
 		<adif>15</adif>
-		<cqz>18</cqz>
+		<cqz>17</cqz>
 		<cont>AS</cont>
-		<long>61.37</long>
-		<lat>55.15</lat>
+		<long>41.04</long>
+		<lat>53.52</lat>
 		<start>2026-04-01T00:00:00+00:00</start>
 		<end>2026-04-30T23:59:59+00:00</end>
 	</exception>
@@ -44120,8 +44162,8 @@
 		<adif>15</adif>
 		<cqz>18</cqz>
 		<cont>AS</cont>
-		<long>84.96</long>
-		<lat>56.48</lat>
+		<long>61.37</long>
+		<lat>55.15</lat>
 		<start>2026-04-02T21:00:00+00:00</start>
 		<end>2026-04-15T23:59:59+00:00</end>
 	</exception>
@@ -44168,6 +44210,369 @@
 		<lat>50.52</lat>
 		<start>2026-04-02T21:00:00+00:00</start>
 		<end>2026-04-15T23:59:59+00:00</end>
+	</exception>
+	<exception record='57303'>
+		<call>RP81MP</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>18</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57304'>
+		<call>RP81MTU</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57305'>
+		<call>RP81PEO</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57308'>
+		<call>RP81PW</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>16</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57311'>
+		<call>RP81RGA</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>18</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57312'>
+		<call>RP81RS</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57313'>
+		<call>RP81SAS</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57314'>
+		<call>RP81SDD</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>18</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57315'>
+		<call>RP81STD</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57316'>
+		<call>RP81TG</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57317'>
+		<call>RP81TKP</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57318'>
+		<call>RP81TOF</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>18</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57319'>
+		<call>RP81U</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57322'>
+		<call>RP81UF</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>16</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57323'>
+		<call>RP81V</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>19</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57325'>
+		<call>RP81ZAM</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57327'>
+		<call>RP81AEG</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>18</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57328'>
+		<call>RP81AZ</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57329'>
+		<call>RP81DG</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>19</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57330'>
+		<call>RP81DT</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57331'>
+		<call>RP81GB</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>16</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57332'>
+		<call>RP81H</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57334'>
+		<call>RP81B</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>19</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57335'>
+		<call>RP81KE</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>18</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57339'>
+		<call>RP81MMK</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57342'>
+		<call>RP81PFP</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57343'>
+		<call>RP81RF</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>18</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57345'>
+		<call>RP81TVM</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57346'>
+		<call>RP81UR</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57348'>
+		<call>RP81YT</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>18</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57359'>
+		<call>RP81AB</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>18</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57361'>
+		<call>RP81BPZ</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>18</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57380'>
+		<call>RP81J</call>
+		<entity>ASIATIC RUSSIA</entity>
+		<adif>15</adif>
+		<cqz>17</cqz>
+		<cont>AS</cont>
+		<long>61.37</long>
+		<lat>55.15</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
 	</exception>
 	<exception record='6773'>
 		<call>ZL3HI/A</call>
@@ -44560,8 +44965,8 @@
 		<adif>16</adif>
 		<cqz>32</cqz>
 		<cont>OC</cont>
-		<long>169.04</long>
-		<lat>-52.48</lat>
+		<long>173.04</long>
+		<lat>-39.48</lat>
 		<start>1980-12-03T00:00:00+00:00</start>
 		<end>1982-04-14T23:59:59+00:00</end>
 	</exception>
@@ -49308,8 +49713,8 @@
 		<adif>24</adif>
 		<cqz>38</cqz>
 		<cont>AF</cont>
-		<long>3.04</long>
-		<lat>-54.48</lat>
+		<long>3.38</long>
+		<lat>-54.94</lat>
 		<start>2026-03-14T00:00:00+00:00</start>
 		<end>2026-03-14T23:59:59+00:00</end>
 	</exception>
@@ -52396,7 +52801,7 @@
 		<start>1996-12-27T00:00:00+00:00</start>
 		<end>1997-01-10T23:59:59+00:00</end>
 	</exception>
-	<exception record='57235'>
+	<exception record='57376'>
 		<call>T31TTT</call>
 		<entity>CENTRAL KIRIBATI</entity>
 		<adif>31</adif>
@@ -52405,7 +52810,7 @@
 		<long>-171.70</long>
 		<lat>-2.80</lat>
 		<start>2026-03-27T00:00:00+00:00</start>
-		<end>2026-04-15T23:59:59+00:00</end>
+		<end>2026-05-31T23:59:59+00:00</end>
 	</exception>
 	<exception record='3683'>
 		<call>EA9CE/C</call>
@@ -55397,17 +55802,6 @@
 		<start>1980-04-01T00:00:00+00:00</start>
 		<end>1980-12-31T23:59:59+00:00</end>
 	</exception>
-	<exception record='45461'>
-		<call>TI9CC</call>
-		<entity>COCOS ISLAND</entity>
-		<adif>37</adif>
-		<cqz>7</cqz>
-		<cont>NA</cont>
-		<long>-87.00</long>
-		<lat>5.60</lat>
-		<start>1980-04-12T00:00:00+00:00</start>
-		<end>1980-04-14T23:59:59+00:00</end>
-	</exception>
 	<exception record='45462'>
 		<call>TI9JVA</call>
 		<entity>COCOS ISLAND</entity>
@@ -55814,6 +56208,17 @@
 		<lat>5.52</lat>
 		<start>2024-10-09T00:00:00+00:00</start>
 		<end>2024-10-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57370'>
+		<call>TI9CC</call>
+		<entity>COCOS ISLAND</entity>
+		<adif>37</adif>
+		<cqz>7</cqz>
+		<cont>NA</cont>
+		<long>-87.00</long>
+		<lat>5.60</lat>
+		<start>1980-04-11T00:00:00+00:00</start>
+		<end>1980-04-14T23:59:59+00:00</end>
 	</exception>
 	<exception record='2686'>
 		<call>VK9CXW</call>
@@ -56343,8 +56748,8 @@
 		<adif>38</adif>
 		<cqz>29</cqz>
 		<cont>OC</cont>
-		<long>96.80</long>
-		<lat>-12.20</lat>
+		<long>97.04</long>
+		<lat>-12.48</lat>
 		<start>2026-04-07T00:00:00+00:00</start>
 	</exception>
 	<exception record='20254'>
@@ -63625,8 +64030,8 @@
 		<adif>54</adif>
 		<cqz>16</cqz>
 		<cont>EU</cont>
-		<long>32.04</long>
-		<lat>54.77</lat>
+		<long>85.04</long>
+		<lat>55.52</lat>
 		<start>2013-07-31T00:00:00+00:00</start>
 		<end>2013-10-31T23:59:59+00:00</end>
 	</exception>
@@ -68104,8 +68509,8 @@
 		<adif>54</adif>
 		<cqz>16</cqz>
 		<cont>EU</cont>
-		<long>55.96</long>
-		<lat>54.73</lat>
+		<long>56.62</long>
+		<lat>54.81</lat>
 		<start>2017-08-12T00:00:00+00:00</start>
 		<end>2017-08-13T23:59:59+00:00</end>
 	</exception>
@@ -68115,8 +68520,8 @@
 		<adif>54</adif>
 		<cqz>16</cqz>
 		<cont>EU</cont>
-		<long>55.96</long>
-		<lat>54.73</lat>
+		<long>56.62</long>
+		<lat>54.81</lat>
 		<start>2018-07-15T00:00:00+00:00</start>
 		<end>2018-07-15T23:59:59+00:00</end>
 	</exception>
@@ -68126,8 +68531,8 @@
 		<adif>54</adif>
 		<cqz>16</cqz>
 		<cont>EU</cont>
-		<long>55.96</long>
-		<lat>54.73</lat>
+		<long>56.62</long>
+		<lat>54.81</lat>
 		<start>2018-08-11T00:00:00+00:00</start>
 		<end>2018-08-11T23:59:59+00:00</end>
 	</exception>
@@ -68137,8 +68542,8 @@
 		<adif>54</adif>
 		<cqz>16</cqz>
 		<cont>EU</cont>
-		<long>55.96</long>
-		<lat>54.73</lat>
+		<long>56.62</long>
+		<lat>54.81</lat>
 		<start>2018-07-28T00:00:00+00:00</start>
 		<end>2018-07-28T23:59:59+00:00</end>
 	</exception>
@@ -68236,8 +68641,8 @@
 		<adif>54</adif>
 		<cqz>16</cqz>
 		<cont>EU</cont>
-		<long>55.96</long>
-		<lat>54.73</lat>
+		<long>56.62</long>
+		<lat>54.81</lat>
 		<start>2019-05-03T00:00:00+00:00</start>
 		<end>2019-05-03T23:59:59+00:00</end>
 	</exception>
@@ -68258,8 +68663,8 @@
 		<adif>54</adif>
 		<cqz>16</cqz>
 		<cont>EU</cont>
-		<long>55.96</long>
-		<lat>54.73</lat>
+		<long>56.62</long>
+		<lat>54.81</lat>
 		<start>2019-06-12T00:00:00+00:00</start>
 		<end>2019-06-12T23:59:59+00:00</end>
 	</exception>
@@ -68456,8 +68861,8 @@
 		<adif>54</adif>
 		<cqz>16</cqz>
 		<cont>EU</cont>
-		<long>55.96</long>
-		<lat>54.73</lat>
+		<long>56.62</long>
+		<lat>54.81</lat>
 		<start>2019-10-06T00:00:00+00:00</start>
 		<end>2019-10-06T23:59:59+00:00</end>
 	</exception>
@@ -71647,6 +72052,50 @@
 		<lat>52.52</lat>
 		<start>2026-04-13T00:00:00+00:00</start>
 		<end>2026-04-26T23:59:59+00:00</end>
+	</exception>
+	<exception record='57337'>
+		<call>RP81KM</call>
+		<entity>EUROPEAN RUSSIA</entity>
+		<adif>54</adif>
+		<cqz>18</cqz>
+		<cont>EU</cont>
+		<long>37.60</long>
+		<lat>55.80</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57347'>
+		<call>RP81X</call>
+		<entity>EUROPEAN RUSSIA</entity>
+		<adif>54</adif>
+		<cqz>17</cqz>
+		<cont>EU</cont>
+		<long>37.60</long>
+		<lat>55.80</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57349'>
+		<call>RM81RP</call>
+		<entity>EUROPEAN RUSSIA</entity>
+		<adif>54</adif>
+		<cqz>16</cqz>
+		<cont>EU</cont>
+		<long>37.60</long>
+		<lat>55.80</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-10T23:59:59+00:00</end>
+	</exception>
+	<exception record='57365'>
+		<call>RP81PM</call>
+		<entity>EUROPEAN RUSSIA</entity>
+		<adif>54</adif>
+		<cqz>17</cqz>
+		<cont>EU</cont>
+		<long>37.60</long>
+		<lat>55.80</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
 	</exception>
 	<exception record='12178'>
 		<call>VQ9M/F</call>
@@ -100536,16 +100985,6 @@
 		<lat>38.52</lat>
 		<start>2022-12-09T00:00:00+00:00</start>
 	</exception>
-	<exception record='51705'>
-		<call>KO4ZYO</call>
-		<entity>HAWAII</entity>
-		<adif>110</adif>
-		<cqz>31</cqz>
-		<cont>OC</cont>
-		<long>-157.90</long>
-		<lat>21.30</lat>
-		<start>2022-12-16T00:00:00+00:00</start>
-	</exception>
 	<exception record='51706'>
 		<call>AA7DI</call>
 		<entity>HAWAII</entity>
@@ -103103,16 +103542,6 @@
 		<start>2026-03-03T00:00:00+00:00</start>
 		<end>2026-03-24T23:59:59+00:00</end>
 	</exception>
-	<exception record='57231'>
-		<call>KM7BKK</call>
-		<entity>HAWAII</entity>
-		<adif>110</adif>
-		<cqz>31</cqz>
-		<cont>OC</cont>
-		<long>-157.90</long>
-		<lat>21.30</lat>
-		<start>2026-03-25T00:00:00+00:00</start>
-	</exception>
 	<exception record='57242'>
 		<call>KK6VYF</call>
 		<entity>HAWAII</entity>
@@ -103133,6 +103562,39 @@
 		<long>-157.90</long>
 		<lat>21.30</lat>
 		<start>2000-03-30T00:00:00+00:00</start>
+	</exception>
+	<exception record='57383'>
+		<call>NO5Z</call>
+		<entity>HAWAII</entity>
+		<adif>110</adif>
+		<cqz>31</cqz>
+		<cont>OC</cont>
+		<long>-107.79</long>
+		<lat>32.06</lat>
+		<start>2026-04-10T00:00:00+00:00</start>
+		<end>2026-04-14T23:59:59+00:00</end>
+	</exception>
+	<exception record='57391'>
+		<call>KO4ZYO</call>
+		<entity>HAWAII</entity>
+		<adif>110</adif>
+		<cqz>31</cqz>
+		<cont>OC</cont>
+		<long>-157.90</long>
+		<lat>21.30</lat>
+		<start>2022-12-16T00:00:00+00:00</start>
+		<end>2026-04-16T23:59:59+00:00</end>
+	</exception>
+	<exception record='57392'>
+		<call>KM7BKK</call>
+		<entity>HAWAII</entity>
+		<adif>110</adif>
+		<cqz>3</cqz>
+		<cont>NA</cont>
+		<long>-122.68</long>
+		<lat>45.52</lat>
+		<start>2026-04-26T00:00:00+00:00</start>
+		<end>2026-04-14T23:59:59+00:00</end>
 	</exception>
 	<exception record='10861'>
 		<call>VK3ACD</call>
@@ -112850,6 +113312,17 @@
 		<start>2012-06-01T00:00:00+00:00</start>
 		<end>2012-08-31T23:59:59+00:00</end>
 	</exception>
+	<exception record='57360'>
+		<call>RP81BF</call>
+		<entity>KALININGRAD</entity>
+		<adif>126</adif>
+		<cqz>15</cqz>
+		<cont>EU</cont>
+		<long>20.52</long>
+		<lat>54.72</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</exception>
 	<exception record='21190'>
 		<call>UNSC8R1</call>
 		<entity>GUYANA</entity>
@@ -117200,8 +117673,8 @@
 		<adif>147</adif>
 		<cqz>30</cqz>
 		<cont>OC</cont>
-		<long>159.04</long>
-		<lat>-31.48</lat>
+		<long>151.04</long>
+		<lat>-33.48</lat>
 		<start>1977-11-09T00:00:00+00:00</start>
 		<end>1989-12-31T23:59:59+00:00</end>
 	</exception>
@@ -127207,7 +127680,7 @@
 		<adif>177</adif>
 		<cqz>27</cqz>
 		<cont>OC</cont>
-		<long>141.04</long>
+		<long>143.04</long>
 		<lat>27.52</lat>
 		<start>1988-11-05T00:00:00+00:00</start>
 		<end>1991-07-26T23:59:59+00:00</end>
@@ -127272,7 +127745,7 @@
 		<adif>177</adif>
 		<cqz>27</cqz>
 		<cont>OC</cont>
-		<long>141.04</long>
+		<long>143.04</long>
 		<lat>27.52</lat>
 		<start>1985-03-30T00:00:00+00:00</start>
 		<end>1988-05-20T23:59:59+00:00</end>
@@ -127338,7 +127811,7 @@
 		<adif>177</adif>
 		<cqz>27</cqz>
 		<cont>OC</cont>
-		<long>141.04</long>
+		<long>143.04</long>
 		<lat>27.52</lat>
 		<start>1991-11-03T00:00:00+00:00</start>
 		<end>1992-03-18T23:59:59+00:00</end>
@@ -128718,7 +129191,7 @@
 		<adif>177</adif>
 		<cqz>27</cqz>
 		<cont>OC</cont>
-		<long>141.04</long>
+		<long>143.04</long>
 		<lat>27.52</lat>
 		<start>1981-12-13T00:00:00+00:00</start>
 		<end>1981-12-13T23:59:59+00:00</end>
@@ -130435,8 +130908,8 @@
 		<adif>189</adif>
 		<cqz>32</cqz>
 		<cont>OC</cont>
-		<long>167.96</long>
-		<lat>-29.02</lat>
+		<long>167.04</long>
+		<lat>-29.48</lat>
 		<start>1970-02-25T00:00:00+00:00</start>
 		<end>1970-02-28T23:59:59+00:00</end>
 	</exception>
@@ -132475,17 +132948,6 @@
 		<start>1989-11-17T00:00:00+00:00</start>
 		<end>1989-11-21T23:59:59+00:00</end>
 	</exception>
-	<exception record='54168'>
-		<call>3C0AC</call>
-		<entity>ANNOBON</entity>
-		<adif>195</adif>
-		<cqz>36</cqz>
-		<cont>AF</cont>
-		<long>5.60</long>
-		<lat>-1.50</lat>
-		<start>1982-01-24T00:00:00+00:00</start>
-		<end>1982-01-24T23:59:59+00:00</end>
-	</exception>
 	<exception record='56251'>
 		<call>3C0A</call>
 		<entity>ANNOBON</entity>
@@ -132496,6 +132958,17 @@
 		<lat>-1.44</lat>
 		<start>1986-06-19T00:00:00+00:00</start>
 		<end>1986-06-30T23:59:59+00:00</end>
+	</exception>
+	<exception record='57368'>
+		<call>3C0AC</call>
+		<entity>ANNOBON</entity>
+		<adif>195</adif>
+		<cqz>36</cqz>
+		<cont>AF</cont>
+		<long>5.60</long>
+		<lat>-1.50</lat>
+		<start>1982-01-24T00:00:00+00:00</start>
+		<end>1982-01-29T23:59:59+00:00</end>
 	</exception>
 	<exception record='10852'>
 		<call>4X4KP</call>
@@ -133952,8 +134425,8 @@
 		<adif>202</adif>
 		<cqz>8</cqz>
 		<cont>NA</cont>
-		<long>-66.06</long>
-		<lat>18.41</lat>
+		<long>-80.96</long>
+		<lat>25.52</lat>
 		<start>2013-04-26T00:00:00+00:00</start>
 		<end>2013-04-28T23:59:59+00:00</end>
 	</exception>
@@ -134563,8 +135036,8 @@
 		<adif>202</adif>
 		<cqz>8</cqz>
 		<cont>NA</cont>
-		<long>-66.06</long>
-		<lat>18.41</lat>
+		<long>-80.96</long>
+		<lat>25.52</lat>
 		<start>2015-04-23T00:00:00+00:00</start>
 		<end>2015-04-30T23:59:59+00:00</end>
 	</exception>
@@ -134574,8 +135047,8 @@
 		<adif>202</adif>
 		<cqz>8</cqz>
 		<cont>NA</cont>
-		<long>-66.06</long>
-		<lat>18.41</lat>
+		<long>-80.96</long>
+		<lat>25.52</lat>
 		<start>2014-04-24T00:00:00+00:00</start>
 		<end>2014-04-28T23:59:59+00:00</end>
 	</exception>
@@ -135213,8 +135686,8 @@
 		<adif>202</adif>
 		<cqz>8</cqz>
 		<cont>NA</cont>
-		<long>-66.06</long>
-		<lat>18.41</lat>
+		<long>-80.96</long>
+		<lat>25.52</lat>
 		<start>2016-04-24T00:00:00+00:00</start>
 		<end>2016-05-01T23:59:59+00:00</end>
 	</exception>
@@ -135622,8 +136095,8 @@
 		<adif>202</adif>
 		<cqz>8</cqz>
 		<cont>NA</cont>
-		<long>-66.06</long>
-		<lat>18.41</lat>
+		<long>-80.96</long>
+		<lat>25.52</lat>
 		<start>2017-04-24T00:00:00+00:00</start>
 		<end>2017-05-02T23:59:59+00:00</end>
 	</exception>
@@ -136067,8 +136540,8 @@
 		<adif>202</adif>
 		<cqz>8</cqz>
 		<cont>NA</cont>
-		<long>-66.06</long>
-		<lat>18.41</lat>
+		<long>-80.96</long>
+		<lat>25.52</lat>
 		<start>2018-04-26T00:00:00+00:00</start>
 		<end>2018-05-01T23:59:59+00:00</end>
 	</exception>
@@ -145121,6 +145594,17 @@
 		<start>2026-03-06T00:00:00+00:00</start>
 		<end>2026-03-15T23:59:59+00:00</end>
 	</exception>
+	<exception record='57382'>
+		<call>IR0RCAG</call>
+		<entity>SARDINIA</entity>
+		<adif>225</adif>
+		<cqz>15</cqz>
+		<cont>EU</cont>
+		<long>9.12</long>
+		<lat>39.23</lat>
+		<start>2026-06-01T00:00:00+00:00</start>
+		<end>2026-06-28T23:59:59+00:00</end>
+	</exception>
 	<exception record='4851'>
 		<call>FV6NDX/RE</call>
 		<entity>FRANCE</entity>
@@ -145916,7 +146400,7 @@
 		<cqz>37</cqz>
 		<cont>AF</cont>
 		<long>47.46</long>
-		<lat>6.77</lat>
+		<lat>6.81</lat>
 		<start>2005-02-02T00:00:00+00:00</start>
 		<end>2005-02-17T23:59:59+00:00</end>
 	</exception>
@@ -145927,7 +146411,7 @@
 		<cqz>37</cqz>
 		<cont>AF</cont>
 		<long>47.46</long>
-		<lat>6.77</lat>
+		<lat>6.81</lat>
 		<start>2012-05-07T00:00:00+00:00</start>
 		<end>2012-05-18T23:59:59+00:00</end>
 	</exception>
@@ -145937,8 +146421,8 @@
 		<adif>232</adif>
 		<cqz>37</cqz>
 		<cont>AF</cont>
-		<long>46.04</long>
-		<lat>1.98</lat>
+		<long>45.38</long>
+		<lat>2.02</lat>
 		<start>1997-01-02T00:00:00+00:00</start>
 		<end>1997-05-03T23:59:59+00:00</end>
 	</exception>
@@ -147473,8 +147957,8 @@
 		<adif>235</adif>
 		<cqz>13</cqz>
 		<cont>SA</cont>
-		<long>-36.96</long>
-		<lat>-54.48</lat>
+		<long>-58.96</long>
+		<lat>-51.48</lat>
 		<start>1978-10-05T00:00:00+00:00</start>
 		<end>1981-04-12T23:59:59+00:00</end>
 	</exception>
@@ -149580,8 +150064,8 @@
 		<adif>241</adif>
 		<cqz>13</cqz>
 		<cont>SA</cont>
-		<long>0.04</long>
-		<lat>-89.98</lat>
+		<long>-58.46</long>
+		<lat>-62.15</lat>
 	</exception>
 	<exception record='3360'>
 		<call>CE9/CE3VPM</call>
@@ -153307,8 +153791,8 @@
 		<adif>248</adif>
 		<cqz>15</cqz>
 		<cont>EU</cont>
-		<long>12.50</long>
-		<lat>41.90</lat>
+		<long>13.04</long>
+		<lat>42.02</lat>
 		<start>2009-07-10T00:00:00+00:00</start>
 		<end>2009-07-20T23:59:59+00:00</end>
 	</exception>
@@ -166743,8 +167227,8 @@
 		<adif>270</adif>
 		<cqz>31</cqz>
 		<cont>OC</cont>
-		<long>-171.96</long>
-		<lat>-9.23</lat>
+		<long>-170.96</long>
+		<lat>-9.48</lat>
 		<start>2007-02-03T00:00:00+00:00</start>
 		<end>2007-02-22T23:59:59+00:00</end>
 	</exception>
@@ -180795,8 +181279,8 @@
 		<adif>279</adif>
 		<cqz>14</cqz>
 		<cont>EU</cont>
-		<long>-3.12</long>
-		<lat>58.77</lat>
+		<long>0.04</long>
+		<lat>0.02</lat>
 		<start>2014-08-26T00:00:00+00:00</start>
 		<end>2014-08-28T23:59:59+00:00</end>
 	</exception>
@@ -190824,8 +191308,8 @@
 		<adif>279</adif>
 		<cqz>14</cqz>
 		<cont>EU</cont>
-		<long>-4.12</long>
-		<lat>52.94</lat>
+		<long>-3.21</long>
+		<lat>55.94</lat>
 		<start>2021-09-25T00:00:00+00:00</start>
 		<end>2021-09-26T23:59:59+00:00</end>
 	</exception>
@@ -194025,8 +194509,8 @@
 		<adif>279</adif>
 		<cqz>14</cqz>
 		<cont>EU</cont>
-		<long>-2.96</long>
-		<lat>56.52</lat>
+		<long>-0.96</long>
+		<lat>52.52</lat>
 		<start>2025-08-16T00:00:00+00:00</start>
 		<end>2025-08-17T23:59:59+00:00</end>
 	</exception>
@@ -198650,7 +199134,7 @@
 		<start>2026-03-27T00:00:00+00:00</start>
 		<end>2026-03-27T23:59:59+00:00</end>
 	</exception>
-	<exception record='57275'>
+	<exception record='57281'>
 		<call>EA9E/P</call>
 		<entity>SPAIN</entity>
 		<adif>281</adif>
@@ -198659,9 +199143,20 @@
 		<long>-4.96</long>
 		<lat>35.52</lat>
 		<start>2026-04-06T00:00:00+00:00</start>
-		<end>2026-04-07T23:59:59+00:00</end>
+		<end>2026-04-09T23:59:59+00:00</end>
 	</exception>
-	<exception record='57279'>
+	<exception record='57384'>
+		<call>EA6XQ/P</call>
+		<entity>SPAIN</entity>
+		<adif>281</adif>
+		<cqz>14</cqz>
+		<cont>EU</cont>
+		<long>-3.46</long>
+		<lat>41.27</lat>
+		<start>2026-04-18T00:00:00+00:00</start>
+		<end>2026-04-18T23:59:59+00:00</end>
+	</exception>
+	<exception record='57395'>
 		<call>EA9E/P</call>
 		<entity>SPAIN</entity>
 		<adif>281</adif>
@@ -198669,8 +199164,19 @@
 		<cont>EU</cont>
 		<long>-4.96</long>
 		<lat>35.52</lat>
-		<start>2024-12-18T00:00:00+00:00</start>
-		<end>2024-12-18T23:59:59+00:00</end>
+		<start>2024-12-19T00:00:00+00:00</start>
+		<end>2024-12-19T23:59:59+00:00</end>
+	</exception>
+	<exception record='57396'>
+		<call>EA9E/P</call>
+		<entity>SPAIN</entity>
+		<adif>281</adif>
+		<cqz>14</cqz>
+		<cont>EU</cont>
+		<long>-4.96</long>
+		<lat>35.52</lat>
+		<start>2025-12-19T00:00:00+00:00</start>
+		<end>2025-12-19T23:59:59+00:00</end>
 	</exception>
 	<exception record='51148'>
 		<call>T22KY</call>
@@ -199184,8 +199690,8 @@
 		<adif>282</adif>
 		<cqz>31</cqz>
 		<cont>OC</cont>
-		<long>177.04</long>
-		<lat>-7.48</lat>
+		<long>179.04</long>
+		<lat>-8.48</lat>
 		<start>2008-09-02T00:00:00+00:00</start>
 		<end>2008-09-09T23:59:59+00:00</end>
 	</exception>
@@ -229367,8 +229873,8 @@
 		<adif>291</adif>
 		<cqz>5</cqz>
 		<cont>NA</cont>
-		<long>-77.04</long>
-		<lat>38.90</lat>
+		<long>-67.12</long>
+		<lat>18.02</lat>
 		<start>2017-02-10T00:00:00+00:00</start>
 	</exception>
 	<exception record='37745'>
@@ -230973,8 +231479,8 @@
 		<adif>291</adif>
 		<cqz>5</cqz>
 		<cont>NA</cont>
-		<long>-87.90</long>
-		<lat>43.00</lat>
+		<long>-77.04</long>
+		<lat>38.90</lat>
 		<start>2017-05-25T00:00:00+00:00</start>
 	</exception>
 	<exception record='38500'>
@@ -231306,16 +231812,6 @@
 		<long>-87.90</long>
 		<lat>43.00</lat>
 		<start>2017-06-10T00:00:00+00:00</start>
-	</exception>
-	<exception record='38717'>
-		<call>AL0X</call>
-		<entity>UNITED STATES OF AMERICA</entity>
-		<adif>291</adif>
-		<cqz>3</cqz>
-		<cont>NA</cont>
-		<long>-87.90</long>
-		<lat>43.00</lat>
-		<start>2006-03-16T00:00:00+00:00</start>
 	</exception>
 	<exception record='38784'>
 		<call>NH6HZ</call>
@@ -236654,16 +237150,6 @@
 		<long>-87.90</long>
 		<lat>43.00</lat>
 		<start>2018-09-24T00:00:00+00:00</start>
-	</exception>
-	<exception record='41877'>
-		<call>KL9ER</call>
-		<entity>UNITED STATES OF AMERICA</entity>
-		<adif>291</adif>
-		<cqz>5</cqz>
-		<cont>NA</cont>
-		<long>-87.90</long>
-		<lat>43.00</lat>
-		<start>2018-09-22T00:00:00+00:00</start>
 	</exception>
 	<exception record='41878'>
 		<call>KL4LV</call>
@@ -258015,16 +258501,6 @@
 		<start>2014-11-04T00:00:00+00:00</start>
 		<end>2025-05-16T23:59:59+00:00</end>
 	</exception>
-	<exception record='56240'>
-		<call>KL4LQ</call>
-		<entity>UNITED STATES OF AMERICA</entity>
-		<adif>291</adif>
-		<cqz>5</cqz>
-		<cont>NA</cont>
-		<long>-124.96</long>
-		<lat>44.52</lat>
-		<start>2025-05-21T00:00:00+00:00</start>
-	</exception>
 	<exception record='56241'>
 		<call>WL4T</call>
 		<entity>UNITED STATES OF AMERICA</entity>
@@ -258920,8 +259396,8 @@
 		<adif>291</adif>
 		<cqz>5</cqz>
 		<cont>NA</cont>
-		<long>-87.90</long>
-		<lat>43.00</lat>
+		<long>-81.79</long>
+		<lat>28.06</lat>
 		<start>2025-12-09T00:00:00+00:00</start>
 	</exception>
 	<exception record='56886'>
@@ -259471,17 +259947,6 @@
 		<start>2009-08-26T00:00:00+00:00</start>
 		<end>2026-03-03T23:59:59+00:00</end>
 	</exception>
-	<exception record='57150'>
-		<call>WL7OP</call>
-		<entity>UNITED STATES OF AMERICA</entity>
-		<adif>291</adif>
-		<cqz>4</cqz>
-		<cont>NA</cont>
-		<long>-87.90</long>
-		<lat>43.00</lat>
-		<start>2014-03-02T00:00:00+00:00</start>
-		<end>2026-03-06T23:59:59+00:00</end>
-	</exception>
 	<exception record='57151'>
 		<call>WP4FJ</call>
 		<entity>UNITED STATES OF AMERICA</entity>
@@ -259756,6 +260221,120 @@
 		<long>-87.90</long>
 		<lat>43.00</lat>
 		<start>2026-03-28T00:00:00+00:00</start>
+	</exception>
+	<exception record='57282'>
+		<call>AL7KC</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>3</cqz>
+		<cont>NA</cont>
+		<long>-147.46</long>
+		<lat>64.81</lat>
+		<start>2026-01-03T00:00:00+00:00</start>
+		<end>2026-01-09T23:59:59+00:00</end>
+	</exception>
+	<exception record='57283'>
+		<call>WL7OP</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>4</cqz>
+		<cont>NA</cont>
+		<long>-87.90</long>
+		<lat>43.00</lat>
+		<start>2014-03-02T00:00:00+00:00</start>
+	</exception>
+	<exception record='57352'>
+		<call>KL3T</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>4</cqz>
+		<cont>NA</cont>
+		<long>-87.90</long>
+		<lat>43.00</lat>
+		<start>2026-04-09T00:00:00+00:00</start>
+	</exception>
+	<exception record='57353'>
+		<call>WP4MXN</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>3</cqz>
+		<cont>NA</cont>
+		<long>-87.90</long>
+		<lat>43.00</lat>
+		<start>2026-04-08T00:00:00+00:00</start>
+	</exception>
+	<exception record='57354'>
+		<call>KL7WY</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>5</cqz>
+		<cont>NA</cont>
+		<long>-148.96</long>
+		<lat>61.52</lat>
+		<start>2026-04-05T00:00:00+00:00</start>
+	</exception>
+	<exception record='57356'>
+		<call>KL4LQ</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>3</cqz>
+		<cont>NA</cont>
+		<long>-124.96</long>
+		<lat>44.52</lat>
+		<start>2025-05-21T00:00:00+00:00</start>
+		<end>2026-04-10T23:59:59+00:00</end>
+	</exception>
+	<exception record='57379'>
+		<call>WL7QR</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>4</cqz>
+		<cont>NA</cont>
+		<long>-87.90</long>
+		<lat>43.00</lat>
+		<start>1999-01-05T00:00:00+00:00</start>
+		<end>2014-02-08T23:59:59+00:00</end>
+	</exception>
+	<exception record='57386'>
+		<call>AL0X</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>5</cqz>
+		<cont>NA</cont>
+		<long>-87.90</long>
+		<lat>43.00</lat>
+		<start>2006-03-16T00:00:00+00:00</start>
+	</exception>
+	<exception record='57387'>
+		<call>KP2CG</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>5</cqz>
+		<cont>NA</cont>
+		<long>-87.90</long>
+		<lat>43.00</lat>
+		<start>2026-04-15T00:00:00+00:00</start>
+	</exception>
+	<exception record='57388'>
+		<call>KL9ER</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>5</cqz>
+		<cont>NA</cont>
+		<long>-87.90</long>
+		<lat>43.00</lat>
+		<start>2018-09-22T00:00:00+00:00</start>
+		<end>2026-04-16T23:59:59+00:00</end>
+	</exception>
+	<exception record='57389'>
+		<call>WH6FCD</call>
+		<entity>UNITED STATES OF AMERICA</entity>
+		<adif>291</adif>
+		<cqz>3</cqz>
+		<cont>NA</cont>
+		<long>-87.90</long>
+		<lat>43.00</lat>
+		<start>2026-04-16T00:00:00+00:00</start>
 	</exception>
 	<exception record='9690'>
 		<call>UU8I</call>
@@ -276945,8 +277524,8 @@
 		<adif>294</adif>
 		<cqz>14</cqz>
 		<cont>EU</cont>
-		<long>-0.21</long>
-		<lat>51.48</lat>
+		<long>-3.88</long>
+		<lat>52.65</lat>
 		<start>2020-09-26T00:00:00+00:00</start>
 		<end>2020-09-27T23:59:59+00:00</end>
 	</exception>
@@ -276956,8 +277535,8 @@
 		<adif>294</adif>
 		<cqz>14</cqz>
 		<cont>EU</cont>
-		<long>-0.21</long>
-		<lat>51.48</lat>
+		<long>-3.88</long>
+		<lat>52.65</lat>
 		<start>2019-09-21T00:00:00+00:00</start>
 		<end>2019-09-22T23:59:59+00:00</end>
 	</exception>
@@ -277363,8 +277942,8 @@
 		<adif>294</adif>
 		<cqz>14</cqz>
 		<cont>EU</cont>
-		<long>-4.12</long>
-		<lat>52.94</lat>
+		<long>-3.21</long>
+		<lat>55.94</lat>
 		<start>2008-05-03T00:00:00+00:00</start>
 		<end>2012-05-07T23:59:59+00:00</end>
 	</exception>
@@ -277374,8 +277953,8 @@
 		<adif>294</adif>
 		<cqz>14</cqz>
 		<cont>EU</cont>
-		<long>-0.21</long>
-		<lat>51.48</lat>
+		<long>-3.88</long>
+		<lat>52.65</lat>
 		<start>2021-09-25T00:00:00+00:00</start>
 		<end>2021-09-26T23:59:59+00:00</end>
 	</exception>
@@ -278264,8 +278843,8 @@
 		<adif>294</adif>
 		<cqz>14</cqz>
 		<cont>EU</cont>
-		<long>-0.21</long>
-		<lat>51.48</lat>
+		<long>-3.88</long>
+		<lat>52.65</lat>
 		<start>2022-09-25T00:00:00+00:00</start>
 		<end>2022-09-25T23:59:59+00:00</end>
 	</exception>
@@ -278813,8 +279392,8 @@
 		<adif>294</adif>
 		<cqz>14</cqz>
 		<cont>EU</cont>
-		<long>-0.21</long>
-		<lat>51.48</lat>
+		<long>-3.88</long>
+		<lat>52.65</lat>
 		<start>2023-09-23T00:00:00+00:00</start>
 		<end>2023-09-24T23:59:59+00:00</end>
 	</exception>
@@ -292439,8 +293018,8 @@
 		<adif>370</adif>
 		<cqz>21</cqz>
 		<cont>AS</cont>
-		<long>58.60</long>
-		<lat>23.60</lat>
+		<long>21.04</long>
+		<lat>52.27</lat>
 		<start>2015-03-25T00:00:00+00:00</start>
 		<end>2015-04-11T23:59:59+00:00</end>
 	</exception>
@@ -300427,8 +301006,8 @@
 		<adif>489</adif>
 		<cqz>32</cqz>
 		<cont>OC</cont>
-		<long>174.79</long>
-		<lat>-21.77</lat>
+		<long>177.04</long>
+		<lat>-17.48</lat>
 		<start>1990-05-17T00:00:00+00:00</start>
 		<end>1990-05-26T23:59:59+00:00</end>
 	</exception>
@@ -301112,17 +301691,6 @@
 		<start>1994-03-27T00:00:00+00:00</start>
 		<end>1994-04-16T23:59:59+00:00</end>
 	</exception>
-	<exception record='50781'>
-		<call>7O/DL7ZM</call>
-		<entity>YEMEN</entity>
-		<adif>492</adif>
-		<cqz>37</cqz>
-		<cont>AF</cont>
-		<long>55.04</long>
-		<lat>12.52</lat>
-		<start>2022-06-23T00:00:00+00:00</start>
-		<end>2022-07-02T23:59:59+00:00</end>
-	</exception>
 	<exception record='53572'>
 		<call>7O8AD</call>
 		<entity>YEMEN</entity>
@@ -301166,6 +301734,17 @@
 		<lat>12.52</lat>
 		<start>2024-01-25T00:00:00+00:00</start>
 		<end>2024-02-12T23:59:59+00:00</end>
+	</exception>
+	<exception record='57371'>
+		<call>7O/DL7ZM</call>
+		<entity>YEMEN</entity>
+		<adif>492</adif>
+		<cqz>37</cqz>
+		<cont>AF</cont>
+		<long>55.04</long>
+		<lat>12.52</lat>
+		<start>2022-06-22T00:00:00+00:00</start>
+		<end>2022-07-02T23:59:59+00:00</end>
 	</exception>
 	<exception record='331'>
 		<call>ZS0X</call>
@@ -306879,8 +307458,8 @@
 		<call>S2BTF</call>
 		<entity>INVALID</entity>
 		<adif>0</adif>
-		<long>91.29</long>
-		<lat>23.77</lat>
+		<long>89.04</long>
+		<lat>24.52</lat>
 		<start>1982-01-01T00:00:00+00:00</start>
 	</exception>
 	<exception record='1547'>
@@ -311705,6 +312284,8 @@
 		<call>YI1SA</call>
 		<entity>INVALID</entity>
 		<adif>0</adif>
+		<long>44.38</long>
+		<lat>33.35</lat>
 	</exception>
 	<exception record='11529'>
 		<call>AY0Z</call>
@@ -364946,6 +365527,17 @@
 		<start>2026-01-15T00:00:00+00:00</start>
 		<end>2026-02-03T23:59:59+00:00</end>
 	</prefix>
+	<prefix record='12216'>
+		<call>RP81</call>
+		<entity>EUROPEAN RUSSIA</entity>
+		<adif>54</adif>
+		<cqz>16</cqz>
+		<cont>EU</cont>
+		<long>37.6</long>
+		<lat>55.8</lat>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</prefix>
 </prefixes>
 <invalid_operations>
 	<invalid record='489'>
@@ -383890,6 +384482,30 @@
 		<start>2013-04-18T00:00:00+00:00</start>
 		<end>2015-02-15T23:59:59+00:00</end>
 	</zone_exception>
+	<zone_exception record='8831'>
+		<call>AL7KC</call>
+		<zone>3</zone>
+		<start>2026-01-03T00:00:00+00:00</start>
+		<end>2026-01-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8858'>
+		<call>AL5IN</call>
+		<zone>3</zone>
+		<start>2023-10-04T00:00:00+00:00</start>
+		<end>2026-04-07T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8860'>
+		<call>KL4LQ</call>
+		<zone>3</zone>
+		<start>2025-05-21T00:00:00+00:00</start>
+		<end>2026-04-10T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8871'>
+		<call>AL0X</call>
+		<zone>3</zone>
+		<start>2006-03-16T00:00:00+00:00</start>
+		<end>2026-04-10T23:59:59+00:00</end>
+	</zone_exception>
 	<zone_exception record='77'>
 		<call>KY9L</call>
 		<zone>4</zone>
@@ -389335,12 +389951,6 @@
 		<start>2024-07-01T00:00:00+00:00</start>
 		<end>2024-08-09T23:59:59+00:00</end>
 	</zone_exception>
-	<zone_exception record='8798'>
-		<call>WL7OP</call>
-		<zone>4</zone>
-		<start>2014-03-02T00:00:00+00:00</start>
-		<end>2026-03-06T23:59:59+00:00</end>
-	</zone_exception>
 	<zone_exception record='8809'>
 		<call>NH8S</call>
 		<zone>4</zone>
@@ -389363,6 +389973,18 @@
 		<call>KL7YK/P</call>
 		<zone>4</zone>
 		<start>2024-04-07T00:00:00+00:00</start>
+	</zone_exception>
+	<zone_exception record='8859'>
+		<call>NH7VG</call>
+		<zone>4</zone>
+		<start>2007-08-29T00:00:00+00:00</start>
+		<end>2026-04-07T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8869'>
+		<call>WL7QR</call>
+		<zone>4</zone>
+		<start>1999-01-05T00:00:00+00:00</start>
+		<end>2014-02-08T23:59:59+00:00</end>
 	</zone_exception>
 	<zone_exception record='66'>
 		<call>VD2ZV</call>
@@ -394361,6 +394983,12 @@
 		<start>2026-03-27T00:00:00+00:00</start>
 		<end>2026-04-01T23:59:59+00:00</end>
 	</zone_exception>
+	<zone_exception record='8872'>
+		<call>KL9ER</call>
+		<zone>5</zone>
+		<start>2018-09-22T00:00:00+00:00</start>
+		<end>2026-04-16T23:59:59+00:00</end>
+	</zone_exception>
 	<zone_exception record='1277'>
 		<call>5K0T</call>
 		<zone>8</zone>
@@ -397265,6 +397893,24 @@
 		<start>2026-04-02T21:00:00+00:00</start>
 		<end>2026-04-15T23:59:59+00:00</end>
 	</zone_exception>
+	<zone_exception record='8843'>
+		<call>RP81PW</call>
+		<zone>16</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8847'>
+		<call>RP81UF</call>
+		<zone>16</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8851'>
+		<call>RP81GB</call>
+		<zone>16</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
 	<zone_exception record='173'>
 		<call>RW4HOH/9</call>
 		<zone>17</zone>
@@ -399835,6 +400481,24 @@
 		<zone>17</zone>
 		<start>2026-04-02T21:00:00+00:00</start>
 		<end>2026-04-15T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8857'>
+		<call>RP81X</call>
+		<zone>17</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8863'>
+		<call>RP81LSV</call>
+		<zone>17</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8864'>
+		<call>RP81PM</call>
+		<zone>17</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
 	</zone_exception>
 	<zone_exception record='94'>
 		<call>UA3D/0</call>
@@ -403968,12 +404632,6 @@
 		<start>2025-11-05T00:00:00+00:00</start>
 		<end>2025-11-25T23:59:59+00:00</end>
 	</zone_exception>
-	<zone_exception record='8749'>
-		<call>RT25BU</call>
-		<zone>18</zone>
-		<start>2026-04-01T00:00:00+00:00</start>
-		<end>2026-04-30T23:59:59+00:00</end>
-	</zone_exception>
 	<zone_exception record='8752'>
 		<call>RT25KK</call>
 		<zone>18</zone>
@@ -404004,11 +404662,83 @@
 		<start>2026-04-02T21:00:00+00:00</start>
 		<end>2026-04-15T23:59:59+00:00</end>
 	</zone_exception>
-	<zone_exception record='8825'>
+	<zone_exception record='8841'>
+		<call>RP81MP</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8845'>
+		<call>RP81SDD</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8846'>
+		<call>RP81TOF</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8849'>
+		<call>RP81AEG</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8853'>
+		<call>RP81KE</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8854'>
+		<call>RP81KM</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8856'>
+		<call>RP81RF</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8861'>
+		<call>RP81AB</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8862'>
+		<call>RP81BPZ</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8865'>
+		<call>RP81RGA</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8867'>
+		<call>RP81YT</call>
+		<zone>18</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8868'>
 		<call>RT9L/M</call>
 		<zone>18</zone>
-		<start>2026-04-22T00:00:00+00:00</start>
+		<start>2026-04-21T00:00:00+00:00</start>
 		<end>2026-05-10T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8870'>
+		<call>RT25BU</call>
+		<zone>18</zone>
+		<start>2026-04-15T00:00:00+00:00</start>
+		<end>2026-04-29T23:59:59+00:00</end>
 	</zone_exception>
 	<zone_exception record='112'>
 		<call>UA3DX/0</call>
@@ -405952,6 +406682,24 @@
 		<start>2022-01-01T00:00:00+00:00</start>
 		<end>2022-02-28T23:59:59+00:00</end>
 	</zone_exception>
+	<zone_exception record='8848'>
+		<call>RP81V</call>
+		<zone>19</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8850'>
+		<call>RP81DG</call>
+		<zone>19</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8852'>
+		<call>RP81B</call>
+		<zone>19</zone>
+		<start>2026-05-01T00:00:00+00:00</start>
+		<end>2026-05-09T23:59:59+00:00</end>
+	</zone_exception>
 	<zone_exception record='1961'>
 		<call>4K0GNY</call>
 		<zone>21</zone>
@@ -407487,12 +408235,6 @@
 		<start>1964-12-06T00:00:00+00:00</start>
 		<end>1965-02-04T23:59:59+00:00</end>
 	</zone_exception>
-	<zone_exception record='7392'>
-		<call>7O/DL7ZM</call>
-		<zone>37</zone>
-		<start>2022-06-23T00:00:00+00:00</start>
-		<end>2022-07-02T23:59:59+00:00</end>
-	</zone_exception>
 	<zone_exception record='7987'>
 		<call>7O8AD</call>
 		<zone>37</zone>
@@ -407516,6 +408258,12 @@
 		<zone>37</zone>
 		<start>2024-01-25T00:00:00+00:00</start>
 		<end>2024-02-12T23:59:59+00:00</end>
+	</zone_exception>
+	<zone_exception record='8866'>
+		<call>7O/DL7ZM</call>
+		<zone>37</zone>
+		<start>2022-06-22T00:00:00+00:00</start>
+		<end>2022-07-02T23:59:59+00:00</end>
 	</zone_exception>
 	<zone_exception record='176'>
 		<call>AT10BP</call>
