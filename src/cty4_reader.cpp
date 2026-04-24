@@ -62,7 +62,7 @@ bool cty4_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 		zc::split_line(line, fields, ',');
 		if (fields.size() != 3) {
 			status_->misc_status(
-				ST_ERROR, "CTY_DATA: Error reading iso.csv - invalid number of fields in line %d",
+				ST_ERROR, "CTY DATA: Error reading iso.csv - invalid number of fields in line %d",
 				line_num
 			);
 			return false;
@@ -73,7 +73,7 @@ bool cty4_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 		if (iso_map_.find(entity) != iso_map_.end()) {
 			status_->misc_status(
 				ST_WARNING,
-				"CTY_DATA: Duplicate entity '%s' in line %d",
+				"CTY DATA: Duplicate entity '%s' in line %d",
 				entity.c_str(),
 				line_num
 			);
@@ -99,7 +99,7 @@ bool cty4_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 			else {
 				status_->misc_status(
 					ST_WARNING,
-					"CTY_DATA: No ISO code found for entity '%s'",
+					"CTY DATA: No ISO code found for entity '%s'",
 					ent->name_.c_str()
 				);
 			}

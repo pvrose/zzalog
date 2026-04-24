@@ -1162,11 +1162,11 @@ bool cty_data::unzip_cfile(const std::string& zip_file) {
 void cty_data::store_json() {
 	char msg[128];
 	std::string filename;
-	status_->misc_status(ST_NOTE, "CTY_DATA: Storing country data");
+	status_->misc_status(ST_NOTE, "CTY DATA: Storing country data");
 	status_->progress(2, OT_PREFIX, "Storing country data", "Steps");
 	std::ofstream os;
 	if (!file_holder_->get_file(FILE_COUNTRY, os, filename)) {
-		status_->misc_status(ST_ERROR, "CTY_DATA: Storing failed");
+		status_->misc_status(ST_ERROR, "CTY DATA: Storing failed");
 		return;
 	}
 	json jall;
