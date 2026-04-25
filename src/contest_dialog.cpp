@@ -72,9 +72,9 @@ int contest_dialog::handle(int event) {
 	case FL_UNFOCUS:
 		// Acknowledge focus events to get the keyboard event
 		return true;
-	case FL_PUSH:
-		take_focus();
-		return true;
+	//case FL_PUSH:
+	//	take_focus();
+	//	return true;
 	case FL_KEYBOARD:
 		switch (Fl::event_key()) {
 		case FL_F + 1:
@@ -112,7 +112,7 @@ void contest_dialog::create_form(int X, int Y) {
 	w_contest_ix_ = new Fl_Input_Choice(curr_x, curr_y, WBUTTON, HBUTTON, "Index");
 	w_contest_ix_->align(FL_ALIGN_LEFT);
 	w_contest_ix_->callback(cb_index, &contest_index_);
-	w_contest_ix_->input()->when(FL_WHEN_ENTER_KEY_ALWAYS);
+//	w_contest_ix_->input()->when(FL_WHEN_ENTER_KEY_ALWAYS);
 	w_contest_ix_->tooltip("Please select the index (eg year) identifying specific contest");
 
 	curr_x = x() + WLLABEL;
@@ -237,6 +237,7 @@ void contest_dialog::cb_id(Fl_Widget* w, void* v) {
 	contest_dialog* that = zc::ancestor_view<contest_dialog>(w);
 	that->contest_id_ = ((field_input*)w)->value();
 	that->contest_index_ = "";
+	that->populate_ct_index();
 	that->w_contest_ix_->value("");
 	that->update_contest();
 	that->update_algorithm();
