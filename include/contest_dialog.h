@@ -24,6 +24,7 @@
 
 class zc_calendar_input;
 class field_input;
+class zc_filename_input;
 class Fl_Button;
 class Fl_Choice;
 class Fl_Input;
@@ -77,6 +78,23 @@ public:
 	//! Redraws all components after data change.
 	static void cb_index(Fl_Widget* w, void* v);
 
+	//! Callback on selecting timeframe.
+	static void cb_timeframe(Fl_Widget* w, void* v);
+
+	//! Callback on selecting algorithm.
+	static void cb_algorithm(Fl_Widget* w, void* v);
+
+	//! Callback on checking algorithm file.
+	static void cb_check_algorithm_file(Fl_Widget* w, void* v);
+
+	//! Callback on editing algorithm file.
+	static void cb_edit_algorithm_file(Fl_Widget* w, void* v);
+
+	//! Callback on releasing algorithm file back to git (development only).
+	static void cb_release_algorithm_file(Fl_Widget* w, void* v);
+
+
+
 protected:
 
 	//! Populate contest instance identifier choice for the specified contest.
@@ -103,6 +121,9 @@ protected:
 	Fl_Input_Choice* w_contest_ix_;   //!< Choice for conyest instance identifier.
 	// Fields
 	Fl_Input_Choice* w_algorithm_;    //!< Choice for algorithm.
+	Fl_Button* w_check_algorithm_file_; //!< Button to check algorithm file exists and is valid.
+	Fl_Button* w_edit_algorithm_file_; //!< Button to open algorithm file in editor.
+	Fl_Button* w_release_algorithm_file_; //!< Button to release algorithm file back to git (development only).
 	// Timeframe
 	zc_calendar_input* w_start_date_;    //!< Calendar selector for start date.
 	Fl_Int_Input* w_start_time_;      //!< Input for start time.

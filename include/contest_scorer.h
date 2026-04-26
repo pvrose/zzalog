@@ -25,7 +25,7 @@
 
 #include <FL/Fl_Group.H>
 
-class contest_algorithm;
+class contest_algo;
 class extract_data;
 class record;
 class Fl_Button;
@@ -47,8 +47,6 @@ typedef std::vector<std::string> field_list;
 class contest_scorer :
     public Fl_Group
 {
-
-    friend class contest_algorithm;
 
 public:
     //! Constructor.
@@ -110,7 +108,7 @@ public:
     //! What fields are being used in the contest.
     
     //! \return list of fields used in contest exchanges.
-    field_list fields();
+    std::set<std::string> fields();
 
     //! Serial number
     
@@ -185,7 +183,7 @@ protected:
     //! Index of current QSO within the full logbook.
     qso_num_t qso_number_;
     //! Scoring algorithm for the current contest.
-    contest_algorithm* algorithm_;
+    contest_algo* algorithm_ = nullptr;
 
     //! Set of multipliers worked so far in this contest.
     std::set<std::string> multipliers_;

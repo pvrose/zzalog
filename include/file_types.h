@@ -24,5 +24,6 @@ enum file_types : uint8_t {
 	FILE_STATION,                           //!< Station configuration file
 	FILE_QSL,                               //!< QSL configuration file
 	FILE_KEYS,                              //!< On-line API keys (non-user)
+	FILE_CONTESTS,                          //!< Space for several contest algorithms
 };
 

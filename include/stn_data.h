@@ -90,6 +90,40 @@ const std::map<qth_value_t, std::string> QTH_ADIF_MAP = {
 	{ WAB, "APP_ZZA_MY_WAB" }
 };
 
+//! Map other ADIF field names to QTH identifiers
+const std::map<std::string, qth_value_t> ADIF_2_QTH_VALUE_T = {
+	{ "STREET", STREET },
+	{ "CITY", CITY },
+	{ "POSTCODE", POSTCODE },
+	{ "GRIDSQUARE", LOCATOR },
+	{ "COUNTRY", DXCC_NAME },
+	{ "DXCC", DXCC_ID },
+	{ "STATE", PRIMARY_SUB },
+	{ "CNTY", SECONDARY_SUB },
+	{ "CQZ", CQ_ZONE },
+	{ "ITUZ", ITU_ZONE },
+	{ "CONT", CONTINENT },
+	{ "IOTA", IOTA },
+	{ "APP_ZZA_WAB", WAB }
+};
+
+//! Map my ADIF field names to QTH identifiers
+const std::map<std::string, qth_value_t> MY_ADIF_2_QTH_VALUE_T = {
+	{ "MY_STREET", STREET },
+	{ "MY_CITY", CITY },
+	{ "MY_POSTCODE", POSTCODE },
+	{ "MY_GRIDSQUARE", LOCATOR },
+	{ "MY_COUNTRY", DXCC_NAME },
+	{ "MY_DXCC", DXCC_ID },
+	{ "MY_STATE", PRIMARY_SUB },
+	{ "MY_CNTY", SECONDARY_SUB },
+	{ "MY_CQ_ZONE", CQ_ZONE },
+	{ "MY_ITU_ZONE", ITU_ZONE },
+	{ "MY_CONT", CONTINENT },
+	{ "MY_IOTA", IOTA },
+	{ "APP_ZZA_MY_WAB", WAB }
+};
+
 // Conversion from enum qth_value_t to string
 static std::map<qth_value_t, std::string> QTH_VALUE_T_2_STRING = {
 	{ STREET, "Street" },

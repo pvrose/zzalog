@@ -1,0 +1,7 @@
+exchange: RST ITUZ
+multiplier: ITUZ BAND
+points: same ITUZ: 1
+points: ITUZ in_list A,B,C:1
+points: other ITUZ & same CONT: 3
+points: other ITUZ & other CONT: 5
+total: multiplier * points

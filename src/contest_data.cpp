@@ -16,14 +16,16 @@
 
 */
 #include "contest_data.h"
+#include "debug_flags.h"
+#include "file_types.h"
 
 #include "zc_file_holder.h"
-#include "file_types.h"
+#include "zc_fltk.h"
 #include "zc_status.h"
-
 #include "zc_utils.h"
 
 #include <chrono>
+#include <cstdint>
 #include <cstdio>
 #include <ctime>
 #include <fstream>
@@ -141,12 +143,42 @@ bool contest_data::load_data() {
 			char msg[128];
 			snprintf(msg, sizeof(msg), "CONTEST: File %s loaded OK", filename.c_str());
 			status_->misc_status(ST_OK, msg);
+			// Populate the set of algorithms from the contest definitions.
+			for (auto& itc : contests_) {
+				for (auto& iti : itc.second) {
+					add_algorithm(iti.second->algorithm);
+				}
+			}
 			return true;
 		}
 	}
 	status_->misc_status(ST_WARNING, "CONTEST: Contest data failed to load");
 	return false;
 
+}
+
+// Add an algorithm to the list of available algorithms.
+void contest_data::add_algorithm(std::string algorithm) {
+	// Only add if it is not already in the set of algorithms.
+	if (algorithm.length() && algorithms_.find(algorithm) == algorithms_.end()) {
+		algorithms_.insert(algorithm);
+		std::string filename = "contests/" + zc::to_lower(algorithm) + ".algo";
+		file_control_t cont({ filename, true, false, DEBUG_RESET_CONTEST, false });
+		uint8_t ix = file_holder_->add_file(cont, FILE_CONTEST);
+		// Add to the algorithm map for later retrieval of the definition file.
+		algorithm_map_[algorithm] = static_cast<file_types>(ix);
+		// Do a dummy fetch to ensure the file is created in the file system if it does not already exist.
+		std::ifstream is;
+		std::string filename2;
+		file_holder_->get_file(ix, is, filename2);
+		if (!is.good()) {
+			status_->misc_status(ST_ERROR, "CONTEST: Failed to create algorithm file %s", filename.c_str());
+		}
+		else {
+			is.close();
+		}
+
+	}
 }
 
 // Save data
@@ -180,6 +212,13 @@ bool contest_data::load_json(std::ifstream& is) {
 			itc.at("Name").get_to(name);
 			contests_[name] = contest;
 		}
+		// Read in the list of valid algorithms.
+		json ja = jall.at("Algorithms");
+		for (auto& ita : ja) {
+			std::string algorithm;
+			ita.get_to(algorithm);
+			add_algorithm(algorithm);
+		}
 	}
 	catch (const json::exception& e) {
 		char msg[128];
@@ -206,6 +245,10 @@ bool contest_data::save_json(std::ofstream& os) {
 			jc["Instances"].push_back(ji);
 		}
 		jall["Contests"].push_back(jc);
+	}
+	jall["Algorithms"].clear();
+	for (auto& it : algorithms_) {
+		jall["Algorithms"].push_back(it);
 	}
 	os << std::setw(2) << jall << '\n';
 	if (os.fail()) return false;

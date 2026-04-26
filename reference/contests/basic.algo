@@ -1,0 +1,4 @@
+exchange: RST SERIAL+
+multiplier: BAND DXCC
+points: other DXCC: 1
+total: multiplier * points

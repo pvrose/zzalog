@@ -20,7 +20,8 @@ const uint32_t DEBUG_RESET_CTY3 = 1 << 13;    //!< Reset prefix.lst
 const uint32_t DEBUG_RESET_CTY4 = 1 << 14;    //!< Reset iso.csv
 const uint32_t DEBUG_RESET_QSL = 1 << 15;     //!< Reset qsl.json
 const uint32_t DEBUG_RESET_KEYS = 1 << 16;    //!< Reset keys.json
-const uint32_t DEBUG_RESET_ALL = 0xffff;    //!< Reset all
+const uint32_t DEBUG_RESET_CONTEST = 1 << 17; //!< Reset contests/*.algo
+const uint32_t DEBUG_RESET_ALL = 0x1ffff;    //!< Reset all
 const uint32_t DEBUG_RESET_CALL =
 DEBUG_RESET_CTY |
 DEBUG_RESET_CTY1 |

@@ -17,19 +17,26 @@
 */
 #include "contest_dialog.h"
 
-#include "zc_calendar.h"
-#include "zc_calendar_input.h"
-#include "contest_algorithm.h"
+#include "contest_algo.h"
 #include "contest_data.h"
 #include "field_choice.h"
-#include <page_dialog.h>
-#include "zc_settings.h"
+#include "page_dialog.h"
 
+#include "zc_calendar.h"
+#include "zc_calendar_input.h"
+#include "zc_debug.h"
 #include "zc_drawing.h"
+#include "zc_filename_input.h"
+#include "zc_file_holder.h"
+#include "zc_file_viewer.h"
 #include "zc_fltk.h"
+#include "zc_settings.h"
+#include "zc_status.h"
+#include "zc_utils.h"
 
 #include <chrono>
 #include <ctime>
+#include <fstream>
 #include <set>
 #include <string>
 #include <FL/Enumerations.H>
@@ -40,6 +47,7 @@
 #include <FL/Fl_Widget.H>
 
 extern void open_html(const char* topic);
+extern debug_flag DEBUG_DEVELOPMENT;
 
 contest_dialog::contest_dialog(int X, int Y, int W, int H, const char* L) :
 	page_dialog(X, Y, W, H, L)
@@ -121,17 +129,40 @@ void contest_dialog::create_form(int X, int Y) {
 	w_algorithm_ = new Fl_Input_Choice(curr_x, curr_y, WSMEDIT, HBUTTON, "Algorithm");
 	w_algorithm_->align(FL_ALIGN_LEFT);
 	w_algorithm_->tooltip("Please select the algorithm used for scoring and exchange");
+	w_algorithm_->callback(cb_algorithm);
+
+	curr_y += HBUTTON;
+
+	w_check_algorithm_file_ = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Check");
+	w_check_algorithm_file_->callback(cb_check_algorithm_file);
+	w_check_algorithm_file_->tooltip("Check the algorithm file exists and is valid");
+
+	curr_x += WBUTTON;
+	w_edit_algorithm_file_ = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Edit");
+	w_edit_algorithm_file_->callback(cb_edit_algorithm_file);
+	w_edit_algorithm_file_->tooltip("Open the algorithm file in the default editor");
+
+	if (zc_app::debug(DEBUG_DEVELOPMENT)) {
+		curr_x += WBUTTON;
+		w_release_algorithm_file_ = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Release");
+		w_release_algorithm_file_->callback(cb_release_algorithm_file);
+		w_release_algorithm_file_->tooltip("Release the algorithm file back to git (development only)");
+	}
+
+	curr_x = x() + WLLABEL;
+
 
 	curr_y += GAP + HBUTTON;
 
 	w_start_date_ = new zc_calendar_input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON, "Contest start");
 	w_start_date_->align(FL_ALIGN_LEFT);
 	w_start_date_->tooltip("Please specify the start date (UTC) of the contest");
+	w_start_date_->callback(cb_timeframe, this);
 
 	curr_x += w_start_date_->w();
 	w_start_time_ = new Fl_Int_Input(curr_x, curr_y, WBUTTON, HBUTTON);
 	w_start_time_->tooltip("Please specify the start time (UTC) of the contest");
-
+	w_start_time_->callback(cb_timeframe, this);
 	curr_y += HBUTTON;
 	curr_x = x() + WLLABEL;
 
@@ -158,23 +189,11 @@ void contest_dialog::save_values() {
 		std::string start_date = w_start_date_->value();
 		std::string start_time = w_start_time_->value();
 		tm* start = new tm;
-		start->tm_year = std::stoi(start_date.substr(0, 4)) - 1900;
-		start->tm_mon = std::stoi(start_date.substr(4, 2)) - 1;
-		start->tm_mday = std::stoi(start_date.substr(6, 2));
-		start->tm_hour = std::stoi(start_time.substr(0, 2));
-		start->tm_min = std::stoi(start_time.substr(2, 2));
-		start->tm_sec = 0;
-		start->tm_isdst = false;
+		zc::string_to_tm(start_date + start_time, *start, "%Y%m%d%H%M%S");
 		std::string finish_date = w_finish_date_->value();
 		std::string finish_time = w_finish_time_->value();
 		tm* finish = new tm;
-		finish->tm_year = std::stoi(finish_date.substr(0, 4)) - 1900;
-		finish->tm_mon = std::stoi(finish_date.substr(4, 2)) - 1;
-		finish->tm_mday = std::stoi(finish_date.substr(6, 2));
-		finish->tm_hour = std::stoi(finish_time.substr(0, 2));
-		finish->tm_min = std::stoi(finish_time.substr(2, 2));
-		finish->tm_sec = 0;
-		finish->tm_isdst = false;
+		zc::string_to_tm(finish_date + finish_time, *finish, "%Y%m%d%H%M%S");
 #ifdef _WIN32
 		contest_->date.start = std::chrono::system_clock::from_time_t(_mkgmtime(start));
 		contest_->date.finish = std::chrono::system_clock::from_time_t(_mkgmtime(finish));
@@ -182,11 +201,13 @@ void contest_dialog::save_values() {
 		contest_->date.start = std::chrono::system_clock::from_time_t(timegm(start));
 		contest_->date.finish = std::chrono::system_clock::from_time_t(timegm(finish));
 #endif
+		// Algorithm file
+		contest_data_->add_algorithm(contest_->algorithm);
 	}
 	contest_data_->save_data();
 }
 
-// Used to enable/disable specific widget - any widgets enabled musr be attributes
+// Used to enable/disable specific widget - any widgets enabled must be attributes
 void contest_dialog::enable_widgets() {
 }
 
@@ -200,7 +221,7 @@ void contest_dialog::update_algorithm() {
 	if (contest_) {
 		w_algorithm_->value(contest_->algorithm.c_str());
 	}
-	else if (algorithms_.size()) {
+	else if (contest_data_->get_algorithms()->size()) {
 		w_algorithm_->value(0);
 	}
 }
@@ -253,6 +274,75 @@ void contest_dialog::cb_index(Fl_Widget* w, void* v) {
 	that->update_timeframe();
 }
 
+// Algorithm choice
+void contest_dialog::cb_algorithm(Fl_Widget* w, void* v) {
+	contest_dialog* that = zc::ancestor_view<contest_dialog>(w);
+	if (that->contest_) {
+		std::string& algorithm = that->contest_->algorithm;
+		algorithm = ((Fl_Input_Choice*)w)->value();
+		contest_data_->add_algorithm(algorithm);
+	}
+}
+
+// Algorithm file check
+void contest_dialog::cb_check_algorithm_file(Fl_Widget* w, void* v) {
+	contest_dialog* that = zc::ancestor_view<contest_dialog>(w);
+	std::string algorithm = that->w_algorithm_->value();
+	contest_algo* algo = new contest_algo(algorithm);
+	if (algo->valid()) {
+		status_->misc_status(ST_OK, "Algorithm file is valid");
+	} else {
+		status_->misc_status(ST_ERROR, "Algorithm file is not valid");
+	}
+}
+
+// Algorithm file edit
+void contest_dialog::cb_edit_algorithm_file(Fl_Widget* w, void* v) {
+	contest_dialog* that = zc::ancestor_view<contest_dialog>(w);
+	std::string file = contest_data_->get_algorithm_file(that->w_algorithm_->value());
+	if (file.empty()) {
+		status_->misc_status(ST_ERROR, "No algorithm file specified");
+		return;
+	}
+	zc_file_viewer* viewer = new zc_file_viewer(300, 200, file.c_str());
+	viewer->type(zc_file_viewer::VT_FILE);
+	viewer->load_file(file);
+}
+
+// Algorithm file release (development only)
+void contest_dialog::cb_release_algorithm_file(Fl_Widget* w, void* v) {
+	if (!zc_app::debug(DEBUG_DEVELOPMENT)) return;
+	contest_dialog* that = zc::ancestor_view<contest_dialog>(w);
+	file_types file = contest_data_->algorithm_map_[that->w_algorithm_->value()];
+	if (file >= FILE_CONTEST) {
+		file_holder_->copy_working_to_source(file);
+		file_holder_->copy_source_to_git(file);
+	}
+}
+
+// Timeframe change
+void contest_dialog::cb_timeframe(Fl_Widget* w, void* v) {
+	contest_dialog* that = zc::ancestor_view<contest_dialog>(w);
+	// Get the start date and time values and update the end date and time to start + 1 day.
+	std::string start_date = that->w_start_date_->value();
+	std::string start_time = that->w_start_time_->value();
+	tm* start = new tm;
+	zc::string_to_tm(start_date + start_time, *start, "%Y%m%d%H%M%S");
+	// Update the end date and time to start + 1 day.
+#ifdef _WIN32
+	time_t start_time_t = _mkgmtime(start);
+#else
+	time_t start_time_t = timegm(start);
+#endif
+	time_t finish_time_t = start_time_t + 24 * 3600;
+	tm* finish = gmtime(&finish_time_t);
+	char temp[32];
+	strftime(temp, sizeof(temp), "%Y%m%d", finish);
+	that->w_finish_date_->value(temp);
+	strftime(temp, sizeof(temp), "%H%M%S", finish);
+	that->w_finish_time_->value(temp);
+}
+
 // Populate contest index choice
 void contest_dialog::populate_ct_index() {
 	std::set<std::string>* indices = contest_data_->get_contest_indices(contest_id_);
@@ -269,9 +359,9 @@ void contest_dialog::populate_ct_index() {
 // Populate logged fields choice
 void contest_dialog::populate_algorithm() {
 	w_algorithm_->clear();
-	if (algorithms_.size()) {
-		for (auto& it : algorithms_) {
-			w_algorithm_->add(it.first.c_str());
+	if (contest_data_->get_algorithms()->size()) {
+		for (auto& it : *contest_data_->get_algorithms()) {
+			w_algorithm_->add(it.c_str());
 		}
 	}
 }

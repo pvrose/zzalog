@@ -78,7 +78,7 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SRC_DIR}/club_handler.cpp
   ${ZZALOG_SRC_DIR}/condx_view.cpp
   ${ZZALOG_SRC_DIR}/config.cpp
-  ${ZZALOG_SRC_DIR}/contest_algorithm.cpp
+  ${ZZALOG_SRC_DIR}/contest_algo.cpp
   ${ZZALOG_SRC_DIR}/contest_data.cpp
   ${ZZALOG_SRC_DIR}/contest_dialog.cpp
   ${ZZALOG_SRC_DIR}/contest_scorer.cpp
@@ -181,7 +181,7 @@ set( ZZALOG_HPPFILES
   ${ZZALOG_INCLUDE_DIR}/club_handler.h
   ${ZZALOG_INCLUDE_DIR}/condx_view.h
   ${ZZALOG_INCLUDE_DIR}/config.h
-  ${ZZALOG_INCLUDE_DIR}/contest_algorithm.h
+  ${ZZALOG_INCLUDE_DIR}/contest_algo.h
   ${ZZALOG_INCLUDE_DIR}/contest_data.h
   ${ZZALOG_INCLUDE_DIR}/contest_dialog.h
   ${ZZALOG_INCLUDE_DIR}/contest_scorer.h
@@ -339,7 +339,7 @@ set(ZZACOMMON_COMPONENTS "zzaf;zzab;zzax;zzam;zzafb;zzad")
 FetchContent_Declare(
   zzacommon
   GIT_REPOSITORY https://github.com/pvrose/zzacommon.git
-  GIT_TAG v1.1.1
+  GIT_TAG master
   FIND_PACKAGE_ARGS NAMES zzacommon COMPONENTS zzaf zzam zzafb zzad zzab zzax
 )
 FetchContent_MakeAvailable(zzacommon)
@@ -349,9 +349,6 @@ configure_file(
   ${ZZALOG_BINARY_DIR}/src/app.cpp
   @ONLY
 )
-
-## Subdirectories as part of ZZALOG
-add_subdirectory(contests)
 
 ## Reference data
 set(DATAFILES
@@ -368,6 +365,9 @@ set(DATAFILES
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/rose.png
   ${CMAKE_CURRENT_SOURCE_DIR}/reference/keys.json
 )
+
+## Add all contest algorithm files to separate list
+file(GLOB CONTEST_FILES "${CMAKE_CURRENT_SOURCE_DIR}/reference/contests/*")
 
 # Generate Windows icon and resource file
 if (MSVC)
@@ -417,7 +417,7 @@ add_dependencies(${TARGET}
   zzacommon::zzafb
   zzacommon::zzam
 )
-add_dependencies(zzalog_contests zzacommon::zzam)
+add_dependencies(zzacommon::zzam)
 
 ## Set header include directoies.
 target_include_directories(${TARGET} PRIVATE 
@@ -442,7 +442,6 @@ target_sources(${TARGET} PRIVATE ${ZZALOG_CPPFILES})
 ## Define libraries to be linked in.
 target_link_libraries(${TARGET} PRIVATE 
   ${HAMLIB_LIBRARY}
-  zzalog_contests
   zzacommon::zzaf
   zzacommon::zzad
   zzacommon::zzab
@@ -477,10 +476,19 @@ endif()
 # copy reference data
 add_custom_target(reference_data ALL)
 message(STATUS "Reference data: ${DATAFILES}")
-  file(COPY ${DATAFILES}
-    DESTINATION ${ZZALOG_RUN_DIR}
-    USE_SOURCE_PERMISSIONS
-  )
+message(STATUS "Contest files: ${CONTEST_FILES}")
+
+# Copy main reference files to root
+file(COPY ${DATAFILES}
+  DESTINATION ${ZZALOG_RUN_DIR}
+  USE_SOURCE_PERMISSIONS
+)
+
+# Copy contest algorithm files to separate subdirectory
+file(COPY ${CONTEST_FILES}
+  DESTINATION ${ZZALOG_RUN_DIR}/contests
+  USE_SOURCE_PERMISSIONS
+)
 
 # Generate documents - generate userguide.
 if(ZZALOG_DOX) 

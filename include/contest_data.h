@@ -18,7 +18,12 @@
 
 #include "nlohmann/json.hpp"
 
+#include "file_types.h"
+
+#include "zc_file_holder.h"
+
 #include <chrono>
+#include <fstream>
 #include <map>
 #include <set>
 #include <string>
@@ -105,6 +110,25 @@ public:
 	//! \return the set of instances of this contest.
 	std::set<std::string>* get_contest_indices(std::string id);
 
+	//! Get all the available algorithms.
+	std::set<std::string>* get_algorithms() {
+		return &algorithms_;
+	}
+
+	//! Get the definition file for the specified algorithm.
+	std::string get_algorithm_file(std::string algorithm) {
+		if (algorithm_map_.find(algorithm) != algorithm_map_.end()) {
+			return file_holder_->get_filename(algorithm_map_[algorithm]);
+		}
+		else {
+			add_algorithm(algorithm);
+			return get_algorithm_file(algorithm);
+		}
+	}
+
+	//! Add an algorithm to the list of available algorithms.
+	void add_algorithm(std::string algorithm);
+
 
 protected:
 	//! Load data from contests.xml into the internal database.
@@ -124,6 +148,12 @@ protected:
 	std::map<std::string, std::map<std::string, ct_data_t*> > contests_;
 	//! Consolidated database of all contest entries.
 	std::vector<ct_entry_t*> contest_infos_;
+
+	//! List of available algorithms.
+	std::set<std::string> algorithms_;
+
+	//! Map algorithms to definition files
+	std::map<std::string, file_types> algorithm_map_;
 
 };
 

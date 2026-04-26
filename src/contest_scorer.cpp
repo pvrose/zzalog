@@ -18,7 +18,7 @@
 #include "contest_scorer.h"
 
 #include "book.h"
-#include "contest_algorithm.h"
+#include "contest_algo.h"
 #include "contest_data.h"
 #include "cty_data.h"
 #include "extract_data.h"
@@ -438,8 +438,7 @@ void contest_scorer::change_contest() {
 
 // Use the appropriate algorithm and attach it to this.
 void contest_scorer::create_algo() {
-	algorithm_ = algorithms_.at(contest_id_);
-	algorithm_->attach(this);
+	algorithm_ = new contest_algo(contest_->algorithm);
 }
 
 // Add record 
@@ -542,7 +541,7 @@ void contest_scorer::score_qso(record* qso, bool check_only) {
 	if (algorithm_ == nullptr || qso == nullptr) return;
 	if (qso && qso->item("CALL").length()) {
 		// Only score next QSO if we have one to score
-		score_result res = algorithm_->score_qso(qso, multipliers_);
+		contest_algo::score_result res = algorithm_->score_qso(qso, multipliers_);
 		d_multiplier_ = res.multiplier;
 		d_qso_points_ = res.qso_points;
 		multiplier_p_ = multiplier_ + d_multiplier_;
@@ -572,7 +571,7 @@ std::string contest_scorer::contest_id() {
 }
 
 // Returns the fields::collection name
-field_list contest_scorer::fields() {
+std::set<std::string> contest_scorer::fields() {
 	if (algorithm_) {
 		return algorithm_->fields();
 	}
