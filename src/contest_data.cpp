@@ -149,6 +149,13 @@ bool contest_data::load_data() {
 					add_algorithm(iti.second->algorithm);
 				}
 			}
+			// Popukate the consolidated contest information database.
+			for (auto& itc : contests_) {
+				for (auto& iti : itc.second) {
+					ct_entry_t* entry = new ct_entry_t({ itc.first, iti.first, iti.second });
+					contest_infos_.push_back(entry);
+				}
+			}
 			return true;
 		}
 	}

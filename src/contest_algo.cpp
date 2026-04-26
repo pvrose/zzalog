@@ -18,8 +18,10 @@
 #include "contest_algo.h"
 
 #include "contest_data.h"
+#include "qso_data.h"
 #include "qso_manager.h"
 #include "record.h"
+#include "spec_data.h"
 #include "stn_data.h"
 
 #include "zc_file_holder.h"
@@ -40,6 +42,7 @@ extern zc_status* status_;
 
 // Constructor.
 contest_algo::contest_algo(const std::string& algorithm, const std::string& filename) {
+	my_info_ = stn_data_->get_qth(qso_manager_->get_default(qso_manager::QTH));
 	std::string algo_path = filename.empty() ? contest_data_->get_algorithm_file(algorithm) : filename;
 	if (!parse_algorithm_file(algo_path)) {
 		status_->misc_status(ST_ERROR, "CONTEST: Failed to parse contest algorithm file %s", algo_path.c_str());
@@ -80,12 +83,12 @@ std::string contest_algo::generate_exchange(const record* qso) {
 		if (item.is_conditional) {
 			// Conditional field - check the condition and if it is met, add the field value to the exchange text.
 			if (evaluate_condition(qso, item.cond_field->cond)) {
-				exchange_text += qso->item(item.field_name) + " ";
+				exchange_text += get_my_value(item.field_name) + " ";
 			}
 		}
 		else {
 			// Simple field - add the field value to the exchange text.
-			exchange_text += qso->item(item.field_name) + " ";
+			exchange_text += get_my_value(item.field_name) + " ";
 		}
 	}
 	return exchange_text;
@@ -196,6 +199,9 @@ std::string contest_algo::get_my_value(const std::string& field_name) {
 		else {
 			return "";  // Return empty string if QTH value not found
 		}
+	}
+	if (field_name == "RST_SENT") {
+		return default_report();
 	}
 	if (field_name == "CALL") {
 		return qso_manager_->get_default(qso_manager::stn_item_t::CALLSIGN);
@@ -640,5 +646,24 @@ bool contest_algo::parse_total_line(const std::string& line, total_definition& t
 	}
 }
 
-
-
+// Get default report.`
+std::string contest_algo::default_report() const {
+	// Find the actual mode from the QSO record.
+	// Get the current QSO record from the QSO manager.
+	record* current_qso = qso_manager_->data()->current_qso();
+	if (current_qso == nullptr) {
+		return "59";  // Default report if no current QSO
+	}
+	std::string mode = current_qso->item("MODE");
+	// Convert it to CW or PHONE etc. as needed for the contest algorithm.
+	std::string dxcc_mode = spec_data_->dxcc_mode(mode);
+	if (dxcc_mode == "CW") {
+		return "599";
+	}
+	else if (dxcc_mode == "DATA") {
+		return "599";
+	}
+	else {
+		return "59";  // Default report for other modes (AM, FM, SSB, SSTV, ATV, etc.)
+	}
+}

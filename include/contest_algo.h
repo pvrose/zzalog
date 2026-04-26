@@ -302,6 +302,9 @@ private:
 	//! Method to evaluate a distance calculation (updates \p qso)
 	int evaluate_distance_calculation(record* qso, const distance_calculation& value);
 
+	//! Return the default report for the contest algorithm (eg "599")
+	std::string default_report() const;
+
 	//! main data structure representing the contest algorithm
 	contest_algorithm_file* algo_data_ = nullptr;
 
@@ -316,6 +319,6 @@ private:
 	std::set<std::string> scoring_items_;
 
 	//! Pointer to 'my' data.
-	const qth_info_t* my_info_;
+	const qth_info_t* my_info_ = nullptr;
 
 };

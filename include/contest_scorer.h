@@ -155,33 +155,32 @@ protected:
     std::string contest_index_;    //!< Identifier of the current contest instance.
     std::string start_time_;       //!< Contest start time as text.
     std::string finish_time_;      //!< Contest finish time as text.
-    bool active_;             //!< Contest is active.
+    bool active_ = false;             //!< Contest is active.
 
     //! Contest description.
-    ct_data_t* contest_;
+    ct_data_t* contest_ = nullptr;
 
     // Logged vallues
-    int qso_points_;          //!< QSO points accumulated so far.
-    int multiplier_;          //!< Multiplier points accumulated so far.
-    int total_;               //!< Total points so far.
+    int qso_points_ = 0;          //!< QSO points accumulated so far.
+    int multiplier_ = 0;          //!< Multiplier points accumulated so far.
+    int total_ = 0;               //!< Total points so far.
     // Check QSO deltas
-    int d_qso_points_;        //!< &delta; points from the current QSO.
-    int d_multiplier_;        //!< &delta; multiplier from the current QSO.
+    int d_qso_points_ = 0;        //!< &delta; points from the current QSO.
+    int d_multiplier_ = 0;        //!< &delta; multiplier from the current QSO.
     // Potential values
-    int qso_points_p_;        //!< Possible QSO points including the current QSO.
-    int multiplier_p_;        //!< Possible multiplier including the current QSO.
-    int total_p_;             //!< Possible total including the current QSO.
-
+    int qso_points_p_ = 0;        //!< Possible QSO points including the current QSO.
+    int multiplier_p_ = 0;        //!< Possible multiplier including the current QSO.
+    int total_p_ = 0;             //!< Possible total including the current QSO.
     // Next serial number
-    int next_serial_;         //!< Next contest serial number to send.
+    int next_serial_ = 1;         //!< Next contest serial number to send.
 
    
     //! QSO records specifically in this contest.
-    extract_data* qsos_;
+    extract_data* qsos_ = nullptr;
     //! Current QSO record.
-    record* qso_;
+    record* qso_ = nullptr;
     //! Index of current QSO within the full logbook.
-    qso_num_t qso_number_;
+    qso_num_t qso_number_ = 0;
     //! Scoring algorithm for the current contest.
     contest_algo* algorithm_ = nullptr;
 

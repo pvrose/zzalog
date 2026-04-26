@@ -64,6 +64,7 @@ contest_scorer::contest_scorer(int X, int Y, int W, int H, const char* L) :
 {
 	load_data();
 	create_form();
+	change_contest();
 	populate_contest();
 	enable_widgets();
 }
