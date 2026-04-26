@@ -417,7 +417,6 @@ add_dependencies(${TARGET}
   zzacommon::zzafb
   zzacommon::zzam
 )
-add_dependencies(zzacommon::zzam)
 
 ## Set header include directoies.
 target_include_directories(${TARGET} PRIVATE 
