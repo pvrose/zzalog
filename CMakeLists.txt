@@ -17,7 +17,7 @@
 #]=]
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.6.16.4)
+project(ZZALOG VERSION 3.6.16.5)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
 set(ZZALOG_RC_VALUE "")
@@ -339,7 +339,7 @@ set(ZZACOMMON_COMPONENTS "zzaf;zzab;zzax;zzam;zzafb;zzad")
 FetchContent_Declare(
   zzacommon
   GIT_REPOSITORY https://github.com/pvrose/zzacommon.git
-  GIT_TAG master
+  GIT_TAG v1.1.2
   FIND_PACKAGE_ARGS NAMES zzacommon COMPONENTS zzaf zzam zzafb zzad zzab zzax
 )
 FetchContent_MakeAvailable(zzacommon)

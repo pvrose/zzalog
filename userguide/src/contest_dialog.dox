@@ -11,14 +11,79 @@ the year for a contest which recurs every year.
 The user can then specify an algorithm by which to generate exchanges and score the contest. 
 Each algorithm is hard-coded into ZZALOG. The following algorithms are defined:
 
-- <B>Basic</B> Exchange RS(T) plus serial, scoring 1 point per QSO outwith operator's own DXCC 
+- <B>BASIC</B> Exchange RS(T) plus serial, scoring 1 point per QSO outwith operator's own DXCC 
 multiplied by the number of DXCC entities worked on each band.
 - <B>IARU-HF</B> A custom algorithm developed for the IARU HF World Championship.
 
-The user should then specify the start and finish of the contest.
+The user should then specify the start and finish of the contest. After specifying the start time,
+the end time is automatically set to 24 hours later, but the user can adjust this as required.
+These times are used to validate which QSOs are included in the contest score. QSOs 
+included in the score will also have their ADIF field "CONTEST_ID" set to the name of the contest.
 
 \image html contest_dialog_1.png "Tab showing contest definition"
 \image latex contest_dialog_1.png "Tab showing contest definition"
+
+There are two buttons below the algorithm selection.
+- <B>Check</B> This checks that the contest definition is valid and follows the syntax defined
+below. Check the banner for whether the check was successful or not.
+- <B>Edit</B> This opens the contest definition in the default text editor (as shown in the image).
+
+\section contest_algorithms Contest algorithms
+
+The syntax of the contest definition is as follows:
+\code
+FILE STRUCTURE (BNF):
+<contest_algorithm_file> ::= <exchange_definition> <scoring_definitions>
+<exchange_definition> ::= "exchange:" <field_definition>+ <EOL>
+<field_definition> ::= <field_name> | <conditional_field>
+<conditional_field> ::= "if" <condition> ":" <field_name>
+<condition> ::= (<field_name> <condition_specifier>) | ("same" <field_name>) | ("other" <field_name>)
+<condition_specifier> ::= "=" <value> | "in_list" <value_list> | "matches" <regex>
+<value_list> ::= <value> ("," <value>)*
+<scoring_definitions> ::= <multiplier_definition> <points_definition>+ <total_definition>
+<multiplier_definition> ::= "multiplier:" <multiplier_specification>+ <EOL>
+<multiplier_specification> ::= <field_name>+
+<points_definition> ::= "points:" [<condition> ("&" <condition>)* ":"] <points_value> <EOL>
+<points_value> ::= <points_calculation> | <value>
+<points_calculation> ::= <distance_calculation> ; Others to be added as needed
+<total_definition> ::= "total:" <points_calculation> <EOL>
+<points_calculation> ::= <product_calculation>
+<product_calculation> ::= "multiplier" "*" "points"
+<field_name> ::= <ADIF field name> | <alias>
+<alias> ::= "RST" | "SERIAL+" | "GRID4"
+<ADIF field name> ::= [A-Z0-9_]+ ; ADIF field names per ADIF standard
+<value> ::= [A-Z0-9]+ ; Values are case-sensitive and per ADIF standard 
+<regex> ::= <regular expression> ; Regular expressions per standard regex syntax
+<distance_calculation> ::= "distance" <field_name> (operator <value>); Distance calculation based on field values (eg GRID4) and QSO location
+<EOL> ::= "\n" ; End of line character
+\endcode
+
+Aliases are used to simplify the definition of the exchange as the ADIF fields will be
+different for exchange sent and exchange received (RST and SERIAL+) or only part of an ADIF 
+field is used (GRID4).
+
+When used in exchanges sent and in the conditions "same" and "other", the information for
+the user's station is obtained from the station profile as defined in \ref stn_dialog.
+
+EXAMPLE 1: Basic contest with a single exchange field and simple scoring
+\code
+exchange: RST SERIAL+
+multiplier: DXCC BAND
+points: other DXCC: 1
+total: multiplier * points
+\endcode
+
+EXAMPLE 2: Contest with more complex scoring (IARU-HF)
+\code
+exchange: RST ITUZ
+multiplier: ITUZ BAND
+points: same ITUZ: 1
+points: ITUZ in_list A, B, C: 1
+points: other ITUZ & same CONT: 3
+points: other ITUZ & other CONT: 5
+total: multiplier * points
+\endcode
+
 
 */
 

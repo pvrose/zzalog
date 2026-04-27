@@ -25,8 +25,10 @@ result of that.
 \image html contest_scorer_2.png "Details of contest monitor"
 \image latex contest_scorer_2.png "Details of contest monitor" width=5cm
 
-Support for individual contests needs to be coded separately. This code needs to 
-implement an algorithm for parsing and generating exchanges. It also needs to
-implement an algorithm for scoring.
+Definitions for the individual contests are maintained in the contest definition file "contests.json",
+which is not supplied with the distribution. However algorithm files containing the exchange formats 
+and scoring rules will be supplied with the distribution under the "references/contests" directory.
+Algorithm files are in a custome format, but are human readable and editable as 
+described in \ref contest_algorithms.
 
 */

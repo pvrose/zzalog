@@ -7,6 +7,7 @@
   - When deleting a record, park it in a deleted records table for possible later recovery.
   - Add feature to select different bands in the band-plan viewer.
   - Add scratchpad for recording notes and pasting data into QSO records.
+  - Change contest algorithm definition to use files rather than hard-coded algorithms.
 - Cosmetic and non-functional changes.
   - Moved more non-ZZALOG code to ZZACOMMON.
   - Remove requirement for user to interact with ZZACOMMON during build flow.

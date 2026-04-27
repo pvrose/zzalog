@@ -22,6 +22,17 @@
 //! This file provides the class definition, file format and data structure to
 //! support contest scoring and logging algorithms.
 //! 
+
+#include <string>
+#include <vector>
+#include <memory>
+#include <set>
+#include <variant>
+
+class record;
+struct qth_info_t;
+class contest_scorer;
+
 //! The class will read in the contest algorithm definitions from a file and create
 //! the data structures to support the algorithm. It will then use the data structures
 //! to calculate the score for a QSO based on the contest algorithm and the QSO data.
@@ -53,12 +64,15 @@
 //! \endcode
 //! 
 //! EXAMPLE 1: Basic contest with a single exchange field and simple scoring
+//! \code
 //! exchange: RST SERIAL+
 //! multiplier: DXCC BAND
 //! points: other DXCC: 1
 //! total: multiplier * points
+//! \endcode
 //! 
 //! EXAMPLE 2: Contest with more complex scoring
+//! \code
 //! exchange: RST ITUZ
 //! multiplier: ITUZ BAND
 //! points: same ITUZ: 1
@@ -66,17 +80,7 @@
 //! points: other ITUZ & same CONT: 3
 //! points: other ITUZ & other CONT: 5
 //! total: multiplier * points
-
-#include <string>
-#include <vector>
-#include <memory>
-#include <set>
-#include <variant>
-
-class record;
-struct qth_info_t;
-class contest_scorer;
-
+//! \endcode
 class contest_algo {
 
 	//! Condition specifier types
