@@ -17,10 +17,10 @@
 #]=]
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.6.16.5)
+project(ZZALOG VERSION 3.6.17)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
-set(ZZALOG_RC_VALUE "")
+set(ZZALOG_RC_VALUE "-rc1")
 
 ## Set program details - used by zzacommon
 set(APP_VENDOR "GM3ZZA")
@@ -31,10 +31,21 @@ set(APP_SOURCE_DIR ${ZZALOG_SOURCE_DIR})
 
 ## Split version into components for Windows resource file
 string(REPLACE "." ";" VERSION_LIST ${ZZALOG_VERSION})
+list(LENGTH VERSION_LIST VERSION_LIST_LENGTH)
 list(GET VERSION_LIST 0 ZZALOG_VERSION_MAJOR)
 list(GET VERSION_LIST 1 ZZALOG_VERSION_MINOR)
-list(GET VERSION_LIST 2 ZZALOG_VERSION_PATCH)
-list(GET VERSION_LIST 3 ZZALOG_VERSION_TWEAK)
+# Handle PATCH component (default to 0 if not provided)
+if(VERSION_LIST_LENGTH GREATER 2)
+    list(GET VERSION_LIST 2 ZZALOG_VERSION_PATCH)
+else()
+    set(ZZALOG_VERSION_PATCH 0)
+endif()
+# Handle TWEAK component (default to 0 if not provided)
+if(VERSION_LIST_LENGTH GREATER 3)
+    list(GET VERSION_LIST 3 ZZALOG_VERSION_TWEAK)
+else()
+    set(ZZALOG_VERSION_TWEAK 0)
+endif()
 
 ## Set target executable
 set(TARGET zzalog)
@@ -339,7 +350,7 @@ set(ZZACOMMON_COMPONENTS "zzaf;zzab;zzax;zzam;zzafb;zzad")
 FetchContent_Declare(
   zzacommon
   GIT_REPOSITORY https://github.com/pvrose/zzacommon.git
-  GIT_TAG v1.1.2
+  GIT_TAG v1.1.2.1
   FIND_PACKAGE_ARGS NAMES zzacommon COMPONENTS zzaf zzam zzafb zzad zzab zzax
 )
 FetchContent_MakeAvailable(zzacommon)
@@ -521,6 +532,11 @@ endif()
 # install reference data
 install(FILES ${DATAFILES}
   DESTINATION ${CMAKE_INSTALL_RPATH}
+  COMPONENT data
+)
+# install contest data
+install(FILES ${CONTEST_FILES}
+  DESTINATION ${CMAKE_INSTALL_RPATH}/contests
   COMPONENT data
 )
 # install DLLs
