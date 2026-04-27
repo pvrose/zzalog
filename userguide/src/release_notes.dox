@@ -1,6 +1,6 @@
 /** \page release_notes Revision History
 
-\section rev_3_6_17 Revision 3.6.17 [Unreleased]
+\section rev_3_6_17 Revision 3.6.17
 - Functional changes.
   - Add feature to display previous QSO records with contact in log table.
   - When comparing a download, show differing records first after essential fields.

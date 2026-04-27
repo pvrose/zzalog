@@ -20,7 +20,7 @@ cmake_minimum_required(VERSION 3.16)
 project(ZZALOG VERSION 3.6.17)
 set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
 set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
-set(ZZALOG_RC_VALUE "-rc1")
+set(ZZALOG_RC_VALUE "")
 
 ## Set program details - used by zzacommon
 set(APP_VENDOR "GM3ZZA")
@@ -386,12 +386,20 @@ if (MSVC)
   set(ZZALOG_LOGO_PNG "${CMAKE_CURRENT_SOURCE_DIR}/rose.png")
   set(ZZALOG_ICO_FILE "${ZZALOG_BINARY_DIR}/zzalog.ico")
 
+  # Optional: Set white threshold for transparency (default: 250, range: 0-255)
+  # Higher values = more aggressive white removal (e.g., 240 removes near-white)
+  # Lower values = only pure white removed (e.g., 254 removes almost pure white)
+  if(NOT DEFINED ZZALOG_ICON_WHITE_THRESHOLD)
+    set(ZZALOG_ICON_WHITE_THRESHOLD 240)
+  endif()
+
   if(EXISTS "${ZZALOG_LOGO_PNG}")
     message(STATUS "Generating Windows icon from ${ZZALOG_LOGO_PNG}")
     execute_process(
       COMMAND ${CMAKE_COMMAND}
         -DPNG_FILE=${ZZALOG_LOGO_PNG}
         -DICO_FILE=${ZZALOG_ICO_FILE}
+        -DWHITE_THRESHOLD=${ZZALOG_ICON_WHITE_THRESHOLD}
         -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/convert_png_to_ico.cmake
       RESULT_VARIABLE ICO_RESULT
       ERROR_VARIABLE ICO_ERROR

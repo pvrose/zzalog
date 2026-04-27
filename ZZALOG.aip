@@ -38,14 +38,13 @@
     <ROW Directory="bin_Dir" Directory_Parent="APPDIR" DefaultDir="bin" DirectoryOptions="3"/>
     <ROW Directory="contests_Dir" Directory_Parent="etc_Dir" DefaultDir="contests" DirectoryOptions="3"/>
     <ROW Directory="etc_Dir" Directory_Parent="APPDIR" DefaultDir="etc" DirectoryOptions="3"/>
-    <ROW Directory="html_1_Dir" Directory_Parent="userguide_1_Dir" DefaultDir="html" DirectoryOptions="3"/>
+    <ROW Directory="html_1_Dir" Directory_Parent="userguide_Dir" DefaultDir="html" DirectoryOptions="3"/>
     <ROW Directory="html_2_Dir" Directory_Parent="api_1_Dir" DefaultDir="html" DirectoryOptions="3"/>
     <ROW Directory="html_Dir" Directory_Parent="api_Dir" DefaultDir="html" DirectoryOptions="3"/>
     <ROW Directory="search_3_Dir" Directory_Parent="zzacommon_1_Dir" DefaultDir="search" DirectoryOptions="3"/>
     <ROW Directory="search_4_Dir" Directory_Parent="html_1_Dir" DefaultDir="search" DirectoryOptions="3"/>
     <ROW Directory="search_5_Dir" Directory_Parent="html_2_Dir" DefaultDir="search" DirectoryOptions="3"/>
     <ROW Directory="search_Dir" Directory_Parent="html_Dir" DefaultDir="search" DirectoryOptions="3"/>
-    <ROW Directory="userguide_1_Dir" Directory_Parent="userguide_Dir" DefaultDir="USERGU~1|userguide" DirectoryOptions="3"/>
     <ROW Directory="userguide_Dir" Directory_Parent="etc_Dir" DefaultDir="USERGU~1|userguide" DirectoryOptions="3"/>
     <ROW Directory="zzacommon_1_Dir" Directory_Parent="html_Dir" DefaultDir="ZZACOM~1|zzacommon" DirectoryOptions="3"/>
     <ROW Directory="zzacommon_Dir" Directory_Parent="etc_Dir" DefaultDir="ZZACOM~1|zzacommon" DirectoryOptions="3"/>
@@ -60,7 +59,6 @@
     <ROW Component="ProductInformation" ComponentId="{E180E30E-16B6-4506-97ED-6FEB327E79BE}" Directory_="APPDIR" Attributes="260" KeyPath="Version"/>
     <ROW Component="SHORTCUTDIR" ComponentId="{F0FE00D6-9588-40DC-988D-B050F824FF26}" Directory_="SHORTCUTDIR" Attributes="0"/>
     <ROW Component="ZZALOG.pdf" ComponentId="{A84BB50F-3ED5-41DD-A371-4599BD39135D}" Directory_="userguide_Dir" Attributes="0" KeyPath="ZZALOG.pdf" Type="0"/>
-    <ROW Component="ZZALOG.pdf_1" ComponentId="{51B34060-7C8E-4763-8A36-E0617672064C}" Directory_="userguide_1_Dir" Attributes="0" KeyPath="ZZALOG.pdf_1" Type="0"/>
     <ROW Component="about__dialog_8h.html" ComponentId="{DBB337F1-4201-4FE8-9B15-9DB7FCB14462}" Directory_="html_Dir" Attributes="0" KeyPath="about__dialog_8h.html" Type="0"/>
     <ROW Component="adding.html" ComponentId="{1151F8E3-04AA-480F-AE02-5CEAFABCCB98}" Directory_="html_1_Dir" Attributes="0" KeyPath="adding.html" Type="0"/>
     <ROW Component="algorithms.json" ComponentId="{61EF27A9-1506-4CF7-B676-8834E949D947}" Directory_="contests_Dir" Attributes="0" KeyPath="algorithms.json" Type="0"/>
@@ -2383,7 +2381,6 @@
     <ROW File="web_dialog_7.png" Component_="adding.html" FileName="WEB_DI~6.PNG|web_dialog_7.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\etc\userguide\html\web_dialog_7.png" SelfReg="false"/>
     <ROW File="web_dialog_8.png" Component_="adding.html" FileName="WEB_DI~7.PNG|web_dialog_8.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\etc\userguide\html\web_dialog_8.png" SelfReg="false"/>
     <ROW File="web_dialog_9.png" Component_="adding.html" FileName="WEB_DI~8.PNG|web_dialog_9.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\etc\userguide\html\web_dialog_9.png" SelfReg="false"/>
-    <ROW File="ZZALOG.pdf_1" Component_="ZZALOG.pdf_1" FileName="ZZALOG.pdf" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\etc\userguide\ZZALOG.pdf" SelfReg="false"/>
     <ROW File="annotated.html_3" Component_="annotated.html" FileName="ANNOTA~1.HTM|annotated.html" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\etc\zzacommon\api\html\annotated.html" SelfReg="false"/>
     <ROW File="annotated_dup.js_3" Component_="annotated.html" FileName="ANNOTA~1.JS|annotated_dup.js" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\etc\zzacommon\api\html\annotated_dup.js" SelfReg="false"/>
     <ROW File="classes.html_3" Component_="annotated.html" FileName="CLASSE~1.HTM|classes.html" Version="65535.65535.65535.65535" Attributes="0" SourcePath="out\install\x64-release\etc\zzacommon\api\html\classes.html" SelfReg="false"/>
@@ -2953,7 +2950,7 @@
     <ROW Action="AI_DetectSoftware" Sequence="151"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="x64_Release" BuildName="x64_Release" BuildOrder="1" BuildType="0" PackageFileName="ZZALOG-3.6.17-rc0" Languages="en_GB" InstallationType="4" SummInfoMetadata="Page Count:450" UseLargeSchema="true" MsiPackageType="x64"/>
+    <ROW BuildKey="x64_Release" BuildName="x64_Release" BuildOrder="1" BuildType="0" PackageFileName="ZZALOG-3.6.17" Languages="en_GB" InstallationType="4" SummInfoMetadata="Page Count:450" UseLargeSchema="true" MsiPackageType="x64"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -3069,7 +3066,6 @@
     <ROW Feature_="MainFeature" Component_="all_0.js_3"/>
     <ROW Feature_="MainFeature" Component_="adding.html"/>
     <ROW Feature_="MainFeature" Component_="all_0.js_4"/>
-    <ROW Feature_="MainFeature" Component_="ZZALOG.pdf_1"/>
     <ROW Feature_="MainFeature" Component_="annotated.html"/>
     <ROW Feature_="MainFeature" Component_="all_0.js_5"/>
     <ROW Feature_="MainFeature" Component_="libcurld.dll"/>
