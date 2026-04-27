@@ -314,10 +314,15 @@ void contest_dialog::cb_release_algorithm_file(Fl_Widget* w, void* v) {
 	if (!zc_app::debug(DEBUG_DEVELOPMENT)) return;
 	contest_dialog* that = zc::ancestor_view<contest_dialog>(w);
 	file_types file = contest_data_->algorithm_map_[that->w_algorithm_->value()];
-	if (file >= FILE_CONTEST) {
+	if (file >= FILE_CONTESTS) {
 		file_holder_->copy_working_to_source(file);
 		file_holder_->copy_source_to_git(file);
 	}
+	// Update the algorithm file to reflect any changes that may have been made in the working copy.
+	contest_data_->save_data();
+	// And copy back to source and git
+	file_holder_->copy_working_to_source(FILE_CONTESTS);
+	file_holder_->copy_source_to_git(FILE_CONTESTS);
 }
 
 // Timeframe change

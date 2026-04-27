@@ -143,6 +143,20 @@ bool contest_data::load_data() {
 			char msg[128];
 			snprintf(msg, sizeof(msg), "CONTEST: File %s loaded OK", filename.c_str());
 			status_->misc_status(ST_OK, msg);
+			is.close();
+			// Load the algorithms from the algorithms file.
+			if (file_holder_->get_file(FILE_CONTESTS, is, filename)) {
+				if (load_algorithms(is)) {
+					snprintf(msg, sizeof(msg), "CONTEST: File %s loaded OK", filename.c_str());
+					status_->misc_status(ST_OK, msg);
+					is.close();
+				}
+				else {
+					snprintf(msg, sizeof(msg), "CONTEST: Failed to load file %s", filename.c_str());
+					status_->misc_status(ST_ERROR, msg);
+					return false;
+				}
+			}
 			// Populate the set of algorithms from the contest definitions.
 			for (auto& itc : contests_) {
 				for (auto& iti : itc.second) {
@@ -170,8 +184,8 @@ void contest_data::add_algorithm(std::string algorithm) {
 	if (algorithm.length() && algorithms_.find(algorithm) == algorithms_.end()) {
 		algorithms_.insert(algorithm);
 		std::string filename = "contests/" + zc::to_lower(algorithm) + ".algo";
-		file_control_t cont({ filename, true, false, DEBUG_RESET_CONTEST, false });
-		uint8_t ix = file_holder_->add_file(cont, FILE_CONTEST);
+		file_control_t cont({ filename, true, false, DEBUG_RESET_TEST, false });
+		uint8_t ix = file_holder_->add_file(cont, FILE_CONTESTS);
 		// Add to the algorithm map for later retrieval of the definition file.
 		algorithm_map_[algorithm] = static_cast<file_types>(ix);
 		// Do a dummy fetch to ensure the file is created in the file system if it does not already exist.
@@ -196,6 +210,22 @@ bool contest_data::save_data() {
 		if (save_json(os)) {
 			status_->misc_status(ST_OK, "CONTEST: Saved data OK");
 			os.close();
+			// Save the algorithms to a separate file.
+				if (file_holder_->get_file(FILE_CONTESTS, os, filename)) {
+					if (save_algorithms(os)) {
+						status_->misc_status(ST_OK, "CONTEST: Saved algorithms OK");
+						os.close();
+						return true;
+					}
+					else {
+						status_->misc_status(ST_ERROR, "CONTEST: Failed to save algorithms");
+						return false;
+					}
+				}
+				else {
+					status_->misc_status(ST_ERROR, "CONTEST: Failed to open file for saving algorithms");
+					return false;
+				}
 			return true;
 		}
 	}
@@ -219,6 +249,23 @@ bool contest_data::load_json(std::ifstream& is) {
 			itc.at("Name").get_to(name);
 			contests_[name] = contest;
 		}
+	}
+	catch (const json::exception& e) {
+		char msg[128];
+		snprintf(msg, sizeof(msg), "CONTEST: Reading JSON failed %d (%s)\n",
+			e.id, e.what());
+		status_->misc_status(ST_ERROR, msg);
+		return false;
+	}
+	if (is.fail()) return false;
+	else return true;
+}
+
+// Load algorithms from JSON
+bool contest_data::load_algorithms(std::ifstream& is) {
+	json jall;
+	try {
+		is >> jall;
 		// Read in the list of valid algorithms.
 		json ja = jall.at("Algorithms");
 		for (auto& ita : ja) {
@@ -229,7 +276,7 @@ bool contest_data::load_json(std::ifstream& is) {
 	}
 	catch (const json::exception& e) {
 		char msg[128];
-		snprintf(msg, sizeof(msg), "CONTEST: Reading JSON failed %d (%s)\n",
+		snprintf(msg, sizeof(msg), "CONTEST: Reading algorithms JSON failed %d (%s)\n",
 			e.id, e.what());
 		status_->misc_status(ST_ERROR, msg);
 		return false;
@@ -253,6 +300,14 @@ bool contest_data::save_json(std::ofstream& os) {
 		}
 		jall["Contests"].push_back(jc);
 	}
+	os << std::setw(2) << jall << '\n';
+	if (os.fail()) return false;
+	else return true;
+}
+
+// Save algorithms to JSON
+bool contest_data::save_algorithms(std::ofstream& os) {
+	json jall;
 	jall["Algorithms"].clear();
 	for (auto& it : algorithms_) {
 		jall["Algorithms"].push_back(it);

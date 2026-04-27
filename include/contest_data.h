@@ -137,8 +137,13 @@ protected:
 	bool save_data();
 	//! SAve as JSON
 	bool save_json(std::ofstream& os);
+	//! Save algoriths.json to persist the list of available algorithms.
+	bool save_algorithms(std::ofstream& os);
 	//! Load as JSON
 	bool load_json(std::ifstream& is);
+	//! Load algoriths.json to populate the list of available algorithms. 
+	//! This does not load the individual algorithm definition files.
+	bool load_algorithms(std::ifstream& is);
 
 	// The databases 
 	//! Individual contests mapped by ID and index (e.g. year)

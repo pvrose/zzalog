@@ -191,10 +191,10 @@ const std::map < uint8_t, file_control_t > FILE_CONTROL = {
 	{ FILE_STATION, { "station.json", false, false, DEBUG_RESET_STN }},
 	{ FILE_ICON_ZZA, { "rose.png", true, true, 0}},
 	{ FILE_QSL, { "qsl.json", false, false, DEBUG_RESET_QSL }},
-	{ FILE_KEYS, { "keys.json", true, false, DEBUG_RESET_KEYS }}
+	{ FILE_KEYS, { "keys.json", true, false, DEBUG_RESET_KEYS }},
+	{ FILE_CONTESTS, { "contests/algorithms.json", true, false, DEBUG_RESET_TEST, true } }
+	// Individual contest algorithm files will be dynamically added here...
 };
-
-
 
 //! Access to FLTK global attribute to  default text size throughout ZZALOG.
 extern int FL_NORMAL_SIZE;
