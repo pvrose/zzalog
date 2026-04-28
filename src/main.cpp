@@ -1300,9 +1300,17 @@ int main(int argc, char** argv)
 		zc_settings banner_settings(&view_settings, "Banner");
 		int bw = status_->get_banner()->w();
 		int bh = status_->get_banner()->h();
+		int bx = status_->get_banner()->x();
+		int by = status_->get_banner()->y();
 		banner_settings.get("Width", bw, bw);
 		banner_settings.get("Height", bh, bh);
-		status_->get_banner()->size(bw, bh);
+		// Set the banner in the middle of the screen.
+		int sx, sy, sw, sh;
+		Fl::screen_xywh(sx, sy, sw, sh, bx, by);
+		int nx = sx + (sw / 2) - (bw / 2);
+		int ny = sy + (sh / 2) - (bh / 2);
+
+		status_->get_banner()->resize(nx, ny, bw, bh);
 	}
 	// File info
 	file_holder_->display_info();
