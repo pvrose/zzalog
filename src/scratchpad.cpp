@@ -341,7 +341,7 @@ int scratchpad::kf_clear(int c, Fl_Text_Editor* editor) {
 
 
 void scratchpad::update_widget_states() {
-	if (closing_) return;
+//	if (closing_) return;
 
 	// Update the copy text output box to show the currently selected text.
 	op_copy_text_->value(editor_->buffer()->selected() ? editor_->buffer()->selection_text() : "");

@@ -144,7 +144,6 @@ field_input::field_input(int X, int Y, int W, int H, const char* label) :
 }
 
 field_input::~field_input() {
-	update_paste_target(nullptr);
 }
 
 // Override a few events
@@ -166,6 +165,7 @@ int field_input::handle(int event) {
 		if (input()->take_focus()) return true;
 		return Fl_Input_Choice::handle(event);
 	case FL_UNFOCUS:
+		update_paste_target(nullptr);
 		if (tip_window_) {
 			Fl::delete_widget(tip_window_);
 			tip_window_ = nullptr;

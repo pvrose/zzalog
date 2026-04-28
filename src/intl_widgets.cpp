@@ -42,7 +42,6 @@ intl_editor::intl_editor(int X, int Y, int W, int H, const char* label) :
 };
 
 intl_editor::~intl_editor() {
-	update_paste_target(nullptr);
 }
 
 // Event handler - handle event as normal then set the cursor depending on current insert mode
@@ -52,6 +51,9 @@ int intl_editor::handle(int event) {
 	case FL_FOCUS:
 		// Something has tried to give the editor the focus: accept it.
 		update_paste_target(this);
+		return true;
+	case FL_UNFOCUS:
+		update_paste_target(nullptr);
 		return true;
 	default:
 		// Default handling of all events
@@ -75,7 +77,6 @@ intl_input::intl_input(int X, int Y, int W, int H, const char* label) :
 	Fl_Input(X, Y, W, H, label) {};
 
 intl_input::~intl_input() {
-	update_paste_target(nullptr);
 }
 
 // Event handler
@@ -83,10 +84,17 @@ int intl_input::handle(int event) {
 	// Tell international character dialog to paste to this widget
 	switch (event) {
 	case FL_FOCUS:
-		if (intl_dialog_) {
-			update_paste_target(this);
-			return true;
-		}
+		update_paste_target(this);
+		return true;
+		break;
+	case FL_PUSH:
+		// Tell international character dialog to paste to this widget as this is the most recent one to get focus
+		update_paste_target(this);
+		return true;
+		break;
+	case FL_UNFOCUS:
+		update_paste_target(nullptr);
+		return true;
 		break;
 	}
 	return Fl_Input::handle(event);

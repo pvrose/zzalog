@@ -30,6 +30,7 @@
 #include "debug_flags.h"
 #include "eqsl_handler.h"
 #include "extract_data.h"
+#include "field_choice.h"
 #include "fields.h"
 #include "file_types.h"
 #include "fldigi_handler.h"

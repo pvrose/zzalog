@@ -756,6 +756,10 @@ void qso_entry::cb_ch_field(Fl_Widget* w, void* v) {
 // v - index of input widget
 void qso_entry::cb_ip_field(Fl_Widget* w, void* v) {
 	qso_entry* that = zc::ancestor_view<qso_entry>(w);
+	// For some reason we enter here without qso_entry - not sure how but just ignore it if so
+	// From what I can tell it's when the field_input is being destroyed and has lost its parentage
+	// and it receives an UNFOCUS event - ignore it if so
+	if (!that) return;
 	qso_manager* mgr = zc::ancestor_view<qso_manager>(that->qso_data_);
 	// We have no QSO to process - empty file?
 	if (that->qso_ == nullptr) return;

@@ -120,11 +120,13 @@ void qso_net_entry::enable_widgets() {
 
 // Return QSO - return open tab's QSO
 record* qso_net_entry::qso() {
+	if (entry() == nullptr) return nullptr;
 	return entry()->qso();
 }
 
 // Return record number - return open tab;s QSO number
 qso_num_t qso_net_entry::qso_number() {
+	if (entry() == nullptr) return 0;
 	return entry()->qso_number();
 }
 
