@@ -130,6 +130,9 @@ Hamlib can either be compiled from source cloned from github (https://github.com
 or a source tarball at https://hamlib.sourceforge.net/snapshots/. As support of new rigs
 is a continual process, using versions availables from distros is not advised.
 
+Nlohmann/json can either be compiled from source cloned from github (https://github.com/nlohmann/json).
+It is also available in most distros.
+
 Libcurl is available in most distros.
 
 Boost is available in most distros.
