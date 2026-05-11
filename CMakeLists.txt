@@ -382,9 +382,8 @@ file(GLOB CONTEST_FILES "${CMAKE_CURRENT_SOURCE_DIR}/reference/contests/*")
 
 # Generate Windows icon and resource file
 if (MSVC)
-  # Generate ICO file from PNG logo
-  set(ZZALOG_LOGO_PNG "${CMAKE_CURRENT_SOURCE_DIR}/rose.png")
-  set(ZZALOG_ICO_FILE "${ZZALOG_BINARY_DIR}/zzalog.ico")
+  # Include icon generation helper
+  include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/icon_helper.cmake)
 
   # Optional: Set white threshold for transparency (default: 250, range: 0-255)
   # Higher values = more aggressive white removal (e.g., 240 removes near-white)
@@ -393,32 +392,16 @@ if (MSVC)
     set(ZZALOG_ICON_WHITE_THRESHOLD 240)
   endif()
 
-  if(EXISTS "${ZZALOG_LOGO_PNG}")
-    message(STATUS "Generating Windows icon from ${ZZALOG_LOGO_PNG}")
-    execute_process(
-      COMMAND ${CMAKE_COMMAND}
-        -DPNG_FILE=${ZZALOG_LOGO_PNG}
-        -DICO_FILE=${ZZALOG_ICO_FILE}
-        -DWHITE_THRESHOLD=${ZZALOG_ICON_WHITE_THRESHOLD}
-        -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/convert_png_to_ico.cmake
-      RESULT_VARIABLE ICO_RESULT
-      ERROR_VARIABLE ICO_ERROR
-    )
-    if(NOT ICO_RESULT EQUAL 0)
-      message(WARNING "Failed to generate ICO file: ${ICO_ERROR}")
-    endif()
-  else()
-    message(WARNING "Logo file not found: ${ZZALOG_LOGO_PNG}")
-  endif()
-
-  # Configure Windows resource file with version information
-  set(ZZALOG_RC_FILE "${ZZALOG_BINARY_DIR}/zzalog.rc")
-  configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/zzalog.rc.in
-    ${ZZALOG_RC_FILE}
-    @ONLY
+  # Generate icon and resource file
+  generate_windows_icon_and_resource(
+    PNG_FILE "${CMAKE_CURRENT_SOURCE_DIR}/rose.png"
+    RC_TEMPLATE "${CMAKE_CURRENT_SOURCE_DIR}/zzalog.rc.in"
+    WHITE_THRESHOLD ${ZZALOG_ICON_WHITE_THRESHOLD}
   )
-  message(STATUS "Generated Windows resource file: ${ZZALOG_RC_FILE}")
+
+  # Set variables for compatibility with existing code
+  set(ZZALOG_ICO_FILE "${ZZALOG_ICO_FILE}")
+  set(ZZALOG_RC_FILE "${ZZALOG_RC_FILE}")
 endif()
 
 # Define the zzalog executable
