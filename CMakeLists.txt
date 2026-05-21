@@ -18,53 +18,52 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(ZZALOG VERSION 3.6.17)
-set(ZZALOG_SRC_DIR ${ZZALOG_SOURCE_DIR}/src)
-set(ZZALOG_INCLUDE_DIR ${ZZALOG_SOURCE_DIR}/include)
-set(ZZALOG_RC_VALUE "")
 
-## Set program details - used by zzacommon
+# Add shared CMake modules
+# First look in sibling path for development, then in installed location for users
+include(FetchContent)
+
+# Try to find zzacmake as a sibling project first
+set(ZZACMAKE_SIBLING_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../zzacmake")
+if(EXISTS "${ZZACMAKE_SIBLING_DIR}/cmake")
+    set(zzacmake_SOURCE_DIR "${ZZACMAKE_SIBLING_DIR}")
+    message(STATUS "Using zzacmake from sibling project: ${zzacmake_SOURCE_DIR}")
+else()
+    # Fall back to fetching from GitHub
+    FetchContent_Declare(
+        zzacmake
+        GIT_REPOSITORY https://github.com/pvrose/zzacmake.git
+        GIT_TAG main
+    )
+    FetchContent_MakeAvailable(zzacmake)
+    message(STATUS "Fetched zzacmake from GitHub: ${zzacmake_SOURCE_DIR}")
+endif()
+
+list(APPEND CMAKE_MODULE_PATH "${zzacmake_SOURCE_DIR}/cmake")
+
+include(Gm3zzaProjectDefaults)
+include(Gm3zzaVersioning)
+include(Gm3zzaZzacommon)
+include(Gm3zzaResources)
+include(Gm3zzaWindowsRuntime)
+include(Gm3zzaDocs)
+include(deps/hamlib_helper OPTIONAL)
+
+## Set target executable and programme metadata
+set(TARGET zzalog)
 set(APP_VENDOR "GM3ZZA")
 set(APP_NAME "ZZALOG")
+set(APP_RC_VALUE "")
 string(TIMESTAMP APP_TIMESTAMP UTC)
-set(APP_VERSION "${ZZALOG_VERSION}${ZZALOG_RC_VALUE}")
 set(APP_SOURCE_DIR ${ZZALOG_SOURCE_DIR})
 
-## Split version into components for Windows resource file
-string(REPLACE "." ";" VERSION_LIST ${ZZALOG_VERSION})
-list(LENGTH VERSION_LIST VERSION_LIST_LENGTH)
-list(GET VERSION_LIST 0 ZZALOG_VERSION_MAJOR)
-list(GET VERSION_LIST 1 ZZALOG_VERSION_MINOR)
-# Handle PATCH component (default to 0 if not provided)
-if(VERSION_LIST_LENGTH GREATER 2)
-    list(GET VERSION_LIST 2 ZZALOG_VERSION_PATCH)
-else()
-    set(ZZALOG_VERSION_PATCH 0)
-endif()
-# Handle TWEAK component (default to 0 if not provided)
-if(VERSION_LIST_LENGTH GREATER 3)
-    list(GET VERSION_LIST 3 ZZALOG_VERSION_TWEAK)
-else()
-    set(ZZALOG_VERSION_TWEAK 0)
-endif()
+## Initialise defaults and settings
+gm3zza_project_defaults()
+gm3zza_set_default_install_dirs("${APP_NAME}")
+gm3zza_split_version(${PROJECT_NAME})
 
-## Set target executable
-set(TARGET zzalog)
-set(BUILD_SHARED_LIBS OFF)
-
-## Set C++ requirements.
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-## Enable compile_commands.json generation for IntelliSense
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-## Set home directory per OS.
-if(MSVC)
-  set(USER_HOME_DIR $ENV{USERPROFILE})
-else()
-  set(USER_HOME_DIR $ENV{HOME})
-endif()
+## Set version string for app.cpp.in
+set(APP_VERSION "${ZZALOG_VERSION}${APP_RC_VALUE}")
 
 # generate documents - add switches for conditional build.
 option(ZZALOG_DOX "Generate Documentation" OFF)
@@ -74,342 +73,271 @@ option(ZZALOG_PDF "Generate PDF Document" OFF)
 option(ZZALOG_PDB "Generate PDB files for debugging (MSVC only)" OFF)
 
 # All the source .cpp files
-set(ZZALOG_CPPFILES 
-  ${ZZALOG_SRC_DIR}/about_dialog.cpp
-  ${ZZALOG_SRC_DIR}/adi_reader.cpp
-  ${ZZALOG_SRC_DIR}/adi_writer.cpp
-  ${ZZALOG_BINARY_DIR}/src/app.cpp
-  ${ZZALOG_SRC_DIR}/band_data.cpp
-  ${ZZALOG_SRC_DIR}/band_editor.cpp
-  ${ZZALOG_SRC_DIR}/band_widget.cpp
-  ${ZZALOG_SRC_DIR}/band_window.cpp
-  ${ZZALOG_SRC_DIR}/book.cpp
-  ${ZZALOG_SRC_DIR}/bumr_dialog.cpp
-  ${ZZALOG_SRC_DIR}/change_dialog.cpp
-  ${ZZALOG_SRC_DIR}/club_handler.cpp
-  ${ZZALOG_SRC_DIR}/condx_view.cpp
-  ${ZZALOG_SRC_DIR}/config.cpp
-  ${ZZALOG_SRC_DIR}/contest_algo.cpp
-  ${ZZALOG_SRC_DIR}/contest_data.cpp
-  ${ZZALOG_SRC_DIR}/contest_dialog.cpp
-  ${ZZALOG_SRC_DIR}/contest_scorer.cpp
-  ${ZZALOG_SRC_DIR}/corr_dialog.cpp
-  ${ZZALOG_SRC_DIR}/cty1_reader.cpp
-  ${ZZALOG_SRC_DIR}/cty2_reader.cpp
-  ${ZZALOG_SRC_DIR}/cty3_reader.cpp
-  ${ZZALOG_SRC_DIR}/cty4_reader.cpp
-  ${ZZALOG_SRC_DIR}/cty_data.cpp
-  ${ZZALOG_SRC_DIR}/cty_dialog.cpp
-  ${ZZALOG_SRC_DIR}/cty_element.cpp
-  ${ZZALOG_SRC_DIR}/cty_tree.cpp
-  ${ZZALOG_SRC_DIR}/dxcc_table.cpp
-  ${ZZALOG_SRC_DIR}/dxcc_view.cpp
-  ${ZZALOG_SRC_DIR}/eqsl_handler.cpp
-  ${ZZALOG_SRC_DIR}/extract_data.cpp
-  ${ZZALOG_SRC_DIR}/field_choice.cpp
-  ${ZZALOG_SRC_DIR}/fields.cpp
-  ${ZZALOG_SRC_DIR}/fields_dialog.cpp
-  ${ZZALOG_SRC_DIR}/fldigi_handler.cpp
-  ${ZZALOG_SRC_DIR}/import_data.cpp
-  ${ZZALOG_SRC_DIR}/init_dialog.cpp
-  ${ZZALOG_SRC_DIR}/intl_dialog.cpp
-  ${ZZALOG_SRC_DIR}/intl_widgets.cpp
-  ${ZZALOG_SRC_DIR}/keyring.cpp
-  ${ZZALOG_SRC_DIR}/log_table.cpp
-  ${ZZALOG_SRC_DIR}/lotw_handler.cpp
-  ${ZZALOG_SRC_DIR}/main.cpp
-  ${ZZALOG_SRC_DIR}/main_window.cpp
-  ${ZZALOG_SRC_DIR}/menu_bar.cpp
-  ${ZZALOG_SRC_DIR}/page_dialog.cpp
-  ${ZZALOG_SRC_DIR}/png_writer.cpp
-  ${ZZALOG_SRC_DIR}/printer.cpp
-  ${ZZALOG_SRC_DIR}/qrz_handler.cpp
-  ${ZZALOG_SRC_DIR}/qsl_dataset.cpp
-  ${ZZALOG_SRC_DIR}/qsl_display.cpp
-  ${ZZALOG_SRC_DIR}/qsl_editor.cpp
-  ${ZZALOG_SRC_DIR}/qsl_emailer.cpp
-  ${ZZALOG_SRC_DIR}/qsl_image.cpp
-  ${ZZALOG_SRC_DIR}/qsl_widget.cpp
-  ${ZZALOG_SRC_DIR}/qso_apps.cpp
-  ${ZZALOG_SRC_DIR}/qso_bands.cpp
-  ${ZZALOG_SRC_DIR}/qso_buttons.cpp
-  ${ZZALOG_SRC_DIR}/qso_clock.cpp
-  ${ZZALOG_SRC_DIR}/qso_clocks.cpp
-  ${ZZALOG_SRC_DIR}/qso_data.cpp
-  ${ZZALOG_SRC_DIR}/qso_details.cpp
-  ${ZZALOG_SRC_DIR}/qso_dxcc.cpp
-  ${ZZALOG_SRC_DIR}/qso_entry.cpp
-  ${ZZALOG_SRC_DIR}/qso_log.cpp
-  ${ZZALOG_SRC_DIR}/qso_log_info.cpp
-  ${ZZALOG_SRC_DIR}/qso_manager.cpp
-  ${ZZALOG_SRC_DIR}/qso_misc.cpp
-  ${ZZALOG_SRC_DIR}/qso_net_entry.cpp
-  ${ZZALOG_SRC_DIR}/qso_operation.cpp
-  ${ZZALOG_SRC_DIR}/qso_qsl.cpp
-  ${ZZALOG_SRC_DIR}/qso_qsl_vwr.cpp
-  ${ZZALOG_SRC_DIR}/qso_query.cpp
-  ${ZZALOG_SRC_DIR}/qso_rig.cpp
-  ${ZZALOG_SRC_DIR}/qso_tabbed_rigs.cpp
-  ${ZZALOG_SRC_DIR}/qso_wx.cpp
-  ${ZZALOG_SRC_DIR}/record.cpp
-  ${ZZALOG_SRC_DIR}/record_table.cpp
-  ${ZZALOG_SRC_DIR}/report_tree.cpp
-  ${ZZALOG_SRC_DIR}/rig_data.cpp
-  ${ZZALOG_SRC_DIR}/rig_if.cpp
-  ${ZZALOG_SRC_DIR}/scratchpad.cpp
-  ${ZZALOG_SRC_DIR}/search_dialog.cpp
-  ${ZZALOG_SRC_DIR}/spec_data.cpp
-  ${ZZALOG_SRC_DIR}/spec_tree.cpp
-  ${ZZALOG_SRC_DIR}/stn_call_dlg.cpp
-  ${ZZALOG_SRC_DIR}/stn_data.cpp
-  ${ZZALOG_SRC_DIR}/stn_dialog.cpp
-  ${ZZALOG_SRC_DIR}/stn_oper_dlg.cpp
-  ${ZZALOG_SRC_DIR}/stn_qth_dlg.cpp
-  ${ZZALOG_SRC_DIR}/tabbed_forms.cpp
-  ${ZZALOG_SRC_DIR}/toolbar.cpp
-  ${ZZALOG_SRC_DIR}/user_dialog.cpp
-  ${ZZALOG_SRC_DIR}/view.cpp
-  ${ZZALOG_SRC_DIR}/web_dialog.cpp
-  ${ZZALOG_SRC_DIR}/win_dialog.cpp
-  ${ZZALOG_SRC_DIR}/wsjtx_handler.cpp
-  ${ZZALOG_SRC_DIR}/wx_handler.cpp
+set(CPPFILES 
+  ${ZZALOG_SOURCE_DIR}/src/about_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/adi_reader.cpp
+  ${ZZALOG_SOURCE_DIR}/src/adi_writer.cpp
+  ${ZZALOG_SOURCE_DIR}/src/band_data.cpp
+  ${ZZALOG_SOURCE_DIR}/src/band_editor.cpp
+  ${ZZALOG_SOURCE_DIR}/src/band_widget.cpp
+  ${ZZALOG_SOURCE_DIR}/src/band_window.cpp
+  ${ZZALOG_SOURCE_DIR}/src/book.cpp
+  ${ZZALOG_SOURCE_DIR}/src/bumr_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/change_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/club_handler.cpp
+  ${ZZALOG_SOURCE_DIR}/src/condx_view.cpp
+  ${ZZALOG_SOURCE_DIR}/src/config.cpp
+  ${ZZALOG_SOURCE_DIR}/src/contest_algo.cpp
+  ${ZZALOG_SOURCE_DIR}/src/contest_data.cpp
+  ${ZZALOG_SOURCE_DIR}/src/contest_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/contest_scorer.cpp
+  ${ZZALOG_SOURCE_DIR}/src/corr_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/cty1_reader.cpp
+  ${ZZALOG_SOURCE_DIR}/src/cty2_reader.cpp
+  ${ZZALOG_SOURCE_DIR}/src/cty3_reader.cpp
+  ${ZZALOG_SOURCE_DIR}/src/cty4_reader.cpp
+  ${ZZALOG_SOURCE_DIR}/src/cty_data.cpp
+  ${ZZALOG_SOURCE_DIR}/src/cty_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/cty_element.cpp
+  ${ZZALOG_SOURCE_DIR}/src/cty_tree.cpp
+  ${ZZALOG_SOURCE_DIR}/src/dxcc_table.cpp
+  ${ZZALOG_SOURCE_DIR}/src/dxcc_view.cpp
+  ${ZZALOG_SOURCE_DIR}/src/eqsl_handler.cpp
+  ${ZZALOG_SOURCE_DIR}/src/extract_data.cpp
+  ${ZZALOG_SOURCE_DIR}/src/field_choice.cpp
+  ${ZZALOG_SOURCE_DIR}/src/fields.cpp
+  ${ZZALOG_SOURCE_DIR}/src/fields_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/fldigi_handler.cpp
+  ${ZZALOG_SOURCE_DIR}/src/import_data.cpp
+  ${ZZALOG_SOURCE_DIR}/src/init_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/intl_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/intl_widgets.cpp
+  ${ZZALOG_SOURCE_DIR}/src/keyring.cpp
+  ${ZZALOG_SOURCE_DIR}/src/log_table.cpp
+  ${ZZALOG_SOURCE_DIR}/src/lotw_handler.cpp
+  ${ZZALOG_SOURCE_DIR}/src/main.cpp
+  ${ZZALOG_SOURCE_DIR}/src/main_window.cpp
+  ${ZZALOG_SOURCE_DIR}/src/menu_bar.cpp
+  ${ZZALOG_SOURCE_DIR}/src/page_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/png_writer.cpp
+  ${ZZALOG_SOURCE_DIR}/src/printer.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qrz_handler.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qsl_dataset.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qsl_display.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qsl_editor.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qsl_emailer.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qsl_image.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qsl_widget.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_apps.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_bands.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_buttons.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_clock.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_clocks.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_data.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_details.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_dxcc.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_entry.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_log.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_log_info.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_manager.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_misc.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_net_entry.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_operation.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_qsl.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_qsl_vwr.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_query.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_rig.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_tabbed_rigs.cpp
+  ${ZZALOG_SOURCE_DIR}/src/qso_wx.cpp
+  ${ZZALOG_SOURCE_DIR}/src/record.cpp
+  ${ZZALOG_SOURCE_DIR}/src/record_table.cpp
+  ${ZZALOG_SOURCE_DIR}/src/report_tree.cpp
+  ${ZZALOG_SOURCE_DIR}/src/rig_data.cpp
+  ${ZZALOG_SOURCE_DIR}/src/rig_if.cpp
+  ${ZZALOG_SOURCE_DIR}/src/scratchpad.cpp
+  ${ZZALOG_SOURCE_DIR}/src/search_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/spec_data.cpp
+  ${ZZALOG_SOURCE_DIR}/src/spec_tree.cpp
+  ${ZZALOG_SOURCE_DIR}/src/stn_call_dlg.cpp
+  ${ZZALOG_SOURCE_DIR}/src/stn_data.cpp
+  ${ZZALOG_SOURCE_DIR}/src/stn_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/stn_oper_dlg.cpp
+  ${ZZALOG_SOURCE_DIR}/src/stn_qth_dlg.cpp
+  ${ZZALOG_SOURCE_DIR}/src/tabbed_forms.cpp
+  ${ZZALOG_SOURCE_DIR}/src/toolbar.cpp
+  ${ZZALOG_SOURCE_DIR}/src/user_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/view.cpp
+  ${ZZALOG_SOURCE_DIR}/src/web_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/win_dialog.cpp
+  ${ZZALOG_SOURCE_DIR}/src/wsjtx_handler.cpp
+  ${ZZALOG_SOURCE_DIR}/src/wx_handler.cpp
 
 )
 
 ## All the header files - required for API documentation.
-set( ZZALOG_HPPFILES
-  ${ZZALOG_INCLUDE_DIR}/about_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/adi_reader.h
-  ${ZZALOG_INCLUDE_DIR}/adi_writer.h
-  ${ZZALOG_INCLUDE_DIR}/band_data.h
-  ${ZZALOG_INCLUDE_DIR}/band_editor.h
-  ${ZZALOG_INCLUDE_DIR}/band.h
-  ${ZZALOG_INCLUDE_DIR}/band_widget.h
-  ${ZZALOG_INCLUDE_DIR}/band_window.h
-  ${ZZALOG_INCLUDE_DIR}/book.h
-  ${ZZALOG_INCLUDE_DIR}/bumr_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/change_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/club_handler.h
-  ${ZZALOG_INCLUDE_DIR}/condx_view.h
-  ${ZZALOG_INCLUDE_DIR}/config.h
-  ${ZZALOG_INCLUDE_DIR}/contest_algo.h
-  ${ZZALOG_INCLUDE_DIR}/contest_data.h
-  ${ZZALOG_INCLUDE_DIR}/contest_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/contest_scorer.h
-  ${ZZALOG_INCLUDE_DIR}/corr_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/cty1_reader.h
-  ${ZZALOG_INCLUDE_DIR}/cty2_reader.h
-  ${ZZALOG_INCLUDE_DIR}/cty3_reader.h
-  ${ZZALOG_INCLUDE_DIR}/cty4_reader.h
-  ${ZZALOG_INCLUDE_DIR}/cty_data.h
-  ${ZZALOG_INCLUDE_DIR}/cty_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/cty_element.h
-  ${ZZALOG_INCLUDE_DIR}/cty_tree.h
-  ${ZZALOG_INCLUDE_DIR}/dxcc_table.h
-  ${ZZALOG_INCLUDE_DIR}/dxcc_view.h
-  ${ZZALOG_INCLUDE_DIR}/eqsl_handler.h
-  ${ZZALOG_INCLUDE_DIR}/extract_data.h
-  ${ZZALOG_INCLUDE_DIR}/field_choice.h
-  ${ZZALOG_INCLUDE_DIR}/fields_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/fields.h
-  ${ZZALOG_INCLUDE_DIR}/fldigi_handler.h
-  ${ZZALOG_INCLUDE_DIR}/icons.h
-  ${ZZALOG_INCLUDE_DIR}/import_data.h
-  ${ZZALOG_INCLUDE_DIR}/init_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/intl_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/intl_widgets.h
-  ${ZZALOG_INCLUDE_DIR}/keyring.h
-  ${ZZALOG_INCLUDE_DIR}/log_table.h
-  ${ZZALOG_INCLUDE_DIR}/lotw_handler.h
-  ${ZZALOG_INCLUDE_DIR}/main.h
-  ${ZZALOG_INCLUDE_DIR}/main_window.h
-  ${ZZALOG_INCLUDE_DIR}/menu_bar.h
-  ${ZZALOG_INCLUDE_DIR}/objects.h
-  ${ZZALOG_INCLUDE_DIR}/page_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/png_writer.h
-  ${ZZALOG_INCLUDE_DIR}/printer.h
-  ${ZZALOG_INCLUDE_DIR}/qrz_handler.h
-  ${ZZALOG_INCLUDE_DIR}/qsl_data.h
-  ${ZZALOG_INCLUDE_DIR}/qsl_dataset.h
-  ${ZZALOG_INCLUDE_DIR}/qsl_display.h
-  ${ZZALOG_INCLUDE_DIR}/qsl_editor.h
-  ${ZZALOG_INCLUDE_DIR}/qsl_emailer.h
-  ${ZZALOG_INCLUDE_DIR}/qsl_image.h
-  ${ZZALOG_INCLUDE_DIR}/qsl_widget.h
-  ${ZZALOG_INCLUDE_DIR}/qso_apps.h
-  ${ZZALOG_INCLUDE_DIR}/qso_bands.h
-  ${ZZALOG_INCLUDE_DIR}/qso_buttons.h
-  ${ZZALOG_INCLUDE_DIR}/qso_clock.h
-  ${ZZALOG_INCLUDE_DIR}/qso_clocks.h
-  ${ZZALOG_INCLUDE_DIR}/qso_data.h
-  ${ZZALOG_INCLUDE_DIR}/qso_details.h
-  ${ZZALOG_INCLUDE_DIR}/qso_dxcc.h
-  ${ZZALOG_INCLUDE_DIR}/qso_entry.h
-  ${ZZALOG_INCLUDE_DIR}/qso_log.h
-  ${ZZALOG_INCLUDE_DIR}/qso_log_info.h
-  ${ZZALOG_INCLUDE_DIR}/qso_manager.h
-  ${ZZALOG_INCLUDE_DIR}/qso_misc.h
-  ${ZZALOG_INCLUDE_DIR}/qso_net_entry.h
-  ${ZZALOG_INCLUDE_DIR}/qso_operation.h
-  ${ZZALOG_INCLUDE_DIR}/qso_qsl.h
-  ${ZZALOG_INCLUDE_DIR}/qso_qsl_vwr.h
-  ${ZZALOG_INCLUDE_DIR}/qso_query.h
-  ${ZZALOG_INCLUDE_DIR}/qso_rig.h
-  ${ZZALOG_INCLUDE_DIR}/qso_tabbed_rigs.h
-  ${ZZALOG_INCLUDE_DIR}/qso_wx.h
-  ${ZZALOG_INCLUDE_DIR}/record.h
-  ${ZZALOG_INCLUDE_DIR}/record_table.h
-  ${ZZALOG_INCLUDE_DIR}/regices.h
-  ${ZZALOG_INCLUDE_DIR}/report_tree.h
-  ${ZZALOG_INCLUDE_DIR}/rig_data.h
-  ${ZZALOG_INCLUDE_DIR}/rig_if.h
-  ${ZZALOG_INCLUDE_DIR}/scratchpad.h
-  ${ZZALOG_INCLUDE_DIR}/search_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/search.h
-  ${ZZALOG_INCLUDE_DIR}/spec_data.h
-  ${ZZALOG_INCLUDE_DIR}/spec_tree.h
-  ${ZZALOG_INCLUDE_DIR}/stn_call_dlg.h
-  ${ZZALOG_INCLUDE_DIR}/stn_data.h
-  ${ZZALOG_INCLUDE_DIR}/stn_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/stn_oper_dlg.h
-  ${ZZALOG_INCLUDE_DIR}/stn_qth_dlg.h
-  ${ZZALOG_INCLUDE_DIR}/tabbed_forms.h
-  ${ZZALOG_INCLUDE_DIR}/toolbar.h
-  ${ZZALOG_INCLUDE_DIR}/user_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/view.h
-  ${ZZALOG_INCLUDE_DIR}/web_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/win_dialog.h
-  ${ZZALOG_INCLUDE_DIR}/wsjtx_handler.h
-  ${ZZALOG_INCLUDE_DIR}/wx_handler.h
+set(HPPFILES
+  ${ZZALOG_SOURCE_DIR}/include/about_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/adi_reader.h
+  ${ZZALOG_SOURCE_DIR}/include/adi_writer.h
+  ${ZZALOG_SOURCE_DIR}/include/band_data.h
+  ${ZZALOG_SOURCE_DIR}/include/band_editor.h
+  ${ZZALOG_SOURCE_DIR}/include/band.h
+  ${ZZALOG_SOURCE_DIR}/include/band_widget.h
+  ${ZZALOG_SOURCE_DIR}/include/band_window.h
+  ${ZZALOG_SOURCE_DIR}/include/book.h
+  ${ZZALOG_SOURCE_DIR}/include/bumr_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/change_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/club_handler.h
+  ${ZZALOG_SOURCE_DIR}/include/condx_view.h
+  ${ZZALOG_SOURCE_DIR}/include/config.h
+  ${ZZALOG_SOURCE_DIR}/include/contest_algo.h
+  ${ZZALOG_SOURCE_DIR}/include/contest_data.h
+  ${ZZALOG_SOURCE_DIR}/include/contest_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/contest_scorer.h
+  ${ZZALOG_SOURCE_DIR}/include/corr_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/cty1_reader.h
+  ${ZZALOG_SOURCE_DIR}/include/cty2_reader.h
+  ${ZZALOG_SOURCE_DIR}/include/cty3_reader.h
+  ${ZZALOG_SOURCE_DIR}/include/cty4_reader.h
+  ${ZZALOG_SOURCE_DIR}/include/cty_data.h
+  ${ZZALOG_SOURCE_DIR}/include/cty_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/cty_element.h
+  ${ZZALOG_SOURCE_DIR}/include/cty_tree.h
+  ${ZZALOG_SOURCE_DIR}/include/dxcc_table.h
+  ${ZZALOG_SOURCE_DIR}/include/dxcc_view.h
+  ${ZZALOG_SOURCE_DIR}/include/eqsl_handler.h
+  ${ZZALOG_SOURCE_DIR}/include/extract_data.h
+  ${ZZALOG_SOURCE_DIR}/include/field_choice.h
+  ${ZZALOG_SOURCE_DIR}/include/fields_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/fields.h
+  ${ZZALOG_SOURCE_DIR}/include/fldigi_handler.h
+  ${ZZALOG_SOURCE_DIR}/include/icons.h
+  ${ZZALOG_SOURCE_DIR}/include/import_data.h
+  ${ZZALOG_SOURCE_DIR}/include/init_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/intl_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/intl_widgets.h
+  ${ZZALOG_SOURCE_DIR}/include/keyring.h
+  ${ZZALOG_SOURCE_DIR}/include/log_table.h
+  ${ZZALOG_SOURCE_DIR}/include/lotw_handler.h
+  ${ZZALOG_SOURCE_DIR}/include/main.h
+  ${ZZALOG_SOURCE_DIR}/include/main_window.h
+  ${ZZALOG_SOURCE_DIR}/include/menu_bar.h
+  ${ZZALOG_SOURCE_DIR}/include/objects.h
+  ${ZZALOG_SOURCE_DIR}/include/page_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/png_writer.h
+  ${ZZALOG_SOURCE_DIR}/include/printer.h
+  ${ZZALOG_SOURCE_DIR}/include/qrz_handler.h
+  ${ZZALOG_SOURCE_DIR}/include/qsl_data.h
+  ${ZZALOG_SOURCE_DIR}/include/qsl_dataset.h
+  ${ZZALOG_SOURCE_DIR}/include/qsl_display.h
+  ${ZZALOG_SOURCE_DIR}/include/qsl_editor.h
+  ${ZZALOG_SOURCE_DIR}/include/qsl_emailer.h
+  ${ZZALOG_SOURCE_DIR}/include/qsl_image.h
+  ${ZZALOG_SOURCE_DIR}/include/qsl_widget.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_apps.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_bands.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_buttons.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_clock.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_clocks.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_data.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_details.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_dxcc.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_entry.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_log.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_log_info.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_manager.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_misc.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_net_entry.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_operation.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_qsl.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_qsl_vwr.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_query.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_rig.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_tabbed_rigs.h
+  ${ZZALOG_SOURCE_DIR}/include/qso_wx.h
+  ${ZZALOG_SOURCE_DIR}/include/record.h
+  ${ZZALOG_SOURCE_DIR}/include/record_table.h
+  ${ZZALOG_SOURCE_DIR}/include/regices.h
+  ${ZZALOG_SOURCE_DIR}/include/report_tree.h
+  ${ZZALOG_SOURCE_DIR}/include/rig_data.h
+  ${ZZALOG_SOURCE_DIR}/include/rig_if.h
+  ${ZZALOG_SOURCE_DIR}/include/scratchpad.h
+  ${ZZALOG_SOURCE_DIR}/include/search_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/search.h
+  ${ZZALOG_SOURCE_DIR}/include/spec_data.h
+  ${ZZALOG_SOURCE_DIR}/include/spec_tree.h
+  ${ZZALOG_SOURCE_DIR}/include/stn_call_dlg.h
+  ${ZZALOG_SOURCE_DIR}/include/stn_data.h
+  ${ZZALOG_SOURCE_DIR}/include/stn_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/stn_oper_dlg.h
+  ${ZZALOG_SOURCE_DIR}/include/stn_qth_dlg.h
+  ${ZZALOG_SOURCE_DIR}/include/tabbed_forms.h
+  ${ZZALOG_SOURCE_DIR}/include/toolbar.h
+  ${ZZALOG_SOURCE_DIR}/include/user_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/view.h
+  ${ZZALOG_SOURCE_DIR}/include/web_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/win_dialog.h
+  ${ZZALOG_SOURCE_DIR}/include/wsjtx_handler.h
+  ${ZZALOG_SOURCE_DIR}/include/wx_handler.h
 )
 
-# Generate PDB files for all configurations on MSVC
-if(MSVC AND ZZALOG_PDB)
-  # For RelWithDebInfo and Release builds
-  string(APPEND CMAKE_CXX_FLAGS_RELWITHDEBINFO " /Zi")
-  string(APPEND CMAKE_CXX_FLAGS_RELEASE " /Zi")
-  string(APPEND CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO " /DEBUG /OPT:REF /OPT:ICF")
-  string(APPEND CMAKE_EXE_LINKER_FLAGS_RELEASE " /DEBUG /OPT:REF /OPT:ICF")
-endif()
-
-
-# set directory to install executable, reference data and documents.
-if (MSVC)
-  set(CMAKE_INSTALL_RPATH etc)
-else()
-  set(CMAKE_INSTALL_RPATH etc/${TARGET})
-endif()
-message(STATUS "Reference data will be copied to ${CMAKE_INSTALL_RPATH}")
-
-# Set target directory for .dlls and development-mode data
-set (ZZALOG_RUN_DIR ${ZZALOG_BINARY_DIR})
-
-# set compiler options
-if (MSVC)
-else()
-  add_compile_options(-g)
-endif()
-
-# Set CMake module path to pick up local CMake modules
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-# Set CMake prefix path to pick up vcpkg-installed packages
-list(APPEND CMAKE_PREFIX_PATH "${VCPKG_ROOT}/installed/x64-windows/share")
-include(hamlib_helper)
-
-find_hamlib()
-
-# Add ZZACOMMON
-if (ZZALOG_DOX)
-  # If generating documentation, ensure zzacommon API docs are generated first
-  set(ZZACOMMON_DOX ON CACHE BOOL "Generate documentation for zzacommon" FORCE)
-endif()
-# Try to find zzacommon locally first (sibling directory), fall back to downloading
-if(CMAKE_BUILD_TYPE)
-  # Single-config generator (Unix Makefiles, Ninja): use specific build type
-  string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE_LOWER)
-  list(APPEND CMAKE_PREFIX_PATH 
-    "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/build/x64-${BUILD_TYPE_LOWER}"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/install/x64-${BUILD_TYPE_LOWER}"
-  )
-endif()
-# Multi-config generator (Visual Studio) or fallback: include both
-list(APPEND CMAKE_PREFIX_PATH 
-  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/build/x64-debug"
-  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/build/x64-release"
-  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/install/x64-debug"
-  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/out/install/x64-release"
-  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/build"
-  "${CMAKE_CURRENT_SOURCE_DIR}/../zzacommon/install"
-)
-
-include(FetchContent)
-
-# Ensure FetchContent fallback builds the same zzacommon components expected by this project.
-set(ZZACOMMON_COMPONENTS "zzaf;zzab;zzax;zzam;zzafb;zzad")
-
-FetchContent_Declare(
-  zzacommon
-  GIT_REPOSITORY https://github.com/pvrose/zzacommon.git
-  GIT_TAG v1.1.2.1
-  FIND_PACKAGE_ARGS NAMES zzacommon COMPONENTS zzaf zzam zzafb zzad zzab zzax
-)
-FetchContent_MakeAvailable(zzacommon)
-
-configure_file(
-  ${ZZALOG_SOURCE_DIR}/src/app.cpp.in
-  ${ZZALOG_BINARY_DIR}/src/app.cpp
-  @ONLY
-)
 
 ## Reference data
 set(DATAFILES
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/all.json
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/band_plan.json
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/cty.csv
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/cty.xml
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/Prefix.lst
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/iso.csv
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/intl_chars.txt
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/google-maps.png
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/pdf.png
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/qrz_1.jpg
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/rose.png
-  ${CMAKE_CURRENT_SOURCE_DIR}/reference/keys.json
+  ${ZZALOG_SOURCE_DIR}/reference/all.json
+  ${ZZALOG_SOURCE_DIR}/reference/band_plan.json
+  ${ZZALOG_SOURCE_DIR}/reference/cty.csv
+  ${ZZALOG_SOURCE_DIR}/reference/cty.xml
+  ${ZZALOG_SOURCE_DIR}/reference/Prefix.lst
+  ${ZZALOG_SOURCE_DIR}/reference/iso.csv
+  ${ZZALOG_SOURCE_DIR}/reference/intl_chars.txt
+  ${ZZALOG_SOURCE_DIR}/reference/google-maps.png
+  ${ZZALOG_SOURCE_DIR}/reference/pdf.png
+  ${ZZALOG_SOURCE_DIR}/reference/qrz_1.jpg
+  ${ZZALOG_SOURCE_DIR}/rose.png
+  ${ZZALOG_SOURCE_DIR}/reference/keys.json
 )
+
+## Generate Windows icon and resource file
+if(MSVC)
+  if(NOT DEFINED ZZALOG_ICON_WHITE_THRESHOLD)
+    set(ZZALOG_ICON_WHITE_THRESHOLD 240)
+  endif()
+  
+  gm3zza_enable_windows_icon(
+    TARGET ${TARGET}
+    PNG_FILE "${ZZALOG_SOURCE_DIR}/rose.png"
+    RC_TEMPLATE "${ZZALOG_SOURCE_DIR}/zzalog.rc.in"
+    WHITE_THRESHOLD ${ZZALOG_ICON_WHITE_THRESHOLD}
+    OUTPUT_VAR APP_RC_FILE
+  )
+endif()
+
+## Source file generation in binary tree
+gm3zza_generate_app_source(
+  INPUT "${ZZALOG_SOURCE_DIR}/src/app.cpp.in"
+  OUTPUT_VAR GENERATED_APP_CPP
+)
+
+set(ALL_CPPFILES ${GENERATED_APP_CPP} ${CPPFILES})
+
+gm3zza_find_hamlib()
+
+
+## Use shared zzacommon (includes zzaf, zzam, zzad, zzab, zzafb)
+gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG master)
+
 
 ## Add all contest algorithm files to separate list
 file(GLOB CONTEST_FILES "${CMAKE_CURRENT_SOURCE_DIR}/reference/contests/*")
 
-# Generate Windows icon and resource file
-if (MSVC)
-  # Include icon generation helper
-  include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/icon_helper.cmake)
-
-  # Optional: Set white threshold for transparency (default: 250, range: 0-255)
-  # Higher values = more aggressive white removal (e.g., 240 removes near-white)
-  # Lower values = only pure white removed (e.g., 254 removes almost pure white)
-  if(NOT DEFINED ZZALOG_ICON_WHITE_THRESHOLD)
-    set(ZZALOG_ICON_WHITE_THRESHOLD 240)
-  endif()
-
-  # Generate icon and resource file
-  generate_windows_icon_and_resource(
-    PNG_FILE "${CMAKE_CURRENT_SOURCE_DIR}/rose.png"
-    RC_TEMPLATE "${CMAKE_CURRENT_SOURCE_DIR}/zzalog.rc.in"
-    WHITE_THRESHOLD ${ZZALOG_ICON_WHITE_THRESHOLD}
-  )
-
-  # Set variables for compatibility with existing code
-  set(ZZALOG_ICO_FILE "${ZZALOG_ICO_FILE}")
-  set(ZZALOG_RC_FILE "${ZZALOG_RC_FILE}")
-endif()
-
-# Define the zzalog executable
+## Define the zzalog executable
 if (MSVC)
   add_executable(${TARGET} WIN32 ${ZZALOG_RC_FILE})
 else()
   add_executable(${TARGET} WIN32)
 endif()
+
 # Ensure external projects are built before linking zzalog
 add_dependencies(${TARGET} 
   zzacommon::zzaf
@@ -422,12 +350,12 @@ add_dependencies(${TARGET}
 
 ## Set header include directoies.
 target_include_directories(${TARGET} PRIVATE 
-  ${ZZALOG_INCLUDE_DIR} 
-  ${ZZALOG_SOURCE_DIR}/contests/include
+  ${ZZALOG_SOURCE_DIR}/include 
   ${ZZACOMMON_INCLUDE_DIR}
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
 )
+
 ## Extra include directories required on MSVC
 if (MSVC)
   message(STATUS "Including other libraries for MSVC from ${USER_HOME_DIR}")
@@ -438,7 +366,7 @@ if (MSVC)
 endif()
 
 ## Define sources to be compiled.
-target_sources(${TARGET} PRIVATE ${ZZALOG_CPPFILES})
+target_sources(${TARGET} PRIVATE ${ALL_CPPFILES})
 
 ## Define libraries to be linked in.
 target_link_libraries(${TARGET} PRIVATE 
@@ -451,113 +379,77 @@ target_link_libraries(${TARGET} PRIVATE
   zzacommon::zzam
 )
 
-  ## Automatically copy zlib1.dll and Boost DLLs to the output directory
-  zzacommon_copy_runtime_dlls(${TARGET})
+## Automatically copy zlib1.dll and Boost DLLs to the output directory
+zzacommon_copy_runtime_dlls(${TARGET})
+  
+## Stage runtime assets for development
+gm3zza_stage_runtime_files(TARGET ${TARGET} FILES ${DATAFILES})
+gm3zza_stage_runtime_files(TARGET ${TARGET} FILES ${CONTEST_FILES} DEST_SUBDIR contests)
+
+## Copy runtime DLLs for development
+gm3zza_copy_runtime_dlls(TARGET ${TARGET})
 
 
-# Copy runtime DLLs to build directory for MSVC
-if (MSVC)
-  # Get the parent project's binary directory
-  set(RUNTIME_OUTPUT_DIR ${CMAKE_BINARY_DIR})
-
-  # Use CMake's automatic runtime DLL detection
-  add_custom_command(TARGET ${TARGET} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-      $<TARGET_RUNTIME_DLLS:${TARGET}>
-      ${RUNTIME_OUTPUT_DIR}
-    COMMAND_EXPAND_LISTS
-    COMMENT "Copying runtime DLLs to ${RUNTIME_OUTPUT_DIR}"
-  )
-
-
-endif()
-
-
-
-# copy reference data
-add_custom_target(reference_data ALL)
-message(STATUS "Reference data: ${DATAFILES}")
-message(STATUS "Contest files: ${CONTEST_FILES}")
-
-# Copy main reference files to root
-file(COPY ${DATAFILES}
-  DESTINATION ${ZZALOG_RUN_DIR}
-  USE_SOURCE_PERMISSIONS
-)
-
-# Copy contest algorithm files to separate subdirectory
-file(COPY ${CONTEST_FILES}
-  DESTINATION ${ZZALOG_RUN_DIR}/contests
-  USE_SOURCE_PERMISSIONS
-)
-
-# Generate documents - generate userguide.
-if(ZZALOG_DOX) 
-  message(STATUS "ZZALOG: Adding userguide")
-  add_subdirectory(userguide)
-  add_dependencies(${TARGET} ug_html)
-  if (ZZALOG_PDF)
-      message(STATUS "ZZALOG: Adding userguide PDF")
-      add_dependencies(${TARGET} pdf)
-  endif()
-  message(STATUS "ZZALOG: Adding API documentation")
-  add_subdirectory(api)
-  add_dependencies(${TARGET} api_html)
-  zzacommon_copy_api_docs(${ZZALOG_API_HTML_DIR}/zzacommon)
-endif()
-
-# install executable
-install(TARGETS ${TARGET} 
-  RUNTIME
-  COMPONENT applications
-)
-
-# install PDB file for debugging (MSVC only)
-if(MSVC)
-  install(FILES $<TARGET_PDB_FILE:${TARGET}>
-    DESTINATION bin
-    COMPONENT applications
-    OPTIONAL
-  )
-endif()
-# install reference data
-install(FILES ${DATAFILES}
-  DESTINATION ${CMAKE_INSTALL_RPATH}
-  COMPONENT data
-)
-# install contest data
-install(FILES ${CONTEST_FILES}
-  DESTINATION ${CMAKE_INSTALL_RPATH}/contests
-  COMPONENT data
-)
-# install DLLs
-if (MSVC)
-    install_hamlib_dlls()
-    zzacommon_install_runtime_dlls(DESTINATION bin COMPONENT application)
-endif()
-
-# install userguide HTML files and PDF
+# Generate documents - userguide and API documentation.
 if(ZZALOG_DOX)
-    install(
-    DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/userguide/html
-    DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
-    COMPONENT documentation
-    MESSAGE_NEVER
-    )
-    if (ZZALOG_PDF)
-        install(
-        FILES ${CMAKE_CURRENT_BINARY_DIR}/userguide/${APP_NAME}.pdf
-        DESTINATION ${CMAKE_INSTALL_RPATH}/userguide
+  # Paths to the include directories used by api/Doxyfile.in
+  set(ZZALOG_INCLUDE_DIR          "${ZZALOG_SOURCE_DIR}/include")
+
+  if(ZZALOG_PDF)
+    set(_docs_pdf_flag PDF)
+  else()
+    set(_docs_pdf_flag "")
+  endif()
+
+  gm3zza_enable_docs(
+    TARGET        ${TARGET}
+    APP_NAME      ${APP_NAME}
+    USERGUIDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/userguide"
+    API_DIR       "${CMAKE_CURRENT_SOURCE_DIR}/api"
+    API_FILES     ${HPPFILES}
+    ${_docs_pdf_flag}
+  )
+
+  # Copy zzacommon API docs into the api html output tree
+  zzacommon_copy_api_docs(${GM3ZZA_API_HTML_DIR}/zzacommon)
+endif()
+
+### Install
+install(TARGETS ${TARGET} RUNTIME COMPONENT applications)
+gm3zza_install_runtime_files(FILES ${DATAFILES} COMPONENT data)
+
+if(MSVC)
+  gm3zza_register_hamlib_dlls()
+  zzacommon_install_runtime_dlls(DESTINATION bin COMPONENT application)
+  gm3zza_install_registered_runtime_dlls()
+endif()
+
+
+# Install userguide and API documentation
+if(ZZALOG_DOX)
+    if(GM3ZZA_USERGUIDE_HTML_DIR)
+      gm3zza_install_runtime_files(
+        DIRECTORIES ${GM3ZZA_USERGUIDE_HTML_DIR}
+        DEST_SUBDIR userguide
         COMPONENT documentation
-        )
-    endif(ZZALOG_PDF)
-    # install API documentation HTML filesn
-    install(
-    DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/api/html
-    DESTINATION ${CMAKE_INSTALL_RPATH}/api
-    COMPONENT documentation
-    MESSAGE_NEVER
-    )
+      )
+    endif()
+
+    if(ZZALOG_PDF AND GM3ZZA_USERGUIDE_PDF_FILE)
+      gm3zza_install_runtime_files(
+        FILES ${GM3ZZA_USERGUIDE_PDF_FILE}
+        DEST_SUBDIR userguide
+        COMPONENT documentation
+      )
+    endif()
+
+    if(GM3ZZA_API_HTML_DIR)
+      gm3zza_install_runtime_files(
+        DIRECTORIES ${GM3ZZA_API_HTML_DIR}
+        DEST_SUBDIR api
+        COMPONENT documentation
+      )
+    endif()
 endif()
 
 include(InstallRequiredSystemLibraries)

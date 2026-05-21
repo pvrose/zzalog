@@ -28,8 +28,7 @@ if(DOXYGEN_FOUND)
 
   # Set source files
   set(DOXY_API_FILES 
-    ${ZZALOG_CONTESTS_HPPFILES}
-    ${ZZALOG_HPPFILES}
+    ${HPPFILES}
   )
 
   # Copy Doxyfile
