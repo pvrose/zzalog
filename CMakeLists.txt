@@ -47,7 +47,7 @@ include(Gm3zzaZzacommon)
 include(Gm3zzaResources)
 include(Gm3zzaWindowsRuntime)
 include(Gm3zzaDocs)
-include(deps/hamlib_helper OPTIONAL)
+include(deps/hamlib_helper)
 
 ## Set target executable and programme metadata
 set(TARGET zzalog)
@@ -381,7 +381,13 @@ target_link_libraries(${TARGET} PRIVATE
 
 ## Automatically copy zlib1.dll and Boost DLLs to the output directory
 zzacommon_copy_runtime_dlls(${TARGET})
-  
+
+## Copy hamlib DLLs to the output directory for development
+gm3zza_copy_hamlib_dlls(TARGET ${TARGET})
+
+## Register hamlib DLLs for installation
+gm3zza_register_hamlib_dlls()
+
 ## Stage runtime assets for development
 gm3zza_stage_runtime_files(TARGET ${TARGET} FILES ${DATAFILES})
 gm3zza_stage_runtime_files(TARGET ${TARGET} FILES ${CONTEST_FILES} DEST_SUBDIR contests)
