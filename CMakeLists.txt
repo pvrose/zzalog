@@ -17,7 +17,7 @@
 #]=]
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.6.17)
+project(ZZALOG VERSION 3.7)
 
 # Add shared CMake modules
 # First look in sibling path for development, then in installed location for users
@@ -53,7 +53,7 @@ include(deps/hamlib_helper)
 set(TARGET zzalog)
 set(APP_VENDOR "GM3ZZA")
 set(APP_NAME "ZZALOG")
-set(APP_RC_VALUE "")
+set(APP_RC_VALUE "-rc1")
 string(TIMESTAMP APP_TIMESTAMP UTC)
 set(APP_SOURCE_DIR ${ZZALOG_SOURCE_DIR})
 
@@ -325,7 +325,11 @@ gm3zza_find_hamlib()
 
 
 ## Use shared zzacommon (includes zzaf, zzam, zzad, zzab, zzafb)
-gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG master)
+if(ZZALOG_DOX)
+    gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG master ENABLE_DOCS)
+else()
+    gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG master)
+endif()
 
 
 ## Add all contest algorithm files to separate list
