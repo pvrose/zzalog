@@ -295,3 +295,4 @@ __pycache__/
 # Generated Windows resource files
 zzalog.ico
 zzalog.rc
+/temp_cmake_output.txt
