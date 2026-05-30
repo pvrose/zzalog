@@ -53,7 +53,7 @@ include(deps/hamlib_helper)
 set(TARGET zzalog)
 set(APP_VENDOR "GM3ZZA")
 set(APP_NAME "ZZALOG")
-set(APP_RC_VALUE "-rc2")
+set(APP_RC_VALUE "")
 string(TIMESTAMP APP_TIMESTAMP UTC)
 set(APP_SOURCE_DIR ${ZZALOG_SOURCE_DIR})
 
