@@ -6,8 +6,7 @@
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                    "@ZZALOG_BINARY_DIR@/zzalog.ico"
-
+IDI_ICON1               ICON                    "rose.ico"
 // Version Information
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION    @ZZALOG_VERSION_MAJOR@,@ZZALOG_VERSION_MINOR@,@ZZALOG_VERSION_PATCH@,@ZZALOG_VERSION_TWEAK@

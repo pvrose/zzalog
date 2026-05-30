@@ -337,7 +337,7 @@ file(GLOB CONTEST_FILES "${CMAKE_CURRENT_SOURCE_DIR}/reference/contests/*")
 
 ## Define the zzalog executable
 if (MSVC)
-  add_executable(${TARGET} WIN32 ${ZZALOG_RC_FILE})
+  add_executable(${TARGET} WIN32 ${APP_RC_FILE})
 else()
   add_executable(${TARGET} WIN32)
 endif()
