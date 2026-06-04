@@ -749,6 +749,10 @@ void book::navigate(navigate_t target) {
 
 // Go to the date specified
 void book::go_date(std::string date) {
+	// Check the book is not empty
+	if (size() == 0) {
+		return;
+	}
 	// Set the bounds of the search - binary split search
 	item_num_t u_bound = size() - 1;
 	item_num_t l_bound = 0;
