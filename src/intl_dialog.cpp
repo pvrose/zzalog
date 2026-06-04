@@ -125,7 +125,8 @@ void intl_dialog::add_buttons(int width) {
 	buttons_->clear();
 	buttons_->begin();
 	// Get size of array
-	int num_cols = width / HBUTTON;
+	int button_width = HBUTTON * 5 / 4;
+	int num_cols = width / button_width;
 	int num_rows;
 	// Have to do it this way as mixed signed/unsigned arithmetic
 	if (symbols_.size()) {
@@ -148,9 +149,9 @@ void intl_dialog::add_buttons(int width) {
 			len = fl_utf8encode(*ucs, utf8);
 			utf8[len] = 0;
 			// Button - copy and paste the label on the button to the current editor
-			Fl_Button* bn = new Fl_Button(curr_x, curr_y, HBUTTON, HBUTTON);
+			Fl_Button* bn = new Fl_Button(curr_x, curr_y, button_width, button_width);
 			// Fit the label font to approx 70%
-			bn->labelsize(HBUTTON * 14 / 20);
+			bn->labelsize(button_width * 14 / 20);
 			bn->copy_label(utf8);
 			bn->callback(cb_bn_use);
 			bn->tooltip("Copy and paste this character to the currently open editor");
@@ -158,9 +159,9 @@ void intl_dialog::add_buttons(int width) {
 			ucs++;
 		}
 		curr_x = EDGE;
-		curr_y += HBUTTON;
+		curr_y += button_width;
 	}
-	int height = curr_y + HBUTTON;
+	int height = curr_y + button_width;
 
 	buttons_->end();
 	// Adjust the size of the buttons group
