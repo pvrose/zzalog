@@ -33,6 +33,7 @@ class Fl_Select_Browser;
 class Fl_Widget;
 struct qsl_call_data;
 struct server_data_t;
+class zc_filename_input;
 
 	//! This class provides a dialog to let the user supply web addresses, usernames and passwords.
 	class web_dialog :
@@ -66,6 +67,9 @@ struct server_data_t;
 
 	protected:
 		// Callbacks
+		// Callback for QSL image save directory selection
+		static void cb_qsl_dir(Fl_Widget* w, void* v);
+
 		//! Callback when switching tabs: reformats labels.
 		static void cb_tab(Fl_Widget* w, void* v);
 		//! Callback adding data to No QSL list.
@@ -96,6 +100,8 @@ struct server_data_t;
 		//! Populate No QSL list
 		void populate_noqsl(Fl_Select_Browser* b);
 		
+		// Input for QSL directory
+		zc_filename_input* ip_qsl_dir_ = nullptr;    //!< Widget for QSL image save directory
 
 		// Widgets for eQSL
 		Fl_Group* grp_eqsl_ = nullptr;            //!< eQSL widget group
@@ -128,6 +134,9 @@ struct server_data_t;
 		std::set<std::string>* noqsl_data_;   //!< No QSL list data
 
 		std::string add_call_ = "";           //!< Callsign to add
+
+		//! QSL Card directory.
+		std::string qsl_dir_;
 
 	};
 #endif

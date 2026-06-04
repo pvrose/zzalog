@@ -17,15 +17,19 @@
 */
 #include "web_dialog.h"
 
-#include "zc_calendar_input.h"
-#include <zc_callback.h>
-#include "zc_drawing.h"
 #include "intl_widgets.h"
-#include <page_dialog.h>
-#include "zc_password_input.h"
+#include "page_dialog.h"
 #include "qsl_dataset.h"
 #include "spec_data.h"
+
+#include "zc_calendar_input.h"
+#include "zc_callback.h"
+#include "zc_drawing.h"
+#include "zc_filename_input.h"
 #include "zc_fltk.h"
+#include "zc_password_input.h"
+#include "zc_settings.h"
+#include "zc_tabs_nonav.h"
 
 #include <string>
 
@@ -38,7 +42,6 @@
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Select_Browser.H>
-#include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
 extern void open_html(const char* topic);
@@ -114,6 +117,9 @@ void web_dialog::load_values() {
 			}
 		}
 	}
+	zc_settings settings;
+	zc_settings behav_settings(&settings, "Behaviour");
+	behav_settings.get<std::string>("QSL Cards", qsl_dir_, "");
 
 }
 
@@ -138,8 +144,21 @@ void web_dialog::create_form(int X, int Y) {
 
 	box(FL_FLAT_BOX);
 
+	int cx = X + WLLABEL + GAP;
+	int cy = Y + GAP;
+
+	ip_qsl_dir_ = new zc_filename_input(cx, cy, WEDIT, HBUTTON, "QSL Images");
+	ip_qsl_dir_->align(FL_ALIGN_LEFT);
+	ip_qsl_dir_->type(zc_filename_input::DIRECTORY);
+	ip_qsl_dir_->callback(cb_qsl_dir, this);
+	ip_qsl_dir_->title("Select directory to save QSL images");
+	ip_qsl_dir_->tooltip("Select directory to save QSL images");
+
+	cy += ip_qsl_dir_->h() + GAP;
+	cx = X + GAP;
+
 	// Create a FL_Tabs
-	zc_tabs_nonav* tabs = new zc_tabs_nonav(X +GAP, Y + GAP, w() - GAP - GAP, h() - GAP - GAP);
+	zc_tabs_nonav* tabs = new zc_tabs_nonav(cx, cy, w() - GAP - GAP, h() - cy);
 	tabs->callback(cb_tab);
 	tabs->box(FL_FLAT_BOX);
 
@@ -714,11 +733,14 @@ void web_dialog::create_noqsl(int rx, int ry, int rw, int rh) {
 // Save values to settings
 void web_dialog::save_values() {
 	qsl_dataset_->save_data();
-
+	zc_settings settings;
+	zc_settings behav_settings(&settings, "Behaviour");
+	behav_settings.set("QSL Cards", qsl_dir_);
 }
 
 // Enable widgets after enabling/disabling stuff
 void web_dialog::enable_widgets() {
+	ip_qsl_dir_->value(qsl_dir_.c_str());
 	// Enable/Disable eQSL widgets
 	if (eqsl_data_->enabled) {
 		grp_eqsl_->activate();
@@ -809,6 +831,13 @@ void web_dialog::cb_del_noqsl(Fl_Widget* w, void* v) {
 	std::string call = br->text(br->value());
 	that->noqsl_data_->erase(call);
 	that->populate_noqsl(br);
+}
+
+// Callback: QSL Card directory
+void web_dialog::cb_qsl_dir(Fl_Widget* w, void* v) {
+	web_dialog* that = zc::ancestor_view<web_dialog>(w);
+	that->qsl_dir_ = that->ip_qsl_dir_->value();
+	that->save_values();
 }
 
 // Populate No QSL l ist

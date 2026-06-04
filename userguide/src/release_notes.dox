@@ -14,6 +14,7 @@
     - Navigating to date when book is empty crashes application.
     - Checking "Enable Mirroring" in settings didn't enable the input to define the path.
     - Couldn't type into "NOTES" field in qso entry panel.
+    - Lost the ability to change the path to the QSL Cards folder in settings.
 
 \section rev_3_7 Revision 3.7
   - Functional changes.
