@@ -187,7 +187,7 @@ protected:
 
 protected:
 	//! Input "NOTES" field value.
-	Fl_Input* ip_notes_;
+	field_input* ip_notes_;
 	//! Choices: For the field names.
 	field_choice* ch_field_[NUMBER_TOTAL];
 	//! Inputs: For the field values.

@@ -1,6 +1,6 @@
 /** \page release_notes Revision History
 
-\section rev_3_8 Revision 3.8
+\section rev_3_7_1 Revision 3.7.1
   - Functional changes.
     - None.
   - Cosmetic and non-functional changes.
@@ -11,6 +11,7 @@
     - Pasting from international virtual keyboard no longer functioning.
     - Navigating to date when book is empty crashes application.
     - Checking "Enable Mirroring" in settings didn't enable the input to define the path.
+    - Couldn't type into "NOTES" field in qso entry panel.
 
 \section rev_3_7 Revision 3.7
   - Functional changes.

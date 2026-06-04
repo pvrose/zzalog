@@ -197,10 +197,12 @@ void qso_entry::create_form(int X, int Y) {
 	curr_y += GAP;
 
 	// Input for the NOTES field of the QSO record
-	ip_notes_ = new intl_input(curr_x, curr_y, max_x - curr_x - GAP, HBUTTON, "NOTES");
+	ip_notes_ = new field_input(curr_x, curr_y, max_x - curr_x - GAP, HBUTTON, "NOTES");
 	ip_notes_->callback(cb_ip_notes, nullptr);
 	ip_notes_->when(FL_WHEN_CHANGED);
 	ip_notes_->tooltip("Add any notes for the QSO");
+	ip_notes_->field_name("NOTES", qso_);
+	ip_notes_->input()->when(FL_WHEN_RELEASE_ALWAYS);
 
 	curr_y += HBUTTON + GAP;
 	resizable(nullptr);
@@ -903,7 +905,7 @@ void qso_entry::cb_ip_field(Fl_Widget* w, void* v) {
 void qso_entry::cb_ip_notes(Fl_Widget* w, void* v) {
 	qso_entry* that = zc::ancestor_view<qso_entry>(w);
 	std::string notes;
-	zc::cb_value<intl_input, std::string>(w, &notes);
+	zc::cb_value<field_input, std::string>(w, &notes);
 	if (that->qso_) {
 		that->qso_->item("NOTES", notes);
 		tabbed_forms_->update_views(nullptr, HT_MINOR_CHANGE, that->qso_number_);
