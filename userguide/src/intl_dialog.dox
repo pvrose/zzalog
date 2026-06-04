@@ -12,9 +12,4 @@ non-ASCII characters.
 Clicking on any button labelled with a character will paste that character into 
 the input widget that is currently selected.
 
-\subsection addition Adding more characters
-Copy any characters you want to add into the text input field at the top right.
-Then click "Add".
-To save the change, click "Save". 
-
 */

@@ -20,10 +20,11 @@
 
 #include "win_dialog.h"
 
+#include <map>
 #include <string>
 #include <set>
 
-
+#include <FL/Fl_Widget.H>
 
 class Fl_Widget;
 class Fl_Group;
@@ -49,12 +50,6 @@ class Fl_Group;
 		//! TAkes focus to allow keyboard F1 to open userguide.
 		virtual int handle(int event);
 
-		//! Callback from "Save" button - calls save_data().
-		static void cb_bn_save(Fl_Widget* w, void* v);
-		//! Callback from "Reload" button - clears existing data and calls load_data().
-		static void cb_bn_restore(Fl_Widget* w, void* v);
-		//! Callback from "Add" button - adds the characters in the "New" input widget.
-		static void cb_bn_add(Fl_Widget* w, void* v);
 		//! Callback from the data buttons - copies character to clipboard then pastes to target widget.
 		static void cb_bn_use(Fl_Widget* w, void* v);
 
@@ -66,18 +61,12 @@ class Fl_Group;
 
 		//! Load data from \p filename_.
 		bool load_data();
-		//! Save data to \p filename_.
-		bool save_data();
 		//! Instantiate all component widgets.
 		void create_form();
 		//! Add all the "use character" button group.
-		void add_buttons(int width);
-		//! Transfer UTF-8 characters from text input to list of Unicode symbols.
-		void add_symbols(std::string text);
-		//! The set of Unicode symbols to draw buttons for.
-		std::set<unsigned int> symbols_;
-		//! New character.
-		std::string new_char_;
+		void add_buttons();
+		//! The set of Unicode symbols to draw buttons for - plus descriptions.
+		std::map<unsigned int, std::string> symbols_;
 		//! The button group.
 		Fl_Group* buttons_;
 

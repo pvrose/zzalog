@@ -178,7 +178,7 @@ const std::map < uint8_t, file_control_t > FILE_CONTROL = {
 	{ FILE_COUNTRY_DXATLAS, { "Prefix.lst", true, false, DEBUG_RESET_CTY3 }},
 	{ FILE_COUNTRY_ISO, { "iso.csv", true, false, DEBUG_RESET_CTY4 }},
 	{ FILE_COUNTRY, { "cty.json", false, false, DEBUG_RESET_CTY, false } },
-	{ FILE_INTLCHARS, { "intl_chars.txt", true, false, DEBUG_RESET_INTL }},
+	{ FILE_INTLCHARS, { "intl_chars.txt", true, true, DEBUG_RESET_INTL }},
 	{ FILE_ICON_GMAPS, { "google-maps.png", true, true, DEBUG_RESET_ICON }},
 	{ FILE_ICON_PDF, { "pdf.png", true, true, DEBUG_RESET_ICON}},
 	{ FILE_ICON_QRZ, { "qrz_1.jpg", true, true, DEBUG_RESET_ICON}},
