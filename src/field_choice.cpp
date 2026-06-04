@@ -165,7 +165,7 @@ int field_input::handle(int event) {
 		if (input()->take_focus()) return true;
 		return Fl_Input_Choice::handle(event);
 	case FL_UNFOCUS:
-		update_paste_target(nullptr);
+//		update_paste_target(nullptr);
 		if (tip_window_) {
 			Fl::delete_widget(tip_window_);
 			tip_window_ = nullptr;

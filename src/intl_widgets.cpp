@@ -93,7 +93,7 @@ int intl_input::handle(int event) {
 		return true;
 		break;
 	case FL_UNFOCUS:
-		update_paste_target(nullptr);
+//		update_paste_target(nullptr);
 		return true;
 		break;
 	}
