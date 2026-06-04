@@ -9,6 +9,7 @@
     - None.
   - Bug fixes.
     - Pasting from international virtual keyboard no longer functioning.
+    - Restore focus to target widget after pasting from international virtual keyboard.
     - Navigating to date when book is empty crashes application.
     - Checking "Enable Mirroring" in settings didn't enable the input to define the path.
     - Couldn't type into "NOTES" field in qso entry panel.

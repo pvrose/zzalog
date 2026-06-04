@@ -253,6 +253,8 @@ void intl_dialog::cb_bn_use(Fl_Widget* w, void* v) {
 		Fl::paste(*paste_target_);
 		// Set focus to that widget
 		Fl::focus(paste_target_);
+		// Get the paste target to accept focus again
+		paste_target_->take_focus();
 	}
 }
 
