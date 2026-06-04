@@ -64,6 +64,9 @@ public:
 	//! Configure component widgets after data change.
 	virtual void enable_widgets();
 
+	//! Callback for changes to mirror enabled setting.
+	static void cb_mr_enable(Fl_Widget* w, void* v);
+
 	Fl_Output* op_mirror_use_;         //!< Displays mirror use.
 	Fl_Output* op_logname_;            //!< Displays current log filename.
 	Fl_Output* op_targetname_;           //!< Displays target (target) log filename.

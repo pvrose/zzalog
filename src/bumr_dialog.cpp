@@ -7,10 +7,16 @@
 #include "zc_filename_input.h"
 #include "zc_settings.h"
 
+#include <FL/Enumerations.H>
 #include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Output.H>
+#include <FL/Fl_Widget.H>
+
+#include <cstdio>
+#include <cstdlib>
+#include <string>
 
 extern void open_html(const char* topic);
 
@@ -85,7 +91,7 @@ void bumr_dialog::create_form(int X, int Y) {
 	int cy = Y + GAP;
 	const int WFILE = WBUTTON * 5;
 	const int WGRP = GAP + WLABEL + WFILE + GAP;
-	bool b_value;
+	bool b_value = false;
 
 	const int HMRG = HTEXT + HBUTTON * 6 + GAP;
 	grp_mirror_ = new Fl_Group(cx, cy, WGRP, HMRG, "Mirroring configuration");
@@ -108,6 +114,7 @@ void bumr_dialog::create_form(int X, int Y) {
 	bn_mr_enable_ = new Fl_Check_Button(cx, cy, HBUTTON, HBUTTON, "Enable");
 	bn_mr_enable_->align(FL_ALIGN_LEFT);
 	bn_mr_enable_->tooltip("Enable or disable mirroring");
+	bn_mr_enable_->callback(cb_mr_enable, this);
 	// Mirror path
 	cy += bn_mr_enable_->h();
 	ip_mr_path_ = new zc_filename_input(cx, cy, WFILE, HBUTTON, "Path");
@@ -175,7 +182,7 @@ void bumr_dialog::save_values() {
 	zc_settings mirror_settings(&behaviour_settings, "Mirror");
 	zc_settings backup_settings(&behaviour_settings, "Backup");
 
-	backup_settings.set("Depth", atoi(ip_bu_depth_->value()));
+	backup_settings.set("Depth", std::atoi(ip_bu_depth_->value()));
 	backup_settings.set("Path", ip_bu_path_->value());
 	// Save mirror settings - we need to inform the book as this may change how it operates.
 	// See if any of the settings have changed.
@@ -221,4 +228,10 @@ void bumr_dialog::enable_widgets() {
 		ip_mr_path_->deactivate();
 		bn_mr_working_->deactivate();
 	}
+}
+
+// Callback for changes to mirror enabled setting
+void bumr_dialog::cb_mr_enable(Fl_Widget* w, void* v) {
+	bumr_dialog* dialog = (bumr_dialog*)v;
+	dialog->enable_widgets();
 }
