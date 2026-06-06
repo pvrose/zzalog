@@ -418,7 +418,7 @@ void stn_qth_dlg::create_form() {
 	cx = x() + GAP;
 	cy += HBUTTON + GAP;
 
-	int avail_h = h() - (cy - y());
+	int avail_h = h() - (cy - y()) - GAP;
 	int avail_w = w() - GAP - GAP;
 
 	table_ = new stn_qth_cntnr(cx, cy, avail_w, avail_h);

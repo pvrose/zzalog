@@ -160,9 +160,11 @@ void qsl_editor::create_form(int X, int Y) {
     int curr_x = X + GAP;
     int curr_y = Y + GAP;
     int max_x = 0;
+	const int WSLABEL = WLABEL/2;
+	const int WGROUP = w() - 2*GAP;
 
 	// Group 1: Template file
-    g_1_ = new Fl_Group(curr_x, curr_y, 100, 100, "Template File");
+    g_1_ = new Fl_Group(curr_x, curr_y, WGROUP, 100, "Template File");
     g_1_->align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_INSIDE);
     g_1_->labelfont(FL_BOLD);
     g_1_->labelsize(FL_NORMAL_SIZE + 2);
@@ -192,7 +194,7 @@ void qsl_editor::create_form(int X, int Y) {
 	max_x = std::max<int>(max_x, curr_x);
 
     g_1_->resizable(nullptr);
-    g_1_->size(max_x - g_1_->x(), curr_y - g_1_->y());
+    g_1_->size(g_1_->w(), curr_y - g_1_->y());
     g_1_->end();
 
     max_x = g_1_->x() + g_1_->w();
@@ -200,7 +202,7 @@ void qsl_editor::create_form(int X, int Y) {
     curr_x = x() + GAP;
 
 	// Group 2: Size and Format parameters
-    g_2_ = new Fl_Group(curr_x, curr_y, 100, 100, "Size & format parameters");
+    g_2_ = new Fl_Group(curr_x, curr_y, WGROUP, 100, "Size & format parameters");
     g_2_->align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_INSIDE);
     g_2_->labelfont(FL_BOLD);
     g_2_->labelsize(FL_NORMAL_SIZE + 2);
@@ -244,7 +246,7 @@ void qsl_editor::create_form(int X, int Y) {
     curr_x += g_201->w();
     curr_y = g_201->y();
 	// Group 2.2 - All the size buttons
-    Fl_Group* g_202 = new Fl_Group(curr_x, curr_y, 4*(WBUTTON + WLABEL), 3*HBUTTON + HTEXT + GAP);
+    Fl_Group* g_202 = new Fl_Group(curr_x, curr_y, 4*WBUTTON + WLABEL + 3 * WSLABEL, 3*HBUTTON + HTEXT + GAP);
     g_202->box(FL_FLAT_BOX);
 
     curr_x += WLABEL;
@@ -256,27 +258,27 @@ void qsl_editor::create_form(int X, int Y) {
 	w_20201->when(FL_WHEN_CHANGED);
 	w_20201->tooltip("Please specify the number of columns when printing");
 	ip_cols_ = w_20201;
-    curr_x += WLABEL + WBUTTON;;
+    curr_x += WSLABEL + WBUTTON;;
 	// Input to specify the width of the label
-	Fl_Value_Input* w_20202 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Width");
+	Fl_Value_Input* w_20202 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "W");
 	w_20202->value(data_->width);
 	w_20202->align(FL_ALIGN_LEFT);
 	w_20202->callback(cb_size_double, &data_->width);
 	w_20202->when(FL_WHEN_CHANGED);
 	w_20202->tooltip("Please specify the width of the label in the selected unit");
 	ip_width_ = w_20202;
-    curr_x += WLABEL + WBUTTON;;
+    curr_x += WSLABEL + WBUTTON;;
 	// Input to specify the position ofthe left edge of culmn 1
-	Fl_Value_Input* w_20203 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Position");
+	Fl_Value_Input* w_20203 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "X");
 	w_20203->value(data_->col_left);
 	w_20203->align(FL_ALIGN_LEFT);
 	w_20203->callback(zc::cb_value<Fl_Value_Input, double>, &data_->col_left);
 	w_20203->when(FL_WHEN_CHANGED);
 	w_20203->tooltip("Please specify the position of the first column");
 	ip_cpos_ = w_20203;
-    curr_x += WLABEL + WBUTTON;;
+    curr_x += WSLABEL + WBUTTON;;
 	// Input to specify the spacing between columns (between left edges)
-	Fl_Value_Input* w_20204 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Spacing");
+	Fl_Value_Input* w_20204 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "\316\224X");
 	w_20204->value(data_->col_width);
 	w_20204->align(FL_ALIGN_LEFT);
 	w_20204->callback(zc::cb_value<Fl_Value_Input, double>, &data_->col_width);
@@ -295,27 +297,27 @@ void qsl_editor::create_form(int X, int Y) {
 	w_20205->when(FL_WHEN_CHANGED);
 	w_20205->tooltip("Please specify the number of rows when printing");
 	ip_rows_ = w_20205;
-    curr_x += WLABEL + WBUTTON;;
+    curr_x += WSLABEL + WBUTTON;;
 	// Input to specify the height of each label
-	Fl_Value_Input* w_20206 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Height");
+	Fl_Value_Input* w_20206 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "H");
 	w_20206->value(data_->height);
 	w_20206->align(FL_ALIGN_LEFT);
 	w_20206->callback(cb_size_double, &data_->height);
 	w_20206->when(FL_WHEN_CHANGED);
 	w_20206->tooltip("Please specify the width of the label in the selected label");
 	ip_height_ = w_20206;
-    curr_x += WLABEL + WBUTTON;;
+    curr_x += WSLABEL + WBUTTON;;
 	// Input to specify the top of the first label
-	Fl_Value_Input* w_20207 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Position");
+	Fl_Value_Input* w_20207 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Y");
 	w_20207->value(data_->row_top);
 	w_20207->align(FL_ALIGN_LEFT);
 	w_20207->callback(zc::cb_value<Fl_Value_Input, double>, &data_->row_top);
 	w_20207->when(FL_WHEN_CHANGED);
 	w_20207->tooltip("Please specify the position of the first row");
 	ip_rpos_ = w_20207;
-    curr_x += WLABEL + WBUTTON;;
+    curr_x += WSLABEL + WBUTTON;;
 	// Input to specify the gap between each row
-	Fl_Value_Input* w_20208 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "Spacing");
+	Fl_Value_Input* w_20208 = new Fl_Value_Input(curr_x, curr_y, WBUTTON, HBUTTON, "\316\224Y");
 	w_20208->value(data_->row_height);
 	w_20208->align(FL_ALIGN_LEFT);
 	w_20208->callback(zc::cb_value<Fl_Value_Input, double>, &data_->row_height);
@@ -389,9 +391,8 @@ void qsl_editor::create_form(int X, int Y) {
 	g_203->end();
   
     g_2_->resizable(nullptr);
-	int w = std::max<int>(g_201->w() + g_202->w(), g_203->w()) + GAP;
 	int h = std::max<int>(g_201->h(), g_202->h()) + g_203->h();
-    g_2_->size(w + GAP, h + GAP);
+    g_2_->size(g_2_->w(), h + GAP);
     g_2_->end();
 
     max_x = std::max<int>(max_x, g_2_->x() + g_2_->w());
@@ -402,12 +403,11 @@ void qsl_editor::create_form(int X, int Y) {
     curr_x = x() + GAP;
 
 	int avail_height = Fl_Group::h() - (curr_y - y());
-	int avail_width = Fl_Group::w() - 2 * GAP;
 
 	// There is no Group 3
 
 	// Group 4 - show the drawing item data
-	g_4_ = new Fl_Group(curr_x, curr_y, avail_width, avail_height, "Design items");
+	g_4_ = new Fl_Group(curr_x, curr_y, WGROUP, avail_height, "Design items");
     g_4_->align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_INSIDE);
     g_4_->labelfont(FL_BOLD);
     g_4_->labelsize(FL_NORMAL_SIZE + 2);
@@ -498,7 +498,7 @@ void qsl_editor::create_items() {
 	// Fl_Scroll encapsulates a set of Group 4.1.x
 	int w_scroll = g_4_->x() + g_4_->w() - curr_x - GAP;
 	Fl_Scroll* gg_401 = new Fl_Scroll(curr_x, curr_y, w_scroll, available_h);
-	gg_401->type(Fl_Scroll::VERTICAL);
+	gg_401->type(Fl_Scroll::BOTH);
 
 	int w_available = gg_401->w() - Fl::scrollbar_size() - GAP;
 	
@@ -516,7 +516,7 @@ void qsl_editor::create_items() {
 			g_401->align(FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
 			g_401->box(FL_FLAT_BOX);
 
-			curr_x = save_x + WLABEL / 2;
+			curr_x = save_x + HBUTTON;
 			// Choice to allow item type to be changed (NONE effectively deletes it)
 			Fl_Choice* w_40101 = new Fl_Choice(curr_x, curr_y, WBUTTON, HBUTTON);
 			w_40101->tooltip("Select the item type - NONE to ignore");
@@ -524,7 +524,7 @@ void qsl_editor::create_items() {
 			populate_type(w_40101);
 			w_40101->value((int)item->type);
 
-			curr_x += w_40101->w() + GAP;
+			curr_x += w_40101->w();
 
 			// Now create the individual row
 			switch(item->type) {
@@ -561,7 +561,6 @@ void qsl_editor::create_items() {
 	max_x = std::max<int>(max_x, curr_x) + GAP + Fl::scrollbar_size();
 
 	g_4_->resizable(nullptr);
-	g_4_->size(max_x - g_4_->x(), g_4_->h());
 
 	g_4_->end();
 	g_4_->show();
@@ -579,13 +578,13 @@ void qsl_editor::create_labels(int curr_y) {
 
 	Fl_Box* b_type = new Fl_Box(curr_x, curr_y, WBUTTON, HBUTTON, "Type");
 	b_type->tooltip("Select the item type - NONE to ignore");
-	curr_x += b_type->w() + GAP;
+	curr_x += b_type->w();
 	Fl_Box* b_x = new Fl_Box(curr_x, curr_y, WBUTTON / 2, HBUTTON, "X");
 	b_x->tooltip("Enter the X-coordinates of the item");
 	curr_x += b_x->w();
 	Fl_Box* b_y = new Fl_Box(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Y");
 	b_y->tooltip("Enter the Y-coordinates of the item");
-	curr_x += b_y->w() + GAP;
+	curr_x += b_y->w();
 	Fl_Box* b_data = new Fl_Box(curr_x, curr_y, WEDIT + HBUTTON, HBUTTON, "Contents data");
 	b_data->tooltip("Enter contents:\nField: label and field and their style\n"
 		"Text: Text to be displayed and its style\n"
@@ -630,7 +629,7 @@ void qsl_editor::create_fparams(int& curr_x, int& curr_y, int w, qsl_data::field
 	f_dy->when(FL_WHEN_CHANGED);
 	snprintf(temp, sizeof(temp), "%d", field->dy);
 	f_dy->value(temp);
-	curr_x += f_dy->w() + GAP;
+	curr_x += f_dy->w();
 
 	// Label to add to the left or above the item value
 	Fl_Input* f_label = new Fl_Input(curr_x, curr_y, WBUTTON, HBUTTON);
@@ -740,7 +739,7 @@ void qsl_editor::create_tparams(int& curr_x, int& curr_y, int w, qsl_data::text_
 	t_dy->when(FL_WHEN_CHANGED);
 	snprintf(temp, sizeof(temp), "%d", text->dy);
 	t_dy->value(temp);
-	curr_x += t_dy->w() + GAP;
+	curr_x += t_dy->w();
 
 	// Input to display text to wroite on card
 	Fl_Input* t_text = new intl_input(curr_x, curr_y, WEDIT, HBUTTON);
@@ -803,7 +802,7 @@ void qsl_editor::create_iparams(int& curr_x, int& curr_y, int w, qsl_data::image
 	i_dy->when(FL_WHEN_CHANGED);
 	snprintf(temp, sizeof(temp), "%d", image->dy);
 	i_dy->value(temp);
-	curr_x += i_dy->w() + GAP;
+	curr_x += i_dy->w();
 
 	// Input - image filename
 	zc_filename_input* i_filename = new zc_filename_input(curr_x, curr_y, WEDIT + HBUTTON, HBUTTON);

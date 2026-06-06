@@ -168,11 +168,12 @@ void qso_rig::load_values() {
 	cat_data_ = rig_data_->cat_data(label());
 }
 
-// Keep the display 3 buttons wide
-const int WDISPLAY = 3 * WBUTTON;
+
 // Create the status part of the display
 void qso_rig::create_status(int curr_x, int curr_y) {
 	int save_x = curr_x;
+	// Calculate width of status display - 3 buttons wide to allow for "Connect", "Select" and "Start" buttons
+	const int WDISPLAY = 3 * WBUTTON;
 
 	status_grp_ = new Fl_Group(curr_x, curr_y, WDISPLAY, HBUTTON * 2 + HTEXT * 3);
 	status_grp_->box(FL_NO_BOX);

@@ -436,7 +436,7 @@ void web_dialog::create_qrz(int rx, int ry, int rw, int rh) {
 	gp3->align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_INSIDE);
 
 	int curr_x = rx + GAP;
-	int curr_y = ry + GAP;
+	int curr_y = ry + HTEXT;
 
 	// XML enable
 
@@ -698,7 +698,7 @@ void web_dialog::create_noqsl(int rx, int ry, int rw, int rh) {
 	int curr_x = rx + GAP + WLABEL;
 	int curr_y = ry + GAP;
 
-	Fl_Input* ip71 = new Fl_Input(curr_x, curr_y, WSMEDIT, HBUTTON, "New Callsign");
+	Fl_Input* ip71 = new Fl_Input(curr_x, curr_y, WSMEDIT, HBUTTON, "New Call");
 	ip71->align(FL_ALIGN_LEFT);
 	ip71->callback(zc::cb_value<Fl_Input, std::string>, &add_call_);
 	ip71->value("");

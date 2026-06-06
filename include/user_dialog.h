@@ -64,6 +64,8 @@ class Fl_Widget;
 		static void cb_br_bannerfont(Fl_Widget* w, void* v);
 		//! Callback for all size browsers.
 		static void cb_br_size(Fl_Widget* w, void* v);
+		//! Callback on changing tab
+		static void cb_tab(Fl_Widget* w, void* v);
 		//! Populate font browser \p b set \p font as default selection.
 		void populate_font(Fl_Hold_Browser* b, const Fl_Font* font);
 		//! Populate size browser \p b with sizes available for \p font: set \p size as default selection.

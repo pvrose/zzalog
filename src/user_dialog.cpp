@@ -29,6 +29,7 @@
 #include "zc_drawing.h"
 #include "zc_settings.h"
 #include "zc_status.h"
+#include "zc_tabs_nonav.h"
 #include "zc_fltk.h"
 
 #include <algorithm>
@@ -125,24 +126,28 @@ void user_dialog::load_values() {
 // Used to create the form
 void user_dialog::create_form(int X, int Y) {
 	begin();
-	// Group 1 - log_table
-	int pos_x = X + GAP;
-	int pos_y = Y + GAP;
-	// Log table 
-	Fl_Group* g1 = new Fl_Group(pos_x, pos_y, 0, 10, "Log Table");
-	g1->align(FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE);
-	g1->labelfont(FL_BOLD);
-	g1->labelsize(FL_NORMAL_SIZE + 2);
-	g1->box(FL_BORDER_BOX);
-	// Add font browser
-	pos_x += GAP;
-	pos_y += HTEXT;
-	// Browser to select font
+	int cx = X + GAP;
+	int cy = Y + GAP;
+
+	zc_tabs_nonav* tabs = new zc_tabs_nonav(cx, cy, w() - (2 * GAP), h() - (2 * GAP));
+	tabs->callback(cb_tab);
+	tabs->box(FL_FLAT_BOX);
+
+	int rx = 0;
+	int ry = 0;
+	int rw = 0;
+	int rh = 0;
+	tabs->client_area(rx, ry, rw, rh, 0);
+
+	// Tab 1 - Log table
+	Fl_Group* g1 = new Fl_Group(rx, ry, rw, rh, "Log Table");
+	g1->box(FL_FLAT_BOX);
+	int pos_x = rx + GAP;
+	int pos_y = ry + HTEXT;
 	Fl_Hold_Browser* br1 = new Fl_Hold_Browser(pos_x, pos_y, WEDIT, HMLIN, "Font");
 	br1->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	br1->tooltip("Please select the font used in the cells in all log table views");
 	populate_font(br1, &log_font_);
-	// Add font size browser
 	pos_x += br1->w();
 	Fl_Hold_Browser* br2 = new Fl_Hold_Browser(pos_x, pos_y, WBUTTON, HMLIN, "Size");
 	br2->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
@@ -152,7 +157,6 @@ void user_dialog::create_form(int X, int Y) {
 	populate_size(br2, &log_font_, &log_size_);
 	pos_y = br2->y() + br2->h() + HTEXT;
 	pos_x = br1->x();
-	// Counter valuator - Session gap in 10 minute intervals
 	Fl_Counter* val0 = new Fl_Counter(pos_x, pos_y, WEDIT, HBUTTON, "Session elapse time (minutes)");
 	val0->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	val0->type(FL_SIMPLE_COUNTER);
@@ -160,31 +164,17 @@ void user_dialog::create_form(int X, int Y) {
 	val0->range(10.0, 120.0);
 	val0->value(session_elapse_);
 	val0->callback(zc::cb_value<Fl_Counter, float>, &session_elapse_);
-	// End group - fit to size
-	pos_y = val0->y() + val0->h() + GAP;
-	pos_x = std::max<int>(br2->x() + br2->w(), val0->x() + val0->w()) + GAP;
-	g1->resizable(nullptr);
-	g1->size(pos_x - g1->x(), pos_y - g1->y());
 	g1->end();
 
-
-	// Group 2 - tool tip - align on above group
-	pos_y += GAP;
-	pos_x = g1->x();
-	Fl_Group* g2 = new Fl_Group(pos_x, pos_y, 10, 10, "Tooltips");
-	g2->align(FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE);
-	g2->labelfont(FL_BOLD);
-	g2->labelsize(FL_NORMAL_SIZE + 2);
-	g2->box(FL_BORDER_BOX);
-	// Add Enable
-	pos_x = g2->x() + GAP;
-	pos_y = g2->y() + HTEXT;
-	// Add font browser
+	// Tab 2 - Tooltips
+	Fl_Group* g2 = new Fl_Group(rx, ry, rw, rh, "Tooltips");
+	g2->box(FL_FLAT_BOX);
+	pos_x = rx + GAP;
+	pos_y = ry + HTEXT;
 	Fl_Hold_Browser* br3 = new Fl_Hold_Browser(pos_x, pos_y, WEDIT, HMLIN, "Font");
 	br3->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	br3->tooltip("Please select the font used in the cells in all tooltips");
 	populate_font(br3, &tip_font_);
-	// Add font size browser
 	pos_x += br3->w();
 	Fl_Hold_Browser* br4 = new Fl_Hold_Browser(pos_x, pos_y, WBUTTON, HMLIN, "Size");
 	br4->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
@@ -194,7 +184,6 @@ void user_dialog::create_form(int X, int Y) {
 	populate_size(br4, &tip_font_, &tip_size_);
 	pos_y = br4->y() + br4->h() + HTEXT;
 	pos_x = br3->x();
-	// Counter valuator - 1 to 15 s in 0.5 s steps
 	Fl_Counter* val1 = new Fl_Counter(pos_x, pos_y, br3->w(), HBUTTON, "Duration (s)");
 	val1->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	val1->type(FL_SIMPLE_COUNTER);
@@ -203,29 +192,17 @@ void user_dialog::create_form(int X, int Y) {
 	val1->value(tip_duration_);
 	val1->callback(zc::cb_value<Fl_Counter, float>, &tip_duration_);
 	val1->tooltip("Please select the time (in seconds) that a tooltip will display");
-	// End group - fit to size
-	g2->resizable(nullptr);
-	pos_y = val1->y() + val1->h() + GAP;
-	pos_x = std::max<int>(br4->x() + br4->w(), val1->x() + val1->w()) + GAP;
-	g2->size(pos_x - g2->x(), pos_y - g2->y());
 	g2->end();
 
-	// Group 3 - tree views (report, prefix and specification)
-	pos_y += GAP;
-	pos_x = g2->x();
-	Fl_Group* g4 = new Fl_Group(pos_x, pos_y, 0, 10, "Tree views");
-	g4->align(FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE);
-	g4->labelfont(FL_BOLD);
-	g4->labelsize(FL_NORMAL_SIZE + 2);
-	g4->box(FL_BORDER_BOX);
-	// Add font browser
-	pos_x += GAP;
-	pos_y += HTEXT;
+	// Tab 3 - Tree views
+	Fl_Group* g4 = new Fl_Group(rx, ry, rw, rh, "Tree views");
+	g4->box(FL_FLAT_BOX);
+	pos_x = rx + GAP;
+	pos_y = ry + HTEXT;
 	Fl_Hold_Browser* br7 = new Fl_Hold_Browser(pos_x, pos_y, WEDIT, HMLIN, "Font");
 	br7->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
 	br7->tooltip("Please select the font used in the cells in all tree views");
 	populate_font(br7, &tree_font_);
-	// Add font size browser
 	pos_x += br7->w();
 	Fl_Hold_Browser* br8 = new Fl_Hold_Browser(pos_x, pos_y, WBUTTON, HMLIN, "Size");
 	br8->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
@@ -233,41 +210,27 @@ void user_dialog::create_form(int X, int Y) {
 	br8->tooltip("Please select the font size used in the cells in all tree views");
 	br7->callback(cb_br_treefont, br8);
 	populate_size(br8, &tree_font_, &tree_size_);
-	// End group - fit to size
-	g4->resizable(nullptr);
-	pos_y = br8->y() + br8->h() + GAP;
-	pos_x = br8->x() + br8->w() + GAP;
-	g4->size(pos_x - g4->x(), pos_y - g4->y());
 	g4->end();
 
-	pos_y = y() + GAP;
-	pos_x = g1->x() + g1->w() + GAP;
-	Fl_Group* g5 = new Fl_Group(pos_x, pos_y, 0, 10, "Status");
-	g5->align(FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE);
-	g5->labelfont(FL_BOLD);
-	g5->labelsize(FL_NORMAL_SIZE + 2);
-	g5->box(FL_BORDER_BOX);
-	// Add font browser
-	pos_x += GAP;
-	pos_y += HTEXT;
+	// Tab 4 - Status
+	Fl_Group* g5 = new Fl_Group(rx, ry, rw, rh, "Status");
+	g5->box(FL_FLAT_BOX);
+	pos_x = rx + GAP;
+	pos_y = ry + HTEXT;
 	Fl_Hold_Browser* br9 = new Fl_Hold_Browser(pos_x, pos_y, WEDIT, HMLIN, "Font");
 	br9->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
-	br9->tooltip("Please select the font used in the cells in all tree views");
+	br9->tooltip("Please select the font used in the status banner");
 	populate_font(br9, &banner_font_);
-	// Add font size browser
 	pos_x += br9->w();
 	Fl_Hold_Browser* br10 = new Fl_Hold_Browser(pos_x, pos_y, WBUTTON, HMLIN, "Size");
 	br10->align(FL_ALIGN_TOP | FL_ALIGN_CENTER);
-	br10->callback(cb_br_size, &tree_size_);
-	br10->tooltip("Please select the font size used in the cells in all tree views");
-	br9->callback(cb_br_bannerfont, br8);
+	br10->callback(cb_br_size, &banner_size_);
+	br10->tooltip("Please select the font size used in the status banner");
+	br9->callback(cb_br_bannerfont, br10);
 	populate_size(br10, &banner_font_, &banner_size_);
-	// End group - fit to size
-	g5->resizable(nullptr);
-	pos_y = br10->y() + br10->h() + GAP;
-	pos_x = br10->x() + br10->w() + GAP;
-	g5->size(pos_x - g5->x(), pos_y - g5->y());
 	g5->end();
+
+	tabs->end();
 
 
 
@@ -313,7 +276,26 @@ void user_dialog::save_values() {
 }
 
 // Used to enable/disable specific widget - any widgets enabled must be attributes
-void user_dialog::enable_widgets() {}
+void user_dialog::enable_widgets() {
+	// Standard tab formats
+	// value() returns the selected widget. We need to test which widget it is.
+	zc_tabs_nonav* tabs = (zc_tabs_nonav*)child(0);
+	Fl_Widget* tab = tabs->value();
+	for (int ix = 0; ix < tabs->children(); ix++) {
+		Fl_Widget* wx = tabs->child(ix);
+		if (wx == tab) {
+			wx->labelfont((wx->labelfont() | FL_BOLD) & (~FL_ITALIC));
+			wx->labelcolor(FL_FOREGROUND_COLOR);
+			wx->activate();
+		}
+		else {
+			wx->labelfont((wx->labelfont() & (~FL_BOLD)) | FL_ITALIC);
+			wx->labelcolor(FL_FOREGROUND_COLOR);
+			wx->deactivate();
+		}
+	}
+
+}
 
 // Callback for log_font browser
 // v is unused
@@ -359,6 +341,12 @@ void user_dialog::cb_br_bannerfont(Fl_Widget* w, void* v) {
 	Fl_Hold_Browser* font_br = (Fl_Hold_Browser*)w;
 	that->banner_font_ = (Fl_Font)font_br->value() - 1;
 	that->populate_size((Fl_Hold_Browser*)v, &that->banner_font_, &that->banner_size_);
+}
+
+// Callback on changing tab
+void user_dialog::cb_tab(Fl_Widget* w, void* v) {
+	user_dialog* that = zc::ancestor_view<user_dialog>(w);
+	that->enable_widgets();
 }
 
 // Populate the font browser

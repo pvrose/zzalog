@@ -409,7 +409,9 @@ void fields_dialog::create_form(int X, int Y) {
     curr_y += HBUTTON + GAP + HTEXT;
     int curr_w = w102->x() + w102->w() - w101->x();
 
-    fields_table* w200 = new fields_table(curr_x, curr_y, curr_w, 300, "Fields");
+	int avail_h = h() - (curr_y - y()) - GAP - HBUTTON - GAP;
+
+    fields_table* w200 = new fields_table(curr_x, curr_y, curr_w, avail_h, "Fields");
     w200->type(Fl_Table_Row::SELECT_SINGLE);
     w200->align(FL_ALIGN_CENTER | FL_ALIGN_TOP);
     w200->tooltip("Table defining the fields, and their headers and widths in the current collection");
