@@ -5,6 +5,7 @@
     - None.
   - Cosmetic and non-functional changes.
     - Increase size of buttons in international virtual keyboard.
+    - Add switch to vary font size in user interface between 8 and 12.
   - Performance changes.
     - None.
   - Bug fixes.

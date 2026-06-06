@@ -83,6 +83,8 @@ Does not automatically save each change (sticky).
   - <B>station</B> Operator/QTH/Callsign configuration (station.json)
   - <B>all</B> All files
   - <B>reference</B> Reference data (&equiv; adif bandplan country icons intl keys)
+- <B>-z|--size [value]</B>
+Set the base font size used in the user interface (sticky).
 
 
 */
