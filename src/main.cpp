@@ -162,10 +162,14 @@ bool READ_ONLY = false;
 bool RESUME_SESSION = false;
 // Start off-air - do not auto-connect rigs
 bool START_OFF_AIR = false;
-// Open userguide instead of running ZZALOG -  by "-h html"
+//! Open userguide instead of running ZZALOG -  by "-h html"
 bool HELP_HTML = false;
-// Open PDF userguide instead of running ZZALOG -  by "-h pdf"
+//! Open PDF userguide instead of running ZZALOG -  by "-h pdf"
 bool HELP_PDF = false;
+//! Default font size -  by "-z <size>"
+int DEFAULT_FONT_SIZE = DEFAULT_DEFAULT_SIZE;
+//! \p DEFAULT_FONT_SIZE taken from switch
+bool DEFAULT_FONT_SIZE_S = false;
 
 
 //! File holder customisation - control data
@@ -699,6 +703,23 @@ int cb_args(int argc, char** argv, int& i) {
 			i += 1;
 		}
 	}
+	else if (strcmp("-z", argv[i]) == 0 || strcmp("--size", argv[i]) == 0) {
+		i += 1;
+		if (argv[i]) {
+			int size = atoi(argv[i]);
+			if (size >= 8 && size <= 12) {
+				DEFAULT_FONT_SIZE = size;
+				DEFAULT_FONT_SIZE_S = true;
+			}
+			else {
+				printf("Unexpected font size %s - ignored\n", argv[i]);
+			}
+			i += 1;
+		}
+		else {
+			printf("No font size specified after %s - ignored\n", argv[i-1]);
+		}
+	}
 	if (i == i_orig ) {
 		// Not processed any argumant
 		if (argv[i] && *argv[i] == '-') {
@@ -772,6 +793,7 @@ void show_help() {
 		"\t\tsettings\tZZALOG configuration (ZZALOG.json)\n"
 		"\t\tstation\tOperator/QTH/Callsign configuration (station.json)\n"
 		"\t\tall\tAll files\n"
+	"\t-z|--size [size]\tSet default font size (sticky)\n"
 	"\n";
 	printf(text);
 }
@@ -1153,6 +1175,7 @@ void print_args(int argc, char** argv) {
 	snprintf(message, sizeof(message), "ZZALOG: -x (value = %x) - Reset file (bit signficant)",
 		DEBUG_RESET_CONFIG);
 	if (DEBUG_RESET_CONFIG) status_->misc_status(ST_WARNING, message);
+	status_->misc_status(ST_NOTE, "ZZALOG: -z %d - Default font size %d", DEFAULT_FONT_SIZE, DEFAULT_FONT_SIZE);
 }
 
 // Returns true if record is within current session.
@@ -1161,8 +1184,8 @@ bool in_current_session(record* this_record) {
 }
 
 // Customise FLTK feature
-void customise_fltk() {
-	zc::customise_fltk();
+void customise_fltk(int font_size) {
+	zc::customise_fltk(font_size);
 	// Add label symbols
 	fl_add_symbol("eyeshut", &draw_eyeshut, true);
 	fl_add_symbol("eyeopen", &draw_eyeopen, true);
@@ -1205,6 +1228,12 @@ void read_saved_switches() {
 		if (AUTO_SAVE) strcat(msg, "-a ");
 		else strcat(msg, "-w ");
 	}
+	if (!DEFAULT_FONT_SIZE_S) {
+		overall_settings.get<int>("Default Font Size", DEFAULT_FONT_SIZE, DEFAULT_DEFAULT_SIZE);
+		char font_msg[32];
+		snprintf(font_msg, sizeof(font_msg), "-z %d ", DEFAULT_FONT_SIZE);
+		strcat(msg, font_msg);
+	}
 
 	sticky_message_ = msg;
 }
@@ -1218,6 +1247,7 @@ void save_switches() {
 	overall_settings.set("Dark Mode", DARK);
 	behav_settings.set("Update per QSO", AUTO_UPLOAD);
 	behav_settings.set("Save per QSO", AUTO_SAVE);
+	overall_settings.set("Default Font Size", DEFAULT_FONT_SIZE);
 }
 
 // Load all the hamlib data, and then the rig connection details
@@ -1246,7 +1276,7 @@ int main(int argc, char** argv)
 	file_holder_ = new zc_file_holder(argv[0], FILE_CONTROL);
 	// Read any switches that stick between calls
 	read_saved_switches();
-	customise_fltk();
+	customise_fltk(DEFAULT_FONT_SIZE);
 
 	// Create the ticker first of all
 	ticker_ = new zc_ticker();
