@@ -56,20 +56,20 @@ corr_dialog::corr_dialog(record* record, const std::string& field, const std::st
 	field_choices_.clear();
 
 	// position constants - basic 3 x 6 grid of items
-	const int COL1 = EDGE;
+	const int COL1 = GAP;
 	const int COL2 = COL1 + WLLABEL + GAP;
 	const int COL3 = COL2 + WEDIT + GAP;
-	const int WDLG = COL3 + WEDIT + EDGE;
-	const int XABANDON = WDLG - EDGE - WBUTTON;
-	const int XCANCEL = XABANDON - EDGE - WBUTTON;
+	const int WDLG = COL3 + WEDIT + GAP;
+	const int XABANDON = WDLG - GAP - WBUTTON;
+	const int XCANCEL = XABANDON - GAP - WBUTTON;
 	const int XOK = XCANCEL - GAP - WBUTTON;
-	const int ROW1 = EDGE;
+	const int ROW1 = GAP;
 	const int ROW2 = ROW1 + HTEXT + GAP;
 	const int ROW3 = ROW2 + HTEXT + GAP;
 	const int ROW4 = ROW3 + HTEXT + GAP;
 	const int ROW5 = ROW4 + HTEXT + GAP;
 	const int ROW6 = ROW5 + HTEXT + GAP;
-	const int HDLG = ROW6 + HBUTTON + EDGE;
+	const int HDLG = ROW6 + HBUTTON + GAP;
 
 	// Resize the window to fit all buttons
 	size(WDLG, HDLG);
@@ -139,7 +139,7 @@ corr_dialog::corr_dialog(record* record, const std::string& field, const std::st
 	ip2->when(FL_WHEN_CHANGED);
 	ip2->tooltip("Data to use in added field");
 	// Output to display the reason for the validation error.
-	Fl_Multiline_Output* op3 = new Fl_Multiline_Output(COL1, ROW5, WDLG - EDGE, HTEXT);
+	Fl_Multiline_Output* op3 = new Fl_Multiline_Output(COL1, ROW5, WDLG - GAP, HTEXT);
 	op3->textcolor(FL_RED);
 	op3->color(FL_BACKGROUND_COLOR);
 	op3->value(message.c_str());

@@ -56,7 +56,7 @@ change_dialog::change_dialog(const char* label) :
 // Create the dialog
 void change_dialog::create_form() {
 	// Position calculations
-	const int XG = EDGE;
+	const int XG = GAP;
 	const int C1 = XG;
 	const int W1 = WSMEDIT;
 	const int C2 = C1 + W1 + GAP;
@@ -69,8 +69,8 @@ void change_dialog::create_form() {
 	const int W5 = WBUTTON;
 	const int C5 = C4 + W4 + GAP;
 	const int WB = C5 + W5 - XG;
-	const int WALL = XG + std::max<int>(WG, WB) + EDGE;
-	const int YG = EDGE;
+	const int WALL = XG + std::max<int>(WG, WB) + GAP;
+	const int YG = GAP;
 	const int R1 = YG + GAP;
 	const int H1 = HTEXT;
 	const int R2 = R1 + H1 + GAP;
@@ -84,7 +84,7 @@ void change_dialog::create_form() {
 	const int HG = R5 + H5 + GAP - YG;
 	const int R6 = R5 + H5 + GAP + GAP;
 	const int H6 = HBUTTON;
-	const int HALL = R6 + H6 + EDGE;
+	const int HALL = R6 + H6 + GAP;
 
 	// Change the window to fit before adding any widgets
 	size(WALL, HALL);

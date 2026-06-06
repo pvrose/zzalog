@@ -56,14 +56,14 @@ about_dialog::about_dialog() :
 	Fl_PNG_Image* main_icon = new Fl_PNG_Image(fn_icon.c_str());
 	const int WICON = main_icon->w();
 	const int HICON = main_icon->h();
-	const int XG = EDGE;
+	const int XG = GAP;
 	// Column 1 has just the program icon
 	const int C1 = XG;
 	// Column 2 - text boxes and OK button
 	const int C2 = C1 + WICON + GAP;
 	const int W2 = 2 * WEDIT;
-	const int WALL = C2 + W2 + EDGE;
-	const int YG = EDGE;
+	const int WALL = C2 + W2 + GAP;
+	const int YG = GAP;
 	const int R1 = YG;
 
 	curl_version_info_data* data = curl_version_info(CURLVERSION_LAST);
@@ -105,12 +105,12 @@ about_dialog::about_dialog() :
 	op2->box(FL_BORDER_BOX);
 
 	const int R4 = R2 + h + GAP;
-	const int C3 = WALL - EDGE - WBUTTON;
+	const int C3 = WALL - GAP - WBUTTON;
 	// And the OK Button
 	Fl_Button* bn_ok = new Fl_Button(C3, R4, WBUTTON, HBUTTON, "OK");
 	bn_ok->callback(cb_bn_ok);
 	bn_ok->when(FL_WHEN_RELEASE);
-	const int HALL = R4 + HBUTTON + EDGE;
+	const int HALL = R4 + HBUTTON + GAP;
 
 	// now calculate where to put the icon - centralise its Y position
 	const int YICON = (HALL - HICON) / 2;

@@ -66,8 +66,8 @@ intl_dialog::intl_dialog() :
 void intl_dialog::create_form() {
 
 	// Delete the existing form and re-build it
-	int curr_x = EDGE;
-	int curr_y = EDGE;
+	int curr_x = GAP;
+	int curr_y = GAP;
 	clear();
 	begin();
 	buttons_ = new Fl_Group(curr_x, curr_y, 10, 10);
@@ -105,7 +105,7 @@ void intl_dialog::add_buttons() {
 	// Get size of array
 	int button_width = HBUTTON * 5 / 4;
 	int num_cols = std::ceil(std::sqrt(symbols_.size()));
-	int width = (button_width * num_cols) + EDGE * 2;
+	int width = (button_width * num_cols) + GAP * 2;
 	int num_rows;
 	// Have to do it this way as mixed signed/unsigned arithmetic
 	if (symbols_.size()) {
@@ -137,7 +137,7 @@ void intl_dialog::add_buttons() {
 			curr_x += bn->w();
 			ucs++;
 		}
-		curr_x = EDGE;
+		curr_x = GAP;
 		curr_y += button_width;
 	}
 	int height = curr_y + button_width;
@@ -147,12 +147,12 @@ void intl_dialog::add_buttons() {
 	buttons_->resizable(nullptr);
 	buttons_->size(width, height);
 	// Adjust the size of  the window to fit
-	Fl_Box* b_cr = new Fl_Box(x(), buttons_->y() + buttons_->h(), width + EDGE, FOOT_HEIGHT * 2);
+	Fl_Box* b_cr = new Fl_Box(x(), buttons_->y() + buttons_->h(), width + GAP, FOOT_HEIGHT * 2);
 	b_cr->copy_label(std::string(COPYRIGHT + "     \n" + CONTACT + "     ").c_str());
 	b_cr->labelsize(FL_NORMAL_SIZE - 1);
 	b_cr->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
 
-	size(buttons_->x() + buttons_->w() + EDGE, buttons_->y() + buttons_->h() + b_cr->h());
+	size(buttons_->x() + buttons_->w() + GAP, buttons_->y() + buttons_->h() + b_cr->h());
 }
 
 // Desctructor

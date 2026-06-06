@@ -57,7 +57,7 @@ search_dialog::search_dialog() :
 
 {
 	// Widget position - calculations
-	const int XG = EDGE;
+	const int XG = GAP;
 	const int WBN = WBUTTON;
 	const int WCAL = HBUTTON;
 	const int WDATE = WSMEDIT;
@@ -73,7 +73,7 @@ search_dialog::search_dialog() :
 	const int C12 = C11 + WBN;
 	const int C13 = C12 + WBN;
 	const int C14 = C13 + WBN;
-	const int YG1 = EDGE;
+	const int YG1 = GAP;
 	const int WG1 = std::max<int>(C14 + WBN + GAP, C12 + WCHOICE + GAP) - XG;
 	const int R11 = YG1 + HTEXT;
 	const int R12 = R11 + HBN;
@@ -129,12 +129,12 @@ search_dialog::search_dialog() :
 	const int HG3 = R31 + HBUTTON + GAP - YG3;
 
 	// Ungrouped OK and Cancel buttons
-	const int W = XG + std::max<int>(WG1, std::max<int>(WG2, WG3)) + EDGE;
+	const int W = XG + std::max<int>(WG1, std::max<int>(WG2, WG3)) + GAP;
 	const int YGX = YG3 + HG3 + GAP;
-	const int CX2 = W - EDGE - WBUTTON;
+	const int CX2 = W - GAP - WBUTTON;
 	const int CX1 = CX2 - GAP - WBUTTON;
 	// Fail message box
-	const int CX0 = EDGE;
+	const int CX0 = GAP;
 	const int WX0 = CX1 - CX0 - GAP;
 
 	const int H = YGX + HBUTTON + FOOT_HEIGHT;
