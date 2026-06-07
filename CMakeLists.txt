@@ -17,7 +17,7 @@
 #]=]
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.7.1)
+project(ZZALOG VERSION 3.7.0.2)
 
 # Add shared CMake modules
 # First look in sibling path for development, then in installed location for users
@@ -33,7 +33,7 @@ else()
     FetchContent_Declare(
         zzacmake
         GIT_REPOSITORY https://github.com/pvrose/zzacmake.git
-        GIT_TAG master
+        GIT_TAG main
     )
     FetchContent_MakeAvailable(zzacmake)
     message(STATUS "Fetched zzacmake from GitHub: ${zzacmake_SOURCE_DIR}")
