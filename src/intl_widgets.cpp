@@ -90,7 +90,6 @@ int intl_input::handle(int event) {
 	case FL_PUSH:
 		// Tell international character dialog to paste to this widget as this is the most recent one to get focus
 		update_paste_target(this);
-		return true;
 		break;
 	case FL_UNFOCUS:
 //		update_paste_target(nullptr);

@@ -19,6 +19,7 @@
     - If mirroring is enabled in writeback mode the target file may be overwritten
       with an old mirror file when the application is closed.
     - Display "CLOSING" in banner when closed from application as well as banner.
+    - Search text input in toolbar didn't accept input.
 
 \section rev_3_7 Revision 3.7
   - Functional changes.
