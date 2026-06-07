@@ -131,6 +131,12 @@
 		//! \return True if successful
 		bool flush_data();
 
+		//! \brief Copy target to mirror.
+		bool copy_to_mirror();
+
+		//! \brief Copy mirror to target.
+		bool copy_from_mirror();
+
 		//! Get the current selected record
 		record* get_record();
 		//! Get the numbered record and optionally select it.

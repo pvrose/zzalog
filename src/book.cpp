@@ -286,6 +286,11 @@ bool book::load_data(std::string filename)
 								status_->misc_status(ST_WARNING, "LOG: Unable to merge %s", mirror_filename_.c_str());
 							}
 						}
+						if (mirror_use_ == MU_MIRROR_PRIME) {
+							// We are using the mirror, but the target version is either up to date
+							// or more recent so update the mirror to match the target version.
+							copy_to_mirror();
+						}
 						main_loading_ = false;
 						// Display filename in title bar and update views there's new data
 						if (READ_ONLY) {
@@ -1768,53 +1773,67 @@ std::string book::file_title() {
 
 // Flush data
 bool book::flush_data() {
-	boost::system::error_code ec;
-	boost::filesystem::path p_target(target_filename_);
-	boost::filesystem::path p_mirror(mirror_filename_);
 	switch(mirror_use_) {
 	case MU_MIRROR_PRIME:
-		boost::filesystem::copy(p_mirror, p_target,
-			boost::filesystem::copy_options::overwrite_existing, ec);
-		if (ec) {
-			status_->misc_status(
-				ST_WARNING, 
-				"LOG: Error restoring source %s - %s", 
-				target_filename_.c_str(), 
-				ec.what().c_str());
-			return false;
-		}
-		else {
-			status_->misc_status(
-				ST_NOTE, 
-				"LOG: File %s restored from %s", 
-				target_filename_.c_str(), 
-				mirror_filename_.c_str());
-			return true;
-		}
+		copy_from_mirror();
 		break;
 	case MU_TARGET_PRIME:
-		boost::filesystem::copy(p_target, p_mirror,
-			boost::filesystem::copy_options::overwrite_existing, ec);
-		if (ec) {
-			status_->misc_status(
-				ST_WARNING, 
-				"LOG: Error copying mirror %s - %s",
-				mirror_filename_.c_str(), 
-				ec.what().c_str());
-			return false;
-		}
-		else {
-			status_->misc_status(
-				ST_NOTE, 
-				"LOG: File %s mirrored to %s", 
-				target_filename_.c_str(), 
-				mirror_filename_.c_str());
-			return true;
-		}
+		copy_to_mirror();
+		break;
 	default:
 		return false;
 	}
+	return true;
+}
 
+// Copy target to mirror
+bool book::copy_to_mirror() {
+	boost::system::error_code ec;
+	boost::filesystem::path p_target(target_filename_);
+	boost::filesystem::path p_mirror(mirror_filename_);
+	boost::filesystem::copy(p_target, p_mirror,
+		boost::filesystem::copy_options::overwrite_existing, ec);
+	if (ec) {
+		status_->misc_status(
+			ST_WARNING,
+			"LOG: Error copying mirror %s - %s",
+			mirror_filename_.c_str(),
+			ec.what().c_str());
+		return false;
+	}
+	else {
+		status_->misc_status(
+			ST_NOTE,
+			"LOG: File %s mirrored to %s",
+			target_filename_.c_str(),
+			mirror_filename_.c_str());
+		return true;
+	}
+
+}
+
+bool book::copy_from_mirror() {
+	boost::system::error_code ec;
+	boost::filesystem::path p_target(target_filename_);
+	boost::filesystem::path p_mirror(mirror_filename_);
+	boost::filesystem::copy(p_mirror, p_target,
+		boost::filesystem::copy_options::overwrite_existing, ec);
+	if (ec) {
+		status_->misc_status(
+			ST_WARNING,
+			"LOG: Error restoring source %s - %s",
+			target_filename_.c_str(),
+			ec.what().c_str());
+		return false;
+	}
+	else {
+		status_->misc_status(
+			ST_NOTE,
+			"LOG: File %s restored from %s",
+			target_filename_.c_str(),
+			mirror_filename_.c_str());
+		return true;
+	}
 }
 
 void book::get_mirror_details() {

@@ -1,6 +1,6 @@
 /** \page release_notes Revision History
 
-\section rev_3_7_1 Revision 3.7.1
+\section rev_3_7_1 Revision 3.7.1 [Unreleased]
   - Functional changes.
     - None.
   - Cosmetic and non-functional changes.
@@ -16,6 +16,9 @@
     - Checking "Enable Mirroring" in settings didn't enable the input to define the path.
     - Couldn't type into "NOTES" field in qso entry panel.
     - Lost the ability to change the path to the QSL Cards folder in settings.
+    - If mirroring is enabled in writeback mode the target file may be overwritten
+      with an old mirror file when the application is closed.
+    - Display "CLOSING" in banner when closed from application as well as banner.
 
 \section rev_3_7 Revision 3.7
   - Functional changes.
