@@ -65,7 +65,8 @@
 
 #include <hamlib/rig.h>
 
-extern bool START_OFF_AIR; 
+extern bool START_ALL_RIGS;
+extern std::set<std::string> START_RIGS;
 extern void open_html(const char* filename);
 
 // Constructor
@@ -91,10 +92,11 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 		enable_widgets(DAMAGE_ALL);
 		return;
 	}
-	// If we have CLI switch START_OFF_AIR then do not attempt to connect to rig or start app,
-	// even if configured to do so.
-	if (START_OFF_AIR && (cat_data_->auto_connect || cat_data_->auto_start)) {
-		status_->misc_status(ST_WARNING, "RIG: Automatic start-up of %s inhibited by switch.", label());
+	// Only allow start to be attempted if the rig is in the list of those to be auto-started.
+	if (!START_ALL_RIGS && 
+		(START_RIGS.find(label()) == START_RIGS.end())&&
+		(cat_data_->auto_connect || cat_data_->auto_start)) {
+		status_->misc_status(ST_NOTE, "RIG: Rig %s auto-connect not enabled by switch", label());
 		enable_widgets(DAMAGE_ALL);
 		return;
 	}
@@ -123,11 +125,12 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 // DEstructor
 qso_rig::~qso_rig() {
 	save_values();
-	// If we have set auto power-down and not inhibiting it with switch -o
-	// then power down rig when closing.
+	// If we have set auto power-down and enabled by CLI switch then power 
+	// down rig when closing.	
 	bool powerdown = cat_data_ && cat_data_->auto_pdown;
 	if (powerdown) {
-		if (START_OFF_AIR) {
+		if (!START_ALL_RIGS && 
+		    (START_RIGS.find(label()) == START_RIGS.end())) {
 			status_->misc_status(ST_WARNING, "RIG: Automatic power-down of rig %s inhibited by switch.", label());
 			powerdown = false;
 		}

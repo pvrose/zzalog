@@ -160,8 +160,10 @@ bool PRIVATE = false;
 bool READ_ONLY = false;
 //! Resum logging including previous session -  by "-m"
 bool RESUME_SESSION = false;
-// Start off-air - do not auto-connect rigs
-bool START_OFF_AIR = false;
+//! Start all rigs - by "-s all"
+bool START_ALL_RIGS = false;
+//! List of rigs to start - by "-s <rig1> -s <rig2>"
+std::set<std::string> START_RIGS = {};
 //! Open userguide instead of running ZZALOG -  by "-h html"
 bool HELP_HTML = false;
 //! Open PDF userguide instead of running ZZALOG -  by "-h pdf"
@@ -580,11 +582,6 @@ int cb_args(int argc, char** argv, int& i) {
 		AUTO_UPLOAD_S = true;
 		i += 1;
 	}
-	// Start off air
-	else if (strcmp("-o", argv[i]) == 0 || strcmp("--off-air", argv[i]) == 0) {
-		START_OFF_AIR = true;
-		i += 1;
-	}
 	// Private log - do not update recent files
 	else if (strcmp("-p", argv[i]) == 0 || strcmp("--private", argv[i]) == 0) {
 		PRIVATE = true;
@@ -600,6 +597,23 @@ int cb_args(int argc, char** argv, int& i) {
 	else if (strcmp("-r", argv[i]) == 0 || strcmp("--read_only", argv[i]) == 0) {
 		READ_ONLY = true;
 		i += 1;
+	}
+	// Look for start rigs (-s or --start)
+	else if (strcmp("-s", argv[i]) == 0 || strcmp("--start", argv[i]) == 0) {
+		i += 1;
+		if (argv[i]) {
+			if (strcmp("all", argv[i]) == 0) {
+				START_ALL_RIGS = true;
+				i += 1;
+			}
+			else {
+				START_RIGS.insert(argv[i]);
+				i += 1;
+			}
+		}
+		else {
+			printf("No rig specified after %s - ignored\n", argv[i-1]);
+		}
 	}
 	// Look for test mode (-t or --test) 
 	else if (strcmp("-t", argv[i]) == 0 || strcmp("--test", argv[i]) == 0) {
@@ -768,10 +782,11 @@ void show_help() {
 	"\t-l|--light\tLight mode (sticky)\n"
 	"\t-m|--resume\tResume the previous session\n"
 	"\t-n|--noisy\tDo publish QSOs to online sites (sticky)\n"
-	"\t-o|--off-air\tDo not auto-connect rigs\n"
 	"\t-p|--private\tDo not update recent files list\n"
 	"\t-q|--quiet\tDo not publish QSOs to online sites (sticky)\n"
 	"\t-r|--read_only\tOpen file in read only mode\n"
+	"\t-s|--start [rig]...\tStart specified rig(s) (more than 1 allowed)\n"
+		"\t\tall\tStart all rigs\n"
 	"\t-t|--test\tTest mode: infers -q -w\n"
 	"\t-u|--usual\tNormal mode: infers -a -n\n"
 	"\t-v|--version\tDisplay version details\n"
@@ -1167,7 +1182,14 @@ void print_args(int argc, char** argv) {
 	if (!DARK) status_->misc_status(ST_NOTE, "ZZALOG: -l - Opening in normal FLTK colours");
 	if (RESUME_SESSION) status_->misc_status(ST_NOTE, "ZZALOG: -m - Resuming previous session");
 	if (AUTO_UPLOAD) status_->misc_status(ST_NOTE, "ZZALOG: -n - QSOs uploaded to QSL sites automatically");
-    if (START_OFF_AIR) status_->misc_status(ST_WARNING, "ZZALOG: -o - Not auto-connecting rigs");
+    if (START_ALL_RIGS) status_->misc_status(ST_NOTE, "ZZALOG: -s all - All rigs auto-connecting");
+	else if (START_RIGS.size()) {
+		std::string rigs = "";
+		for (auto& rig : START_RIGS) {
+			rigs += rig + " ";
+		}
+		status_->misc_status(ST_NOTE, "ZZALOG: -s %s - Auto-connecting specified rigs", rigs.c_str());
+	}
 	if (PRIVATE) status_->misc_status(ST_WARNING, "ZZALOG: -p - This file not being noted on recent files list");
 	if (!AUTO_UPLOAD) status_->misc_status(ST_WARNING, "ZZALOG: -q - QSOs are not being uploaded to QSL sites");
 	if (READ_ONLY) status_->misc_status(ST_WARNING, "ZZALOG: -r - File opened read-only");
