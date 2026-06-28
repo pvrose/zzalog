@@ -52,14 +52,15 @@ Runs the app in light mode with light background and dark text and icons (sticky
 Starts ZZALOG and resumes the previous session.
 - <B>-n|--noisy</B>
 Uploads QSO records to the on-line QSL servers.
-- <B>-o|--off-air</B>
-Inhibits any automatic starting and powering down of CAT connections.
 - <B>-p|--private</B>
 Does not update the recent files list.
 - <B>-q|--quiet</B>
 Does not update QSO records to the on-line QSO servers (sticky).
 - <B>-r|--read_only</B>
 Opens the file in read only mode.
+- <B>-s|--start [all|&lt;rig&gt;]</B>
+Allow all or specified rig connections to start automatically.
+May be repeated to allow multiple rigs to be started.
 - <B>-t|--test</B>
 Opens the application in test mode: infers -q -w.
 - <B>-u|--usual</B>

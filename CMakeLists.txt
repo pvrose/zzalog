@@ -17,7 +17,7 @@
 #]=]
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.7.0.6)
+project(ZZALOG VERSION 3.7.0.7)
 
 # Add shared CMake modules
 # First look in sibling path for development, then in installed location for users
