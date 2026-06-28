@@ -17,7 +17,7 @@
 #]=]
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.7.0.5)
+project(ZZALOG VERSION 3.7.0.6)
 
 # Add shared CMake modules
 # First look in sibling path for development, then in installed location for users
@@ -326,9 +326,9 @@ gm3zza_find_hamlib()
 
 ## Use shared zzacommon (includes zzaf, zzam, zzad, zzab, zzafb)
 if(ZZALOG_DOX)
-    gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.7.1 ENABLE_DOCS)
+    gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.8 ENABLE_DOCS)
 else()
-    gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.7.1)
+    gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.8)
 endif()
 
 
