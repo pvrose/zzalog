@@ -2,10 +2,12 @@
 
 \section rev_3_7_1 Revision 3.7.1 [Unreleased]
   - Functional changes.
-    - None.
+    - Replace switch "-o" that prevents rigs from being started with "-s <rig>" that
+    allows specified rigs to be started automatically.
   - Cosmetic and non-functional changes.
     - Increase size of buttons in international virtual keyboard.
     - Add switch to vary font size in user interface between 8 and 12.
+    - Add current sticky switches to help display.
   - Performance changes.
     - None.
   - Bug fixes.

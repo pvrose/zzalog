@@ -811,6 +811,8 @@ void show_help() {
 	"\t-z|--size [size]\tSet default font size (sticky)\n"
 	"\n";
 	printf(text);
+	printf(sticky_message_.c_str());
+	printf("\n");
 }
 
 // Use supplied argument, or read the latest file from settings or open file chooser if that's an empty std::string
