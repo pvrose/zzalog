@@ -22,6 +22,7 @@
       with an old mirror file when the application is closed.
     - Display "CLOSING" in banner when closed from application as well as banner.
     - Search text input in toolbar didn't accept input.
+    - "CQ SA ...." message from WSJT-X being misinterpreted as a callsign.
 
 \section rev_3_7 Revision 3.7
   - Functional changes.

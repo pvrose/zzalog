@@ -74,7 +74,7 @@ const std::basic_regex<char> REGEX_REPORT("[-+][0-9]{1,2}");
 //! FT8 R + reports 
 const std::basic_regex<char> REGEX_ROGER("R[-+][0-9]{1,2}");
 //! CQ target - CQ or CQ xxxx
-const std::basic_regex<char> REGEX_CQ("CQ( [A-Z][0-9]{1,4})?");
+const std::basic_regex<char> REGEX_CQ("CQ( [A-Z0-9]{1,4})?");
 //! Definition of valid white-space
 const std::basic_regex<char> REGEX_WHITE_SPACE("\\s*");
 //! RPC date time format - YYYYMMDDTHH:MM:SS or YYYY-MM-DDTHH:MM:SS
