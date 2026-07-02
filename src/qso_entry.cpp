@@ -202,7 +202,7 @@ void qso_entry::create_form(int X, int Y) {
 	ip_notes_->when(FL_WHEN_CHANGED);
 	ip_notes_->tooltip("Add any notes for the QSO");
 	ip_notes_->field_name("NOTES", qso_);
-	ip_notes_->input()->when(FL_WHEN_RELEASE_ALWAYS);
+	ip_notes_->input()->when(FL_WHEN_CHANGED);
 
 	curr_y += HBUTTON + GAP;
 	resizable(nullptr);

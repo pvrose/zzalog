@@ -520,18 +520,36 @@ void cty_data::parse(record* qso) {
 		qso->item("DXCC", dxcc_id);
 		if (zc_app::debug(DEBUG_PARSE)) printf("%s: QSO has DXCC %d\n", current_call_.c_str(), dxcc_id);
 
-		std::string matched_call;
-		parse_result_.decode_element = match_pattern(current_call_, when, matched_call, true);
+		if (dxcc_id > 0) {
+			parse_result_.entity = data_->entities[dxcc_id];
+			if (parse_result_.entity) {
+				parse_result_.geography = (cty_geography*)match_filter(parse_result_.entity, cty_filter::FT_GEOGRAPHY, current_call_, when);
+				parse_result_.usage = match_filter(parse_result_.entity, cty_filter::FT_USAGE, current_call_, when);
+			}
+			else {
+				parse_result_.geography = nullptr;
+				parse_result_.usage = nullptr;
+			}
+		}
+		else {
+			std::string matched_call;
+			parse_result_.decode_element = match_pattern(current_call_, when, matched_call, true);
 
-		if (parse_result_.decode_element) {
-			int dxcc_id = parse_result_.decode_element->dxcc_id_;
-			if (data_->entities.find(dxcc_id) != data_->entities.end()) {
-				parse_result_.entity = data_->entities[dxcc_id];
-				if (parse_result_.entity) {
-					parse_result_.geography = (cty_geography*)match_filter(parse_result_.entity, cty_filter::FT_GEOGRAPHY, matched_call, when);
-					parse_result_.usage = match_filter(parse_result_.entity, cty_filter::FT_USAGE, matched_call, when);
+			if (parse_result_.decode_element) {
+				int dxcc_id = parse_result_.decode_element->dxcc_id_;
+				if (data_->entities.find(dxcc_id) != data_->entities.end()) {
+					parse_result_.entity = data_->entities[dxcc_id];
+					if (parse_result_.entity) {
+						parse_result_.geography = (cty_geography*)match_filter(parse_result_.entity, cty_filter::FT_GEOGRAPHY, matched_call, when);
+						parse_result_.usage = match_filter(parse_result_.entity, cty_filter::FT_USAGE, matched_call, when);
+					}
+					else {
+						parse_result_.geography = nullptr;
+						parse_result_.usage = nullptr;
+					}
 				}
 				else {
+					parse_result_.entity = nullptr;
 					parse_result_.geography = nullptr;
 					parse_result_.usage = nullptr;
 				}
@@ -542,12 +560,6 @@ void cty_data::parse(record* qso) {
 				parse_result_.usage = nullptr;
 			}
 		}
-		else {
-			parse_result_.entity = nullptr;
-			parse_result_.geography = nullptr;
-			parse_result_.usage = nullptr;
-		}
-
 	}
 	else {
 		status_->misc_status(ST_WARNING, "No country data is loaded");

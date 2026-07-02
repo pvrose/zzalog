@@ -23,6 +23,7 @@
     - Display "CLOSING" in banner when closed from application as well as banner.
     - Search text input in toolbar didn't accept input.
     - "CQ SA ...." message from WSJT-X being misinterpreted as a callsign.
+    - Existing "DXCC" value in QSO record ignored when parsing record.
 
 \section rev_3_7 Revision 3.7
   - Functional changes.
