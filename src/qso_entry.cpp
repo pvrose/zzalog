@@ -358,8 +358,15 @@ void qso_entry::copy_qso_to_display(int flags) {
 				}
 			}
 		}
-		// Handle NOTES separately 
-		ip_notes_->value(qso_->item("NOTES").c_str());
+		// Copy per flag bits - specifically for NOTES.
+		for (auto sf = COPY_SET.begin(); sf != COPY_SET.end(); sf++) {
+			copy_flags f = (*sf);
+			if (flags & f) {
+				for (auto fx = COPY_FIELDS.at(f).begin(); fx != COPY_FIELDS.at(f).end(); fx++) {
+					if ((*fx) == "NOTES") ip_notes_->value(qso_->item("NOTES").c_str());
+				}
+			}
+		}
 	}
 	else {
 		// Clear all fields
