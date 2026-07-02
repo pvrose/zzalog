@@ -67,7 +67,6 @@ set(APP_VERSION "${ZZALOG_VERSION}${APP_RC_VALUE}")
 
 # generate documents - add switches for conditional build.
 option(ZZALOG_DOX "Generate Documentation" OFF)
-option(ZZALOG_PDF "Generate PDF Document" OFF)
 
 # Generate MSVC debugging symbols for all configurations
 option(ZZALOG_PDB "Generate PDB files for debugging (MSVC only)" OFF)
@@ -325,11 +324,7 @@ gm3zza_find_hamlib()
 
 
 ## Use shared zzacommon (includes zzaf, zzam, zzad, zzab, zzafb)
-if(ZZALOG_DOX)
-    gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.8 ENABLE_DOCS)
-else()
-    gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.8)
-endif()
+gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.8)
 
 
 ## Add all contest algorithm files to separate list
@@ -351,6 +346,17 @@ add_dependencies(${TARGET}
   zzacommon::zzafb
   zzacommon::zzam
 )
+
+# Conditionally add documentation
+if (ZZALOG_DOX) 
+  message(STATUS "Adding documentation")
+  add_dependencies(${TARGET}
+    ug_html
+    ug_pdf
+    api_html
+    zzacommon_api_html
+  )
+endif()
 
 ## Set header include directoies.
 target_include_directories(${TARGET} PRIVATE 
@@ -401,15 +407,10 @@ gm3zza_copy_runtime_dlls(TARGET ${TARGET})
 
 
 # Generate documents - userguide and API documentation.
-if(ZZALOG_DOX)
   # Paths to the include directories used by api/Doxyfile.in
   set(ZZALOG_INCLUDE_DIR          "${ZZALOG_SOURCE_DIR}/include")
 
-  if(ZZALOG_PDF)
-    set(_docs_pdf_flag PDF)
-  else()
-    set(_docs_pdf_flag "")
-  endif()
+  set(_docs_pdf_flag "")
 
   gm3zza_enable_docs(
     TARGET        ${TARGET}
@@ -417,12 +418,7 @@ if(ZZALOG_DOX)
     USERGUIDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/userguide"
     API_DIR       "${CMAKE_CURRENT_SOURCE_DIR}/api"
     API_FILES     ${HPPFILES}
-    ${_docs_pdf_flag}
   )
-
-  # Copy zzacommon API docs into the api html output tree
-  zzacommon_copy_api_docs(${GM3ZZA_API_HTML_DIR}/zzacommon)
-endif()
 
 ### Install
 install(TARGETS ${TARGET} RUNTIME COMPONENT applications)
@@ -436,7 +432,6 @@ endif()
 
 
 # Install userguide and API documentation
-if(ZZALOG_DOX)
     if(GM3ZZA_USERGUIDE_HTML_DIR)
       gm3zza_install_runtime_files(
         DIRECTORIES ${GM3ZZA_USERGUIDE_HTML_DIR}
@@ -445,7 +440,7 @@ if(ZZALOG_DOX)
       )
     endif()
 
-    if(ZZALOG_PDF AND GM3ZZA_USERGUIDE_PDF_FILE)
+    if(GM3ZZA_USERGUIDE_PDF_FILE)
       gm3zza_install_runtime_files(
         FILES ${GM3ZZA_USERGUIDE_PDF_FILE}
         DEST_SUBDIR userguide
@@ -460,7 +455,6 @@ if(ZZALOG_DOX)
         COMPONENT documentation
       )
     endif()
-endif()
 
 include(InstallRequiredSystemLibraries)
 
