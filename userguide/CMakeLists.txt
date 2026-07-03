@@ -316,40 +316,26 @@ if(DOXYGEN_FOUND)
   
       # Command for generating PDF from userguide latex files
       if(MSVC)
-        add_custom_command(
-            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.pdf
-            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
-                    ug_html
+        add_custom_target(ug_pdf
             COMMAND miktex-texworks.exe  ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.tex
             COMMENT "ZZALOG: Generating PDF Userguide"
             VERBATIM
         )
       else()
-        add_custom_command(
-            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.pdf
-            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html/index.html
-                    ug_html
+        add_custom_target(ug_pdf
             COMMAND make -C ${CMAKE_CURRENT_BINARY_DIR}/latex >> /dev/null
             COMMENT "ZZALOG: Generating PDF Userguide"
             VERBATIM
         )
       endif()
-      add_custom_target(ug_pdf 
-      )
       add_dependencies(ug_pdf ug_html)
       
       # Copy from latex/refman.pdf to ZZALOG.pdf
-      add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}.pdf
-        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.pdf
-                ug_pdf
+      add_custom_target(pdf
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_CURRENT_BINARY_DIR}/latex/refman.pdf
         ${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}.pdf
         COMMENT "Copying PDF"
-      )
-      add_custom_target(
-        pdf 
       )
       add_dependencies(pdf ug_pdf)
 endif()

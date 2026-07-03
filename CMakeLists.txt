@@ -354,6 +354,7 @@ if (ZZALOG_DOX)
     ug_html
     ug_pdf
     api_html
+    pdf
     zzacommon_api_html
   )
 endif()
