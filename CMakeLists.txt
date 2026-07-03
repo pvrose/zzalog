@@ -426,7 +426,7 @@ gm3zza_install_runtime_files(FILES ${DATAFILES} COMPONENT data)
 
 if(MSVC)
   gm3zza_register_hamlib_dlls()
-  zzacommon_install_runtime_dlls(DESTINATION bin COMPONENT application)
+  zzacommon_install_runtime_dlls(TARGET ${TARGET} DESTINATION bin COMPONENT application)
   gm3zza_install_registered_runtime_dlls()
 endif()
 
