@@ -40,6 +40,7 @@
 #include "zc_status.h"
 #include "tabbed_forms.h"
 #include "zc_ticker.h"
+#include "zc_icons.h"
 #include "zc_fltk.h"
 
 
@@ -162,15 +163,18 @@ void qso_qsl::create_form() {
 	bn_auto_eqsl_->callback(cb_auto, (void*)extract_data::EQSL);
 	bn_auto_eqsl_->tooltip("Enable automatic upload of eQSL after logging");
 	// Download
-	bn_down_eqsl_ = new Fl_Button(C3, curr_y, W3, HBUTTON, "@2->");
+	bn_down_eqsl_ = new Fl_Button(C3, curr_y, W3, HBUTTON);
+	zc_add_icon_to_widget(bn_down_eqsl_, zc_icon_t::ICON_DOWNLOAD);
 	bn_down_eqsl_->callback(cb_download, (void*)import_data::EQSL_UPDATE);
 	bn_down_eqsl_->tooltip("Download latest records from eQSL");
 	// Extract
-	bn_extr_eqsl_ = new Fl_Button(C4, curr_y, W4, HBUTTON, "@search");
+	bn_extr_eqsl_ = new Fl_Button(C4, curr_y, W4, HBUTTON);
+	zc_add_icon_to_widget(bn_extr_eqsl_, zc_icon_t::ICON_SEARCH);
 	bn_extr_eqsl_->callback(cb_extract, (void*)extract_data::EQSL);
 	bn_extr_eqsl_->tooltip("Extract records for upload to eQSL");
 	// Upload
-	bn_upld_eqsl_ = new Fl_Button(C6, curr_y, W6, HBUTTON, "@8->");
+	bn_upld_eqsl_ = new Fl_Button(C6, curr_y, W6, HBUTTON);
+	zc_add_icon_to_widget(bn_upld_eqsl_, zc_icon_t::ICON_UPLOAD);
 	bn_upld_eqsl_->callback(cb_upload, (void*)extract_data::EQSL);
 	bn_upld_eqsl_->tooltip("Upload extracted records to eQSL");
 
@@ -186,15 +190,18 @@ void qso_qsl::create_form() {
 	bn_auto_lotw_->callback(cb_auto, (void*)extract_data::LOTW);
 	bn_auto_lotw_->tooltip("Enable automatic upload of LotW after logging");
 	// Download
-	bn_down_lotw_ = new Fl_Button(C3, curr_y, W3, HBUTTON, "@2->");
+	bn_down_lotw_ = new Fl_Button(C3, curr_y, W3, HBUTTON);
+	zc_add_icon_to_widget(bn_down_lotw_, zc_icon_t::ICON_DOWNLOAD);
 	bn_down_lotw_->callback(cb_download, (void*)import_data::LOTW_UPDATE);
 	bn_down_lotw_->tooltip("Download latest records from LotW");
 	// Extract
-	bn_extr_lotw_ = new Fl_Button(C4, curr_y, W4, HBUTTON, "@search");
+	bn_extr_lotw_ = new Fl_Button(C4, curr_y, W4, HBUTTON);
+	zc_add_icon_to_widget(bn_extr_lotw_, zc_icon_t::ICON_SEARCH);
 	bn_extr_lotw_->callback(cb_extract, (void*)extract_data::LOTW);
 	bn_extr_lotw_->tooltip("Extract records for upload to LotW");
 	// Upload
-	bn_upld_lotw_ = new Fl_Button(C6, curr_y, W6, HBUTTON, "@8->");
+	bn_upld_lotw_ = new Fl_Button(C6, curr_y, W6, HBUTTON);
+	zc_add_icon_to_widget(bn_upld_lotw_, zc_icon_t::ICON_UPLOAD);
 	bn_upld_lotw_->callback(cb_upload, (void*)extract_data::LOTW);
 	bn_upld_lotw_->tooltip("Upload extracted records to LotW");
 
@@ -209,11 +216,13 @@ void qso_qsl::create_form() {
 	bn_auto_club_->callback(cb_auto, (void*)extract_data::CLUBLOG);
 	bn_auto_club_->tooltip("Enable automatic upload of ClubLog after logging");
 	// Extract
-	bn_extr_club_ = new Fl_Button(C4, curr_y, W4, HBUTTON, "@search");
+	bn_extr_club_ = new Fl_Button(C4, curr_y, W4, HBUTTON);
+	zc_add_icon_to_widget(bn_extr_club_, zc_icon_t::ICON_SEARCH);
 	bn_extr_club_->callback(cb_extract, (void*)extract_data::CLUBLOG);
 	bn_extr_club_->tooltip("Extract records for upload to ClubLog");
 	// Upload
-	bn_upld_club_ = new Fl_Button(C6, curr_y, W6, HBUTTON, "@8->");
+	bn_upld_club_ = new Fl_Button(C6, curr_y, W6, HBUTTON);
+	zc_add_icon_to_widget(bn_upld_club_, zc_icon_t::ICON_UPLOAD);
 	bn_upld_club_->callback(cb_upload, (void*)extract_data::CLUBLOG);
 	bn_upld_club_->tooltip("Upload extracted records to ClubLog");
 
@@ -228,19 +237,23 @@ void qso_qsl::create_form() {
 	bn_auto_qrz_->callback(cb_auto, (void*)extract_data::QRZCOM);
 	bn_auto_qrz_->tooltip("Enable automatic upload of QRZ.com after logging");
 	// Download
-	bn_down_qrz_ = new Fl_Button(C3, curr_y, W3, HBUTTON, "@2->");
+	bn_down_qrz_ = new Fl_Button(C3, curr_y, W3, HBUTTON);
+	zc_add_icon_to_widget(bn_down_qrz_, zc_icon_t::ICON_DOWNLOAD);
 	bn_down_qrz_->callback(cb_download, (void*)import_data::QRZCOM_UPDATE);
 	bn_down_qrz_->tooltip("Download latest records from QRZ.com");
 	// Extract
-	bn_extr_qrz_ = new Fl_Button(C4, curr_y, W4, HBUTTON, "@search");
+	bn_extr_qrz_ = new Fl_Button(C4, curr_y, W4, HBUTTON);
+	zc_add_icon_to_widget(bn_extr_qrz_, zc_icon_t::ICON_SEARCH);
 	bn_extr_qrz_->callback(cb_extract, (void*)extract_data::QRZCOM);
 	bn_extr_qrz_->tooltip("Extract records for upload to QRZ.com");
 	// print
-	bn_save_qrz_ = new Fl_Button(C5, curr_y, W5, HBUTTON, "@filesave");
+	bn_save_qrz_ = new Fl_Button(C5, curr_y, W5, HBUTTON);
+	zc_add_icon_to_widget(bn_save_qrz_, zc_icon_t::ICON_FILE_SAVE);
 	bn_save_qrz_->callback(menu_bar::cb_mi_file_saveas, (void*)OT_EXTRACT);
 	bn_save_qrz_->tooltip("Save extracted data to file for manual upload to QRZ.com");
 	// Upload
-	bn_upld_qrz_ = new Fl_Button(C6, curr_y, W6, HBUTTON, "@8->");
+	bn_upld_qrz_ = new Fl_Button(C6, curr_y, W6, HBUTTON);
+	zc_add_icon_to_widget(bn_upld_qrz_, zc_icon_t::ICON_UPLOAD);
 	bn_upld_qrz_->callback(cb_upload, (void*)extract_data::QRZCOM);
 	bn_upld_qrz_->tooltip("Upload extracted records to QRZ.com");
 	// Mark read
@@ -255,7 +268,8 @@ void qso_qsl::create_form() {
 	box_q->box(FL_FLAT_BOX);
 	box_q->color(FL_BACKGROUND_COLOR);
 	// Extract
-	bn_extr_card_ = new Fl_Button(C4, curr_y, W4, HBUTTON, "@search");
+	bn_extr_card_ = new Fl_Button(C4, curr_y, W4, HBUTTON);
+	zc_add_icon_to_widget(bn_extr_card_, zc_icon_t::ICON_SEARCH);
 	bn_extr_card_->callback(cb_extract, (void*)extract_data::CARD);
 	bn_extr_card_->tooltip("Extract records for printing labels");
 	// Download OQRS
@@ -264,7 +278,8 @@ void qso_qsl::create_form() {
 	bn_down_oqrs_->callback(cb_download, (void*)import_data::OQRS);
 	bn_down_oqrs_->tooltip("Download OQRS requests from Clublog.org");
 	// print
-	bn_print_ = new Fl_Button(C5, curr_y, W5, HBUTTON, "@fileprint");
+	bn_print_ = new Fl_Button(C5, curr_y, W5, HBUTTON);
+	zc_add_icon_to_widget(bn_print_, zc_icon_t::ICON_PRINT);
 	bn_print_->callback(cb_print);
 	bn_print_->tooltip("Print labels from extracted records");
 	// Mark read
@@ -279,16 +294,18 @@ void qso_qsl::create_form() {
 	box_m->box(FL_FLAT_BOX);
 	box_m->color(FL_BACKGROUND_COLOR);
 	// Extract
-	bn_extr_email_ = new Fl_Button(C4, curr_y, W4, HBUTTON, "@search");
+	bn_extr_email_ = new Fl_Button(C4, curr_y, W4, HBUTTON);
+	zc_add_icon_to_widget(bn_extr_email_, zc_icon_t::ICON_SEARCH);
 	bn_extr_email_->callback(cb_extract, (void*)extract_data::EMAIL);
 	bn_extr_email_->tooltip("Extract records for sending e-mails");
 	// print
-	bn_png_ = new Fl_Button(C5, curr_y, W5, HBUTTON, "@filesave");
+	bn_png_ = new Fl_Button(C5, curr_y, W5, HBUTTON);
+	zc_add_icon_to_widget(bn_png_, zc_icon_t::ICON_FILE_SAVE);
 	bn_png_->callback(cb_png);
 	bn_png_->tooltip("Generate PNG files for sending");
 	// Send e-mail
-	bn_send_email_ = new Fl_Button(C6, curr_y, W6, HBUTTON, "@mail");
-	bn_send_email_->labelsize(HBUTTON - 2);
+	bn_send_email_ = new Fl_Button(C6, curr_y, W6, HBUTTON);
+	zc_add_icon_to_widget(bn_send_email_, zc_icon_t::ICON_MAIL);
 	bn_send_email_->callback(cb_email);
 	bn_send_email_->tooltip("Send e-mails for extracetd QSOs");
 	// Mark read
@@ -298,7 +315,8 @@ void qso_qsl::create_form() {
 
 	curr_y += HBUTTON;
 	// cacncel 
-	bn_cancel_ = new Fl_Button(C4, curr_y, W4, HBUTTON, "@undo");
+	bn_cancel_ = new Fl_Button(C4, curr_y, W4, HBUTTON);
+	zc_add_icon_to_widget(bn_cancel_, zc_icon_t::ICON_UNDO);
 	bn_cancel_->callback(cb_cancel, nullptr);
 	bn_cancel_->tooltip("Cancel extract");
 

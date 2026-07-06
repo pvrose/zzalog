@@ -32,6 +32,7 @@
 #include "zc_settings.h"
 #include "zc_status.h"
 #include "zc_fltk.h"
+#include "zc_icons.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -203,7 +204,8 @@ void app_grp::create_form() {
     curr_x = x() + GAP;
 
     // Allow the application to be disconnected
-    bn_disable_ = new Fl_Light_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "@undo");
+    bn_disable_ = new Fl_Light_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON);
+	zc_add_icon_to_widget(bn_disable_, zc_icon_t::ICON_UNDO);
     bn_disable_->align(FL_ALIGN_INSIDE);
     bn_disable_->callback(cb_bn_disable);
     bn_disable_->tooltip("Select if able to disconnect from application");

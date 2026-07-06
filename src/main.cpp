@@ -65,7 +65,6 @@
 #include "zc_file_holder.h"
 #include "zc_settings.h"
 #include "zc_status.h"
-#include "zc_symbols.h"
 #include "zc_ticker.h"
 #include "zc_fltk.h"
 
@@ -1210,11 +1209,6 @@ bool in_current_session(record* this_record) {
 // Customise FLTK feature
 void customise_fltk(int font_size) {
 	zc::customise_fltk(font_size);
-	// Add label symbols
-	fl_add_symbol("eyeshut", &draw_eyeshut, true);
-	fl_add_symbol("eyeopen", &draw_eyeopen, true);
-	fl_add_symbol("calendar", &draw_calendar, true);
-	fl_add_symbol("mail", &draw_mail, true);
 	// Set foreground and background colours
 	if (DARK) {
 		Fl::foreground(240, 240, 240);             // 15/16 White

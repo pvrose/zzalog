@@ -24,7 +24,6 @@
 #include "extract_data.h"
 #include "file_types.h"
 #include "zc_file_holder.h"
-#include "icons.h"
 #include "intl_dialog.h"
 #include "intl_widgets.h"
 #include "main_window.h"
@@ -33,6 +32,7 @@
 #include "record.h"
 #include "zc_status.h"
 #include "zc_fltk.h"
+#include "zc_icons.h"
 
 #include <cstdio>
 #include <string>
@@ -64,88 +64,98 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 {
 	int curr_x = X;
 	// File->New
-	Fl_Button* bn = new Fl_Button(curr_x, Y, H, H, "@filenew");
+	Fl_Button* bn = new Fl_Button(curr_x, Y, H, H);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_FILE_NEW);
 	bn->callback(cb_bn_menu, (void*)"&File/&New");
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("New file");
 	add(bn);
 	curr_x += H;
 	// File->Open
-	bn = new Fl_Button(curr_x, Y, H, H, "@fileopen");
+	bn = new Fl_Button(curr_x, Y, H, H);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_FILE_OPEN);
 	bn->callback(cb_bn_menu, (void*)"&File/&Open");
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("Open file");
 	add(bn);
 	curr_x += H;
 	// File->Save
-	bn = new Fl_Button(curr_x, Y, H, H, "@filesave");
+	bn = new Fl_Button(curr_x, Y, H, H);
 	bn->callback(cb_bn_menu, (void*)"&File/&Save");
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_FILE_SAVE);
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("Save file");
 	add(bn);
 	curr_x += H;
 	// File->Save As
-	bn = new Fl_Button(curr_x, Y, H, H, "@filesaveas");
+	bn = new Fl_Button(curr_x, Y, H, H);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_FILE_SAVEAS);
 	bn->callback(cb_bn_menu, (void*)"&File/Save &As");
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("Save file as");
 	add(bn);
 	curr_x += H + TOOL_GAP;
 	// Navigate->First
-	bn = new Fl_Button(curr_x, Y, H, H, "@$->|");
+	bn = new Fl_Button(curr_x, Y, H, H);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_FIRST);
 	bn->callback(cb_bn_menu, (void*)"&Navigate/&First");
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("Go to first record");
 	add(bn);
 	curr_x += H;
 	// Navigate->Previous
-	bn = new Fl_Button(curr_x, Y, H, H, "@<-");
+	bn = new Fl_Button(curr_x, Y, H, H);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_PREVIOUS);
 	bn->callback(cb_bn_menu, (void*)"&Navigate/&Previous");
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("Go to previous record");
 	add(bn);
 	curr_x += H;
 	// Navigate->Next
-	bn = new Fl_Button(curr_x, Y, H, H, "@->");
+	bn = new Fl_Button(curr_x, Y, H, H);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_NEXT);
 	bn->callback(cb_bn_menu, (void*)"&Navigate/Ne&xt");
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("Go to next record");
 	add(bn);
 	curr_x += H;
 	// Navigate->Last
-	bn = new Fl_Button(curr_x, Y, H, H, "@->|");
+	bn = new Fl_Button(curr_x, Y, H, H);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_LAST);
 	bn->callback(cb_bn_menu, (void*)"&Navigate/&Last");
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("Go to last record");
 	add(bn);
 	curr_x += H;
 	// Navigate->Find->New
-	bn = new Fl_Button(curr_x, Y, H, H, "@search");
+	bn = new Fl_Button(curr_x, Y, H, H);
 	bn->labelcolor(DARK ? fl_lighter(FL_BLUE) : FL_BLUE);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_SEARCH);
 	bn->callback(cb_bn_menu, (void*)"&Navigate/F&ind/&New");
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("Go to matching record");
 	curr_x += H;
 	// Navigate->Find->Next
-	bn = new Fl_Button(curr_x, Y, H, H, "@>>");
+	bn = new Fl_Button(curr_x, Y, H, H);
 	bn->labelcolor(DARK ? fl_lighter(FL_BLUE) : FL_BLUE);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_FORWARD);
 	bn->callback(cb_bn_menu, (void*)"&Navigate/F&ind/Ne&xt");
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("Go to next matching record");
 	curr_x += H + TOOL_GAP;
 	// Log->New Record
-	bn = new Fl_Button(curr_x, Y, H, H, 0);
+	bn = new Fl_Button(curr_x, Y, H, H);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_NEW_ITEM);
 	bn->callback(cb_bn_menu, (void*)"&Log/&New record");
 	bn->when(FL_WHEN_RELEASE);
-	bn->image(new Fl_RGB_Image(ICON_NEW_QSO, 16, 16, 4));
 	bn->tooltip("Start new QSO");
 	add(bn);
 	curr_x += H;
 	// Log->Save Record
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"&Log/&Save record");
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_ADD_ITEM);
 	bn->when(FL_WHEN_RELEASE);
-	bn->image(new Fl_RGB_Image(ICON_SAVE_QSO, 16, 16, 4));
 	bn->tooltip("Save QSO");
 	add(bn);
 	curr_x += H;
@@ -153,7 +163,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"&Log/&Cancel");
 	bn->when(FL_WHEN_RELEASE);
-	bn->image(new Fl_RGB_Image(ICON_CNCL_QSO, 16, 16, 4));
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_CANCEL_ITEM);
 	bn->tooltip("Cancel QSO capture or edit");
 	add(bn);
 	curr_x += H;
@@ -161,7 +171,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"&Log/&Delete record");
 	bn->when(FL_WHEN_RELEASE);
-	bn->image(new Fl_RGB_Image(ICON_DEL_QSO, 16, 16, 4));
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_DELETE_ITEM);
 	bn->tooltip("Delete QSO record");
 	add(bn);
 	curr_x += H;
@@ -169,7 +179,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"&Log/Re&time record");
 	bn->when(FL_WHEN_RELEASE);
-	bn->image(new Fl_RGB_Image(ICON_RETIME_QSO, 16, 16, 4));
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_RETIME);
 	bn->tooltip("Reset QSO TIME_OFF");
 	add(bn);
 
@@ -178,8 +188,10 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"&Import/Download e&QSL");
 	bn->when(FL_WHEN_RELEASE);
-	bn->labelsize(FL_NORMAL_SIZE * 2 / 3);
-	bn->label("eQSL\n\342\206\223\342\206\223");
+	bn->label("eQSL");
+	bn->labelsize(bn->labelsize() * 2 / 3);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_DOWNLOAD);
+	bn->align(FL_ALIGN_IMAGE_OVER_TEXT);
 	bn->tooltip("Download and import eQSL records");
 	add(bn);
 	curr_x += H;
@@ -187,8 +199,10 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"&Import/Download &LotW");
 	bn->when(FL_WHEN_RELEASE);
-	bn->labelsize(FL_NORMAL_SIZE * 2 / 3);
-	bn->label("LotW\n\342\206\223\342\206\223");
+	bn->label("LotW");
+	bn->labelsize(bn->labelsize() * 2 / 3);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_DOWNLOAD);
+	bn->align(FL_ALIGN_IMAGE_OVER_TEXT);
 	bn->tooltip("Download and import LotW records");
 	add(bn);
 	curr_x += H;
@@ -196,8 +210,10 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"E&xtract/e&QSL");
 	bn->when(FL_WHEN_RELEASE);
-	bn->labelsize(FL_NORMAL_SIZE * 2 / 3);
-	bn->label("eQSL\n??");
+	bn->label("eQSL");
+	bn->labelsize(bn->labelsize() * 2 / 3);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_SEARCH);
+	bn->align(FL_ALIGN_IMAGE_OVER_TEXT);
 	bn->tooltip("Extract unsent eQSL records");
 	add(bn);
 	curr_x += H;
@@ -205,8 +221,10 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"E&xtract/&LotW");
 	bn->when(FL_WHEN_RELEASE);
-	bn->labelsize(FL_NORMAL_SIZE * 2 / 3);
-	bn->label("LotWL\n??");
+	bn->label("LotW");
+	bn->labelsize(bn->labelsize() * 2 / 3);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_SEARCH);
+	bn->align(FL_ALIGN_IMAGE_OVER_TEXT);
 	bn->tooltip("Extract unsent LotW records");
 	add(bn);
 	curr_x += H;
@@ -214,8 +232,10 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"E&xtract/Club&Log");
 	bn->when(FL_WHEN_RELEASE);
-	bn->labelsize(FL_NORMAL_SIZE * 2 / 3);
-	bn->label("CLog\n??");
+	bn->label("Club");
+	bn->labelsize(bn->labelsize() * 2 / 3);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_SEARCH);
+	bn->align(FL_ALIGN_IMAGE_OVER_TEXT);
 	bn->tooltip("Extract unsent ClubLog records");
 	add(bn);
 	curr_x += H;
@@ -223,7 +243,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"E&xtract/&Upload");
 	bn->when(FL_WHEN_RELEASE);
-	bn->label("\342\206\221\342\206\221");
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_UPLOAD);
 	bn->tooltip("Upload extracted records");
 	add(bn);
 	curr_x += H + TOOL_GAP;
@@ -231,7 +251,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_rig, nullptr);
 	bn->when(FL_WHEN_RELEASE);
-	bn->image(new Fl_RGB_Image(ICON_RIG_ON, 16, 16, 4));
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_RADIO);
 	bn->tooltip("Connect or disconnect rig");
 	add(bn);
 	curr_x += H;
@@ -239,7 +259,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"E&xtract/&Criteria");
 	bn->when(FL_WHEN_RELEASE);
-	bn->image(new Fl_RGB_Image(ICON_EXTR_ON, 16, 16, 4));
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_SEARCH);
 	bn->tooltip("Set extract criteria");
 	add(bn);
 	curr_x += H;
@@ -247,7 +267,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"E&xtract/Clea&r");
 	bn->when(FL_WHEN_RELEASE);
-	bn->image(new Fl_RGB_Image(ICON_EXTR_OFF, 16, 16, 4));
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_SEARCH_OFF);
 	bn->tooltip("Clear extract criteria");
 	add(bn);
 	curr_x += H;
@@ -256,7 +276,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	// Call the menu's callback direct to get the tooltip displayed on this button.
 	bn->callback(menu_bar::cb_mi_ext_disp);
 	bn->when(FL_WHEN_RELEASE);
-	bn->image(new Fl_RGB_Image(ICON_EXTR_DISP, 16, 16, 4));
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_SEARCH_SETTINGS);
 	bn->tooltip("Display extract criteria");
 	add(bn);
 	curr_x += H + TOOL_GAP;
@@ -264,12 +284,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"&Information/Google &Maps");
 	bn->when(FL_WHEN_RELEASE);
-	std::string gmap_filename = file_holder_->get_filename(FILE_ICON_GMAPS);;
-	Fl_PNG_Image* pi = new Fl_PNG_Image(gmap_filename.c_str());
-	if (pi && !pi->fail())
-		bn->image(pi->copy(H, H));
-	else
-		bn->label("MAP");
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_WORLD);
 	bn->tooltip("Look up location in Google Maps");
 	add(bn);
 	curr_x += H;
@@ -277,12 +292,10 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(menu_bar::cb_mi_info_qrz, &search_text_);
 	bn->when(FL_WHEN_RELEASE);
-	std::string qrz_filename = file_holder_->get_filename(FILE_ICON_QRZ);
-	Fl_JPEG_Image* qi = new Fl_JPEG_Image(qrz_filename.c_str());
-	if (qi && !qi->fail())
-		bn->image(qi->copy(H, H));
-	else
-		bn->label("QRZ");
+	bn->label("QRZ");
+	bn->labelsize(bn->labelsize() * 2 / 3);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_SEARCH);
+	bn->align(FL_ALIGN_IMAGE_OVER_TEXT);
 	bn->tooltip("Look up contact in QRZ.com");
 	add(bn);
 	curr_x += H;
@@ -297,10 +310,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"&Help/&User Guide");
 	bn->when(FL_WHEN_RELEASE);
-	std::string fn_html = file_holder_->get_filename(FILE_ICON_ZZA);
-	pi = new Fl_PNG_Image(fn_html.c_str());
-	Fl_Image* icon = pi->copy(H, H);
-	bn->image(icon);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_HTML);
 	bn->tooltip("Open HTML Userguide");
 	add(bn);
 	curr_x += H;
@@ -308,12 +318,7 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	bn = new Fl_Button(curr_x, Y, H, H, 0);
 	bn->callback(cb_bn_menu, (void*)"&Help/User Guide (&PDF)");
 	bn->when(FL_WHEN_RELEASE);
-	std::string pdf_filename = file_holder_->get_filename(FILE_ICON_PDF);
-	pi = new Fl_PNG_Image(pdf_filename.c_str());
-	if (pi && !pi->fail())
-		bn->image(pi->copy(H, H));
-	else
-		bn->label("PDF");
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_BOOK);
 	bn->tooltip("Open PDF Userguide");
 	add(bn);
 
@@ -331,14 +336,20 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 	ip_search_ = ip;
 	curr_x += WSMEDIT;
 	// Button to look for the next occurence log for above callsign
-	bn = new Fl_Button(curr_x, Y, H, H, "@2->");
+	bn = new Fl_Button(curr_x, Y, H, H, "QSO");
 	bn->callback(cb_bn_search, (void*)false);
 	bn->when(FL_WHEN_RELEASE);
+	bn->labelsize(bn->labelsize() * 2 / 3);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_NEXT);
+	bn->align(FL_ALIGN_IMAGE_OVER_TEXT);
 	bn->tooltip("Jump to next occurence of call in log");
 	add(bn);
 	curr_x += H;
 	// Button to extract all records with this callsign
-	bn = new Fl_Button(curr_x, Y, H, H, "@2>[]");
+	bn = new Fl_Button(curr_x, Y, H, H, "QSO");
+	bn->labelsize(bn->labelsize() * 2 / 3);
+	zc_add_icon_to_widget(bn, zc_icon_t::ICON_SEARCH);
+	bn->align(FL_ALIGN_IMAGE_OVER_TEXT);
 	bn->callback(cb_bn_extract);
 	bn->when(FL_WHEN_RELEASE);
 	bn->tooltip("Display all QSOs with thsi callsign in extract log");
@@ -354,15 +365,6 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 
 
 	end();
-	// now copy the active images to the deactivated images, note they will be greyed out
-	for (int i = 0; i < children(); i++) {
-		Fl_RGB_Image* image = (Fl_RGB_Image*)child(i)->image();
-		if (image != nullptr) {
-			// The button has an image
-			child(i)->deimage(image->copy());
-			child(i)->deimage()->inactive();
-		}
-	}
 	// Don't allow the buttons to be resized when the window is resized
 	resizable(nullptr);
 	show();
@@ -374,14 +376,6 @@ toolbar::toolbar(int X, int Y, int W, int H, const char* label) :
 // Destructor
 toolbar::~toolbar()
 {
-	// For each button
-	for (int i = 0; i < children(); i++) {
-		// if it has an image - delete the image and the inactive image
-		if (child(i)->image() != nullptr) {
-			delete child(i)->image();
-			delete child(i)->deimage();
-		}
-	}
 }
 
 // Handle

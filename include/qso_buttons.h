@@ -21,6 +21,7 @@
 
 #include <FL/Fl_Group.H>
 
+#include "zc_icons.h"
 
 
 class qso_data;
@@ -114,6 +115,7 @@ public:
 	//! Fields in button configuration table used when instatntaiting the buttons. 
 	struct button_action {
 		const char* label;      //!< Its label
+		zc_icon_t icon;         //!< Or its icon
 		const char* tooltip;    //!< The tooltip to display
 		Fl_Callback* callback;  //!< Callback action
 		void* userdata;         //!< Callback data

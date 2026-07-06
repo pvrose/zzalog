@@ -22,6 +22,7 @@
 #include "qso_data.h"
 #include "spec_data.h"
 #include "zc_fltk.h"
+#include "zc_icons.h"
 
 #include <algorithm>
 #include <list>
@@ -91,52 +92,52 @@ std::map<qso_data::logging_state_t, std::list<qso_buttons::button_type> > button
 // Map describing all the parameters for each button
 std::map<qso_buttons::button_type, qso_buttons::button_action> action_map_ =
 {
-	{ qso_buttons::ACTIVATE, { "Activate", "Pre-load QSO fields based on logging mode", qso_buttons::cb_activate, 0, FL_ALT + 'z'}},
-	{ qso_buttons::START_QSO, { "Start QSO", "Start a QSO in real-time", qso_buttons::cb_start, (void*)qso_data::QSO_ON_AIR, FL_ALT + 's'} },
-	{ qso_buttons::EDIT_QSO, { "Edit QSO", "Edit the selected QSO", qso_buttons::cb_edit, 0, FL_ALT + 'e'}},
-	{ qso_buttons::VIEW_QSO, { "View QSO", "View the selected QSO in entry view", qso_buttons::cb_bn_view_qso, 0 } },
-	{ qso_buttons::ADD_QSO, { "Add QSO", "Create a new record (no initialisation)", qso_buttons::cb_start, (void*)qso_data::QSO_NONE, FL_ALT + 'a'}},
-	{ qso_buttons::COPY_QSO, { "Copy QSO", "Create a new record (copy call and conditions)", qso_buttons::cb_start, (void*)qso_data::QSO_COPY_CALL }},
-	{ qso_buttons::CLONE_QSO, { "Clone QSO", "Create a new record (copy conditions)", qso_buttons::cb_start, (void*)qso_data::QSO_COPY_CONDX }},
-	{ qso_buttons::BROWSE, { "Browse Log", "Browse the log without editing", qso_buttons::cb_bn_browse, 0}} ,
-	{ qso_buttons::SAVE_QSO, { "Log", "Log the QSO (set start time if not set) and quit", qso_buttons::cb_save, (void*)qso_buttons::SAVE_QSO, FL_ALT + 'l'}},
-	{ qso_buttons::CANCEL_QSO, { "Quit QSO", "Cancel the current QSO entry", qso_buttons::cb_cancel, 0, FL_ALT + 'x'}},
-	{ qso_buttons::DELETE_QSO, { "Delete QSO", "Delete the selected QSO", qso_buttons::cb_bn_delete_qso, 0, FL_ALT + FL_Delete } },
-	{ qso_buttons::SAVE_EDIT, { "Log", "Copy changed record back to book", qso_buttons::cb_save, (void*)qso_buttons::SAVE_EDIT}},
-	{ qso_buttons::SAVE_CONTINUE, { "Log && Edit", "Set TIME_OFF and allow continued edit", qso_buttons::cb_save, (void*)qso_buttons::SAVE_CONTINUE}},
-	{ qso_buttons::SAVE_EXIT, { "Log && Exit", "Copy changed record and return to previous activity", qso_buttons::cb_save, (void*)qso_buttons::SAVE_EXIT }},
-	{ qso_buttons::SAVE_VIEW, { "Log && View", "Copy changed record and allow view", qso_buttons::cb_save, (void*)qso_buttons::SAVE_VIEW }},
-	{ qso_buttons::SAVE_NEW, { "Log && New", "Save QSO and start new QSO", qso_buttons::cb_save, (void*)qso_buttons::SAVE_NEW }},
-	{ qso_buttons::CANCEL_VIEW, { "Cancel", "Cancel the current QSO view", qso_buttons::cb_cancel, 0 } },
-    { qso_buttons::NAV_FIRST, { "@$->|", "Select first record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_FIRST, FL_ALT + FL_SHIFT + FL_Left } },
-	{ qso_buttons::NAV_PREV, { "@<-", "Select previous record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_PREV, FL_ALT + FL_Left } },
-	{ qso_buttons::NAV_NEXT, { "@->", "Select next record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_NEXT, FL_ALT + FL_Right } },
-	{ qso_buttons::NAV_LAST, { "@->|", "Select last record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_LAST, FL_ALT + FL_SHIFT + FL_Right } },
-	{ qso_buttons::ADD_QUERY, { "Add QSO", "Add queried QSO to log", qso_buttons::cb_bn_add_query, 0 }},
-	{ qso_buttons::REJECT_QUERY, {"Reject QSO", "Do not add queried QSO to log", qso_buttons::cb_bn_reject_query, 0} },
-	{ qso_buttons::MERGE_QUERY, {"Merge QSO", "Merge query with logged QSO", qso_buttons::cb_bn_merge_query, 0 } },
-	{ qso_buttons::FIND_QSO, { "@search", "Display possible match", qso_buttons::cb_bn_find_match, 0}},
-	{ qso_buttons::KEEP_DUPE_1, { "Keep 1", "Keep first QSO and delete second", qso_buttons::cb_bn_dupe, (void*)qso_data::DF_1}},
-	{ qso_buttons::KEEP_DUPE_2, { "Keep 2", "Keep second QSO and delete first", qso_buttons::cb_bn_dupe, (void*)qso_data::DF_2}},
-	{ qso_buttons::MERGE_DUPE, { "Merge", "Merge the two records", qso_buttons::cb_bn_dupe, (void*)qso_data::DF_MERGE}},
-	{ qso_buttons::KEEP_BOTH_DUPES, { "Keep 1 && 2", "Keep both records", qso_buttons::cb_bn_dupe, (void*)qso_data::DF_BOTH}},
-	{ qso_buttons::MERGE_DONE, { "Done", "Save changes", qso_buttons::cb_bn_save_merge, 0} },
-	{ qso_buttons::LOOK_ALL_TXT, { "@search ALL.TXT", "Look in WSJT-X ALL.TXT file for possible contact", qso_buttons::cb_bn_all_txt, 0 } },
-	{ qso_buttons::START_NET, { "Start Net", "Start a QSO with more than one other station", qso_buttons::cb_bn_start_net, 0, FL_ALT + FL_SHIFT + 's'}},
-	{ qso_buttons::EDIT_NET, { "Edit Net", "Open all calls that overlap", qso_buttons::cb_bn_add_net, 0}},
-	{ qso_buttons::SAVE_NET, { "Log Net", "Log all the QSOs and quit", qso_buttons::cb_bn_save_all, 0, FL_ALT + FL_SHIFT + 'l'}},
-	{ qso_buttons::CANCEL_NET, { "Quit Net", "Cancel all QSOs", qso_buttons::cb_bn_cancel_all, 0, FL_ALT + FL_SHIFT + 'x'}},
-	{ qso_buttons::ADD_NET_QSO, { "Add Call", "Add a QSO with this call to the net", qso_buttons::cb_bn_add_net, 0, FL_ALT + FL_SHIFT + 'a'}},
-	{ qso_buttons::ENTER_QUERY, { "Query", "Enter QSO details for search query", qso_buttons::cb_bn_query_entry, 0 }},
-	{ qso_buttons::EXEC_QUERY, { "Check", "Execute query", qso_buttons::cb_bn_execute_query, 0 }},
-	{ qso_buttons::CANCEL_QUERY, { "Cancel Query", "Cancel query", qso_buttons::cb_bn_cancel_query, 0 }},
-	{ qso_buttons::IMPORT_QUERY, { "Test Import", "Test import query", qso_buttons::cb_bn_import_query, 0 }},
-	{ qso_buttons::QRZ_COM, { "@search QRZ.com", "Display details in QRZ.com", qso_buttons::cb_bn_qrz_com, 0}},
-	{ qso_buttons::UPDATE_CAT, { "Update CAT", "Use CAT info where current QSO has no value", qso_buttons::cb_bn_update_cat, (void*)false }},
-	{ qso_buttons::REPLACE_CAT, { "Replace CAT", "Use current CAT info", qso_buttons::cb_bn_update_cat, (void*)true }},
-	{ qso_buttons::RESTART, { "Restart", "Ditch current QSO and start anew", qso_buttons::cb_bn_restart, 0 }},
-	{ qso_buttons::PARSE_QSO, { "Parse QSO", "Add DXCC, CQ, etc details to QSO", qso_buttons::cb_bn_parse_qso, 0 }},
-	{ qso_buttons::UPDATE_STATION, { "U/d Station", "Add QTH, Operator and station callsigns to QSO", qso_buttons::cb_bn_update_station, 0 }},
+	{ qso_buttons::ACTIVATE, { "Activate", zc_icon_t::ICON_NONE, "Pre-load QSO fields based on logging mode", qso_buttons::cb_activate, 0, FL_ALT + 'z'}},
+	{ qso_buttons::START_QSO, { "Start QSO", zc_icon_t::ICON_NONE, "Start a QSO in real-time", qso_buttons::cb_start, (void*)qso_data::QSO_ON_AIR, FL_ALT + 's'} },
+	{ qso_buttons::EDIT_QSO, { "Edit QSO", zc_icon_t::ICON_NONE, "Edit the selected QSO", qso_buttons::cb_edit, 0, FL_ALT + 'e'}},
+	{ qso_buttons::VIEW_QSO, { "View QSO", zc_icon_t::ICON_NONE, "View the selected QSO in entry view", qso_buttons::cb_bn_view_qso, 0 } },
+	{ qso_buttons::ADD_QSO, { "Add QSO", zc_icon_t::ICON_NONE, "Create a new record (no initialisation)", qso_buttons::cb_start, (void*)qso_data::QSO_NONE, FL_ALT + 'a'}},
+	{ qso_buttons::COPY_QSO, { "Copy QSO", zc_icon_t::ICON_NONE, "Create a new record (copy call and conditions)", qso_buttons::cb_start, (void*)qso_data::QSO_COPY_CALL }},
+	{ qso_buttons::CLONE_QSO, { "Clone QSO", zc_icon_t::ICON_NONE, "Create a new record (copy conditions)", qso_buttons::cb_start, (void*)qso_data::QSO_COPY_CONDX }},
+	{ qso_buttons::BROWSE, { "Browse Log", zc_icon_t::ICON_NONE, "Browse the log without editing", qso_buttons::cb_bn_browse, 0}} ,
+	{ qso_buttons::SAVE_QSO, { "Log", zc_icon_t::ICON_NONE, "Log the QSO (set start time if not set) and quit", qso_buttons::cb_save, (void*)qso_buttons::SAVE_QSO, FL_ALT + 'l'}},
+	{ qso_buttons::CANCEL_QSO, { "Quit QSO", zc_icon_t::ICON_NONE, "Cancel the current QSO entry", qso_buttons::cb_cancel, 0, FL_ALT + 'x'}},
+	{ qso_buttons::DELETE_QSO, { "Delete QSO", zc_icon_t::ICON_NONE, "Delete the selected QSO", qso_buttons::cb_bn_delete_qso, 0, FL_ALT + FL_Delete } },
+	{ qso_buttons::SAVE_EDIT, { "Log", zc_icon_t::ICON_NONE, "Copy changed record back to book", qso_buttons::cb_save, (void*)qso_buttons::SAVE_EDIT}},
+	{ qso_buttons::SAVE_CONTINUE, { "Log && Edit", zc_icon_t::ICON_NONE, "Set TIME_OFF and allow continued edit", qso_buttons::cb_save, (void*)qso_buttons::SAVE_CONTINUE}},
+	{ qso_buttons::SAVE_EXIT, { "Log && Exit", zc_icon_t::ICON_NONE, "Copy changed record and return to previous activity", qso_buttons::cb_save, (void*)qso_buttons::SAVE_EXIT }},
+	{ qso_buttons::SAVE_VIEW, { "Log && View", zc_icon_t::ICON_NONE, "Copy changed record and allow view", qso_buttons::cb_save, (void*)qso_buttons::SAVE_VIEW }},
+	{ qso_buttons::SAVE_NEW, { "Log && New", zc_icon_t::ICON_NONE, "Save QSO and start new QSO", qso_buttons::cb_save, (void*)qso_buttons::SAVE_NEW }},
+	{ qso_buttons::CANCEL_VIEW, { "Cancel", zc_icon_t::ICON_NONE, "Cancel the current QSO view", qso_buttons::cb_cancel, 0 } },
+    { qso_buttons::NAV_FIRST, { nullptr, zc_icon_t::ICON_FIRST, "Select first record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_FIRST, FL_ALT + FL_SHIFT + FL_Left } },
+	{ qso_buttons::NAV_PREV, { nullptr, zc_icon_t::ICON_PREVIOUS, "Select previous record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_PREV, FL_ALT + FL_Left } },
+	{ qso_buttons::NAV_NEXT, { nullptr, zc_icon_t::ICON_NEXT, "Select next record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_NEXT, FL_ALT + FL_Right } },
+	{ qso_buttons::NAV_LAST, { nullptr, zc_icon_t::ICON_LAST, "Select last record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_LAST, FL_ALT + FL_SHIFT + FL_Right } },
+	{ qso_buttons::ADD_QUERY, { "Add QSO", zc_icon_t::ICON_NONE, "Add queried QSO to log", qso_buttons::cb_bn_add_query, 0 }},
+	{ qso_buttons::REJECT_QUERY, {"Reject QSO", zc_icon_t::ICON_NONE, "Do not add queried QSO to log", qso_buttons::cb_bn_reject_query, 0} },
+	{ qso_buttons::MERGE_QUERY, {"Merge QSO", zc_icon_t::ICON_NONE, "Merge query with logged QSO", qso_buttons::cb_bn_merge_query, 0 } },
+	{ qso_buttons::FIND_QSO, { nullptr, zc_icon_t::ICON_SEARCH, "Display possible match", qso_buttons::cb_bn_find_match, 0}},
+	{ qso_buttons::KEEP_DUPE_1, { "Keep 1", zc_icon_t::ICON_NONE, "Keep first QSO and delete second", qso_buttons::cb_bn_dupe, (void*)qso_data::DF_1}},
+	{ qso_buttons::KEEP_DUPE_2, { "Keep 2", zc_icon_t::ICON_NONE, "Keep second QSO and delete first", qso_buttons::cb_bn_dupe, (void*)qso_data::DF_2}},
+	{ qso_buttons::MERGE_DUPE, { "Merge", zc_icon_t::ICON_NONE, "Merge the two records", qso_buttons::cb_bn_dupe, (void*)qso_data::DF_MERGE}},
+	{ qso_buttons::KEEP_BOTH_DUPES, { "Keep 1 && 2", zc_icon_t::ICON_NONE, "Keep both records", qso_buttons::cb_bn_dupe, (void*)qso_data::DF_BOTH}},
+	{ qso_buttons::MERGE_DONE, { "Done", zc_icon_t::ICON_NONE, "Save changes", qso_buttons::cb_bn_save_merge, 0} },
+	{ qso_buttons::LOOK_ALL_TXT, { "ALL.TXT", zc_icon_t::ICON_SEARCH, "Look in WSJT-X ALL.TXT file for possible contact", qso_buttons::cb_bn_all_txt, 0 } },
+	{ qso_buttons::START_NET, { "Start Net", zc_icon_t::ICON_NONE, "Start a QSO with more than one other station", qso_buttons::cb_bn_start_net, 0, FL_ALT + FL_SHIFT + 's'}},
+	{ qso_buttons::EDIT_NET, { "Edit Net", zc_icon_t::ICON_NONE, "Open all calls that overlap", qso_buttons::cb_bn_add_net, 0}},
+	{ qso_buttons::SAVE_NET, { "Log Net", zc_icon_t::ICON_NONE, "Log all the QSOs and quit", qso_buttons::cb_bn_save_all, 0, FL_ALT + FL_SHIFT + 'l'}},
+	{ qso_buttons::CANCEL_NET, { "Quit Net", zc_icon_t::ICON_NONE, "Cancel all QSOs", qso_buttons::cb_bn_cancel_all, 0, FL_ALT + FL_SHIFT + 'x'}},
+	{ qso_buttons::ADD_NET_QSO, { "Add Call", zc_icon_t::ICON_NONE, "Add a QSO with this call to the net", qso_buttons::cb_bn_add_net, 0, FL_ALT + FL_SHIFT + 'a'}},
+	{ qso_buttons::ENTER_QUERY, { "Query", zc_icon_t::ICON_NONE, "Enter QSO details for search query", qso_buttons::cb_bn_query_entry, 0 }},
+	{ qso_buttons::EXEC_QUERY, { "Check", zc_icon_t::ICON_NONE, "Execute query", qso_buttons::cb_bn_execute_query, 0 }},
+	{ qso_buttons::CANCEL_QUERY, { "Cancel Query", zc_icon_t::ICON_NONE, "Cancel query", qso_buttons::cb_bn_cancel_query, 0 }},
+	{ qso_buttons::IMPORT_QUERY, { "Test Import", zc_icon_t::ICON_NONE, "Test import query", qso_buttons::cb_bn_import_query, 0 }},
+	{ qso_buttons::QRZ_COM, { "QRZ.com", zc_icon_t::ICON_SEARCH, "Display details in QRZ.com", qso_buttons::cb_bn_qrz_com, 0}},
+	{ qso_buttons::UPDATE_CAT, { "Update CAT", zc_icon_t::ICON_NONE, "Use CAT info where current QSO has no value", qso_buttons::cb_bn_update_cat, (void*)false }},
+	{ qso_buttons::REPLACE_CAT, { "Replace CAT", zc_icon_t::ICON_NONE, "Use current CAT info", qso_buttons::cb_bn_update_cat, (void*)true }},
+	{ qso_buttons::RESTART, { "Restart", zc_icon_t::ICON_NONE, "Ditch current QSO and start anew", qso_buttons::cb_bn_restart, 0 }},
+	{ qso_buttons::PARSE_QSO, { "Parse QSO", zc_icon_t::ICON_NONE, "Add DXCC, CQ, etc details to QSO", qso_buttons::cb_bn_parse_qso, 0 }},
+	{ qso_buttons::UPDATE_STATION, { "U/d Station", zc_icon_t::ICON_NONE, "Add QTH, Operator and station callsigns to QSO", qso_buttons::cb_bn_update_station, 0 }},
 };
 
 // Constructor
@@ -245,6 +246,8 @@ void qso_buttons::enable_widgets() {
 		for (auto bn = buttons.begin(); bn != buttons.end() && ix < MAX_ACTIONS; bn++, ix++) {
 			const button_action& action = action_map_.at(*bn);
 			bn_action_[ix]->label(action.label);
+			zc_add_icon_to_widget(bn_action_[ix], action.icon);
+			bn_action_[ix]->align(FL_ALIGN_IMAGE_NEXT_TO_TEXT);
 			bn_action_[ix]->tooltip(action.tooltip);
 			//bn_action_[ix]->color(action.colour);
 			//bn_action_[ix]->labelcolor(fl_contrast(FL_FOREGROUND_COLOR, action.colour));

@@ -210,7 +210,6 @@ set(HPPFILES
   ${ZZALOG_SOURCE_DIR}/include/fields_dialog.h
   ${ZZALOG_SOURCE_DIR}/include/fields.h
   ${ZZALOG_SOURCE_DIR}/include/fldigi_handler.h
-  ${ZZALOG_SOURCE_DIR}/include/icons.h
   ${ZZALOG_SOURCE_DIR}/include/import_data.h
   ${ZZALOG_SOURCE_DIR}/include/init_dialog.h
   ${ZZALOG_SOURCE_DIR}/include/intl_dialog.h
@@ -369,10 +368,10 @@ target_include_directories(${TARGET} PRIVATE
 
 ## Extra include directories required on MSVC
 if (MSVC)
-  message(STATUS "Including other libraries for MSVC from ${USER_HOME_DIR}")
+  message(STATUS "Including other libraries for MSVC from ${USER_HOME_PATH}")
   target_include_directories(${TARGET} PRIVATE 
-    "${USER_HOME_DIR}\\source\\repos\\json\\include"
-    "${USER_HOME_DIR}\\source\\repos\\pthread-win32"
+    "${USER_HOME_PATH}\\source\\repos\\json\\include"
+    "${USER_HOME_PATH}\\source\\repos\\pthread-win32"
   )
 endif()
 
