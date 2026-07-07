@@ -354,7 +354,6 @@ if (ZZALOG_DOX)
     ug_pdf
     api_html
     pdf
-    zzacommon_api_html
   )
 endif()
 
@@ -419,6 +418,13 @@ gm3zza_copy_runtime_dlls(TARGET ${TARGET})
     API_DIR       "${CMAKE_CURRENT_SOURCE_DIR}/api"
     API_FILES     ${HPPFILES}
   )
+
+    # Copy zzacommon API docs into the api html output tree
+  zzacommon_copy_api_docs(${GM3ZZA_API_HTML_DIR}/zzacommon  OUT_TARGET ZZACOMMON_DOCS_COPY)
+
+  if (ZZALOG_DOX)
+    add_dependencies(${TARGET} ${ZZACOMMON_DOCS_COPY})
+  endif()
 
 ### Install
 install(TARGETS ${TARGET} RUNTIME COMPONENT applications)
