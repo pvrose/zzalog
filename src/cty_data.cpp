@@ -392,8 +392,12 @@ cty_data::parse_source_t cty_data::get_source(const record* qso) {
 	if (pfx && (
 		(pfx->cq_zone_ >= 0 && pfx->cq_zone_ != parse_result_.entity->cq_zone_) ||
 		(pfx->itu_zone_ >= 0 && pfx->itu_zone_ != parse_result_.entity->itu_zone_))) return ZONE_EXCEPTION;
-	// Default from entity
-	return DEFAULT;
+	// If logged value is not that from the prefix, it will be manually derived.
+	int qso_dxcc;
+	qso->item("DXCC", qso_dxcc);
+	if (!pfx && qso_dxcc == 0) return NO_DECODE;
+	else if (!pfx || pfx->dxcc_id_ != qso_dxcc) return PREVIOUS;
+	else return DEFAULT;
 }
 
 // Return entity 
@@ -520,8 +524,17 @@ void cty_data::parse(record* qso) {
 		qso->item("DXCC", dxcc_id);
 		if (zc_app::debug(DEBUG_PARSE)) printf("%s: QSO has DXCC %d\n", current_call_.c_str(), dxcc_id);
 
-		if (dxcc_id > 0) {
+		std::string matched_call;
+		parse_result_.decode_element = match_pattern(current_call_, when, matched_call, true);
+		if (dxcc_id > 0 && (
+			!parse_result_.decode_element || dxcc_id != parse_result_.decode_element->dxcc_id_)) {
+			int parse_dxcc = parse_result_.decode_element->dxcc_id_;
+			std::string parse_name = parse_result_.decode_element->name_;
 			parse_result_.entity = data_->entities[dxcc_id];
+			parse_result_.decode_element = nullptr;
+			status_->misc_status(ST_WARNING, "CTY DATA: Call %s entity %d(%s) in record overrides %d(%s) from call",
+				current_call_.c_str(), parse_result_.entity->dxcc_id_,
+				parse_result_.entity->name_.c_str(), parse_dxcc, parse_name.c_str());
 			if (parse_result_.entity) {
 				parse_result_.geography = (cty_geography*)match_filter(parse_result_.entity, cty_filter::FT_GEOGRAPHY, current_call_, when);
 				parse_result_.usage = match_filter(parse_result_.entity, cty_filter::FT_USAGE, current_call_, when);
@@ -531,25 +544,15 @@ void cty_data::parse(record* qso) {
 				parse_result_.usage = nullptr;
 			}
 		}
-		else {
-			std::string matched_call;
-			parse_result_.decode_element = match_pattern(current_call_, when, matched_call, true);
-
-			if (parse_result_.decode_element) {
-				int dxcc_id = parse_result_.decode_element->dxcc_id_;
-				if (data_->entities.find(dxcc_id) != data_->entities.end()) {
-					parse_result_.entity = data_->entities[dxcc_id];
-					if (parse_result_.entity) {
-						parse_result_.geography = (cty_geography*)match_filter(parse_result_.entity, cty_filter::FT_GEOGRAPHY, matched_call, when);
-						parse_result_.usage = match_filter(parse_result_.entity, cty_filter::FT_USAGE, matched_call, when);
-					}
-					else {
-						parse_result_.geography = nullptr;
-						parse_result_.usage = nullptr;
-					}
+		else if (parse_result_.decode_element) {
+			int dxcc_id = parse_result_.decode_element->dxcc_id_;
+			if (data_->entities.find(dxcc_id) != data_->entities.end()) {
+				parse_result_.entity = data_->entities[dxcc_id];
+				if (parse_result_.entity) {
+					parse_result_.geography = (cty_geography*)match_filter(parse_result_.entity, cty_filter::FT_GEOGRAPHY, matched_call, when);
+					parse_result_.usage = match_filter(parse_result_.entity, cty_filter::FT_USAGE, matched_call, when);
 				}
 				else {
-					parse_result_.entity = nullptr;
 					parse_result_.geography = nullptr;
 					parse_result_.usage = nullptr;
 				}
@@ -559,6 +562,11 @@ void cty_data::parse(record* qso) {
 				parse_result_.geography = nullptr;
 				parse_result_.usage = nullptr;
 			}
+		}
+		else {
+			parse_result_.entity = nullptr;
+			parse_result_.geography = nullptr;
+			parse_result_.usage = nullptr;
 		}
 	}
 	else {

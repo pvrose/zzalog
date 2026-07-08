@@ -232,7 +232,7 @@ void qso_dxcc::enable_widgets() {
 			op_source_->color(FL_BACKGROUND_COLOR);
 			break;
 		case cty_data::PREVIOUS:
-			op_source_->value("Logged in QSO");
+			op_source_->value("Manually logged");
 			op_source_->color(FL_BACKGROUND_COLOR);
 			break;
 		case cty_data::EXCEPTION:
