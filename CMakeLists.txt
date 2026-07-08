@@ -421,6 +421,7 @@ gm3zza_copy_runtime_dlls(TARGET ${TARGET})
     USERGUIDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/userguide"
     API_DIR       "${CMAKE_CURRENT_SOURCE_DIR}/api"
     API_FILES     ${HPPFILES}
+    PDF ${_docs_pdf_flag}
   )
 
     # Copy zzacommon API docs into the api html output tree
