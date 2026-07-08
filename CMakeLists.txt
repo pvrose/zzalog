@@ -17,8 +17,6 @@
 #]=]
 cmake_minimum_required(VERSION 3.16)
 
-project(ZZALOG VERSION 3.7.0.8)
-
 # Add shared CMake modules
 # First look in sibling path for development, then in installed location for users
 include(FetchContent)
@@ -43,6 +41,12 @@ list(APPEND CMAKE_MODULE_PATH "${zzacmake_SOURCE_DIR}/cmake")
 
 include(Gm3zzaProjectDefaults)
 include(Gm3zzaVersioning)
+
+gm3zza_get_git_version(MY_DYNAMIC_VERSION)
+
+project(ZZALOG VERSION ${MY_DYNAMIC_VERSION})
+message(STATUS "Project version: ${ZZALOG_VERSION}")
+
 include(Gm3zzaZzacommon)
 include(Gm3zzaResources)
 include(Gm3zzaWindowsRuntime)
