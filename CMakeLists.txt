@@ -357,7 +357,7 @@ add_custom_target(docs
     COMMENT "Building all project documentation"
 )
 
-add_dependencies(docs ug_html pdf api_html)
+add_dependencies(docs ug_html pdf api_html zzacommon_api_html)
 
 ## Set header include directoies.
 target_include_directories(${TARGET} PRIVATE 

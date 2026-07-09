@@ -40,7 +40,10 @@ if(DOXYGEN_FOUND)
   # Custom Command: This is the actual command that will run Doxygen
   add_custom_command(
     OUTPUT ${DOXY_OUTPUT_INDEX}
-    DEPENDS ${DOXY_API_FILES} ${DOXY_API_OUT}
+    DEPENDS ${DOXY_API_FILES} ${DOXY_API_OUT} zzacommon_api_html
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+      "${ZZACOMMON_API_HTML_DIR}"
+      "${CMAKE_CURRENT_BINARY_DIR}/html/zzacommon"
     COMMAND ${DOXYGEN_EXECUTABLE} ${DOXY_API_OUT}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMENT "ZZALOG: Generating API documentation (smart tracking)"
@@ -54,5 +57,6 @@ if(DOXYGEN_FOUND)
 
   # Set output directory for API HTML
   set(ZZALOG_API_HTML_DIR ${CMAKE_CURRENT_BINARY_DIR}/html PARENT_SCOPE)
+
 
 endif()
