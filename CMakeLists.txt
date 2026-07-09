@@ -50,7 +50,7 @@ message(STATUS "Project version: ${ZZALOG_VERSION}")
 include(Gm3zzaZzacommon)
 include(Gm3zzaResources)
 include(Gm3zzaWindowsRuntime)
-include(Gm3zzaDocs)
+# include(Gm3zzaDocs)
 include(deps/hamlib_helper)
 
 ## Set target executable and programme metadata
@@ -76,7 +76,7 @@ option(ZZALOG_DOX "Generate Documentation" OFF)
 option(ZZALOG_PDB "Generate PDB files for debugging (MSVC only)" OFF)
 
 # All the source .cpp files
-set(CPPFILES 
+set(ZZALOG_CPPFILES 
   ${ZZALOG_SOURCE_DIR}/src/about_dialog.cpp
   ${ZZALOG_SOURCE_DIR}/src/adi_reader.cpp
   ${ZZALOG_SOURCE_DIR}/src/adi_writer.cpp
@@ -178,7 +178,7 @@ set(CPPFILES
 )
 
 ## All the header files - required for API documentation.
-set(HPPFILES
+set(ZZALOG_HPPFILES
   ${ZZALOG_SOURCE_DIR}/include/about_dialog.h
   ${ZZALOG_SOURCE_DIR}/include/adi_reader.h
   ${ZZALOG_SOURCE_DIR}/include/adi_writer.h
@@ -321,7 +321,7 @@ gm3zza_generate_app_source(
   OUTPUT_VAR GENERATED_APP_CPP
 )
 
-set(ALL_CPPFILES ${GENERATED_APP_CPP} ${CPPFILES})
+set(ALL_CPPFILES ${GENERATED_APP_CPP} ${ZZALOG_CPPFILES})
 
 gm3zza_find_hamlib()
 
@@ -350,16 +350,14 @@ add_dependencies(${TARGET}
   zzacommon::zzam
 )
 
-# Conditionally add documentation
-if (ZZALOG_DOX) 
-  message(STATUS "Adding documentation")
-  add_dependencies(${TARGET}
-    ug_html
-    ug_pdf
-    api_html
-    pdf
-  )
-endif()
+add_subdirectory(${ZZALOG_SOURCE_DIR}/userguide EXCLUDE_FROM_ALL)
+add_subdirectory(${ZZALOG_SOURCE_DIR}/api EXCLUDE_FROM_ALL)
+
+add_custom_target(docs
+    COMMENT "Building all project documentation"
+)
+
+add_dependencies(docs ug_html pdf api_html)
 
 ## Set header include directoies.
 target_include_directories(${TARGET} PRIVATE 
@@ -407,27 +405,6 @@ gm3zza_stage_runtime_files(TARGET ${TARGET} FILES ${CONTEST_FILES} DEST_SUBDIR c
 
 ## Copy runtime DLLs for development
 gm3zza_copy_runtime_dlls(TARGET ${TARGET})
-
-
-# Generate documents - userguide and API documentation.
-  # Paths to the include directories used by api/Doxyfile.in
-  set(ZZALOG_INCLUDE_DIR          "${ZZALOG_SOURCE_DIR}/include")
-
-  set(_docs_pdf_flag "")
-
-  gm3zza_enable_docs(
-    TARGET        ${TARGET}
-    APP_NAME      ${APP_NAME}
-    USERGUIDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/userguide"
-    API_DIR       "${CMAKE_CURRENT_SOURCE_DIR}/api"
-    API_FILES     ${HPPFILES}
-    PDF ${_docs_pdf_flag}
-  )
-
-    # Copy zzacommon API docs into the api html output tree
-  zzacommon_copy_api_docs(${GM3ZZA_API_HTML_DIR}/zzacommon  OUT_TARGET ZZACOMMON_DOCS_COPY)
-
-    add_dependencies(${TARGET} ${ZZACOMMON_DOCS_COPY})
 
 ### Install
 install(TARGETS ${TARGET} RUNTIME COMPONENT applications)
