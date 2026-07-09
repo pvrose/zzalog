@@ -50,7 +50,7 @@ message(STATUS "Project version: ${ZZALOG_VERSION}")
 include(Gm3zzaZzacommon)
 include(Gm3zzaResources)
 include(Gm3zzaWindowsRuntime)
-# include(Gm3zzaDocs)
+include(Gm3zzaDocs)
 include(deps/hamlib_helper)
 
 ## Set target executable and programme metadata
