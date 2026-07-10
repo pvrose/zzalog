@@ -418,25 +418,25 @@ endif()
 
 
 # Install userguide and API documentation
-    if(GM3ZZA_USERGUIDE_HTML_DIR)
+    if(ZZALOG_USERGUIDE_HTML_DIR)
       gm3zza_install_runtime_files(
-        DIRECTORIES ${GM3ZZA_USERGUIDE_HTML_DIR}
+        DIRECTORIES ${ZZALOG_USERGUIDE_HTML_DIR}
         DEST_SUBDIR userguide
         COMPONENT documentation
       )
     endif()
 
-    if(GM3ZZA_USERGUIDE_PDF_FILE)
+    if(ZZALOG_USERGUIDE_PDF_FILE)
       gm3zza_install_runtime_files(
-        FILES ${GM3ZZA_USERGUIDE_PDF_FILE}
+        FILES ${ZZALOG_USERGUIDE_PDF_FILE}
         DEST_SUBDIR userguide
         COMPONENT documentation
       )
     endif()
 
-    if(GM3ZZA_API_HTML_DIR)
+    if(ZZALOG_API_HTML_DIR)
       gm3zza_install_runtime_files(
-        DIRECTORIES ${GM3ZZA_API_HTML_DIR}
+        DIRECTORIES ${ZZALOG_API_HTML_DIR}
         DEST_SUBDIR api
         COMPONENT documentation
       )
