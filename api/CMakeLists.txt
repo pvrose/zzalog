@@ -21,14 +21,10 @@ if(DOXYGEN_FOUND)
 
   message(STATUS "Doxygen found: ${DOXYGEN_EXECUTABLE}")
 
-  # Set source files
-  set(DOXY_API_FILES 
-    ${ZZALOG_HPPFILES}
-  )
 
-  setup_api_documentation(ZZALOG ${DOXY_API_FILES})
+  setup_api_documentation(ZZALOG "${ZZALOG_HPPFILES}")
 
-  set(ZZALOG_API_HTML_DIR "${API_HTML_DIR}" PARENT_SCOPE) 
+  set(ZZALOG_API_HTML_DIR "${CMAKE_CURRENT_BINARY_DIR}/html" PARENT_SCOPE) 
 
  
 endif()

@@ -298,8 +298,8 @@ if(DOXYGEN_FOUND)
 
   setup_ug_documentation(
       ZZALOG
-      ${DOXY_UG_FILES}
-      ${DOXY_UG_IMAGES}
+      "${DOXY_UG_FILES}"
+      "${DOXY_UG_IMAGES}"
   )
 
   set(ZZALOG_USERGUIDE_HTML_DIR ${CMAKE_CURRENT_BINARY_DIR}/html PARENT_SCOPE)
