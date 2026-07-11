@@ -114,7 +114,7 @@ void user_dialog::load_values() {
 	tip_settings.get("Font Name", tip_font_, Fl_Tooltip::font());
 	tip_settings.get("Font Size", tip_size_, Fl_Tooltip::size());
 	// Tree views
-	zc_settings tree_settings(&view_settings, "Log Table");
+	zc_settings tree_settings(&view_settings, "Tree Views");
 	tree_settings.get("Font Name", tree_font_, (Fl_Font)0);
 	tree_settings.get("Font Size", tree_size_, FL_NORMAL_SIZE);
 	// Banner
@@ -247,6 +247,7 @@ void user_dialog::save_values() {
 	log_settings.set("Font Name", log_font_);
 	log_settings.set("Font Size", log_size_);
 	log_settings.set("Session Gap", session_elapse_);
+	log_settings.flush();
 	// Tell the log views
 	log_table::set_font(log_font_, log_size_);
 	// Tooltip
@@ -259,7 +260,7 @@ void user_dialog::save_values() {
 	Fl_Tooltip::font(tip_font_);
 	Fl_Tooltip::size(tip_size_);
 	// Tree view settings
-	zc_settings tree_settings(&view_settings, "Log Table");
+	zc_settings tree_settings(&view_settings, "Tree Views");
 	tree_settings.set("Font Name", tree_font_);
 	tree_settings.set("Font Size", tree_size_);
 	//((pfx_tree*)tabbed_forms_->get_view(OT_PREFIX))->set_font(tree_font_, tree_size_);

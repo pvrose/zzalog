@@ -24,6 +24,7 @@
     - Search text input in toolbar didn't accept input.
     - "CQ SA ...." message from WSJT-X being misinterpreted as a callsign.
     - Existing "DXCC" value in QSO record ignored when parsing record.
+    - Log Table font and size not saved correctly.
 
 \section rev_3_7 Revision 3.7
   - Functional changes.
