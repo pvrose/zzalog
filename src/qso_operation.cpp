@@ -18,12 +18,13 @@
 #include "qso_operation.h"
 
 #include "record.h"
-#include "zc_status.h"
 #include "stn_data.h"
 #include "stn_dialog.h"
 
+#include "zc_banner.h"
 #include "zc_drawing.h"
 #include "zc_fltk.h"
+#include "zc_status.h"
 
 #include <cstdio>
 #include <map>
@@ -189,7 +190,14 @@ void qso_operation::cb_call(Fl_Widget *w, void *v)
 		if (!stn_data_->known_call(that->current_call_))
 		{
 			that->new_call(true);
-			return;
+		}
+	}
+	if (status_ && status_->get_banner()) {
+		if (that->current_call_ != stn_data_->defaults().callsign) {
+			status_->get_banner()->set_banner_text(that->current_call_, COLOUR_GREY);
+		}
+		else {
+			status_->get_banner()->set_banner_text(that->current_call_, FL_FOREGROUND_COLOR);
 		}
 	}
 }

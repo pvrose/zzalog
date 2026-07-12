@@ -906,6 +906,9 @@ void add_data() {
 		stn_window_ = new stn_window();
 		stn_window_->hide();
 		stn_data_->load_data();
+		if (status_ && status_->get_banner()) {
+			status_->get_banner()->set_banner_text(stn_data_->current().callsign.c_str(), FL_FOREGROUND_COLOR);
+		}
 	}
 	// And band plan data
 	if (!closing_) {
@@ -1343,6 +1346,7 @@ int main(int argc, char** argv)
 	if (zc_app::debug(DEBUG_STATUS)) status_mode |= zc_status::HAS_CONSOLE;
 	status_ = new zc_status(status_mode, OBJECT_DATA);
 	{
+		// Limit the scope of top_settings as it will get saved when destroyed.
 		zc_settings top_settings;
 		zc_settings view_settings(&top_settings, "Views");
 		zc_settings banner_settings(&view_settings, "Banner");
@@ -1360,6 +1364,14 @@ int main(int argc, char** argv)
 
 		status_->get_banner()->resize(nx, ny, bw, bh);
 	}
+	std::string bt = APP_NAME + " " + APP_VERSION;
+	if (zc_app::debug(DEBUG_DEVELOPMENT)) bt += " DEVT";
+#ifdef _DEBUG
+	bt += " DEBUG";
+#endif
+	status_->get_banner()->copy_label(bt.c_str());
+	status_->get_banner()->set_banner_text("Loading..", FL_GREEN);
+
 	// File info
 	file_holder_->display_info();
 	// Now display sticky switch message
