@@ -1,6 +1,6 @@
 /** \page release_notes Revision History
 
-\section rev_3_7_1 Revision 3.7.1 [Unreleased]
+\section rev_3_7_1 Revision 3.7.1
   - Functional changes.
     - Replace switch "-o" that prevents rigs from being started with "-s <rig>" that
     allows specified rigs to be started automatically.
@@ -8,6 +8,7 @@
     - Increase size of buttons in international virtual keyboard.
     - Add switch to vary font size in user interface between 8 and 12.
     - Add current sticky switches to help display.
+    - Display station callsign in banner.
   - Performance changes.
     - None.
   - Bug fixes.
