@@ -224,19 +224,19 @@ void qso_dxcc::enable_widgets() {
 		else op_usage_->value("Usage N/A");
 		switch (source_) {
 		case cty_data::INVALID:
-			op_source_->value("Invalid Operation");
+			op_source_->value("DXCC: Invalid Operation");
 			op_source_->color(FL_RED);
 			break;
 		case cty_data::NO_DECODE:
-			op_source_->value("No decode");
+			op_source_->value("DXCC: No decode");
 			op_source_->color(FL_BACKGROUND_COLOR);
 			break;
 		case cty_data::PREVIOUS:
-			op_source_->value("Manually logged");
+			op_source_->value("DXCC: Manually logged");
 			op_source_->color(FL_BACKGROUND_COLOR);
 			break;
 		case cty_data::EXCEPTION:
-			op_source_->value("Entity Exception");
+			op_source_->value("DXCC: Entity Exception");
 			op_source_->color(FL_BACKGROUND_COLOR);
 			break;
 		case cty_data::ZONE_EXCEPTION:
@@ -244,7 +244,7 @@ void qso_dxcc::enable_widgets() {
 			op_source_->color(FL_BACKGROUND_COLOR);
 			break;
 		case cty_data::DEFAULT:
-			op_source_->value("Default decode");
+			op_source_->value("DXCC: Default decode");
 			op_source_->color(FL_BACKGROUND_COLOR);
 			break;
 		}
