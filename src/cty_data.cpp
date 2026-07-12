@@ -532,9 +532,11 @@ void cty_data::parse(record* qso) {
 			std::string parse_name = parse_result_.decode_element->name_;
 			parse_result_.entity = data_->entities[dxcc_id];
 			parse_result_.decode_element = nullptr;
-			status_->misc_status(ST_WARNING, "CTY DATA: Call %s entity %d(%s) in record overrides %d(%s) from call",
+			status_->misc_status(ST_WARNING, "CTY DATA: Call %s entity %d(%s) in record %s:%s overrides %d(%s) from call",
 				current_call_.c_str(), parse_result_.entity->dxcc_id_,
-				parse_result_.entity->name_.c_str(), parse_dxcc, parse_name.c_str());
+				parse_result_.entity->name_.c_str(),
+				qso->item("QSO_DATE").c_str(), qso->item("TIME_ON").c_str(),				
+				parse_dxcc, parse_name.c_str());
 			if (parse_result_.entity) {
 				parse_result_.geography = (cty_geography*)match_filter(parse_result_.entity, cty_filter::FT_GEOGRAPHY, current_call_, when);
 				parse_result_.usage = match_filter(parse_result_.entity, cty_filter::FT_USAGE, current_call_, when);
