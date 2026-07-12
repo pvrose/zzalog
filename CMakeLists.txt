@@ -414,6 +414,7 @@ gm3zza_copy_runtime_dlls(TARGET ${TARGET})
 ### Install
 install(TARGETS ${TARGET} RUNTIME COMPONENT applications)
 gm3zza_install_runtime_files(FILES ${DATAFILES} COMPONENT data)
+gm3zza_install_runtime_files(FILES ${CONTEST_FILES} DEST_SUBDIR contests COMPONENT data)
 
 if(MSVC)
   gm3zza_register_hamlib_dlls()
