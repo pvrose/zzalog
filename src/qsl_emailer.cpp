@@ -113,11 +113,11 @@ bool qsl_emailer::send_email() {
 		{ qsl_filename_ },  // file attachment
 		{ "image/png" }))   // file type
 	{
-		status_->misc_status(ST_OK, "QSL: e-Mail successfully sent");
+		status_->misc_status(ST_OK, "QSL: E-mail successfully sent");
 		return true;
 	}
 	else {
-		status_->misc_status(ST_ERROR, "QSL: e-Mail attempt not successful");
+		status_->misc_status(ST_ERROR, "QSL: E-mail attempt not successful");
 		return false;
 	}
 }
