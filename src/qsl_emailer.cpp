@@ -101,6 +101,19 @@ bool qsl_emailer::generate_email(record* qso) {
 
 // Send the e-mail
 bool qsl_emailer::send_email() {
+	if (email_url_.empty() ||
+		email_user_.empty() ||
+		email_password_.empty()) {
+		status_->misc_status(ST_ERROR, "QSL: E-mail sender credentials have not been estanblished");
+		return false;
+	}
+	if (to_address_.empty()) {
+		status_->misc_status(ST_ERROR, "QSL: E-mail recipient has not been specified");
+		return false;
+	}
+	if (qsl_filename_.empty()) {
+		status_->misc_status(ST_ERROR, "QSL: E-mail image does not exist");
+	}
 	if (url_handler_->send_email(
 		email_url_,         // e-mail server
 		email_user_,        // e-mailuser
