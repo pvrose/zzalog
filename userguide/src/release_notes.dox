@@ -1,5 +1,16 @@
 /** \page release_notes Revision History
 
+\section rev_3_7_2 Revision 3.7.2 [Unreleased]
+  - Functional changes.
+    - None.
+  - Cosmetic and non-functional changes.
+    - None.
+  - Performance changes.
+    - None.
+  - Bug fixes.
+    - Do not create an e-mail QSL image if the template is missing.
+    - Do not attempt to send e-mail if no sender credentials.
+
 \section rev_3_7_1 Revision 3.7.1
   - Functional changes.
     - Replace switch "-o" that prevents rigs from being started with "-s <rig>" that
