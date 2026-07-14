@@ -724,7 +724,7 @@ void qso_qsl::qsl_1_generate_png() {
 		png_writer* png = new png_writer();
 		Fl_RGB_Image* image = qsl_image::image(qso, qsl_data::FILE);
 		std::string filename = png_writer::png_filename(qso);
-		if (png->write_image(image, filename)) {
+		if (!image || png->write_image(image, filename)) {
 			status_->misc_status(ST_ERROR, "QSL: Single PNG file generation failed");
 		}
 	}

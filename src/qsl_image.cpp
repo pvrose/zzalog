@@ -22,6 +22,8 @@
 #include "qsl_display.h"
 #include "record.h"
 
+#include "zc_status.h"
+
 #include <FL/Fl_Device.H>
 #include <FL/Fl_Image.H>
 #include <FL/Fl_Image_Surface.H>
@@ -31,6 +33,11 @@ Fl_RGB_Image* qsl_image::image(record* qso, qsl_data::qsl_type type) {
 	// Get the QSL card design data
 	qsl_display* qsl = new qsl_display(0, 0);
 	qsl_data* data = qsl_dataset_->get_card(qso->item("STATION_CALLSIGN"), type, false);
+	if (data->items.empty()) {
+		status_->misc_status(ST_ERROR, "QSL: No image data - not creating PNG file");
+		return nullptr;
+	}
+	
 	qsl->set_card(data);
 	qsl->set_qsos(&qso, 1);
 
