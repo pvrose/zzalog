@@ -318,6 +318,7 @@ bool rig_if::open() {
 				hamlib_data_->model.c_str(),
 				timeout);
 			status_->misc_status(ST_WARNING, msg);
+			state_.store(TIMED_OUT);
 		}
 	}
 	if (zc_app::debug(DEBUG_THREADS)) printf("RIG MAIN: Finished opening rig (state = %s)\n", STATE_MAP.at(state_.load()).c_str());

@@ -139,6 +139,7 @@
 			CONNECTED_SLOW,                 //!< Rig may be connected but not responding
             CONNECTED_ERROR,                //!< Hamlib has resturned an error response
 			UNPOWERED,                      //!< Rig appears not be powered on
+            TIMED_OUT,                      //!< Connection timed out.
 		};
 
 		//! Rig state string
