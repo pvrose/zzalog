@@ -102,7 +102,6 @@ void qso_bands::create_form() {
 	Fl_Group::current(nullptr);
 	char l[128];
 	std::string version = APP_VERSION;
-	if (zc_app::debug(DEBUG_DEVELOPMENT)) version += " DEVT";
 	snprintf(l,sizeof(l), "%s %s: Bandplan", APP_NAME.c_str(), version.c_str());
 	full_window_ = new band_window(left_, top_, width_, height_);
 	full_window_->copy_label(l);

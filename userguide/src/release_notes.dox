@@ -10,6 +10,7 @@
   - Bug fixes.
     - Do not create an e-mail QSL image if the template is missing.
     - Do not attempt to send e-mail if no sender credentials.
+    - Hamlib timeout does not stop connect attempt.
 
 \section rev_3_7_1 Revision 3.7.1
   - Functional changes.

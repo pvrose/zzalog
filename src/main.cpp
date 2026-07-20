@@ -119,6 +119,7 @@ extern debug_flag DEBUG_CURL;
 extern debug_flag DEBUG_SOCKET;
 extern debug_flag DEBUG_XMLRPC;
 extern debug_flag DEBUG_DEVELOPMENT; 
+extern debug_flag DEBUG_TEST_PRODUCT;  //!< Test production mode in development -  by "-d "
 debug_flag DEBUG_RIGS = DEBUG_NEXT << 1;    //!< Print file reset messages -  by "-d r"
 //! Print callsign parsing messages -  by "-d d"
 debug_flag DEBUG_PARSE = DEBUG_NEXT << 2;
@@ -478,6 +479,14 @@ int cb_args(int argc, char** argv, int& i) {
 				zc_app::set_debug(DEBUG_PARSE);
 				i += 1;
 			}
+			else if (strcmp("p", argv[i]) == 0 || strcmp("production", argv[i]) == 0) {
+				zc_app::set_debug(DEBUG_TEST_PRODUCT);
+				i += 1;
+			}
+			else if (strcmp("s", argv[i]) == 0 || strcmp("status", argv[i]) == 0) {
+				zc_app::set_debug(DEBUG_STATUS);
+				i += 1;
+			}
 			else if (strncmp("h=", argv[i], 2) == 0) {
 				int v = atoi(argv[i] + 2);
 				HAMLIB_DEBUG_LEVEL = (rig_debug_level_e)v;
@@ -766,6 +775,7 @@ void show_help() {
 		"\t\th=N|hamlib=N\tSet hamlib debug level (default ERRORS)\n"
 		"\t\tk|socket\tPrint socket traffic\n"
 		"\t\tm|mods\tPrint messages when make QSOs dirty or clean\n"
+		"\t\to|override\tOverride automatic development detection\n"
 		"\t\tq|quick\tShorten long timeout and polling intervals\n"
 		"\t\tr|rig\tPrint rig diagnostics\n"
 		"\t\ts|status\tCopy status messages to the terminal\n"
@@ -986,7 +996,6 @@ void add_dashboard() {
 	if (!closing_) {
 		char l[128];
 		std::string version = APP_VERSION;
-		if (zc_app::debug(DEBUG_DEVELOPMENT)) version += " DEVT";
 #ifdef _DEBUG
 		version += " DEBUG";
 #endif
@@ -1014,7 +1023,6 @@ void add_dashboard() {
 void main_window_label(const std::string& text) {
 	// e.g. ZZALOG 3.0.0: <filename> - APP_VERSION includes (Debug) if compiled under _DEBUG
 	std::string label = APP_NAME + " " + APP_VERSION;
-	if (zc_app::debug(DEBUG_DEVELOPMENT)) label += " DEVT";
 #ifdef _DEBUG
 	label += " DEBUG";
 #endif
@@ -1305,7 +1313,6 @@ int main(int argc, char** argv)
 	if (DISPLAY_VERSION) {
 #ifndef WIN32
 		std::string version = APP_VERSION;
-		if (zc_app::debug(DEBUG_DEVELOPMENT)) version += " DEVT";
 		// Display version
 		printf("%s Version %s Compiled %s\n", 
 			APP_NAME.c_str(), 
@@ -1365,10 +1372,6 @@ int main(int argc, char** argv)
 		status_->get_banner()->resize(nx, ny, bw, bh);
 	}
 	std::string bt = APP_NAME + " " + APP_VERSION;
-	if (zc_app::debug(DEBUG_DEVELOPMENT)) bt += " DEVT";
-#ifdef _DEBUG
-	bt += " DEBUG";
-#endif
 	status_->get_banner()->copy_label(bt.c_str());
 	status_->get_banner()->set_banner_text("Loading..", FL_GREEN);
 
