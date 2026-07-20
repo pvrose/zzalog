@@ -158,6 +158,7 @@ void qso_tabbed_rigs::save_values() {
 
 // Switch to the selected rig
 void qso_tabbed_rigs::switch_rig() {
+	printf("DEBUG: Switching to %s\n", label());
 	std::string rig_name = label();
 	if (rig_name.length()) {
 		if (label_map_.find(rig_name) == label_map_.end() || label_map_.at(rig_name) == nullptr) {
@@ -194,6 +195,7 @@ void qso_tabbed_rigs::switch_rig() {
 // v is not used
 void qso_tabbed_rigs::cb_tabs(Fl_Widget* w, void* v) {
 	qso_tabbed_rigs* that = (qso_tabbed_rigs*)w;
+	printf("DEBUG: Callback for rig %s\n", that->value()->label());
 	that->label(that->value()->label());
 	that->enable_widgets();
 	qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
