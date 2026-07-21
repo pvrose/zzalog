@@ -29,6 +29,8 @@ Sets the hamlib debug level (default ERRORS). <I>N</I> values as below:
     - <B>6</B> Report cache behaviour
   - <B>k|socket</B> Display socket traffic.
   - <B>m|mod</B> Display dirty QSO messages.
+  - <B>p|production</B>Use the production settings rather than
+  development mode ones (used in development only).
   - <B>q|quick</B>  
 Shortens long timeout and polling intervals.
   - <B>r|rig</B>  

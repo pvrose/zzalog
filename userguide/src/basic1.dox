@@ -17,7 +17,9 @@ launching any CAT control application (the script) specified. See \ref new_rig.
 ZZALOG will usually start with the previous rig selected, and if active will connect to it. 
 Select the tab for the rig you want to use,
 as shown by the red arrow. If the rig connection is made through an external app then 
-launch it using the script by clicking the "Start" button (blue arrow). 
+launch it using the script by clicking the "Start" button (blue arrow). The 
+rig may also be started by using the command-line switch <B>-s <rig-name></B>. 
+Multiple rigs may be specified and the last one mentioned will be the default one.
 
 Depending on how the rig connection has been configured ZZALOG may automatically connect to the
 external app after a period of time. If it doesn't, then clicking the "Connect" button (green arrow),

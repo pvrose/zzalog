@@ -2,7 +2,10 @@
 
 \section rev_3_7_2 Revision 3.7.2 [Unreleased]
   - Functional changes.
-    - None.
+    - Remove automatic selection of a rig from the selected QSO.
+    - Improve adding and removing rigs from control panel.
+    - The rig specified by the last "-s <rig>" switch is 
+    the default selected rig. 
   - Cosmetic and non-functional changes.
     - None.
   - Performance changes.
@@ -11,6 +14,8 @@
     - Do not create an e-mail QSL image if the template is missing.
     - Do not attempt to send e-mail if no sender credentials.
     - Hamlib timeout does not stop connect attempt.
+    - Occasionally records from WSJT-X try to access the wrong 
+    rig when saving to log.
 
 \section rev_3_7_1 Revision 3.7.1
   - Functional changes.
