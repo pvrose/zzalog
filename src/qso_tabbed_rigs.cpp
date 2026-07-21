@@ -34,6 +34,8 @@
 #include "zc_tabs_nonav.h"
 #include <FL/Fl_Widget.H>
 
+extern std::list<std::string> START_RIGS;
+
 // Constructor for the rigs set of tabs
 qso_tabbed_rigs::qso_tabbed_rigs(int X, int Y, int W, int H, const char* L) :
 	zc_tabs_nonav(X, Y, W, H, L)
@@ -88,30 +90,43 @@ void qso_tabbed_rigs::create_form(int X, int Y) {
 	if (label_map_.size() == 0) {
 		// Create a dummy instance of qao_rig to get its size
 		qso_rig* w = new qso_rig(rx, ry, rw, rh, "");
+		w->when(FL_WHEN_CLOSED);
+		w->callback(cb_close_tab);
 		rw = w->w();
 		rh = w->h();
 		// And delete it
 		// remove(w);
 	}
 	// For each currently salient rig...
+	int ntab = 0;
 	for (auto ix = label_map_.begin(); ix != label_map_.end(); ix++) {
 		char msg[128];
 		// Create a version of qso_rig 
+		std::string rig_name = (*ix).first;
 		qso_rig* w = new qso_rig(rx, ry, rw, rh, (*ix).first.c_str());
 		// TODO The following code relies on a later version of FLTK 1.4
-		//w->when(FL_WHEN_CLOSED);
+		w->when(FL_WHEN_CLOSED);
+		w->callback(cb_close_tab);
 		add(w);
 		(*ix).second = w;
 		// All versions of qso_rig should be the same size, but...
 		rw = std::max<int>(rw, w->w());
 		rh = std::max<int>(rh, w->h());
+		if (rig_name == START_RIGS.back()) {
+			// If this is the last rig in the list of those to be auto-started then select it.
+			default_tab_ = ntab;
+		}
+		ntab++;
 	}
 	resizable(nullptr);
 	size(rw + delta_w, rh + delta_h);
 	end();
 	show();
 
-	if (children() > default_tab_) value(child(default_tab_));
+	if (children() > default_tab_) {
+		value(child(default_tab_));
+		label(value()->label());
+	}
 
 }
 
@@ -151,14 +166,14 @@ void qso_tabbed_rigs::save_values() {
 	Fl_Widget* w = value();
 	for (int ix = 0; ix != children(); ix++) {
 		if (child(ix) == w) {
-			dash_settings.set("Rigs", ix);
+			dash_settings.set("Default Rig", ix);
 		}
 	}
+
 }
 
 // Switch to the selected rig
 void qso_tabbed_rigs::switch_rig() {
-	printf("DEBUG: Switching to %s\n", label());
 	std::string rig_name = label();
 	if (rig_name.length()) {
 		if (label_map_.find(rig_name) == label_map_.end() || label_map_.at(rig_name) == nullptr) {
@@ -174,6 +189,8 @@ void qso_tabbed_rigs::switch_rig() {
 			int rh = 0;
 			client_area(rx, ry, rw, rh, 0);
 			qso_rig* w = new qso_rig(rx, ry, rw, rh, label());
+			w->when(FL_WHEN_CLOSED);
+			w->callback(cb_close_tab);
 			add(w);
 			label_map_[rig_name] = w;
 			value(w);
@@ -195,11 +212,24 @@ void qso_tabbed_rigs::switch_rig() {
 // v is not used
 void qso_tabbed_rigs::cb_tabs(Fl_Widget* w, void* v) {
 	qso_tabbed_rigs* that = (qso_tabbed_rigs*)w;
-	printf("DEBUG: Callback for rig %s\n", that->value()->label());
 	that->label(that->value()->label());
 	that->enable_widgets();
 	qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
 	mgr->update_rig();
+}
+
+// Callback when closing a tab - removes the rig from the list and disconnects it. v is not used
+void qso_tabbed_rigs::cb_close_tab(Fl_Widget* w, void*v) {
+	qso_tabbed_rigs* that = (qso_tabbed_rigs*)zc::ancestor_view<qso_tabbed_rigs>(w);
+	std::string rig_name = w->label();
+	qso_rig* rig = (qso_rig*)w;
+	rig->disconnect();
+	int ix = that->find(rig);
+	if (ix >= 0) {
+		that->delete_child(ix);
+	}
+	that->label_map_.erase(rig_name);
+	that->enable_widgets();
 }
 
 // Get the rig

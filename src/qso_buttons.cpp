@@ -180,7 +180,6 @@ int qso_buttons::handle(int event) {
 
 // Handle shortcut
 bool qso_buttons::handle_shortcut(int shortcut) {
-	printf("DEBUG: Shortcut 0x%x pressed\n", shortcut);
 	if (shortcut_map_.find(shortcut) != shortcut_map_.end()) {
 		button_type bn = shortcut_map_.at(shortcut);
 		if (action_map_.find(bn) != action_map_.end()) {

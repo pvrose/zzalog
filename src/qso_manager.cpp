@@ -28,6 +28,7 @@
 #include "qso_tabbed_rigs.h"
 #include "qso_buttons.h"
 #include "qso_qsl.h"
+#include "qso_rig.h"
 #include "record.h"
 #include "stn_data.h"
 
@@ -97,7 +98,6 @@ int qso_manager::handle(int event) {
 	case FL_SHORTCUT:
 	{
 		int key = Fl::event_key();
-		printf("DEBUG: Received shortcut %x\n", key);
 		// Ignore ALT/Ctrl/Shift with no other key
 		switch (key) {
 		case FL_Alt_L:
@@ -331,9 +331,6 @@ void qso_manager::update_qso(hint_t hint, qso_num_t match_num, qso_num_t query_n
 		if (data_group_->logging_state() == qso_data::QSO_INACTIVE) {
 			data_group_->action_view();
 		}
-		if (target != nullptr) {
-			change_rig(book_->get_record(match_num, false)->item("MY_RIG"));
-		}
 		break;
 	case HT_IMPORT_QUERY:
 		data_group_->update_query(qso_data::QUERY_MATCH, match_num, query_num);
@@ -392,40 +389,27 @@ void qso_manager::update_import_qso(record* import_qso) {
 
 // Get the default value of the station item
 std::string qso_manager::get_default(stn_item_t item) {
-	record* source = data_group_->current_qso();
-	// If there isn't a default QSO the use the latest one
-	if (source == nullptr || source->size() == 0) {
-		source = book_->get_latest();
-	}
-	if (source) {
-		switch (item) {
-		case RIG:
-			return source->item("MY_RIG");
-		case ANTENNA:
-			return source->item("MY_ANTENNA");
-		case CALLSIGN:
-		case QTH:
-		case OP:
-			return data()->get_default_station(item);
-		default:
-			return "";
-		}
-	}
-	else {
-		switch (item) {
-		case CALLSIGN:
-			return stn_data_->defaults().callsign;
-		case QTH:
-			return stn_data_->defaults().location;
-		case OP:
-			if (stn_data_->defaults().type == stn_type::INDIVIDUAL)
-				return stn_data_->defaults().name;
-			else
-				return "";
-		default:
-			return "";
+	switch (item) {
+	case RIG:
+		// Get the current selected rig from the rig group
+		if (rig_group_->value()) {
+			const char* l = rig_group_->value()->label();
+			if (l) return std::string(l);
 		}
 		return "";
+	case ANTENNA:
+		// Get the current selected antenna from the rig group
+		if (rig_group_->value()) {
+			return ((qso_rig*)rig_group_->value())->antenna();
+		}
+		return "";
+	case CALLSIGN:
+	case QTH:
+	case OP:
+	    return data()->get_default_station(item);
+	default:
+		return "";
+	
 	}
 }
 

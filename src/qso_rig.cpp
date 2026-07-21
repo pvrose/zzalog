@@ -66,7 +66,7 @@
 #include <hamlib/rig.h>
 
 extern bool START_ALL_RIGS;
-extern std::set<std::string> START_RIGS;
+extern std::list<std::string> START_RIGS;
 extern void open_html(const char* filename);
 
 // Constructor
@@ -94,7 +94,7 @@ qso_rig::qso_rig(int X, int Y, int W, int H, const char* L) :
 	}
 	// Only allow start to be attempted if the rig is in the list of those to be auto-started.
 	if (!START_ALL_RIGS && 
-		(START_RIGS.find(label()) == START_RIGS.end())&&
+		(std::find(START_RIGS.begin(), START_RIGS.end(), label()) == START_RIGS.end())&&
 		(cat_data_->auto_connect || cat_data_->auto_start)) {
 		status_->misc_status(ST_NOTE, "RIG: Rig %s auto-connect not enabled by switch", label());
 		enable_widgets(DAMAGE_ALL);
@@ -130,7 +130,7 @@ qso_rig::~qso_rig() {
 	bool powerdown = cat_data_ && cat_data_->auto_pdown;
 	if (powerdown) {
 		if (!START_ALL_RIGS && 
-		    (START_RIGS.find(label()) == START_RIGS.end())) {
+		    (std::find(START_RIGS.begin(), START_RIGS.end(), label()) == START_RIGS.end())) {
 			status_->misc_status(ST_WARNING, "RIG: Automatic power-down of rig %s inhibited by switch.", label());
 			powerdown = false;
 		}

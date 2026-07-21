@@ -65,6 +65,8 @@ protected:
 
 	//! Callback from switvhing tabs.
 	static void cb_tabs(Fl_Widget* w, void* v);
+	//! Callback when closing a tab - v is not used.
+	static void cb_close_tab(Fl_Widget* w, void* v);
 
 	//! Map the labels to the widgets
 	std::map<std::string, Fl_Widget*> label_map_;

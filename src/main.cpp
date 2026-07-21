@@ -163,7 +163,7 @@ bool RESUME_SESSION = false;
 //! Start all rigs - by "-s all"
 bool START_ALL_RIGS = false;
 //! List of rigs to start - by "-s <rig1> -s <rig2>"
-std::set<std::string> START_RIGS = {};
+std::list<std::string> START_RIGS = {};
 //! Open userguide instead of running ZZALOG -  by "-h html"
 bool HELP_HTML = false;
 //! Open PDF userguide instead of running ZZALOG -  by "-h pdf"
@@ -615,7 +615,9 @@ int cb_args(int argc, char** argv, int& i) {
 				i += 1;
 			}
 			else {
-				START_RIGS.insert(argv[i]);
+				// Remove the rig if already listed to prevent it being added twice.
+				START_RIGS.remove(argv[i]);
+				START_RIGS.push_back(argv[i]);
 				i += 1;
 			}
 		}
