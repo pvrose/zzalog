@@ -803,7 +803,7 @@ std::string spec_data::enumeration_name(const std::string& field_name, record* r
 }
 
 // Add a user defined enumeration to an existing field definition
-// Used for MY_RIG, MY_ANTENNA, STATION_CALLSIGN
+// Used for MY_RIG, MY_ANTENNA, STATION_CALLSIGN, OPERATOR, 
 bool spec_data::add_user_enum(std::string field, std::string value) {
 	char message[128];
 	char enumeration_name[128];

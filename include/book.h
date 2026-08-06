@@ -578,6 +578,8 @@
 		std::set<std::string> used_antennas_;
 		//! The set of station callsigns logged in records within this set of QSO records.
 		std::set<std::string> used_callsigns_;
+		//! The set of operators' callsigns logged in records 
+		std::set<std::string> used_operators_;
 		//! Multi-dimensional map indicating bands used:
 		
 		//! - Outer map: Mapped to DXCC entity.

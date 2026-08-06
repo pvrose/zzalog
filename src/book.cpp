@@ -1169,6 +1169,14 @@ void book::add_use_data(record* use_record) {
 				update_spec = true;
 			}
 		}
+		std::string oper = use_record->item("OPERATOR");
+		if (oper.length()) {
+			if (used_operators_.find(oper) == used_operators_.end()) {
+				used_operators_.insert(oper);
+				spec_data_->add_user_enum("OPERATOR", oper);
+				update_spec = true;
+			}
+		}
 		deprecate_macros(use_record);
 
 		// A log-defined enum or a macro has changed
