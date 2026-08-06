@@ -462,6 +462,7 @@ void qso_data::enable_widgets() {
 
 // Update QSO
 void qso_data::update_qso(qso_num_t log_num) {
+	if (log_num == -1) log_num = g_entry_->qso_number();
 	switch (logging_state_) {
 	case QSO_INACTIVE:
 	{

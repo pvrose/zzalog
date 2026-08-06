@@ -6,6 +6,9 @@
     - Improve adding and removing rigs from control panel.
     - The rig specified by the last "-s <rig>" switch is 
     the default selected rig. 
+    - Treat ADIF field OPERATOR (operator's callsign) as an enumeration.
+    - Added switch "-c <name>" to specify configuration name. Uses separate
+    configuration directory: ZZALOG_<name>. Defaults to using ZZALOG.
   - Cosmetic and non-functional changes.
     - None.
   - Performance changes.
@@ -17,6 +20,7 @@
     - Occasionally records from WSJT-X try to access the wrong 
     rig when saving to log.
     - Exception when creating a new logbook for a separate callsign.
+    - Changing operator was not reflected in the current QSO, nor when starting a new one.
 
 \section rev_3_7_1 Revision 3.7.1
   - Functional changes.

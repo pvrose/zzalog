@@ -10,6 +10,7 @@ one call of ZZALOG to the next (called 'sticky' switches and noted below).
 
 - <B>-a|--auto_save</B> With this switch the log is automatically saved after each change to the log,
 although some changes are aggregated by ZZALOG to prevent unnecessary updates (sticky).
+- <B>-c|--config [name]</B> Uses a separate configuration directory "ZZALOG_<name>".
 - <B>-d|--debug [mode...]</B> 
   Applies a debug feature to be invoked for the run. Mode has the values:
   - <B>c|curl</B>

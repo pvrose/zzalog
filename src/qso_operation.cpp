@@ -17,6 +17,8 @@
 */
 #include "qso_operation.h"
 
+#include "qso_manager.h"
+#include "book.h"
 #include "record.h"
 #include "stn_data.h"
 #include "stn_dialog.h"
@@ -158,9 +160,11 @@ void qso_operation::cb_qth(Fl_Widget *w, void *v)
 		if (!stn_data_->known_qth(that->current_qth_))
 		{
 			that->new_qth(true);
-			return;
 		}
 	}
+	that->update_qso(that->current_qso_);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
+	mgr->update_qso(HT_CHANGED, -1, -1);
 }
 
 void qso_operation::cb_oper(Fl_Widget *w, void *v)
@@ -174,9 +178,11 @@ void qso_operation::cb_oper(Fl_Widget *w, void *v)
 		if (!stn_data_->known_oper(that->current_oper_))
 		{
 			that->new_oper(true);
-			return;
 		}
 	}
+	that->update_qso(that->current_qso_);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
+	mgr->update_qso(HT_CHANGED, -1, -1);
 }
 
 void qso_operation::cb_call(Fl_Widget *w, void *v)
@@ -200,6 +206,9 @@ void qso_operation::cb_call(Fl_Widget *w, void *v)
 			status_->get_banner()->set_banner_text(that->current_call_, FL_FOREGROUND_COLOR);
 		}
 	}
+	that->update_qso(that->current_qso_);
+	qso_manager* mgr = zc::ancestor_view<qso_manager>(that);
+	mgr->update_qso(HT_CHANGED, -1, -1);
 }
 
 void qso_operation::cb_show(Fl_Widget *w, void *v)
@@ -225,7 +234,7 @@ void qso_operation::cb_show(Fl_Widget *w, void *v)
 void qso_operation::qso(record *qso)
 {
 	current_qso_ = qso;
-	enable_widgets();
+//	enable_widgets();
 }
 
 // get the current QTH
@@ -322,6 +331,7 @@ void qso_operation::new_call(bool is_new)
 // Copy the values mentioned into the current QSO
 void qso_operation::update_qso(record *qso)
 {
+	if (qso == nullptr) return;
 	char msg[128];
 	// Copy all values from QTH, Operator & callsign to QSO
 	const qth_info_t *qth = stn_data_->get_qth(current_qth_);

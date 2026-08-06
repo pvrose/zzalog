@@ -58,7 +58,7 @@ std::map<qso_data::logging_state_t, std::list<qso_buttons::button_type> > button
 		qso_buttons::UPDATE_CAT, qso_buttons::REPLACE_CAT, qso_buttons::UPDATE_STATION, 
 		qso_buttons::QRZ_COM, qso_buttons::PARSE_QSO } },
 	{ qso_data::QSO_VIEW, { qso_buttons::EDIT_QSO, qso_buttons::CANCEL_VIEW, qso_buttons::ACTIVATE,
-	    qso_buttons::START_QSO, 
+	    qso_buttons::START_QSO, qso_buttons::ADD_QSO,
 		qso_buttons::NAV_FIRST, qso_buttons::NAV_PREV, qso_buttons::NAV_NEXT, qso_buttons::NAV_LAST ,
 		qso_buttons::QRZ_COM, qso_buttons::LOOK_ALL_TXT,
 		qso_buttons::EDIT_NET, qso_buttons::START_NET, qso_buttons::BROWSE } },

@@ -106,6 +106,7 @@
 extern std::string APP_NAME;
 extern std::string APP_VERSION;
 extern std::string APP_TIMESTAMP;
+extern std::string APP_CONFIG_NAME;
 extern std::string CONTACT;
 extern std::string COPYRIGHT;
 extern std::string ZZACOMMON_VERSION;
@@ -461,6 +462,12 @@ int cb_args(int argc, char** argv, int& i) {
 		AUTO_SAVE_S = true;
 		i += 1;
 	}
+	// Configuration name
+	if (strcmp("-c", argv[i]) == 0 || strcmp("--config", argv[i]) == 0) {
+		i += 1;
+		APP_CONFIG_NAME = "_" + std::string(argv[i]);
+		i += 1;
+	}
 	// Debug
 	else if (strcmp("-d", argv[i]) == 0 || strcmp("--debug", argv[i]) == 0) {
 		i += 1;
@@ -770,6 +777,7 @@ void show_help() {
 	"\n"
 	"switches:\n"
 	"\t-a|--auto_save\tDo automatically save each change (sticky)\n"
+	"\t-c|--config [name]\tUse configuration [name]\n"
   	"\t-d|--debug [mode...]\n"
 		"\t\tc|curl\tincrease verbosity from libcurl\n"
 		"\t\t\tnoc|nocurl\n"
