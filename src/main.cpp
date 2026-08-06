@@ -949,9 +949,11 @@ void add_book(char* arg) {
 		// Tell the views that a book now exists
 		tabbed_forms_->books();
 
+		std::string log_file;
+
 		if (!NEW_BOOK || arg_filename_) {
 			// Get filename and load the data
-			std::string log_file = get_file(arg);
+			log_file = get_file(arg);
 
 			// Now try and load the file
 			if (!book_->load_data(log_file)) {
@@ -962,8 +964,8 @@ void add_book(char* arg) {
 			set_recent_file(log_file);
 		}
 		if (NEW_BOOK) {
-			if (!book_->store_data(arg_filename_, true)) {
-				status_->misc_status(ST_ERROR, "LOG: Failed to create %s", arg_filename_);
+			if (!book_->store_data(log_file, true)) {
+				status_->misc_status(ST_ERROR, "LOG: Failed to create %s", log_file.c_str());
 			}
 		}
 	}

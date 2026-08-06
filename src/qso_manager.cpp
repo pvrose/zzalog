@@ -392,14 +392,14 @@ std::string qso_manager::get_default(stn_item_t item) {
 	switch (item) {
 	case RIG:
 		// Get the current selected rig from the rig group
-		if (rig_group_->value()) {
+		if (rig_group_ && rig_group_->value()) {
 			const char* l = rig_group_->value()->label();
 			if (l) return std::string(l);
 		}
 		return "";
 	case ANTENNA:
 		// Get the current selected antenna from the rig group
-		if (rig_group_->value()) {
+		if (rig_group_ && rig_group_->value()) {
 			return ((qso_rig*)rig_group_->value())->antenna();
 		}
 		return "";
