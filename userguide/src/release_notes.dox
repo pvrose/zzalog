@@ -16,6 +16,7 @@
     - Hamlib timeout does not stop connect attempt.
     - Occasionally records from WSJT-X try to access the wrong 
     rig when saving to log.
+    - Exception when creating a new logbook for a separate callsign.
 
 \section rev_3_7_1 Revision 3.7.1
   - Functional changes.
