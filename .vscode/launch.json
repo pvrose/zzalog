@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug ZZALOG",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "Build Debug",
+            "program": "${workspaceFolder}\\out\\build\\x64-debug\\zzalog.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}\\out\\build\\x64-debug",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Release ZZALOG",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "Build Release",
+            "program": "${workspaceFolder}\\out\\build\\x64-release\\zzalog.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}\\out\\build\\x64-release",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        }
+    ]
+}
