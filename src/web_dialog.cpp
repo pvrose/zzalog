@@ -790,7 +790,7 @@ void web_dialog::enable_widgets() {
 	}
 	// Standard tab formats
 	// value() returns the selected widget. We need to test which widget it is.
-	zc_tabs_nonav* tabs = (zc_tabs_nonav*)child(0);
+	zc_tabs_nonav* tabs = (zc_tabs_nonav*)child(1);
 	Fl_Widget* tab = tabs->value();
 	for (int ix = 0; ix < tabs->children(); ix++) {
 		Fl_Widget* wx = tabs->child(ix);

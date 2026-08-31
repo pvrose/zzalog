@@ -1,34 +1,52 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Build Debug",
-            "type": "process",
-            "command": "cmd.exe",
-            "args": [
-                "/d",
-                "/c",
-                "call",
-                "${workspaceFolder}\\cmake\\build-debug.cmd"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Build Release",
-            "type": "process",
-            "command": "cmd.exe",
-            "args": [
-                "/d",
-                "/c",
-                "call",
-                "${workspaceFolder}\\cmake\\build-release.cmd"
-            ],
-            "group": "build",
-            "problemMatcher": "$msCompile"
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "cmd.exe",
+      "args": [
+        "/d",
+        "/c",
+        "call",
+        "\"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\Tools\\VsDevCmd.bat\"",
+        "-arch=amd64",
+        "-host_arch=amd64",
+        "&&",
+        "cmake",
+        "--build",
+        "\"${workspaceFolder}\\out\\build\\x64-debug\""
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Build Release",
+      "type": "shell",
+      "command": "cmd.exe",
+      "args": [
+        "/d",
+        "/c",
+        "call",
+        "\"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\Tools\\VsDevCmd.bat\"",
+        "-arch=amd64",
+        "-host_arch=amd64",
+        "&&",
+        "cmake",
+        "--build",
+        "\"${workspaceFolder}\\out\\build\\x64-release\""
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    }
+  ]
 }

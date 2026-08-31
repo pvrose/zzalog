@@ -1,5 +1,15 @@
 /** \page release_notes Revision History
 
+\section rev_3_7_3 Revision 3.7.3 [Unreleased]
+  - Functional changes.
+    - None.
+  - Cosmetic and non-functional changes.
+    - None.
+  - Performance changes.
+    - None.
+  - Bug fixes.
+    - Formatting of dialog for web QSL servers was broken in 3.7.2. 
+
 \section rev_3_7_2 Revision 3.7.2
   - Functional changes.
     - Remove automatic selection of a rig from the selected QSO.

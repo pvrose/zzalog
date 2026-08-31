@@ -112,7 +112,7 @@ void qso_tabbed_rigs::create_form(int X, int Y) {
 		// All versions of qso_rig should be the same size, but...
 		rw = std::max<int>(rw, w->w());
 		rh = std::max<int>(rh, w->h());
-		if (rig_name == START_RIGS.back()) {
+		if (START_RIGS.size() > 0 && rig_name == START_RIGS.back()) {
 			// If this is the last rig in the list of those to be auto-started then select it.
 			default_tab_ = ntab;
 		}
