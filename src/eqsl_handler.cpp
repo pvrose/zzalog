@@ -377,9 +377,10 @@ eqsl_handler::response_t eqsl_handler::card_filename_r(
 	response_t response = ER_OK;
 	std::string username;
 	std::string password;
+	std::string nickname;
 	char message[256];
 	// Get users details
-	if (!user_details(&username, &password, nullptr, nullptr, nullptr, nullptr, nullptr)) {
+	if (!user_details(&username, &password, nullptr, nullptr, nullptr, &nickname, nullptr)) {
 		sprintf(message, "EQSL: User or password is missing: U=%s, P=%s", username.c_str(), password.c_str());
 		status_->misc_status(ST_ERROR, message);
 		return ER_FAILED;
@@ -388,7 +389,7 @@ eqsl_handler::response_t eqsl_handler::card_filename_r(
 	status_->misc_status(ST_NOTE, message);
 
 	// url to get the front page of the eQSL card fetch interface
-	char url_format[] = "http://www.eqsl.cc/qslcard/GeteQSL.cfm?Username=%s&Password=%s&CallsignFrom=%s&QSOYear=%s&QSOMonth=%s&QSODay=%s&QSOHour=%s&QSOMinute=%s&QSOBand=%s&QSOMode=%s";
+	char url_format[] = "http://www.eqsl.cc/qslcard/GeteQSL.cfm?Username=%s&Password=%s&CallsignFrom=%s%s&QSOYear=%s&QSOMonth=%s&QSODay=%s&QSOHour=%s&QSOMinute=%s&QSOBand=%s&QSOMode=%s";
 	char url[2048];
 	std::string call = record->item("CALL");
 	std::string qso_date = record->item("QSO_DATE");
@@ -398,7 +399,12 @@ eqsl_handler::response_t eqsl_handler::card_filename_r(
 	std::string station = record->item("STATION_CALLSIGN");
 	if (station.length() == 0) station = username;
 	// Apply fields to complete the URL
-	sprintf(url, url_format, station.c_str(), password.c_str(), call.c_str(), qso_date.substr(0, 4).c_str(), 
+	sprintf(url, url_format, 
+		station.c_str(), 
+		password.c_str(), 
+		zc::escape_url(call).c_str(), 
+		nickname.empty() ? "" : ("&QTHNickname=" + zc::escape_url(nickname)).c_str(),
+		qso_date.substr(0, 4).c_str(),
 		qso_date.substr(4, 2).c_str(), qso_date.substr(6, 2).c_str(),
 		time_on.substr(0, 2).c_str(), time_on.substr(2, 2).c_str(), band.c_str(), mode.c_str());
 	// Stream to receive the data
@@ -614,12 +620,12 @@ eqsl_handler::response_t eqsl_handler::adif_filename(std::string& filename) {
 	sprintf(url, url_format, 
 		station.c_str(), 
 		password.c_str(), 
-		nickname.empty() ? "" : ("&QTHNickname=" + nickname).c_str(), 
+		nickname.empty() ? "" : ("&QTHNickname=" + zc::escape_url(nickname)).c_str(), 
 		last_access.c_str(), 
 		confirmed ? "" : "&UnconfirmedOnly=1");
 	response_t result = ER_OK;
 	std::stringstream eqsl_ss;
-	snprintf(message, sizeof(message), "EQSL: Queryimg in-box for %s", station.c_str());
+	snprintf(message, sizeof(message), "EQSL: Querying in-box for %s", station.c_str());
 	status_->misc_status(ST_NOTE, message);
 	// Fetch first page to get URL of ADIF file with update
 	if (url_handler_->read_url(url, &eqsl_ss)) {
@@ -704,6 +710,12 @@ eqsl_handler::response_t eqsl_handler::adif_filename(std::string& filename) {
 		last_access = zc::now(false, EQSL_TIMEFORMAT);
 		server_data_t* eqsl_data = qsl_dataset_->get_server_data("eQSL");
 		eqsl_data->call_data[station]->last_download = last_access;
+	}
+	else {
+		// Report error to user
+		char message[256];
+		sprintf(message, "EQSL: Failed to get ADIF filename for %s: %s", station.c_str(), url_handler_->error_msg());
+		status_->misc_status(ST_ERROR, message);
 	}
 
 	return result;
