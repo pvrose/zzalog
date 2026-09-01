@@ -2,7 +2,7 @@
 
 \section rev_3_7_3 Revision 3.7.3 [Unreleased]
   - Functional changes.
-    - None.
+    - Add QTHNickname as a parameter when fetching from eQSL.cc.
   - Cosmetic and non-functional changes.
     - None.
   - Performance changes.

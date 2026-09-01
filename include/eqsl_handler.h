@@ -179,10 +179,11 @@ typedef size_t qso_num_t;
 		//! \param last_access returns date of last eQSL upload.
 		//! \param qsl_message returns default message for QSO uploads.
 		//! \param swl_message returns default message for SWL QSL uploads.
+		//! \param nickname returns nickname for eQSL.cc.
 		//! \param confirmed returns whether only confirmed requests are required.
 		//! \return true if username and password are available, false if not.
 		bool user_details(std::string* username, std::string* password, std::string* last_access, 
-			std::string* qsl_message, std::string* swl_message, bool* confirmed);
+			std::string* qsl_message, std::string* swl_message, std::string* nickname, bool* confirmed);
 		//! Get the filename of the data to be downloaded from eQSL.cc.
 		
 		//! \param filename returns filename.

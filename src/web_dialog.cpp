@@ -278,6 +278,11 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 	b4->align(FL_ALIGN_CENTER);
 	b4->box(FL_FLAT_BOX);
 
+	curr_x += WSMEDIT + HBUTTON + GAP;
+	Fl_Box* b5 = new Fl_Box(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON, "Log Nickname");
+	b5->align(FL_ALIGN_CENTER);
+	b5->box(FL_FLAT_BOX);
+
 	curr_y += HBUTTON;
 	for (auto it = eqsl_data_->call_data.begin(); it != eqsl_data_->call_data.end(); it++) {
 		curr_x = rx + GAP + HBUTTON;
@@ -297,6 +302,12 @@ void web_dialog::create_eqsl(int rx, int ry, int rw, int rh) {
 		ip_lastdl->value(it->second->last_download.c_str());
 		ip_lastdl->callback(zc::cb_value<intl_input, std::string>, &it->second->last_download);
 		ip_lastdl->tooltip("The date of the last download");
+
+		curr_x += WSMEDIT + HBUTTON + GAP;
+		Fl_Input* ip_key = new Fl_Input(curr_x, curr_y, WSMEDIT + HBUTTON, HBUTTON);
+		ip_key->value(it->second->key.c_str());
+		ip_key->callback(zc::cb_value<Fl_Input, std::string>, &it->second->key);
+		ip_key->tooltip("The nickname for this logbook (eQSL.cc) if needed to differentiate logbooks for the same call");
 
 		w_eqsl_lupds_[it->first] = ip_lastdl;
 

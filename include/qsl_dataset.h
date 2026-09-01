@@ -37,7 +37,7 @@ enum extract_mode_t : uint8_t;
 //! Contains data needed to access logbooks by call on QSL server sites.
 struct qsl_call_data {
 	bool used;                           //!< Data is used.
-	std::string key;                     //!< logbook access key.
+	std::string key;                     //!< logbook access key (QRZ.com). Used for Log nickname for eQSL.cc
 	unsigned long long last_logid;       //!< Universal QSO record identifier.
 	std::string last_download;           //!< Date last downloaded (YYYYMMDD)
 };
@@ -60,7 +60,7 @@ struct server_data_t {
 	bool use_xml{false};                 //!< Use XML (QRZ.com)
 	std::string mail_server{""};         //!< Mail server (eMail)
 	std::string cc_address{""};          //!< cc Address (eMail)
-	std::map<std::string, qsl_call_data*> call_data; //!< API logbook data (QRZ.com)
+	std::map<std::string, qsl_call_data*> call_data; //!< API logbook data (QRZ.com, eQSL)
 };
 
 //! The container for all data pertinant to QSL card designs and QSL server sites.
