@@ -48,9 +48,25 @@ bool record::operator > (record& them) {
 	if (timestamp_ > them.timestamp_) {
 		return true;
 	}
-	else if (timestamp_ == them.timestamp_ && item("CALL") > them.item("CALL")) {
-		// If times are equal then sort on call
-		return true;
+	else if (timestamp_ == them.timestamp_) {
+		time_t ts_end = timestamp(true);
+		time_t them_end = them.timestamp(true);
+		if (ts_end > them_end) {
+			return true;
+		}
+		if (ts_end == them_end) {
+			if (item("CALL") > them.item("CALL")) {
+				// If times are equal then sort on call
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			// This record ends before the other one
+			return false;
+		}
 	} else {
 		return false;
 	}
