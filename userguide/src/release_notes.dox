@@ -3,12 +3,14 @@
 \section rev_3_7_3 Revision 3.7.3 [Unreleased]
   - Functional changes.
     - Add QTHNickname as a parameter when fetching from eQSL.cc.
+    - Add automatic scaling of images when used as background in QSL design.
   - Cosmetic and non-functional changes.
     - None.
   - Performance changes.
     - None.
   - Bug fixes.
     - Formatting of dialog for web QSL servers was broken in 3.7.2. 
+    - Image path for QSL designs not set correctly.
 
 \section rev_3_7_2 Revision 3.7.2
   - Functional changes.
