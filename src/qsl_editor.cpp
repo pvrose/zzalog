@@ -44,6 +44,7 @@
 #include <cstdio>
 #include <ctime>
 #include <string>
+#include <boost/filesystem.hpp>
 
 // FLTK classes
 #include <FL/Enumerations.H>
@@ -55,6 +56,7 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Light_Button.H>
+#include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Radio_Round_Button.H>
 #include <FL/Fl_Scroll.H>
@@ -1166,53 +1168,21 @@ void qsl_editor::update() {
 
 // Remove the full path name - leave what's left after the QSL Data path name
 bool qsl_editor::relative_filename(std::string& filename) {
-	std::string path = qsl_dataset_->get_path();
-	// Make both names portable
-	zc::forward_slash(path);
-	zc::forward_slash(filename);
-	std::string result;
-	char msg[256];
-	// First check it's directly under the path
-	if (filename.substr(0, path.length()) == path) {
-		result = filename.substr(path.length());
-		// Remove any leading stroke character
-		if (result[0] == '/' || result[0] == '\\') {
-			result = result.substr(1);
+	std::string path;
+	zc_settings top_settings;
+	zc_settings behav_settings(&top_settings, "Behaviour");
+	if (!behav_settings.get<std::string>("QSL Cards", path, "")) {
+		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
+		chooser->title("Select QSL Card directory - cancel to ignore");
+		if (chooser->show() == 0) {
+			path = chooser->filename();
 		}
-		filename = result;
-		return true;
+		behav_settings.set("QSL Cards", path);
+		delete chooser;
 	}
-	// else - not directly in path
-	bool found = false;
-	size_t len;
-	std::string save_path = path;
-	// Remove any trainling searator from path
-	if (path.back() == '/' || path.back() == '\\') {
-		path = path.substr(0, path.length() - 1);
-	}
-	// Now one character ata  time compare the strings
-	for (len = 0; !found && len < path.length(); len++) {
-		if (filename.compare(0, len + 1, path) <= 0) {
-			found = true;
-		}
-	}
-	// len should now have the number of characters that match
-	if (len == 0) {
-		snprintf(msg, sizeof(msg), "QSL: No common path between %s and %s", filename.c_str(), save_path.c_str());
-		status_->misc_status(ST_WARNING, msg);
-		return false;
-	}
-	// Now behead the filename by the length of match
-	result = filename.substr(len);
-	// Scan the remainder of path for the number of separator and prepend "../" for each one
-	size_t pos = len;
-	while (pos != std::string::npos) {
-		pos = path.find_first_of("/\\", pos);
-		result = "../" + result;
-	}
-	snprintf(msg, sizeof(msg), "QSL: Common path found - setting filename to %s", result.c_str());
-	status_->misc_status(ST_NOTE, msg);
-	filename = result;
+	boost::filesystem::path qsl_path(path);
+	boost::filesystem::path file_path(filename);
+	filename = boost::filesystem::relative(filename, path).string();
 	return true;
 }
 

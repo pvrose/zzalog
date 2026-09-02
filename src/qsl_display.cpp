@@ -29,6 +29,8 @@
 #include <set>
 #include <string>
 
+#include <boost/filesystem.hpp>
+
 #include <FL/Enumerations.H>
 #include <FL/Fl_BMP_Image.H>
 #include <FL/fl_draw.H>
@@ -598,6 +600,8 @@ bool qsl_display::absolute_filename(std::string& filename) {
 		behav_settings.set("QSL Cards", path);
 		delete chooser;
 	}
-	filename = path + "/" + filename;
+	boost::filesystem::path p(path);
+	boost::filesystem::path f(filename);
+	filename = boost::filesystem::absolute(f, p).string();
 	return true;
 }
