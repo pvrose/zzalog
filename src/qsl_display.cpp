@@ -300,13 +300,33 @@ void qsl_display::draw_image(qsl_data::image_def& image) {
 	if (filename.length()) {
 		absolute_filename(filename);
 		Fl_Image* image_data = get_image(filename);
+		// If the image position in (-1, -1) it needs scaling to occupy the whole display area
+		if (image.dx == -1 && image.dy == -1) {
+			if (image_data) {
+				// Scale and draw the image to fill the display area
+				int iw = image_data->w();
+				int ih = image_data->h();
+				double scale_x = (double)draw_w_ / (double)iw;
+				double scale_y = (double)draw_h_ / (double)ih;
+				// Crop the image to fit the display area
+				double scale_factor = std::max(scale_x, scale_y);
+				iw = (int)(iw * scale_factor);
+				ih = (int)(ih * scale_factor);
+				Fl_Image* scale_image = image_data->copy(iw, ih);
+				// Calculate any offset to centre the image in the display area
+				int offset_x = (draw_w_ - iw) / 2;
+				int offset_y = (draw_h_ - ih) / 2;
+				draw_image(offset_x, offset_y, scale_image);
+			}
+		}
+		else
 		if (image_data) {
 			draw_image(image.dx, image.dy, image_data);
 		}
 	}
 }
 
-// Scale and dr5aw the iamge
+// Scale and draw the image
 void qsl_display::draw_image(int x, int y, Fl_Image* image) {
 	if (do_scale_) {
 		Fl_Image* scale_image = image->copy(scale(image->w()), scale(image->h()));
@@ -538,7 +558,7 @@ void qsl_display::calculate_scale(int w, int h) {
 		draw_h_ = h_;
 	}
 	else {
-		// What is the scale factor - minimum of w sca;ling and h scaling
+		// What is the scale factor - minimum of w scaling and h scaling
 		float scale_w = (float)w_ / (float)w;
 		float scale_h = (float)h_ / (float)h;
 		do_scale_ = true;
