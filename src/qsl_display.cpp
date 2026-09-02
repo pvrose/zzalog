@@ -296,7 +296,6 @@ void qsl_display::draw_text(qsl_data::text_def& text) {
 void qsl_display::draw_image(qsl_data::image_def& image) {
 	std::string filename = image.filename;
 	if (filename.length()) {
-		absolute_filename(filename);
 		Fl_Image* image_data = get_image(filename);
 		if (image_data) {
 			draw_image(image.dx, image.dy, image_data);
@@ -584,20 +583,3 @@ void qsl_display::get_size(int& w, int& h) {
 	}
 }
 
-// Prepend filename with pathname
-bool qsl_display::absolute_filename(std::string& filename) {
-	std::string path;
-	zc_settings top_settings;
-	zc_settings behav_settings(&top_settings, "Behaviour");
-	if (!behav_settings.get<std::string>("QSL Cards", path, "")) {
-		Fl_Native_File_Chooser* chooser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_DIRECTORY);
-		chooser->title("Select QSL Card directory - cancel to ignore");
-		if (chooser->show() == 0) {
-			path = chooser->filename();
-		}
-		behav_settings.set("QSL Cards", path);
-		delete chooser;
-	}
-	filename = path + "/" + filename;
-	return true;
-}

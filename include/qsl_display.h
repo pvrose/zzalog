@@ -99,10 +99,7 @@ protected:
     //! Calculate scale values.
     void calculate_scale(int tgt_w, int tgt_h);
 
-    //! Convert file name to absolute
-    bool absolute_filename(std::string& filename);
-
-    //! Drawing data for the current instance.
+	//! Drawing data for the current instance.
     qsl_data* data_;
     //! The array of QSOs to be displayed on the card
     record** qsos_;

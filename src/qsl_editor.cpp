@@ -1037,12 +1037,6 @@ void qsl_editor::cb_image(Fl_Widget* w, void* v) {
 	qsl_editor* that = zc::ancestor_view<qsl_editor>(w);
 	zc::cb_value<Fl_Input, std::string>(w, &image.filename);
 
-	if (!that->relative_filename(image.filename)) {
-		char msg[256];
-		snprintf(msg, sizeof(msg), "QSL: Unable to create a path relative to %s for %s",
-			qsl_dataset_->get_path().c_str(), image.filename.c_str());
-		status_->misc_status(ST_WARNING, msg);
-	}
 	that->redraw_display(true);
 	that->create_items();
 }
@@ -1164,55 +1158,4 @@ void qsl_editor::update() {
 	redraw_display(false);
 }
 
-// Remove the full path name - leave what's left after the QSL Data path name
-bool qsl_editor::relative_filename(std::string& filename) {
-	std::string path = qsl_dataset_->get_path();
-	// Make both names portable
-	zc::forward_slash(path);
-	zc::forward_slash(filename);
-	std::string result;
-	char msg[256];
-	// First check it's directly under the path
-	if (filename.substr(0, path.length()) == path) {
-		result = filename.substr(path.length());
-		// Remove any leading stroke character
-		if (result[0] == '/' || result[0] == '\\') {
-			result = result.substr(1);
-		}
-		filename = result;
-		return true;
-	}
-	// else - not directly in path
-	bool found = false;
-	size_t len;
-	std::string save_path = path;
-	// Remove any trainling searator from path
-	if (path.back() == '/' || path.back() == '\\') {
-		path = path.substr(0, path.length() - 1);
-	}
-	// Now one character ata  time compare the strings
-	for (len = 0; !found && len < path.length(); len++) {
-		if (filename.compare(0, len + 1, path) <= 0) {
-			found = true;
-		}
-	}
-	// len should now have the number of characters that match
-	if (len == 0) {
-		snprintf(msg, sizeof(msg), "QSL: No common path between %s and %s", filename.c_str(), save_path.c_str());
-		status_->misc_status(ST_WARNING, msg);
-		return false;
-	}
-	// Now behead the filename by the length of match
-	result = filename.substr(len);
-	// Scan the remainder of path for the number of separator and prepend "../" for each one
-	size_t pos = len;
-	while (pos != std::string::npos) {
-		pos = path.find_first_of("/\\", pos);
-		result = "../" + result;
-	}
-	snprintf(msg, sizeof(msg), "QSL: Common path found - setting filename to %s", result.c_str());
-	status_->misc_status(ST_NOTE, msg);
-	filename = result;
-	return true;
-}
 

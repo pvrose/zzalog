@@ -139,9 +139,6 @@ protected:
     //! Populate the QSL type choice
     void populate_qsl_type(Fl_Choice* ch);
 
-    //! Remove filepath from filename - returns false if unsuccesful
-    bool relative_filename(std::string& filename);
-
     //! Station callsign to read parameters.
     std::string callsign_;
    // display window coordinates
