@@ -443,6 +443,10 @@ bool qrz_handler::fetch_request(qsl_call_data* api, std::ostream& req) {
 	// Action
 	req << "ACTION=FETCH" <<"&";
 	// Options
+	if (!api->last_download.length()) {
+		req << '\n';
+		return true;
+	}
 	std::string lastdate = api->last_download.substr(0,4) + "-" +
 		api->last_download.substr(4,2) + "-" + api->last_download.substr(6,2);
  	req << "OPTION=MODSINCE:" << lastdate << '\n';
