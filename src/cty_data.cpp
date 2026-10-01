@@ -530,6 +530,7 @@ void cty_data::parse(record* qso) {
 			!parse_result_.decode_element || dxcc_id != parse_result_.decode_element->dxcc_id_)) {
 			int parse_dxcc = parse_result_.decode_element->dxcc_id_;
 			std::string parse_name = parse_result_.decode_element->name_;
+			// Override the decode with the logged value - if this is wrong the user needs to delete the DXCC value and let the program re-parse it.
 			parse_result_.entity = data_->entities[dxcc_id];
 			parse_result_.decode_element = nullptr;
 			status_->misc_status(ST_WARNING, "CTY DATA: Call %s entity %d(%s) in record %s:%s overrides %d(%s) from call",
@@ -594,10 +595,14 @@ cty_element* cty_data::match_pattern(const std::string& call, const std::string&
 	std::string body;
 	// Split call accoridng to slashes in it. 
 	split_call(call, alt, body);
-	if (alt.length()) {
+	if (alt.length() && alt[0] != '/') {
 		cty_element* pfx = match_prefix(alt, when);
 		matched_call = alt;
 		if (pfx && pfx->dxcc_id_ > 0) return pfx;
+	}
+	else if (alt == "/MM") {
+		cty_element* pfx = data_->entities.at(0);
+		return pfx;
 	}
 	matched_call = body;
 	return match_prefix(body, when);
@@ -752,20 +757,24 @@ void cty_data::split_call(const std::string& call, std::string& alt, std::string
 	case 2:
 		if (suffix == "MM") {
 			// /MM - not in a DXCC entity so no need to parse the callsign further
-			// TODO: Needs further work
+			// use the first part of the call as the body and force the suffix to "/MM" to avoid confusion with "MM" as a prefix.
+			body = words[0];
+			alt = "/MM";
 			return;
 		}
 		else if (suffix.length() == 1 || suffix == "AM") {
-			// Callsign has a roving style suffix - e.g. /M, /1 etc.
-			if (suffix.length() == 1) {
+			// Callsign has a roving style suffix - e.g. /M, /1 etc. or is /AM for aeronautical mobile. 
+			if (suffix.length() == 1 && isdigit(suffix[0])) {
+				// If the suffix is a digit, mutate the last letter of the prefix to that digit to pretend to be in that call area.
 				alt = words[0];
 				mutate_call(alt, suffix[0]);
 				body = "";
 				if (zc_app::debug(DEBUG_PARSE)) printf("""Mutated"" %s to %s\n", words[0].c_str(), alt.c_str());
 			}
 			else {
+				// Prepend the suffix with "/" to avoid confusion with a valid prefix
 				body = words[0];
-				alt = "";
+				alt = "/" + words[1]; 
 				if (zc_app::debug(DEBUG_PARSE)) printf("Ignoring /%s", suffix.c_str());
 			}
 			suffix = "";
