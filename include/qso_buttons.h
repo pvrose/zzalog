@@ -188,7 +188,7 @@ protected:
 	void disable_widgets();
 
 	//! Maximum number of buttons supported in any mode.
-	static const int MAX_ACTIONS = 20;
+	static const int MAX_ACTIONS = 16;
 
 	//! Parent instance of qso_data.
 	qso_data* qso_data_;

@@ -257,22 +257,23 @@ void qso_dxcc::enable_widgets() {
 			op_coords_->value("");
 		} else {
 			char ls[20];
+			memset(ls, 0, sizeof(ls));
 			switch(loc_source_) {
 				case LOC_PREFIX:
 					if (geo_nick_.length() == 0) strcpy(ls, nickname_.c_str());
-					else strcpy(ls, geo_nick_.c_str());
+					else strncpy(ls, geo_nick_.c_str(), sizeof(ls) - 1);
 					break;
 				case LOC_NONE:
-					strcpy(ls, "Not available");
+					strncpy(ls, "Not available", sizeof(ls) - 1);
 					break;
 				case LOC_LATLONG:
-					strcpy(ls, "From record");
+					strncpy(ls, "From record", sizeof(ls) - 1);
 					break;
 				case LOC_CITY:
-					strcpy(ls, city_.c_str());
+					strncpy(ls, city_.c_str(), sizeof(ls) - 1);
 					break;
 				default:
-					strcpy(ls, locator_.c_str());
+					strncpy(ls, locator_.c_str(), sizeof(ls) - 1);
 					break;
 			}
 			snprintf(text, sizeof(text), "Loc: %.1f\302\260%c %.1f\302\260%c (%s)",

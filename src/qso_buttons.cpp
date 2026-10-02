@@ -27,7 +27,9 @@
 #include <algorithm>
 #include <list>
 #include <map>
+#include <cstring>
 
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
@@ -103,11 +105,11 @@ std::map<qso_buttons::button_type, qso_buttons::button_action> action_map_ =
 	{ qso_buttons::SAVE_QSO, { "Log", zc_icon_t::ICON_NONE, "Log the QSO (set start time if not set) and quit", qso_buttons::cb_save, (void*)qso_buttons::SAVE_QSO, FL_ALT + 'l'}},
 	{ qso_buttons::CANCEL_QSO, { "Quit QSO", zc_icon_t::ICON_NONE, "Cancel the current QSO entry", qso_buttons::cb_cancel, 0, FL_ALT + 'x'}},
 	{ qso_buttons::DELETE_QSO, { "Delete QSO", zc_icon_t::ICON_NONE, "Delete the selected QSO", qso_buttons::cb_bn_delete_qso, 0, FL_ALT + FL_Delete } },
-	{ qso_buttons::SAVE_EDIT, { "Log", zc_icon_t::ICON_NONE, "Copy changed record back to book", qso_buttons::cb_save, (void*)qso_buttons::SAVE_EDIT}},
-	{ qso_buttons::SAVE_CONTINUE, { "Log && Edit", zc_icon_t::ICON_NONE, "Set TIME_OFF and allow continued edit", qso_buttons::cb_save, (void*)qso_buttons::SAVE_CONTINUE}},
-	{ qso_buttons::SAVE_EXIT, { "Log && Exit", zc_icon_t::ICON_NONE, "Copy changed record and return to previous activity", qso_buttons::cb_save, (void*)qso_buttons::SAVE_EXIT }},
-	{ qso_buttons::SAVE_VIEW, { "Log && View", zc_icon_t::ICON_NONE, "Copy changed record and allow view", qso_buttons::cb_save, (void*)qso_buttons::SAVE_VIEW }},
-	{ qso_buttons::SAVE_NEW, { "Log && New", zc_icon_t::ICON_NONE, "Save QSO and start new QSO", qso_buttons::cb_save, (void*)qso_buttons::SAVE_NEW }},
+	{ qso_buttons::SAVE_EDIT, { "Save", zc_icon_t::ICON_NONE, "Copy changed record back to book", qso_buttons::cb_save, (void*)qso_buttons::SAVE_EDIT}},
+	{ qso_buttons::SAVE_CONTINUE, { "Save && Edit", zc_icon_t::ICON_NONE, "Set TIME_OFF and allow continued edit", qso_buttons::cb_save, (void*)qso_buttons::SAVE_CONTINUE}},
+	{ qso_buttons::SAVE_EXIT, { "Save && Exit", zc_icon_t::ICON_NONE, "Copy changed record and return to previous activity", qso_buttons::cb_save, (void*)qso_buttons::SAVE_EXIT }},
+	{ qso_buttons::SAVE_VIEW, { "Save && View", zc_icon_t::ICON_NONE, "Copy changed record and allow view", qso_buttons::cb_save, (void*)qso_buttons::SAVE_VIEW }},
+	{ qso_buttons::SAVE_NEW, { "Save && New", zc_icon_t::ICON_NONE, "Save QSO and start new QSO", qso_buttons::cb_save, (void*)qso_buttons::SAVE_NEW }},
 	{ qso_buttons::CANCEL_VIEW, { "Cancel", zc_icon_t::ICON_NONE, "Cancel the current QSO view", qso_buttons::cb_cancel, 0 } },
     { qso_buttons::NAV_FIRST, { nullptr, zc_icon_t::ICON_FIRST, "Select first record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_FIRST, FL_ALT + FL_SHIFT + FL_Left } },
 	{ qso_buttons::NAV_PREV, { nullptr, zc_icon_t::ICON_PREVIOUS, "Select previous record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_PREV, FL_ALT + FL_Left } },
@@ -204,22 +206,26 @@ void qso_buttons::create_form(int X, int Y) {
 	align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_INSIDE);
 	box(FL_BORDER_BOX);
 
+	Fl_Box* box = new Fl_Box(curr_x + WBUTTON * 2, curr_y + 1, WBUTTON * 2, HBUTTON, "For shortcut use Alt plus indicated key");
+	box->box(FL_FLAT_BOX);
+
 	curr_x += GAP;
 	curr_y += HTEXT;
 	int max_x = curr_x;
 
-	const int NUMBER_PER_ROW = 10;
+	const int NUMBER_PER_ROW = 8;
+	const int WBN = WBUTTON * 5 / 4;  // Width of a button with icon and text and shortcut.
 	// Create the maximum number of buttons (MAX_ACTIONS) in rows of (NUMBER_PER_ROW)
 	for (int ix = 0; ix < MAX_ACTIONS; ix++) {
-		bn_action_[ix] = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "");
+		bn_action_[ix] = new Fl_Button(curr_x, curr_y, WBN, HBUTTON, "");
 		if ((ix + 1) % NUMBER_PER_ROW == 0 && ix < MAX_ACTIONS) {
-			curr_x += WBUTTON;
+			curr_x += WBN;
 			max_x = std::max<int>(max_x, curr_x);
 			curr_x = X + GAP;
 			curr_y += HBUTTON;
 		}
 		else {
-			curr_x += WBUTTON;
+			curr_x += WBN;
 			max_x = std::max<int>(max_x, curr_x);
 		}
 	}
@@ -244,7 +250,41 @@ void qso_buttons::enable_widgets() {
 		// Activate the buttons we need and set their parameters
 		for (auto bn = buttons.begin(); bn != buttons.end() && ix < MAX_ACTIONS; bn++, ix++) {
 			const button_action& action = action_map_.at(*bn);
-			bn_action_[ix]->label(action.label);
+			char label[64];
+			memset(label, 0, sizeof(label));
+			if (action.label) strncpy(label, action.label, sizeof(label) - 1);
+			if (action.shortcut != 0) {
+				char shortcut[16];
+				memset(shortcut, 0, sizeof(shortcut));
+				switch (action.shortcut) {
+				case FL_ALT | FL_Delete:
+					snprintf(shortcut, sizeof(shortcut), " (Del)");
+					break;
+				case FL_ALT | FL_Left:
+					snprintf(shortcut, sizeof(shortcut), " (Left)");
+					break;
+				case FL_ALT | FL_Right:
+					snprintf(shortcut, sizeof(shortcut), " (Right)");
+					break;
+				case FL_ALT | FL_SHIFT | FL_Left:
+					snprintf(shortcut, sizeof(shortcut), " (Home)");
+					break;
+				case FL_ALT | FL_SHIFT | FL_Right:
+					snprintf(shortcut, sizeof(shortcut), " (End)");
+					break;
+				default:
+					if ((action.shortcut & (FL_ALT | FL_SHIFT)) == (FL_ALT | FL_SHIFT)) {
+						int key = toupper(action.shortcut & 0x7F);
+						snprintf(shortcut, sizeof(shortcut), " (%c)", key);
+					}
+					else if (action.shortcut & FL_ALT) {
+						int key = action.shortcut & 0x7F;
+						snprintf(shortcut, sizeof(shortcut), " (%c)", key);
+					}
+				}
+				strncat(label, shortcut, sizeof(label) - strlen(label) - 1);
+			}
+			bn_action_[ix]->copy_label(label);
 			zc_add_icon_to_widget(bn_action_[ix], action.icon);
 			bn_action_[ix]->align(FL_ALIGN_IMAGE_NEXT_TO_TEXT);
 			bn_action_[ix]->tooltip(action.tooltip);

@@ -35,10 +35,6 @@ The browser allows all fields to be displayed rather than the limited selection 
 - <B>Keep 2</B> <I>(Dupe check)</I> Keep the right hand record.
 - <B>Log</B> Log the QSO being entered or edited. If the QSO hadn't been started, start it first. 
 If the QSO is being entered, then set the end time.
-- <B>Log & Edit</B> Log the QSO (as above), but continue with the QSO record open in edit mode.
-- <B>Log & New</B> LOg the QSO (as above) and start a new QSO.
-- <B>Log & View</B> Log the QSO (as above), but contine with the QSO record in read-only mode.
-- <B>Log Net</B> Save all records in the editor view.
 - <B>Merge</B> <I>(Dupe check)</I> Merge data between the two records.
 - <B>Merge QSO</B> <I>(Query Mode)</I> Merge data between the queried record and the target record.
 - <B>Parse QSO</B> Add DXCC etc detils to the current record.
@@ -46,6 +42,11 @@ If the QSO is being entered, then set the end time.
 - <B>Reject QSO</B> <I>(Query Mode)</I> Do not add the queried QSO record to the log.
 - <B>Replace CAT</B> Replace the rig data in the selected record with data freshly read from the rig.
 - <B>Restart</B> Cancel the current QSO entry and start a new one.
+- <B>Save</B> Log the QSO being entered or edited. If the QSO hadn't been started, start it first. 
+- <B>Save & Edit</B> Log the QSO (as above), but continue with the QSO record open in edit mode.
+- <B>Save & New</B> Save the QSO (as above) and start a new QSO.
+- <B>Save & View</B> Log the QSO (as above), but continue with the QSO record in read-only mode.
+- <B>Save Net</B> Save all records in the editor view.
 - <B>Start Net</B> Start a QSO, expecting it to be the first of a (say club) net.
 - <B>Start QSO</B> Start a real-time (on-air) QSO. This fixes the QSO start date and time.
 as well as data read from the rig.
