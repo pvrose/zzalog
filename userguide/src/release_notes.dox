@@ -11,6 +11,8 @@
   - Bug fixes.
     - Formatting of dialog for web QSL servers was broken in 3.7.2. 
     - Image path for QSL designs not set correctly.
+    - Exception when importing a /MM QSO with DXCC already set in the record.
+    - Exception when requesting from QRZ.com when no last download date set.
 
 \section rev_3_7_2 Revision 3.7.2
   - Functional changes.
