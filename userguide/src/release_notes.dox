@@ -5,6 +5,7 @@
     - Add QTHNickname as a parameter when fetching from eQSL.cc.
     - Add automatic scaling of images when used as background in QSL design.
     - Add shortcut values to control buttons in QSO data panel.
+    - Add feature to start QSO by pressing enter from CALL input field.
   - Cosmetic and non-functional changes.
     - None.
   - Performance changes.

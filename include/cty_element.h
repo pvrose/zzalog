@@ -144,6 +144,8 @@ public:
 	std::string iso_cc_ = "";
 	//! Sovereign state (eg United Kingdom).
 	std::string sovereign_state_ = "";
+	//! Flag emoji
+	std::string flag_emoji_ = "";
 
 };
 

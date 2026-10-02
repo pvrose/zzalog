@@ -275,11 +275,13 @@ void cty_dialog::cb_release(Fl_Widget* w, void* v) {
 	file_holder_->copy_working_to_source(FILE_COUNTRY_CFILES);
 	file_holder_->copy_working_to_source(FILE_COUNTRY_DXATLAS);
 	file_holder_->copy_working_to_source(FILE_COUNTRY_ISO);
+	file_holder_->copy_working_to_source(FILE_COUNTRY_FLAGS);
 
 	file_holder_->copy_source_to_git(FILE_COUNTRY_CLUB);
 	file_holder_->copy_source_to_git(FILE_COUNTRY_CFILES);
 	file_holder_->copy_source_to_git(FILE_COUNTRY_DXATLAS);
 	file_holder_->copy_source_to_git(FILE_COUNTRY_ISO);
+	file_holder_->copy_source_to_git(FILE_COUNTRY_FLAGS);
 	// Force reload from source files
 	DEBUG_RESET_CONFIG |= DEBUG_RESET_CTY;
 	delete cty_data_;

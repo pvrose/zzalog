@@ -184,6 +184,7 @@ const std::map < uint8_t, file_control_t > FILE_CONTROL = {
 	{ FILE_COUNTRY_CFILES, { "cty.csv", true, false, DEBUG_RESET_CTY2 }},
 	{ FILE_COUNTRY_DXATLAS, { "Prefix.lst", true, false, DEBUG_RESET_CTY3 }},
 	{ FILE_COUNTRY_ISO, { "iso.csv", true, false, DEBUG_RESET_CTY4 }},
+	{ FILE_COUNTRY_FLAGS, { "flags.csv", true, false, DEBUG_RESET_CTY5, true }},
 	{ FILE_COUNTRY, { "cty.json", false, false, DEBUG_RESET_CTY, false } },
 	{ FILE_INTLCHARS, { "intl_chars.txt", true, true, DEBUG_RESET_INTL }},
 	{ FILE_ICON_GMAPS, { "google-maps.png", true, true, DEBUG_RESET_ICON }},
@@ -200,7 +201,7 @@ const std::map < uint8_t, file_control_t > FILE_CONTROL = {
 	{ FILE_ICON_ZZA, { "rose.png", true, true, 0}},
 	{ FILE_QSL, { "qsl.json", false, false, DEBUG_RESET_QSL }},
 	{ FILE_KEYS, { "keys.json", true, false, DEBUG_RESET_KEYS }},
-	{ FILE_CONTESTS, { "contests/algorithms.json", true, false, DEBUG_RESET_TEST, true } }
+	{ FILE_CONTESTS, { "contests/algorithms.json", true, false, DEBUG_RESET_TEST, true } },
 	// Individual contest algorithm files will be dynamically added here...
 };
 

@@ -24,6 +24,7 @@
 #include "cty2_reader.h"
 #include "cty3_reader.h"
 #include "cty4_reader.h"
+#include "cty5_reader.h"
 #include "file_types.h"
 #include "objects.h"
 #include "record.h"
@@ -73,7 +74,8 @@ std::map < cty_data::cty_type_t, std::string> TYPE_MAP = {
 	{ cty_data::CLUBLOG, "Clublog.org" },
 	{ cty_data::COUNTRY_FILES, "Countryfiles.com" },
 	{ cty_data::DXATLAS, "DxAtlas" },
-	{ cty_data::ISO_CODES, "ISO Codes" }
+	{ cty_data::ISO_CODES, "ISO Codes" },
+	{ cty_data::FLAG_EMOJIS, "Flag Emojis" }
 };
 
 cty_data::cty_data(bool reload) {
@@ -122,6 +124,13 @@ void cty_data::load_sources() {
 	merge_data();
 	delete_data(import_);
 	if (loaded) timestamps_[type_] = file_holder_->timestamp(FILE_COUNTRY_ISO);
+	else timestamps_[type_] = std::chrono::system_clock::time_point::min();
+	check_timestamp(type_, 365);
+	type_ = FLAG_EMOJIS;
+	loaded = load_data(&filename);
+	merge_data();
+	delete_data(import_);
+	if (loaded) timestamps_[type_] = file_holder_->timestamp(FILE_COUNTRY_FLAGS);
 	else timestamps_[type_] = std::chrono::system_clock::time_point::min();
 	check_timestamp(type_, 365);
 
@@ -179,6 +188,12 @@ cty_prefix* cty_data::prefix() const {
 std::string cty_data::nickname(const record* qso) {
 	parse(qso);
 	if (parse_result_.entity) return parse_result_.entity->nickname_;
+	return "";
+}
+
+std::string cty_data::flag(const record* qso) {
+	parse(qso);
+	if (parse_result_.entity) return parse_result_.entity->flag_emoji_;
 	return "";
 }
 
@@ -483,6 +498,16 @@ bool cty_data::load_data(std::string* filename) {
 		cty4_reader* reader = new cty4_reader;
 		import_ = new all_data;
 		status_->misc_status(ST_NOTE, "CTY DATA: Loading ISO codes data");
+		if (ok) ok = reader->load_data(this, in, version);
+		break;
+	}
+	case FLAG_EMOJIS:
+	{
+		std::ifstream in;
+		ok = file_holder_->get_file(FILE_COUNTRY_FLAGS, in, *filename);
+		cty5_reader* reader = new cty5_reader;
+		import_ = new all_data;
+		status_->misc_status(ST_NOTE, "CTY DATA: Loading flag emoji data");
 		if (ok) ok = reader->load_data(this, in, version);
 		break;
 	}

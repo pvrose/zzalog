@@ -1,0 +1,268 @@
+code,prefix,name,flag,continent
+1,1A,Sovereign Military Order of Malta,🏳️,EU
+2,3A,Monaco,🇲🇨,EU
+3,3B6,Agalega & St. Brandon Islands,🇲🇺,AF
+4,3B8,Mauritius,🇲🇺,AF
+5,3B9,Rodriguez Island,🇲🇺,AF
+6,3C,Equatorial Guinea,🇬🇶,AF
+7,3C0,Annobon Island,🇬🇶,AF
+9,3D2,Fiji,🇫🇯,OC
+10,3D2,Conway Reef,🇫🇯,OC
+11,3D2,Rotuma Island,🇫🇯,OC
+14,3W,Vietnam,🇻🇳,AS
+15,4J,Azerbaijan,🇦🇿,AS
+18,4X,Israel,🇮🇱,AS
+21,5B,Cyprus,🇨🇾,EU
+27,5T,Mauritania,🇲🇷,AF
+30,5V,Togo,🇹🇬,AF
+33,5W,Samoa,🇼🇸,OC
+37,5Z,Kenya,🇰🇪,AF
+40,6W,Senegal,🇸🇳,AF
+43,6Y,Jamaica,🇯🇲,NA
+46,7P,Lesotho,🇱🇸,AF
+49,7Q,Malawi,🇲🇼,AF
+52,7X,Algeria,🇩🇿,AF
+54,8P,Barbados,🇧🇧,NA
+57,8Q,Maldives,🇲🇻,AS
+60,8R,Guyana,🇬🇾,SA
+61,9A,Croatia,🇭🇷,EU
+63,9G,Ghana,🇬🇭,AF
+66,9H,Malta,🇲🇹,EU
+69,9J,Zambia,🇿🇲,AF
+72,9K,Kuwait,🇰🇼,AS
+75,9L,Sierra Leone,🇸🇱,AF
+78,9M2,West Malaysia,🇲🇾,AS
+82,9M6,East Malaysia,🇲🇾,AS
+84,9N,Nepal,🇳🇵,AS
+86,9Q,Democratic Republic of the Congo,🇨🇩,AF
+88,9U,Burundi,🇧🇮,AF
+90,9V,Singapore,🇸🇬,AS
+91,9X,Rwanda,🇷🇼,AF
+94,9Y,Trinidad & Tobago,🇹🇹,NA
+100,A2,Botswana,🇧🇼,AF
+104,A4,Oman,🇴🇲,AS
+106,A5,Bhutan,🇧🇹,AS
+108,A6,United Arab Emirates,🇦🇪,AS
+110,A7,Qatar,🇶🇦,AS
+112,A9,Bahrain,🇧🇭,AS
+114,AP,Pakistan,🇵🇰,AS
+122,BV,Taiwan,🇹🇼,AS
+124,BY,China,🇨🇳,AS
+126,C2,Nauru,🇳🇷,OC
+128,C3,Andorra,🇦🇩,EU
+130,C5,The Gambia,🇬🇲,AF
+132,C6,Bahamas,🇧🇸,NA
+135,CM,Cuba,🇨🇺,NA
+136,CN,Morocco,🇲🇦,AF
+138,CP,Bolivia,🇧🇴,SA
+140,CT,Portugal,🇵🇹,EU
+141,CU,Azores,🇵🇹,EU
+143,CT3,Madeira Islands,🇵🇹,AF
+144,CX,Uruguay,🇺🇾,SA
+146,D2,Angola,🇦🇴,AF
+148,D4,Cape Verde,🇨🇻,AF
+150,DL,Germany,🇩🇪,EU
+152,DU,Philippines,🇵🇭,AS
+155,E4,Palestine,🇵🇸,AS
+157,E5,North Cook Islands,🇨🇰,OC
+158,E5,South Cook Islands,🇨🇰,OC
+160,EA,Spain,🇪🇸,EU
+162,EA6,Balearic Islands,🇪🇸,EU
+163,EA8,Canary Islands,🇪🇸,AF
+164,EA9,Ceuta & Melilla,🇪🇸,AF
+166,EI,Ireland,🇮🇪,EU
+168,EK,Armenia,🇦🇲,AS
+170,EP,Iran,🇮🇷,AS
+172,ER,Moldova,🇲🇩,EU
+174,ES,Estonia,🇪🇪,EU
+176,ET,Ethiopia,🇪🇹,AF
+178,EU,Belarus,🇧🇾,EU
+180,EX,Kyrgyzstan,🇰🇬,AS
+182,EY,Tajikistan,🇹🇯,AS
+185,EZ,Turkmenistan,🇹🇲,AS
+188,F,France,🇫🇷,EU
+191,FG,Guadeloupe,🇬🇵,NA
+194,FH,Mayotte,🇾🇹,AF
+197,FJ,Saint Barthelemy,🇧🇱,NA
+200,FK,New Caledonia,🇳🇨,OC
+202,FM,Martinique,🇲🇶,NA
+204,FO,French Polynesia,🇵🇫,OC
+205,FO,Austral Islands,🇵🇫,OC
+206,FO,Marquesas Islands,🇵🇫,OC
+208,FP,Saint Pierre & Miquelon,🇵🇲,NA
+211,FR,Reunion Island,🇷🇪,AF
+212,FT,Glorioso Islands,🇹🇫,AF
+213,FT,Juan de Nova & Europa,🇹🇫,AF
+214,FT,Tromelin Island,🇹🇫,AF
+215,FT,Crozet Island,🇹🇫,AN
+216,FT,Kerguelen Islands,🇹🇫,AN
+217,FT,Amsterdam & Saint Paul Islands,🇹🇫,AN
+220,FW,Wallis & Futuna,🇼🇫,OC
+223,FY,French Guiana,🇬🇫,SA
+224,G,England,🏴󠁧󠁢󠁥󠁮󠁧󠁿,EU
+226,GD,Isle of Man,🇮🇲,EU
+228,GI,Northern Ireland,🇬🇧,EU
+230,GJ,Jersey,🇯🇪,EU
+232,GM,Scotland,🏴󠁧󠁢󠁳󠁣󠁴󠁿,EU
+234,GU,Guernsey,🇬🇬,EU
+236,GW,Wales,🏴󠁧󠁢󠁷󠁬󠁳󠁿,EU
+239,H4,Solomon Islands,🇸🇧,OC
+240,H40,Temotu Province,🇸🇧,OC
+242,HA,Hungary,🇭🇺,EU
+245,HB,Switzerland,🇨🇭,EU
+246,HB0,Liechtenstein,🇱🇮,EU
+248,HC,Ecuador,🇪🇨,SA
+251,HC8,Galapagos Islands,🇪🇨,SA
+254,HH,Haiti,🇭🇹,NA
+257,HI,Dominican Republic,🇩🇴,NA
+260,HK,Colombia,🇨🇴,SA
+262,HK0,Malpelo Island,🇨🇴,SA
+265,HK0,San Andres & Providencia,🇨🇴,NA
+266,HL,South Korea,🇰🇷,AS
+268,HP,Panama,🇵🇦,NA
+270,HR,Honduras,🇭🇳,NA
+272,HS,Thailand,🇹🇭,AS
+275,HV,Vatican City,🇻🇦,EU
+277,HZ,Saudi Arabia,🇸🇦,AS
+279,I,Italy,🇮🇹,EU
+281,IS0,Sardinia,🇮🇹,EU
+284,JA,Japan,🇯🇵,AS
+286,JT,Mongolia,🇲🇳,AS
+288,JW,Svalbard,🇸🇯,EU
+290,JX,Jan Mayen,🇸🇯,EU
+291,K,United States of America,🇺🇸,NA
+293,KG4,Guantanamo Bay,🇨🇺,NA
+294,KH0,Mariana Islands,🇲🇵,OC
+295,KH1,Baker & Howland Islands,🇺🇸,OC
+296,KH2,Guam,🇬🇺,OC
+297,KH3,Johnston Island,🇺🇸,OC
+298,KH4,Midway Island,🇺🇸,OC
+299,KH5,Palmyra & Jarvis Islands,🇺🇸,OC
+302,KH6,Hawaii,🇺🇸,OC
+303,KH7K,Kure Island,🇺🇸,OC
+304,KH8,American Samoa,🇦🇸,OC
+305,KH9,Wake Island,🇺🇸,OC
+306,KL,Alaska,🇺🇸,NA
+308,KP1,Navassa Island,🇺🇸,NA
+309,KP2,Virgin Islands,🇻🇮,NA
+311,KP4,Puerto Rico,🇵🇷,NA
+312,KP5,Desecheo Island,🇵🇷,NA
+315,LA,Norway,🇳🇴,EU
+318,LU,Argentina,🇦🇷,SA
+321,LX,Luxembourg,🇱🇺,EU
+324,LY,Lithuania,🇱🇹,EU
+327,LZ,Bulgaria,🇧🇬,EU
+330,OA,Peru,🇵🇪,SA
+333,OD,Lebanon,🇱🇧,AS
+336,OE,Austria,🇦🇹,EU
+339,OH,Finland,🇫🇮,EU
+342,OH0,Aland Islands,🇫🇮,EU
+344,OJ0,Market Reef,🇫🇮,EU
+345,OK,Czech Republic,🇨🇿,EU
+348,OM,Slovakia,🇸🇰,EU
+351,ON,Belgium,🇧🇪,EU
+354,OX,Greenland,🇬🇱,NA
+357,OY,Faroe Islands,🇫🇴,EU
+360,OZ,Denmark,🇩🇰,EU
+363,P2,Papua New Guinea,🇵🇬,OC
+366,P4,Aruba,🇦🇼,NA
+369,PA,Netherlands,🇳🇱,EU
+372,PJ2,Curacao,🇨🇼,NA
+374,PJ4,Bonaire,🇧🇶,NA
+375,PJ5,Saba & Sint Eustatius,🇧🇶,NA
+376,PJ7,Sint Maarten,🇸🇽,NA
+378,PP,Brazil,🇧🇷,SA
+379,PY0F,Fernando de Noronha,🇧🇷,SA
+381,PY0S,Saint Peter & Paul Rocks,🇧🇷,SA
+382,PY0T,Trindade & Martim Vaz Islands,🇧🇷,SA
+386,S5,Slovenia,🇸🇮,EU
+387,SM,Sweden,🇸🇪,EU
+390,SP,Poland,🇵🇱,EU
+391,ST,Sudan,🇸🇩,AF
+393,SU,Egypt,🇪🇬,AF
+396,SV,Greece,🇬🇷,EU
+399,SV5,Dodecanese,🇬🇷,EU
+401,SV9,Crete,🇬🇷,EU
+402,SV/A,Mount Athos,🇬🇷,EU
+404,T7,San Marino,🇸🇲,EU
+406,T8,Palau,🇵🇼,OC
+408,TA,Turkey,🇹🇷,AS
+410,TF,Iceland,🇮🇸,EU
+412,TG,Guatemala,🇬🇹,NA
+414,TI,Costa Rica,🇨🇷,NA
+416,TI9,Cocos Island,🇨🇷,NA
+418,TJ,Cameroon,🇨🇲,AF
+420,TL,Central African Republic,🇨🇫,AF
+422,TN,Republic of the Congo,🇨🇬,AF
+424,TR,Gabon,🇬🇦,AF
+428,TT,Chad,🇹🇩,AF
+430,TU,Cote d'Ivoire,🇨🇮,AF
+432,TY,Benin,🇧🇯,AF
+434,TZ,Mali,🇲🇱,AF
+436,UA,European Russia,🇷🇺,EU
+438,UA9,Asiatic Russia,🇷🇺,AS
+441,UK,Uzbekistan,🇺🇿,AS
+445,UN,Kazakhstan,🇰🇿,AS
+447,UR,Ukraine,🇺🇦,EU
+450,V2,Antigua & Barbuda,🇦🇬,NA
+454,V3,Belize,🇧🇿,NA
+457,V4,Saint Kitts & Nevis,🇰🇳,NA
+460,V5,Namibia,🇳🇦,AF
+464,V7,Marshall Islands,🇲🇭,OC
+466,V8,Brunei,🇧🇳,AS
+470,VE,Canada,🇨🇦,NA
+489,VK,Australia,🇦🇺,OC
+490,VK0,Heard Island,🇦🇺,AN
+492,VK0,Macquarie Island,🇦🇺,AN
+493,VK9C,Cocos (Keeling) Islands,🇨🇨,OC
+497,VK9L,Lord Howe Island,🇦🇺,OC
+499,VK9M,Mellish Reef,🇦🇺,OC
+501,VK9N,Norfolk Island,🇳🇫,OC
+502,VK9W,Willis Islets,🇦🇺,OC
+503,VK9X,Christmas Island,🇨🇽,OC
+504,VP2E,Anguilla,🇦🇮,NA
+505,VP2M,Montserrat,🇲🇸,NA
+507,VP2V,British Virgin Islands,🇻🇬,NA
+511,VP5,Turks & Caicos Islands,🇹🇨,NA
+514,VP8,Falkland Islands,🇫🇰,SA
+515,VP8,South Georgia Island,🇬🇸,SA
+516,VP8,South Orkney Islands,🇬🇸,AN
+517,VP8,South Shetland Islands,🇬🇸,AN
+518,VP8,South Sandwich Islands,🇬🇸,AN
+522,VP9,Bermuda,🇧🇲,NA
+523,VQ9,Chagos Islands,🇮🇴,AF
+526,VR2,Hong Kong,🇭🇰,AS
+529,VU,India,🇮🇳,AS
+530,VU,Andaman & Nicobar Islands,🇮🇳,AS
+533,XE,Mexico,🇲🇽,NA
+535,XF4,Revillagigedo Islands,🇲🇽,NA
+536,XT,Burkina Faso,🇧🇫,AF
+540,XW,Laos,🇱🇦,AS
+544,XX9,Macao,🇲🇴,AS
+546,XZ,Myanmar,🇲🇲,AS
+548,YA,Afghanistan,🇦🇫,AS
+551,YB,Indonesia,🇮🇩,AS
+555,YI,Iraq,🇮🇶,AS
+557,YJ,Vanuatu,🇻🇺,OC
+559,YK,Syria,🇸🇾,AS
+561,YL,Latvia,🇱🇻,EU
+564,YN,Nicaragua,🇳🇮,NA
+567,YO,Romania,🇷🇴,EU
+570,YS,El Salvador,🇸🇻,NA
+573,YV,Venezuela,🇻🇪,SA
+576,YV0,Aves Island,🇻🇪,NA
+580,Z3,North Macedonia,🇲🇰,EU
+583,ZA,Albania,🇦🇱,EU
+585,ZB,Gibraltar,🇬🇮,EU
+588,ZD7,Saint Helena,🇸🇭,AF
+589,ZD8,Ascension Island,🇸🇭,AF
+590,ZD9,Tristan da Cunha & Gough Island,🇸🇭,AF
+592,ZF,Cayman Islands,🇰🇾,NA
+595,ZK3,Tokelau Islands,🇹🇰,OC
+596,ZL,New Zealand,🇳🇿,OC
+597,ZL7,Chatham Islands,🇳🇿,OC
+598,ZL8,Kermadec Islands,🇳🇿,OC
+599,ZL9,New Zealand Subantarctic Islands,🇳🇿,AN
+601,ZP,Paraguay,🇵🇾,SA
+604,ZS,South Africa,🇿🇦,AF
+606,ZS8,Marion & Prince Edward Islands,🇿🇦,AF

@@ -99,6 +99,7 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SOURCE_DIR}/src/cty2_reader.cpp
   ${ZZALOG_SOURCE_DIR}/src/cty3_reader.cpp
   ${ZZALOG_SOURCE_DIR}/src/cty4_reader.cpp
+  ${ZZALOG_SOURCE_DIR}/src/cty5_reader.cpp
   ${ZZALOG_SOURCE_DIR}/src/cty_data.cpp
   ${ZZALOG_SOURCE_DIR}/src/cty_dialog.cpp
   ${ZZALOG_SOURCE_DIR}/src/cty_element.cpp
@@ -202,6 +203,7 @@ set(ZZALOG_HPPFILES
   ${ZZALOG_SOURCE_DIR}/include/cty2_reader.h
   ${ZZALOG_SOURCE_DIR}/include/cty3_reader.h
   ${ZZALOG_SOURCE_DIR}/include/cty4_reader.h
+  ${ZZALOG_SOURCE_DIR}/include/cty5_reader.h
   ${ZZALOG_SOURCE_DIR}/include/cty_data.h
   ${ZZALOG_SOURCE_DIR}/include/cty_dialog.h
   ${ZZALOG_SOURCE_DIR}/include/cty_element.h
@@ -292,6 +294,7 @@ set(DATAFILES
   ${ZZALOG_SOURCE_DIR}/reference/cty.xml
   ${ZZALOG_SOURCE_DIR}/reference/Prefix.lst
   ${ZZALOG_SOURCE_DIR}/reference/iso.csv
+  ${ZZALOG_SOURCE_DIR}/reference/flags.csv
   ${ZZALOG_SOURCE_DIR}/reference/intl_chars.txt
   ${ZZALOG_SOURCE_DIR}/reference/google-maps.png
   ${ZZALOG_SOURCE_DIR}/reference/pdf.png

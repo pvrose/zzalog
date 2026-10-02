@@ -166,6 +166,8 @@ protected:
     std::string continent_;
     //! Station callsign
     std::string station_;
+	//! Flag emoji
+	std::string flag_;
 
     //! The set of bands worked.
     band_set* bands_worked_;

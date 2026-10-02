@@ -44,7 +44,7 @@ any callsigns to be reviewed before logging them. Type the call in the box besid
 (green) is now shown. In this case the call UR3AHF is shown to be a Ukrainian call and has been worked before,
 although not on this band or mode.
 
-To start logging a QSO with this station click the "Start QSO" (indicated by the yellow arrow). 
+To start logging a QSO with this station click the "Start QSO" (indicated by the yellow arrow) or use the "Enter" key. 
 
 \note Keyboard shortcuts are available for the most critical buttons. These may be entered while the
 focus is anywhere in the QSO manager window. See \ref shortcuts.

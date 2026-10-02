@@ -18,15 +18,17 @@ const uint32_t DEBUG_RESET_CTY1 = 1 << 11;    //!< Reset cty.xml
 const uint32_t DEBUG_RESET_CTY2 = 1 << 12;    //!< Reset cty.csv
 const uint32_t DEBUG_RESET_CTY3 = 1 << 13;    //!< Reset prefix.lst
 const uint32_t DEBUG_RESET_CTY4 = 1 << 14;    //!< Reset iso.csv
-const uint32_t DEBUG_RESET_QSL = 1 << 15;     //!< Reset qsl.json
-const uint32_t DEBUG_RESET_KEYS = 1 << 16;    //!< Reset keys.json
-const uint32_t DEBUG_RESET_ALL = 0x0FFFF;    //!< Reset all (except keys)
+const uint32_t DEBUG_RESET_CTY5 = 1 << 15;    //!< Reset flags.csv
+const uint32_t DEBUG_RESET_QSL = 1 << 16;     //!< Reset qsl.json
+const uint32_t DEBUG_RESET_KEYS = 1 << 17;    //!< Reset keys.json
+const uint32_t DEBUG_RESET_ALL = 0x1FFFF;    //!< Reset all (except keys)
 const uint32_t DEBUG_RESET_CALL =
 DEBUG_RESET_CTY |
 DEBUG_RESET_CTY1 |
 DEBUG_RESET_CTY2 |
 DEBUG_RESET_CTY3 |
-DEBUG_RESET_CTY4;                       //!< Reset all country files
+DEBUG_RESET_CTY4 |
+DEBUG_RESET_CTY5;                       //!< Reset all country files
 const uint32_t DEBUG_RESET_REFS =
 DEBUG_RESET_ADIF |
 DEBUG_RESET_BAND |

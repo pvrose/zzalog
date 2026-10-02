@@ -214,7 +214,7 @@ void qso_dxcc::enable_widgets() {
 				strcpy(text, "Not in a DXCC");
 				break;
 			default:
-				snprintf(text, sizeof(text), "%s: %s", nickname_.c_str(), name_.c_str());
+				snprintf(text, sizeof(text), "%s: %s %s", nickname_.c_str(), flag_.c_str(), name_.c_str());
 				break;
 		}
 		op_prefix_->value(text);
@@ -326,6 +326,7 @@ void qso_dxcc::set_data(record* qso) {
 		station_ = qso_->item("STATION_CALLSIGN");
 		// Is a prefix supplied
 		nickname_ = cty_data_->nickname(qso_);
+		flag_ = cty_data_->flag(qso_);
 		name_ = cty_data_->name(qso_);
 		source_ = cty_data_->get_source(qso_);
 		cq_zone_ = cty_data_->cq_zone(qso_);
@@ -345,6 +346,7 @@ void qso_dxcc::set_data(record* qso) {
 		callsign_ = "";
 		station_ = mgr->get_default(qso_manager::CALLSIGN);
 		nickname_ = "";
+		flag_ = "";
 		name_ = "";
 		source_ = cty_data::NO_DECODE;
 		cq_zone_ = -1;

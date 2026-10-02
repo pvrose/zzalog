@@ -80,7 +80,8 @@ public:
 		CLUBLOG,           //!< Data from Clublog.org.
 		COUNTRY_FILES,     //!< Data from country-files.com.
 		DXATLAS,           //!< Data from dxatlas.com.
-		ISO_CODES          //!< Data from iso.csv.
+		ISO_CODES,          //!< Data from iso.csv.
+		FLAG_EMOJIS          //!< Data from flags.csv.
 	};
 
 
@@ -122,6 +123,7 @@ public:
 	std::string continent(const record* qso); //!< Returns the continent of the entity in the \p QSO.
 	int cq_zone(const record* qso);      //!< Returns the CQ Zone of the callsign in the \p QSO.
 	int itu_zone(const record* qso);     //!< Returns the ITU Zone of the callsign in the \p QSO.
+	std::string flag(const record* qso);      //!< Returns the flag emoji of the entity in the \p QSO.
 	// Get location
 	zc::lat_long_t location(const record* qso); //!< Returns the longitude and latitude of the station in the \p QSO.
 	zc::lat_long_t location(int dxcc_id); //!< Returns the longitude and latitude of  the DXCC.
