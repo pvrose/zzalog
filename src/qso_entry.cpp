@@ -89,7 +89,7 @@ qso_entry::~qso_entry() {
 	ticker_->remove_ticker(this);
 }
 
-// When shown set the focus to the most likely input widgsets
+// When shown set the focus to the most likely input widgets
 int qso_entry::handle(int event) {
 	int result = Fl_Group::handle(event);
 	switch (event) {
@@ -872,6 +872,11 @@ void qso_entry::cb_ip_field(Fl_Widget* w, void* v) {
 		default:
 			break;
 		}
+	}
+	// If we press enter while entering CALL and the QSO is pending, start the QSO
+	if (field == "CALL" && that->qso_data_->logging_state() == qso_data::QSO_PENDING && reason == field_input::IR_ENTER) {
+		that->qso_data_->action_start(qso_data::QSO_ON_AIR);
+		return;
 	}
 	// Restore cursor position after possible value change
 	ip->input()->insert_position(pos);
