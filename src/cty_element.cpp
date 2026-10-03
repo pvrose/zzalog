@@ -334,6 +334,7 @@ void to_json(json& j, const cty_entity& e) {
 	if (e.nickname_.length()) j["Nickname"] = e.nickname_;
 	if (e.iso_cc_.length()) j["ISO-2"] = e.iso_cc_;
 	if (e.sovereign_state_.length()) j["Sovereign State"] = e.sovereign_state_;
+	if (e.flag_filename_.length()) j["Flag Filename"] = e.flag_filename_;
 }
 // JSON Serialisation to cty_entity
 void from_json(const json& j, cty_entity& e) {
@@ -344,6 +345,8 @@ void from_json(const json& j, cty_entity& e) {
 	else e.iso_cc_ = "";
 	if (j.find("Sovereign State") != j.end()) j.at("Sovereign State").get_to(e.sovereign_state_);
 	else e.sovereign_state_ = "";
+	if (j.find("Flag Filename") != j.end()) j.at("Flag Filename").get_to(e.flag_filename_);
+	else e.flag_filename_ = "";
 }
 // JSON Serialisation of cty_prefix
 void to_json(json& j, const cty_prefix& e) {

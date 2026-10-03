@@ -48,6 +48,8 @@
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Input_.H>
+#include <FL/Fl_Image.H>
+#include <FL/Fl_Shared_Image.H>
 #include <FL/Fl_Widget.H>
 
 extern void open_html(const char* topic);
@@ -196,7 +198,8 @@ void qso_entry::create_form(int X, int Y) {
 	curr_x = max_x;
 
 	// Add the flag box now we know the maximum width of the form
-	box_flag_ = new Fl_Box(curr_x - (GAP / 2) - WBUTTON, Y + (GAP / 2), WBUTTON, WBUTTON * 3 / 4);
+	const int WFLAG = WBUTTON * 4 / 3;
+	box_flag_ = new Fl_Box(curr_x - (GAP / 2) - WFLAG, Y + (GAP / 2), WFLAG, WBUTTON);
 	box_flag_->box(FL_FLAT_BOX);
 	box_flag_->color(FL_BACKGROUND_COLOR);
 
@@ -227,11 +230,15 @@ void qso_entry::create_form(int X, int Y) {
 // Configure the various widgets
 void qso_entry::enable_widgets() {
 	// Set the flag image
+	Fl_Image::RGB_scaling(FL_RGB_SCALING_BILINEAR);
 	Fl_Image* flag_image = nullptr;
+	Fl_Image* scaled_image = nullptr;
 	if (qso_) flag_image = cty_data_->flag(qso_);
-	if (flag_image) 
-		flag_image->scale(box_flag_->w(), box_flag_->h());
-	box_flag_->image(flag_image);
+	if (flag_image) {
+		scaled_image = flag_image->copy();
+		scaled_image->scale(box_flag_->w(), box_flag_->h(), true, true);
+	}
+	box_flag_->image(scaled_image);
 
 	// Now enable disan=
 	switch (qso_data_->logging_state()) {

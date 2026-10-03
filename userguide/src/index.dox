@@ -71,12 +71,11 @@ ZZALOG uses the following items from third parties:
   - Country-files.com (https://www.country-files.com) Country data.
   - DxAtlas (http://dxatlas.com) Prefix data.
   - ADIF (http://adif.org) ADIF Specification.
-  - OpenWeatherMap (https://openweathermap.org) Weather data.
+  - OpenWeatherMap (https://openweathermap.org) Weather data and geosearch data.
   - HAMQSL (https://www.hamqsl.com) Solar and Terrestrial data.
 - Images:
-  - FlatIcon (https://www.flaticon.com)
-    - Google maps icons created by justicon.
-    - Pdf icons created by Smashicons.
+  - Google Material Design Icons (https://fonts.google.com/icons) Icons for buttons and menus.
+  - Flag-icons (https://github.com/lipis/flag-icons) Country flag icons.
 
 
 */

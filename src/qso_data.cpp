@@ -844,6 +844,21 @@ void qso_data::action_activate(qso_init_t mode) {
 	else logging_state_ = QSO_PENDING;
 	action_new_qso(source_record, mode);
 	update_rig();
+	qso_entry* qe;
+	switch (logging_state_) {
+	case NET_STARTED:
+	case NET_EDIT:
+	case NET_ADDING:
+		qe = g_net_entry_->entry();
+		break;
+	case MANUAL_ENTRY:
+		qe = g_qy_entry_;
+		break;
+	default:
+		qe = g_entry_;
+		break;
+	}
+	qe->set_focus_call();
 }
 
 // Action START - transition from QSO_PENDING to QSO_STARTED

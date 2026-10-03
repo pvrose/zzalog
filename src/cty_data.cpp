@@ -53,6 +53,8 @@
 #include <map>
 #include <vector>
 
+#include <FL/Fl_RGB_Image.H>
+#include <FL/Fl_Shared_Image.H>
 #include <FL/Fl_SVG_Image.H>
 
 #ifdef _WIN32
@@ -452,16 +454,21 @@ bool cty_data::load_flags()
 {
 	status_->misc_status(ST_NOTE, "CTY DATA: Loading flag images");
 	status_->progress(data_->entities.size(), OT_PREFIX, "loading flag images", "flags");
+	Fl_Image::RGB_scaling(FL_RGB_SCALING_BILINEAR);
+
 	std::string flag_directory = file_holder_->get_directory(FDD_REF_SOURCE) + "flags/";
 	int count = 0;
 	for (auto ent_pair : data_->entities) {
 		cty_entity* ent = ent_pair.second;
 		if (!ent->flag_filename_.empty()) {
-			ent->flag_image_ = new Fl_SVG_Image((flag_directory + ent->flag_filename_).c_str());
-			if (ent->flag_image_->fail()) {
+			Fl_SVG_Image* raw_image = new Fl_SVG_Image((flag_directory + ent->flag_filename_).c_str());
+			if (raw_image->fail()) {
 				status_->misc_status(ST_WARNING, "CTY DATA: Failed to load flag image for %s", ent->nickname_.c_str());
-				delete ent->flag_image_;
+				delete raw_image;
 				ent->flag_image_ = nullptr;
+			}
+			else {
+				ent->flag_image_ = raw_image;
 			}
 		}
 		status_->progress(++count, OT_PREFIX);
