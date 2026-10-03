@@ -75,7 +75,7 @@ ZZALOG uses the following items from third parties:
   - HAMQSL (https://www.hamqsl.com) Solar and Terrestrial data.
 - Images:
   - Google Material Design Icons (https://fonts.google.com/icons) Icons for buttons and menus.
-  - Flag-icons (https://github.com/lipis/flag-icons) Country flag icons.
+  - Country Flags (https://github.com/hampusborgos/country-flags) Country flag icons.
 
 
 */
