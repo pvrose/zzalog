@@ -39,15 +39,6 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH "${zzacmake_SOURCE_DIR}/cmake")
 
-# Get flag-icons
-FetchContent_Declare(
-    flagimages
-    GIT_REPOSITORY https://github.com/hampusborgos/country-flags.git
-    GIT_TAG main
-)
-FetchContent_MakeAvailable(flagimages)
-message(STATUS "Fetched flag-icons from GitHub: ${flagimages_SOURCE_DIR}")
-
 include(Gm3zzaProjectDefaults)
 include(Gm3zzaVersioning)
 
@@ -346,7 +337,7 @@ gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.8)
 file(GLOB CONTEST_FILES "${CMAKE_CURRENT_SOURCE_DIR}/reference/contests/*")
 
 ## Add all the flag images to a separate list
-file(GLOB FLAG_FILES "${flagimages_SOURCE_DIR}/svg/*")
+file(GLOB FLAG_FILES "${CMAKE_CURRENT_SOURCE_DIR}/reference/flags/*")
 
 ## Define the zzalog executable
 if (MSVC)

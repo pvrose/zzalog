@@ -54,8 +54,7 @@
 #include <vector>
 
 #include <FL/Fl_RGB_Image.H>
-#include <FL/Fl_Shared_Image.H>
-#include <FL/Fl_SVG_Image.H>
+#include <FL/Fl_PNG_Image.H>
 
 #ifdef _WIN32
 #include <corecrt.h>
@@ -461,7 +460,7 @@ bool cty_data::load_flags()
 	for (auto ent_pair : data_->entities) {
 		cty_entity* ent = ent_pair.second;
 		if (!ent->flag_filename_.empty()) {
-			Fl_SVG_Image* raw_image = new Fl_SVG_Image((flag_directory + ent->flag_filename_).c_str());
+			Fl_PNG_Image* raw_image = new Fl_PNG_Image((flag_directory + ent->flag_filename_).c_str());
 			if (raw_image->fail()) {
 				status_->misc_status(ST_WARNING, "CTY DATA: Failed to load flag image for %s", ent->nickname_.c_str());
 				delete raw_image;
