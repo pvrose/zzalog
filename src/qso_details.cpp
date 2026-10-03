@@ -18,6 +18,7 @@
 #include "qso_details.h"
 
 #include "book.h"
+#include "cty_data.h"
 #include "extract_data.h"
 #include "objects.h"
 #include "qso_data.h"
@@ -45,6 +46,7 @@
 #include <FL/Fl_Widget.H>
 
 extern void open_html(const char* filename);
+extern cty_data* cty_data_;
 
 // Constructor
 qso_details::qso_details(int X, int Y, int W, int H, const char* L) :
@@ -99,6 +101,7 @@ void qso_details::create_form() {
 	int avail_height = h() - GAP;
 	int curr_x = x() + GAP;
 	int curr_y = y() + 1;
+	int WFLAG = HBUTTON * 4 / 3;
 	
 	// "Title" is callsign
 	op_call_ = new Fl_Output(curr_x, curr_y, avail_width, HBUTTON);
@@ -108,6 +111,7 @@ void qso_details::create_form() {
 	op_call_->textsize(FL_NORMAL_SIZE + 2);
 	op_call_->textcolor(FL_FOREGROUND_COLOR);
 
+	curr_x = x() + GAP;
 	curr_y += op_call_->h() + GAP;
 	// Add table for the contact's details
 	table_details_ = new table_d(curr_x, curr_y, avail_width, 6 * ROW_HEIGHT);

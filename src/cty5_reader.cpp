@@ -22,7 +22,14 @@
 #include "objects.h"
 #include "zc_status.h"
 #include "zc_fltk.h"
+#include "zc_file_holder.h"
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
+#include <FL/Fl_SVG_Image.H>
+
+#include <fstream>
 #include <istream>
 #include <string>
 
@@ -39,89 +46,35 @@ cty5_reader::~cty5_reader()
 // Load data from specified file into and add each record to the map
 bool cty5_reader::load_data(cty_data* data, std::istream& in, std::string& version)
 {
-	std::string line;
-	int line_num = 0;
-	std::string now = zc::now(false, "%Y%m%d");
-	version = "";
-	// Initialsie the progress
-	status_->progress(
-		2,
-		OT_PREFIX,
-		"Loading Flag emojis from flags.csv",
-		"steps"
-	);
+	// Pre-populate the flag map using sovereign state flags.
+	for (auto ent_pair : data->data()->entities) {
+		cty_entity* ent = ent_pair.second;
+		if (ent->iso_cc_.empty()) {
+			ent->flag_filename_ = "";
+		} else {
+			ent->flag_filename_ = zc::to_lower(ent->iso_cc_) + ".svg";
+		}
+	}
+	// Override exceptions with the flag images from the flags.json file.
+	json jall;
+	in >> jall;
 
-	// Read header line
-	if (!std::getline(in, line)) {
+	if (jall.find("Flags") == jall.end()) {
+		status_->misc_status(
+			ST_ERROR,
+			"CTY DATA: No 'Flags' section found in JSON data"
+		);
 		return false;
 	}
-	// Process each line
-	while (std::getline(in, line)) {
-		line_num++;
-		std::vector<std::string> fields;
-		zc::split_line(line, fields, ',');
-		if (fields.size() != 5) {
-			status_->misc_status(
-				ST_ERROR, "CTY DATA: Error reading flags.csv - invalid number of fields in line %d",
-				line_num
-			);
-			return false;
-		}
-		// Fields: Entity Number, Prefix, Name , Flag Emoji, Continent
-		int dxcc_id = std::stoi(fields[0]);
-		std::string entity = cty_element::expand_name(fields[2]);
-		if (flag_map_.find(entity) != flag_map_.end()) {
-			status_->misc_status(
-				ST_WARNING,
-				"CTY DATA: Duplicate entity '%d' in line %d",
-				dxcc_id,
-				line_num
-			);
-		}
-		else {
-			flag_map_[entity] = fields[3];
-		}
-	}
-
-	status_->progress(1, OT_PREFIX);
-
-	// Now update entities in database
-	for (auto& ent_pair : data->data()->entities) {
-		cty_entity* ent = ent_pair.second;
-		std::string ent_name = cty_element::expand_name(ent->name_);
-		if (ent->dxcc_id_ > 0 &&
-			!ent->deleted_ &&
-			ent->time_contains(now)) {
-			if (flag_map_.find(ent_name) != flag_map_.end()) {
-				ent->flag_emoji_ = flag_map_[ent_name];
-			}
-			else {
-				// Look for the sovereign state for the entity and use that flag if found
-				if (ent->sovereign_state_.length()) {
-					std::string state_name = cty_element::expand_name(ent->sovereign_state_);
-					if (flag_map_.find(state_name) != flag_map_.end()) {
-						ent->flag_emoji_ = flag_map_[state_name];
-					}
-					else {
-						status_->misc_status(
-							ST_WARNING,
-							"CTY DATA: No flag emoji found for entity '%s'",
-							ent_name.c_str()
-						);
-					}
-				}
-				else {
-					status_->misc_status(
-						ST_WARNING,
-						"CTY DATA: No sovereign state found for entity '%s'",
-						ent_name.c_str()
-					);
-				}
-			}
-		}
+	json jflags = jall["Flags"];
+	for (auto it = jflags.begin(); it != jflags.end(); ++it) {
+		int dxcc_id = std::stoi(it.key());
+		cty_entity* ent = data->data()->entities[dxcc_id];
+		ent->flag_filename_ = zc::to_lower(it.value());
 	}
 
 	status_->progress(2, OT_PREFIX);
 
 	return true;
 }
+

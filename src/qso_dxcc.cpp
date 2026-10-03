@@ -104,26 +104,19 @@ int qso_dxcc::handle(int event) {
 
 // Create the widgets
 void qso_dxcc::create_form() {
-	int avail_width = w() - GAP - GAP;
+	int avail_width = w() - GAP - 1;
 	int avail_height = h() - GAP;
 	int curr_x = x() + GAP;
 	int curr_y = y() + 1;
+	int WFLAG = HBUTTON * 4 / 3;
 
 	// Display callsign
-	op_call_ = new Fl_Output(curr_x, curr_y, avail_width - WBUTTON, HBUTTON);
+	op_call_ = new Fl_Output(curr_x, curr_y, avail_width - WFLAG, HBUTTON);
 	op_call_->box(FL_FLAT_BOX);
 	op_call_->color(FL_BACKGROUND_COLOR);
 	op_call_->textfont(FL_BOLD);
 	op_call_->textsize(FL_NORMAL_SIZE + 2);
 	op_call_->tooltip("Current callsign of interest");
-	curr_x += op_call_->w();
-
-	// QRZ.com button
-	bn_qrz_ = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "QRZ.com");
-	bn_qrz_->callback(cb_bn_qrz, nullptr);
-	bn_qrz_->tooltip("Look up call in QRZ.com");
-
-	curr_y += bn_qrz_->h();
 
 	curr_x = x() + GAP;
 	curr_y = op_call_->y() + op_call_->h();
@@ -135,6 +128,9 @@ void qso_dxcc::create_form() {
 	op_prefix_->textfont(FL_BOLD);
 	op_prefix_->tooltip("Shows the DXCC of the call of interest");
 	curr_y += ROW_HEIGHT;
+	curr_x = x() + GAP;
+
+	curr_x = x() + GAP;
 
 	// Display the geographiic subdiviison
 	op_geography_ = new Fl_Output(curr_x + 10, curr_y, avail_width - 10, ROW_HEIGHT);
@@ -194,6 +190,16 @@ void qso_dxcc::create_form() {
 	bn_check_age_->callback(cb_check_age, nullptr);
 	bn_check_age_->tooltip("Check the age of the country data");
 
+	curr_x += x() + avail_width - WBUTTON;
+
+	// QRZ.com button
+	bn_qrz_ = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "QRZ.com");
+	bn_qrz_->callback(cb_bn_qrz, nullptr);
+	bn_qrz_->tooltip("Look up call in QRZ.com");
+
+	curr_y += bn_qrz_->h();
+
+
 
 	end();
 	show();
@@ -214,7 +220,7 @@ void qso_dxcc::enable_widgets() {
 				strcpy(text, "Not in a DXCC");
 				break;
 			default:
-				snprintf(text, sizeof(text), "%s: %s %s", nickname_.c_str(), flag_.c_str(), name_.c_str());
+				snprintf(text, sizeof(text), "%s: %s", nickname_.c_str(), name_.c_str());
 				break;
 		}
 		op_prefix_->value(text);
@@ -326,7 +332,6 @@ void qso_dxcc::set_data(record* qso) {
 		station_ = qso_->item("STATION_CALLSIGN");
 		// Is a prefix supplied
 		nickname_ = cty_data_->nickname(qso_);
-		flag_ = cty_data_->flag(qso_);
 		name_ = cty_data_->name(qso_);
 		source_ = cty_data_->get_source(qso_);
 		cq_zone_ = cty_data_->cq_zone(qso_);
@@ -346,7 +351,6 @@ void qso_dxcc::set_data(record* qso) {
 		callsign_ = "";
 		station_ = mgr->get_default(qso_manager::CALLSIGN);
 		nickname_ = "";
-		flag_ = "";
 		name_ = "";
 		source_ = cty_data::NO_DECODE;
 		cq_zone_ = -1;

@@ -44,9 +44,4 @@ public:
 
 protected:
 
-	//! Map of entity name to Unicode flag emoji. This is used to add the flag emoji to the entity data.
-	std::map< std::string, std::string> flag_map_;
-
-
-
 };

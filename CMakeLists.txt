@@ -39,6 +39,15 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH "${zzacmake_SOURCE_DIR}/cmake")
 
+# Get flag-icons
+FetchContent_Declare(
+    flagicons
+    GIT_REPOSITORY https://github.com/lipis/flag-icons.git
+    GIT_TAG main
+)
+FetchContent_MakeAvailable(flagicons)
+message(STATUS "Fetched flag-icons from GitHub: ${flagicons_SOURCE_DIR}")
+
 include(Gm3zzaProjectDefaults)
 include(Gm3zzaVersioning)
 
@@ -294,7 +303,7 @@ set(DATAFILES
   ${ZZALOG_SOURCE_DIR}/reference/cty.xml
   ${ZZALOG_SOURCE_DIR}/reference/Prefix.lst
   ${ZZALOG_SOURCE_DIR}/reference/iso.csv
-  ${ZZALOG_SOURCE_DIR}/reference/flags.csv
+  ${ZZALOG_SOURCE_DIR}/reference/flags.json
   ${ZZALOG_SOURCE_DIR}/reference/intl_chars.txt
   ${ZZALOG_SOURCE_DIR}/reference/google-maps.png
   ${ZZALOG_SOURCE_DIR}/reference/pdf.png
@@ -335,6 +344,9 @@ gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.8)
 
 ## Add all contest algorithm files to separate list
 file(GLOB CONTEST_FILES "${CMAKE_CURRENT_SOURCE_DIR}/reference/contests/*")
+
+## Add all the flag images to a separate list
+file(GLOB FLAG_FILES "${flagicons_SOURCE_DIR}/flags/4x3/*")
 
 ## Define the zzalog executable
 if (MSVC)
@@ -410,6 +422,7 @@ gm3zza_register_hamlib_dlls()
 ## Stage runtime assets for development
 gm3zza_stage_runtime_files(TARGET ${TARGET} FILES ${DATAFILES})
 gm3zza_stage_runtime_files(TARGET ${TARGET} FILES ${CONTEST_FILES} DEST_SUBDIR contests)
+gm3zza_stage_runtime_files(TARGET ${TARGET} FILES ${FLAG_FILES} DEST_SUBDIR flags)
 
 ## Copy runtime DLLs for development
 gm3zza_copy_runtime_dlls(TARGET ${TARGET})
@@ -418,6 +431,7 @@ gm3zza_copy_runtime_dlls(TARGET ${TARGET})
 install(TARGETS ${TARGET} RUNTIME COMPONENT applications)
 gm3zza_install_runtime_files(FILES ${DATAFILES} COMPONENT data)
 gm3zza_install_runtime_files(FILES ${CONTEST_FILES} DEST_SUBDIR contests COMPONENT data)
+gm3zza_install_runtime_files(FILES ${FLAG_FILES} DEST_SUBDIR flags COMPONENT data)
 
 if(MSVC)
   gm3zza_register_hamlib_dlls()

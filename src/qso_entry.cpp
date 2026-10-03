@@ -21,6 +21,7 @@
 #include <zc_callback.h>
 #include "contest_scorer.h"
 #include <zc_drawing.h>
+#include "cty_data.h"
 #include "field_choice.h"
 #include "fields.h"
 #include "intl_widgets.h"
@@ -44,12 +45,14 @@
 
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Input_.H>
 #include <FL/Fl_Widget.H>
 
 extern void open_html(const char* topic);
 extern double prev_freq_;
+extern cty_data* cty_data_;
 int qso_entry::focus_ix_ = 0;
 
 // N rows of NUMBER_PER_ROW
@@ -192,6 +195,11 @@ void qso_entry::create_form(int X, int Y) {
 
 	curr_x = max_x;
 
+	// Add the flag box now we know the maximum width of the form
+	box_flag_ = new Fl_Box(curr_x - (GAP / 2) - WBUTTON, Y + (GAP / 2), WBUTTON, WBUTTON * 3 / 4);
+	box_flag_->box(FL_FLAT_BOX);
+	box_flag_->color(FL_BACKGROUND_COLOR);
+
 	// nOtes input
 	curr_x = X + WCHOICE;
 	curr_y += GAP;
@@ -204,9 +212,13 @@ void qso_entry::create_form(int X, int Y) {
 	ip_notes_->field_name("NOTES", qso_);
 	ip_notes_->input()->when(FL_WHEN_CHANGED);
 
+
+
 	curr_y += HBUTTON + GAP;
 	resizable(nullptr);
 	size(max_x - X, curr_y - Y);
+
+
 	end();
 
 	initialise_fields();
@@ -214,6 +226,13 @@ void qso_entry::create_form(int X, int Y) {
 
 // Configure the various widgets
 void qso_entry::enable_widgets() {
+	// Set the flag image
+	Fl_Image* flag_image = nullptr;
+	if (qso_) flag_image = cty_data_->flag(qso_);
+	if (flag_image) 
+		flag_image->scale(box_flag_->w(), box_flag_->h());
+	box_flag_->image(flag_image);
+
 	// Now enable disan=
 	switch (qso_data_->logging_state()) {
 	case qso_data::QSO_INACTIVE:
@@ -224,6 +243,7 @@ void qso_entry::enable_widgets() {
 			ip_field_[ix]->qso(nullptr);
 		}
 		ip_notes_->deactivate();
+		box_flag_->image(nullptr);
 		break;
 	case qso_data::QSO_PENDING:
 	case qso_data::TEST_PENDING:

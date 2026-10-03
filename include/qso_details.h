@@ -23,6 +23,7 @@
 #include <vector>
 #include <map>
 
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Table.H>
 

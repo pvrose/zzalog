@@ -53,6 +53,8 @@
 #include <map>
 #include <vector>
 
+#include <FL/Fl_SVG_Image.H>
+
 #ifdef _WIN32
 #include <corecrt.h>
 #include <io.h>
@@ -80,11 +82,11 @@ std::map < cty_data::cty_type_t, std::string> TYPE_MAP = {
 
 cty_data::cty_data(bool reload) {
 	data_ = new all_data;
-	if (!reload && load_json()) {
-		return;
+	if (reload || !load_json()) {
+		status_->misc_status(ST_NOTE, "CTY DATA: Reloading from sources");
+		load_sources();
 	}
-	status_->misc_status(ST_NOTE, "CTY DATA: Reloading from sources");
-	load_sources();
+	load_flags();
 }
 
 void cty_data::load_sources() {
@@ -191,10 +193,10 @@ std::string cty_data::nickname(const record* qso) {
 	return "";
 }
 
-std::string cty_data::flag(const record* qso) {
+Fl_Image* cty_data::flag(const record* qso) {
 	parse(qso);
-	if (parse_result_.entity) return parse_result_.entity->flag_emoji_;
-	return "";
+	if (parse_result_.entity) return parse_result_.entity->flag_image_;
+	return nullptr;
 }
 
 std::string cty_data::name(const record* qso) {
@@ -443,6 +445,31 @@ std::string cty_data::nickname(int adif_id) {
 		}
 	}
 	return "";
+}
+
+// Load flag data from files
+bool cty_data::load_flags()
+{
+	status_->misc_status(ST_NOTE, "CTY DATA: Loading flag images");
+	status_->progress(data_->entities.size(), OT_PREFIX, "loading flag images", "flags");
+	std::string flag_directory = file_holder_->get_directory(FDD_REF_SOURCE) + "flags/";
+	int count = 0;
+	for (auto ent_pair : data_->entities) {
+		cty_entity* ent = ent_pair.second;
+		if (!ent->flag_filename_.empty()) {
+			ent->flag_image_ = new Fl_SVG_Image((flag_directory + ent->flag_filename_).c_str());
+			if (ent->flag_image_->fail()) {
+				status_->misc_status(ST_WARNING, "CTY DATA: Failed to load flag image for %s", ent->nickname_.c_str());
+				delete ent->flag_image_;
+				ent->flag_image_ = nullptr;
+			}
+		}
+		status_->progress(++count, OT_PREFIX);
+	}
+	if (count != data_->entities.size()) {
+		status_->progress("CTY DATA: Flag images loaded", OT_PREFIX);
+	}
+	return true;
 }
 
 // Load the data 

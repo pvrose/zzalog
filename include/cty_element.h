@@ -21,10 +21,13 @@
 #include <nlohmann/json.hpp>
 
 #include <cstdint>
+#include <cmath>
 #include <list>
 #include <map>
 #include<ostream>
 #include <string>
+
+#include <FL/Fl_Image.H>
 
 using json = nlohmann::json;
 
@@ -144,8 +147,10 @@ public:
 	std::string iso_cc_ = "";
 	//! Sovereign state (eg United Kingdom).
 	std::string sovereign_state_ = "";
-	//! Flag emoji
-	std::string flag_emoji_ = "";
+	//! Flag filename - if available, the filename of the flag image for this entity.
+	std::string flag_filename_ = "";
+	//! Flag image.
+	Fl_Image* flag_image_ = nullptr;
 
 };
 

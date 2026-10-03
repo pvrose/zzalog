@@ -25,6 +25,7 @@
 #include <map>
 #include <string>
 
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Scroll.H>
 #include <FL/Fl_Table.H>
@@ -166,8 +167,6 @@ protected:
     std::string continent_;
     //! Station callsign
     std::string station_;
-	//! Flag emoji
-	std::string flag_;
 
     //! The set of bands worked.
     band_set* bands_worked_;
