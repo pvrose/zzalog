@@ -71,6 +71,9 @@ protected:
 	//! Hang information in \p element at \p item
 	void hang_info(const cty_element* element, Fl_Tree_Item* item);
 
+	//! Hang political information in \p entity at \p item
+	void hang_political(const cty_entity* entity, Fl_Tree_Item* item);
+
 	//! Hang filter information \p filter at \p item
 	void hang_filter(const cty_filter* filter, Fl_Tree_Item* item);
 
@@ -89,6 +92,7 @@ protected:
 	//! HAng points
 	Fl_Tree_Item* hang_point_dxcc_ = nullptr;        //!< Hang point for entries by DXCC.
 	Fl_Tree_Item* hang_point_nick_ = nullptr;        //!< Hang point for entries by nickname.
+	Fl_Tree_Item* hang_point_name_ = nullptr;        //!< Hang point for entries by name.
 	Fl_Tree_Item* hang_point_pfx_ = nullptr;         //!< Hang point for prefixes.
 	Fl_Tree_Item* hang_point_exc_ = nullptr;         //!< Hang point for exceptions.
 

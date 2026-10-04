@@ -96,8 +96,10 @@ void cty_tree::hang_all() {
 		hang_count_ = 0;
 		hang_point_dxcc_ = add("Entities by DXCC Number");
 		hang_point_dxcc_->labelfont(FL_BOLD | FL_ITALIC);
-		hang_point_nick_ = add("Entities by nickname");
+		hang_point_nick_ = add("Entities by Nickname");
 		hang_point_nick_->labelfont(FL_BOLD | FL_ITALIC);
+		hang_point_name_ = add("Entities by Name");
+		hang_point_name_->labelfont(FL_BOLD | FL_ITALIC);
 		hang_point_pfx_ = add("Prefixes");
 		hang_point_pfx_->labelfont(FL_BOLD | FL_ITALIC);
 		hang_point_exc_ = add("Exceptions");
@@ -135,7 +137,9 @@ void cty_tree::hang_entity(const cty_entity* ent) {
 		hp_dxcc->labelcolor(FL_RED);
 	};
 	hang_info(ent, hp_dxcc);
+	hang_political(ent, hp_dxcc);
 	hang_filters(ent->filters_, hp_dxcc);
+
 	snprintf(text, sizeof(text), "%s(%d):- %s (%s)",
 		ent->nickname_.c_str(),
 		ent->dxcc_id_,
@@ -147,7 +151,23 @@ void cty_tree::hang_entity(const cty_entity* ent) {
 		hp_nick->labelcolor(FL_RED);
 	};
 	hang_info(ent, hp_nick);
+	hang_political(ent, hp_nick);
 	hang_filters(ent->filters_, hp_nick);
+
+	snprintf(text, sizeof(text), "%s(%d):- %s (%s)",
+		ent->name_.c_str(),
+		ent->dxcc_id_,
+		ent->nickname_.c_str(),
+		ent->continent_.c_str()
+	);
+	Fl_Tree_Item* hp_name = hang_point_name_->add(prefs(), text);
+	if (ent->deleted_ || ent->time_validity_.finish != "*") {
+		hp_name->labelcolor(FL_RED);
+	};
+	hang_info(ent, hp_name);
+	hang_political(ent, hp_name);
+	hang_filters(ent->filters_, hp_name);
+
 	status_->progress(++hang_count_, OT_PREFIX);
 }
 
@@ -192,6 +212,23 @@ void cty_tree::hang_info(const cty_element* element, Fl_Tree_Item* item) {
 	}
 }
 
+void cty_tree::hang_political(const cty_entity* entity, Fl_Tree_Item* item) {
+	static char text[1024];
+	if (entity->iso_cc_.empty() && entity->sovereign_state_.empty()) return;
+	snprintf(text, sizeof(text), "ISO-CC: %s, Sovereign State: %s",
+		entity->iso_cc_.c_str(),
+		entity->sovereign_state_.c_str()
+	);
+	Fl_Tree_Item* ip = item->add(prefs(), text);
+	if (entity->flag_image_ != nullptr) {
+		Fl_Image* flag_image = entity->flag_image_->copy();
+		flag_image->scale(ROW_HEIGHT * 2, ROW_HEIGHT, 1);
+		ip->usericon(flag_image);
+	}
+	ip->labelfont(item->labelfont());
+	ip->labelcolor(item->labelcolor());
+}
+
 void cty_tree::hang_filter(const cty_filter* filter, Fl_Tree_Item* item) {
 	static char text[1024];
 	snprintf(text, sizeof(text), "%s %s%s",
@@ -227,7 +264,7 @@ void cty_tree::hang_filters(const std::list<cty_filter*> filters, Fl_Tree_Item* 
 	Fl_Tree_Item* igeo = nullptr;
 	Fl_Tree_Item* iuse = nullptr;
 	if (num_geos) {
-		igeo = item->add(prefs(), "Geographic subdivisions");
+		igeo = item->add(prefs(), "Subdivisions");
 	}
 	if (num_uses) {
 		iuse = item->add(prefs(), "License class or special use");
