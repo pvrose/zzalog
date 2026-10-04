@@ -55,6 +55,8 @@
 
 #include <FL/Fl_RGB_Image.H>
 #include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_SVG_Image.H>
+#include <FL/Fl_JPEG_Image.H>
 
 #ifdef _WIN32
 #include <corecrt.h>
@@ -460,7 +462,17 @@ bool cty_data::load_flags()
 	for (auto ent_pair : data_->entities) {
 		cty_entity* ent = ent_pair.second;
 		if (!ent->flag_filename_.empty()) {
-			Fl_PNG_Image* raw_image = new Fl_PNG_Image((flag_directory + ent->flag_filename_).c_str());
+			Fl_Image* raw_image;
+			// if file type is ".png" use Fl_PNG_Image, otherwise if ".svg" use Fl_SVG_Image
+			if (ent->flag_filename_.find(".png") != std::string::npos) {
+				raw_image = new Fl_PNG_Image((flag_directory + ent->flag_filename_).c_str());
+			}
+			else if (ent->flag_filename_.find(".svg") != std::string::npos) {
+				raw_image = new Fl_SVG_Image((flag_directory + ent->flag_filename_).c_str());
+			}
+			else {
+				status_->misc_status(ST_WARNING, "CTY DATA: Unknown flag image file %s for %s", ent->flag_filename_.c_str(), ent->nickname_.c_str());
+			}
 			if (raw_image->fail()) {
 				status_->misc_status(ST_WARNING, "CTY DATA: Failed to load flag image for %s", ent->nickname_.c_str());
 				delete raw_image;
