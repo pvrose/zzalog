@@ -119,6 +119,7 @@ protected:
     // Widgets:
     // Callsign label
     Fl_Output* op_call_;         //!< Output displaying callsign.
+	Fl_Box* box_flag_;           //!< Box showing the flag of the DXCC entity.
     // Prefix data
     Fl_Output* op_source_;       //!< Output showing how the callsign was parsed.
     Fl_Output* op_prefix_;       //!< Output showing parsed prefix and name.

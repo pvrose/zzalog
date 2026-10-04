@@ -197,12 +197,6 @@ void qso_entry::create_form(int X, int Y) {
 
 	curr_x = max_x;
 
-	// Add the flag box now we know the maximum width of the form
-	const int WFLAG = WBUTTON * 4 / 3;
-	box_flag_ = new Fl_Box(curr_x - (GAP / 2) - WFLAG, Y + (GAP / 2), WFLAG, WBUTTON);
-	box_flag_->box(FL_FLAT_BOX);
-	box_flag_->color(FL_BACKGROUND_COLOR);
-
 	// nOtes input
 	curr_x = X + WCHOICE;
 	curr_y += GAP;
@@ -229,16 +223,6 @@ void qso_entry::create_form(int X, int Y) {
 
 // Configure the various widgets
 void qso_entry::enable_widgets() {
-	// Set the flag image
-	Fl_Image::RGB_scaling(FL_RGB_SCALING_BILINEAR);
-	Fl_Image* flag_image = nullptr;
-	Fl_Image* scaled_image = nullptr;
-	if (qso_) flag_image = cty_data_->flag(qso_);
-	if (flag_image) {
-		scaled_image = flag_image->copy();
-		scaled_image->scale(box_flag_->w(), box_flag_->h(), true, true);
-	}
-	box_flag_->image(scaled_image);
 
 	// Now enable disan=
 	switch (qso_data_->logging_state()) {
@@ -250,7 +234,6 @@ void qso_entry::enable_widgets() {
 			ip_field_[ix]->qso(nullptr);
 		}
 		ip_notes_->deactivate();
-		box_flag_->image(nullptr);
 		break;
 	case qso_data::QSO_PENDING:
 	case qso_data::TEST_PENDING:

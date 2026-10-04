@@ -193,8 +193,6 @@ protected:
 	field_choice* ch_field_[NUMBER_TOTAL];
 	//! Inputs: For the field values.
 	field_input* ip_field_[NUMBER_TOTAL];
-	//! Box to display the DXCC flag for the current QSO.
-	Fl_Box* box_flag_;
 	//! Parent qso_data
 	qso_data* qso_data_;
 	//! Number of locked fields

@@ -52,7 +52,7 @@ bool cty5_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 		if (ent->iso_cc_.empty()) {
 			ent->flag_filename_ = "";
 		} else {
-			ent->flag_filename_ = zc::to_lower(ent->iso_cc_) + ".png";
+			ent->flag_filename_ = zc::to_lower(ent->iso_cc_) + ".svg";
 		}
 	}
 	// Override exceptions with the flag images from the flags.json file.

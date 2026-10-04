@@ -196,10 +196,10 @@ std::string cty_data::nickname(const record* qso) {
 	return "";
 }
 
-Fl_Image* cty_data::flag(const record* qso) {
+std::string cty_data::flag_data(const record* qso) {
 	parse(qso);
-	if (parse_result_.entity) return parse_result_.entity->flag_image_;
-	return nullptr;
+	if (parse_result_.entity) return parse_result_.entity->flag_data_;
+	return "";
 }
 
 std::string cty_data::name(const record* qso) {
@@ -462,25 +462,20 @@ bool cty_data::load_flags()
 	for (auto ent_pair : data_->entities) {
 		cty_entity* ent = ent_pair.second;
 		if (!ent->flag_filename_.empty()) {
-			Fl_Image* raw_image;
-			// if file type is ".png" use Fl_PNG_Image, otherwise if ".svg" use Fl_SVG_Image
-			if (ent->flag_filename_.find(".png") != std::string::npos) {
-				raw_image = new Fl_PNG_Image((flag_directory + ent->flag_filename_).c_str());
-			}
-			else if (ent->flag_filename_.find(".svg") != std::string::npos) {
-				raw_image = new Fl_SVG_Image((flag_directory + ent->flag_filename_).c_str());
-			}
-			else {
-				status_->misc_status(ST_WARNING, "CTY DATA: Unknown flag image file %s for %s", ent->flag_filename_.c_str(), ent->nickname_.c_str());
-			}
-			if (raw_image->fail()) {
-				status_->misc_status(ST_WARNING, "CTY DATA: Failed to load flag image for %s", ent->nickname_.c_str());
-				delete raw_image;
-				ent->flag_image_ = nullptr;
+			// Read in the flag image data as text.
+			std::ifstream in(flag_directory + ent->flag_filename_);
+			if (in) {
+				std::stringstream buffer;
+				buffer << in.rdbuf();
+				ent->flag_data_ = buffer.str();
 			}
 			else {
-				ent->flag_image_ = raw_image;
+				ent->flag_data_ = "";
+				status_->misc_status(ST_WARNING, "CTY DATA: Unable to load flag image for %s from %s", ent->nickname_.c_str(), (flag_directory + ent->flag_filename_).c_str());
 			}
+		}
+		else {
+			ent->flag_data_ = "";
 		}
 		status_->progress(++count, OT_PREFIX);
 	}

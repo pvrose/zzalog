@@ -35,6 +35,9 @@
 #include <FL/Fl_Tree_Item.H>
 #include <FL/Fl_Tree_Prefs.H>
 
+#include "lunasvg.h"
+
+#include <algorithm>
 #include <cstdint>
 #include <cstdio>
 #include <list>
@@ -220,10 +223,29 @@ void cty_tree::hang_political(const cty_entity* entity, Fl_Tree_Item* item) {
 		entity->sovereign_state_.c_str()
 	);
 	Fl_Tree_Item* ip = item->add(prefs(), text);
-	if (entity->flag_image_ != nullptr) {
-		Fl_Image* flag_image = entity->flag_image_->copy();
-		flag_image->scale(ROW_HEIGHT * 2, ROW_HEIGHT, 1);
-		ip->usericon(flag_image);
+	if (entity->flag_data_.length()) {
+		bool ok = true;
+		lunasvg::Bitmap bitmap;
+		auto document = lunasvg::Document::loadFromData(entity->flag_data_);
+		if (!document) ok = false;
+		if (ok) {
+			bitmap = document->renderToBitmap(0, ROW_HEIGHT);
+			if (bitmap.isNull()) ok = false;
+		}
+		if (ok) {
+			bitmap.convertToRGBA();
+			int width = bitmap.width();
+			int height = bitmap.height();
+			int buffer_size = width * height * 4;
+			uchar* data = new uchar[buffer_size];
+			std::copy(bitmap.data(), bitmap.data() + buffer_size, data);
+			Fl_RGB_Image* img = new Fl_RGB_Image((const uchar*)data, width, height, 4, 0);
+			img->alloc_array = 1;
+			ip->usericon(img);
+		}
+		else {
+			status_->misc_status(ST_ERROR, "CTY DATA: Unable to render flag for %s", entity->nickname_.c_str());
+		}
 	}
 	ip->labelfont(item->labelfont());
 	ip->labelcolor(item->labelcolor());

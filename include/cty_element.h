@@ -149,8 +149,8 @@ public:
 	std::string sovereign_state_ = "";
 	//! Flag filename - if available, the filename of the flag image for this entity.
 	std::string flag_filename_ = "";
-	//! Flag image.
-	Fl_Image* flag_image_ = nullptr;
+	//! Flag data - if available, the image data for the flag for this entity as SVG text.
+	std::string flag_data_ = "";
 
 };
 

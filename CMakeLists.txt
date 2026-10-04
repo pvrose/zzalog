@@ -53,6 +53,23 @@ include(Gm3zzaWindowsRuntime)
 include(Gm3zzaDocs)
 include(deps/hamlib_helper)
 
+# Get country-flags from github
+FetchContent_Declare(
+    flags
+    GIT_REPOSITORY https://github.com/hampusborgos/country-flags.git
+    GIT_TAG main
+)
+FetchContent_MakeAvailable(flags)
+message(STATUS "Fetched country-flags from GitHub: ${flags_SOURCE_DIR}")
+
+# Get LunaSVG from github - better SVG rendering than FLTK's built-in support
+FetchContent_Declare(
+    lunasvg
+    GIT_REPOSITORY https://github.com/sammycage/lunasvg.git
+    GIT_TAG master  # Specify the desired branch or tag
+)
+FetchContent_MakeAvailable(lunasvg)
+
 ## Set target executable and programme metadata
 set(TARGET zzalog)
 set(APP_VENDOR "GM3ZZA")
@@ -337,7 +354,7 @@ gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.8)
 file(GLOB CONTEST_FILES "${CMAKE_CURRENT_SOURCE_DIR}/reference/contests/*")
 
 ## Add all the flag images to a separate list
-file(GLOB FLAG_FILES "${CMAKE_CURRENT_SOURCE_DIR}/reference/flags/*")
+file(GLOB FLAG_FILES "${flags_SOURCE_DIR}/svg/*")
 
 ## Define the zzalog executable
 if (MSVC)
@@ -376,6 +393,7 @@ target_include_directories(${TARGET} PRIVATE
   ${ZZACOMMON_INCLUDE_DIR}
   ${FLTK_INCLUDE_DIR}
   ${HAMLIB_INCLUDE_DIR}
+  ${lunasvg_INCLUDE_DIR}
 )
 
 ## Extra include directories required on MSVC
@@ -400,6 +418,9 @@ target_link_libraries(${TARGET} PRIVATE
   zzacommon::zzafb
   zzacommon::zzam
 )
+
+# Link LunaSVG to your target
+target_link_libraries(${TARGET} PRIVATE lunasvg::lunasvg)
 
 ## Automatically copy zlib1.dll and Boost DLLs to the output directory
 zzacommon_copy_runtime_dlls(${TARGET})

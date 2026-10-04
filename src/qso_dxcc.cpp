@@ -44,6 +44,8 @@
 #include <FL/Fl_Table.H>
 #include <FL/Fl_Widget.H>
 
+#include "lunasvg.h"
+
 extern void open_html(const char* filename);
 
 std::map <std::string, std::string> CONTINENTS = {
@@ -108,15 +110,21 @@ void qso_dxcc::create_form() {
 	int avail_height = h() - GAP;
 	int curr_x = x() + GAP;
 	int curr_y = y() + 1;
-	int WFLAG = HBUTTON * 4 / 3;
+	int WFLAG = ROW_HEIGHT * 4;
 
 	// Display callsign
-	op_call_ = new Fl_Output(curr_x, curr_y, avail_width - WFLAG, HBUTTON);
+	op_call_ = new Fl_Output(curr_x, curr_y, avail_width - WFLAG, ROW_HEIGHT * 2);
 	op_call_->box(FL_FLAT_BOX);
 	op_call_->color(FL_BACKGROUND_COLOR);
 	op_call_->textfont(FL_BOLD);
-	op_call_->textsize(FL_NORMAL_SIZE + 2);
+	op_call_->textsize(FL_NORMAL_SIZE * 2);
 	op_call_->tooltip("Current callsign of interest");
+
+	curr_x += op_call_->w();
+	box_flag_ = new Fl_Box(curr_x, curr_y, WFLAG, ROW_HEIGHT * 2);
+	box_flag_->box(FL_FLAT_BOX);
+	box_flag_->color(FL_BACKGROUND_COLOR);
+	box_flag_->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
 
 	curr_x = x() + GAP;
 	curr_y = op_call_->y() + op_call_->h();
@@ -224,6 +232,33 @@ void qso_dxcc::enable_widgets() {
 				break;
 		}
 		op_prefix_->value(text);
+		if (dxcc_ > 0) {
+			bool ok = true;
+			lunasvg::Bitmap bitmap;
+			auto document = lunasvg::Document::loadFromData(cty_data_->flag_data(qso_));
+			if (!document) ok = false;
+			if (ok) {
+				bitmap = document->renderToBitmap(0, box_flag_->h());
+				if (bitmap.isNull()) ok = false;
+			}
+			if (ok) {
+				bitmap.convertToRGBA();
+				int width = bitmap.width();
+				int height = bitmap.height();
+				int buffer_size = width * height * 4;
+				uchar* data = new uchar[buffer_size];
+				std::copy(bitmap.data(), bitmap.data() + buffer_size, data);
+				Fl_RGB_Image* img = new Fl_RGB_Image((const uchar*)data, width, height, 4, 0);
+				box_flag_->bind_image(img);
+			}
+			else {
+				status_->misc_status(ST_ERROR, "Failed to render flag for %s", callsign_.c_str());
+				box_flag_->bind_image(nullptr);
+			}
+		}
+		else {
+			box_flag_->bind_image(nullptr);
+		}
 		if (geography_.length()) op_geography_->value(geography_.c_str());
 		else op_geography_->value("Geography N/A");
 		if (usage_.length()) op_usage_->value(usage_.c_str());
