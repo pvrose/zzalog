@@ -190,7 +190,7 @@ void qso_dxcc::create_form() {
 	bn_check_age_->callback(cb_check_age, nullptr);
 	bn_check_age_->tooltip("Check the age of the country data");
 
-	curr_x += x() + avail_width - WBUTTON;
+	curr_x = x() + avail_width - WBUTTON;
 
 	// QRZ.com button
 	bn_qrz_ = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "QRZ.com");
