@@ -482,8 +482,6 @@ void qso_buttons::cb_cancel(Fl_Widget* w, void* v) {
 	if (that) that->disable_widgets();
 	switch (data->logging_state()) {
 	case qso_data::QSO_PENDING:
-		data->action_deactivate();
-		break;
 	case qso_data::QSO_STARTED:
 	case qso_data::QSO_ENTER:
 	case qso_data::TEST_ACTIVE:
