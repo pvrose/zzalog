@@ -328,6 +328,7 @@ void qso_dxcc::enable_widgets() {
 		op_dist_bear_->value(text);
 	} else {
 		op_call_->value("No contact");
+		box_flag_->bind_image(nullptr);
 		op_prefix_->value("Prefix N/A");
 		op_geography_->value("Geography N/A");
 		op_usage_->value("Usage N/A");
