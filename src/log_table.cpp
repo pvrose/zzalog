@@ -668,8 +668,8 @@ void log_table::draw_cell(TableContext context, int R, int C, int X, int Y, int 
 				fl_font(font, fontsize_);
 				if (field == "CALL" && W > (5 * H)) {
 					// Get the flag for this record.
-					int dxcc_id = -1;
-					if (this_record->item("DXCC").length()) this_record->item("DXCC", dxcc_id);
+					int dxcc_id;
+					this_record->item("DXCC", dxcc_id);
 					std::string flag_data = cty_data_->flag_data(dxcc_id);
 					int img_width, img_height;
 					std::string image_data = load_svg_bitmap(flag_data, 0, H - 4, img_width, img_height, bg_colour);

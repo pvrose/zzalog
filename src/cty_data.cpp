@@ -33,6 +33,7 @@
 
 #include "zc_debug.h"
 #include "zc_file_holder.h"
+#include "zc_icons.h"
 #include "zc_status.h"
 #include "zc_fltk.h"
 
@@ -40,6 +41,7 @@
 
 #include <cctype>
 #include <chrono>
+#include <climits>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -199,12 +201,12 @@ std::string cty_data::nickname(const record* qso) {
 std::string cty_data::flag_data(const record* qso) {
 	parse(qso);
 	if (parse_result_.entity) return parse_result_.entity->flag_data_;
-	return "";
+	return zc_icon(zc_icon_t::ICON_QUERY, FL_RED);
 }
 
 std::string cty_data::flag_data(int dxcc_id) {
 	if (data_->entities.find(dxcc_id) == data_->entities.end()) {
-		return "";
+		return zc_icon(zc_icon_t::ICON_QUERY, FL_RED);
 	}
 	cty_entity* entity = data_->entities.at(dxcc_id);
 	return entity->flag_data_;
@@ -363,7 +365,13 @@ bool cty_data::update_qso(record* qso, bool my_call) {
 		qso->item("APP_ZZA_MY_CONT", continent(current_qso_));
 	}
 	else {
-		qso->item("DXCC", std::to_string(entity(current_qso_)));
+		int dxcc = entity(current_qso_);
+		if (dxcc == INT_MIN) {
+			qso->item("DXCC", "");
+		}
+		else {
+			qso->item("DXCC", std::to_string(entity(current_qso_)));
+		}
 		if (cq_zone(current_qso_) > 0) qso->item("CQZ", std::to_string(cq_zone(current_qso_)));
 		qso->item("COUNTRY", name(current_qso_));
 		qso->item("CONT", continent(current_qso_));
@@ -434,7 +442,7 @@ int cty_data::entity(const record* qso) {
 	// We should have the entity descriptor but may not
 	if (parse_result_.entity) return parse_result_.entity->dxcc_id_;
 	// No decode
-	return -1;
+	return INT_MIN;
 }
 
 // Get entity for nickname and vice-versa
@@ -599,10 +607,14 @@ void cty_data::parse(record* qso) {
 
 		std::string matched_call;
 		parse_result_.decode_element = match_pattern(current_call_, when, matched_call, true);
-		if (dxcc_id > 0 && (
+		if (dxcc_id > INT_MIN && (
 			!parse_result_.decode_element || dxcc_id != parse_result_.decode_element->dxcc_id_)) {
-			int parse_dxcc = parse_result_.decode_element->dxcc_id_;
-			std::string parse_name = parse_result_.decode_element->name_;
+			int parse_dxcc = 0;
+			std::string parse_name = "";
+			if (parse_result_.decode_element) {
+				parse_dxcc = parse_result_.decode_element->dxcc_id_;
+				parse_name = parse_result_.decode_element->name_;
+			}
 			// Override the decode with the logged value - if this is wrong the user needs to delete the DXCC value and let the program re-parse it.
 			parse_result_.entity = data_->entities[dxcc_id];
 			parse_result_.decode_element = nullptr;

@@ -233,17 +233,12 @@ void qso_dxcc::enable_widgets() {
 				break;
 		}
 		op_prefix_->value(text);
-		if (dxcc_ >= 0) {
-			Fl_RGB_Image* img = load_svg_image(cty_data_->flag_data(qso_), 0, box_flag_->h());
-			if (img) {
-				box_flag_->bind_image(img);
-			}
-			else {
-				status_->misc_status(ST_ERROR, "Failed to render flag for %s", callsign_.c_str());
-				box_flag_->bind_image(nullptr);
-			}
+		Fl_RGB_Image* img = load_svg_image(cty_data_->flag_data(qso_), 0, box_flag_->h());
+		if (img) {
+			box_flag_->bind_image(img);
 		}
 		else {
+			status_->misc_status(ST_WARNING, "Failed to render flag for %s", callsign_.c_str());
 			box_flag_->bind_image(nullptr);
 		}
 		if (geography_.length()) op_geography_->value(geography_.c_str());

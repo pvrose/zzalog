@@ -2106,11 +2106,14 @@ bool spec_data::validate(record* record, qso_num_t number)
 	// Get and save the record pointer for use in various checks, repairs and reports
 	record_ = record;
 	bool error = false;
-	// Validate all fields in record.
-	for (auto it = record_->begin(); it != record_->end() && !abandon_validation_; it++) {
-		std::string field = it->first;
-		std::string data = it->second;
-		if (validate(field, data) != VE_OK) {
+	// Validate all fields in record. This may delete fields so we cannot use a range-based for loop
+	std::vector<std::string> field_list;
+	for (auto& p : *record_) {
+		field_list.push_back(p.first);
+	}
+	for (auto it = field_list.begin(); it != field_list.end() && !abandon_validation_; it++) {
+		std::string data = record_->item(*it);
+		if (validate(*it, data) != VE_OK) {
 			// Increment field error count
 			error_count_++;
 			error = true;

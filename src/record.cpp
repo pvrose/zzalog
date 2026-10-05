@@ -29,6 +29,7 @@
 #include <algorithm>
 #include <cctype>
 #include <chrono>
+#include <climits>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -402,7 +403,7 @@ std::string record::item(const std::string& field) const {
 	return result;
 }
 
-// get an item - as an integer, default 0
+// get an item - as an integer, default 0 (except DXCC which is INT_MIN)
 void record::item(const std::string& field, int& value) const {
 	if (item_exists(field)) {
 		try {
@@ -410,13 +411,23 @@ void record::item(const std::string& field, int& value) const {
 			value = std::stoi(item(field));
 		}
 		catch (std::invalid_argument&) {
-			// Not a valid integer
-			value = 0;
+			if (field == "DXCC") {
+				value = INT_MIN;
+			}
+			else {
+				// Not a valid integer
+				value = 0;
+			}
 		}
 	}
 	else {
-		// Field not present
-		value = 0;
+		if (field == "DXCC") {
+			value = INT_MIN;
+		}
+		else {
+			// Field not present
+			value = 0;
+		}
 	}
 }
 
