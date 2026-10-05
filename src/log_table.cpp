@@ -31,6 +31,7 @@
 #include "spec_data.h"
 #include "toolbar.h"
 #include "view.h"
+#include "svg_helper.h"
 
 #include "zc_drawing.h"
 #include "zc_settings.h"
@@ -109,7 +110,7 @@ log_table::log_table(int X, int Y, int W, int H, const char* label, field_app_t 
 	row_header_color(COLOUR_GREY);
 	selection_color(FL_BLUE);
 	fl_font(font_, fontsize_);
-	int row_height = fl_height() + 2;
+	int row_height = fl_height() * 3 / 2;
 	adjust_row_sizes();
 	when(FL_WHEN_RELEASE | FL_WHEN_CHANGED);
 	callback((Fl_Callback*)log_table::cb_tab_log, (void*)nullptr);
@@ -122,6 +123,7 @@ log_table::log_table(int X, int Y, int W, int H, const char* label, field_app_t 
 	for (unsigned int i = 0; i < log_fields_->size(); i++) {
 		col_width(i, (*log_fields_)[i].width);
 	}
+	col_header_height(row_height);
 	// number of rows - available internal height / default row height
 	rows_per_page_ = Fl_Table_Row::tih / (row_height);
 	// Reverse order
@@ -517,10 +519,11 @@ void log_table::update(hint_t hint, qso_num_t record_num_1, qso_num_t record_num
 
 // Adjust the row height and row header width to match the font used
 void log_table::adjust_row_sizes() {
-	// Assume that italic may be larger than roman - add 2 pixels margin around the text
+	// Assume that italic may be larger than roman - add 4 pixels margin around the text
 	fl_font(font_ | FL_ITALIC, fontsize_);
-	int height = fl_height() + 2;
+	int height = fl_height() * 3 / 2;
 	row_height_all(height);
+	col_header_height(height);
 	int w1 = 0;
 	int w2 = 0;
 	int sz = 1;
@@ -648,8 +651,9 @@ void log_table::draw_cell(TableContext context, int R, int C, int X, int Y, int 
 					fl_color(fl_contrast(FL_FOREGROUND_COLOR, bg_colour));
 				}
 				// get the formatted data from the field of the record
-				std::string direct = this_record->formatted_item((*log_fields_)[C].field);
-				text = this_record->formatted_item((*log_fields_)[C].field);
+				std::string field = (*log_fields_)[C].field;
+				std::string direct = this_record->formatted_item(field);
+				text = this_record->formatted_item(field);
 				Fl_Font font = font_;
 				if (direct == text) font = font;
 				else font = alternate_font_;
@@ -662,7 +666,19 @@ void log_table::draw_cell(TableContext context, int R, int C, int X, int Y, int 
 				// if (DARK) font |= FL_BOLD;
 				// else font &= ~FL_BOLD;
 				fl_font(font, fontsize_);
-				fl_draw(text.c_str(), X + 2, Y, W - 2, H, FL_ALIGN_LEFT, nullptr, false);
+				if (field == "CALL" && W > (5 * H)) {
+					// Get the flag for this record.
+					int dxcc_id;
+					this_record->item("DXCC", dxcc_id);
+					std::string flag_data = cty_data_->flag_data(dxcc_id);
+					int img_width, img_height;
+					std::string image_data = load_svg_bitmap(flag_data, 0, H - 4, img_width, img_height);
+					fl_draw_image((const uchar*)image_data.data(), X + 1, Y + 1, img_width, img_height, 4, img_width * 4);
+					fl_draw(text.c_str(), X + H * 2, Y, W - H * 2, H, FL_ALIGN_LEFT, nullptr, false);
+				}
+				else {
+					fl_draw(text.c_str(), X + 2, Y, W - 2, H, FL_ALIGN_LEFT, nullptr, false);
+				}
 				fl_font(font_, fontsize_);
 
 			}

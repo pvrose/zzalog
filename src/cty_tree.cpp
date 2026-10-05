@@ -24,6 +24,7 @@
 #include "objects.h"
 #include "spec_data.h"
 #include "view.h"
+#include "svg_helper.h"
 
 #include "zc_callback.h"
 #include "zc_settings.h"
@@ -35,7 +36,6 @@
 #include <FL/Fl_Tree_Item.H>
 #include <FL/Fl_Tree_Prefs.H>
 
-#include "lunasvg.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -224,23 +224,8 @@ void cty_tree::hang_political(const cty_entity* entity, Fl_Tree_Item* item) {
 	);
 	Fl_Tree_Item* ip = item->add(prefs(), text);
 	if (entity->flag_data_.length()) {
-		bool ok = true;
-		lunasvg::Bitmap bitmap;
-		auto document = lunasvg::Document::loadFromData(entity->flag_data_);
-		if (!document) ok = false;
-		if (ok) {
-			bitmap = document->renderToBitmap(0, ROW_HEIGHT);
-			if (bitmap.isNull()) ok = false;
-		}
-		if (ok) {
-			bitmap.convertToRGBA();
-			int width = bitmap.width();
-			int height = bitmap.height();
-			int buffer_size = width * height * 4;
-			uchar* data = new uchar[buffer_size];
-			std::copy(bitmap.data(), bitmap.data() + buffer_size, data);
-			Fl_RGB_Image* img = new Fl_RGB_Image((const uchar*)data, width, height, 4, 0);
-			img->alloc_array = 1;
+		Fl_RGB_Image* img = load_svg_image(entity->flag_data_, 0, ROW_HEIGHT);
+		if (img) {
 			ip->usericon(img);
 		}
 		else {

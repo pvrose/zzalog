@@ -202,6 +202,14 @@ std::string cty_data::flag_data(const record* qso) {
 	return "";
 }
 
+std::string cty_data::flag_data(int dxcc_id) {
+	if (data_->entities.find(dxcc_id) == data_->entities.end()) {
+		return "";
+	}
+	cty_entity* entity = data_->entities.at(dxcc_id);
+	return entity->flag_data_;
+}
+
 std::string cty_data::name(const record* qso) {
 	parse(qso);
 	if (parse_result_.entity) return parse_result_.entity->name_;

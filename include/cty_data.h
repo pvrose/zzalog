@@ -132,6 +132,8 @@ public:
 	//! Get DXCC ID for \p callsign. If \p allow_exception: look up exceptions.
 	int dxcc_id(const std::string& callsign, bool allow_exception);
 
+	//! Get the flag for a specific entity. Returns null string if not found.
+	std::string flag_data(int dxcc_id);
 	
 	//! Update record based on parsing
 	

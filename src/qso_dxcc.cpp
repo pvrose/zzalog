@@ -25,6 +25,7 @@
 #include "qso_manager.h"
 #include "record.h"
 #include "spec_data.h"
+#include "svg_helper.h"
 
 #include "zc_drawing.h"
 #include "zc_fltk.h"
@@ -233,22 +234,8 @@ void qso_dxcc::enable_widgets() {
 		}
 		op_prefix_->value(text);
 		if (dxcc_ > 0) {
-			bool ok = true;
-			lunasvg::Bitmap bitmap;
-			auto document = lunasvg::Document::loadFromData(cty_data_->flag_data(qso_));
-			if (!document) ok = false;
-			if (ok) {
-				bitmap = document->renderToBitmap(0, box_flag_->h());
-				if (bitmap.isNull()) ok = false;
-			}
-			if (ok) {
-				bitmap.convertToRGBA();
-				int width = bitmap.width();
-				int height = bitmap.height();
-				int buffer_size = width * height * 4;
-				uchar* data = new uchar[buffer_size];
-				std::copy(bitmap.data(), bitmap.data() + buffer_size, data);
-				Fl_RGB_Image* img = new Fl_RGB_Image((const uchar*)data, width, height, 4, 0);
+			Fl_RGB_Image* img = load_svg_image(cty_data_->flag_data(qso_), 0, box_flag_->h());
+			if (img) {
 				box_flag_->bind_image(img);
 			}
 			else {
