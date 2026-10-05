@@ -63,6 +63,7 @@ public:
 	//! All the possible buttons
 	enum button_type {
 		ACTIVATE,           //!< Set qso_manager ready to log QSOs.
+		DEACTIVATE,         //!< Set qso_manager to inactive - no QSOs can be logged.
 		START_QSO,          //!< Start logging a real-time QSO.
 		ADD_QSO,            //!< Start logging a completed QSO.
 		EDIT_QSO,           //!< Edit an existing QSO.
@@ -180,6 +181,8 @@ public:
 	static void cb_bn_parse_qso(Fl_Widget* w, void* v);
 	//! Callback to update station details
 	static void cb_bn_update_station(Fl_Widget* w, void* v);
+	//! Callback to deactivate QSO logging
+	static void cb_bn_deactivate(Fl_Widget* w, void* v);
 
 
 protected:

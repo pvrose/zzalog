@@ -47,7 +47,7 @@ std::map<qso_data::logging_state_t, std::list<qso_buttons::button_type> > button
 		qso_buttons::ENTER_QUERY } },
 	{ qso_data::QSO_PENDING, { qso_buttons::START_QSO, qso_buttons::ADD_QSO, qso_buttons::EDIT_QSO, qso_buttons::COPY_QSO, 
 		qso_buttons::CLONE_QSO, qso_buttons::CANCEL_QSO, qso_buttons::SAVE_QSO, 
-		qso_buttons::DELETE_QSO, qso_buttons::START_NET, qso_buttons::BROWSE, qso_buttons::VIEW_QSO } },
+		qso_buttons::DELETE_QSO, qso_buttons::START_NET, qso_buttons::BROWSE, qso_buttons::VIEW_QSO, qso_buttons::DEACTIVATE } },
 	{ qso_data::QSO_STARTED, { qso_buttons::SAVE_QSO, qso_buttons::SAVE_VIEW, qso_buttons::SAVE_NEW,
 		qso_buttons::SAVE_CONTINUE, qso_buttons::CANCEL_QSO, 
 		qso_buttons::START_NET, qso_buttons::UPDATE_STATION, qso_buttons::QRZ_COM } },
@@ -95,6 +95,7 @@ std::map<qso_data::logging_state_t, std::list<qso_buttons::button_type> > button
 std::map<qso_buttons::button_type, qso_buttons::button_action> action_map_ =
 {
 	{ qso_buttons::ACTIVATE, { "Activate", zc_icon_t::ICON_NONE, "Pre-load QSO fields based on logging mode", qso_buttons::cb_activate, 0, FL_ALT + 'z'}},
+	{ qso_buttons::DEACTIVATE, { "Deactivate", zc_icon_t::ICON_NONE, "Set qso_manager to inactive - no QSOs can be logged", qso_buttons::cb_bn_deactivate, 0, FL_ALT + 'd'}},
 	{ qso_buttons::START_QSO, { "Start QSO", zc_icon_t::ICON_NONE, "Start a QSO in real-time", qso_buttons::cb_start, (void*)qso_data::QSO_ON_AIR, FL_ALT + 's'} },
 	{ qso_buttons::EDIT_QSO, { "Edit QSO", zc_icon_t::ICON_NONE, "Edit the selected QSO", qso_buttons::cb_edit, 0, FL_ALT + 'e'}},
 	{ qso_buttons::VIEW_QSO, { "View QSO", zc_icon_t::ICON_NONE, "View the selected QSO in entry view", qso_buttons::cb_bn_view_qso, 0 } },
@@ -509,6 +510,20 @@ void qso_buttons::cb_cancel(Fl_Widget* w, void* v) {
 		break;
 	}
 	if (that) that->enable_widgets();
+}
+
+// Callback - deactivate QSO - transition to qso_data::QSO_INACTIVE
+void qso_buttons::cb_bn_deactivate(Fl_Widget* w, void* v) {
+	qso_buttons* that = zc::ancestor_view<qso_buttons>(w);
+	that->disable_widgets();
+	switch (that->qso_data_->logging_state()) {
+	case qso_data::QSO_PENDING:
+		that->qso_data_->action_deactivate();
+		break;
+	default:
+		break;
+	}
+	that->enable_widgets();
 }
 
 // Edit QSO - transition to qso_data::QSO_EDIT
