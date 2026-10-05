@@ -41,14 +41,18 @@ static Fl_RGB_Image* load_svg_image(const std::string& svg_data, int width, int 
 //! \param height The desired height of the rendered image in pixels.
 //! \param out_width Reference to an integer that will receive the width of the rendered bitmap.
 //! \param out_height Reference to an integer that will receive the height of the rendered bitmap.
+//! \param bg Background colour to use when rendering the SVG. This is an FLTK colour value (Fl_Color).
 //! \return The RGBA bitmap data as a std::string, or an empty string if the SVG could not be loaded or rendered.
-static std::string load_svg_bitmap(const std::string& svg_data, int width, int height, int& out_width, int& out_height) {
+static std::string load_svg_bitmap(const std::string& svg_data, int width, int height, int& out_width, int& out_height, Fl_Color bg) {
 	bool ok = true;
 	lunasvg::Bitmap bitmap;
 	auto document = lunasvg::Document::loadFromData(svg_data);
 	if (!document) ok = false;
 	if (ok) {
-		bitmap = document->renderToBitmap(width, height);
+		// Force the background colour to be fully opaque by ORing with 0xFF. This ensures that the alpha channel is set to 255 (fully opaque).
+		// When used in FLTK fl_draw_image, the opacity is ignored, so this is just to ensure that the background is rendered correctly.
+		uint32_t bg_colour = Fl::get_color(bg) | 0xFF;
+		bitmap = document->renderToBitmap(width, height, bg_colour);
 		if (bitmap.isNull()) ok = false;
 	}
 	if (ok) {

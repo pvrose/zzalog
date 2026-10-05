@@ -217,11 +217,15 @@ void cty_tree::hang_info(const cty_element* element, Fl_Tree_Item* item) {
 
 void cty_tree::hang_political(const cty_entity* entity, Fl_Tree_Item* item) {
 	static char text[1024];
-	if (entity->iso_cc_.empty() && entity->sovereign_state_.empty()) return;
-	snprintf(text, sizeof(text), "ISO-CC: %s, Sovereign State: %s",
-		entity->iso_cc_.c_str(),
-		entity->sovereign_state_.c_str()
-	);
+	if (entity->iso_cc_.empty() && entity->sovereign_state_.empty()) {
+		snprintf(text, sizeof(text), "No political information available");
+	}
+	else {
+		snprintf(text, sizeof(text), "ISO-CC: %s, Sovereign State: %s",
+			entity->iso_cc_.c_str(),
+			entity->sovereign_state_.c_str()
+		);
+	}
 	Fl_Tree_Item* ip = item->add(prefs(), text);
 	if (entity->flag_data_.length()) {
 		Fl_RGB_Image* img = load_svg_image(entity->flag_data_, 0, ROW_HEIGHT);

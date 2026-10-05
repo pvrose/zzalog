@@ -354,7 +354,7 @@ gm3zza_use_zzacommon(COMPONENTS zzaf zzam zzad zzab zzafb zzax GIT_TAG v1.2.8)
 file(GLOB CONTEST_FILES "${CMAKE_CURRENT_SOURCE_DIR}/reference/contests/*")
 
 ## Add all the flag images to a separate list
-file(GLOB FLAG_FILES "${flags_SOURCE_DIR}/svg/*")
+file(GLOB FLAG_FILES "${flags_SOURCE_DIR}/svg/*" "${CMAKE_CURRENT_SOURCE_DIR}/reference/flags/*")
 
 ## Define the zzalog executable
 if (MSVC)

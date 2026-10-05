@@ -668,11 +668,11 @@ void log_table::draw_cell(TableContext context, int R, int C, int X, int Y, int 
 				fl_font(font, fontsize_);
 				if (field == "CALL" && W > (5 * H)) {
 					// Get the flag for this record.
-					int dxcc_id;
-					this_record->item("DXCC", dxcc_id);
+					int dxcc_id = -1;
+					if (this_record->item("DXCC").length()) this_record->item("DXCC", dxcc_id);
 					std::string flag_data = cty_data_->flag_data(dxcc_id);
 					int img_width, img_height;
-					std::string image_data = load_svg_bitmap(flag_data, 0, H - 4, img_width, img_height);
+					std::string image_data = load_svg_bitmap(flag_data, 0, H - 4, img_width, img_height, bg_colour);
 					fl_draw_image((const uchar*)image_data.data(), X + 1, Y + 1, img_width, img_height, 4, img_width * 4);
 					fl_draw(text.c_str(), X + H * 2, Y, W - H * 2, H, FL_ALIGN_LEFT, nullptr, false);
 				}
