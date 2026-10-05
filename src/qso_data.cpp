@@ -978,10 +978,12 @@ bool qso_data::action_save(bool continuing) {
 		extract_data_->check_add_record(qso_number);
 
 		book_->new_record(false);
-		book_->enable_save(true, "Saving QSO");
 
 		// Upload QSO to QSL servers
 		book_->upload_qso(qso_number);
+
+		book_->enable_save(true, "Saving QSO");
+
 	}
 
 	switch (logging_state_) {
