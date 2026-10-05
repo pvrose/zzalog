@@ -81,7 +81,8 @@ public:
 		COUNTRY_FILES,     //!< Data from country-files.com.
 		DXATLAS,           //!< Data from dxatlas.com.
 		ISO_CODES,          //!< Data from iso.csv.
-		FLAG_EMOJIS          //!< Data from flags.csv.
+		FLAG_EMOJIS,          //!< Data from flags.csv.
+		TYPE_COUNT         //!< Number of data sources.
 	};
 
 
@@ -254,6 +255,9 @@ protected:
 	//! \param type The source of the data.
 	//! \param days Age in days the filename is considered valid. A warning is raised if the file is older.
 	void check_timestamp(cty_type_t type, int days);
+
+	//! Check all sources for validity. Returns true if all valid, false if not.
+	bool check_sources();
 
 	//! \brief Get the URL of the latest big-cty from www.country-files.com.
 	//! \param url Returns the URL of the ZIP file containing latest data

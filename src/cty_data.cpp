@@ -85,9 +85,17 @@ std::map < cty_data::cty_type_t, std::string> TYPE_MAP = {
 	{ cty_data::FLAG_EMOJIS, "Flag Emojis" }
 };
 
+std::map < cty_data::cty_type_t, uint8_t> FILE_MAP = {
+	{ cty_data::CLUBLOG, FILE_COUNTRY_CLUB },
+	{ cty_data::COUNTRY_FILES, FILE_COUNTRY_CFILES},
+	{ cty_data::DXATLAS, FILE_COUNTRY_DXATLAS},
+	{ cty_data::ISO_CODES, FILE_COUNTRY_ISO},
+	{ cty_data::FLAG_EMOJIS, FILE_COUNTRY_FLAGS}
+};
+
 cty_data::cty_data(bool reload) {
 	data_ = new all_data;
-	if (reload || !load_json()) {
+	if (reload || !check_sources() ||!load_json()) {
 		status_->misc_status(ST_NOTE, "CTY DATA: Reloading from sources");
 		load_sources();
 	}
@@ -99,7 +107,7 @@ void cty_data::load_sources() {
 	now_ = std::chrono::system_clock::now();
 	bool loaded;
 	// Load all the daat
-	type_ = ADIF;
+	type_ = ADIF; 
 	load_data();
 	merge_data();
 	delete_data(import_);
@@ -1078,6 +1086,23 @@ void cty_data::check_timestamp(cty_type_t t, int days) {
 
 }
 
+bool cty_data::check_sources() {
+	bool valid = true;
+	auto all_ts = file_holder_->timestamp(FILE_COUNTRY);
+	for (auto& t : TYPE_MAP) {
+		if (t.first == ADIF) {
+			if (spec_data_->adif_timestamp() > all_ts) valid = false;
+		}
+		else {
+			if (file_holder_->timestamp(FILE_MAP.at(t.first)) > all_ts) valid = false;
+		}
+		if (!valid) {
+			status_->misc_status(ST_WARNING, "CTY DATA Newer data availble for %s", TYPE_MAP[t.first].c_str());
+		}
+	}
+	return valid;
+}
+
 // Return the recorded timestamp
 std::chrono::system_clock::time_point cty_data::timestamp(cty_type_t type) {
 	if (timestamps_.find(type) != timestamps_.end()) {
@@ -1425,9 +1450,12 @@ bool cty_data::load_json() {
 	check_timestamp(CLUBLOG, 7);
 	check_timestamp(COUNTRY_FILES, 7);
 	check_timestamp(DXATLAS, 365);
+	check_timestamp(ISO_CODES, 365);
+	check_timestamp(FLAG_EMOJIS, 365);
 	status_->progress(2, OT_PREFIX);
 	snprintf(msg, sizeof(msg), "CTY DATA: File %s loaded OK", filename.c_str());
 	status_->misc_status(ST_OK, msg);
+
 	return true;
 }
 
