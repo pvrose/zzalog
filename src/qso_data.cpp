@@ -1499,6 +1499,8 @@ void qso_data::action_create_net() {
 	g_net_entry_->entry(w);
 	g_misc_->qso(current_qso(), current_number());
 	enable_widgets();
+	w->set_focus_call();
+
 }
 	
 

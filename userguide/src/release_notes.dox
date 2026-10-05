@@ -6,8 +6,16 @@
     - Add automatic scaling of images when used as background in QSL design.
     - Add shortcut values to control buttons in QSO data panel.
     - Add feature to start QSO by pressing enter from CALL input field.
-    - Display flag representing the DXCC entity in the QSO data panel.
+    - Display flags:
+      - in DX? panel for the callsign in the selected QSO record;
+      - in Log book against each callsign;
+      - in Country list for each entity.
+      - Add "anchor" icon for valid callsigns not in a DXCC entity.
+      - Add "jolly roger" icon for invalid callsigns.
     - After "Activate" is pressed in the QSO data panel, the focus is set to the CALL input field.
+      - Also set after "Start Net" and "Start QSO" is pressed.
+    - "Cancel QSO" while in pending state clears callsign and sets focus back in CALL input field.
+      - Add "Deactivate" button to QSO data panel to cancel pending QSO and return to inactive state.
   - Cosmetic and non-functional changes.
     - None.
   - Performance changes.

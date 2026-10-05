@@ -850,6 +850,8 @@ void qso_entry::cb_ip_field(Fl_Widget* w, void* v) {
 		else if (field == "CALL") {
 			// Remove any dependent fields that may be left over from previous edits
 			that->qso_->unparse();
+			// And parse again to get the new values
+			cty_data_->update_qso(that->qso_);
 		}
 		// QSO has changed, change QSL servers' status 
 		if (field == "FREQ" || field == "BAND" || field == "MODE" || field == "CALL" ||
