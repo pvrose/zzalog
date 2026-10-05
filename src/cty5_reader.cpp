@@ -70,7 +70,7 @@ bool cty5_reader::load_data(cty_data* data, std::istream& in, std::string& versi
 	for (auto it = jflags.begin(); it != jflags.end(); ++it) {
 		int dxcc_id = std::stoi(it.key());
 		cty_entity* ent = data->data()->entities[dxcc_id];
-		ent->flag_filename_ = zc::to_lower(it.value());
+		ent->flag_filename_ = it.value();
 	}
 
 	status_->progress(2, OT_PREFIX);
