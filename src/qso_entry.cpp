@@ -893,35 +893,6 @@ void qso_entry::cb_ip_field(Fl_Widget* w, void* v) {
 	// Restore cursor position after possible value change
 	ip->input()->insert_position(pos);
 	int ix = (int)(intptr_t)v;
-	// catch navigation events
-	switch (reason) {
-	case field_input::IR_RIGHT:
-		if (ix + 1 < NUMBER_TOTAL) {
-			that->focus_ix_ = ix + 1;
-			that->set_focus_saved();
-		}
-		return;
-	case field_input::IR_LEFT:
-		if (ix > 0) {
-			that->focus_ix_ = ix - 1;
-			that->set_focus_saved();
-		}
-		return;
-	case field_input::IR_DOWN:
-		if (ix + NUMBER_PER_ROW < NUMBER_TOTAL) {
-			that->focus_ix_ = ix + NUMBER_PER_ROW;
-			that->set_focus_saved();
-		}
-		return;
-	case field_input::IR_UP:
-		if (ix >= NUMBER_PER_ROW) {
-			that->focus_ix_ = ix - NUMBER_PER_ROW;
-			that->set_focus_saved();
-		}
-		return;
-	default:
-		return;
-	}
 }
 
 // Callback -notes input

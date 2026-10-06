@@ -82,19 +82,8 @@ int qso_manager::handle(int event) {
 		// Get menu to update Windows controls
 		menu_bar_->update_windows_items();
 		break;
+		// bundle these together to ensure that global 'hot' keys get handled here, and not by the widgets
 	case FL_KEYBOARD:
-		// This 
-		switch (Fl::event_key()) {
-		case 'v':
-			// CTRL-V
-			if (Fl::event_key(FL_Control_L) || Fl::event_key(FL_Control_R)) {
-				// Treat as paste clipboard
-				Fl::paste(*main_window_, 1);
-				return true;
-			}
-			break;
-		}
-		break;
 	case FL_SHORTCUT:
 	{
 		int key = Fl::event_key();
@@ -108,13 +97,18 @@ int qso_manager::handle(int event) {
 		case FL_Shift_R:
 			return true;
 		}
-		// Forward to qso_buttons to handle Alt+key shortcuts
-		if (Fl::event_key(FL_Alt_L) || Fl::event_key(FL_Alt_R)) key |= FL_ALT;
-		if (Fl::event_key(FL_Control_L) || Fl::event_key(FL_Control_R)) key |= FL_CTRL;
-		if (Fl::event_key(FL_Shift_L) || Fl::event_key(FL_Shift_R)) key |= FL_SHIFT;
+		if (Fl::event_state(FL_ALT)) key |= FL_ALT;
+		if (Fl::event_state(FL_CTRL)) key |= FL_CTRL;
+		if (Fl::event_state(FL_SHIFT)) key |= FL_SHIFT;
+		// Pass CTRL-v to the main window to paste the clipboard into the log
+		if (key == ('v' | FL_CTRL)) {
+			Fl::paste(*main_window_, 1);
+			return true;
+		}
+		// Pass the shortcut to the buttons group to handle
 		if (data_group_->buttons()->handle_shortcut(key)) return true;
 		// TODO: For now just absorb all unhandled shortcuts
-		return true;
+		if (event == FL_SHORTCUT) return true;
 	}
 	}
 

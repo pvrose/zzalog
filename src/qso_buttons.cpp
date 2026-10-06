@@ -112,10 +112,10 @@ std::map<qso_buttons::button_type, qso_buttons::button_action> action_map_ =
 	{ qso_buttons::SAVE_VIEW, { "Save && View", zc_icon_t::ICON_NONE, "Copy changed record and allow view", qso_buttons::cb_save, (void*)qso_buttons::SAVE_VIEW }},
 	{ qso_buttons::SAVE_NEW, { "Save && New", zc_icon_t::ICON_NONE, "Save QSO and start new QSO", qso_buttons::cb_save, (void*)qso_buttons::SAVE_NEW }},
 	{ qso_buttons::CANCEL_VIEW, { "Cancel", zc_icon_t::ICON_NONE, "Cancel the current QSO view", qso_buttons::cb_cancel, 0 } },
-    { qso_buttons::NAV_FIRST, { nullptr, zc_icon_t::ICON_FIRST, "Select first record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_FIRST, FL_ALT + FL_SHIFT + FL_Left } },
-	{ qso_buttons::NAV_PREV, { nullptr, zc_icon_t::ICON_PREVIOUS, "Select previous record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_PREV, FL_ALT + FL_Left } },
-	{ qso_buttons::NAV_NEXT, { nullptr, zc_icon_t::ICON_NEXT, "Select next record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_NEXT, FL_ALT + FL_Right } },
-	{ qso_buttons::NAV_LAST, { nullptr, zc_icon_t::ICON_LAST, "Select last record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_LAST, FL_ALT + FL_SHIFT + FL_Right } },
+    { qso_buttons::NAV_FIRST, { nullptr, zc_icon_t::ICON_FIRST, "Select first record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_FIRST, FL_ALT | FL_SHIFT | FL_Left } },
+	{ qso_buttons::NAV_PREV, { nullptr, zc_icon_t::ICON_PREVIOUS, "Select previous record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_PREV, FL_ALT | FL_Left } },
+	{ qso_buttons::NAV_NEXT, { nullptr, zc_icon_t::ICON_NEXT, "Select next record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_NEXT, FL_ALT |  FL_Right } },
+	{ qso_buttons::NAV_LAST, { nullptr, zc_icon_t::ICON_LAST, "Select last record in net or book", qso_buttons::cb_bn_navigate, (void*)NV_LAST, FL_ALT | FL_SHIFT | FL_Right } },
 	{ qso_buttons::ADD_QUERY, { "Add QSO", zc_icon_t::ICON_NONE, "Add queried QSO to log", qso_buttons::cb_bn_add_query, 0 }},
 	{ qso_buttons::REJECT_QUERY, {"Reject QSO", zc_icon_t::ICON_NONE, "Do not add queried QSO to log", qso_buttons::cb_bn_reject_query, 0} },
 	{ qso_buttons::MERGE_QUERY, {"Merge QSO", zc_icon_t::ICON_NONE, "Merge query with logged QSO", qso_buttons::cb_bn_merge_query, 0 } },
@@ -267,11 +267,23 @@ void qso_buttons::enable_widgets() {
 				case FL_ALT | FL_Right:
 					snprintf(shortcut, sizeof(shortcut), " (Right)");
 					break;
+				case FL_ALT | FL_Up:
+					snprintf(shortcut, sizeof(shortcut), " (Up)");
+					break;
+				case FL_ALT | FL_Down:
+					snprintf(shortcut, sizeof(shortcut), " (Down)");
+					break;
 				case FL_ALT | FL_SHIFT | FL_Left:
-					snprintf(shortcut, sizeof(shortcut), " (Home)");
+					snprintf(shortcut, sizeof(shortcut), " (Sh-Lt)");
 					break;
 				case FL_ALT | FL_SHIFT | FL_Right:
-					snprintf(shortcut, sizeof(shortcut), " (End)");
+					snprintf(shortcut, sizeof(shortcut), " (Sh-Rt)");
+					break;
+				case FL_ALT | FL_SHIFT | FL_Up:
+					snprintf(shortcut, sizeof(shortcut), " (Sh-Up)");
+					break;
+				case FL_ALT | FL_SHIFT | FL_Down:
+					snprintf(shortcut, sizeof(shortcut), " (Sh-Dn)");
 					break;
 				default:
 					if ((action.shortcut & (FL_ALT | FL_SHIFT)) == (FL_ALT | FL_SHIFT)) {

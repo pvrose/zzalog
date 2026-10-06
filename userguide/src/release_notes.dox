@@ -4,14 +4,14 @@
   - Functional changes.
     - Add QTHNickname as a parameter when fetching from eQSL.cc.
     - Add automatic scaling of images when used as background in QSL design.
-    - Add shortcut values to control buttons in QSO data panel.
+    - Display shortcut values on control buttons in QSO data panel.
     - Add feature to start QSO by pressing enter from CALL input field.
     - Display flags:
       - in DX? panel for the callsign in the selected QSO record;
       - in Log book against each callsign;
       - in Country list for each entity.
-      - Add "anchor" icon for valid callsigns not in a DXCC entity.
-      - Add "jolly roger" icon for invalid callsigns.
+      - Use "anchor" icon for valid callsigns not in a DXCC entity, typically /MM stations.
+      - Use "jolly roger" icon for invalid callsigns.
     - After "Activate" is pressed in the QSO data panel, the focus is set to the CALL input field.
       - Also set after "Start Net" and "Start QSO" is pressed.
     - "Cancel QSO" while in pending state clears callsign and sets focus back in CALL input field.
