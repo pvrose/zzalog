@@ -786,12 +786,16 @@ int default_handler(int event) {
 		case 'w':
 		{
 			if (Fl::event_state(FL_CTRL)) {
-				// get all open windows
-				std::vector<Fl_Window*> windows;
-				for (Fl_Window* wx = Fl::first_window(); wx; wx = Fl::next_window(wx)) {
-					windows.push_back(wx);
+				Fl_Window* win = Fl::first_window();
+				if (win == main_window_) {
+					status_->get_banner()->take_focus();
+				} else if (win == status_->get_banner()) {
+					qso_manager_->take_focus();
+				} else if (win == qso_manager_) {
+					main_window_->take_focus();
+				} else {
+					return 0;
 				}
-				windows[windows.size() - 1]->show();
 				return 1;
 			}
 		}
