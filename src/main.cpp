@@ -789,10 +789,13 @@ int default_handler(int event) {
 				Fl_Window* win = Fl::first_window();
 				if (win == main_window_) {
 					status_->get_banner()->take_focus();
+					status_->get_banner()->show();
 				} else if (win == status_->get_banner()) {
 					qso_manager_->take_focus();
+					qso_manager_->show();
 				} else if (win == qso_manager_) {
 					main_window_->take_focus();
+					main_window_->show();
 				} else {
 					return 0;
 				}
