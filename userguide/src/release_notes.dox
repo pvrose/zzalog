@@ -26,6 +26,7 @@
     - Exception when importing a /MM QSO with DXCC already set in the record.
     - Exception when requesting from QRZ.com when no last download date set.
     - Exception if city name is > 32 characters.
+    - Issues with using ALT+Left/Right as shortcuts resolved.
 
 \section rev_3_7_2 Revision 3.7.2
   - Functional changes.
