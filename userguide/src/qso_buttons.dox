@@ -83,4 +83,9 @@ The following shortcuts are available from most positions in the QSO manager win
 - <B>ALT SHIFT RIGHT</B> Last Entry
 - <B>ALT DEL</B> Delete QSO
 
+The following shortcuts are available from either of the main windows (Dashboard, Logbook):
+
+- <B>ALT b</B> Toggles the status banner being shown or hidden.
+- <B>ALT m</B> Toggles between the dashboard and the logbook being shown on top.
+
 */

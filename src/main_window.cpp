@@ -19,6 +19,10 @@
 
 #include "import_data.h"
 #include "menu_bar.h"
+#include "qso_manager.h"
+
+#include "zc_status.h"
+#include "zc_banner.h"
 
 #include <sstream>
 #include <string>
@@ -28,6 +32,8 @@
 #include <FL/Fl_Double_Window.H>
 
 main_window* main_window_ = nullptr;
+extern qso_manager* qso_manager_;
+extern zc_status* status_;
 
 // Create the window
 main_window::main_window(int W, int H, const char* label) :
@@ -45,9 +51,10 @@ int main_window::handle(int event) {
 	case FL_HIDE:
 	case FL_SHOW:
 		// Get menu to update Windows controls
-		if(menu_bar_) menu_bar_->update_windows_items();
+		if (menu_bar_) menu_bar_->update_windows_items();
 		break;
 	case FL_PASTE:
+	{
 		// Get data from paste
 		std::string data = Fl::event_text();
 		std::stringstream adif;
@@ -59,6 +66,37 @@ int main_window::handle(int event) {
 		// Wait for the import to finish
 		while (import_data_->size()) Fl::check();
 		return true;
+	}
+	case FL_KEYBOARD:
+	case FL_SHORTCUT:
+	{
+		int key = Fl::event_key();
+		// ALT-m Toggles the active window between the main window and the dashboard
+		if (key == 'm' && Fl::event_state(FL_ALT)) {
+			if (Fl::focus() == qso_manager_) {
+				this->show();
+				this->take_focus();
+			}
+			else {
+				qso_manager_->show();
+				qso_manager_->take_focus();
+			}
+			return true;
+		}
+		// ALT-b shows the banner
+		if (key == ('b' | FL_ALT)) {
+			if (Fl::focus() == status_->get_banner()) {
+				this->show();
+				this->take_focus();
+			}
+			else {
+				status_->get_banner()->show();
+				status_->get_banner()->take_focus();
+			}
+			return true;
+		}
+
+	}
 	}
 
 	return Fl_Double_Window::handle(event);

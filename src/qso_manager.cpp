@@ -32,6 +32,8 @@
 #include "record.h"
 #include "stn_data.h"
 
+#include "zc_banner.h"
+#include "zc_status.h"
 #include "zc_drawing.h"
 #include "zc_settings.h"
 
@@ -50,6 +52,7 @@
 extern std::string COPYRIGHT;
 extern std::string CONTACT;
 qso_manager* qso_manager_ = nullptr;
+extern zc_status* status_;
 
 // The main dialog constructor
 qso_manager::qso_manager(int W, int H, const char* label) :
@@ -103,6 +106,30 @@ int qso_manager::handle(int event) {
 		// Pass CTRL-v to the main window to paste the clipboard into the log
 		if (key == ('v' | FL_CTRL)) {
 			Fl::paste(*main_window_, 1);
+			return true;
+		}
+		// ALT-m Toggles the active window between the main window and the dashboard
+		if (key == ('m' | FL_ALT)) {
+			if (Fl::focus() == main_window_) {
+				this->show();
+				this->take_focus();
+			}
+			else {
+				main_window_->show();
+				main_window_->take_focus();
+			}
+			return true;
+		}
+		// ALT-b shows the banner
+		if (key == ('b' | FL_ALT)) {
+			if (Fl::focus() == status_->get_banner()) {
+				this->show();
+				this->take_focus();
+			}
+			else {
+				status_->get_banner()->show();
+				status_->get_banner()->take_focus();
+			}
 			return true;
 		}
 		// Pass the shortcut to the buttons group to handle
