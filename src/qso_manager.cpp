@@ -108,34 +108,6 @@ int qso_manager::handle(int event) {
 			Fl::paste(*main_window_, 1);
 			return true;
 		}
-		// ALT-m Toggles the active window between the main window and the dashboard
-		if (key == ('m' | FL_ALT)) {
-			if (Fl::focus() == main_window_) {
-				this->show();
-				this->take_focus();
-			}
-			else {
-				main_window_->show();
-				main_window_->take_focus();
-			}
-			return true;
-		}
-		// ALT-b shows the banner
-		if (key == ('b' | FL_ALT)) {
-			if (Fl::focus() == status_->get_banner()) {
-				this->show();
-				this->take_focus();
-			}
-			else {
-				status_->get_banner()->show();
-				status_->get_banner()->take_focus();
-			}
-			return true;
-		}
-		// Pass the shortcut to the buttons group to handle
-		if (data_group_->buttons()->handle_shortcut(key)) return true;
-		// TODO: For now just absorb all unhandled shortcuts
-		if (event == FL_SHORTCUT) return true;
 	}
 	}
 
@@ -330,6 +302,11 @@ rig_if* qso_manager::rig() {
 }
 
 // Get rig control
+qso_tabbed_rigs* qso_manager::rigs() {
+	if (rig_group_) return rig_group_;
+	else return nullptr;
+}
+
 qso_rig* qso_manager::rig_control() {
 	if (rig_group_) return (qso_rig*)rig_group_->value();
 	else return nullptr;

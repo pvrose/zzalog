@@ -14,7 +14,6 @@ and some may be inactive for other reasons.
 
 The complete list of buttons:
 
-- <B>Activate</B> Make the dashboard ready to start logging QSOs.
 - <B>Add Call</B> Add a new QSO record to the net in the editor view.
 - <B>Add QSO</B> Create a new QSO record without initialising time and rig data.
 - <B>Browse Log</B> Open the QSO browser (rather than editor) displaying the current QSO.
@@ -30,6 +29,7 @@ The browser allows all fields to be displayed rather than the limited selection 
 - <B>DX?</B> Display the parsing of the callsign in the selected QSO record.
 - <B>Edit Net</B> Open all records that could form a net (same frequency, close time) in the editor.
 - <B>Edit QSO</B> Opens the QSO record in edit mode.
+- <B>End Session</B> End the current logging session. This will close any open QSO records and stop any rig data being read.
 - <B>Keep 1</B> <I>(Dupe check)</I> Keep the left hand record.
 - <B>Keep 1 & 2</B> <I>(Dupe check)</I> keep both records. They are not duplicates.
 - <B>Keep 2</B> <I>(Dupe check)</I> Keep the right hand record.
@@ -50,6 +50,7 @@ If the QSO is being entered, then set the end time.
 - <B>Start Net</B> Start a QSO, expecting it to be the first of a (say club) net.
 - <B>Start QSO</B> Start a real-time (on-air) QSO. This fixes the QSO start date and time.
 as well as data read from the rig.
+- <B>Start Session</B> Make the dashboard ready to start logging QSOs.
 - <B>Test Import</B> <I>(Query mode)</I> Start a search to match import record in log.
 - <B>Update CAT</B> Copy data from the rig if none exist in the selected record.
 - <B>U/d Station</B> Update the record using the current Location, Operator and Station Callsign.
@@ -62,30 +63,35 @@ as well as data read from the rig.
 - <B>[Right arrow]</B> Select the next record.
 - <B>[Right arrow and bar]</B> Select the last record.
 
-\section shortcuts Keyboard shortcuts
+See \ref shortcuts for keyboard shortcuts that can be used to perform these actions.
+
+\page shortcuts Keyboard shortcuts
 
 The following shortcuts are available from most positions in the QSO manager window:
 
 - <B>ALT a</B> Add QSO
-- <B>ALT A</B> (ALT SHIFT a) Add Call
-- <B>ALT d</B> Deactivate
+- <B>ALT b</B> Abandon QSO
+- <B>ALT c</B> Add Call (to net)
+- <B>ALT d</B> End Session
 - <B>ALT e</B> Edit QSO
+- <B>ALT g</B> Log Net
 - <B>ALT l</B> Log QSO
-- <B>ALT L</B> (ALT SHIFT l) Log Net
+- <B>ALT n</B> Start Net
+- <B>ALT q</B> Start QSO
 - <B>ALT s</B> Start QSO
-- <B>ALT S</B> (ALT SHIFT s) Start Net
-- <B>ALT x</B> Cancel QSO
-- <B>ALT X</B> (ALT SHIFT x) Cancel Net
-- <B>ALT z</B> Activate
+- <B>ALT t</B> Edit Net
+- <B>ALT u</B> Quit Net
+- <B>ALT x</B> Delete QSO
 - <B>ALT LEFT</B> Previous Entry
 - <B>ALT SHIFT LEFT</B> First Entry
 - <B>ALT RIGHT</B> Next Entry
 - <B>ALT SHIFT RIGHT</B> Last Entry
-- <B>ALT DEL</B> Delete QSO
 
-The following shortcuts are available from either of the main windows (Dashboard, Logbook):
+The following shortcuts are available from any of the windows.
 
-- <B>ALT b</B> Toggles the status banner being shown or hidden.
-- <B>ALT m</B> Toggles between the dashboard and the logbook being shown on top.
+- <B>ALT 1..9</B> Switches active rig to the one indexed 1..9 in the displayed rigs.
+- <B>CTRL w</B> Switches between open windows.
+- <B>Escape</B> Closes the application.
+- <B>F1</B> Opens the user guide. Opening in some panels will open the relevant section of the user guide.
 
 */

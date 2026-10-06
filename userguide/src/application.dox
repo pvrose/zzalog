@@ -12,6 +12,7 @@ The application provides a number of windows:
 - \subpage stn_dialog
 - \subpage scratchpad
 - \subpage cli
+- \subpage shortcuts
 
 
 */

@@ -120,7 +120,7 @@ public:
 		const char* tooltip;    //!< The tooltip to display
 		Fl_Callback* callback;  //!< Callback action
 		void* userdata;         //!< Callback data
-		int shortcut = 0;       //!< Shortcut key
+		int shortcut = 0;       //!< Shortcut key (if label does not use '&'
 	};
 
 	//! Callback to log QSO (start first if in QSO_PENDING)

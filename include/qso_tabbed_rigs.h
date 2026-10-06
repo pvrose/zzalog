@@ -58,12 +58,18 @@ public:
 	//! Returns the active rig interface.
 	rig_if* rig();
 
+	//! Get the number of rigs in the tabbed widget.
+	int rig_count() const;
+
+	//! Change rig to the one with the given index. Returns true if successful.
+	bool change_rig(int index);
+
 	//! Deactivate all rigs
 	void deactivate_rigs();
 
 protected:
 
-	//! Callback from switvhing tabs.
+	//! Callback from switching tabs.
 	static void cb_tabs(Fl_Widget* w, void* v);
 	//! Callback when closing a tab - v is not used.
 	static void cb_close_tab(Fl_Widget* w, void* v);

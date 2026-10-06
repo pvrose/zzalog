@@ -252,3 +252,18 @@ void qso_tabbed_rigs::deactivate_rigs() {
 	begin();
 	create_form(x(), y());
 }
+
+// Get the number of rigs
+int qso_tabbed_rigs::rig_count() const {
+	return children();
+}
+
+// Change rig to the one with the given index. Returns true if successful.
+bool qso_tabbed_rigs::change_rig(int index) {
+	if (index < 0 || index >= children()) return false;
+	value(child(index));
+	label(value()->label());
+	enable_widgets();
+	return true;
+}
+

@@ -139,11 +139,13 @@ enum hint_t : uint8_t;
 		rig_if* rig();
 		//! Returns the rig control widget qso_rig.
 		qso_rig* rig_control();
+		//! Returns the tabbed rig control widget qso_tabbed_rigs.
+		qso_tabbed_rigs* rigs();
 		//! Returns the QSO control widget qso_data.
 		qso_data* data();
 		//! Returns the QSL upload/download control widget qso_qsl.
 		qso_qsl* qsl_control();
-		//! Retunrs the log status widget qso_log_info.
+		//! Returns the log status widget qso_log_info.
 		qso_log_info* log_info();
 		//! Returns the associated app control widget qso_apps.
 		qso_apps* apps();

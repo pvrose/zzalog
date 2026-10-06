@@ -43,6 +43,7 @@
 #include "qrz_handler.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
+#include "qso_tabbed_rigs.h"
 #include "record.h"
 #include "rig_data.h"
 #include "scratchpad.h"
@@ -771,6 +772,52 @@ int cb_args(int argc, char** argv, int& i) {
 	}
 }
 
+int default_handler(int event) {
+	if (event == FL_SHORTCUT) {
+		int key = Fl::event_key();
+		int mod = Fl::event_state();
+		switch (key) {
+		case FL_F + 1:
+			open_html("index.html");
+			return 1;
+		case FL_Escape:
+			cb_bn_close((Fl_Window*)nullptr, nullptr);
+			return 1;
+		case 'w':
+		{
+			if (Fl::event_state(FL_CTRL)) {
+				// get all open windows
+				std::vector<Fl_Window*> windows;
+				for (Fl_Window* wx = Fl::first_window(); wx; wx = Fl::next_window(wx)) {
+					windows.push_back(wx);
+				}
+				windows[windows.size() - 1]->show();
+				return 1;
+			}
+		}
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+		{
+			if (Fl::event_state(FL_ALT) && qso_manager_ && qso_manager_->rigs() && key - '1' < qso_manager_->rigs()->rig_count()) {
+				// Show the rig window for the selected rig
+				int rig_index = key - '1';
+				if (qso_manager_->rigs()->change_rig(rig_index)) {
+					return 1;
+				}
+			}
+		}
+		}
+	}
+	return 0;
+}
+
 // Show help listing
 void show_help() {
 	char text[] = 
@@ -1408,6 +1455,10 @@ int main(int argc, char** argv)
 	add_widgets(curr_y);
 	// Resize the window
 	resize_window();
+
+	// Add the default event handler.
+	Fl::add_handler(default_handler);
+
 	// Read in reference data - uses progress
 	add_data();
 	Fl::check();

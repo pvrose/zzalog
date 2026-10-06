@@ -67,36 +67,6 @@ int main_window::handle(int event) {
 		while (import_data_->size()) Fl::check();
 		return true;
 	}
-	case FL_KEYBOARD:
-	case FL_SHORTCUT:
-	{
-		int key = Fl::event_key();
-		// ALT-m Toggles the active window between the main window and the dashboard
-		if (key == 'm' && Fl::event_state(FL_ALT)) {
-			if (Fl::focus() == qso_manager_) {
-				this->show();
-				this->take_focus();
-			}
-			else {
-				qso_manager_->show();
-				qso_manager_->take_focus();
-			}
-			return true;
-		}
-		// ALT-b shows the banner
-		if (key == ('b' | FL_ALT)) {
-			if (Fl::focus() == status_->get_banner()) {
-				this->show();
-				this->take_focus();
-			}
-			else {
-				status_->get_banner()->show();
-				status_->get_banner()->take_focus();
-			}
-			return true;
-		}
-
-	}
 	}
 
 	return Fl_Double_Window::handle(event);
