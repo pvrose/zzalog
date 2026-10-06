@@ -66,6 +66,7 @@ ZZALOG uses the following items from third parties:
   - JSON (https://json.nlohmann.me/nlohmann/json) JSON support library.
   - pugixml (https://pugixml.org) XML support library.
   - Boost (https://www.boost.org) Miscellaneous utilities library.
+  - Lunasvg (https://github.com/sammycage/lunasvg.git) SVG support library.
 - Reference data:
   - Clublog.org (https://clublog.org) Country data.
   - Country-files.com (https://www.country-files.com) Country data.
@@ -76,6 +77,7 @@ ZZALOG uses the following items from third parties:
 - Images:
   - Google Material Design Icons (https://fonts.google.com/icons) Icons for buttons and menus.
   - Country Flags (https://github.com/hampusborgos/country-flags) Country flag icons.
+  - Wikimedia Commons (https://commons.wikimedia.org) Various icons and images.
 
 
 */
