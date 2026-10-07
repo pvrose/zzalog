@@ -1,6 +1,6 @@
 /** \page release_notes Revision History
 
-\section rev_3_7_3 Revision 3.7.3 [Unreleased]
+\section rev_3_7_3 Revision 3.7.3
   - Functional changes.
     - Add QTHNickname as a parameter when fetching from eQSL.cc.
     - Add automatic scaling of images when used as background in QSL design.
