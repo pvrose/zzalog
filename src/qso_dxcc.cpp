@@ -107,7 +107,7 @@ int qso_dxcc::handle(int event) {
 
 // Create the widgets
 void qso_dxcc::create_form() {
-	int avail_width = w() - GAP - 1;
+	int avail_width = w() - GAP - GAP;
 	int avail_height = h() - GAP;
 	int curr_x = x() + GAP;
 	int curr_y = y() + 1;

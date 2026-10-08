@@ -66,7 +66,7 @@ public:
     //! Set a fixed \p image to display
     void set_image(Fl_Image* image);
     //! Set a fixed \p text to display in \p colour.
-    void set_text(const char* text, Fl_Color colour);
+    void set_text(const char* text, Fl_Color colour, Fl_Image* bg_image = nullptr);
     //! Receives the required size for the unscaled design in \p w and \p h.
     void get_size(int& w, int& h);
 
@@ -81,7 +81,7 @@ protected:
     //! Draw the \p image at position (\p x, \p y), scaling if necessary.
     void draw_image(int x, int y, Fl_Image* image);
     //! Draw \p text in \p colour in place of a generated image.
-    void draw_text(const char* text, Fl_Color colour) const;
+    void draw_text(const char* text, Fl_Color colour, bool bg = true) const;
 
     //! Returns the ADIF format date in the remembered format.
     std::string convert_date(std::string text);

@@ -176,6 +176,7 @@ protected:
     table_d* table_details_;    //! Table showing callsign's details from previous QSOs.
     table_q* table_qsos_;       //! Table showing std::list of previous QSOs with callsign.
 	Fl_Button* bn_show_in_extracted_; //! Check button to show previous QSOs in extracted data pane.
+	Fl_Box* box_flag_;			 //! Box showing the country flag of the callsign.
 
 
 };

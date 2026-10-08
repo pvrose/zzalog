@@ -109,15 +109,17 @@ void qsl_display::draw() {
 			}
 		}
 	}
-	else if (alt_image_) {
-		calculate_scale(alt_image_->w(), alt_image_->h());
-		draw_image(0, 0, alt_image_);
-	}
-	else if (alt_text_) {
-		draw_text(alt_text_, alt_colour_);
-	}
 	else {
-		draw_text("NO IMAGE!", FL_RED);
+		if (alt_image_) {
+			calculate_scale(alt_image_->w(), alt_image_->h());
+			draw_image(0, 0, alt_image_);
+		}
+	    if (alt_text_) {
+			draw_text(alt_text_, alt_colour_, (alt_image_ == nullptr));
+	    }
+		if (!alt_text_ && !alt_image_) {
+			draw_text("NO IMAGE!", FL_RED);
+		}
 	}
 	
 }
@@ -338,9 +340,11 @@ void qsl_display::draw_image(int x, int y, Fl_Image* image) {
 }
 
 // Scale and draw the text
-void qsl_display::draw_text(const char* text, Fl_Color colour) const {
+void qsl_display::draw_text(const char* text, Fl_Color colour, bool bg) const {
 	// Colour the whole display
-	fl_rectf(x_, y_, w_, h_, FL_BACKGROUND_COLOR);
+	if (bg) {
+		fl_rectf(x_, y_, w_, h_, FL_BACKGROUND_COLOR);
+	}
 	Fl_Fontsize sz = fl_size();
 	Fl_Font f = fl_font();
 	int size = 48;
@@ -522,14 +526,14 @@ void qsl_display::set_image(Fl_Image* image) {
 }
 
 // Set alternate text
-void qsl_display::set_text(const char* text, Fl_Color colour) {
+void qsl_display::set_text(const char* text, Fl_Color colour, Fl_Image* bg_image) {
 	if (alt_text_) delete alt_text_;
 	if (text == nullptr) alt_text_ = nullptr;
 	else {
 		alt_text_ = new char[strlen(text) + 1];
 		strcpy(alt_text_, text);
 	}
-	alt_image_ = nullptr;
+	alt_image_ = bg_image;
 	data_ = nullptr;
 	alt_colour_ = colour;
 }

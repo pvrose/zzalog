@@ -25,6 +25,7 @@
 #include "record.h"
 #include "regices.h"
 #include "tabbed_forms.h"
+#include "svg_helper.h"
 
 #include "zc_drawing.h"
 #include "zc_status.h"
@@ -101,15 +102,21 @@ void qso_details::create_form() {
 	int avail_height = h() - GAP;
 	int curr_x = x() + GAP;
 	int curr_y = y() + 1;
-	int WFLAG = HBUTTON * 4 / 3;
-	
+	int WFLAG = ROW_HEIGHT * 4;
+
 	// "Title" is callsign
-	op_call_ = new Fl_Output(curr_x, curr_y, avail_width, HBUTTON);
+	op_call_ = new Fl_Output(curr_x, curr_y, avail_width - WFLAG, ROW_HEIGHT * 2);
 	op_call_->box(FL_FLAT_BOX);
 	op_call_->color(FL_BACKGROUND_COLOR);
 	op_call_->textfont(FL_BOLD);
-	op_call_->textsize(FL_NORMAL_SIZE + 2);
+	op_call_->textsize(FL_NORMAL_SIZE * 2);
 	op_call_->textcolor(FL_FOREGROUND_COLOR);
+
+	curr_x += op_call_->w();
+	box_flag_ = new Fl_Box(curr_x, curr_y, WFLAG, ROW_HEIGHT * 2);
+	box_flag_->box(FL_FLAT_BOX);
+	box_flag_->color(FL_BACKGROUND_COLOR);
+	box_flag_->align(FL_ALIGN_RIGHT | FL_ALIGN_INSIDE);
 
 	curr_x = x() + GAP;
 	curr_y += op_call_->h() + GAP;
@@ -139,11 +146,22 @@ void qso_details::enable_widgets() {
 		if (call.length() == 0) call = "No contact";
 		op_call_->value(call.c_str());
 		get_qsos();
+		Fl_RGB_Image* img = load_svg_image(cty_data_->flag_data(qso_), 0, box_flag_->h());
+		if (img) {
+			box_flag_->bind_image(img);
+		}
+		else {
+			status_->misc_status(ST_WARNING, "Failed to render flag for %s", call.c_str());
+			box_flag_->bind_image(nullptr);
+		}
 	}
 	else {
 		op_call_->value("No contact");
 		get_qsos();
+		box_flag_->bind_image(nullptr);
 	}
+
+
 	if (previous_qsos_.size() == 0) {
 		bn_show_in_extracted_->deactivate();
 	}

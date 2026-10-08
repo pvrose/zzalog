@@ -18,6 +18,7 @@
 #include "qso_qsl_vwr.h"
 
 #include "book.h"
+#include "cty_data.h"
 #include <qsl_data.h>
 #include "qsl_dataset.h"
 #include "qsl_display.h"
@@ -26,6 +27,7 @@
 #include "qso_manager.h"
 #include "eqsl_handler.h"
 #include "record.h"
+#include "svg_helper.h"
 #include "zc_settings.h"
 #include "zc_status.h"
 #include "stn_data.h"
@@ -661,7 +663,10 @@ void qso_qsl_vwr::set_image() {
 	switch(selected_image_) {
 		case QI_NONE: {
 			if (current_qso_) {
-				thumb->set_text(current_qso_->item("CALL").c_str(), FL_FOREGROUND_COLOR);
+				// Display callsign above a bleached-out version of the country's flag.
+				Fl_RGB_Image* img = load_svg_image(cty_data_->flag_data(current_qso_), qsl_thumb_->w(), 0);
+				img->color_average(FL_BACKGROUND_COLOR, 0.2);
+				thumb->set_text(current_qso_->item("CALL").c_str(), FL_FOREGROUND_COLOR, img);
 				full->set_text(nullptr, FL_FOREGROUND_COLOR);
 			}
 			else {
