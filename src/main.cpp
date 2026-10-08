@@ -787,6 +787,7 @@ int default_handler(int event) {
 		{
 			if (Fl::event_state(FL_CTRL)) {
 				Fl_Window* win = Fl::first_window();
+				// Cycle round the three main windows: main window, banner and QSO manager.
 				if (win == main_window_) {
 					status_->get_banner()->take_focus();
 					status_->get_banner()->show();
@@ -797,7 +798,9 @@ int default_handler(int event) {
 					main_window_->take_focus();
 					main_window_->show();
 				} else {
-					return 0;
+					// Default to the QSO manager for any other window (e.g. scratchpad, intl chars)
+					qso_manager_->take_focus();
+					qso_manager_->show();
 				}
 				return 1;
 			}
