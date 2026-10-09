@@ -1682,6 +1682,7 @@ void menu_bar::add_windows_items() {
 	insert(index, "&Windows/Das&hboard", 0, cb_mi_windows, qso_manager_, FL_MENU_TOGGLE);
 	insert(index, "&Windows/&International Chars", 0, cb_mi_windows, intl_dialog_, FL_MENU_TOGGLE);
 	insert(index, "&Windows/&Scratch Pad", 0, cb_mi_windows, scratchpad_, FL_MENU_TOGGLE);
+	insert(index, "&Windows/&Banner", 0, cb_mi_windows, status_->get_banner(), FL_MENU_TOGGLE);
 }
 
 // Update Windows sub-menu
@@ -1691,6 +1692,8 @@ void menu_bar::update_windows_items() {
 	int index_oper = find_index("&Windows/Das&hboard");
 	//int index_band = find_index("&Windows/&Band View");
 	int index_intl = find_index("&Windows/&International Chars");
+	int index_scratch = find_index("&Windows/&Scratch Pad");
+	int index_banner = find_index("&Windows/&Banner");
 
 	if (main_window_ && index_main != -1) {
 		if (main_window_->visible()) {
@@ -1719,6 +1722,23 @@ void menu_bar::update_windows_items() {
 		}
 	}
 
+	if (scratchpad_ && index_scratch != -1) {
+		if (scratchpad_->visible()) {
+			mode(index_scratch, mode(index_scratch) | FL_MENU_VALUE);
+		}
+		else {
+			mode(index_scratch, mode(index_scratch) & ~FL_MENU_VALUE);
+		}
+	}
+
+	if (status_ && index_banner != -1) {
+		if (status_->get_banner()->visible()) {
+			mode(index_banner, mode(index_banner) | FL_MENU_VALUE);
+		}
+		else {
+			mode(index_banner, mode(index_banner) & ~FL_MENU_VALUE);
+		}
+	}
 	redraw();
 }
 

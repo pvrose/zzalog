@@ -5,6 +5,7 @@
     - Improve usability of scratchpad.
       - Use default navigation and selection keys in Text Edit widget.
       - Add keyboard shortcuts to control pasting destination.
+    - Allow CTRL-w to cycle through all shown (ie visible or iconified) windows.
   - Cosmetic and non-functional changes.
     - Display flags in Previous panel and as a bleached background in QSL viewer when no QSL image is available.
   - Performance changes.

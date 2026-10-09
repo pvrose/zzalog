@@ -60,6 +60,7 @@
 #include <FL/Fl_Window.H>
 
 extern void open_html(const char* filename);
+extern std::vector<Fl_Window*> windows_;
 
 // Constructor
 qso_qsl_vwr::qso_qsl_vwr(int X, int Y, int W, int H, const char* L) :
@@ -74,6 +75,7 @@ qso_qsl_vwr::qso_qsl_vwr(int X, int Y, int W, int H, const char* L) :
 	tooltip("Displays the received and sent QSL status for this QSO");
 	load_values();
 	create_form();
+
 	enable_widgets();
 }
 

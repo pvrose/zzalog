@@ -42,6 +42,7 @@ extern std::string APP_NAME;
 extern std::string APP_VERSION;
 extern debug_flag DEBUG_DEVELOPMENT;
 extern void open_html(const char* filename);
+extern std::vector<Fl_Window*> windows_;
 
 qso_bands::qso_bands(int X, int Y, int W, int H, const char* L) :
 	Fl_Group(X, Y, W, H, L)
@@ -50,6 +51,7 @@ qso_bands::qso_bands(int X, int Y, int W, int H, const char* L) :
 	load_values();
 	create_form();
 	enable_widgets();
+	windows_.push_back(full_window_);
 	// Set up to read rig every 1 s.
 	ticker_->add_ticker(this, cb_ticker, 10);
 }

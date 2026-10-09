@@ -250,6 +250,9 @@ std::string default_code_directory_ = "";
 //! Widget to receive pastes from dialogs with paste functionality.
 Fl_Widget* paste_target_ = nullptr;
 
+//! Array of pointers to all the windows in the application. Used to control switching between windows.
+std::vector<Fl_Window*> windows_;
+
 // Get the backup filename
 std::string backup_filename(std::string source, int& max_depth) {
 	zc_settings top_settings;
@@ -786,24 +789,21 @@ int default_handler(int event) {
 		case 'w':
 		{
 			if (Fl::event_state(FL_CTRL)) {
-				Fl_Window* win = Fl::first_window();
-				// Cycle round the three main windows: main window, banner and QSO manager.
-				if (win == main_window_) {
-					status_->get_banner()->take_focus();
-					status_->get_banner()->show();
-				} else if (win == status_->get_banner()) {
-					qso_manager_->take_focus();
-					qso_manager_->show();
-				} else if (win == qso_manager_) {
-					main_window_->take_focus();
-					main_window_->show();
-				} else {
-					// Default to the QSO manager for any other window (e.g. scratchpad, intl chars)
-					qso_manager_->take_focus();
-					qso_manager_->show();
+				int wix = 0;
+				Fl_Window* w = Fl::first_window();	
+				// Find the index of the current window
+				while (w != windows_[wix]) {
+					wix = (wix + 1) % windows_.size();
 				}
-				return 1;
+				wix = (wix + 1) % windows_.size();
+				// Find the next window that is shown (visible or iconified)
+				while (wix != 0 && !windows_[wix]->shown()) {
+					wix = (wix + 1) % windows_.size();
+				}
+				windows_[wix]->take_focus();
+				windows_[wix]->show();
 			}
+			return 1;
 		}
 		case '1':
 		case '2':
@@ -1076,15 +1076,18 @@ void add_dashboard() {
 		}
 		status_->misc_status(ST_NOTE, "DASH: Opened");
 		qso_manager_->hide();
+		windows_.push_back(qso_manager_);
 		// Add the scratchpad
 		scratchpad_ = new scratchpad;
 		snprintf(l, sizeof(l), "%s %s: Operating Scratchpad", APP_NAME.c_str(), version.c_str());
 		scratchpad_->copy_label(l);
+		windows_.push_back(scratchpad_);
 
 		// Add intl dialog
 		intl_dialog_ = new intl_dialog;
 		snprintf(l, sizeof(l), "%s %s: International Characters", APP_NAME.c_str(), version.c_str());
 		intl_dialog_->copy_label(l);
+		windows_.push_back(intl_dialog_);
 
 	}
 }
@@ -1441,6 +1444,7 @@ int main(int argc, char** argv)
 
 		status_->get_banner()->resize(nx, ny, bw, bh);
 	}
+	windows_.push_back(status_->get_banner());
 	std::string bt = APP_NAME + " " + APP_VERSION;
 	status_->get_banner()->copy_label(bt.c_str());
 	status_->get_banner()->set_banner_text("Loading..", FL_GREEN);
@@ -1456,6 +1460,7 @@ int main(int argc, char** argv)
 
 	// Create window
 	create_window();
+	windows_.push_back(main_window_);
 	status_->callback(main_window_, cb_bn_close);
 	add_properties();
 	recent_files();
