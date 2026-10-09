@@ -775,6 +775,24 @@ int cb_args(int argc, char** argv, int& i) {
 	}
 }
 
+//! Show the next window in the list of windows. If the current window is the last one, show the first window.
+void show_next_window(Fl_Window* w) {
+	if (windows_.size() > 1) {
+		int wix = 0;
+		// Find the index of the current window
+		while (w != windows_[wix]) {
+			wix = (wix + 1) % windows_.size();
+		}
+		wix = (wix + 1) % windows_.size();
+		// Find the next window that is shown (visible or iconified)
+		while (wix != 0 && !windows_[wix]->shown()) {
+			wix = (wix + 1) % windows_.size();
+		}
+		windows_[wix]->take_focus();
+		windows_[wix]->show();
+	}
+}
+
 int default_handler(int event) {
 	if (event == FL_SHORTCUT) {
 		int key = Fl::event_key();
@@ -789,22 +807,22 @@ int default_handler(int event) {
 		case 'w':
 		{
 			if (Fl::event_state(FL_CTRL)) {
-				int wix = 0;
-				Fl_Window* w = Fl::first_window();	
-				// Find the index of the current window
-				while (w != windows_[wix]) {
-					wix = (wix + 1) % windows_.size();
-				}
-				wix = (wix + 1) % windows_.size();
-				// Find the next window that is shown (visible or iconified)
-				while (wix != 0 && !windows_[wix]->shown()) {
-					wix = (wix + 1) % windows_.size();
-				}
-				windows_[wix]->take_focus();
-				windows_[wix]->show();
+				Fl_Window* w = Fl::first_window();
+				show_next_window(w);
 			}
 			return 1;
 		}
+		case '-':
+		{
+			// Ctrl + Shift + - iconifies the current window and shows the next window in the list of windows.
+			if (Fl::event_state(FL_CTRL | FL_SHIFT)) {
+				Fl_Window* w = Fl::first_window();
+				show_next_window(w);
+				w->iconize();
+			}
+			return 1;
+		}
+
 		case '1':
 		case '2':
 		case '3':
