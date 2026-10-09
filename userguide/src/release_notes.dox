@@ -10,8 +10,7 @@
   - Performance changes.
     - None.
   - Bug fixes.
-    - Exception when importing a /MM QSO with DXCC already set in the record.
-
+    - None.
 \section rev_3_7_3 Revision 3.7.3
   - Functional changes.
     - Add QTHNickname as a parameter when fetching from eQSL.cc.
