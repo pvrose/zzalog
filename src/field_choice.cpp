@@ -328,45 +328,7 @@ void field_input::populate_case_choice() {
 		// menu->add(dst, 0, 0, (void*)dst);
 		// mixed-case
 		memset(dst, 0, len * 3);
-		bool mixed_upper = true;
-		bool prev_upper = true;
-		char* temp = dst;
-		// TODO move this to utils as replicated from log_table
-		for (unsigned int i = 0; i < (unsigned)len; ) {
-			int num_utf8_bytes;
-			// Get the next UTF-8 character 
-			unsigned int ucs = fl_utf8decode(src + i, src + len, &num_utf8_bytes);
-			// Step to the next UTF-8 character
-			i += num_utf8_bytes;
-			// Convert case
-			unsigned int new_ucs;
-			if (mixed_upper) {
-				new_ucs = fl_toupper(ucs);
-			}
-			else {
-				new_ucs = fl_tolower(ucs);
-			}
-			// Convert UTF-8 character to bytes, store it and step destination pointer
-			temp += fl_utf8encode(new_ucs, temp);
-			switch (ucs) {
-			case ' ':
-			case '-':
-			case '.':
-				// Force upper case after some punctuation
-				prev_upper = mixed_upper;
-				mixed_upper = true;
-				break;
-			case '\'':
-				// Keep case prior to apostrophe
-				mixed_upper = prev_upper;
-				break;
-			default:
-				// Force lower case
-				prev_upper = mixed_upper;
-				mixed_upper = false;
-				break;
-			}
-		}
+		strcpy(dst, zc::to_mixed(std::string(src)).c_str());
 		add(dst);
 		// menu->add(dst, 0, 0, (void*)dst);
 	}

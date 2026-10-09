@@ -54,41 +54,24 @@ public:
 
 	//! Callback for the copy button.
 	static void copy_cb(Fl_Widget* w, void* data);
-	//! Callback from the clear button.
-	static void clear_cb(Fl_Widget* w, void* data);
 	//! Callback from the radio buttons to select the copy target.
 	static void target_cb(Fl_Widget* w, void* data);
 	//! Callback from the text buffer when text is modified.
 	static void modify_cb(int pos, int nInserted, int nDeleted, 
 						  int nRestyled, const char* deletedText, void* cbArg);
 
-	//! \name Key Bindings
-	//! @{
-	//! Key bindings for text editing operations:
-	//!
-	//! | Operation                   | Primary Key    |
-	//! |-----------------------------|----------------|
-	//! | Select word at cursor       | Ctrl+D         |
-	//! | Add next word to selection  | Ctrl+D (again) |
-	//! | Add previous word           | Ctrl+Shift+D   |
-	//! | Undo last selection         | Ctrl+U         |
-	//! | Unselect                    | Escape         |
-	//! | Copy selection              | Ctrl+C         |
-	//! | Clear text editor           | Ctrl+L         |
-	//! @}
-
-	//! Key binding handler for CTRL-D (select word at cursor / add next word).
-	static int kf_select(int c, Fl_Text_Editor* editor);
-	//! Key binding handler for CTRL-SHIFT-D (add previous word to selection).
-	static int kf_select_previous(int c, Fl_Text_Editor* editor);
-	//! Key binding handler for CTRL-U (undo last selection).
-	static int kf_undo_select(int c, Fl_Text_Editor* editor);
-	//! Key binding handler for Escape (unselect).
-	static int kf_unselect(int c, Fl_Text_Editor* editor);
+	////! Key binding handler for CTRL-D (select word at cursor / add next word).
+	//static int kf_select(int c, Fl_Text_Editor* editor);
+	////! Key binding handler for CTRL-SHIFT-D (add previous word to selection).
+	//static int kf_select_previous(int c, Fl_Text_Editor* editor);
+	////! Key binding handler for CTRL-U (undo last selection).
+	//static int kf_undo_select(int c, Fl_Text_Editor* editor);
+	////! Key binding handler for Escape (unselect).
+	//static int kf_unselect(int c, Fl_Text_Editor* editor);
 	//! Key binding handler for CTRL-C (copy selection).
 	static int kf_copy(int c, Fl_Text_Editor* editor);
-	//! Key binding handler for CTRL-L (clear text editor).
-	static int kf_clear(int c, Fl_Text_Editor* editor);
+	////! Key binding handler for CTRL-L (clear text editor).
+	//static int kf_clear(int c, Fl_Text_Editor* editor);
 
 private:
 
@@ -124,10 +107,6 @@ private:
 
 	//! The text editor widget for the scratchpad.
 	Fl_Text_Editor* editor_;
-	//! Copy selected text to clipboard or target field.
-	Fl_Button* bn_copy_;
-	//! Clear all text in the editor.
-	Fl_Button* bn_clear_;
 	//! Radio button for copying to clipboard.
 	Fl_Radio_Round_Button* bn_clipboard_;
 	//! Radio button for copying to the widget expecting copied data.

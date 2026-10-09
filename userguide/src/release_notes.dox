@@ -1,5 +1,17 @@
 /** \page release_notes Revision History
 
+\section rev_3_7_4 Revision 3.7.4 [Unreleased]
+  - Functional changes.
+    - Improve usability of scratchpad.
+      - Use default navigation and selection keys in Text Edit widget.
+      - Add keyboard shortcuts to control pasting destination.
+  - Cosmetic and non-functional changes.
+    - Display flags in Previous panel and as a bleached background in QSL viewer when no QSL image is available.
+  - Performance changes.
+    - None.
+  - Bug fixes.
+    - Exception when importing a /MM QSO with DXCC already set in the record.
+
 \section rev_3_7_3 Revision 3.7.3
   - Functional changes.
     - Add QTHNickname as a parameter when fetching from eQSL.cc.
