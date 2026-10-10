@@ -90,8 +90,8 @@ The following shortcuts are available from most positions in the QSO manager win
 The following shortcuts are available from any of the windows.
 
 - <B>ALT 1..9</B> Switches active rig to the one indexed 1..9 in the displayed rigs.
-- <B>CTRL w</B> Switches between all shown (ie visible or iconified) windows.
-- <B>Escape</B> Closes the application.
+- <B>CTRL _</B> (CTRL SHIFT -)Iconifies the current window and switches to the next window.
+- <B>ESCAPE</B> Closes the application.
 - <B>F1</B> Opens the user guide. If possible, the user guide will open
 at a page relevant to the component currently with focus, otherwise it
 will open at the front page.

@@ -804,14 +804,6 @@ int default_handler(int event) {
 		case FL_Escape:
 			cb_bn_close((Fl_Window*)nullptr, nullptr);
 			return 1;
-		case 'w':
-		{
-			if (Fl::event_state(FL_CTRL)) {
-				Fl_Window* w = Fl::first_window();
-				show_next_window(w);
-			}
-			return 1;
-		}
 		case '-':
 		{
 			// Ctrl + Shift + - iconifies the current window and shows the next window in the list of windows.
