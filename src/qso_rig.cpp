@@ -422,9 +422,9 @@ void qso_rig::create_network(int curr_x, int curr_y) {
 
 	curr_x += WBUTTON / 2;
 
-	bn_show_app_ = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Show");
+	bn_show_app_ = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Edit");
 	bn_show_app_->callback(cb_show_app, &ip_app_name_);
-	bn_show_app_->tooltip("Show the app script");
+	bn_show_app_->tooltip("Edit the app script");
 
 	curr_x += WBUTTON / 2;
 	int this_w = network_grp_->w() + network_grp_->x() - curr_x - GAP - GAP;

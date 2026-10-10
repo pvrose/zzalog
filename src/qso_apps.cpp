@@ -187,8 +187,8 @@ void app_grp::create_form() {
     curr_x += WBUTTON / 2;
 
     // Button to show the script
-    bn_show_script_ = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Show");
-    bn_show_script_->tooltip("Show the script in a separate window");
+    bn_show_script_ = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Edit");
+    bn_show_script_->tooltip("Edit the script in a separate window");
 
     curr_x += WBUTTON / 2;
 
@@ -213,9 +213,9 @@ void app_grp::create_form() {
     curr_x += WBUTTON / 2;
 
     // Button to show the script
-    bn_show_script2_ = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Show");
+    bn_show_script2_ = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Edit");
     bn_show_script2_->callback(cb_show_script, &ip_disable_app_);
-    bn_show_script2_->tooltip("Show the undo script in a separate window");
+    bn_show_script2_->tooltip("Edit the undo script in a separate window");
 
     curr_x += WBUTTON / 2;
 

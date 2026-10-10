@@ -25,7 +25,7 @@ It also requires configuration for both audio and CAT, so the "Aud./CAT" button 
 \image latex new_apps_1.png "Configuring for wSJT-X" width=5cm
 
 You will see that this choice is reflected in the label below this: "IC-705 FlRig". In the box below, a script is named. To
-view or edit the script click the "Show" button. The keyboard
+view or edit the script click the "Edit" button. The keyboard
 shortcuts CTRL-s, to save any changes, and CTRL-x, to close
 the editor, are available.
 

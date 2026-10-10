@@ -94,7 +94,7 @@ void qso_operation::create_form()
 	ch_qth_->tooltip("Select the current operating location (or eneter a new one)");
 
 	curr_x += ch_qth_->w();
-	Fl_Button *bn_show_qth = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Show");
+	Fl_Button *bn_show_qth = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Edit");
 	bn_show_qth->callback(cb_show, (void *)(intptr_t)stn_dialog::QTH);
 
 	curr_x += bn_show_qth->w() + WLABEL;
@@ -105,7 +105,7 @@ void qso_operation::create_form()
 	ch_oper_->tooltip("Specify the current operator - select or enter new");
 
 	curr_x += ch_qth_->w();
-	Fl_Button *bn_show_oper = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Show");
+	Fl_Button *bn_show_oper = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Edit");
 	bn_show_oper->callback(cb_show, (void *)(intptr_t)stn_dialog::OPERATOR);
 
 	curr_x += bn_show_oper->w() + WLABEL;
@@ -116,7 +116,7 @@ void qso_operation::create_form()
 	ch_call_->tooltip("Specify the current station callsign");
 
 	curr_x += ch_qth_->w();
-	Fl_Button *bn_show_call = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Show");
+	Fl_Button *bn_show_call = new Fl_Button(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Edit");
 	bn_show_call->callback(cb_show, (void *)(intptr_t)stn_dialog::CALLSIGN);
 
 	curr_x += bn_show_call->w() + GAP;
