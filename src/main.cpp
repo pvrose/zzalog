@@ -807,12 +807,13 @@ int default_handler(int event) {
 		case '-':
 		{
 			// Ctrl + Shift + - iconifies the current window and shows the next window in the list of windows.
-			if (Fl::event_state(FL_CTRL | FL_SHIFT)) {
+			if (Fl::event_state(FL_CTRL) && Fl::event_state(FL_SHIFT)) {
 				Fl_Window* w = Fl::first_window();
 				show_next_window(w);
 				w->iconize();
+				return 1;
 			}
-			return 1;
+			break;
 		}
 
 		case '1':
@@ -832,6 +833,7 @@ int default_handler(int event) {
 					return 1;
 				}
 			}
+			break;
 		}
 		}
 	}
