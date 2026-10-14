@@ -380,18 +380,15 @@ bool mmsstv_handler::convert_datetime(int year, int day_of_year, int start_time_
 	timeinfo.tm_year = full_year - 1900;
 	timeinfo.tm_mday = day;
 	timeinfo.tm_mon = month - 1;
-	timeinfo.tm_hour = hours;
+	timeinfo.tm_hour = hours - 9;
 	timeinfo.tm_min = minutes;
 	timeinfo.tm_sec = seconds;
 	std::time_t t = std::mktime(&timeinfo);
-	std::tm* local_time = std::localtime(&t);
-	// Adjust for JST to UTC (-9 hours)
-	local_time->tm_hour -= 9;
-	std::mktime(local_time); // Normalize the time structure
+	std::tm* utc_time = std::gmtime(&t);
 	char date_buffer[9];
 	char time_buffer[7];
-	snprintf(date_buffer, sizeof(date_buffer), "%04d%02d%02d", local_time->tm_year + 1900, local_time->tm_mon + 1, local_time->tm_mday);
-	snprintf(time_buffer, sizeof(time_buffer), "%02d%02d%02d", local_time->tm_hour, local_time->tm_min, local_time->tm_sec);
+	snprintf(date_buffer, sizeof(date_buffer), "%04d%02d%02d", utc_time->tm_year + 1900, utc_time->tm_mon + 1, utc_time->tm_mday);
+	snprintf(time_buffer, sizeof(time_buffer), "%02d%02d%02d", utc_time->tm_hour, utc_time->tm_min, utc_time->tm_sec);
 	adif_date = std::string(date_buffer);
 	adif_time = std::string(time_buffer);
 	return true;
