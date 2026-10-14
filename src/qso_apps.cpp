@@ -19,6 +19,7 @@
 
 #include "fldigi_handler.h"
 #include "file_types.h"
+#include "mmsstv_handler.h"
 #include "qso_manager.h"
 #include "qso_rig.h"
 #include "wsjtx_handler.h"
@@ -70,14 +71,19 @@ NLOHMANN_JSON_SERIALIZE_ENUM(app_rig_class_t, {
 void to_json(json& j, const app_data_t& d) {
     j = json{
         { "Connection", json(d.rig_class) },
-        { "Is server", d.server },
+        { "Is server", d.listen == LISTEN_SERVER },
+		{ "Is snooper", d.listen == LISTEN_SNOOPER },
         { "Needs administrator", d.admin },
         { "Can disable", d.can_disable}
     };
-    if (d.server) {
+    if (d.listen == LISTEN_SERVER) {
         j["Network address"] = d.address;
         j["Network port"] = d.port_num;
-    }
+	}
+	else if (d.listen == LISTEN_SNOOPER) {
+		j["Snooped log file"] = d.snoop_file;
+		j["Last snooped record"] = d.last_snoop;
+	}
     json js;
     for (auto sc : d.commands) {
         js[sc.first] = sc.second;
@@ -87,14 +93,24 @@ void to_json(json& j, const app_data_t& d) {
 
 // JSON serialisation to app_data_t
 void from_json(const json& j, app_data_t& d) {
+	bool temp_b;
     j.at("Connection").get_to(d.rig_class);
-    j.at("Is server").get_to(d.server);
+    j.at("Is server").get_to(temp_b);
+    d.listen = temp_b ? LISTEN_SERVER : LISTEN_NONE;
+	j.at("Is snooper").get_to(temp_b);
+    if (temp_b) {
+        d.listen = LISTEN_SNOOPER;
+    }
     j.at("Needs administrator").get_to(d.admin);
     j.at("Can disable").get_to(d.can_disable);
-    if (d.server) {
+    if (d.listen == LISTEN_SERVER) {
         j.at("Network address").get_to(d.address);
         j.at("Network port").get_to(d.port_num);
-    }
+	}
+	else if (d.listen == LISTEN_SNOOPER) {
+		j.at("Snooped log file").get_to(d.snoop_file);
+		j.at("Last snooped record").get_to(d.last_snoop);
+	}
     if (j.find("Scripts") != j.end() && !j.at("Scripts").is_null()) {
         auto scripts = j.at("Scripts").get<std::map<std::string, std::string> >();
         for (auto& sc : scripts) {
@@ -149,9 +165,12 @@ void app_grp::create_form() {
     curr_y += HBUTTON;
  
     // Button to act as a log server
-    bn_server_ = new Fl_Light_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Server");
-    bn_server_->callback(cb_bn_server, &(app_data_->server));
-    bn_server_->tooltip("Select if ZZALOG acts as a log server for this application");
+    bn_server_ = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Server");
+	bn_server_->type(FL_NORMAL_BUTTON);
+    bn_server_->callback(cb_bn_server, &(app_data_->listen));
+    bn_server_->tooltip("Select if ZZALOG acts as a log server or snooper for this application");
+	// Set the down box to be no different to the up box.
+	bn_server_->down_box(bn_server_->box());
 
     curr_x += WBUTTON;
 
@@ -172,6 +191,13 @@ void app_grp::create_form() {
     ip_nw_port_ = new Fl_Int_Input(curr_x, curr_y, WBUTTON / 2, HBUTTON, "Port");
     ip_nw_port_->callback(cb_ip_nwport, &(app_data_->port_num));
     ip_nw_port_->tooltip("Enter the port number for ZZALOG as a server");
+
+	// Snooped log file
+	curr_x = x() + GAP + WBUTTON / 2;
+	ip_snoop_file_ = new zc_filename_input(curr_x, curr_y, 5 * WBUTTON / 2, HBUTTON, "File");
+	ip_snoop_file_->align(FL_ALIGN_LEFT);
+    ip_snoop_file_->callback(cb_ip_snoop, &(app_data_->snoop_file));
+    ip_snoop_file_->tooltip("Enter the snooped log file for ZZALOG as a snooper");
 
     curr_x = x() + GAP;
     curr_y += HBUTTON;
@@ -278,19 +304,37 @@ void app_grp::enable_widgets() {
     bn_common_->value(app_data_->rig_class == NO_CONNECTION);
     bn_rig_nocat_->value(app_data_->rig_class == AUDIO_ONLY);
     bn_rig_cat_->value(app_data_->rig_class == AUDIO_CAT);
-    bn_server_->value(app_data_->server);
+    bn_server_->value((int)app_data_->listen);
+	switch (app_data_->listen) {
+		case LISTEN_NONE:
+			bn_server_->label("None");
+			break;
+		case LISTEN_SERVER:
+			bn_server_->label("Server");
+			break;
+		case LISTEN_SNOOPER:
+			bn_server_->label("Snooper");
+			break;
+	}
     ip_nw_address_->value(app_data_->address.c_str());
     char temp[32];
     snprintf(temp, sizeof(temp), "%d", app_data_->port_num);
     ip_nw_port_->value(temp);
-    if (app_data_->server) {
-        ip_nw_address_->activate();
-        ip_nw_port_->activate();
+    if (app_data_->listen == LISTEN_SERVER) {
+        ip_nw_address_->show();
+        ip_nw_port_->show();
     }
     else {
-        ip_nw_address_->deactivate();
-        ip_nw_port_->deactivate();
+        ip_nw_address_->hide();
+        ip_nw_port_->hide();
     }
+	if (app_data_->listen == LISTEN_SNOOPER) {
+		ip_snoop_file_->value(app_data_->snoop_file.c_str());
+		ip_snoop_file_->show();
+	}
+	else {
+		ip_snoop_file_->hide();
+	}
     bn_rig_->copy_label(rig_name);
     if (app_data_->commands.find(rig_name) != app_data_->commands.end()) {
         ip_app_name_->value(app_data_->commands.at(std::string(rig_name)).c_str());
@@ -299,67 +343,88 @@ void app_grp::enable_widgets() {
         ip_app_name_->value("");
         bn_show_script_->deactivate();
     }
-    if (app_data_->server) {
+    switch(app_data_->listen) {
+    case LISTEN_NONE:
+        bn_listening_->value(false);
+        bn_listening_->activate();
+        bn_connect_->deactivate();
+        break;
+    case LISTEN_SERVER:
         if (app_data_->name == FLDIGI) {
-            if (fldigi_handler_ && fldigi_handler_->has_server()) {
-                bn_listening_->value(true);
-                bn_listening_->activate();
-                if (!app_data_->admin || strlen(ip_passw_->value()) > 0) {
-                    bn_connect_->activate();
-                    if (fldigi_handler_->has_data()) {
-                        bn_connect_->value(true);
-                    }
-                    else {
-                        bn_connect_->value(false);
-                    }
-                }
-                else {
-                    bn_connect_->deactivate();
-                }
-            }
-            else {
-                bn_listening_->value(false);
-                bn_listening_->activate();
-                bn_connect_->deactivate();
-            }
+			if (fldigi_handler_ && fldigi_handler_->has_server()) {
+				bn_listening_->value(true);
+				bn_listening_->activate();
+				if (!app_data_->admin || strlen(ip_passw_->value()) > 0) {
+					bn_connect_->activate();
+					if (fldigi_handler_->has_data()) {
+						bn_connect_->value(true);
+					}
+					else {
+						bn_connect_->value(false);
+					}
+				}
+				else {
+					bn_connect_->deactivate();
+				}
+			}
+			else {
+				bn_listening_->value(false);
+				bn_listening_->activate();
+				bn_connect_->deactivate();
+			}
         } else if (app_data_->name == WSJTX) {
-            if (wsjtx_handler_ && wsjtx_handler_->has_server()) {
-                bn_listening_->value(true);
-                bn_listening_->activate();
-                if (!app_data_->admin || strlen(ip_passw_->value()) > 0) {
-                    bn_connect_->activate();
-                    if (wsjtx_handler_->has_data()) {
-                        bn_connect_->value(true);
-                    }
-                    else {
-                        bn_connect_->value(false);
-                    }
-                }
-                else {
-                    bn_connect_->deactivate();
-                }
-            }
-            else {
-                bn_listening_->value(false);
-                bn_listening_->activate();
-                bn_connect_->deactivate();
-            }
-        } else {
-            bn_listening_->value(false);
-            bn_listening_->activate();
-            bn_connect_->deactivate();
-        }
-    } else {
-        bn_listening_->deactivate();
-        if (!app_data_->admin || strlen(ip_passw_->value()) > 0) {
-            bn_connect_->activate();
-            if (!app_data_->can_disable) {
-                bn_connect_->value(false);
-            }
-        } else {
-            bn_connect_->deactivate();
-        }
-    }
+			if (wsjtx_handler_ && wsjtx_handler_->has_server()) {
+				bn_listening_->value(true);
+				bn_listening_->activate();
+				if (!app_data_->admin || strlen(ip_passw_->value()) > 0) {
+					bn_connect_->activate();
+					if (wsjtx_handler_->has_data()) {
+						bn_connect_->value(true);
+					}
+					else {
+						bn_connect_->value(false);
+					}
+				}
+				else {
+					bn_connect_->deactivate();
+				}
+			}
+			else {
+				bn_listening_->value(false);
+				bn_listening_->activate();
+				bn_connect_->deactivate();
+			}
+		}
+		else {
+			bn_listening_->value(false);
+			bn_listening_->activate();
+			bn_connect_->deactivate();
+		}
+        break;
+    case LISTEN_SNOOPER:
+		if (app_data_->name == MMSSTV && mmsstv_handler_) {
+			bn_listening_->value(true);
+			bn_listening_->activate();
+			if (!app_data_->admin || strlen(ip_passw_->value()) > 0) {
+				bn_connect_->activate();
+				if (mmsstv_handler_->has_data()) {
+					bn_connect_->value(true);
+				}
+				else {
+					bn_connect_->value(false);
+				}
+			}
+			else {
+				bn_connect_->deactivate();
+			}
+		}
+		else {
+			bn_listening_->value(false);
+			bn_listening_->activate();
+			bn_connect_->deactivate();
+		}
+        break;
+	}
     if (app_data_->admin) {
         bn_admin_->value(true);
         ip_passw_->activate();
@@ -386,7 +451,7 @@ void app_grp::enable_widgets() {
 void app_grp::set_data(app_data_t* data) {
     app_data_ = data;
     // Set button call backs to use the new data
-    bn_server_->user_data(&app_data_->server);
+    bn_server_->user_data(&app_data_->listen);
 
     enable_widgets();
 
@@ -411,6 +476,13 @@ void app_grp::cb_bn_listen(Fl_Widget* w, void* v) {
             wsjtx_handler_->run_server();
         }
     }
+	else if (server == MMSSTV) {
+		if (mmsstv_handler_ && mmsstv_handler_->has_data()) {
+			mmsstv_handler_->stop();
+		} else {
+			mmsstv_handler_->start(that->app_data_->snoop_file, that->app_data_->last_snoop);
+		}
+	}
     that->enable_widgets();
 }
 
@@ -445,6 +517,9 @@ void app_grp::cb_bn_connect(Fl_Widget* w, void* v) {
         }
 #endif
     }
+	if (that->app_data_->listen == LISTEN_SNOOPER && that->app_data_->name == MMSSTV) {
+		mmsstv_handler_->start(that->app_data_->snoop_file, that->app_data_->last_snoop);
+	}
     that->enable_widgets();
   
 }
@@ -467,9 +542,13 @@ void app_grp::cb_bn_class(Fl_Widget* w, void* v) {
     that->enable_widgets();
 }
 
-// Listen and server button callback
+// Server button callback
 void app_grp::cb_bn_server(Fl_Widget* w, void* v) {
-    zc::cb_value<Fl_Light_Button, bool>(w, v);
+    zc::cb_value<Fl_Button, bool>(w, v);
+	// Cycle through the listen options
+	int listen = *(int*)v;
+	listen = (listen + 1) % LISTEN_TOP;
+	*(int*)v = listen;
     app_grp* that = zc::ancestor_view<app_grp>(w);
     that->enable_widgets();
 }
@@ -486,6 +565,13 @@ void app_grp::cb_ip_nwport(Fl_Widget* w, void* v) {
     app_grp* that = zc::ancestor_view<app_grp>(w);
     zc::cb_value_int<Fl_Int_Input>(w, &that->app_data_->port_num);
     that->enable_widgets();
+}
+
+// Snooper file
+void app_grp::cb_ip_snoop(Fl_Widget* w, void* v) {
+	app_grp* that = zc::ancestor_view<app_grp>(w);
+	zc::cb_value<Fl_Input, std::string>(w, &that->app_data_->snoop_file);
+	that->enable_widgets();
 }
 
 // Call back for needing admin
@@ -628,7 +714,7 @@ int qso_apps::handle(int event) {
                     app_data_t* data = new app_data_t(a.second);
                     data->name = a.first;
                     apps_data_[a.first] = data;
-                    if (data->server) add_servers(data);
+                    if (data->listen != LISTEN_NONE) add_servers(data);
                 }
             }
         }
@@ -743,6 +829,9 @@ void qso_apps::adjust_size() {
 
 // save settings
 void qso_apps::save_values() {
+	// Get last MMSSTV snooped record
+	apps_data_.at(MMSSTV)->last_snoop = mmsstv_handler_->last_record_num();
+
     json j;
     
     for (auto& it : apps_data_) {
@@ -799,10 +888,10 @@ void qso_apps::cb_bn_new(Fl_Widget* w, void* v) {
     new_data->name = that->new_name_;
     new_data->commands = {};
     new_data->rig_class = AUDIO_CAT;
-    new_data->server = false;
+    new_data->listen = LISTEN_NONE;
     new_data->admin = false;
 
-    if (new_data->server) that->add_servers(new_data);
+    if (new_data->listen != LISTEN_NONE) that->add_servers(new_data);
 
     that->apps_data_[that->new_name_] = new_data;
 
@@ -832,7 +921,9 @@ void qso_apps::add_servers(app_data_t* data) {
     } 
     else if (data->name == WSJTX && wsjtx_handler_) {
     }
-    else if (data->server && initialised_) {
+	else if (data->name == MMSSTV && mmsstv_handler_) {
+    }
+    else if (data->listen != LISTEN_NONE && initialised_) {
         char msg[128];
         snprintf(msg, sizeof(msg), "APPS: Don't know how to serve %s", data->name.c_str());
         status_->misc_status(ST_WARNING, msg);

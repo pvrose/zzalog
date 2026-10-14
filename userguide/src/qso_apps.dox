@@ -31,20 +31,33 @@ CAT for each rig.
 \image html qso_apps_3.png "Detail showing required rig configuration"
 \image latex qso_apps_3.png "Detail showing required rig configuration" width=5cm
 
-ZZALOG can act as a log server for WSJT-X and FlDigi. To enable this feature click the
-button labeled "Server". This button will light to indicate it is enabled. 
+ZZALOG can interact with the application in one of three ways:
+- It has no interaction. ZZALOG simply launches the application.
+- It acts as a log server. In this case ZZALOG establishes a network connection with the other application.
+- It acts as a log snooper. In this case it continually monitors a log file used by the
+other application and copies records as they get written.
+
+For the applications FLDIGI and WSJT-X, ZZALOG acts as a server. To enable this feature click the
+button labeled "None" until it says "Server". 
 Enter the address and port that ZZALOG should listen on for requests. The
 button labeled "Listen" when lit indicates that traffic has been received from the application.
 
 \image html qso_apps_4.png "Detail showing server configuration"
 \image latex qso_apps_4.png "Detail showing server configuration" width=5cm
 
+For the application MMSSTV, ZZALOG acts as a snooper. To enable this feature click the
+button labeled "None" until it says "Snooper". Enter the filename of the application's
+log file that ZZALOG should snoop.
+
+\image html qso_apps_9.png "Detail showing snooper configuration"
+\image latex qso_apps_9.png "Detail showing snooper configuration" width=5cm
+
 The text below the button summarises how the application is configured.
 
 \image html qso_apps_5.png "Detail showing chosen configuration"
 \image latex qso_apps_5.png "Detail showing chosen configuration" width=5cm
 
-\subsection wsjtx Configuring for WSJT-X
+\subsection wsjtx Configuring WSJT-X
 
 ZZALOG listens and responds to requests from WSJT-X. 
 ZZALOG must be configured with the address and port. The address can be an IPv4
@@ -57,7 +70,7 @@ WSJT-X should also be configured to use this port number (see below).
 \image html web_dialog_7.png "Screenshot of WSJT-X"
 \image latex web_dialog_7.png "Screenshot of WSJT-X"
 
-\subsection fldigi Configuring for FlDigi
+\subsection fldigi Configuring FlDigi
 
 ZZALOG can be configured to act as a log server for FlDigi. It emulates the internal
 XMLRPC API for FlLog and should be configured using the port address and number
@@ -67,6 +80,10 @@ Logging should then be switched on in FlDigi (see below).
 
 \image html web_dialog_8.png "Enabling logging in FlDigi"
 \image latex web_dialog_8.png "Enabling logging in FlDigi"
+
+\subsection mmsstv Configuring MMSSTV
+
+No special configuration is required for MMSSTV.
 
 \section apps_script Using scripts
 

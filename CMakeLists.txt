@@ -139,6 +139,7 @@ set(ZZALOG_CPPFILES
   ${ZZALOG_SOURCE_DIR}/src/main.cpp
   ${ZZALOG_SOURCE_DIR}/src/main_window.cpp
   ${ZZALOG_SOURCE_DIR}/src/menu_bar.cpp
+  ${ZZALOG_SOURCE_DIR}/src/mmsstv_handler.cpp
   ${ZZALOG_SOURCE_DIR}/src/page_dialog.cpp
   ${ZZALOG_SOURCE_DIR}/src/png_writer.cpp
   ${ZZALOG_SOURCE_DIR}/src/printer.cpp
@@ -243,6 +244,7 @@ set(ZZALOG_HPPFILES
   ${ZZALOG_SOURCE_DIR}/include/main.h
   ${ZZALOG_SOURCE_DIR}/include/main_window.h
   ${ZZALOG_SOURCE_DIR}/include/menu_bar.h
+  ${ZZALOG_SOURCE_DIR}/include/mmsstv_handler.h
   ${ZZALOG_SOURCE_DIR}/include/objects.h
   ${ZZALOG_SOURCE_DIR}/include/page_dialog.h
   ${ZZALOG_SOURCE_DIR}/include/png_writer.h

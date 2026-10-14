@@ -35,7 +35,16 @@ class zc_filename_input;
 class zc_file_viewer;
 
 const std::string FLDIGI = "FLDigi";
+const std::string MMSSTV = "MMSSTV";
 const std::string WSJTX = "WSJT-X";
+
+//! There are two ways ZZALOG can listen to the app:
+enum app_listen_t {
+	LISTEN_NONE,        //!< ZZALOG does not listen to another app.
+	LISTEN_SERVER,      //!< ZZALOG listens to the other app as a server.
+	LISTEN_SNOOPER,     //!< ZZALOG snoops the other app's log file and updates its own log file.
+	LISTEN_TOP          //!< Top value for iteration over the enum values.
+};
 
 //! How the app needs to access the rig.
 enum app_rig_class_t {
@@ -47,13 +56,15 @@ enum app_rig_class_t {
 //! The app related data
 struct app_data_t {
     std::string name;                            //!< The name of the app.
-    bool server{ false };                        //!< ZZALOG acts as a log server.
+    app_listen_t listen{ LISTEN_NONE };          //!< How ZZALOG interacts with the app.
     app_rig_class_t rig_class{ NO_CONNECTION };  //!< How the app requires rig access.
     std::map<std::string, std::string> commands; //!< The commands for each rig.
     bool admin{ false };                         //!< The command needs to be run in administrator mode.
     bool can_disable{ false };                   //!< The app can be disconnected (Rig = NONE).
-    std::string address{ "" };                   //!< Network address.
-    int port_num{ 0 };                           //!< Network port number.
+    std::string address{ "" };                   //!< Network address (listen == LISTEN_SERVER).
+	int port_num{ 0 };                           //!< Network port number (listen == LISTEN_SERVER).
+	std::string snoop_file{ "" };                //!< The snooped log file (listen == LISTEN_SNOOPER).
+	int last_snoop{ 0 };                         //!< The last record number snooped (listen == LISTEN_SNOOPER).
 };
 
 //! \brief The class displays and controls the status of a single modem application using
@@ -90,7 +101,7 @@ class app_grp :
         static void cb_ip_app(Fl_Widget* w, void* v);
         //! Callback from radio buttons changing rig_class.
         static void cb_bn_class(Fl_Widget* w, void* v);
-        //! Callback from "Server" button: toggles whether ZZALOG acts as server.
+        //! Callback from "Server" button: toggles whether ZZALOG acts as server, snooper or none.
         static void cb_bn_server(Fl_Widget* w, void* v);
         //! Callback frim "Adm" button to toggle administartor mode.
         static void cb_bn_admin(Fl_Widget* w, void* v);
@@ -108,6 +119,8 @@ class app_grp :
         static void cb_ip_nwaddr(Fl_Widget* w, void* v);
         //! Callback from input for network port.
         static void cb_ip_nwport(Fl_Widget* w, void* v);
+		//! Callback from input for snooped log file.
+		static void cb_ip_snoop(Fl_Widget* w, void* v);
         
     protected:
 
@@ -119,7 +132,7 @@ class app_grp :
         zc_filename_input* ip_app_name_;        //!< Input for app command name.
         Fl_Light_Button* bn_listening_;      //!< Light button indicates listening.
         Fl_Light_Button* bn_connect_;        //!< Light button to launch command.
-        Fl_Light_Button* bn_server_;         //!< Light buuton indicates server mode.
+        Fl_Button* bn_server_;               //!< Button indicates server mode.
         Fl_Group* radio_class_;              //!< Group radio buttons bn_common_, bn_rig_nocat_ bn_rig_cat_.
         Fl_Radio_Light_Button* bn_common_;   //!< Radio button - app configuration common.
         Fl_Radio_Light_Button* bn_rig_nocat_;//!< Radio button - app configuration affected by audio.
@@ -134,6 +147,7 @@ class app_grp :
         Fl_Button* bn_show_script2_;         //!< Button to open editor for undo command.
         Fl_Input* ip_nw_address_;            //!< Input for network address in server mode.
         Fl_Int_Input* ip_nw_port_;           //!< Input for network port in server mode.
+		zc_filename_input* ip_snoop_file_;            //!< Input for snooped log file in snooper mode.
 
         //! Configuration data for this app.
         app_data_t* app_data_;

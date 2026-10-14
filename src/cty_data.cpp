@@ -320,6 +320,16 @@ int cty_data::dxcc_id(const std::string& callsign, bool allow_exception) {
 	}
 }
 
+// Get the DXCC_ID for the entity with nickname
+int cty_data::dxcc_id_from_nickname(const std::string& nickname) {
+	if (!data_) return -1;
+	for (auto& it : data_->entities) {
+		cty_entity* entity = it.second;
+		if (entity->nickname_ == nickname) return entity->dxcc_id_;
+	}
+	return -1;
+}
+
 // Get geography
 std::string cty_data::geography(const record* qso) {
 	std::string result;

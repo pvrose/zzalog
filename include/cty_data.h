@@ -132,6 +132,8 @@ public:
 	std::string iso_cc(const std::string& callsign);  //!< Returns country code for \p callsign
 	//! Get DXCC ID for \p callsign. If \p allow_exception: look up exceptions.
 	int dxcc_id(const std::string& callsign, bool allow_exception);
+	//! Get the DXCC_ID for the entity with \p nickname.
+	int dxcc_id_from_nickname(const std::string& nickname);
 
 	//! Get the flag for a specific entity. Returns null string if not found.
 	std::string flag_data(int dxcc_id);

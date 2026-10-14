@@ -40,6 +40,7 @@
 #include "lotw_handler.h"
 #include "main_window.h"
 #include "menu_bar.h"
+#include "mmsstv_handler.h"
 #include "qrz_handler.h"
 #include "qsl_dataset.h"
 #include "qso_manager.h"
@@ -1068,6 +1069,8 @@ void add_qsl_handlers() {
 		}
 		// FLLOG emulator
 		if (fldigi_handler_ == nullptr) fldigi_handler_ = new fldigi_handler;
+		// MMSSTV handler
+		if (mmsstv_handler_ == nullptr) mmsstv_handler_ = new mmsstv_handler;
 		// Weather handler
 		if (wx_handler_ == nullptr) wx_handler_ = new wx_handler;
 	}

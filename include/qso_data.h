@@ -88,6 +88,7 @@ public:
 		SWITCHING,       //!< Switching state - used to ignore stuff
 		QSO_WSJTX,       //!< Recording QSOs from WSJT-X - allows editing of recveived qso
 		QSO_FLDIGI,      //!< Recording QSos from FlDIGI
+		QSO_MMSSTV,      //!< Recording QSO from MMSSTV
 		MANUAL_ENTRY,    //!< Allow the definition of a record to query
 		TEST_PENDING,    //!< A contest QSO is pending
 		TEST_ACTIVE,     //!< A contest QSO is being logged
@@ -111,6 +112,7 @@ public:
 		QSO_AS_WAS,         //!< Used with action_activate() to maintain the existing one
 		QSO_COPY_WSJTX,     //!< Copy QSO to modem
 		QSO_COPY_FLDIGI,    //!< Copy QSO from Fldigi
+		QSO_COPY_MMSSTV,    //!< Copy QSO from MMSSTV
 	};
 
 public:

@@ -435,6 +435,18 @@ void qso_data::enable_widgets() {
 			g_qy_entry_->hide();
 			g_misc_->activate();
 			g_misc_->qso(current_qso(), current_number());
+			break;
+		case QSO_MMSSTV:
+			// Display real-time QSO received from MMSSTV
+			snprintf(l, sizeof(l), "QSO Entry - %s - record received from MMSSTV", call.c_str());
+			g_entry_->copy_label(l);
+			if (visible_r()) g_entry_->show();
+			g_entry_->enable_widgets();
+			g_net_entry_->hide();
+			g_query_->hide();
+			g_qy_entry_->hide();
+			g_misc_->activate();
+			g_misc_->qso(current_qso(), current_number());
 			g_misc_->enable_widgets();
 			break;
 		case MANUAL_ENTRY:
@@ -659,6 +671,7 @@ record* qso_data::start_modem_qso(std::string call, qso_init_t source) {
 
 	case QSO_WSJTX:
 	case QSO_FLDIGI:
+	case QSO_MMSSTV:
 	// We are altready displaying a modem QSO
 		cancelled = true;
 		book_->enable_save(false, "Prevent save ehen cancelling to create a new QSO");
@@ -684,7 +697,8 @@ record* qso_data::start_modem_qso(std::string call, qso_init_t source) {
 void qso_data::update_modem_qso(bool log_it) {
 	switch (logging_state_) {
 	case QSO_WSJTX:
-	case QSO_FLDIGI: {
+	case QSO_FLDIGI:
+	case QSO_MMSSTV: {
 		if (log_it) {
 			action_log_modem();
 			action_deactivate();
@@ -823,6 +837,7 @@ void qso_data::action_new_qso(record* qso, qso_init_t mode) {
 		break;
 	case QSO_COPY_WSJTX:
 	case QSO_COPY_FLDIGI:
+	case QSO_COPY_MMSSTV:
 		// Set QSO and Update the display
 		qe->qso(-1);
 		qe->copy_default_to_qso();
@@ -877,6 +892,9 @@ void qso_data::action_start(qso_init_t mode) {
 	case QSO_COPY_FLDIGI:
 		logging_state_ = QSO_FLDIGI;
 		break;
+	case QSO_COPY_MMSSTV:
+		logging_state_ = QSO_MMSSTV;
+		break;
 	default:
 		if (in_contest()) logging_state_ = TEST_ACTIVE;
 		else logging_state_ = QSO_STARTED;
@@ -895,6 +913,7 @@ bool qso_data::action_save(bool continuing) {
 	case QSO_STARTED:
 	case QSO_WSJTX:
 	case QSO_FLDIGI:
+	case QSO_MMSSTV:
 	case QSO_ENTER:
 		item_number = book_->item_number(g_entry_->qso_number());
 		qso = g_entry_->qso();
@@ -1002,6 +1021,7 @@ bool qso_data::action_save(bool continuing) {
 		break;
 	case QSO_WSJTX:
 	case QSO_FLDIGI:
+	case QSO_MMSSTV:
 		logging_state_ = SWITCHING;
 		book_->selection(item_number, HT_INSERTED);
 		action_deactivate();;
@@ -1045,6 +1065,7 @@ void qso_data::action_cancel() {
 		break;
 	case QSO_WSJTX:
 	case QSO_FLDIGI:
+	case QSO_MMSSTV:
 		action_deactivate();;
 		break;
 	case NET_STARTED:
@@ -1094,6 +1115,7 @@ void qso_data::action_deactivate() {
 	case QSO_VIEW:
 	case QSO_WSJTX:
 	case QSO_FLDIGI:
+	case QSO_MMSSTV:
 	case TEST_PENDING:
 	case TEST_ACTIVE:
 		g_entry_->delete_qso();
@@ -1660,7 +1682,8 @@ void qso_data::action_cancel_modem() {
 			book_->enable_save(true, "Cancel real-time modem QSO");
 			break;
 		}
-		case QSO_FLDIGI: {
+		case QSO_FLDIGI:
+		case QSO_MMSSTV: {
 			action_deactivate();
 			g_entry_->delete_qso();
 			book_->delete_record(true);
@@ -1957,6 +1980,7 @@ record* qso_data::current_qso() {
 	case QSO_VIEW:
 	case QSO_WSJTX:
 	case QSO_FLDIGI:
+	case QSO_MMSSTV:
 	case TEST_ACTIVE:
 	case TEST_PENDING:
 		return g_entry_->qso();
@@ -1990,6 +2014,7 @@ record* qso_data::query_qso() {
 	case QSO_VIEW:
 	case QSO_WSJTX:
 	case QSO_FLDIGI:
+	case QSO_MMSSTV:
 	case TEST_ACTIVE:
 	case TEST_PENDING:
 	case NET_STARTED:
@@ -2020,6 +2045,7 @@ qso_num_t qso_data::current_number() {
 	case QSO_VIEW:
 	case QSO_WSJTX:
 	case QSO_FLDIGI:
+	case QSO_MMSSTV:
 	case TEST_PENDING:
 	case TEST_ACTIVE:
 		return g_entry_->qso_number();
