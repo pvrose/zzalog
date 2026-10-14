@@ -66,7 +66,7 @@ enum band_t : uint8_t {
 	B_SAT,
 };
 
-enum mode_t : uint8_t {
+enum mmode_t : uint8_t {
 	M_NULL,
 	M_CW,
 	M_SSB,
@@ -322,7 +322,7 @@ std::string mmsstv_handler::convert_freq(band_t band, uint16_t freq_offset)
 }
 
 // Conversion map for MMSSTV modes to ADIF modes
-std::map<mode_t, std::string> mode_map = {
+std::map<mmode_t, std::string> mode_map = {
 	{M_CW, "CW"},
 	{M_SSB, "SSB"},
 	{M_AM, "AM"},
@@ -345,7 +345,7 @@ std::map<mode_t, std::string> mode_map = {
 
 // Convert a MMSSTV mode to an ADIF mode.
 // \param mode The MMSSTV mode to be converted.
-std::string mmsstv_handler::convert_mode(mode_t mode)
+std::string mmsstv_handler::convert_mode(mmode_t mode)
 {
 	if (mode_map.find(mode) != mode_map.end()) {
 		return mode_map[mode];

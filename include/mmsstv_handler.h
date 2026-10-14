@@ -51,7 +51,7 @@ constexpr int MLPOWER = 4;     //!< Length of power field
 constexpr int MLOPT = 8;       //!< Length of options field
 
 enum band_t : uint8_t;
-enum mode_t : uint8_t;
+enum mmode_t : uint8_t;
 
 constexpr int MML_RECORD_SIZE = 256; //!< Size of the record in bytes
 //! Record structure
@@ -65,7 +65,7 @@ typedef struct {
 	char rst_recv[MLRST + 1];    //!< RST received
 	band_t band;             //!< Band (enum band_t)
 	char freq_offset[2];     //!< Frequency offset (in kHz from band edge)
-	mode_t mode;             //!< Mode (enum mode_t)
+	mmode_t mode;             //!< Mode (enum mmode_t)
 	char power[MLPOWER + 1];      //!< Power
 	char name[MLNAME + 1];      //!< Name
 	char qth[MLQTH + 1];        //!< QTH
@@ -134,7 +134,7 @@ private:
 	//! Convert a MMSSTV mode to an ADIF mode.
 	//! \param mode The MMSSTV mode to be converted.
 	//! \return The ADIF mode corresponding to the MMSSTV mode.
-	std::string convert_mode(mode_t mode);
+	std::string convert_mode(mmode_t mode);
 	//! Convert MMSSTV date/time (in JST: UTC+9) to ADIF date/time (in UTC).
 	//! \param year The year to be converted.
 	//! \param day_of_year The day of the year to be converted.

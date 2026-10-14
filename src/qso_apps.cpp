@@ -97,9 +97,11 @@ void from_json(const json& j, app_data_t& d) {
     j.at("Connection").get_to(d.rig_class);
     j.at("Is server").get_to(temp_b);
     d.listen = temp_b ? LISTEN_SERVER : LISTEN_NONE;
-	j.at("Is snooper").get_to(temp_b);
-    if (temp_b) {
-        d.listen = LISTEN_SNOOPER;
+    if (j.find("Is snooper") != j.end()) {
+        j.at("Is snooper").get_to(temp_b);
+        if (temp_b) {
+            d.listen = LISTEN_SNOOPER;
+        }
     }
     j.at("Needs administrator").get_to(d.admin);
     j.at("Can disable").get_to(d.can_disable);
