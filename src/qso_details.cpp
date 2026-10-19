@@ -130,7 +130,7 @@ void qso_details::create_form() {
 
 	curr_y += table_qsos_->h();
 
-	bn_show_in_extracted_ = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "View log");
+	bn_show_in_extracted_ = new Fl_Button(curr_x, curr_y, WBUTTON, HBUTTON, "Extract");
 	bn_show_in_extracted_->callback(cb_show_in_extracted, this);
 	bn_show_in_extracted_->align(FL_ALIGN_INSIDE);
 	bn_show_in_extracted_->tooltip("Show the previous QSOs in the Extracted Data tab");
