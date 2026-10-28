@@ -389,6 +389,8 @@ add_dependencies(docs
   zzacommon_api_html
 )
 
+add_dependencies(${TARGET} docs)
+
 ## Set header include directoies.
 target_include_directories(${TARGET} PRIVATE 
   ${ZZALOG_SOURCE_DIR}/include 

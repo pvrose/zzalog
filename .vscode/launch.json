@@ -1,6 +1,8 @@
 {
     "version": "0.2.0",
     "configurations": [
+        
+        
         {
             "name": "Debug ZZALOG",
             "type": "cppvsdbg",
@@ -22,6 +24,19 @@
             "cwd": "${workspaceFolder}\\out\\build\\x64-release",
             "console": "integratedTerminal",
             "stopAtEntry": false
+        },
+        {
+        "name": "ZZALOG (Linux)",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${command:cmake.launchTargetPath}",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${command:cmake.launchTargetDirectory}",
+        "environment": [],
+        "externalConsole": false,
+        "MIMode": "gdb",
+        "preLaunchTask": "CMake: build"
         }
     ]
 }

@@ -47,6 +47,18 @@
       },
       "group": "build",
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "CMake: build",
+      "type": "cmake",
+      "command": "build",
+      "targets": [
+        "${command:cmake.launchTargetName}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }
