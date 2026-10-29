@@ -43,8 +43,8 @@
 #include <algorithm>
 #include <cstdio>
 #include <ctime>
+#include <filesystem>
 #include <string>
-#include <boost/filesystem.hpp>
 
 // FLTK classes
 #include <FL/Enumerations.H>
@@ -1180,9 +1180,8 @@ bool qsl_editor::relative_filename(std::string& filename) {
 		behav_settings.set("QSL Cards", path);
 		delete chooser;
 	}
-	boost::filesystem::path qsl_path(path);
-	boost::filesystem::path file_path(filename);
-	filename = boost::filesystem::relative(filename, path).string();
+	std::filesystem::path qsl_path(path);
+	std::filesystem::path file_path(filename);
+	filename = std::filesystem::relative(file_path, qsl_path).string();
 	return true;
 }
-

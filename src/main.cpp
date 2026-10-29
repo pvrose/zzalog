@@ -78,9 +78,11 @@
 #include <cstring>
 #include <ctime>
 #include <fstream>
+#include <filesystem>
 #include <list>
 #include <map>
 #include <string>
+#include <system_error>
 
 // FLTK header files
 #include <FL/Enumerations.H>
@@ -99,7 +101,6 @@
 #endif
 #include <FL/Fl_Window.H>
 
-#include <boost/filesystem.hpp>
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/dll/runtime_symbol_info.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
@@ -1537,29 +1538,29 @@ void backup_file() {
 	// Renaming backups N-1 => N
 	int id = num_backups;
 	std::string bu_dest = backup + "." + std::to_string(id--);
-	boost::system::error_code ec;
+	std::error_code ec;
 	while (id > 1) {
-		boost::filesystem::path p_dest(bu_dest);
+		std::filesystem::path p_dest(bu_dest);
 		std::string bu_src = backup + "." + std::to_string(id--);
-		boost::filesystem::path p_src(bu_src);
-		boost::filesystem::rename(p_src, p_dest, ec);
+		std::filesystem::path p_src(bu_src);
+		std::filesystem::rename(p_src, p_dest, ec);
 		if (ec) {
-			status_->misc_status(ST_WARNING, "BACKUP: Error renaming %s - %s", bu_src.c_str(), ec.what().c_str());
+			status_->misc_status(ST_WARNING, "BACKUP: Error renaming %s - %s", bu_src.c_str(), ec.message().c_str());
 		}
 		bu_dest = bu_src;
 	}
 	// Rename backup to backup.1
-	boost::filesystem::path p_dest(bu_dest);
-	boost::filesystem::path p_src(backup);
-	boost::filesystem::rename(p_src, p_dest, ec);
+	std::filesystem::path p_dest(bu_dest);
+	std::filesystem::path p_src(backup);
+	std::filesystem::rename(p_src, p_dest, ec);
 	if (ec) {
-		status_->misc_status(ST_WARNING, "BACKUP: Error renaming %s - %s", backup.c_str(), ec.what().c_str());
+		status_->misc_status(ST_WARNING, "BACKUP: Error renaming %s - %s", backup.c_str(), ec.message().c_str());
 	}
 	// Copy source to backup
-	boost::filesystem::path p_origin(source);
-	boost::filesystem::copy(p_origin, p_src, ec);
+	std::filesystem::path p_origin(source);
+	std::filesystem::copy(p_origin, p_src, ec);
 	if (ec) {
-		status_->misc_status(ST_WARNING, "BACKUP: Error copying - %s", source.c_str(), ec.what().c_str());
+		status_->misc_status(ST_WARNING, "BACKUP: Error copying - %s", source.c_str(), ec.message().c_str());
 	}
 	else {
 		status_->misc_status(ST_OK, "BACKUP: %s Backed up %s", source.c_str(), backup.c_str());

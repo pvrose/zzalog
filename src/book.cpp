@@ -48,10 +48,12 @@
 #include <cstdio>
 #include <ctime>
 #include <fstream>
+#include <filesystem>
 #include <regex>
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <system_error>
 
 // FLTK header files
 #include <FL/Enumerations.H>
@@ -66,7 +68,6 @@
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
 
-#include <boost/filesystem.hpp>
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/dll/runtime_symbol_info.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
@@ -1796,17 +1797,17 @@ bool book::flush_data() {
 
 // Copy target to mirror
 bool book::copy_to_mirror() {
-	boost::system::error_code ec;
-	boost::filesystem::path p_target(target_filename_);
-	boost::filesystem::path p_mirror(mirror_filename_);
-	boost::filesystem::copy(p_target, p_mirror,
-		boost::filesystem::copy_options::overwrite_existing, ec);
+	std::error_code ec;
+	std::filesystem::path p_target(target_filename_);
+	std::filesystem::path p_mirror(mirror_filename_);
+	std::filesystem::copy(p_target, p_mirror,
+		std::filesystem::copy_options::overwrite_existing, ec);
 	if (ec) {
 		status_->misc_status(
 			ST_WARNING,
 			"LOG: Error copying mirror %s - %s",
 			mirror_filename_.c_str(),
-			ec.what().c_str());
+			ec.message().c_str());
 		return false;
 	}
 	else {
@@ -1821,17 +1822,17 @@ bool book::copy_to_mirror() {
 }
 
 bool book::copy_from_mirror() {
-	boost::system::error_code ec;
-	boost::filesystem::path p_target(target_filename_);
-	boost::filesystem::path p_mirror(mirror_filename_);
-	boost::filesystem::copy(p_mirror, p_target,
-		boost::filesystem::copy_options::overwrite_existing, ec);
+	std::error_code ec;
+	std::filesystem::path p_target(target_filename_);
+	std::filesystem::path p_mirror(mirror_filename_);
+	std::filesystem::copy(p_mirror, p_target,
+		std::filesystem::copy_options::overwrite_existing, ec);
 	if (ec) {
 		status_->misc_status(
 			ST_WARNING,
 			"LOG: Error restoring source %s - %s",
 			target_filename_.c_str(),
-			ec.what().c_str());
+			ec.message().c_str());
 		return false;
 	}
 	else {

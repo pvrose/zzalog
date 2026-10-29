@@ -43,6 +43,7 @@
 #include <vector>
 
 #include <FL/Enumerations.H>
+#include <FL/Fl.H>
 #include <FL/fl_ask.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Native_File_Chooser.H>
@@ -398,8 +399,29 @@ bool wsjtx_handler::has_server() {
 	return server_ != nullptr && server_->has_server();
 }
 
+// Route socket server messages to the status display and packets to the FLTK main thread
+static void socket_log(zc_socket_server::log_level_t level, const char* message) {
+	switch (level) {
+	case zc_socket_server::log_level_t::Error:
+		status_->misc_status(ST_ERROR, "%s", message);
+		break;
+	case zc_socket_server::log_level_t::Ok:
+		status_->misc_status(ST_OK, "%s", message);
+		break;
+	default:
+		status_->misc_status(ST_LOG, "%s", message);
+		break;
+	}
+}
+
+static void socket_dispatch(void (*fn)(void*), void* data) {
+	Fl::awake(fn, data);
+}
+
 // Start the server
 void wsjtx_handler::run_server() {
+	zc_socket_server::set_logger(socket_log);
+	zc_socket_server::set_dispatcher(socket_dispatch);
 	if (!server_) {
 		std::string address = qso_manager_->apps()->network_address(WSJTX);
 		int udp_port = qso_manager_->apps()->network_port(WSJTX);
