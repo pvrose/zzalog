@@ -62,10 +62,9 @@ cd vcpkg
 .\bootstrap-vcpkg.bat 
 .\vcpkg.exe integrate install 
 \endcode
-Use VCPKG to install libcurl and boost.
+Use VCPKG to install libcurl.
 \code 
 .\vcpkg.exe install curl 
-.\vcpkg.exe install boost
 \endcode 
 This will install the libraries in "C:\Users\<user>\source\repos\vcpkg\installed\x64-windows".
 \note Remember the directory used to install the libraries as this will be required later.
@@ -134,8 +133,6 @@ Nlohmann/json can either be compiled from source cloned from github (https://git
 It is also available in most distros.
 
 Libcurl is available in most distros.
-
-Boost is available in most distros.
 
 Nlohmann/json is available in most distros.
 
