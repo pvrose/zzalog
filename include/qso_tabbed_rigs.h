@@ -74,6 +74,9 @@ protected:
 	//! Callback when closing a tab - v is not used.
 	static void cb_close_tab(Fl_Widget* w, void* v);
 
+	//! Report whether any rig on the start list is not currently active.
+	void any_rig_inactive() const;
+
 	//! Map the labels to the widgets
 	std::map<std::string, Fl_Widget*> label_map_;
 

@@ -48,6 +48,7 @@ qso_tabbed_rigs::qso_tabbed_rigs(int X, int Y, int W, int H, const char* L) :
 	load_values();
 	create_form(X, Y);
 	enable_widgets();
+	any_rig_inactive();
 }
 
 // Destructor
@@ -267,3 +268,11 @@ bool qso_tabbed_rigs::change_rig(int index) {
 	return true;
 }
 
+// Report whether any rig on the start list is not currently active.
+void qso_tabbed_rigs::any_rig_inactive() const {
+	for (const auto& rig_name : START_RIGS) {
+		if (label_map_.find(rig_name) == label_map_.end()) {
+			status_->misc_status(ST_ERROR, "RIG: Rig %s was asked for, but is not active", rig_name.c_str());
+		}
+	}
+}
