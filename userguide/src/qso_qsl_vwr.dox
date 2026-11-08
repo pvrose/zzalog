@@ -15,6 +15,7 @@ buttons select:
 - <B>eMail(R)</B> the image received in an e-mail QSL.
 - <B>Label</B> the image to be printed on a label to be applied to an outgoing physical card.
 - <B>eMail(S)</B> the image that could be sent as an e-mail QSL.
+- <B>SSTV</B> an image received on-air during an SSTV QSO.
 
 In the image below the "Label" button has been clicked and that image is now displayed.
 This image will be used when printing labels to apply to physical QSL cards.

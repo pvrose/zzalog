@@ -19,7 +19,7 @@
 
 #include "book.h"
 #include "cty_data.h"
-#include <qsl_data.h>
+#include "qsl_data.h"
 #include "qsl_dataset.h"
 #include "qsl_display.h"
 #include "qsl_widget.h"
@@ -38,6 +38,7 @@
 
 #include <algorithm>
 #include <cstdio>
+#include <filesystem>
 #include <string>
 
 #include <FL/Enumerations.H>
@@ -167,7 +168,7 @@ void qso_qsl_vwr::create_form() {
 	curr_x = grp_viewer_->x() + GAP / 2;
 
 	// Group the following radio buttons
-	grp_card_type_ = new Fl_Group(curr_x, curr_y, w(), HBUTTON * 2);
+	grp_card_type_ = new Fl_Group(curr_x, curr_y, w(), HBUTTON * 3);
 
 	// Radio - Display eQSL.cc card image
 	radio_eqsl_ = new Fl_Radio_Light_Button(curr_x, curr_y, WBUTTON, HBUTTON, "eQSL");
@@ -218,6 +219,16 @@ void qso_qsl_vwr::create_form() {
 	radio_emails_->callback(cb_rad_card, (void*)QI_EMAILS);
 	radio_emails_->when(FL_WHEN_RELEASE_ALWAYS);
 	radio_emails_->tooltip("Select image to be sent by e-mail");
+	curr_y += HBUTTON;
+	curr_x = grp_card_type_->x();
+	// Radio - display SSTV image
+	radio_sstv_ = new Fl_Radio_Light_Button(curr_x, curr_y, WBUTTON, HBUTTON, "SSTV");
+	radio_sstv_->align(FL_ALIGN_INSIDE | FL_ALIGN_LEFT);
+	radio_sstv_->selection_color(FL_FOREGROUND_COLOR);
+	radio_sstv_->callback(cb_rad_card, (void*)QI_SSTV);
+	radio_sstv_->when(FL_WHEN_RELEASE_ALWAYS);
+	radio_sstv_->tooltip("Select SSTV image");
+	curr_x += WBUTTON;
 	curr_y += HBUTTON;
 
 	grp_card_type_->end();
@@ -762,6 +773,15 @@ void qso_qsl_vwr::set_image() {
 							call.c_str(),
 							current_qso_->item("QSO_DATE").c_str());
 						break;
+					case QI_SSTV:
+						// SSTV image
+						// File name e.g.= <root>\sstv\<call>__<QSO date>.bmp
+						sprintf(filename, "%s/%s/sstv/%s__%s",
+							qsl_directory_.c_str(),
+							station.c_str(),
+							call.c_str(),
+							current_qso_->item("QSO_DATE").c_str());
+						break;
 					default:
 						break;
 					}
@@ -902,6 +922,7 @@ void qso_qsl_vwr::set_image_buttons() {
 		radio_emailr_->value(false);
 		radio_emails_->value(false);
 		radio_label_->value(false);
+		radio_sstv_->value(false);
 		break;
 	case QI_CARD_FRONT:
 		// Display the front of a scanned-in paper card
@@ -911,6 +932,7 @@ void qso_qsl_vwr::set_image_buttons() {
 		radio_emailr_->value(false);
 		radio_label_->value(false);
 		radio_emails_->value(false);
+		radio_sstv_->value(false);
 		break;
 	case QI_CARD_BACK:
 		// Display the back of a scanned-in paper card
@@ -920,6 +942,7 @@ void qso_qsl_vwr::set_image_buttons() {
 		radio_emailr_->value(false);
 		radio_label_->value(false);
 		radio_emails_->value(false);
+		radio_sstv_->value(false);
 		break;
 	case QI_EMAILR:
 		// Display the back of a scanned-in paper card
@@ -929,6 +952,7 @@ void qso_qsl_vwr::set_image_buttons() {
 		radio_emailr_->value(true);
 		radio_label_->value(false);
 		radio_emails_->value(false);
+		radio_sstv_->value(false);
 		break;
 	case QI_LABEL:
 		// Display my QSL label as generated image
@@ -938,6 +962,7 @@ void qso_qsl_vwr::set_image_buttons() {
 		radio_emailr_->value(false);
 		radio_label_->value(true);
 		radio_emails_->value(false);
+		radio_sstv_->value(false);
 		break;
 	case QI_EMAILS:
 		// Display my QSL label as generated image
@@ -947,6 +972,16 @@ void qso_qsl_vwr::set_image_buttons() {
 		radio_emailr_->value(false);
 		radio_label_->value(false);
 		radio_emails_->value(true);
+		radio_sstv_->value(false);
+		break;
+	case QI_SSTV:
+		radio_eqsl_->value(false);
+		radio_card_front_->value(false);
+		radio_card_back_->value(false);
+		radio_emailr_->value(false);
+		radio_label_->value(false);
+		radio_emails_->value(false);
+		radio_sstv_->value(true);
 		break;
 	default:
 		radio_eqsl_->value(false);
@@ -955,6 +990,7 @@ void qso_qsl_vwr::set_image_buttons() {
 		radio_emailr_->value(false);
 		radio_label_->value(false);
 		radio_emails_->value(false);
+		radio_sstv_->value(false);
 		break;
 	}
 	// Deactivate radio buttons according to whether QSLs of that type have been received
@@ -979,6 +1015,11 @@ void qso_qsl_vwr::set_image_buttons() {
 		radio_card_front_->deactivate();
 		radio_card_back_->deactivate();
 		radio_emailr_->deactivate();
+	}
+	if (current_qso_ && current_qso_->item("MODE") == "SSTV") {
+		radio_sstv_->activate();
+	} else {
+		radio_sstv_->deactivate();
 	}
 }
 
@@ -1097,4 +1138,3 @@ void qso_qsl_vwr::update_full_view() {
 	qsl_full_->size(rw, rh);
 	win_full_view_->redraw();
 }
-

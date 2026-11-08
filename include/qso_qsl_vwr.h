@@ -51,6 +51,7 @@ class qso_qsl_vwr :
 		QI_EMAILR,         	//!< received e-mailed image
 		QI_LABEL,           //!< Image for printing label for cards
 		QI_EMAILS,          //!< Image for outgoing e-mail
+		QI_SSTV,            //!< SSTV image
 
 	};
 
@@ -126,7 +127,6 @@ protected:
 	std::string full_name_;
 	//! Flag is true if selected QSO is true.
 	bool qso_changed_;
-
 	//! Tabs: "Display", "Status", and "Edit"
 	zc_tabs_nonav* tabs_;
 
@@ -142,6 +142,7 @@ protected:
 	Fl_Radio_Light_Button* radio_emailr_;     //!< Light: view e_Mail received
 	Fl_Radio_Light_Button* radio_label_;      //!< Light: view label to be printed
 	Fl_Radio_Light_Button* radio_emails_;     //!< Light: view e-Mail to be sent.
+	Fl_Radio_Light_Button* radio_sstv_;       //!< Light: view SSTV image
 	// "Status" tab.
 	Fl_Group* grp_status_;                    //!< QSL status pane.
 	Fl_Check_Button* bn_eqsl_rstatus_;        //!< Check: eQSL received.

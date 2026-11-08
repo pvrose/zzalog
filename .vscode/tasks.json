@@ -4,21 +4,13 @@
     {
       "label": "Build",
       "type": "shell",
-      "command": "cmd.exe",
-      "args": [
-        "/d",
-        "/c",
-        "call",
-        "\"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\Tools\\VsDevCmd.bat\"",
-        "-arch=amd64",
-        "-host_arch=amd64",
-        "&&",
-        "cmake",
-        "--build",
-        "\"${workspaceFolder}\\out\\build\\x64-debug\""
-      ],
+      "command": "call \"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\Tools\\VsDevCmd.bat\" -arch=amd64 -host_arch=amd64 && cmake --build \"${workspaceFolder}\\out\\build\\x64-debug\"",
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "C:\\Windows\\System32\\cmd.exe",
+          "args": ["/d", "/c"]
+        }
       },
       "group": {
         "kind": "build",
@@ -29,21 +21,27 @@
     {
       "label": "Build Release",
       "type": "shell",
-      "command": "cmd.exe",
-      "args": [
-        "/d",
-        "/c",
-        "call",
-        "\"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\Tools\\VsDevCmd.bat\"",
-        "-arch=amd64",
-        "-host_arch=amd64",
-        "&&",
-        "cmake",
-        "--build",
-        "\"${workspaceFolder}\\out\\build\\x64-release\""
-      ],
+      "command": "call \"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\Tools\\VsDevCmd.bat\" -arch=amd64 -host_arch=amd64 && cmake --build \"${workspaceFolder}\\out\\build\\x64-release\"",
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "C:\\Windows\\System32\\cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+   {
+      "label": "Build Debug",
+      "type": "shell",
+      "command": "call \"C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\Tools\\VsDevCmd.bat\" -arch=amd64 -host_arch=amd64 && cmake --build \"${workspaceFolder}\\out\\build\\x64-debug\"",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "C:\\Windows\\System32\\cmd.exe",
+          "args": ["/d", "/c"]
+        }
       },
       "group": "build",
       "problemMatcher": "$msCompile"

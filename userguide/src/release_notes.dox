@@ -8,6 +8,7 @@
     - Keyboard shortcuts.
       - CTRL-SHIFT-- (CTRL-_) iconifies the current window and switches to the next window.
     - Adding support for MMSSTV. ZZALOG acts as a log snooper.
+    - Add facility to display a received image.
     - Add check that a rig specified using "-s [rig]" is an active rig.
   - Cosmetic and non-functional changes.
     - Display flags in Previous panel and as a bleached background in QSL viewer when no QSL image is available.

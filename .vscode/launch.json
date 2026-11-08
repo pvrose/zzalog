@@ -9,7 +9,7 @@
             "request": "launch",
             "preLaunchTask": "Build Debug",
             "program": "${workspaceFolder}\\out\\build\\x64-debug\\zzalog.exe",
-            "args": [],
+            "args": ["-d", "p"],
             "cwd": "${workspaceFolder}\\out\\build\\x64-debug",
             "console": "integratedTerminal",
             "stopAtEntry": false
