@@ -250,6 +250,7 @@ bool mmsstv_handler::read_record(const std::string& data, record* rec)
 	uint16_t freq_offset = (static_cast<uint8_t>(mmlog_record->freq_offset[1]) << 8) | static_cast<uint8_t>(mmlog_record->freq_offset[0]);
 	rec->item("FREQ", convert_freq(mmlog_record->band, freq_offset));
 	rec->item("MODE", convert_mode(mmlog_record->mode));
+	rec->item("SUBMODE", std::string(""));
 	rec->item("TX_PWR", std::string(mmlog_record->power));
 	rec->item("NAME", std::string(mmlog_record->name));
 	rec->item("QTH", std::string(mmlog_record->qth));
