@@ -622,6 +622,7 @@ void qso_qsl_vwr::enable_widgets() {
             }
         }
     }
+	validate_selected_image();
 	set_image();
 	set_qsl_status();
 	set_declines();
@@ -1027,6 +1028,41 @@ void qso_qsl_vwr::set_image_buttons() {
 // Set the selected image to that provided
 void qso_qsl_vwr::set_selected_image(image_t value) {
 	selected_image_ = value;
+}
+
+// Validate selected image
+bool qso_qsl_vwr::validate_selected_image() {
+	if (!current_qso_)
+		return false;
+	bool ok = true;
+	switch(selected_image_) {
+	case QI_EQSL:
+		ok = current_qso_->item("EQSL_QSL_RCVD") == "Y";
+		break;
+	case QI_CARD_FRONT:
+	case QI_CARD_BACK:
+		ok = current_qso_->item("QSL_RCVD") == "Y" && current_qso_->item("QSL_RCVD_VIA") == "B";
+		break;
+	case QI_EMAILR:
+		ok = current_qso_->item("QSL_RCVD") == "Y" && current_qso_->item("QSL_RCVD_VIA") == "E";
+		break;
+	case QI_LABEL:
+		ok = true; // Always allow label
+		break;
+	case QI_EMAILS:
+		ok = true; // Always allow outgoing email
+		break;
+	case QI_SSTV:
+		ok = current_qso_->item("MODE") == "SSTV";
+		break;
+	default:
+		ok = false;
+		break;
+	}
+	if (!ok) {
+		selected_image_ = QI_NONE; // Reset selected image if not valid
+	}
+	return ok;
 }
 
 // Set QSL status

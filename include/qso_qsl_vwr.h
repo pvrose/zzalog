@@ -110,6 +110,8 @@ protected:
 	void set_declines();
 	//! Update the full-size image display window.
 	void update_full_view();
+	//! Validate selected image - ensures the selected image is available and can be displayed.
+	bool validate_selected_image();
 
 protected:
 
