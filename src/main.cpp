@@ -59,7 +59,6 @@
 #include "wx_handler.h"
 
 #include "hamlib/rig.h"
-#include "boost/version.hpp"
 
 #include "zc_debug.h"
 #include "zc_banner.h"
@@ -100,10 +99,6 @@
 #include <Windows.h>
 #endif
 #include <FL/Fl_Window.H>
-
-#define BOOST_NO_CXX11_SCOPED_ENUMS
-#include <boost/dll/runtime_symbol_info.hpp>
-#undef BOOST_NO_CXX11_SCOPED_ENUMS
 
 // Application details - created by CMake.
 extern std::string APP_NAME;
@@ -1408,11 +1403,10 @@ int main(int argc, char** argv)
 			version.c_str(),
 			APP_TIMESTAMP.c_str());
 		curl_version_info_data* data = curl_version_info(CURLVERSION_LAST);
-		printf("|-With libraries\n  |- hamlib (%s)\n  |- FLTK (%d.%d.%d)\n  |- Curl (%s)\n  |- BOOST (%d.%d.%d)\n  |- zzacommon (%s)\n",
+		printf("|-With libraries\n  |- hamlib (%s)\n  |- FLTK (%d.%d.%d)\n  |- Curl (%s)\n  |- zzacommon (%s)\n",
 			rig_version(),
 			FL_MAJOR_VERSION, FL_MINOR_VERSION, FL_PATCH_VERSION,
 			data->version,
-			BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100,
 		    ZZACOMMON_VERSION.c_str()); 
 #else
 		about_dialog* dlg = new about_dialog;

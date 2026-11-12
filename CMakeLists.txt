@@ -426,7 +426,7 @@ target_link_libraries(${TARGET} PRIVATE
 # Link LunaSVG to your target
 target_link_libraries(${TARGET} PRIVATE lunasvg::lunasvg)
 
-## Automatically copy zlib1.dll and Boost DLLs to the output directory
+## Automatically copy zlib1.dll and DLLs to the output directory
 zzacommon_copy_runtime_dlls(${TARGET})
 
 ## Copy hamlib DLLs to the output directory for development

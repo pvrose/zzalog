@@ -29,7 +29,6 @@
 
 #include "hamlib/rig.h"
 #include <curl/curl.h>
-#include "boost/version.hpp"
 
 #include <FL/Enumerations.H>
 #include <FL/fl_config.h>
@@ -77,9 +76,6 @@ about_dialog::about_dialog() :
 		"\n CURL version " + std::string(data->version) +
 		"\n JSON " +
 		"\n PUGIXML " +
-		"\n BOOST version " + std::to_string(BOOST_VERSION / 100000) + "." +
-		std::to_string(BOOST_VERSION / 100 % 1000) + "." +
-		std::to_string(BOOST_VERSION % 100) + 
 		"\n ZZACOMMON version " + ZZACOMMON_VERSION +
 		"\nSee Userguide for refernce data acknowledgements\n";
 	std::string copyright = COPYRIGHT + "\ne-mail: " + CONTACT + "\n";

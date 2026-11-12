@@ -68,10 +68,6 @@
 #include <FL/Fl_Widget.H>
 #include <FL/Fl_Window.H>
 
-#define BOOST_NO_CXX11_SCOPED_ENUMS
-#include <boost/dll/runtime_symbol_info.hpp>
-#undef BOOST_NO_CXX11_SCOPED_ENUMS
-
 extern debug_flag DEBUG_MOD_STATUS;
 extern std::string APP_NAME;
 extern std::string APP_VERSION;
